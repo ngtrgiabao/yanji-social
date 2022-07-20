@@ -1,0 +1,45 @@
+@media screen and (max-width: 1200px) {
+    .container {
+        width: 96%;
+    }
+
+    main .container {
+        grid-template-columns: 5rem auto 30vw;
+        gap: 1rem;
+    }
+
+    .left {
+        width: 5rem;
+        z-index: 5;
+    }
+
+    main .container .left .profile {
+        display: none !important;
+    }
+
+    .sidebar h3 {
+        display: none !important;
+    }
+
+    .left .btn {
+        display: none;
+    }
+
+    .customize-theme .card {
+        width: 92vw !important;
+    }
+
+    /* =========================== notification POPUP =========================== */
+    .left .sidebar .notification-count {
+        position: absolute;
+        right: 0.2rem !important;
+    }
+
+    .left .notification-popup {
+        position: absolute;
+        top: -2px !important;
+        left: -640% !important;
+        width: 30rem !important;
+        box-shadow: 7px 8px 7px rgba(0, 0, 0, 0.084) !important;
+    }
+}

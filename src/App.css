@@ -1,0 +1,11 @@
+@import './components/varible/varible.css';
+
+body {
+    color: var(--color-dark);
+    background-color: var(--color-light);
+    overflow-x: hidden;
+}
+
+a {
+    color: var(--color-dark);
+}
