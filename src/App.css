@@ -1,5 +1,4 @@
-@import "./components/varible/varible.css";
-/*  */
+@import './components/varible/varible.css';
 
 body {
     color: var(--color-dark);
