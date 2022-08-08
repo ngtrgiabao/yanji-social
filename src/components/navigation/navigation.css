@@ -58,3 +58,12 @@ nav .search-bar input[type="search"] {
 nav .search-bar input[type="search"]::placeholder {
     color: var(--color-gray);
 }
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.logo:hover {
+    color: unset;
+}

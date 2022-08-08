@@ -3,6 +3,7 @@
 *::after {
     box-sizing: border-box;
 }
+
 * {
     margin: 0;
     padding: 0;
@@ -20,6 +21,9 @@ body {
 body {
     line-height: 1.5;
     overflow-x: hidden;
+    color: var(--color-dark);
+    background-color: var(--color-light);
+    height: 100rem;
 }
 
 img,
@@ -37,6 +41,7 @@ select {
     font: inherit;
     outline: none;
 }
+
 p,
 h1,
 h2,
@@ -48,5 +53,14 @@ h6 {
 }
 
 a {
+    color: var(--color-dark);
     text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-primary);
+}
+
+ul {
+    list-style: none;
 }

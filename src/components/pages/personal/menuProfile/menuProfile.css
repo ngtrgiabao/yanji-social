@@ -1,0 +1,87 @@
+@import "../../../varible/varible.css";
+
+/* MENU LIST */
+.menu-list {
+    margin: 0;
+    font-size: 1.8rem;
+    background-color: transparent;
+}
+
+.nav-item a {
+    margin: 0 1rem;
+    position: relative;
+}
+
+.nav-item:not(:last-child) a::after {
+    content: "";
+    height: 2px;
+    width: 0;
+    background-color: var(--color-primary);
+    bottom: -1rem;
+    left: 0;
+    position: absolute;
+}
+
+.nav-item a:hover {
+    color: unset;
+}
+
+.nav-item a:hover::after {
+    width: 100%;
+}
+
+.dropdown-menu a {
+    margin: 0;
+    padding: 1.4rem;
+    font-size: 1.5rem;
+    background-color: transparent;
+}
+
+.btn {
+    background-color: var(--color-primary);
+    position: relative;
+}
+
+.dots {
+    transform: rotate(90deg);
+}
+
+.navbar .nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+.navbar .nav-item .dropdown-menu {
+    margin-top: 0;
+    position: absolute !important;
+    padding: 0;
+}
+
+.box-setting-profile {
+    content: "";
+    width: 30em;
+    top: 5em;
+    right: -12em;
+    background-color: var(--color-white);
+    position: absolute;
+}
+
+.box-setting-profile {
+    color: var(--color-dark);
+}
+
+.box-setting-profile-item:hover {
+    background-color: rgba(0, 0, 0, 0.216);
+}
+
+.box-setting-profile:after {
+    content: "";
+    width: 1em;
+    height: 1em;
+    top: -0.4em;
+    right: 13.8em;
+    transform: rotate(45deg);
+    background-color: var(--color-white);
+    border-top: 1px solid var(--color-white);
+    border-left: 1px solid var(--color-white);
+    position: absolute;
+}

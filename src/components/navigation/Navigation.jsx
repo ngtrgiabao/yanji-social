@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React from "react";
 import { UilSearch } from "@iconscout/react-unicons";
 import "./navigation.css";
@@ -6,7 +7,9 @@ const Navigation = () => {
     return (
         <nav className="navbar py-3">
             <div className="container d-flex align-items-center">
-                <h2 className="logo mb-0">Yanji Social</h2>
+                <Link to="/" className="logo mb-0">
+                    Yanji Social
+                </Link>
 
                 <div className="search-bar d-flex align-items-center">
                     <UilSearch />
@@ -26,7 +29,7 @@ const Navigation = () => {
                     </label>
                     <div className="profile-pic ms-4">
                         <img
-                            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpreview.redd.it%2Fevtlnz66q7j61.jpg%3Fwidth%3D960%26crop%3Dsmart%26auto%3Dwebp%26s%3Dc118a6a2630e2c9a2b9412a20c8bc54f19b087dc&f=1&nofb=1"
+                            src="https://media-exp1.licdn.com/dms/image/C5603AQHahqdNdU7CCA/profile-displayphoto-shrink_400_400/0/1658923673703?e=1664409600&v=beta&t=Y_2otdi9rMFUOgjjgwfBTpwGo-w_ceowGQ6akNkiym0"
                             alt="avatar"
                         />
                     </div>

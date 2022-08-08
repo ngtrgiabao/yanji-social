@@ -1,5 +1,15 @@
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { useDropzone } from "react-dropzone";
+import { db, storage } from "../../../firebase";
+import { uid } from "uid";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import {
+    collection,
+    addDoc,
+    getDocs,
+    deleteDoc,
+    doc,
+} from "firebase/firestore";
 
 import {
     UilBookmark,
@@ -11,15 +21,17 @@ import {
     UilSmile,
     UilLocationPoint,
     UilLabelAlt,
+    UilTrash,
+    UilBell,
+    UilTimesSquare,
+    UilLinkAlt,
+    UilUserTimes,
+    UilExclamationTriangle,
 } from "@iconscout/react-unicons";
 import "./middle.css";
-
 import { StoryData } from "../../data/StoryData";
 
 const Middle = () => {
-    // API
-    const postApi = "http://localhost:3000/home/";
-
     const StoryItem = (props) => {
         return (
             <div className="story-item story">
@@ -30,22 +42,6 @@ const Middle = () => {
             </div>
         );
     };
-
-    // RENDER JSON
-    const [data, setData] = useState([]);
-
-    // GET METHOD
-    const getPosts = () => {
-        fetch(postApi)
-            .then((response) => response.json())
-            .then((json) => {
-                setData(json);
-            });
-    };
-
-    useEffect(() => {
-        getPosts();
-    }, []);
 
     const useDate = () => {
         const locale = "en";
@@ -86,46 +82,109 @@ const Middle = () => {
         };
     };
 
-    // PUT DATA INTO JSON
-    const [inputs, setInputs] = useState({});
+    // Write Data
+    const [postData, setPostData] = useState({
+        caption: "",
+    });
+    const [array, setArray] = useState([]);
 
-    const handleChange = (e) => {
-        e.persist();
-        setInputs(() => ({
-            ...inputs,
-            [e.target.name]: e.target.value,
-        }));
+    const handleInput = (e) => {
+        let newInput = { [e.target.name]: e.target.value };
+
+        setPostData({ ...postData, ...newInput });
     };
 
-    const handleSubmit = () => {
-        postPosts();
-        window.location.reload();
+    const collectionRef = collection(db, "postData");
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        await addDoc(collectionRef, {
+            ...postData,
+            id: uid(),
+        }).catch((err) => {
+            alert(err.message);
+        });
+
+        setPostData("");
     };
 
     // UPLOAD IMG
     const fileElem = document.getElementById("fileElem");
+    const [file, setFile] = useState(null);
 
-    // POST METHOD
-    const objPost = {
-        avatar: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpreview.redd.it%2Fevtlnz66q7j61.jpg%3Fwidth%3D960%26crop%3Dsmart%26auto%3Dwebp%26s%3Dc118a6a2630e2c9a2b9412a20c8bc54f19b087dc&f=1&nofb=1",
-        name: "Diana Ayi",
-        location: "VietNam",
-        time: "1 min ago",
-        caption: inputs.caption,
+    const handleUploadImg = () => {
+        if (file !== null) {
+            const storageRef = ref(storage, `image/${file.name + uid()}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log("Upload is " + progress + "% done");
+                    switch (snapshot.state) {
+                        case "paused":
+                            console.log("Upload is paused");
+                            break;
+                        case "running":
+                            console.log("Upload is running");
+                            break;
+                    }
+                },
+                (error) => {
+                    console.log(error.message);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref)
+                        .then((downloadURL) => {
+                            setPostData({ ...postData, img: downloadURL });
+                            console.log(downloadURL);
+                        })
+                        .catch((err) => {
+                            alert(err.message);
+                        });
+                }
+            );
+        }
     };
 
-    const postPosts = async () => {
-        const response = await fetch(postApi, {
-            method: "POST",
-            body: JSON.stringify(objPost),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+    // Get Data
+    const getData = async () => {
+        const data = await getDocs(collectionRef);
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        setArray(
+            data.docs.map((item) => {
+                return {
+                    ...item.data(),
+                    avatar: "https://media-exp1.licdn.com/dms/image/C5603AQHahqdNdU7CCA/profile-displayphoto-shrink_400_400/0/1658923673703?e=1664409600&v=beta&t=Y_2otdi9rMFUOgjjgwfBTpwGo-w_ceowGQ6akNkiym0",
+                    id: item.id,
+                };
+            })
+        );
+    };
+
+    // Delete Data
+    const deleteData = (id) => {
+        let dataToDelete = doc(db, "postData", id);
+        deleteDoc(dataToDelete)
+            .then(() => {
+                getData();
+            })
+            .catch((err) => {
+                alert(err);
+            });
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const [active, setActive] = useState(false);
+
+    const handleActive = () => {
+        setActive((active) => !active);
     };
 
     return (
@@ -134,7 +193,7 @@ const Middle = () => {
                 {/* STORIES */}
 
                 <div className="stories d-flex justify-content-between">
-                    {StoryData.map((item, index) => (
+                    {StoryData.map((item) => (
                         <StoryItem
                             key={item.id}
                             avatar={item.avatar}
@@ -149,22 +208,26 @@ const Middle = () => {
                 <form
                     action=""
                     className="create-post d-flex flex-column align-items-center"
-                    onSubmit={handleSubmit}
+                    onSubmit={(e) => {
+                        handleSubmit(e);
+                        handleUploadImg();
+                        getData();
+                    }}
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
-                        <div className="profile-pic">
+                        <Link to="/user" className="profile-pic">
                             <img
-                                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpreview.redd.it%2Fevtlnz66q7j61.jpg%3Fwidth%3D960%26crop%3Dsmart%26auto%3Dwebp%26s%3Dc118a6a2630e2c9a2b9412a20c8bc54f19b087dc&f=1&nofb=1"
+                                src="https://media-exp1.licdn.com/dms/image/C5603AQHahqdNdU7CCA/profile-displayphoto-shrink_400_400/0/1658923673703?e=1664409600&v=beta&t=Y_2otdi9rMFUOgjjgwfBTpwGo-w_ceowGQ6akNkiym0"
                                 alt=""
                             />
-                        </div>
+                        </Link>
 
                         <input
                             type="text"
-                            placeholder="What's on your mind, Diana?"
+                            placeholder="What's on your mind, Nguyen Tran Gia Bao?"
                             className="border-0 ps-3 me-3 ms-3"
                             name="caption"
-                            onChange={handleChange}
+                            onChange={handleInput}
                         />
                     </div>
 
@@ -177,6 +240,7 @@ const Middle = () => {
                                 multiple
                                 accept="image/*"
                                 style={{ display: "none" }}
+                                onChange={(e) => setFile(e.target.files[0])}
                             />
 
                             <span>
@@ -202,12 +266,9 @@ const Middle = () => {
                         </div>
 
                         <div className="submit d-flex align-items-center">
-                            <input
-                                type="submit"
-                                value="Post"
-                                className="btn btn-primary"
-                                onChange={handleChange}
-                            />
+                            <button type="submit" className="btn btn-primary">
+                                Post
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -215,32 +276,98 @@ const Middle = () => {
 
                 {/* FEEDS */}
                 <div className="feeds">
-                    {data &&
-                        data.map((item, index) => (
-                            <div key={item.id} className="feed-item feed">
+                    {array.map((item) => (
+                        <div key={item.id}>
+                            <div className="feed-item feed">
                                 <div className="head">
                                     <div className="user">
-                                        <div className="profile-pic">
+                                        <Link to="/user" className="profile-pic">
                                             <img src={item.avatar} alt="" />
-                                        </div>
-                                        <div className="info">
-                                            <h3>{item.name}</h3>
-                                            <span>
-                                                {item.location}, {item.time}
-                                            </span>
-                                        </div>
+                                        </Link>
+                                        <Link to="/user" className="info">
+                                            <h3>Nguyen Tran Gia Bao</h3>
+                                            <span>@yanji</span>
+                                            {/* <span>{item.location},</span> */}
+                                        </Link>
                                     </div>
-                                    <span className="edit">
-                                        <UilEllipsisH />
+                                    <span className="post-settings">
+                                        <UilEllipsisH
+                                            onClick={handleActive}
+                                            className="dots"
+                                        />
+
+                                        <div
+                                            className="edit-post"
+                                            style={{
+                                                display: `${
+                                                    active === true
+                                                        ? "block"
+                                                        : ""
+                                                }`,
+                                            }}
+                                        >
+                                            <ul>
+                                                <li
+                                                    className="delete-post"
+                                                    onClick={() =>
+                                                        deleteData(item.id)
+                                                    }
+                                                >
+                                                    <span>
+                                                        <UilTrash />
+                                                    </span>
+                                                    Delete this post
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <UilBell />
+                                                    </span>
+                                                    Notification for this post
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <UilLinkAlt />
+                                                    </span>
+                                                    Copy link of this post
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <UilTimesSquare />
+                                                    </span>
+                                                    Hide this post
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <UilUserTimes />
+                                                    </span>
+                                                    Unfollow
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <UilExclamationTriangle />
+                                                    </span>
+                                                    Report
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </span>
                                 </div>
                                 <div className="photo">
-                                    <img src={item.photo} alt="" />
+                                    <img src={item.img} alt="image" />
                                 </div>
                                 <div className="action-buttons">
                                     <div className="interaction-buttons d-flex gap-4">
-                                        <span>
-                                            <UilHeart />
+                                        <span onClick={handleActive}>
+                                            <UilHeart
+                                                style={{
+                                                    color: `${
+                                                        active === true
+                                                            ? "red"
+                                                            : ""
+                                                    }`,
+                                                }}
+                                                className="heart"
+                                            />
                                         </span>
                                         <span>
                                             <UilCommentDots />
@@ -276,23 +403,18 @@ const Middle = () => {
                                     </span>
                                     <p>
                                         Liked by <b>Erest Achivers</b> and
-                                        <b> {item.numsLiked} others</b>
+                                        <b> {item.numsLiked} 2.245 others</b>
                                     </p>
                                 </div>
                                 <div className="caption">
-                                    <p>
-                                        <b>{item.name + " "}</b>
-                                        {item.caption}
-                                        <b className="hash-tag">
-                                            {" " + item.hashtag}
-                                        </b>
-                                    </p>
+                                    <p>{item.caption}</p>
                                 </div>
                                 <div className="comments text-muted">
                                     View all {item.numsCommented} comments
                                 </div>
                             </div>
-                        ))}
+                        </div>
+                    ))}
                 </div>
                 {/* END OF FEEDS */}
             </div>

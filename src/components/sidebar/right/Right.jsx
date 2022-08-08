@@ -82,7 +82,7 @@ const Right = () => {
                 {/* MESSAGE */}
                 {MessageData.filter((user) =>
                     user.name.toLowerCase().includes(filterMessages)
-                ).map((item, index) => (
+                ).map((item) => (
                     <MessageItem
                         key={item.id}
                         avatar={item.avatar}
@@ -97,7 +97,7 @@ const Right = () => {
             <div className="friend-request mt-3">
                 <h4 className="my-3">Request</h4>
 
-                {FriendRequestData.map((item, index) => (
+                {FriendRequestData.map((item) => (
                     <FriendRequestItem
                         key={item.id}
                         avatar={item.avatar}
