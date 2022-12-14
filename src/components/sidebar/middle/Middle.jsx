@@ -1,15 +1,9 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { db, storage } from "../../../firebase";
-import { uid } from "uid";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import {
-    collection,
-    addDoc,
-    getDocs,
-    deleteDoc,
-    doc,
-} from "firebase/firestore";
+
+import Form from "react-bootstrap/Form";
+
+import avatarIMG from "../../images/profile-pic.png";
 
 import {
     UilBookmark,
@@ -29,20 +23,10 @@ import {
     UilExclamationTriangle,
 } from "@iconscout/react-unicons";
 import "./middle.css";
-import { StoryData } from "../../data/StoryData";
+import Stories from "./stories/Stories";
+import Post from "./post/Post";
 
 const Middle = () => {
-    const StoryItem = (props) => {
-        return (
-            <div className="story-item story">
-                <div className="profile-pic">
-                    <img src={props.avatar} alt="" />
-                </div>
-                <p className="name">{props.name}</p>
-            </div>
-        );
-    };
-
     const useDate = () => {
         const locale = "en";
         const [today, setDate] = useState(new Date()); // Save the current date to be able to trigger an update
@@ -94,115 +78,32 @@ const Middle = () => {
         setPostData({ ...postData, ...newInput });
     };
 
-    const collectionRef = collection(db, "postData");
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+        e.target.reset();
 
-        await addDoc(collectionRef, {
-            ...postData,
-            id: uid(),
-        }).catch((err) => {
-            alert(err.message);
-        });
-
-        setPostData("");
+        getData();
     };
-
     // UPLOAD IMG
     const fileElem = document.getElementById("fileElem");
     const [file, setFile] = useState(null);
 
-    const handleUploadImg = () => {
-        if (file !== null) {
-            const storageRef = ref(storage, `image/${file.name + uid()}`);
-            const uploadTask = uploadBytesResumable(storageRef, file);
-
-            uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                    const progress =
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log("Upload is " + progress + "% done");
-                    switch (snapshot.state) {
-                        case "paused":
-                            console.log("Upload is paused");
-                            break;
-                        case "running":
-                            console.log("Upload is running");
-                            break;
-                    }
-                },
-                (error) => {
-                    console.log(error.message);
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref)
-                        .then((downloadURL) => {
-                            setPostData({ ...postData, img: downloadURL });
-                            console.log(downloadURL);
-                        })
-                        .catch((err) => {
-                            alert(err.message);
-                        });
-                }
-            );
-        }
-    };
+    const handleUploadImg = () => {};
 
     // Get Data
-    const getData = async () => {
-        const data = await getDocs(collectionRef);
-
-        setArray(
-            data.docs.map((item) => {
-                return {
-                    ...item.data(),
-                    avatar: "https://media-exp1.licdn.com/dms/image/C5603AQHahqdNdU7CCA/profile-displayphoto-shrink_400_400/0/1658923673703?e=1664409600&v=beta&t=Y_2otdi9rMFUOgjjgwfBTpwGo-w_ceowGQ6akNkiym0",
-                    id: item.id,
-                };
-            })
-        );
-    };
+    const getData = async () => {};
 
     // Delete Data
-    const deleteData = (id) => {
-        let dataToDelete = doc(db, "postData", id);
-        deleteDoc(dataToDelete)
-            .then(() => {
-                getData();
-            })
-            .catch((err) => {
-                alert(err);
-            });
-    };
+    const deleteData = (id) => {};
 
     useEffect(() => {
         getData();
     }, []);
 
-    const [active, setActive] = useState(false);
-
-    const handleActive = () => {
-        setActive((active) => !active);
-    };
-
     return (
         <>
             <div className="middle">
-                {/* STORIES */}
-
-                <div className="stories d-flex justify-content-between">
-                    {StoryData.map((item) => (
-                        <StoryItem
-                            key={item.id}
-                            avatar={item.avatar}
-                            name={item.name}
-                        ></StoryItem>
-                    ))}
-                </div>
-
-                {/* END OF STORIES */}
+                <Stories />
 
                 {/* STATUS */}
                 <form
@@ -211,29 +112,26 @@ const Middle = () => {
                     onSubmit={(e) => {
                         handleSubmit(e);
                         handleUploadImg();
-                        getData();
                     }}
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
                         <Link to="/user" className="profile-pic">
-                            <img
-                                src="https://media-exp1.licdn.com/dms/image/C5603AQHahqdNdU7CCA/profile-displayphoto-shrink_400_400/0/1658923673703?e=1664409600&v=beta&t=Y_2otdi9rMFUOgjjgwfBTpwGo-w_ceowGQ6akNkiym0"
-                                alt=""
-                            />
+                            <img src={avatarIMG} alt="" />
                         </Link>
 
-                        <input
+                        <Form.Control
                             type="text"
                             placeholder="What's on your mind, Nguyen Tran Gia Bao?"
                             className="border-0 ps-3 me-3 ms-3"
                             name="caption"
                             onChange={handleInput}
+                            id="caption"
                         />
                     </div>
 
                     <div className="d-flex justify-content-between create-post-action">
                         <div className="d-flex justify-items-around create-post-icons">
-                            <input
+                            <Form.Control
                                 type="file"
                                 name="photo"
                                 id="fileElem"
@@ -242,7 +140,6 @@ const Middle = () => {
                                 style={{ display: "none" }}
                                 onChange={(e) => setFile(e.target.files[0])}
                             />
-
                             <span>
                                 <UilScenery
                                     className="sidebar-icon"
@@ -274,14 +171,17 @@ const Middle = () => {
                 </form>
                 {/* END STATUS */}
 
-                {/* FEEDS */}
-                <div className="feeds">
+                {/* POSTS */}
+                <div className="posts">
                     {array.map((item) => (
                         <div key={item.id}>
-                            <div className="feed-item feed">
+                            <div className="post-item post">
                                 <div className="head">
                                     <div className="user">
-                                        <Link to="/user" className="profile-pic">
+                                        <Link
+                                            to="/user"
+                                            className="profile-pic"
+                                        >
                                             <img src={item.avatar} alt="" />
                                         </Link>
                                         <Link to="/user" className="info">
@@ -291,21 +191,9 @@ const Middle = () => {
                                         </Link>
                                     </div>
                                     <span className="post-settings">
-                                        <UilEllipsisH
-                                            onClick={handleActive}
-                                            className="dots"
-                                        />
+                                        <UilEllipsisH className="dots" />
 
-                                        <div
-                                            className="edit-post"
-                                            style={{
-                                                display: `${
-                                                    active === true
-                                                        ? "block"
-                                                        : ""
-                                                }`,
-                                            }}
-                                        >
+                                        <div className="edit-post">
                                             <ul>
                                                 <li
                                                     className="delete-post"
@@ -357,17 +245,8 @@ const Middle = () => {
                                 </div>
                                 <div className="action-buttons">
                                     <div className="interaction-buttons d-flex gap-4">
-                                        <span onClick={handleActive}>
-                                            <UilHeart
-                                                style={{
-                                                    color: `${
-                                                        active === true
-                                                            ? "red"
-                                                            : ""
-                                                    }`,
-                                                }}
-                                                className="heart"
-                                            />
+                                        <span>
+                                            <UilHeart className="heart" />
                                         </span>
                                         <span>
                                             <UilCommentDots />
@@ -416,7 +295,8 @@ const Middle = () => {
                         </div>
                     ))}
                 </div>
-                {/* END OF FEEDS */}
+
+                {/* END OF postS */}
             </div>
         </>
     );

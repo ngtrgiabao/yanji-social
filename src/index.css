@@ -34,11 +34,17 @@ svg {
     display: block;
     max-width: 100%;
 }
+
 input,
 button,
 textarea,
 select {
     font: inherit;
+    outline: none;
+}
+
+input:active {
+    border: none;
     outline: none;
 }
 

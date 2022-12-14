@@ -11,6 +11,7 @@ import {
 } from "@iconscout/react-unicons";
 
 import "./menuProfile.css";
+
 function MenuProfile() {
     const menuItems = [
         {
@@ -124,7 +125,7 @@ function MenuProfile() {
                 </nav>
 
                 <span
-                    className="btn text-light d-flex align-items-center py-1 px-3 me-2"
+                    className="btn btn-dots text-light d-flex align-items-center py-1 px-3 me-2"
                     onClick={handleClick}
                 >
                     <UitEllipsisV className="dots" />

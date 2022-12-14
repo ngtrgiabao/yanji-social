@@ -1,110 +1,12 @@
-.right .messages {
+.messages {
     background-color: var(--color-white);
     border-radius: var(--card-border-radius);
     padding: var(--card-padding);
 }
 
-.right .messages .heading {
+.messages .heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1rem;
-}
-
-.search-bar input[type="search"] {
-    width: 30vw;
-    margin-left: 1rem;
-    font-size: 1.4rem;
-    color: var(--color-dark);
-    border: none;
-}
-
-.search-bar {
-    background-color: var(--color-light);
-    border-radius: var(--border-radius);
-    padding: var(--search-padding);
-}
-
-.right .messages .search-bar {
-    display: flex;
-    margin-bottom: 1rem;
-}
-
-.right .messages .category {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
-
-.right .messages .category h6 {
-    width: 100%;
-    text-align: center;
-    border-bottom: 3px solid var(--color-light);
-    padding-bottom: 0.5rem;
-    font-size: 1.3rem;
-}
-
-.right .messages .category .active {
-    border-color: var(--color-dark);
-}
-
-.right .messages .message-requests {
-    color: var(--color-primary);
-}
-
-.right .messages .message {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.right .message .profile-pic {
-    position: relative;
-    overflow: visible !important;
-}
-
-.right .profile-pic img {
-    border-radius: 50%;
-}
-
-.right .messages .message:last-child {
-    margin: 0;
-}
-
-.right .messages .message p {
-    font-size: 1.2rem;
-}
-
-.right .messages .message .active::before {
-    content: "";
-    width: 1.2rem;
-    height: 1.2rem;
-    border-radius: 50%;
-    bottom: 0;
-    right: 0;
-    border: 3px solid var(--color-white);
-    background-color: var(--color-success);
-    position: absolute;
-}
-
-/*=========================== FRIEND REQUESTS ===========================*/
-.right .friend-requests h4 {
-    color: var(--color-gray);
-}
-
-.right .request {
-    background-color: var(--color-white);
-    padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
-    margin-bottom: 0.7rem;
-}
-
-.right .request .info {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.right .request .action {
-    gap: 1rem;
 }

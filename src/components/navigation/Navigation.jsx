@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import React from "react";
 import { UilSearch } from "@iconscout/react-unicons";
+import Form from "react-bootstrap/Form";
+
 import "./navigation.css";
 
 const Navigation = () => {
@@ -13,7 +15,7 @@ const Navigation = () => {
 
                 <div className="search-bar d-flex align-items-center">
                     <UilSearch />
-                    <input
+                    <Form.Control
                         className="ms-4"
                         type="search"
                         placeholder="Search for creators, ideas and projects"
@@ -29,7 +31,7 @@ const Navigation = () => {
                     </label>
                     <div className="profile-pic ms-4">
                         <img
-                            src="https://media-exp1.licdn.com/dms/image/C5603AQHahqdNdU7CCA/profile-displayphoto-shrink_400_400/0/1658923673703?e=1664409600&v=beta&t=Y_2otdi9rMFUOgjjgwfBTpwGo-w_ceowGQ6akNkiym0"
+                            src="../images/profile-pic.png"
                             alt="avatar"
                         />
                     </div>

@@ -1,6 +1,6 @@
 import React from "react";
-import "./main.css";
 
+import "./main.css";
 import Left from "../sidebar/left/Left";
 import Middle from "../sidebar/middle/Middle";
 import Right from "../sidebar/right/Right";

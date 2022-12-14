@@ -1,0 +1,32 @@
+/*=========================== FONT SIZE ===========================*/
+.font-size {
+    margin-top: 5rem;
+}
+
+.font-size > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-light);
+    padding: var(--search-padding);
+    border-radius: var(--card-border-radius);
+}
+
+.choose-size {
+    background-color: var(--color-secondary);
+    height: 0.3rem;
+    width: 100%;
+    margin: 0 1rem;
+}
+
+.choose-size span {
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--color-secondary);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.choose-size span.active {
+    background-color: var(--color-primary);
+}

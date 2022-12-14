@@ -1,0 +1,21 @@
+/*=========================== FRIEND REQUESTS ===========================*/
+.friend-requests h4 {
+    color: var(--color-gray);
+}
+
+.request {
+    background-color: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-bottom: 0.7rem;
+}
+
+.request .info {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.request .action {
+    gap: 1rem;
+}

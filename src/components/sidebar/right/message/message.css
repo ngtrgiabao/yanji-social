@@ -1,0 +1,75 @@
+.search-bar input[type="search"] {
+    width: 30vw;
+    margin-left: 1rem;
+    font-size: 1.4rem;
+    color: var(--color-dark);
+    border: none;
+}
+
+.search-bar {
+    background-color: var(--color-light);
+    border-radius: var(--border-radius);
+    padding: var(--search-padding);
+}
+
+.search-bar {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.category {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.category h6 {
+    width: 100%;
+    text-align: center;
+    border-bottom: 3px solid var(--color-light);
+    padding-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.category .active {
+    border-color: var(--color-dark);
+}
+
+.message-requests {
+    color: var(--color-primary);
+}
+
+.message {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.message .profile-pic {
+    position: relative;
+    overflow: visible !important;
+}
+
+.profile-pic img {
+    border-radius: 50%;
+}
+
+.message:last-child {
+    margin: 0;
+}
+
+.message p {
+    font-size: 1.2rem;
+}
+
+.message .active::before {
+    content: "";
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    bottom: 0;
+    right: 0;
+    border: 3px solid var(--color-white);
+    background-color: var(--color-success);
+    position: absolute;
+}

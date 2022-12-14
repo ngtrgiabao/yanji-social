@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import { BackgroundThemeData } from "../../../data/BackgroundThemeData";
+
+import "./backgroundTheme.css"
+import { BackgroundThemeData } from "../../../../data/BackgroundThemeData";
 
 function BackgroundTheme() {
     const initBackground = localStorage.getItem("background_theme") || "bg-1";

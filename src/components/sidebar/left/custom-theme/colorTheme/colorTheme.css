@@ -1,0 +1,41 @@
+/*=========================== COLOR ===========================*/
+.color {
+    margin-top: 2rem;
+}
+
+.choose-color {
+    background-color: var(--color-light);
+    padding: var(--search-padding);
+    border-radius: var(--card-border-radius);
+}
+
+.choose-color span {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.choose-color span:nth-child(1) {
+    background: hsl(252, 75%, 60%);
+}
+
+.choose-color span:nth-child(2) {
+    background: hsl(52, 75%, 60%);
+}
+
+.choose-color span:nth-child(3) {
+    background: hsl(352, 75%, 60%);
+}
+
+.choose-color span:nth-child(4) {
+    background: hsl(202, 75%, 60%);
+}
+
+.choose-color span:nth-child(5) {
+    background: hsl(152, 75%, 60%);
+}
+
+.choose-color span.active {
+    border: 5px solid white;
+}
