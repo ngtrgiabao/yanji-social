@@ -1,0 +1,58 @@
+/*=========================== BACKGROUND ===========================*/
+.background {
+    margin-top: 2rem;
+}
+
+.choose-bg {
+    gap: 1.5rem;
+}
+
+.choose-bg > div {
+    padding: var(--card-padding);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.choose-bg > div.active {
+    border: 2px solid var(--color-primary);
+}
+
+.choose-bg .bg-1 h5,
+.choose-bg .bg-2 h5,
+.choose-bg .bg-3 h5 {
+    margin-bottom: 0;
+}
+
+.choose-bg .bg-1,
+.choose-bg .bg-2,
+.choose-bg .bg-3 {
+    border: 1px solid rgb(204, 204, 204);
+}
+
+.choose-bg .bg-1 {
+    background-color: white;
+    color: black;
+}
+
+.choose-bg .bg-2 {
+    background-color: hsl(252, 30%, 17%);
+    color: white;
+}
+
+.choose-bg .bg-3 {
+    background-color: hsl(252, 30%, 10%);
+    color: white;
+}
+
+.choose-bg > div span {
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid var(--color-gray);
+    border-radius: 50%;
+    margin-right: 1rem;
+}

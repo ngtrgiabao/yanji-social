@@ -1,4 +1,5 @@
 import React from "react";
+
 import "./friends.css";
 
 const row1Items = [
@@ -14,7 +15,7 @@ const row1Items = [
     },
     {
         id: 3,
-        imgURL: "https://scontent.fvca1-1.fna.fbcdn.net/v/t39.30808-1/290895244_1394310174378393_3051805713390994267_n.jpg?stp=cp1_dst-jpg_p148x148&_nc_cat=105&ccb=1-7&_nc_sid=aa3c98&_nc_ohc=LtlHDVjvaqMAX-m7zoG&_nc_ht=scontent.fvca1-1.fna&oh=00_AT_-lacHf00gef9CntbdzEY5hHgm8NS0ipw3XnNp4cbG_Q&oe=62F40714",
+        imgURL: "https://scontent.fvca1-1.fna.fbcdn.net/v/t39.30808-1/292607458_1290817231669857_1931502672626104428_n.jpg?stp=dst-jpg_p148x148&_nc_cat=105&ccb=1-7&_nc_sid=aa3c98&_nc_ohc=JvLOUvwXdwgAX_RkDBq&_nc_ht=scontent.fvca1-1.fna&oh=00_AT8UrvFuSuDOYiv5_vbaVaq0E9U3z_aBs8ybIKi99zKTnw&oe=62F63865",
         name: "Lorem",
     },
 ];

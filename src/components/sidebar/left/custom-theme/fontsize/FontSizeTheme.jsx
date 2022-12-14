@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
-import { FontsizeData } from "../../../data/FontSizeThemeData";
+
+import "./fontSizeTheme.css";
+import { FontsizeData } from "../../../../data/FontSizeThemeData";
 
 function FontSizeTheme() {
     const initFontsize = localStorage.getItem("fontsize") || "font-size-1";

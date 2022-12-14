@@ -1,8 +1,8 @@
 import React from "react";
 import { UilCamera } from "@iconscout/react-unicons";
 
-import avtarImg from "../../../../images/profile-pic.png";
 import AvatarFriends from "./AvatarFriends";
+import avtarImg from "../../../../images/profile-pic.png";
 
 import "./generalInfo.css";
 

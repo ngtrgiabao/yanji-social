@@ -1,7 +1,7 @@
 import React from "react";
+import { UilCamera } from "@iconscout/react-unicons";
 
 import "./header.css";
-import { UilCamera } from "@iconscout/react-unicons";
 import coverImg from "../../../images/coverfb.jpg";
 
 function Header() {

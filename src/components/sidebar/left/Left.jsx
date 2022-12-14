@@ -1,8 +1,5 @@
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
-import "./left.css";
-import "animate.css";
-
 import {
     UilEstate,
     UilCompass,
@@ -13,10 +10,16 @@ import {
     UilPalette,
     UilSetting,
 } from "@iconscout/react-unicons";
-import { NotificationData } from "../../data/NotificationData";
-import FontSizeTheme from "./custom-theme/FontSizeTheme";
-import BackgroundTheme from "./custom-theme/BackgroundTheme";
-import ColorTheme from "./custom-theme/ColorTheme";
+
+import "./left.css";
+
+// SETTINGS
+import FontSizeTheme from "./custom-theme/fontsize/FontSizeTheme";
+import BackgroundTheme from "./custom-theme/backgroundTheme/BackgroundTheme";
+import ColorTheme from "./custom-theme/colorTheme/ColorTheme";
+import NotificationPopup from "./notificationPopup/NotificationPopup";
+
+import ProfilePic from "../../images/profile-pic.png";
 
 const Left = () => {
     const [active, setActive] = useState("HOME");
@@ -32,30 +35,12 @@ const Left = () => {
         setChoose((choose) => !choose);
     };
 
-    const NotificationItem = (props) => {
-        return (
-            <div className="notification-item">
-                <div className="profile-pic">
-                    <img src={props.avatar} alt="" />
-                </div>
-                <div className="notification-body">
-                    <b>{props.name}</b>
-                    {props.notificationAlert}
-                    <small className="text-muted">{props.time}</small>
-                </div>
-            </div>
-        );
-    };
-
     return (
         <>
             <div className="left">
                 <Link to="/user" className="profile d-flex align-items-center">
                     <div className="profile-pic">
-                        <img
-                            src="https://media-exp1.licdn.com/dms/image/C5603AQHahqdNdU7CCA/profile-displayphoto-shrink_400_400/0/1658923673703?e=1664409600&v=beta&t=Y_2otdi9rMFUOgjjgwfBTpwGo-w_ceowGQ6akNkiym0"
-                            alt=""
-                        />
+                        <img src={ProfilePic} alt="" />
                     </div>
 
                     <div className="handle">
@@ -132,15 +117,7 @@ const Left = () => {
                                 }`,
                             }}
                         >
-                            {NotificationData.map((item, index) => (
-                                <NotificationItem
-                                    key={item.id}
-                                    avatar={item.avatar}
-                                    name={item.name}
-                                    notificationAlert={item.notificationAlert}
-                                    time={item.time}
-                                />
-                            ))}
+                            <NotificationPopup />
                         </div>
                     </div>
 

@@ -37,10 +37,16 @@
     background-color: transparent;
 }
 
-.btn {
+.btn-dots {
     background-color: var(--color-primary);
     position: relative;
 }
+
+.btn-dots:hover {
+    opacity: 1;
+    background-color: var(--color-primary-light);
+}
+
 
 .dots {
     transform: rotate(90deg);
@@ -58,6 +64,7 @@
 
 .box-setting-profile {
     content: "";
+    z-index: 99;
     width: 30em;
     top: 5em;
     right: -12em;

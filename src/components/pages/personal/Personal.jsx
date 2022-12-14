@@ -1,4 +1,5 @@
 import React from "react";
+
 import Body from "./body/Body";
 import GeneralInfo from "./header/genralInfo/GeneralInfo";
 import Header from "./header/Header";
