@@ -19,7 +19,7 @@ import BackgroundTheme from "./custom-theme/backgroundTheme/BackgroundTheme";
 import ColorTheme from "./custom-theme/colorTheme/ColorTheme";
 import NotificationPopup from "./notificationPopup/NotificationPopup";
 
-import ProfilePic from "../../images/profile-pic.png";
+import ProfilePic from "../../../images/profile-pic.png";
 
 const Left = () => {
     const [active, setActive] = useState("HOME");

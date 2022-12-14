@@ -5,6 +5,8 @@ import Form from "react-bootstrap/Form";
 
 import "./navigation.css";
 
+import ProfilePic from "../../images/profile-pic.png";
+
 const Navigation = () => {
     return (
         <nav className="navbar py-3">
@@ -29,12 +31,9 @@ const Navigation = () => {
                     >
                         Create
                     </label>
-                    <div className="profile-pic ms-4">
-                        <img
-                            src="../images/profile-pic.png"
-                            alt="avatar"
-                        />
-                    </div>
+                    <Link to="/user" className="profile-pic ms-4">
+                        <img src={ProfilePic} alt="avatar" />
+                    </Link>
                 </div>
             </div>
         </nav>

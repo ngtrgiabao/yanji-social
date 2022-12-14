@@ -1,7 +1,7 @@
-@import ".././varible/varible.css";
-@import "../responsive/small-laptop/small-laptop.css";
-@import "../responsive/big-tablet/big-tablet.css";
-@import "../responsive/mobile/mobile.css";
+@import "../../style/varible/varible.css";
+@import "../../style/responsive/small-laptop/small-laptop.css";
+@import "../../style/responsive/big-tablet/big-tablet.css";
+@import "../../style/responsive/mobile/mobile.css";
 
 .text-bold {
     font-weight: 500;
@@ -14,7 +14,7 @@ main {
 
 main .container {
     display: grid;
-    grid-template-columns: 18vw auto 20vw;
+    grid-template-columns: repeat(4, minmax(5rem, 1fr));
     width: 100%;
     column-gap: 2rem;
     position: relative;
