@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import { UilSearch } from "@iconscout/react-unicons";
 
 import "./message.css";
-import { MessageData } from "../../../data/MessageData";
+import { MessageData } from "../../../../data/MessageData";
 
 function Message() {
     const [filterMessages, setFilterMessages] = useState("");

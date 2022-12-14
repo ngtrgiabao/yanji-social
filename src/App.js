@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 
 import Navigation from "./components/navigation/Navigation";
-import Homepage from "./components/main/Main";
-import MessagesPage from "./components/pages/messages/Messages";
-import ExplorePage from "./components/pages/explore/Explore";
-import PersonalPage from "./components/pages/personal/Personal";
+import Homepage from "./pages/main/Main";
+import MessagesPage from "./pages/messages/Messages";
+import ExplorePage from "./pages/explore/Explore";
+import PersonalPage from "./pages/personal/Personal";
 
 function App() {
     return (

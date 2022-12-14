@@ -1,5 +1,5 @@
 import React from "react";
-import { StoryData } from "../../../data/StoryData";
+import { StoryData } from "../../../../data/StoryData";
 import "./stories.css"
 
 function Stories() {

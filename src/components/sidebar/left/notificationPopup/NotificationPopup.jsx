@@ -1,5 +1,5 @@
 import React from "react";
-import { NotificationData } from "../../../data/NotificationData";
+import { NotificationData } from "../../../../data/NotificationData";
 
 import "animate.css";
 import "./notificationPopup.css";

@@ -1,8 +1,7 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import "./colorTheme.css";
-import { ColorData } from "../../../../data/ColorThemeData";
+import { ColorData } from "../../../../../data/ColorThemeData";
 
 function ColorTheme() {
     const initColor = localStorage.getItem("color_theme") || "color-1";

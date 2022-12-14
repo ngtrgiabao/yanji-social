@@ -1,9 +1,9 @@
 import React from "react";
 
 import "./main.css";
-import Left from "../sidebar/left/Left";
-import Middle from "../sidebar/middle/Middle";
-import Right from "../sidebar/right/Right";
+import Left from "../../components/sidebar/left/Left";
+import Middle from "../../components/sidebar/middle/Middle";
+import Right from "../../components/sidebar/right/Right";
 
 const Sidebar = () => {
     return (

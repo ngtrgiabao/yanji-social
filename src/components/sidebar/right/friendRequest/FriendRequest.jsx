@@ -1,7 +1,7 @@
 import React from "react";
 
 import "./friendRequest.css";
-import { FriendRequestData } from "../../../data/FriendRequestData";
+import { FriendRequestData } from "../../../../data/FriendRequestData";
 
 function FriendRequest() {
     const FriendRequestItem = (props) => {
