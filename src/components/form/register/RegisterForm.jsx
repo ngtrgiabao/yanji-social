@@ -47,7 +47,6 @@ const RegisterForm = ({ active }) => {
     useEffect(() => {
         const result = EMAIL_REGEX.test(email);
         setValidEmail(result);
-        console.log(result);
     }, [email]);
 
     // CHECK VALID PWD AND MATCH PWD
@@ -273,7 +272,7 @@ const RegisterForm = ({ active }) => {
                                 {/* Re-PWD */}
                                 <div className="register-form__input">
                                     <div>
-                                        <label htmlFor="password">
+                                        <label htmlFor="re-password">
                                             Re-Password
                                             <span
                                                 className={
@@ -325,7 +324,20 @@ const RegisterForm = ({ active }) => {
                                     </div>
                                     <span></span>
                                 </div>
-                                <button type="submit">Register</button>
+
+                                <button
+                                    type="submit"
+                                    disabled={
+                                        !validName ||
+                                        !validEmail ||
+                                        !validPwd ||
+                                        !validMatch
+                                            ? true
+                                            : false
+                                    }
+                                >
+                                    Register
+                                </button>
                             </div>
                         </div>
                     </form>
