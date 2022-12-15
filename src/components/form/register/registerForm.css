@@ -124,6 +124,15 @@
     color: white;
 }
 
+#register-form .register-form__container button[type="submit"]:disabled {
+    opacity: 0.8;
+    cursor: default;
+}
+
+#register-form .register-form__container button[type="submit"]:not(:disabled) {
+    background: var(--color-primary);
+}
+
 #register-form .register-form__container button[type="submit"]:hover {
     color: white;
     opacity: 0.8;
