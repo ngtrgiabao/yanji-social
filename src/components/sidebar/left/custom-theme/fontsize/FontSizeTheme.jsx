@@ -13,40 +13,40 @@ function FontSizeTheme() {
     switch (initFontsize) {
         case "font-size-1":
             fontSize = "10px";
-            root.style.setProperty("--sticky-top-left", "3.4rem");
-            root.style.setProperty("--sticky-top-right", "3.4rem");
+            root.style.setProperty("--sticky-top-left", "10.4rem");
+            root.style.setProperty("--sticky-top-right", "10.4rem");
             root.style.fontSize = fontSize;
 
             break;
 
         case "font-size-2":
             fontSize = "13px";
-            root.style.setProperty("--sticky-top-left", "3.4rem");
-            root.style.setProperty("--sticky-top-right", "3.4rem");
+            root.style.setProperty("--sticky-top-left", "8.4rem");
+            root.style.setProperty("--sticky-top-right", "8.4rem");
             root.style.fontSize = fontSize;
 
             break;
 
         case "font-size-3":
             fontSize = "16px";
-            root.style.setProperty("--sticky-top-left", "-2rem");
-            root.style.setProperty("--sticky-top-right", "-17rem");
+            root.style.setProperty("--sticky-top-left", "8rem");
+            root.style.setProperty("--sticky-top-right", "8rem");
             root.style.fontSize = fontSize;
 
             break;
 
         case "font-size-4":
             fontSize = "19px";
-            root.style.setProperty("--sticky-top-left", "-5rem");
-            root.style.setProperty("--sticky-top-right", "-25rem");
+            root.style.setProperty("--sticky-top-left", "8rem");
+            root.style.setProperty("--sticky-top-right", "8rem");
             root.style.fontSize = fontSize;
 
             break;
 
         case "font-size-5":
             fontSize = "22px";
-            root.style.setProperty("--sticky-top-left", "-12rem");
-            root.style.setProperty("--sticky-top-right", "-35rem");
+            root.style.setProperty("--sticky-top-left", "8rem");
+            root.style.setProperty("--sticky-top-right", "8rem");
             root.style.fontSize = fontSize;
             break;
     }

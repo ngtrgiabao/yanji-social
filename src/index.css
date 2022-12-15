@@ -43,11 +43,6 @@ select {
     outline: none;
 }
 
-input:active {
-    border: none;
-    outline: none;
-}
-
 p,
 h1,
 h2,

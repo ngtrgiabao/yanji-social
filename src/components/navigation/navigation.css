@@ -38,7 +38,8 @@ nav {
     position: fixed;
     top: 0;
     z-index: 10;
-    margin-bottom: 2rem;
+    width: 100%;
+    border-bottom: 1px solid;
 }
 
 nav .search-bar {
@@ -57,6 +58,12 @@ nav .search-bar input[type="search"] {
 
 nav .search-bar input[type="search"]::placeholder {
     color: var(--color-gray);
+}
+
+nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo {

@@ -29,12 +29,6 @@ const Left = () => {
         setPopup((popup) => !popup);
     };
 
-    const [choose, setChoose] = useState(false);
-
-    const handleChoose = () => {
-        setChoose((choose) => !choose);
-    };
-
     return (
         <>
             <div className="left">
@@ -129,10 +123,6 @@ const Left = () => {
                         }`}
                         onClick={() => {
                             setActive("MESSAGES");
-                            handleChoose();
-                            // setTimeout(() => {
-                            //     setChoose(false);
-                            // }, 2000);
                         }}
                         id="message-notification"
                     >
