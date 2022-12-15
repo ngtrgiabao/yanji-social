@@ -19,7 +19,6 @@ import {
 function PokemonsList(props) {
     const { name, id, image } = props;
 
-    const editPost = useRef(null);
     const [active, setActive] = useState(null);
     const [popup, setPopup] = useState(false);
 
@@ -51,7 +50,9 @@ function PokemonsList(props) {
 
                         <div
                             className={`edit-post ${
-                                popup && active === id ? "" : "hide"
+                                popup && active === id
+                                    ? "animate__animated animate__fadeIn"
+                                    : "hide"
                             }`}
                         >
                             <ul>
