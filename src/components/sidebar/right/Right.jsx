@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { UilEdit } from "@iconscout/react-unicons";
 
 import "./right.css";
-import FriendRequest from "./friendRequest/FriendRequest";
 import Message from "./message/Message";
 
 const Right = () => {
     const [choose, setChoose] = useState(false);
 
     return (
-        <div className="right">
+        <div className="right animate__animated animate__bounceInRight">
             <div
                 className="messages"
                 style={{
@@ -25,8 +24,6 @@ const Right = () => {
 
                 <Message />
             </div>
-            {/* FRIEND REQUEST */}
-            <FriendRequest />
         </div>
     );
 };

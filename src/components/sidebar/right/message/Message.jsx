@@ -42,17 +42,19 @@ function Message() {
                 <h6 className="message-requests">Request(6)</h6>
             </div>
 
-            {/* MESSAGE */}
-            {MessageData.filter((user) =>
-                user.name.toLowerCase().includes(filterMessages)
-            ).map((item) => (
-                <MessageItem
-                    key={item.id}
-                    avatar={item.avatar}
-                    name={item.name}
-                    message={item.message}
-                ></MessageItem>
-            ))}
+            {/* MESSAGES */}
+            <div className="message-items">
+                {MessageData.filter((user) =>
+                    user.name.toLowerCase().includes(filterMessages)
+                ).map((item) => (
+                    <MessageItem
+                        key={item.id}
+                        avatar={item.avatar}
+                        name={item.name}
+                        message={item.message}
+                    ></MessageItem>
+                ))}
+            </div>
         </div>
     );
 }

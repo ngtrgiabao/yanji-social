@@ -6,15 +6,11 @@ import Form from "react-bootstrap/Form";
 import "./navigation.css";
 
 import ProfilePic from "../../images/profile-pic.png";
-import RegisterForm from "../form/register/RegisterForm";
-import LoginForm from "../form/login/LoginForm";
 
 const Navigation = () => {
-    const [active, setActive] = useState(false);
-
     return (
         <>
-            <nav className="py-3">
+            <nav className="py-3 animate__animated animate__bounceInDown">
                 <div className="container d-flex align-items-center">
                     <Link to="/" className="logo mb-0">
                         Yanji Social
@@ -30,24 +26,19 @@ const Navigation = () => {
                     </div>
 
                     <div className="create d-flex align-items-center">
-                        <label
+                        <Link
+                            to="/register"
                             className="btn btn-primary d-flex align-items-center justify-content-center gap-4"
                             htmlFor="#create-posst"
-                            onClick={() => {
-                                setActive(true);
-                                console.log(active);
-                            }}
                         >
                             Login
-                        </label>
+                        </Link>
                         {/* <Link to="/user" className="profile-pic ms-4">
                         <img src={ProfilePic} alt="avatar" />
                     </Link> */}
                     </div>
                 </div>
             </nav>
-
-            <RegisterForm active={active} />
         </>
     );
 };

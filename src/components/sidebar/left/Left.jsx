@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     UilEstate,
     UilCompass,
@@ -29,12 +29,19 @@ const Left = () => {
         setPopup((popup) => !popup);
     };
 
+    const [avatar, setAvatar] = useState("");
+
+    useEffect(() => {
+        const data = window.localStorage.getItem("avatar");
+        setAvatar(data);
+    }, [avatar]);
+
     return (
         <>
-            <div className="left">
+            <div className="left animate__animated animate__bounceInLeft">
                 <Link to="/user" className="profile d-flex align-items-center">
                     <div className="profile-pic">
-                        <img src={ProfilePic} alt="" />
+                        <img src={avatar} alt="" />
                     </div>
 
                     <div className="handle">

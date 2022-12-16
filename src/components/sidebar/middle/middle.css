@@ -1,4 +1,5 @@
 @import url("../../../style/varible/varible.css");
+@import url("../../animations/index.css");
 
 .middle {
     grid-column-start: 2;

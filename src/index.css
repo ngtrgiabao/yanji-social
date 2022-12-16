@@ -23,7 +23,6 @@ body {
     overflow-x: hidden;
     color: var(--color-dark);
     background-color: var(--color-light);
-    height: 100rem;
 }
 
 img,

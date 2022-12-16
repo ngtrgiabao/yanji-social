@@ -1,5 +1,5 @@
 .personal-container {
-    margin: 0 12vw;
+    margin: 10rem 12vw;
 }
 
 img {
@@ -7,4 +7,3 @@ img {
     height: 100%;
     border-radius: var(--card-border-radius);
 }
-
