@@ -12,8 +12,13 @@
 
 .header-title .header-title-container .avatar {
     width: 25em;
-    background-color: #fff;
+    height: 19em;
     border: 1px solid var(--color-black);
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.header-title .header-title-container .avatar img {
     object-fit: cover;
 }
 
@@ -26,7 +31,6 @@
 
 .header-title .header-title-container .avatar:hover img,
 .header-title .header-title-container .edit-avatar:hover {
-    opacity: 0.88;
     cursor: pointer;
 }
 

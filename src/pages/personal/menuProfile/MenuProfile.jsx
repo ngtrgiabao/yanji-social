@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { UitEllipsisV } from "@iconscout/react-unicons-thinline";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
     UilSearch,
     UilEye,
@@ -101,6 +103,7 @@ function MenuProfile() {
                             <li className="nav-item dropdown">
                                 <a href="#" data-bs-toggle="dropdown">
                                     More
+                                    <FontAwesomeIcon icon="fa-solid fa-caret-down" className="ms-2"/>
                                 </a>
                                 <ul className="dropdown-menu rounded-3">
                                     <li>

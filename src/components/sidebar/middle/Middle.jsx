@@ -18,7 +18,7 @@ import Stories from "./stories/Stories";
 import PokemonsCollection from "./Pokemons/PokemonsCollection";
 
 const Middle = () => {
-    // Write Data
+    // Write Data post
     const [postData, setPostData] = useState({
         caption: "",
     });
@@ -75,9 +75,16 @@ const Middle = () => {
         });
     };
 
+    const [avatar, setAvatar] = useState("");
+
+    useEffect(() => {
+        const data = window.localStorage.getItem("avatar");
+        setAvatar(data);
+    }, [avatar]);
+
     return (
         <>
-            <div className="middle">
+            <div className="middle animate__animated animate__fadeIn">
                 <Stories />
 
                 {/* STATUS */}
@@ -90,7 +97,7 @@ const Middle = () => {
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
                         <Link to="/user" className="profile-pic">
-                            <img src={avatarIMG} alt="" />
+                            <img src={avatar} alt="" />
                         </Link>
 
                         <Form.Control

@@ -45,6 +45,11 @@
     margin-bottom: 1rem;
 }
 
+.message-items {
+    max-height: 40rem;
+    overflow-y: auto;
+}
+
 .message .profile-pic {
     position: relative;
     overflow: visible !important;

@@ -1,11 +1,17 @@
-import React from 'react'
+import React from "react";
+
+import Navigation from "../../components/navigation/Navigation";
 
 function Explore() {
-  return (
-    <div>
-      <h1>Hello</h1>
-    </div>
-  )
+    return (
+        <div>
+            <>
+                <Navigation />
+
+                <h1>Hello</h1>
+            </>
+        </div>
+    );
 }
 
-export default Explore
+export default Explore;

@@ -1,5 +1,7 @@
 import React from "react";
 
+import Navigation from "../../components/navigation/Navigation";
+
 import Body from "./body/Body";
 import GeneralInfo from "./header/genralInfo/GeneralInfo";
 import Header from "./header/Header";
@@ -10,6 +12,8 @@ import "./personnal.css";
 function Personal() {
     return (
         <>
+            <Navigation />
+
             <div className="personal-container">
                 <Header />
                 <GeneralInfo />
