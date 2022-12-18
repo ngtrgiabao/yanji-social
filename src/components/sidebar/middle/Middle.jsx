@@ -77,6 +77,19 @@ const Middle = () => {
 
     const [avatar, setAvatar] = useState("");
 
+    // CLEANUP URL WHEN CHANGE IMG
+    useEffect(() => {
+        return () => {
+            avatar && URL.revokeObjectURL(avatar.preview);
+        };
+    }, [avatar]);
+
+    // SAVE IMG TO LOCAL
+    useEffect(() => {
+        avatar && window.localStorage.setItem("avatar", avatar);
+    }, [avatar]);
+
+    // GET IMG FROM LOCAL
     useEffect(() => {
         const data = window.localStorage.getItem("avatar");
         setAvatar(data);

@@ -3,9 +3,9 @@ import React from "react";
 import Navigation from "../../components/navigation/Navigation";
 
 import Body from "./body/Body";
-import GeneralInfo from "./header/genralInfo/GeneralInfo";
+import GeneralInfo from "./header/generalInfo/GeneralInfo";
 import Header from "./header/Header";
-import MenuProfile from "./menuProfile/MenuProfile";
+import NavbarProfile from "./navbar/NavbarProfile";
 
 import "./personnal.css";
 
@@ -20,7 +20,7 @@ function Personal() {
 
                 <hr className="my-5" />
 
-                <MenuProfile />
+                <NavbarProfile />
                 <Body />
             </div>
         </>

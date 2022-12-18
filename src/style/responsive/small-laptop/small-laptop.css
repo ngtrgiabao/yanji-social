@@ -4,12 +4,13 @@
     }
 
     main .container {
-        grid-template-columns: 5rem auto 30vw;
         gap: 1rem;
+        grid-template-columns: 5rem auto 30vw;
     }
 
     .left {
         width: 5rem;
+
         z-index: 5;
     }
 
@@ -31,15 +32,17 @@
 
     /* =========================== notification POPUP =========================== */
     .left .sidebar .notification-count {
-        position: absolute;
         right: 0.2rem !important;
+        position: absolute;
     }
 
     .left .notification-popup {
-        position: absolute;
         top: -2px !important;
         left: -640% !important;
+        position: absolute;
+
         width: 30rem !important;
+        
         box-shadow: 7px 8px 7px rgba(0, 0, 0, 0.084) !important;
     }
 }
