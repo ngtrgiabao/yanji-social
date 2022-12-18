@@ -1,34 +1,44 @@
 .search-bar input[type="search"] {
     width: 30vw;
+
     margin-left: 1rem;
+
     font-size: 1.4rem;
     color: var(--color-dark);
+
     border: none;
 }
 
 .search-bar {
     background-color: var(--color-light);
+
     border-radius: var(--border-radius);
+
     padding: var(--search-padding);
 }
 
 .search-bar {
     display: flex;
+
     margin-bottom: 1rem;
 }
 
 .category {
     display: flex;
     justify-content: space-between;
+
     margin-bottom: 1rem;
 }
 
 .category h6 {
     width: 100%;
-    text-align: center;
-    border-bottom: 3px solid var(--color-light);
-    padding-bottom: 0.5rem;
+
     font-size: 1.3rem;
+    text-align: center;
+
+    border-bottom: 3px solid var(--color-light);
+
+    padding-bottom: 0.5rem;
 }
 
 .category .active {
@@ -41,17 +51,21 @@
 
 .message {
     display: flex;
+
     gap: 1rem;
+
     margin-bottom: 1rem;
 }
 
 .message-items {
     max-height: 40rem;
+
     overflow-y: auto;
 }
 
 .message .profile-pic {
     position: relative;
+
     overflow: visible !important;
 }
 
@@ -69,12 +83,16 @@
 
 .message .active::before {
     content: "";
+
     width: 1.2rem;
     height: 1.2rem;
+
     border-radius: 50%;
+    border: 3px solid var(--color-white);
+
     bottom: 0;
     right: 0;
-    border: 3px solid var(--color-white);
-    background-color: var(--color-success);
     position: absolute;
+
+    background-color: var(--color-success);
 }

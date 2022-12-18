@@ -9,26 +9,35 @@
 .stories-row .col span {
     width: 100%;
     height: 100%;
+
     display: block;
+
     border-radius: var(--card-border-radius);
+
     overflow: hidden;
+
     cursor: pointer;
+
     position: relative;
 }
 
 .stories-row .col span:hover img {
     transform: scale(1.02);
+
     transition: all 0.45s ease-out;
 }
 
 .stories-row .col span::before {
     content: "";
+
     width: 100%;
     height: 100%;
+
     left: 0;
     z-index: 9;
-    transition: all 0.45s ease;
     position: absolute;
+    
+    transition: all 0.45s ease;
 }
 
 .stories-row .col span:hover::before {

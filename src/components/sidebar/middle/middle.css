@@ -9,21 +9,27 @@
 .profile-pic {
     min-width: 4rem;
     min-height: 4rem;
+
     border-radius: 50%;
+
     overflow: hidden;
 }
 
 img {
     display: block;
+
     object-fit: cover;
 }
 
 /* =========================== POSTS =========================== */
 .middle .posts .post {
     background-color: var(--color-white);
+
     border-radius: var(--card-border-radius);
-    padding: var(--card-padding);
+
     margin: 1rem 0;
+    padding: var(--card-padding);
+
     font-size: 1rem;
     line-height: 1.5;
 }
@@ -47,40 +53,52 @@ img {
 }
 
 .middle .post .photo {
-    border-radius: var(--card-border-radius);
-    overflow: hidden;
-    margin: 1rem 0;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    border-radius: var(--card-border-radius);
+
+    overflow: hidden;
+
+    margin: 1rem 0;
 }
 
 .middle .post .post-settings {
     width: 3.2em;
     height: 3.2em;
-    position: relative;
+
     font-size: 0.8em;
+
+    position: relative;
 }
 
 .middle .post .dots {
-    padding: 0.5em;
     width: 100%;
     height: 100%;
+
+    padding: 0.5em;
+
     border-radius: 50%;
+
     transition: 0.3s;
+
     cursor: pointer;
 }
 
 .middle .post .dots:hover {
-    background: var(--color-primary);
     color: var(--color-white);
+
+    background: var(--color-primary);
 }
 
 .middle .post .action-buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     font-size: 1.4rem;
+
     margin: 0.6rem;
 }
 
@@ -94,12 +112,16 @@ img {
 }
 
 .middle .liked-by span {
+    display: block;
+
     width: 2.4rem;
     height: 2.4rem;
-    display: block;
+
     border-radius: 50%;
-    overflow: hidden;
     border: 2px solid var(--color-white);
+
+    overflow: hidden;
+
     margin-left: -0.6rem;
 }
 
@@ -108,24 +130,28 @@ img {
 }
 
 .middle .liked-by p {
-    margin-bottom: 0;
     margin-left: 0.5rem;
+    margin-bottom: 0;
 }
 
 .middle .caption p {
     margin: 1rem 0;
+
     font-size: 1.3rem;
 }
 
 .middle .btn-loadmore {
     border: none;
+
     padding: 1rem 3rem;
 }
 
 .middle .btn-loadmore:hover {
-    background: var(--color-primary);
     border: none;
+
     color: white;
+
+    background: var(--color-primary);
 }
 
 /* --------------------Post setting------------------------- */
@@ -135,39 +161,53 @@ img {
 
 .edit-post {
     width: 25rem;
+
     top: 120%;
     right: -28%;
-    background: var(--color-primary);
-    border-radius: 1rem;
     position: absolute;
-    font-size: 1rem;
+
+    background: var(--color-primary);
+
+    border-radius: 1rem;
     border: 0.5px solid var(--color-primary-light);
+
+    font-size: 1rem;
 }
 
 .edit-post::after {
     content: "";
+
     width: 1rem;
     height: 1rem;
+
     top: -2.2%;
     right: 7%;
+    position: absolute;
+
     transform: rotate(45deg);
+
     border-top: 1px solid var(--color-primary-light);
     border-left: 1px solid var(--color-primary-light);
+
     background-color: var(--color-white);
-    position: absolute;
 }
 
 .edit-post > ul {
     padding: 0;
+
     font-size: 1.4em;
+
     margin: 0;
 }
 
 .edit-post > ul > li {
     display: flex;
     align-items: center;
+
     cursor: pointer;
+
     padding: 1.2rem;
+
     background-color: var(--color-white);
 }
 
@@ -199,24 +239,32 @@ hr {
 /* =========================== CREATE POST =========================== */
 .middle .create-post {
     width: 100%;
+
     margin-top: 1rem;
-    background-color: var(--color-white);
     padding: 0.4rem var(--card-padding);
+
+    background-color: var(--color-white);
+
     border-radius: var(--border-radius);
 }
 
 .middle .create-post-wrapper {
     width: 100%;
+
     border-bottom: 1px solid #ccc;
+
     padding-bottom: 1rem;
 }
 
 .middle .create-post-wrapper input[type="text"] {
     width: 90%;
     height: 5rem;
+
     font-size: 1.4rem;
-    justify-self: start;
     color: var(--color-dark);
+
+    justify-self: start;
+
     background-color: transparent;
 }
 
@@ -224,12 +272,14 @@ hr {
 .middle .create-post-wrapper input:-webkit-autofill:hover,
 .middle .create-post-wrapper input:-webkit-autofill:focus,
 .middle .create-post-wrapper input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
     -webkit-text-fill-color: #fff !important;
+
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 .middle .create-post-action {
     width: 100%;
+
     padding: 0 5rem;
 }
 
@@ -239,5 +289,6 @@ hr {
 
 .middle .create-post-icons span {
     padding: 1rem;
+
     cursor: pointer;
 }

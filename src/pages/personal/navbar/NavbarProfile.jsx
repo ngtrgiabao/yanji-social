@@ -12,7 +12,7 @@ import {
     UilUserCircle,
 } from "@iconscout/react-unicons";
 
-import "./menuProfile.css";
+import "./navbarProfile.css";
 
 function MenuProfile() {
     const menuItems = [
@@ -103,7 +103,10 @@ function MenuProfile() {
                             <li className="nav-item dropdown">
                                 <a href="#" data-bs-toggle="dropdown">
                                     More
-                                    <FontAwesomeIcon icon="fa-solid fa-caret-down" className="ms-2"/>
+                                    <FontAwesomeIcon
+                                        icon="fa-solid fa-caret-down"
+                                        className="ms-2"
+                                    />
                                 </a>
                                 <ul className="dropdown-menu rounded-3">
                                     <li>

@@ -10,22 +10,24 @@
 
     main .container .left {
         grid-column: 3/4;
-        position: fixed;
-        bottom: 0;
+
         right: 0;
+        bottom: 0;
+        position: fixed;
     }
 
     /* =========================== notification POPUP =========================== */
     .left .notification-popup::before {
-        position: absolute;
+        display: block;
+
         top: 1.3rem;
         left: calc(30rem - 0.6rem) !important;
-        display: block;
+        position: absolute;
     }
 
     main .container .middle {
-        grid-column: 1/3;
         grid-row: 1/3;
+        grid-column: 1/3;
     }
 
     main .container .right {

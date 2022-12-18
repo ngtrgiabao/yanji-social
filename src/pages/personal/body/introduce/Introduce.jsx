@@ -1,6 +1,5 @@
 import React from "react";
 
-import "./introduce.css";
 import {
     UilGraduationCap,
     UilHeart,
@@ -8,6 +7,9 @@ import {
     UilLinkedin,
     UilGithubAlt,
 } from "@iconscout/react-unicons";
+
+import "./introduce.css";
+
 import Stories from "../stories/Stories";
 import Gallery from "../gallery/Gallery";
 
@@ -15,8 +17,8 @@ function Introduce() {
     const introDuceIInfo = [
         {
             id: 1,
-            title: "Học Software Engineering tại",
-            link: " Đại học Cần Thơ - Can Tho University",
+            title: "Học Software Engineering tại Đại học Cần Thơ - Can Tho University",
+            link: "",
             icon: UilGraduationCap,
             href: "",
         },
@@ -31,7 +33,7 @@ function Introduce() {
             title: "",
             link: "Có 32.743 người theo dõi",
             icon: UilInstagram,
-            href: "",
+            href: "#",
         },
         {
             id: 4,
@@ -45,7 +47,7 @@ function Introduce() {
             title: "",
             link: "ngtrgiabao",
             icon: UilGithubAlt,
-            href: "https://github.com/ngtrgiabao",
+            href: "https://github.com/ngtrgiabaoB2012063",
         },
     ];
 
@@ -64,7 +66,12 @@ function Introduce() {
                         <item.icon />
                         <p className="ms-3">
                             {item.title}
-                            <a className="m-0" href={item.href || "#"}>
+                            <a
+                                className={`m-0 link ${
+                                    item.href || item.link ? "link__color" : ""
+                                }`}
+                                href={item.href || "#"}
+                            >
                                 {item.link}
                             </a>
                         </p>

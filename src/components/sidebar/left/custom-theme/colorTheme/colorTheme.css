@@ -4,15 +4,19 @@
 }
 
 .choose-color {
-    background-color: var(--color-light);
     padding: var(--search-padding);
+
+    background-color: var(--color-light);
+
     border-radius: var(--card-border-radius);
 }
 
 .choose-color span {
     width: 2.5rem;
     height: 2.5rem;
+
     border-radius: 50%;
+
     cursor: pointer;
 }
 

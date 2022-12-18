@@ -1,32 +1,46 @@
 /* =========================== notification POPUP =========================== */
 .left .notification-popup {
-    position: absolute;
+    display: none;
+
     top: 0;
     left: 100%;
+    position: absolute;
+
     min-width: 30em;
+
     background-color: var(--color-white);
+
     border-radius: var(--card-border-radius);
+
     padding: var(--card-padding);
+
     box-shadow: 0.8rem 1.2rem 2rem rgba(0, 0, 0, 0.201);
+
     z-index: 8;
-    display: none;
 }
 
 .left .notification-popup::before {
     content: "";
+
+    display: block;
+
     width: 1.2rem;
     height: 1.2rem;
+
     background: var(--color-white);
-    position: absolute;
-    left: -0.6rem;
+
     transform: rotate(45deg);
-    display: block;
+
+    left: -0.6rem;
+    position: absolute;
 }
 
 .left .notification-popup > div {
     display: flex;
     align-items: flex-start;
+
     gap: 1rem;
+    
     margin-bottom: 1rem;
 }
 

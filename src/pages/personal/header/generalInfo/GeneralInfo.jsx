@@ -62,7 +62,7 @@ function GeneralInfo() {
                     </span>
                 </div>
 
-                <div className="information ms-2 mt-5">
+                <div className="information ms-4 mt-5">
                     <p className="name">Nguyen Tran Gia Bao</p>
                     <div className="friends mb-4">1,2k Friends</div>
 

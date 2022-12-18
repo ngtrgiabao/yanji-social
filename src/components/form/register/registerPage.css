@@ -4,8 +4,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     width: 100vw;
     height: 100vh;
+
     font-size: 1.5rem;
 }
 
@@ -15,10 +17,14 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
+
     border-radius: 1rem;
+
     width: 50rem;
     min-height: 50%;
+
     background-color: var(--color-white);
+
     padding: 2rem 2rem;
 }
 
@@ -35,7 +41,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     padding: 1rem;
+
     width: 100%;
 }
 
@@ -48,6 +56,7 @@
 #register-form .register-form__container,
 #login-form .login-form__container {
     width: 100%;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,8 +67,9 @@
 #login-form .login-form__title {
     font-size: 1.2em;
     font-weight: bold;
-    margin-bottom: 1em;
     color: var(--color-primary);
+
+    margin-bottom: 1em;
 }
 
 #register-form .register-form__container-body,
@@ -70,6 +80,7 @@
 #register-form .register-form__input,
 #login-form .login-form__input {
     width: 100%;
+
     margin-bottom: 1em;
 }
 
@@ -78,15 +89,19 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
     width: 100%;
 }
 
 #register-form .register-form__input > div > p,
 #login-form .login-form__input > div > p {
     width: 100%;
+
     margin-top: 1rem;
-    background: rgb(232, 89, 89);
     padding: 1rem;
+
+    background: rgb(232, 89, 89);
+
     border-radius: 0.5rem;
 }
 
@@ -103,11 +118,13 @@
 #register-form .register-form__input input,
 #login-form .login-form__input input {
     width: 100%;
-    padding: 0.5em;
-    border-radius: 0.5rem;
-    outline: none;
-    border: none;
+
     margin-top: 0.3em;
+    padding: 0.5em;
+
+    border-radius: 0.5rem;
+    border: none;
+    outline: none;
 }
 
 #register-form .register-form__input input::placeholder,
@@ -122,20 +139,26 @@
 
 #register-form .register-form__container button[type="submit"],
 #login-form .login-form__container button[type="submit"] {
-    margin-bottom: 1em;
+    margin: 1rem 0 1em;
     padding: 0.3em 1em;
+
     cursor: pointer;
+
     font-weight: bold;
-    margin-top: 1rem;
+
     border-radius: 0.5rem;
+
     background: var(--color-primary);
+
     color: white;
+
     width: 100%;
 }
 
 #register-form .register-form__container button[type="submit"]:disabled,
 #login-form .login-form__container button[type="submit"]:disabled {
     opacity: 0.8;
+
     cursor: default;
 }
 
@@ -147,6 +170,7 @@
 #register-form .register-form__container button[type="submit"]:hover,
 #login-form .login-form__container button[type="submit"]:hover {
     color: white;
+
     opacity: 0.8;
 }
 
@@ -171,11 +195,15 @@
 
 .instructions {
     border-radius: 0.5rem;
+
     background: #000;
+
     color: #fff;
+
     padding: 0.25rem;
-    position: relative;
+
     bottom: -10px;
+    position: relative;
 }
 
 .instructions > svg {
@@ -183,8 +211,8 @@
 }
 
 .offscreen {
-    position: absolute;
     left: -9999px;
+    position: absolute;
 }
 
 .hide {
@@ -203,8 +231,10 @@
 
 .errmsg {
     background-color: lightpink;
-    color: firebrick;
+
     font-weight: bold;
-    padding: 0.5rem;
+    color: firebrick;
+    
     margin-bottom: 0.5rem;
+    padding: 0.5rem;
 }
