@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
 
@@ -16,7 +16,7 @@ import {
     UilExclamationTriangle,
 } from "@iconscout/react-unicons";
 
-function PokemonsList(props) {
+const PokemonsList = (props) => {
     const { name, id, image } = props;
 
     const [active, setActive] = useState(null);
@@ -27,7 +27,7 @@ function PokemonsList(props) {
     };
 
     return (
-        <div>
+        <>
             <div className="post">
                 <div className="head">
                     <div className="user">
@@ -51,7 +51,7 @@ function PokemonsList(props) {
                         <div
                             className={`edit-post ${
                                 popup && active === id
-                                    ? "animate__animated animate__fadeIn"
+                                    ? "animate__animated animate__bounceIn"
                                     : "hide"
                             }`}
                         >
@@ -146,8 +146,8 @@ function PokemonsList(props) {
                 </div>
                 <div className="comments text-muted">View all comments</div>
             </div>
-        </div>
+        </>
     );
-}
+};
 
 export default PokemonsList;

@@ -1,0 +1,81 @@
+@import url("../../../../style/varible/varible.css");
+
+/* Personal-post */
+.personal-post {
+    border: 1px solid rgba(204, 204, 204, 0.147);
+    border-radius: 1rem;
+
+    height: fit-content;
+}
+
+/* NAME */
+.personal-post .personal-post__name {
+    width: 100%;
+    height: fit-content;
+    position: relative;
+}
+
+.personal-post .avatar {
+    display: block;
+
+    width: 5rem;
+    height: 5rem;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+}
+
+.personal-post .dot {
+    top: 0;
+    right: 1.3rem;
+    position: absolute;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 3rem;
+
+    width: 4rem;
+    height: 100%;
+
+    padding-bottom: 4rem;
+}
+
+/* CONTENT */
+.personal-post .personal-post__content {
+    display: flex;
+    align-items: center;
+
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+/* ACTION */
+.personal-post .personal-post__action {
+    border-top: 1px solid rgba(204, 204, 204, 0.147);
+}
+
+.personal-post .personal-post__action .personal-post__action-btn {
+    width: 100%;
+
+    padding: 1rem 4rem;
+
+    font-size: 1.4rem;
+    color: var(--color-dark);
+
+    border-radius: 0.5rem;
+
+    cursor: pointer;
+}
+
+.personal-post .personal-post__action .personal-post__action-btn:hover {
+    color: white;
+
+    background: var(--color-primary);
+}
+
+.personal-post__action .personal-post__action-btn .icon {
+    margin-right: 1rem;
+}

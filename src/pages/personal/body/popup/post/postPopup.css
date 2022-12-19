@@ -9,7 +9,6 @@
     top: 0;
     left: 0;
     position: fixed;
-    /* display: none; */
     background: rgba(0, 0, 0, 0.43);
 
     z-index: 999;
@@ -22,6 +21,8 @@
 
     width: 45rem;
     height: 70%;
+
+    overflow: auto;
 
     border-radius: 1rem;
 }
@@ -44,20 +45,28 @@
 }
 
 .post-popup__container form .form__title-icon {
-    top: 0;
+    top: 50%;
     right: 0;
+    position: absolute;
 
+    text-align: center;
     color: var(--white);
 
-    position: absolute;
+    transform: translateY(-50%);
+}
+
+.post-popup__container form .form__title-icon:hover {
+    color: var(--color-danger);
+
+    cursor: pointer;
 }
 
 /* NAME */
-.post-popup__container form .avatar {
+.post-popup__container form .form__name .avatar {
     display: block;
 
-    width: 5rem;
-    height: 5rem;
+    width: 5rem !important;
+    height: 5rem !important;
 
     border-radius: 50%;
 
@@ -83,7 +92,7 @@
     margin-left: 1rem;
 
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1rem;
 
     cursor: pointer;
 
@@ -149,4 +158,9 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+/* POST BTN */
+.post-popup__container form .form__post-btn {
+    width: 100%;
 }
