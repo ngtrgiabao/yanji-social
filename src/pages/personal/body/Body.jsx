@@ -10,6 +10,7 @@ import Friends from "./friends/Friends";
 import Introduce from "./introduce/Introduce";
 import SocialLinks from "./socialLinks/SocialLinks";
 import PostPopup from "./popup/post/PostPopup";
+import Post from "./post/Post";
 
 function Body() {
     const [avatar, setAvatar] = useState("");
@@ -32,6 +33,12 @@ function Body() {
         setAvatar(data);
     }, [avatar]);
 
+    const [popup, setPopup] = useState(false);
+
+    const handlePopup = () => {
+        setPopup((popup) => !popup);
+    };
+
     return (
         <>
             <div className="row place-items-center gap-3">
@@ -53,7 +60,10 @@ function Body() {
                         <div className="profile-pic p-0 rounded-circle overflow-hidden">
                             <img src={avatar || avatarImg} alt="avatar" />
                         </div>
-                        <button className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted">
+                        <button
+                            className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted"
+                            onClick={handlePopup}
+                        >
                             What are you thinking, Yanji
                         </button>
                     </div>
@@ -64,9 +74,17 @@ function Body() {
                         </span>
                         <span>Upload Photos</span>
                     </button>
+                <Post />
                 </div>
+
             </div>
-            <PostPopup />
+
+            {popup && (
+                <PostPopup
+                    onPopup={handlePopup}
+                    animateClass="animate__animated animate__bounceIn"
+                />
+            )}
         </>
     );
 }

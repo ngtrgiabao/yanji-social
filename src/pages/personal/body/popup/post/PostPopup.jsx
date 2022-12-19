@@ -4,7 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./postPopup.css";
 
-const PostPopup = () => {
+const PostPopup = (props) => {
+    const { onPopup, animateClass } = props;
+
     const [avatar, setAvatar] = useState("");
 
     // CLEANUP URL WHEN CHANGE IMG
@@ -28,11 +30,15 @@ const PostPopup = () => {
     return (
         <>
             <div className="d-flex justify-content-center align-items-center post-popup__container">
-                <form action="">
+                {/* FORM */}
+                <form action="" className={animateClass}>
                     {/* TITLE */}
                     <div className="form__title">
                         <span>CREATE POST</span>
-                        <span className="fs-1 form__title-icon">
+                        <span
+                            className="fs-1 form__title-icon px-2"
+                            onClick={onPopup}
+                        >
                             <FontAwesomeIcon icon="fa-regular fa-circle-xmark" />
                         </span>
                     </div>
@@ -77,7 +83,12 @@ const PostPopup = () => {
                         </p>
                     </div>
 
-                    <button type="submit">POST</button>
+                    <button
+                        type="submit"
+                        className="form__post-btn mt-3 p-2 border-0 rounded fs-5 fw-bold"
+                    >
+                        POST
+                    </button>
                 </form>
             </div>
         </>

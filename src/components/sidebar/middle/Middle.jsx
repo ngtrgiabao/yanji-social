@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
+
 import axios from "axios";
 
 import Form from "react-bootstrap/Form";
+
+import API from "../../../api";
 
 import avatarIMG from "../../../images/profile-pic.png";
 
@@ -36,8 +39,6 @@ const Middle = () => {
     // UPLOAD IMG
     const fileInput = useRef(null);
 
-    const API_URL = "https://pokeapi.co/api/v2/pokemon?limit=10&offset=0";
-
     // Get Data
     const [pokemons, setPokemons] = useState([]);
     const [nextUrl, setNextUrl] = useState("");
@@ -45,7 +46,7 @@ const Middle = () => {
 
     useEffect(() => {
         const getPokemon = async () => {
-            const res = await axios.get(API_URL);
+            const res = await axios.get(API.POKEMON_URL);
             setNextUrl(res.data.next);
             res.data.results.forEach(async (pokemon) => {
                 const poke = await axios.get(
