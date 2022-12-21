@@ -76,7 +76,7 @@ const Middle = () => {
         });
     };
 
-    const [avatar, setAvatar] = useState("");
+    const [avatar, setAvatar] = useState(null);
 
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {

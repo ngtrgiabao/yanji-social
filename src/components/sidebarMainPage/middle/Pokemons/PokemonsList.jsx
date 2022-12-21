@@ -22,7 +22,13 @@ const PokemonsList = (props) => {
     const [active, setActive] = useState(null);
     const [popup, setPopup] = useState(false);
 
-    const handlePopup = () => {
+    window.addEventListener("click", () => {
+        setPopup(false);
+    });
+
+    const handlePopup = (e) => {
+        e.stopPropagation();
+
         setPopup((popup) => !popup);
     };
 
@@ -42,9 +48,9 @@ const PokemonsList = (props) => {
                     <span className="post-settings">
                         <UilEllipsisH
                             className="dots"
-                            onClick={() => {
+                            onClick={(e) => {
                                 setActive(id);
-                                handlePopup();
+                                handlePopup(e);
                             }}
                         />
 

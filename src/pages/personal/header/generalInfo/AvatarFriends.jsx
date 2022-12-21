@@ -1,57 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { UilPlusCircle, UilPen } from "@iconscout/react-unicons";
 
-import avtarImg from "../../../../images/profile-pic.png";
+import axios from "axios";
 
 function AvatarFriends() {
-    const avatarFriendsList = [
-        {
-            id: 1,
-            img: avtarImg,
-        },
-        {
-            id: 2,
-            img: avtarImg,
-        },
-        {
-            id: 3,
-            img: avtarImg,
-        },
-        {
-            id: 4,
-            img: avtarImg,
-        },
-        {
-            id: 5,
-            img: avtarImg,
-        },
-        {
-            id: 6,
-            img: avtarImg,
-        },
-        {
-            id: 7,
-            img: avtarImg,
-        },
-        {
-            id: 8,
-            img: avtarImg,
-        },
-    ];
+    // GET RANDOM AVATAR FRIENDS IN PERSONAL PAGE
+    const [randomAvatarFriends, setRandomAvatarFriends] = useState([]);
+
+    useEffect(() => {
+        const getFriendsAvatar = async () => {
+            const avatar = await axios.get(
+                "https://randomuser.me/api/?results=9"
+            );
+
+            avatar.data.results.forEach((friend) => {
+                setRandomAvatarFriends((avatarFriend) => [
+                    ...avatarFriend,
+                    { id: friend.login.uuid, avatar: friend.picture.large },
+                ]);
+            });
+        };
+
+        return getFriendsAvatar;
+    }, []);
 
     return (
         <div className="tools d-flex justify-content-between flex-wrap">
             <div className="d-flex align-items-center justify-content-between">
-                {avatarFriendsList.map((avatarFriendList) => (
+                {randomAvatarFriends.map((item, index) => (
                     <div
-                        key={avatarFriendList.id}
-                        className="border border-dark rounded-circle avatar-friends"
+                        key={item.id}
+                        className="rounded-circle avatar-friends"
                     >
-                        <img
-                            className="rounded-circle"
-                            src={avatarFriendList.img}
-                            alt=""
-                        />
+                        <img src={item.avatar} alt="" className="rounded-circle" />
                     </div>
                 ))}
             </div>

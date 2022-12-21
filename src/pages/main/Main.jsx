@@ -3,11 +3,11 @@ import React from "react";
 import "./main.css";
 import Navigation from "../../components/navigation/Navigation";
 
-import Left from "../../components/sidebar/left/Left";
-import Middle from "../../components/sidebar/middle/Middle";
-import Right from "../../components/sidebar/right/Right";
+import Left from "../../components/sidebarMainPage/left/Left";
+import Middle from "../../components/sidebarMainPage/middle/Middle";
+import Right from "../../components/sidebarMainPage/right/Right";
 
-const Sidebar = () => {
+const Main = () => {
     return (
         <>
             <Navigation />
@@ -23,4 +23,4 @@ const Sidebar = () => {
     );
 };
 
-export default Sidebar;
+export default Main;

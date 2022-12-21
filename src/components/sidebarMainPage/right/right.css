@@ -1,4 +1,4 @@
-.messages {
+.messages-sidebar {
     background-color: var(--color-white);
 
     border-radius: var(--card-border-radius);
@@ -6,7 +6,7 @@
     padding: var(--card-padding);
 }
 
-.messages .heading {
+.messages-sidebar .heading {
     display: flex;
     align-items: center;
     justify-content: space-between;

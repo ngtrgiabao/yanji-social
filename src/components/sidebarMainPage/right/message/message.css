@@ -10,17 +10,14 @@
 }
 
 .search-bar {
+    display: flex;
+
     background-color: var(--color-light);
 
     border-radius: var(--border-radius);
 
-    padding: var(--search-padding);
-}
-
-.search-bar {
-    display: flex;
-
     margin-bottom: 1rem;
+    padding: var(--search-padding);
 }
 
 .category {
@@ -49,7 +46,7 @@
     color: var(--color-primary);
 }
 
-.message {
+.message-sidebar {
     display: flex;
 
     gap: 1rem;
@@ -63,7 +60,7 @@
     overflow-y: auto;
 }
 
-.message .profile-pic {
+.message-sidebar .profile-pic {
     position: relative;
 
     overflow: visible !important;
@@ -77,11 +74,11 @@
     margin: 0;
 }
 
-.message p {
+.message-sidebar p {
     font-size: 1.2rem;
 }
 
-.message .active::before {
+.message-sidebar .active::before {
     content: "";
 
     width: 1.2rem;

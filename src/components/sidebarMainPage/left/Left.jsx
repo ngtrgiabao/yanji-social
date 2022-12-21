@@ -23,13 +23,13 @@ import ProfilePic from "../../../images/profile-pic.png";
 
 const Left = () => {
     const [active, setActive] = useState("HOME");
+    const [avatar, setAvatar] = useState("");
+
     const [popup, setPopup] = useState(false);
 
-    const handlePopup = () => {
+    const handleNotification = () => {
         setPopup((popup) => !popup);
     };
-
-    const [avatar, setAvatar] = useState("");
 
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {
@@ -48,6 +48,7 @@ const Left = () => {
         const data = window.localStorage.getItem("avatar");
         setAvatar(data);
     }, [avatar]);
+
     return (
         <>
             <div className="left animate__animated animate__bounceInLeft">
@@ -100,7 +101,7 @@ const Left = () => {
                         }`}
                         onClick={() => {
                             setActive("NOTIFICATION");
-                            handlePopup();
+                            handleNotification();
                         }}
                         id="notification"
                     >
@@ -120,18 +121,11 @@ const Left = () => {
                         <h3 className="ms-4">Notification</h3>
 
                         {/* NOTIFICATION POPUP */}
-                        <div
-                            className="notification-popup animate__animated animate__fadeIn animate__fast"
-                            style={{
-                                display: `${
-                                    popup && active === "NOTIFICATION"
-                                        ? "block"
-                                        : ""
-                                }`,
-                            }}
-                        >
-                            <NotificationPopup />
-                        </div>
+                        {popup && (
+                            <div className="notification-popup animate__animated animate__fadeIn animate__fast">
+                                <NotificationPopup />
+                            </div>
+                        )}
                     </div>
 
                     {/* MESSAGES */}
@@ -235,9 +229,12 @@ const Left = () => {
             </div>
 
             {/* CUSTOMIZE THEME */}
+
             <div
                 className="customize-theme"
-                style={{ display: `${active === "THEME" ? "grid" : "none"}` }}
+                style={{
+                    display: `${active === "THEME" ? "grid" : "none"}`,
+                }}
                 onClick={() => setActive("")}
             >
                 <div

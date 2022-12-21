@@ -11,7 +11,7 @@
     .left {
         width: 5rem;
 
-        z-index: 5;
+        /* z-index: 5; */
     }
 
     main .container .left .profile {

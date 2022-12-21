@@ -41,22 +41,32 @@ const Post = () => {
             .catch((err) => console.log(err));
     }, []);
 
+    const [settingPost, setSettingPost] = useState(false);
+
+    window.addEventListener("click", () => setSettingPost(false));
+
+    const handleSettingPost = (e) => {
+        setSettingPost((settingPost) => !settingPost);
+
+        e.stopPropagation();
+    };
+
     return (
         <>
             {/* POST 1 */}
             <div className=" d-flex flex-column personal-post p-3 mt-5">
-                {/* NAME */}
+                {/* HEADER */}
                 <div className="d-flex personal-post__name">
                     <div className="d-flex ">
                         <span className="avatar">
                             <img src={avatar} alt="" />
                         </span>
                         <div className="ms-3">
-                            <span className="text-white text-bold fs-4">
+                            <span className="text-bold fs-4">
                                 Nguyễn Trần Gia Bảo
                             </span>
                             <div className="form__status d-flex align-items-center">
-                                <span className="me-2 text-white">
+                                <span className="me-2">
                                     <FontAwesomeIcon icon="fa-solid fa-lock" />
                                 </span>
                                 <select name="" id="" defaultValue="public">
@@ -67,9 +77,71 @@ const Post = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="dot">...</div>
+                    <div
+                        className="dot rounded-circle"
+                        onClick={handleSettingPost}
+                    >
+                        <span>...</span>
+                    </div>
+
+                    {/* SETTING POST */}
+                    {settingPost && (
+                        <div className="personal-post__setting">
+                            <div className="personal-post__setting-container">
+                                <ul>
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-solid fa-thumbtack" />
+                                        </span>
+                                        Pin this post
+                                    </li>
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-regular fa-bookmark" />
+                                        </span>
+                                        Save this post
+                                    </li>
+                                </ul>
+                                <ul className="border-bottom border-top py-4">
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-regular fa-pen-to-square" />
+                                        </span>
+                                        Edit this post
+                                    </li>
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-solid fa-earth-americas" />
+                                        </span>
+                                        Change status this post
+                                    </li>
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-regular fa-bell-slash" />
+                                        </span>
+                                        Turn off notification this post
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-solid fa-box-archive" />
+                                        </span>
+                                        Archived this post
+                                    </li>
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-solid fa-trash" />
+                                        </span>
+                                        Move this post to trash bin
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    )}
                 </div>
-                {/* CONTENT */}
+
+                {/* BODY */}
                 <div
                     className="d-flex personal-post__content mt-4"
                     style={{
@@ -81,7 +153,7 @@ const Post = () => {
                 >
                     hello
                 </div>
-                {/* ACTION */}
+                {/* FOOTER */}
                 <div className="d-flex justify-content-center personal-post__action mt-4 pt-4">
                     <div className="personal-post__action-btn d-flex justify-content-center align-items-center">
                         <span className="icon">
@@ -100,18 +172,18 @@ const Post = () => {
 
             {/* POST 2 */}
             <div className=" d-flex flex-column personal-post p-3 mt-5">
-                {/* NAME */}
+                {/* HEADER */}
                 <div className="d-flex personal-post__name">
                     <div className="d-flex ">
                         <span className="avatar">
                             <img src={avatar} alt="" />
                         </span>
                         <div className="ms-3">
-                            <span className="text-white text-bold fs-4">
+                            <span className="text-bold fs-4">
                                 Nguyễn Trần Gia Bảo
                             </span>
                             <div className="form__status d-flex align-items-center">
-                                <span className="me-2 text-white">
+                                <span className="me-2">
                                     <FontAwesomeIcon icon="fa-solid fa-lock" />
                                 </span>
                                 <select name="" id="" defaultValue="public">
@@ -122,14 +194,75 @@ const Post = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="dot">...</div>
+                    <div
+                        className="dot rounded-circle"
+                        onClick={handleSettingPost}
+                    >
+                        <span>...</span>
+                    </div>
+
+                    {/* SETTING POST */}
+                    {settingPost && (
+                        <div className="personal-post__setting">
+                            <div className="personal-post__setting-container">
+                                <ul>
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-solid fa-thumbtack" />
+                                        </span>
+                                        Pin this post
+                                    </li>
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-regular fa-bookmark" />
+                                        </span>
+                                        Save this post
+                                    </li>
+                                </ul>
+                                <ul className="border-bottom border-top py-4">
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-regular fa-pen-to-square" />
+                                        </span>
+                                        Edit this post
+                                    </li>
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-solid fa-earth-americas" />
+                                        </span>
+                                        Change status this post
+                                    </li>
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-regular fa-bell-slash" />
+                                        </span>
+                                        Turn off notification this post
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-solid fa-box-archive" />
+                                        </span>
+                                        Archived this post
+                                    </li>
+                                    <li>
+                                        <span className="icon">
+                                            <FontAwesomeIcon icon="fa-solid fa-trash" />
+                                        </span>
+                                        Move this post to trash bin
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    )}
                 </div>
-                {/* CONTENT */}
+                {/* BODY */}
                 <div
                     className="d-flex personal-post__content mt-4"
                     style={{
                         borderBottom: `${
-                            avatar ? "" : "1px solid rgba(204, 204, 204, 0.147)"
+                            avatar ? "" : "1px solid var(--color-white)"
                         }`,
                         paddingBottom: `${avatar ? "1.5rem" : ""}`,
                     }}
@@ -138,7 +271,7 @@ const Post = () => {
                 </div>
                 {/* IMAGE */}
                 <img src={randomPhoto} alt="" />
-                {/* ACTION */}
+                {/* BOTTOM */}
                 <div className="d-flex justify-content-center personal-post__action mt-4 pt-4">
                     <div className="personal-post__action-btn d-flex justify-content-center align-items-center">
                         <span className="icon">
