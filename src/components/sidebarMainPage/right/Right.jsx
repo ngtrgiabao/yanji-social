@@ -10,7 +10,7 @@ const Right = () => {
     return (
         <div className="right animate__animated animate__bounceInRight">
             <div
-                className="messages"
+                className="messages-sidebar"
                 style={{
                     boxShadow: `${
                         choose ? "0 0 1rem var(--color-primary)" : ""

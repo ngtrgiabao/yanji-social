@@ -8,5 +8,13 @@
 }
 
 .friends-grid img {
+    transition: all 0.45s ease;
+
     object-fit: cover;
+}
+
+.friends-grid img:hover {
+    cursor: pointer;
+
+    opacity: 0.6;
 }

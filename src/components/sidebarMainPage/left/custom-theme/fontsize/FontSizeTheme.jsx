@@ -13,14 +13,14 @@ function FontSizeTheme() {
     switch (initFontsize) {
         case "font-size-1":
             fontSize = "10px";
-            root.style.setProperty("--sticky-top-left", "10.4rem");
-            root.style.setProperty("--sticky-top-right", "10.4rem");
+            root.style.setProperty("--sticky-top-left", "8rem");
+            root.style.setProperty("--sticky-top-right", "8rem");
             root.style.fontSize = fontSize;
 
             break;
 
         case "font-size-2":
-            fontSize = "13px";
+            fontSize = "11.5px";
             root.style.setProperty("--sticky-top-left", "8.4rem");
             root.style.setProperty("--sticky-top-right", "8.4rem");
             root.style.fontSize = fontSize;

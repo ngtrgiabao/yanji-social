@@ -29,9 +29,18 @@ const PostPopup = (props) => {
 
     return (
         <>
-            <div className="d-flex justify-content-center align-items-center post-popup__container">
+            <div
+                className="d-flex justify-content-center align-items-center post-popup__container"
+                onClick={onPopup}
+            >
                 {/* FORM */}
-                <form action="" className={animateClass}>
+                <form
+                    action=""
+                    className={animateClass}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                    }}
+                >
                     {/* TITLE */}
                     <div className="form__title">
                         <span>CREATE POST</span>

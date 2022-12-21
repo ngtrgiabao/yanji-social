@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Form from "react-bootstrap/Form";
 import { UilSearch } from "@iconscout/react-unicons";
 
@@ -8,19 +8,9 @@ import { MessageData } from "../../../../data/MessageData";
 function Message() {
     const [filterMessages, setFilterMessages] = useState("");
 
-    const MessageItem = (props) => {
-        return (
-            <div className="message-item message">
-                <div className="profile-pic active">
-                    <img src={props.avatar} alt="" />
-                </div>
-                <div className="message-body">
-                    <h5>{props.name}</h5>
-                    <p className="text-muted">{props.message}</p>
-                </div>
-            </div>
-        );
-    };
+    const handleInputSearch = useCallback((e) => {
+        setFilterMessages(e.target.value);
+    });
 
     return (
         <div>
@@ -29,9 +19,9 @@ function Message() {
                 <UilSearch />
                 <Form.Control
                     type="search"
-                    placeholder="Search messages"
+                    placeholder="Search messages-sidebar"
                     id="message-search"
-                    onChange={(e) => setFilterMessages(e.target.value)}
+                    onChange={handleInputSearch}
                 />
             </div>
 
@@ -44,15 +34,19 @@ function Message() {
 
             {/* MESSAGES */}
             <div className="message-items">
+                {/* FILTER NAME WHEN SEARCHING */}
                 {MessageData.filter((user) =>
                     user.name.toLowerCase().includes(filterMessages)
                 ).map((item) => (
-                    <MessageItem
-                        key={item.id}
-                        avatar={item.avatar}
-                        name={item.name}
-                        message={item.message}
-                    ></MessageItem>
+                    <div className="message-item message-sidebar" key={item.id}>
+                        <div className="profile-pic active">
+                            <img src={item.avatar} alt="" />
+                        </div>
+                        <div className="message-body">
+                            <h5>{item.name}</h5>
+                            <p className="text-muted">{item.message}</p>
+                        </div>
+                    </div>
                 ))}
             </div>
         </div>

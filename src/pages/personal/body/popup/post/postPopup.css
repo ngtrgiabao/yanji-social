@@ -11,7 +11,7 @@
     position: fixed;
     background: rgba(0, 0, 0, 0.43);
 
-    z-index: 999;
+    z-index: 1;
 }
 
 .post-popup__container form {
@@ -20,7 +20,7 @@
     padding: 1rem;
 
     width: 45rem;
-    height: 70%;
+    height: 74%;
 
     overflow: auto;
 
@@ -80,7 +80,7 @@
 
     border-radius: 0.5rem;
 
-    background: rgb(67, 23, 239);
+    /* background: rgb(67, 23, 239); */
 }
 
 .post-popup__container form .form__status select {

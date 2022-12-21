@@ -5,10 +5,12 @@
     border: 1px solid rgba(204, 204, 204, 0.147);
     border-radius: 1rem;
 
+    background-color: var(--color-white);
+
     height: fit-content;
 }
 
-/* NAME */
+/* HEADER */
 .personal-post .personal-post__name {
     width: 100%;
     height: fit-content;
@@ -33,17 +35,121 @@
 
     display: flex;
     justify-content: center;
-    align-items: center;
 
     font-size: 3rem;
 
     width: 4rem;
-    height: 100%;
+    height: 4rem;
 
-    padding-bottom: 4rem;
+    cursor: pointer;
 }
 
-/* CONTENT */
+.personal-post .dot:hover {
+    background: #6743f663;
+}
+
+.personal-post .dot span {
+    top: -1.2rem;
+    position: absolute;
+}
+
+/* SETTING POST */
+.personal-post .personal-post__setting {
+    top: 90%;
+    right: 0;
+    position: absolute;
+
+    font-size: 1.5rem;
+
+    padding: 1rem;
+
+    background: var(--color-primary);
+
+    border-radius: 0.5rem;
+}
+
+.personal-post .personal-post__setting::after {
+    content: "";
+
+    border-bottom: 15px solid var(--color-primary);
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+
+    top: -1.2rem;
+    right: 2.2rem;
+    position: absolute;
+}
+
+.personal-post .personal-post__setting .personal-post__setting-container {
+    width: 100%;
+    height: 20rem;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.personal-post .personal-post__setting .personal-post__setting-container ul {
+    color: white;
+
+    padding-left: 0;
+}
+
+.personal-post .personal-post__setting .personal-post__setting-container ul li {
+    border-radius: 0.5rem;
+
+    cursor: pointer;
+
+    padding: 0.8rem;
+}
+
+.personal-post
+    .personal-post__setting
+    .personal-post__setting-container
+    ul
+    li:hover {
+    background: var(--color-white);
+    color: var(--color-dark);
+}
+
+.personal-post
+    .personal-post__setting
+    .personal-post__setting-container
+    ul
+    li
+    .icon {
+    margin-right: 1rem;
+}
+
+.personal-post__setting .personal-post__setting-container::-webkit-scrollbar {
+    display: block;
+
+    width: 0.5rem;
+}
+
+.personal-post__setting
+    .personal-post__setting-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.personal-post__setting
+    .personal-post__setting-container::-webkit-scrollbar-thumb {
+    background-color: var(--color-white);
+    border-radius: 1rem;
+}
+
+.personal-post__setting
+    .personal-post__setting-container::-webkit-scrollbar-track-piece:end {
+    background: transparent;
+    margin-bottom: 10px;
+}
+
+.personal-post__setting
+    .personal-post__setting-container::-webkit-scrollbar-track-piece:start {
+    background: transparent;
+    margin-top: 10px;
+}
+
+/* BODY */
 .personal-post .personal-post__content {
     display: flex;
     align-items: center;
@@ -52,7 +158,7 @@
     font-weight: 400;
 }
 
-/* ACTION */
+/* BOTTOM */
 .personal-post .personal-post__action {
     border-top: 1px solid rgba(204, 204, 204, 0.147);
 }
@@ -63,7 +169,6 @@
     padding: 1rem 4rem;
 
     font-size: 1.4rem;
-    color: var(--color-dark);
 
     border-radius: 0.5rem;
 

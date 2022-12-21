@@ -36,6 +36,7 @@
     width: 100%;
 }
 
+/* DROPDOWN MENU */
 .dropdown-menu {
     overflow: hidden;
 }
@@ -50,6 +51,19 @@
     background-color: transparent;
 }
 
+.navbar .nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+.navbar .nav-item .dropdown-menu {
+    margin-top: 0;
+
+    padding: 0;
+
+    position: absolute !important;
+}
+
+/* SETTING PERSONAL PAGE */
 .btn-dots {
     background-color: var(--color-primary);
 
@@ -66,22 +80,10 @@
     transform: rotate(90deg);
 }
 
-.navbar .nav-item:hover .dropdown-menu {
-    display: block;
-}
-
-.navbar .nav-item .dropdown-menu {
-    margin-top: 0;
-
-    padding: 0;
-
-    position: absolute !important;
-}
-
 .box-setting-profile {
     content: "";
 
-    z-index: 99;
+    z-index: 1;
 
     width: 30em;
 
@@ -90,10 +92,6 @@
     position: absolute;
 
     background-color: var(--color-white);
-}
-
-.box-setting-profile {
-    color: var(--color-dark);
 }
 
 .box-setting-profile-item:hover {
@@ -116,4 +114,8 @@
 
     border-top: 1px solid var(--color-white);
     border-left: 1px solid var(--color-white);
+}
+
+.active {
+    color: var(--color-primary);
 }

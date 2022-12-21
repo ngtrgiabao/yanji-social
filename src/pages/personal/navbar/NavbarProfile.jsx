@@ -81,8 +81,12 @@ function MenuProfile() {
     ];
 
     const [checked, setChecked] = useState(false);
+    window.addEventListener("click", () => {
+        setChecked(false);
+    });
 
-    const handleClick = () => {
+    const handleClick = (e) => {
+        e.stopPropagation();
         setChecked((checked) => !checked);
     };
 
@@ -95,11 +99,26 @@ function MenuProfile() {
                         id="main_nav"
                     >
                         <ul className="navbar-nav d-flex align-items-center flex-row">
-                            {menuItems.map((item) => (
-                                <li key={item.id} className="nav-item">
-                                    <a href="#">{item.title}</a>
-                                </li>
-                            ))}
+                            {menuItems.map((item) => {
+                                return item.id === 1 ? (
+                                    <li key={item.id} className="nav-item">
+                                        <a
+                                            href="#"
+                                            style={{
+                                                fontWeight: "bold",
+                                                textDecoration: "underline",
+                                            }}
+                                            className="active"
+                                        >
+                                            {item.title}
+                                        </a>
+                                    </li>
+                                ) : (
+                                    <li key={item.id} className="nav-item">
+                                        <a href="#">{item.title}</a>
+                                    </li>
+                                );
+                            })}
                             <li className="nav-item dropdown">
                                 <a href="#" data-bs-toggle="dropdown">
                                     More
