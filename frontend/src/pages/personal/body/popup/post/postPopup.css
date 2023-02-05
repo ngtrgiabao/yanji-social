@@ -1,0 +1,163 @@
+@import "../../../../../style/varible/varible.css";
+
+.post-popup__container {
+    width: 100vw;
+    height: 100vh;
+
+    padding: 0 5rem;
+
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.43);
+
+    z-index: 1;
+}
+
+.post-popup__container form {
+    background: var(--color-primary);
+
+    padding: 1rem;
+
+    width: 45rem;
+    height: 75%;
+
+    overflow: auto;
+
+    border-radius: 1rem;
+}
+
+/* TITLE */
+.post-popup__container form .form__title {
+    position: relative;
+}
+
+.post-popup__container form .form__title span:first-child {
+    display: block;
+
+    width: 100%;
+    padding: 1rem;
+
+    text-align: center;
+    font-weight: bold;
+    color: var(--white);
+    font-size: 1.8rem;
+}
+
+.post-popup__container form .form__title-icon {
+    top: 50%;
+    right: 0;
+    position: absolute;
+
+    text-align: center;
+    color: var(--white);
+
+    transform: translateY(-50%);
+}
+
+.post-popup__container form .form__title-icon:hover {
+    color: var(--color-danger);
+
+    cursor: pointer;
+}
+
+/* NAME */
+.post-popup__container form .form__name .avatar {
+    display: block;
+
+    width: 5rem !important;
+    height: 5rem !important;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+}
+
+.post-popup__container form .form__status {
+    width: fit-content;
+
+    padding: 0.5rem 1rem;
+
+    border-radius: 0.5rem;
+
+    /* background: rgb(67, 23, 239); */
+}
+
+.post-popup__container form .form__status select {
+    background: transparent;
+    color: white;
+
+    width: 6rem;
+
+    margin-left: 1rem;
+
+    font-weight: bold;
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    display: block;
+}
+
+.post-popup__container form .form__status select option {
+    color: black;
+}
+
+/* INPUT FORM */
+.post-popup__container form .form__input {
+    width: 100%;
+
+    margin-top: 2rem;
+
+    position: relative;
+}
+
+.post-popup__container form .form__input .input {
+    max-width: 90%;
+
+    padding: 1rem;
+
+    font-size: 1.5rem;
+    color: var(--white);
+
+    overflow-y: auto;
+    overflow-wrap: break-word;
+
+    background: transparent;
+
+    border: transparent;
+    outline: none;
+}
+
+.post-popup__container form .form__input span {
+    top: 50%;
+    right: 1%;
+    transform: translateY(-50%);
+
+    font-size: 2.5rem;
+    color: var(--white);
+
+    position: absolute;
+}
+
+/* DRAG IMAGE */
+.post-popup__container form .form__drag-image {
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+
+    height: 60%;
+
+    font-size: 2rem;
+    font-weight: lighter;
+    color: var(--white);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* POST BTN */
+.post-popup__container form .form__post-btn {
+    width: 100%;
+}
