@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 
 import axios from "axios";
 
@@ -7,7 +8,7 @@ import Form from "react-bootstrap/Form";
 
 import API from "../../../../api";
 
-import avatarIMG from "../../../../images/profile-pic.png";
+import avatarIMG from "../../../../images/userImg.svg";
 
 import {
     UilScenery,
@@ -85,16 +86,20 @@ const Middle = () => {
         };
     }, [avatar]);
 
-    // SAVE IMG TO LOCAL
+    // SAVE AVATAR USER TO LOCAL
     useEffect(() => {
         avatar && window.localStorage.setItem("avatar", avatar);
     }, [avatar]);
 
-    // GET IMG FROM LOCAL
+    // GET AVATAR USER FROM LOCAL
     useEffect(() => {
         const data = window.localStorage.getItem("avatar");
         setAvatar(data);
     }, [avatar]);
+
+    const user = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
 
     return (
         <>
@@ -111,7 +116,7 @@ const Middle = () => {
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
                         <Link to="/user" className="profile-pic">
-                            <img src={avatar} alt="" />
+                            <img src={user ? avatar : avatarIMG} alt="" />
                         </Link>
 
                         <Form.Control

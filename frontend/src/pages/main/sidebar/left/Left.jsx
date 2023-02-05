@@ -21,8 +21,7 @@ import BackgroundTheme from "./custom-theme/backgroundTheme/BackgroundTheme";
 import ColorTheme from "./custom-theme/colorTheme/ColorTheme";
 import NotificationPopup from "./notificationPopup/NotificationPopup";
 
-import ProfilePic from "../../../../images/profile-pic.png";
-import axios from "../../../../api/axios";
+import ProfilePic from "../../../../images/userImg.svg";
 
 const Left = () => {
     const [active, setActive] = useState("HOME");
@@ -59,14 +58,23 @@ const Left = () => {
     return (
         <>
             <div className="left animate__animated animate__bounceInLeft">
-                <Link to="/user" className="profile d-flex align-items-center">
+                <Link
+                    to={user ? "/user" : "/"}
+                    className="profile d-flex align-items-center"
+                >
                     <div className="profile-pic">
-                        <img src={avatar} alt="" />
+                        <img src={user ? avatar : ProfilePic} alt="" />
                     </div>
 
                     <div className="handle">
-                        <h4>{user ? user.username : "User"} (Yanji)</h4>
-                        <p className="text-muted">@yanji</p>
+                        <h4>
+                            {user
+                                ? `${user.username} (${user.username})`
+                                : `user`}
+                        </h4>
+                        <p className="text-muted">
+                            @{user ? user.username : "user"}
+                        </p>
                     </div>
                 </Link>
 
@@ -129,7 +137,7 @@ const Left = () => {
 
                         {/* NOTIFICATION POPUP */}
                         {popup && (
-                            <div className="notification-popup animate__animated animate__fadeIn animate__fast">
+                            <div className="notification-popup animate__animated animate__bounceIn">
                                 <NotificationPopup />
                             </div>
                         )}

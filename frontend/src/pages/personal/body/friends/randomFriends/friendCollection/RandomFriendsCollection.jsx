@@ -7,7 +7,7 @@ const RandomFriendsCollection = (props) => {
     return (
         <div className="friends-grid">
             {avatars.map((avatar, index) => {
-                return <img src={avatar} alt="" key={index} />;
+                return <img src={avatar} alt="image" key={index} />;
             })}
         </div>
     );

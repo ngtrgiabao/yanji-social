@@ -25,7 +25,7 @@ function LoginPage() {
 
     return (
         <>
-            <Navigation />
+            <Navigation title="Register" link="/register"/>
 
             <div className="form-background">
                 <form id="login-form" onSubmit={handleLogin}>
@@ -37,6 +37,7 @@ function LoginPage() {
                             <span>Login</span>
                         </div>
                         <div className="login-form__container-body">
+                            {/* USERNAME */}
                             <div className="login-form__input">
                                 <div>
                                     <label htmlFor="">Username</label>
@@ -50,6 +51,7 @@ function LoginPage() {
                                 </div>
                                 <span></span>
                             </div>
+                            {/* PASSWORD */}
                             <div className="login-form__input">
                                 <div>
                                     <label htmlFor="">Password</label>

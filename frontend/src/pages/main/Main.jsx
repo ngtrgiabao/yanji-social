@@ -10,7 +10,7 @@ import Right from "./sidebar/right/Right";
 const Main = () => {
     return (
         <>
-            <Navigation />
+            <Navigation title="Register" link="/register" />
 
             <main>
                 <div className="container">
