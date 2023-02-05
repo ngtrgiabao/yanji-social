@@ -1,7 +1,11 @@
 @import "../../../../../style/varible/varible.css";
 
 .stories {
+    display: flex;
+
     height: 15rem;
+
+    overflow-x: auto;
 
     gap: 0.5rem;
 }

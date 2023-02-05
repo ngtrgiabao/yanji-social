@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import "./stories.css";
+import AvatarImg from "../../../../../images/userImg.svg";
 
 import axios from "axios";
 
@@ -40,17 +42,23 @@ const Stories = () => {
 
     // const IMG_STORY_URL = "https://random.imagecdn.app/v1/image?";
 
+    const user = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
     return (
-        <div className="stories d-flex justify-content-between">
+        <div className="stories">
             <div
                 className="story-item story"
                 id="your-story"
                 style={{
-                    background: `url(${avatar}) no-repeat center center/cover`,
+                    background: `url(${
+                        user ? avatar : AvatarImg
+                    }) no-repeat center center/cover`,
                 }}
             >
                 <div className="profile-pic">
-                    <img src={avatar} alt="" />
+                    <img src={user ? avatar : AvatarImg} alt="" />
                 </div>
                 <p className="name text-center">Create story</p>
                 <span className="create-post-icon">+</span>

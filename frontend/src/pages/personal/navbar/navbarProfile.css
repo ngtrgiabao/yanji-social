@@ -91,11 +91,12 @@
     right: -12em;
     position: absolute;
 
+    color: var(--color-primary);
     background-color: var(--color-white);
 }
 
 .box-setting-profile-item:hover {
-    background-color: rgba(0, 0, 0, 0.216);
+    background-color: rgba(169, 168, 168, 0.194);
 }
 
 .box-setting-profile:after {

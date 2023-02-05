@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { UilCamera } from "@iconscout/react-unicons";
 
 import AvatarFriends from "./AvatarFriends";
@@ -37,6 +38,10 @@ function GeneralInfo() {
         }
     };
 
+    const user = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
     return (
         <div className="px-5 header-title">
             <div className="d-flex align-items-center justify-content-between header-title-container">
@@ -63,7 +68,7 @@ function GeneralInfo() {
                 </div>
 
                 <div className="information ms-4 mt-5">
-                    <p className="name">Nguyen Tran Gia Bao</p>
+                    <p className="name">{user.username}</p>
                     <div className="friends mb-4">1,2k Friends</div>
 
                     <div className="profile-title">

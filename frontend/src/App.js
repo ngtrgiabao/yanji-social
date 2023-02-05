@@ -1,8 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 
-import axios from "./api/axios";
-import { useState } from "react";
-
 import Homepage from "./pages/main/Main";
 import MessagesPage from "./pages/messages/Messages";
 import ExplorePage from "./pages/explore/Explore";
