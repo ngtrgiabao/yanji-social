@@ -108,5 +108,5 @@
 
 - React
 - Redux toolkit
-- TailwindCSS
+- Bootstrap
 
