@@ -12,7 +12,7 @@
 
 ## 👾 Logo ( Not familiar at all )
 
-<img src="https://user-images.githubusercontent.com/95952006/216500281-d2aaf399-f630-499b-a8a5-7599c3ec227d.svg" width="64px" height="64px" alt="logo"/>
+### | Not update yet :<
 
 ## 👾 Screenshots
 
