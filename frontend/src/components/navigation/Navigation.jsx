@@ -24,7 +24,7 @@ const Navigation = (props) => {
 
     return (
         <>
-            <nav className="py-3 animate__animated animate__bounceInDown header-navbar">
+            <nav className="py-3 header-navbar">
                 <div
                     className="container d-flex align-items-center"
                     style={{ height: "100%" }}

@@ -10,16 +10,19 @@ import LoginPage from "./components/form/login/LoginPage";
 
 function App() {
     return (
-        <div className="App">
+        <div className="App overflow-hidden">
             <Routes>
-                <Route path="/" element={<Homepage />} />
-                <Route path="/messages" element={<MessagesPage />} />
-                <Route path="/explore" element={<ExplorePage />} />
-                <Route path="/user" element={<PersonalPage />} />
-
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/logout" element={<LoginPage />} />
+                <>
+                    <Route path="/" element={<Homepage />} />
+                    <Route path="/messages" element={<MessagesPage />} />
+                    <Route path="/explore" element={<ExplorePage />} />
+                    <Route path="/user" element={<PersonalPage />} />
+                </>
+                <>
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/logout" element={<LoginPage />} />
+                </>
             </Routes>
         </div>
     );
