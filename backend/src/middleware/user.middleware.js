@@ -10,3 +10,5 @@ const appMiddleware = {
         });
     },
 };
+
+module.exports = appMiddleware;

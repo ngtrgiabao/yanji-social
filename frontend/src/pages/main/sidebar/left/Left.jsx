@@ -51,6 +51,11 @@ const Left = () => {
         setAvatar(data);
     }, [avatar]);
 
+    /*
+    1. It’s using the useSelector hook to get the currentUser from the Redux store.
+    2. It’s using the optional chaining operator to check if the currentUser is not null.
+    3. It’s returning the currentUser.
+    */
     const user = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
@@ -95,7 +100,7 @@ const Left = () => {
 
                     {/* EXPLORE */}
                     <Link
-                        to="/explore"
+                        to={user ? "/explore" : "/login"}
                         className={`menu-item ${
                             active === "EXPLORE" ? "active" : ""
                         }`}
@@ -122,21 +127,27 @@ const Left = () => {
                     >
                         <span>
                             <UilBell className="sidebar-icon" />
-                            <small
-                                className="notification-count bg-danger"
-                                style={{
-                                    display: `${
-                                        active === "NOTIFICATION" ? "none" : ""
-                                    }`,
-                                }}
-                            >
-                                9+
-                            </small>
+                            {user ? (
+                                <small
+                                    className="notification-count bg-danger"
+                                    style={{
+                                        display: `${
+                                            active === "NOTIFICATION"
+                                                ? "none"
+                                                : ""
+                                        }`,
+                                    }}
+                                >
+                                    9+
+                                </small>
+                            ) : (
+                                <></>
+                            )}
                         </span>
                         <h3 className="ms-4">Notification</h3>
 
                         {/* NOTIFICATION POPUP */}
-                        {popup && (
+                        {popup && user && (
                             <div className="notification-popup animate__animated animate__bounceIn">
                                 <NotificationPopup />
                             </div>
@@ -145,7 +156,7 @@ const Left = () => {
 
                     {/* MESSAGES */}
                     <Link
-                        to="/messages"
+                        to={user ? "/messages" : "/login"}
                         className={`menu-item ${
                             active === "MESSAGES" ? "active" : ""
                         }`}
@@ -156,23 +167,27 @@ const Left = () => {
                     >
                         <span>
                             <UilChat className="sidebar-icon" />
-                            <small
-                                className="notification-count bg-danger"
-                                style={{
-                                    display: `${
-                                        active === "MESSAGES" ? "none" : ""
-                                    }`,
-                                }}
-                            >
-                                6
-                            </small>
+                            {user ? (
+                                <small
+                                    className="notification-count bg-danger"
+                                    style={{
+                                        display: `${
+                                            active === "MESSAGES" ? "none" : ""
+                                        }`,
+                                    }}
+                                >
+                                    6
+                                </small>
+                            ) : (
+                                <></>
+                            )}
                         </span>
                         <h3 className="ms-4">Messages</h3>
                     </Link>
 
                     {/* BOOKMARKS */}
-                    <a
-                        href=""
+                    <Link
+                        to={user ? "/bookmark" : "/login"}
                         className={`menu-item ${
                             active === "BOOKMARKS" ? "active" : ""
                         }`}
@@ -184,23 +199,7 @@ const Left = () => {
                             <UilBookmark className="sidebar-icon" />
                         </span>
                         <h3 className="ms-4">Bookmarks</h3>
-                    </a>
-
-                    {/* ANALYTICS */}
-                    <a
-                        href=""
-                        className={`menu-item ${
-                            active === "ANALYTICS" ? "active" : ""
-                        }`}
-                        onClick={() => {
-                            setActive("ANALYTICS");
-                        }}
-                    >
-                        <span>
-                            <UilAnalysis className="sidebar-icon" />
-                        </span>
-                        <h3 className="ms-4">Analytics</h3>
-                    </a>
+                    </Link>
 
                     {/* THEME */}
                     <div
