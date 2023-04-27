@@ -2,7 +2,7 @@
 
 /* Personal-post */
 .personal-post {
-    border: 1px solid rgba(204, 204, 204, 0.147);
+    border: 1.2px solid var(--color-primary);
     border-radius: 1rem;
 
     background-color: var(--color-white);
@@ -160,7 +160,8 @@
 
 /* BOTTOM */
 .personal-post .personal-post__action {
-    border-top: 1px solid rgba(204, 204, 204, 0.147);
+    border-top: 1px solid var(--color-primary);
+    margin: 0 1.2rem;
 }
 
 .personal-post .personal-post__action .personal-post__action-btn {

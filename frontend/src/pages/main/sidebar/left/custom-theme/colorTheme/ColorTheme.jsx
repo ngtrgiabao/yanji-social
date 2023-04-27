@@ -1,81 +1,52 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "./colorTheme.css";
-import { ColorData } from "../../../../../../data/ColorThemeData";
+
+import { useTheme } from "../../../../../../hooks/useTheme";
 
 function ColorTheme() {
-    const initColor = localStorage.getItem("color_theme") || "color-1";
-    const [chooseColor, setChooseColor] = useState(initColor);
-    const root = document.documentElement;
-
-    switch (initColor) {
-        case "color-1":
-            root.style.setProperty("--primary-color-hue", "252");
-            break;
-        case "color-2":
-            root.style.setProperty("--primary-color-hue", "52");
-            break;
-        case "color-3":
-            root.style.setProperty("--primary-color-hue", "352");
-            break;
-        case "color-4":
-            root.style.setProperty("--primary-color-hue", "202");
-            break;
-        case "color-5":
-            root.style.setProperty("--primary-color-hue", "152");
-            break;
-    }
-
-    const handleColor = (e) => {
-        if (e.currentTarget.classList.contains("color-1")) {
-            const colorClass = "color-1";
-            localStorage.setItem("color_theme", colorClass);
-
-            setChooseColor("color-1");
-        } else if (e.currentTarget.classList.contains("color-2")) {
-            const colorClass = "color-2";
-            localStorage.setItem("color_theme", colorClass);
-
-            setChooseColor("color-2");
-        } else if (e.currentTarget.classList.contains("color-3")) {
-            const colorClass = "color-3";
-            localStorage.setItem("color_theme", colorClass);
-
-            setChooseColor("color-3");
-        } else if (e.currentTarget.classList.contains("color-4")) {
-            const colorClass = "color-4";
-            localStorage.setItem("color_theme", colorClass);
-
-            setChooseColor("color-4");
-        } else if (e.currentTarget.classList.contains("color-5")) {
-            const colorClass = "color-5";
-            localStorage.setItem("color_theme", colorClass);
-
-            setChooseColor("color-5");
-        }
-    };
-
-    const SetColor = (props) => {
-        return (
-            <>
-                <span
-                    className={
-                        props.colorClass +
-                        (chooseColor === props.colorClass ? " active" : "")
-                    }
-                    onClick={handleColor}
-                ></span>
-            </>
-        );
-    };
+    const textColorTheme = localStorage.getItem("text_color");
+    const { setTextColors } = useTheme();
 
     return (
         <div className="color">
             <h4>Color</h4>
             <div className="choose-color d-flex justify-content-between align-items-center">
-                {ColorData.map((item, index) => (
-                    <SetColor key={item.id} colorClass={item.colorClass} />
-                ))}
+                <span
+                    className={
+                        "color-1" +
+                        (textColorTheme === "color-1" ? " active" : "")
+                    }
+                    onClick={() => setTextColors("color-1")}
+                ></span>
+                <span
+                    className={
+                        "color-2" +
+                        (textColorTheme === "color-2" ? " active" : "")
+                    }
+                    onClick={() => setTextColors("color-2")}
+                ></span>
+                <span
+                    className={
+                        "color-3" +
+                        (textColorTheme === "color-3" ? " active" : "")
+                    }
+                    onClick={() => setTextColors("color-3")}
+                ></span>
+                <span
+                    className={
+                        "color-4" +
+                        (textColorTheme === "color-4" ? " active" : "")
+                    }
+                    onClick={() => setTextColors("color-4")}
+                ></span>
+                <span
+                    className={
+                        "color-5" +
+                        (textColorTheme === "color-5" ? " active" : "")
+                    }
+                    onClick={() => setTextColors("color-5")}
+                ></span>
             </div>
         </div>
     );

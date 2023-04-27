@@ -54,9 +54,10 @@
     padding-bottom: 0.5rem;
 
     border-radius: 50%;
+    border: 1px solid white;
 
-    color: var(--color-white);
-    background-color: var(--color-secondary);
+    color: white;
+    background-color: var(--color-primary);
 
     bottom: 2.6rem;
     position: absolute;

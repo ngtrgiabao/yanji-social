@@ -1,83 +1,46 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "./backgroundTheme.css";
-import { BackgroundThemeData } from "../../../../../../data/BackgroundThemeData";
+
+import { useTheme } from "../../../../../../hooks/useTheme";
 
 function BackgroundTheme() {
-    const initBackground = localStorage.getItem("background_theme") || "bg-1";
-    const [chooseBackground, setChooseBackground] = useState("");
-    const root = document.documentElement;
+    const { setBgColors } = useTheme();
 
-    switch (initBackground) {
-        case "bg-1":
-            root.style.setProperty("--dark-color-lightness", "17%");
-            root.style.setProperty("--light-color-lightness", "95%");
-            root.style.setProperty("--white-color-lightness", "100%");
-            break;
-
-        case "bg-2":
-            root.style.setProperty("--dark-color-lightness", "95%");
-            root.style.setProperty("--light-color-lightness", "20%");
-            root.style.setProperty("--white-color-lightness", "15%");
-            break;
-
-        case "bg-3":
-            root.style.setProperty("--dark-color-lightness", "95%");
-            root.style.setProperty("--light-color-lightness", "10%");
-            root.style.setProperty("--white-color-lightness", "0%");
-            break;
-    }
-
-    const handleBackground = (e) => {
-        if (e.currentTarget.classList.contains("bg-1")) {
-            const backgroundClass = "bg-1";
-            localStorage.setItem("background_theme", backgroundClass);
-
-            setChooseBackground("bg-1");
-        } else if (e.currentTarget.classList.contains("bg-2")) {
-            const backgroundClass = "bg-2";
-            localStorage.setItem("background_theme", backgroundClass);
-
-            setChooseBackground("bg-2");
-        } else if (e.currentTarget.classList.contains("bg-3")) {
-            const backgroundClass = "bg-2";
-            localStorage.setItem("background_theme", backgroundClass);
-
-            setChooseBackground("bg-3");
-        }
-    };
-
-    const SetBackground = (props) => {
-        return (
-            <>
-                <div
-                    className={
-                        props.backgroundClass +
-                        (chooseBackground === props.backgroundClass
-                            ? " active"
-                            : "")
-                    }
-                    onClick={handleBackground}
-                >
-                    <span></span>
-                    <h5 htmlFor={props.backgroundClass}>{props.name}</h5>
-                </div>
-            </>
-        );
-    };
+    const bgTheme = localStorage.getItem("background_theme");
 
     return (
         <div className="background">
             <div className="background">
                 <h4>Background</h4>
                 <div className="choose-bg d-flex justify-content-between align-items-center">
-                    {BackgroundThemeData.map((item, index) => (
-                        <SetBackground
-                            key={item.id}
-                            backgroundClass={item.backgroundClass}
-                            name={item.name}
-                        />
-                    ))}
+                    <div
+                        className={
+                            "bg-1" + (bgTheme === "bg-1" ? " active" : "")
+                        }
+                        onClick={() => setBgColors("bg-1")}
+                    >
+                        <span></span>
+                        <h5 htmlFor="bg-1">Dim</h5>
+                    </div>
+                    <div
+                        className={
+                            "bg-2" + (bgTheme === "bg-2" ? " active" : "")
+                        }
+                        onClick={() => setBgColors("bg-2")}
+                    >
+                        <span></span>
+                        <h5 htmlFor="bg-2">Light</h5>
+                    </div>
+                    <div
+                        className={
+                            "bg-3" + (bgTheme === "bg-3" ? " active" : "")
+                        }
+                        onClick={() => setBgColors("bg-3")}
+                    >
+                        <span></span>
+                        <h5 htmlFor="bg-3">Lights Out</h5>
+                    </div>
                 </div>
             </div>
         </div>

@@ -147,10 +147,7 @@ const Post = () => {
                 <div
                     className="d-flex personal-post__content mt-4"
                     style={{
-                        borderBottom: `${
-                            avatar ? "" : "1px solid rgba(204, 204, 204, 0.147)"
-                        }`,
-                        paddingBottom: `${avatar ? "" : "1.5rem"}`,
+                        padding: "1.2rem",
                     }}
                 >
                     hello
@@ -263,16 +260,12 @@ const Post = () => {
                 <div
                     className="d-flex personal-post__content mt-4"
                     style={{
-                        borderBottom: `${
-                            avatar ? "" : "1px solid var(--color-white)"
-                        }`,
-                        paddingBottom: `${avatar ? "1.5rem" : ""}`,
+                        padding: "1.2rem",
                     }}
                 >
-                    hello
+                    {/* IMAGE */}
+                    <img src={randomPhoto} alt="" />
                 </div>
-                {/* IMAGE */}
-                <img src={randomPhoto} alt="" />
                 {/* BOTTOM */}
                 <div className="d-flex justify-content-center personal-post__action mt-4 pt-4">
                     <div className="personal-post__action-btn d-flex justify-content-center align-items-center">

@@ -68,12 +68,6 @@ function Body() {
                         </button>
                     </div>
 
-                    <button className="col col-12 mt-2 p-2 text-bold fs-3 btn-upload rounded-3">
-                        <span className="me-2">
-                            <FontAwesomeIcon icon="fa-regular fa-image" />
-                        </span>
-                        <span>Upload Photos</span>
-                    </button>
                     <Post />
                 </div>
             </div>

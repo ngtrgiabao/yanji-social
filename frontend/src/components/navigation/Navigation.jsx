@@ -48,7 +48,7 @@ const Navigation = (props) => {
                         {user ? (
                             <Link
                                 to="/logout"
-                                className="btn btn-primary d-flex align-items-center justify-content-center gap-4"
+                                className="btn btn-danger d-flex align-items-center justify-content-center gap-4"
                                 htmlFor="#logout"
                                 onClick={handleLogout}
                             >
