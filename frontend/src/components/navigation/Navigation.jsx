@@ -5,6 +5,8 @@ import Form from "react-bootstrap/Form";
 
 import "./navigation.css";
 
+import ProfilePic from "../../images/profile-pic.png";
+
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/apiRequest";
 

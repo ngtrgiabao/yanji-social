@@ -20,7 +20,6 @@ import "./middle.css";
 
 import Stories from "./stories/Stories";
 import PokemonsCollection from "./Pokemons/PokemonsCollection";
-import { useSelector } from "react-redux";
 
 const Middle = () => {
     // Write Data post

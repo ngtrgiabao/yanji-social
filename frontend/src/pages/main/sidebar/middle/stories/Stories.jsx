@@ -5,7 +5,6 @@ import "./stories.css";
 import ProfilePic from "../../../../../images/profile-pic.png";
 
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 const Stories = () => {
     const [avatar, setAvatar] = useState(null);
