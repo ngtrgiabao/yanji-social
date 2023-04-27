@@ -12,7 +12,7 @@ import "./personnal.css";
 function Personal() {
     return (
         <>
-            <Navigation />
+            <Navigation title="Login" link="/register" />
 
             <div className="personal-container">
                 <Header />

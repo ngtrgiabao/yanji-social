@@ -6,10 +6,13 @@ import Form from "react-bootstrap/Form";
 import "./navigation.css";
 
 import ProfilePic from "../../images/profile-pic.png";
+
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/apiRequest";
 
-const Navigation = () => {
+const Navigation = (props) => {
+    const { title, link } = props;
+
     const user = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
@@ -23,7 +26,7 @@ const Navigation = () => {
 
     return (
         <>
-            <nav className="py-3 animate__animated animate__bounceInDown header-navbar">
+            <nav className="py-3 header-navbar">
                 <div
                     className="container d-flex align-items-center"
                     style={{ height: "100%" }}
@@ -53,11 +56,11 @@ const Navigation = () => {
                             </Link>
                         ) : (
                             <Link
-                                to="/register"
+                                to={link}
                                 className="btn btn-primary d-flex align-items-center justify-content-center gap-4"
                                 htmlFor="#create-post"
                             >
-                                Login
+                                {title}
                             </Link>
                         )}
                         <Link to="/user" className="profile-pic ms-4">

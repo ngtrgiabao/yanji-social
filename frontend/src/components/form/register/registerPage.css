@@ -8,6 +8,8 @@
     width: 100vw;
     height: 100vh;
 
+    overflow: hidden;
+
     font-size: 1.5rem;
 }
 
@@ -234,7 +236,7 @@
 
     font-weight: bold;
     color: firebrick;
-    
+
     margin-bottom: 0.5rem;
     padding: 0.5rem;
 }

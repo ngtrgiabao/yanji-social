@@ -25,9 +25,9 @@ function LoginPage() {
 
     return (
         <>
-            <Navigation />
+            <Navigation title="Register" link="/register" />
 
-            <div className="form-background">
+            <div className="form-background animate__animated animate__fadeIn">
                 <form id="login-form" onSubmit={handleLogin}>
                     <div className="login-form__top">
                         <div>Yanji Social</div>

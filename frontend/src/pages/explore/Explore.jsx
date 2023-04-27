@@ -6,7 +6,7 @@ function Explore() {
     return (
         <div>
             <>
-                <Navigation />
+                <Navigation title="Login" link="/register" />
 
                 <h1>Hello</h1>
             </>

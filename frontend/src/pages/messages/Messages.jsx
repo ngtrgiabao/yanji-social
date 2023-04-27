@@ -36,7 +36,7 @@ function Messages() {
 
     return (
         <>
-            <Navigation />
+            <Navigation title="Login" link="/register" />
             <div className="messages">
                 <Left avatarUser={avatarUser} />
                 <Middle avatarUser={avatarUser} />

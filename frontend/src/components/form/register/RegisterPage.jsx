@@ -106,9 +106,9 @@ const RegisterPage = () => {
 
     return (
         <>
-            <Navigation />
+            <Navigation title="Login" link="/login" />
 
-            <div className="form-background animate__animated animate__bounceIn">
+            <div className="form-background animate__animated animate__fadeIn">
                 <form
                     id="register-form"
                     onSubmit={handleSubmit}
@@ -123,7 +123,7 @@ const RegisterPage = () => {
                         <section>
                             <h1>REGISTER SUCCESS 😃🎉🎉</h1>
                             <p>
-                                You can login now [ <strong>{username}</strong>]
+                                You can login now [<strong>{username}</strong>]
                                 😎
                             </p>
                             <u>
