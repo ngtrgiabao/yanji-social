@@ -6,8 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./registerPage.css";
 
-import axios from "../../../api/axios";
-
 import Navigation from "../../navigation/Navigation";
 import { registerUser } from "../../../redux/apiRequest";
 

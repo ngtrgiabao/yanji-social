@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import "./stories.css";
 import ProfilePic from "../../../../../images/profile-pic.png";
 
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 const Stories = () => {
     const [avatar, setAvatar] = useState(null);
@@ -17,10 +17,6 @@ const Stories = () => {
     // GET RANDOM STORIES
     const [storyData, setStoryData] = useState([]);
     const USER_URL = "https://randomuser.me/api/?results=6";
-
-    const user = useSelector((state) => {
-        return state.auth.login.currentUser?.data;
-    });
 
     useEffect(() => {
         const getStory = async () => {
@@ -46,8 +42,12 @@ const Stories = () => {
 
     // const IMG_STORY_URL = "https://random.imagecdn.app/v1/image?";
 
+    const user = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
     return (
-        <div className="stories d-flex justify-content-between">
+        <div className="stories">
             <div
                 className="story-item story"
                 id="your-story"
