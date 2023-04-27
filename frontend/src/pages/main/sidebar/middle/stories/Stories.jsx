@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 import "./stories.css";
+import ProfilePic from "../../../../../images/profile-pic.png";
 
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Stories = () => {
     const [avatar, setAvatar] = useState(null);
@@ -15,6 +17,10 @@ const Stories = () => {
     // GET RANDOM STORIES
     const [storyData, setStoryData] = useState([]);
     const USER_URL = "https://randomuser.me/api/?results=6";
+
+    const user = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
 
     useEffect(() => {
         const getStory = async () => {
@@ -46,11 +52,16 @@ const Stories = () => {
                 className="story-item story"
                 id="your-story"
                 style={{
-                    background: `url(${avatar}) no-repeat center center/cover`,
+                    background: `url(${
+                        user ? ProfilePic : avatar || ProfilePic
+                    }) no-repeat center center/cover`,
                 }}
             >
-                <div className="profile-pic">
-                    <img src={avatar} alt="" />
+                <div className="avatar-profile__stories">
+                    <img
+                        src={user ? ProfilePic : avatar || ProfilePic}
+                        alt=""
+                    />
                 </div>
                 <p className="name text-center">Create story</p>
                 <span className="create-post-icon">+</span>

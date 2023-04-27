@@ -2,9 +2,7 @@
 
 .row .col .row {
     padding-left: 1.3em;
-}
 
-.row .col .row {
     background-color: var(--color-white);
 
     border-radius: 1rem;

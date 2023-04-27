@@ -7,7 +7,7 @@ import Form from "react-bootstrap/Form";
 
 import API from "../../../../api";
 
-import avatarIMG from "../../../../images/profile-pic.png";
+import ProfilePic from "../../../../images/profile-pic.png";
 
 import {
     UilScenery,
@@ -19,6 +19,7 @@ import "./middle.css";
 
 import Stories from "./stories/Stories";
 import PokemonsCollection from "./Pokemons/PokemonsCollection";
+import { useSelector } from "react-redux";
 
 const Middle = () => {
     // Write Data post
@@ -85,16 +86,20 @@ const Middle = () => {
         };
     }, [avatar]);
 
-    // SAVE IMG TO LOCAL
+    // SAVE AVATAR USER TO LOCAL
     useEffect(() => {
         avatar && window.localStorage.setItem("avatar", avatar);
     }, [avatar]);
 
-    // GET IMG FROM LOCAL
+    // GET AVATAR USER FROM LOCAL
     useEffect(() => {
         const data = window.localStorage.getItem("avatar");
         setAvatar(data);
     }, [avatar]);
+
+    const user = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
 
     return (
         <>
@@ -111,7 +116,10 @@ const Middle = () => {
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
                         <Link to="/user" className="profile-pic">
-                            <img src={avatar} alt="" />
+                            <img
+                                src={user ? ProfilePic : avatar || ProfilePic}
+                                alt=""
+                            />
                         </Link>
 
                         <Form.Control

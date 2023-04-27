@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./body.css";
 
-import avatarImg from "../../../images/profile-pic.png";
+import ProfilePic from "../../../images/profile-pic.png";
 
 import Friends from "./friends/Friends";
 import Introduce from "./introduce/Introduce";
@@ -58,7 +58,7 @@ function Body() {
 
                     <div className="row d-flex border-bottom pb-4">
                         <div className="profile-pic p-0 rounded-circle overflow-hidden">
-                            <img src={avatar || avatarImg} alt="avatar" />
+                            <img src={avatar || ProfilePic} alt="" />
                         </div>
                         <button
                             className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted"
@@ -74,9 +74,8 @@ function Body() {
                         </span>
                         <span>Upload Photos</span>
                     </button>
-                <Post />
+                    <Post />
                 </div>
-
             </div>
 
             {popup && (

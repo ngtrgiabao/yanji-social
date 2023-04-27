@@ -22,7 +22,6 @@ import ColorTheme from "./custom-theme/colorTheme/ColorTheme";
 import NotificationPopup from "./notificationPopup/NotificationPopup";
 
 import ProfilePic from "../../../../images/profile-pic.png";
-import axios from "../../../../api/axios";
 
 const Left = () => {
     const [active, setActive] = useState("HOME");
@@ -52,6 +51,11 @@ const Left = () => {
         setAvatar(data);
     }, [avatar]);
 
+    /*
+    1. It’s using the useSelector hook to get the currentUser from the Redux store.
+    2. It’s using the optional chaining operator to check if the currentUser is not null.
+    3. It’s returning the currentUser.
+    */
     const user = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
@@ -59,14 +63,22 @@ const Left = () => {
     return (
         <>
             <div className="left animate__animated animate__bounceInLeft">
-                <Link to="/user" className="profile d-flex align-items-center">
+                <Link
+                    to={user ? "/user" : "/"}
+                    className="profile d-flex align-items-center"
+                >
                     <div className="profile-pic">
-                        <img src={avatar} alt="" />
+                        <img
+                            src={user ? ProfilePic : avatar || ProfilePic}
+                            alt=""
+                        />
                     </div>
 
                     <div className="handle">
-                        <h4>{user ? user.username : "User"} (Yanji)</h4>
-                        <p className="text-muted">@yanji</p>
+                        <h4>{user ? `${user.username}` : `user`}</h4>
+                        <p className="text-muted">
+                            @{user ? user.username : "user"}
+                        </p>
                     </div>
                 </Link>
 
