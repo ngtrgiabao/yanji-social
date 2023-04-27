@@ -4,10 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./postPopup.css";
 
+import ProfilePic from "../../../../../images/profile-pic.png";
+
 const PostPopup = (props) => {
     const { onPopup, animateClass } = props;
 
     const [avatar, setAvatar] = useState("");
+    const [imageUrl, setImageUrl] = useState(null);
+    const uploadImg = useRef(null);
 
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {
@@ -33,10 +37,27 @@ const PostPopup = (props) => {
         postInput.current.focus();
     };
 
+    const handleImageUpload = (event) => {
+        const file = event?.target.files[0];
+        const imageUrl = URL.createObjectURL(file);
+        setImageUrl(imageUrl);
+    };
+
+    const handleUploadImgFile = () => {
+        uploadImg.current.click();
+    };
+
+    useEffect(() => {
+        console.log(imageUrl);
+    }, [imageUrl]);
+
     return (
         <>
             <div
                 className="d-flex justify-content-center align-items-center post-popup__container"
+                style={{
+                    zIndex: 99999,
+                }}
                 onClick={onPopup}
             >
                 {/* FORM */}
@@ -61,7 +82,7 @@ const PostPopup = (props) => {
                     {/* NAME */}
                     <div className="form__name d-flex">
                         <span className="avatar">
-                            <img src={avatar} alt="" />
+                            <img src={avatar || ProfilePic} alt="" />
                         </span>
                         <div className="ms-3">
                             <span className="text-white text-bold fs-4">
@@ -84,35 +105,69 @@ const PostPopup = (props) => {
                         <p
                             className="mb-0"
                             onClick={handlePostInput}
-                            style={{ cursor: "pointer", fontWeight: "bold" }}
+                            style={{
+                                cursor: "pointer",
+                                fontWeight: "bold",
+                            }}
                         >
                             TEXT YOUR MIND HERE :3
                         </p>
-                        <div
+                        <textarea
                             ref={postInput}
                             id="post-input"
                             className="input"
-                            contentEditable="true"
-                        ></div>
-                        <span>
-                            <FontAwesomeIcon icon="fa-regular fa-face-smile" />
-                        </span>
+                            maxLength="5000"
+                            style={{
+                                overflowY: "auto",
+                                overflowX: "hidden",
+                                width: "100%",
+                                height: "25rem",
+                            }}
+                        ></textarea>
                     </div>
 
                     {/* DRAG IMG */}
-                    <div className="form__drag-image">
-                        <input type="file" style={{ display: "none" }} />
+                    <div
+                        className="form__drag-image"
+                        style={{
+                            fontSize: "1.8rem",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => handleUploadImgFile()}
+                    >
+                        <input
+                            type="file"
+                            style={{ display: "none" }}
+                            ref={uploadImg}
+                            onChange={(e) => handleImageUpload(e)}
+                        />
+
                         <span>
                             <FontAwesomeIcon icon="fa-solid fa-image" />
                         </span>
-                        <p>
-                            Drag or upload <br /> your photo here
-                        </p>
                     </div>
+
+                    {imageUrl && (
+                        <img
+                            src={imageUrl}
+                            alt="Uploaded image"
+                            style={{
+                                width: "5rem",
+                                height: "5rem",
+                            }}
+                        />
+                    )}
 
                     <button
                         type="submit"
-                        className="form__post-btn mt-3 p-2 border-0 rounded fs-5 fw-bold"
+                        className="form__post-btn p-2 border-0 rounded fs-5 fw-bold"
+                        style={{
+                            position: "absolute",
+                            bottom: "2rem",
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            width: "95%",
+                        }}
                     >
                         POST
                     </button>

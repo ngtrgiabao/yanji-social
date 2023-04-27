@@ -80,7 +80,7 @@
 
     border-radius: 0.5rem;
 
-    /* background: rgb(67, 23, 239); */
+    background: var(--color-primary-light);
 }
 
 .post-popup__container form .form__status select {
@@ -113,8 +113,7 @@
 }
 
 .post-popup__container form .form__input .input {
-    max-width: 90%;
-
+    margin-top: 1rem;
     padding: 1rem;
 
     font-size: 1.5rem;
@@ -123,7 +122,7 @@
     overflow-y: auto;
     overflow-wrap: break-word;
 
-    background: transparent;
+    background: var(--color-white);
 
     border: transparent;
     outline: none;
@@ -142,22 +141,13 @@
 
 /* DRAG IMAGE */
 .post-popup__container form .form__drag-image {
-    border: 1px solid var(--border-color);
-    border-radius: 1rem;
-
-    height: 60%;
-
     font-size: 2rem;
     font-weight: lighter;
     color: var(--white);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
 }
 
 /* POST BTN */
-.post-popup__container form .form__post-btn {
-    width: 100%;
+.post-popup__container form .form__post-btn:hover {
+    background: var(--color-primary-light);
+    color: var(--white);
 }

@@ -32,7 +32,11 @@ function AvatarFriends() {
                         key={item.id}
                         className="rounded-circle avatar-friends"
                     >
-                        <img src={item.avatar} alt="" className="rounded-circle" />
+                        <img
+                            src={item.avatar}
+                            alt="avatar"
+                            className="rounded-circle"
+                        />
                     </div>
                 ))}
             </div>

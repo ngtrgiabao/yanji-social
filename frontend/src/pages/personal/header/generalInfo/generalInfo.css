@@ -60,8 +60,8 @@
 }
 
 .header-title-container .avatar-friends {
-    width: 3em;
-    height: 3em;
+    width: 4em;
+    height: 4em;
 
     overflow: hidden;
 
@@ -70,6 +70,8 @@
 
 .header-title-container .avatar-friends:hover img {
     opacity: 0.9;
+
+    border: 2px solid var(--color-primary);
 
     cursor: pointer;
 }
