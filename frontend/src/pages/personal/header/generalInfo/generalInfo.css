@@ -12,8 +12,8 @@
 }
 
 .header-title .header-title-container .avatar {
-    width: 25em;
-    height: 19em;
+    min-width: 20rem;
+    height: 20rem;
 
     border: 1px solid var(--color-black);
     border-radius: 50%;

@@ -21,7 +21,7 @@ import BackgroundTheme from "./custom-theme/backgroundTheme/BackgroundTheme";
 import ColorTheme from "./custom-theme/colorTheme/ColorTheme";
 import NotificationPopup from "./notificationPopup/NotificationPopup";
 
-import ProfilePic from "../../../../images/userImg.svg";
+import ProfilePic from "../../../../images/profile-pic.png";
 
 const Left = () => {
     const [active, setActive] = useState("HOME");
@@ -68,15 +68,14 @@ const Left = () => {
                     className="profile d-flex align-items-center"
                 >
                     <div className="profile-pic">
-                        <img src={user ? avatar : ProfilePic} alt="" />
+                        <img
+                            src={user ? ProfilePic : avatar || ProfilePic}
+                            alt=""
+                        />
                     </div>
 
                     <div className="handle">
-                        <h4>
-                            {user
-                                ? `${user.username} (${user.username})`
-                                : `user`}
-                        </h4>
+                        <h4>{user ? `${user.username}` : `user`}</h4>
                         <p className="text-muted">
                             @{user ? user.username : "user"}
                         </p>

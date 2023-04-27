@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React from "react";
 import { UilSearch } from "@iconscout/react-unicons";
 import Form from "react-bootstrap/Form";
 
@@ -61,9 +61,9 @@ const Navigation = (props) => {
                                 {title}
                             </Link>
                         )}
-                        {/* <Link to="/user" className="profile-pic ms-4">
-                        <img src={ProfilePic} alt="avatar" />
-                    </Link> */}
+                        <Link to="/user" className="profile-pic ms-4">
+                            <img src={ProfilePic} alt="avatar" />
+                        </Link>
                     </div>
                 </div>
             </nav>

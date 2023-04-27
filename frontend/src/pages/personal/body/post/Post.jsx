@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./Post.css";
 
+import ProfilePic from "../../../../images/profile-pic.png";
+
 import API from "../../../../api";
 
 const Post = () => {
@@ -59,7 +61,7 @@ const Post = () => {
                 <div className="d-flex personal-post__name">
                     <div className="d-flex ">
                         <span className="avatar">
-                            <img src={avatar} alt="" />
+                            <img src={avatar || ProfilePic} alt="" />
                         </span>
                         <div className="ms-3">
                             <span className="text-bold fs-4">
@@ -176,7 +178,7 @@ const Post = () => {
                 <div className="d-flex personal-post__name">
                     <div className="d-flex ">
                         <span className="avatar">
-                            <img src={avatar} alt="" />
+                            <img src={avatar || ProfilePic} alt="" />
                         </span>
                         <div className="ms-3">
                             <span className="text-bold fs-4">

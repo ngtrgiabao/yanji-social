@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import "./stories.css";
-import AvatarImg from "../../../../../images/userImg.svg";
+import ProfilePic from "../../../../../images/profile-pic.png";
 
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Stories = () => {
     const [avatar, setAvatar] = useState(null);
@@ -53,12 +54,15 @@ const Stories = () => {
                 id="your-story"
                 style={{
                     background: `url(${
-                        user ? avatar : AvatarImg
+                        user ? ProfilePic : avatar || ProfilePic
                     }) no-repeat center center/cover`,
                 }}
             >
-                <div className="profile-pic">
-                    <img src={user ? avatar : AvatarImg} alt="" />
+                <div className="avatar-profile__stories">
+                    <img
+                        src={user ? ProfilePic : avatar || ProfilePic}
+                        alt=""
+                    />
                 </div>
                 <p className="name text-center">Create story</p>
                 <span className="create-post-icon">+</span>

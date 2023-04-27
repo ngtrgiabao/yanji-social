@@ -8,7 +8,7 @@ import Form from "react-bootstrap/Form";
 
 import API from "../../../../api";
 
-import avatarIMG from "../../../../images/userImg.svg";
+import ProfilePic from "../../../../images/profile-pic.png";
 
 import {
     UilScenery,
@@ -20,6 +20,7 @@ import "./middle.css";
 
 import Stories from "./stories/Stories";
 import PokemonsCollection from "./Pokemons/PokemonsCollection";
+import { useSelector } from "react-redux";
 
 const Middle = () => {
     // Write Data post
@@ -116,7 +117,10 @@ const Middle = () => {
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
                         <Link to="/user" className="profile-pic">
-                            <img src={user ? avatar : avatarIMG} alt="" />
+                            <img
+                                src={user ? ProfilePic : avatar || ProfilePic}
+                                alt=""
+                            />
                         </Link>
 
                         <Form.Control
