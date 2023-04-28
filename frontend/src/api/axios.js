@@ -2,5 +2,5 @@ import axios from "axios";
 
 //WORK TO BACKEND
 export default axios.create({
-    baseURL: "https://yanji-social.onrender.com/api/v1",
+    baseURL: "http://localhost:8000",
 });
