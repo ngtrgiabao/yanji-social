@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./randomFriendsCollection.css";
+import "../../../../../../style/pages/personal/body/friends/randomFriends/friendCollection/randomFriendsCollection.css";
 
 const RandomFriendsCollection = (props) => {
     const { avatars } = props;

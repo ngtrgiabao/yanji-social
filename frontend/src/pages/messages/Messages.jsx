@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 
-import "./messages.css";
+import "../../style/pages/messages/messages.css";
 
 import Navigation from "../../components/navigation/Navigation";
 import Left from "./sidebar/left/Left";
@@ -40,7 +40,7 @@ function Messages() {
             <div className="messages">
                 <Left avatarUser={avatarUser} />
                 <Middle avatarUser={avatarUser} />
-                <Right avatarUser={avatarUser} />
+                <Right />
             </div>
         </>
     );

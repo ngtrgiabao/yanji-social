@@ -8,7 +8,7 @@ import {
     UilGithubAlt,
 } from "@iconscout/react-unicons";
 
-import "./introduce.css";
+import "../../../../style/pages/personal/body/introduce/introduce.css";
 
 import Stories from "../stories/Stories";
 import Gallery from "../gallery/Gallery";

@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "./postPopup.css";
+import "../../../../../style/pages/personal/body/popup/post/postPopup.css";
 
-import ProfilePic from "../../../../../images/profile-pic.png";
+import ProfilePic from "../../../../../assets/avatar/profile-pic.png";
 
 const PostPopup = (props) => {
     const { onPopup, animateClass } = props;
@@ -150,7 +150,7 @@ const PostPopup = (props) => {
                     {imageUrl && (
                         <img
                             src={imageUrl}
-                            alt="Uploaded image"
+                            alt="Uploaded file"
                             style={{
                                 width: "5rem",
                                 height: "5rem",

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 
-import "./friends.css";
+import "../../../../style/pages/personal/body/friends/friends.css";
 
 import RandomFriendsCollection from "./randomFriends/friendCollection/RandomFriendsCollection";
 

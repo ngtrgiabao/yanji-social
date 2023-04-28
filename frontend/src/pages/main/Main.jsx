@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./main.css";
+import "../../style/pages/main/main.css";
 import Navigation from "../../components/navigation/Navigation";
 
 import Left from "./sidebar/left/Left";

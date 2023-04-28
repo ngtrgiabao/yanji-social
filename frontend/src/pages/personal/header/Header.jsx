@@ -1,8 +1,8 @@
 import React from "react";
 import { UilCamera } from "@iconscout/react-unicons";
 
-import "./header.css";
-import coverImg from "../../../images/coverfb.jpg";
+import "../../../style/pages/personal/header/header.css";
+import coverImg from "../../../assets/background/coverfb.jpg";
 
 function Header() {
     return (

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-
 import axios from "axios";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "./Post.css";
+import "../../../../style/pages/personal/body/post/post.css";
 
-import ProfilePic from "../../../../images/profile-pic.png";
+import ProfilePic from "../../../../assets/avatar/profile-pic.png";
 
 import API from "../../../../api";
 

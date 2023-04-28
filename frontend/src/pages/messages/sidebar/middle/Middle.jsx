@@ -2,9 +2,9 @@ import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "./middle.css";
+import "../../../../style/pages/messages/middle/middle.css";
 
-import Photo from "../../../../images/profile-pic.png";
+import Photo from "../../../../assets/avatar/profile-pic.png";
 
 const Middle = () => {
     return (

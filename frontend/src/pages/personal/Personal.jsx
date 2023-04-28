@@ -3,11 +3,11 @@ import React from "react";
 import Navigation from "../../components/navigation/Navigation";
 
 import Body from "./body/Body";
-import GeneralInfo from "./header/generalInfo/GeneralInfo";
+import GeneralInfo from "./header/general-info/GeneralInfo";
 import Header from "./header/Header";
 import NavbarProfile from "./navbar/NavbarProfile";
 
-import "./personnal.css";
+import "../../style/pages/personal/personal.css";
 
 function Personal() {
     return (

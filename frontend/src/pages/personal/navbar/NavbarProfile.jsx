@@ -12,7 +12,7 @@ import {
     UilUserCircle,
 } from "@iconscout/react-unicons";
 
-import "./navbarProfile.css";
+import "../../../style/pages/personal/navbar/navbarProfile.css";
 
 function MenuProfile() {
     const menuItems = [
