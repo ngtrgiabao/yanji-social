@@ -1,4 +1,3 @@
-/* The above code is a component that is used to display the left side of the page. */
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -13,15 +12,15 @@ import {
     UilSetting,
 } from "@iconscout/react-unicons";
 
-import "./left.css";
+import "../../../../style/pages/main/sidebar/left/left.css";
 
 // SETTINGS
-import FontSizeTheme from "./custom-theme/fontsize/FontSizeTheme";
-import BackgroundTheme from "./custom-theme/backgroundTheme/BackgroundTheme";
-import ColorTheme from "./custom-theme/colorTheme/ColorTheme";
-import NotificationPopup from "./notificationPopup/NotificationPopup";
+import FontSizeTheme from "./custom-theme/fontsize-theme/FontSizeTheme";
+import BackgroundTheme from "./custom-theme/background-theme/BackgroundTheme";
+import ColorTheme from "./custom-theme/color-theme/ColorTheme";
+import NotificationPopup from "./notification-popup/NotificationPopup";
 
-import ProfilePic from "../../../../images/profile-pic.png";
+import ProfilePic from "../../../../assets/avatar/profile-pic.png";
 
 const Left = () => {
     const [active, setActive] = useState("HOME");
@@ -175,8 +174,8 @@ const Left = () => {
                     </Link>
 
                     {/* BOOKMARKS */}
-                    <a
-                        href=""
+                    <Link
+                        to="/"
                         className={`menu-item ${
                             active === "BOOKMARKS" ? "active" : ""
                         }`}
@@ -188,11 +187,11 @@ const Left = () => {
                             <UilBookmark className="sidebar-icon" />
                         </span>
                         <h3 className="ms-4">Bookmarks</h3>
-                    </a>
+                    </Link>
 
                     {/* ANALYTICS */}
-                    <a
-                        href=""
+                    <Link
+                        to="/"
                         className={`menu-item ${
                             active === "ANALYTICS" ? "active" : ""
                         }`}
@@ -204,7 +203,7 @@ const Left = () => {
                             <UilAnalysis className="sidebar-icon" />
                         </span>
                         <h3 className="ms-4">Analytics</h3>
-                    </a>
+                    </Link>
 
                     {/* THEME */}
                     <div

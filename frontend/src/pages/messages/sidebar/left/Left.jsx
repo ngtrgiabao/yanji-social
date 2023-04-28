@@ -2,7 +2,7 @@ import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "./left.css";
+import "../../../../style/pages/messages/left/left.css";
 
 const Left = (props) => {
     const { avatarUser } = props;

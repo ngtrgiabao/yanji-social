@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../../../style/pages/personal/body/body.css";
 
-import "./body.css";
-
-import ProfilePic from "../../../images/profile-pic.png";
+import ProfilePic from "../../../assets/avatar/profile-pic.png";
 
 import Friends from "./friends/Friends";
 import Introduce from "./introduce/Introduce";
-import SocialLinks from "./socialLinks/SocialLinks";
+import SocialLinks from "./social-links/SocialLinks";
 import PostPopup from "./popup/post/PostPopup";
 import Post from "./post/Post";
 

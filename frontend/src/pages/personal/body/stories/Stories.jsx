@@ -1,9 +1,9 @@
 import React from "react";
 
-import "./stories.css";
-import imgStory1 from "./storiesImages/imgStory1.jpg";
-import imgStory2 from "./storiesImages/imgStory2.jpg";
-import imgStory3 from "./storiesImages/imgStory3.jpg";
+import "../../../../style/pages/personal/body/stories/stories.css";
+import imgStory1 from "../../../../assets/stories-images/imgStory1.jpg";
+import imgStory2 from "../../../../assets/stories-images/imgStory2.jpg";
+import imgStory3 from "../../../../assets/stories-images/imgStory3.jpg";
 
 function Stories() {
     const stories = [

@@ -1,14 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "./right.css";
+import "../../../../style/pages/messages/right/right.css";
 
-import Photo from "../../../../images/profile-pic.png";
+import Photo from "../../../../assets/avatar/profile-pic.png";
 
-const Right = (props) => {
-    const { avatarUser } = props;
-
+const Right = () => {
     const [active, setActive] = useState("");
     const [isChoose, setIsChoose] = useState(false);
 

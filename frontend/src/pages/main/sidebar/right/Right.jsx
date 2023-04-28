@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { UilEdit } from "@iconscout/react-unicons";
 
-import "./right.css";
+import "../../../../style/pages/main/sidebar/right/right.css";
 import Message from "./message/Message";
 
 const Right = () => {

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 
-import "./gallery.css";
+import "../../../../style/pages/personal/body/gallery/gallery.css";
 
-import GalleryCollection from "./galleryCollection/GalleryCollection";
+import GalleryCollection from "./gallery-collection/GalleryCollection";
 
 import API from "../../../../api";
 

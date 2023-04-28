@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import "./stories.css";
-import ProfilePic from "../../../../../images/profile-pic.png";
+import "../../../../../style/pages/main/sidebar/middle/stories/stories.css";
+import ProfilePic from "../../../../../assets/avatar/profile-pic.png";
 
 import axios from "axios";
 import { useSelector } from "react-redux";

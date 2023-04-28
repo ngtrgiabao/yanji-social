@@ -2,12 +2,12 @@ import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import { UilSearch } from "@iconscout/react-unicons";
 import Form from "react-bootstrap/Form";
-
-import "./navigation.css";
-
-import ProfilePic from "../../images/profile-pic.png";
-
 import { useDispatch, useSelector } from "react-redux";
+
+import "../../style/components/navigation/navigation.css";
+
+import ProfilePic from "../../assets/avatar/profile-pic.png";
+
 import { logout } from "../../redux/apiRequest";
 
 const Navigation = (props) => {
@@ -44,7 +44,12 @@ const Navigation = (props) => {
                         />
                     </div>
 
-                    <div className="create d-flex align-items-center">
+                    <div
+                        className="d-flex justify-content-end align-items-center"
+                        style={{
+                            width: "12%",
+                        }}
+                    >
                         {user ? (
                             <Link
                                 to="/logout"
@@ -57,13 +62,16 @@ const Navigation = (props) => {
                         ) : (
                             <Link
                                 to={link}
-                                className="btn btn-primary d-flex align-items-center justify-content-center gap-4"
+                                className="nav__btn d-flex align-items-center justify-content-center gap-4"
                                 htmlFor="#create-post"
                             >
                                 {title}
                             </Link>
                         )}
-                        <Link to="/user" className="profile-pic ms-4">
+                        <Link
+                            to={user ? "/user" : "/"}
+                            className="profile-pic ms-4"
+                        >
                             <img src={ProfilePic} alt="avatar" />
                         </Link>
                     </div>

@@ -7,7 +7,7 @@ import Form from "react-bootstrap/Form";
 
 import API from "../../../../api";
 
-import ProfilePic from "../../../../images/profile-pic.png";
+import ProfilePic from "../../../../assets/avatar/profile-pic.png";
 
 import {
     UilScenery,
@@ -15,10 +15,11 @@ import {
     UilLocationPoint,
     UilLabelAlt,
 } from "@iconscout/react-unicons";
-import "./middle.css";
+
+import "../../../../style/pages/main/sidebar/middle/middle.css";
 
 import Stories from "./stories/Stories";
-import PokemonsCollection from "./Pokemons/PokemonsCollection";
+import PokemonsCollection from "./pokemons/PokemonsCollection";
 import { useSelector } from "react-redux";
 
 const Middle = () => {

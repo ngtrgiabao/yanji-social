@@ -1,0 +1,96 @@
+@import url("../../../varible/varible.css");
+
+.middle-msg-page {
+    border: 0.5px solid rgba(204, 204, 204, 0.337);
+
+    display: flex;
+    flex-direction: column;
+    grid-column-start: 2;
+    grid-column-end: 4;
+}
+
+/* HEADER */
+.middle-msg-page .middle-container .middle-container-header {
+    border-left: 0;
+    border-right: 0;
+    border: 0.5px solid rgba(204, 204, 204, 0.337);
+}
+
+.middle-container .middle-container-header .middle-avatar-chat {
+    width: 4rem;
+    height: 4rem;
+}
+
+.middle-container .middle-container-header .icon {
+    width: 4rem;
+    height: 4rem;
+}
+
+.middle-msg-page .middle-container .icon:hover {
+    cursor: pointer;
+
+    background: var(--color-bg-hover);
+}
+
+/* BODY */
+.middle-msg-page .middle-container .middle-container-body {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(50%, 1fr));
+
+    height: 73vh;
+
+    overflow-y: auto;
+}
+
+.middle-container
+    .middle-container-body
+    .middle-container-body__right-text
+    span,
+.middle-container
+    .middle-container-body
+    .middle-container-body__left-text
+    span {
+    width: fit-content;
+
+    border: 0.5px solid rgba(204, 204, 204, 0.337);
+    border-radius: 1rem;
+}
+
+.middle-container
+    .middle-container-body
+    .middle-container-body__right-text
+    span:first-child,
+.middle-container
+    .middle-container-body
+    .middle-container-body__left-text
+    span:first-child {
+    margin-bottom: 0.4rem;
+}
+
+.middle-container .middle-container-body .middle-container-body__left-text {
+    margin-top: 7rem;
+}
+
+/* FOOTER */
+.middle-msg-page .middle-container .middle-container-footer {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(10rem, 1fr));
+}
+
+.middle-msg-page .middle-container .middle-container-footer .user-input-chat {
+    display: flex;
+    justify-content: center;
+
+    grid-column-start: 2;
+    grid-column-end: 4;
+
+    width: 130%;
+}
+
+.middle-msg-page
+    .middle-container
+    .middle-container-footer
+    .user-input-chat
+    input {
+    width: 100%;
+}

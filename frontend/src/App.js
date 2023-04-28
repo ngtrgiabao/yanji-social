@@ -1,15 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 
-import axios from "./api/axios";
-import { useState } from "react";
-
 import Homepage from "./pages/main/Main";
 import MessagesPage from "./pages/messages/Messages";
 import ExplorePage from "./pages/explore/Explore";
 import PersonalPage from "./pages/personal/Personal";
 
-import RegisterPage from "./components/form/register/RegisterPage";
-import LoginPage from "./components/form/login/LoginPage";
+import RegisterPage from "./pages/form/register/RegisterPage";
+import LoginPage from "./pages/form/login/LoginPage";
 
 function App() {
     return (
