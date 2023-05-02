@@ -1,25 +1,82 @@
+import { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import Homepage from "./pages/main/Main";
-import MessagesPage from "./pages/messages/Messages";
-import ExplorePage from "./pages/explore/Explore";
-import PersonalPage from "./pages/personal/Personal";
+import LoadingPage from "./pages/loading/LoadingPage";
+import NetworkError from "./pages/networkError/NetworkError";
+const Homepage = lazy(() => import("./pages/home/Home"));
+const MessagesPage = lazy(() => import("./pages/messages/Messages"));
+const ExplorePage = lazy(() => import("./pages/explore/Explore"));
+const PersonalPage = lazy(() => import("./pages/personal/Personal"));
 
-import RegisterPage from "./pages/form/register/RegisterPage";
-import LoginPage from "./pages/form/login/LoginPage";
+const RegisterPage = lazy(() => import("./pages/form/register/RegisterPage"));
+const LoginPage = lazy(() => import("./pages/form/login/LoginPage"));
 
 function App() {
+    const userID = useSelector((state) => {
+        return state.auth.login.currentUser?.data._id;
+    });
+
     return (
         <div className="App">
             <Routes>
-                <Route path="/" element={<Homepage />} />
-                <Route path="/messages" element={<MessagesPage />} />
-                <Route path="/explore" element={<ExplorePage />} />
-                <Route path="/user" element={<PersonalPage />} />
+                <Route
+                    path="/"
+                    element={
+                        <Suspense fallback={<LoadingPage />}>
+                            <Homepage />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path="/messages"
+                    element={
+                        <Suspense fallback={<LoadingPage />}>
+                            <MessagesPage />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path="/explore"
+                    element={
+                        <Suspense fallback={<LoadingPage />}>
+                            <ExplorePage />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path={"/user" + `/${userID}`}
+                    element={
+                        <Suspense fallback={<LoadingPage />}>
+                            <PersonalPage />
+                        </Suspense>
+                    }
+                />
 
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/logout" element={<LoginPage />} />
+                <Route
+                    path="/register"
+                    element={
+                        <Suspense fallback={<LoadingPage />}>
+                            <RegisterPage />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path="/login"
+                    element={
+                        <Suspense fallback={<LoadingPage />}>
+                            <LoginPage />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path="/logout"
+                    element={
+                        <Suspense fallback={<LoadingPage />}>
+                            <LoginPage />
+                        </Suspense>
+                    }
+                />
             </Routes>
         </div>
     );

@@ -1,0 +1,25 @@
+@import "../../../../varible/varible.css";
+
+.messages-sidebar {
+    background-color: var(--color-white);
+
+    border-radius: var(--card-border-radius);
+
+    padding: var(--card-padding);
+}
+
+.messages-sidebar .heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 1rem;
+}
+
+.try-video-call__btn {
+    border: 1px solid var(--color-primary);
+}
+
+.try-video-call__btn:hover {
+    background: var(--color-light);
+}

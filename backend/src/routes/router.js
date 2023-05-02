@@ -4,7 +4,9 @@ const router = express.Router();
 const UserModel = require("../models/userModel.model");
 
 router.get("/", (req, res) => {
-    res.send("hello");
+    res.send({
+        msg: "hello from server",
+    });
 });
 
 // REGISTER
@@ -23,7 +25,6 @@ router.post("/register", (req, res) => {
                     msg: "username already have",
                 });
             } else {
-                console.log(username);
                 return UserModel.create({
                     username: username,
                     password: psw,

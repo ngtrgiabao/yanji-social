@@ -56,7 +56,11 @@ function Body() {
 
                     <div className="row d-flex border-bottom pb-4">
                         <div className="profile-pic p-0 rounded-circle overflow-hidden">
-                            <img src={avatar || ProfilePic} alt="" />
+                            <img
+                                loading="lazy"
+                                src={avatar || ProfilePic}
+                                alt=""
+                            />
                         </div>
                         <button
                             className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted"

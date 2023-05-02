@@ -89,7 +89,7 @@ const Right = () => {
                             </div>
                             {/* DROP MENU */}
                             {isChoose && active === "SETTING-CHAT" && (
-                                <ul className="ps-0 fs-4">
+                                <ul className="ps-0 fs-4 ms-4">
                                     <li className="drop-menu-item p-3">
                                         <div>
                                             <span className="icon">😃</span>
@@ -141,7 +141,7 @@ const Right = () => {
                             </div>
                             {/* DROP MENU */}
                             {isChoose && active === "SETTING-FILE" && (
-                                <ul className="ps-0 fs-4">
+                                <ul className="ps-0 fs-4 ms-3">
                                     <li className="drop-menu-item p-3">
                                         <div>
                                             <span className="icon">
@@ -195,7 +195,7 @@ const Right = () => {
                             </div>
                             {/* DROP MENU */}
                             {isChoose && active === "SETTING-PRIVATE" && (
-                                <ul className="ps-0 fs-4">
+                                <ul className="ps-0 fs-4 ms-3">
                                     <li className="drop-menu-item p-3">
                                         <div>
                                             <span className="icon">

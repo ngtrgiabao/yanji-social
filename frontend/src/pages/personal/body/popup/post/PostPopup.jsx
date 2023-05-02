@@ -82,7 +82,11 @@ const PostPopup = (props) => {
                     {/* NAME */}
                     <div className="form__name d-flex">
                         <span className="avatar">
-                            <img src={avatar || ProfilePic} alt="" />
+                            <img
+                                loading="lazy"
+                                src={avatar || ProfilePic}
+                                alt=""
+                            />
                         </span>
                         <div className="ms-3">
                             <span className="text-white text-bold fs-4">
@@ -149,6 +153,7 @@ const PostPopup = (props) => {
 
                     {imageUrl && (
                         <img
+                            loading="lazy"
                             src={imageUrl}
                             alt="Uploaded file"
                             style={{

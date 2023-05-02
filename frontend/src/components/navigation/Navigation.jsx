@@ -17,6 +17,10 @@ const Navigation = (props) => {
         return state.auth.login.currentUser?.data;
     });
 
+    const userID = useSelector((state) => {
+        return state.auth.login.currentUser?.data._id;
+    });
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -69,10 +73,10 @@ const Navigation = (props) => {
                             </Link>
                         )}
                         <Link
-                            to={user ? "/user" : "/"}
+                            to={user ? `/user/${userID}` : "/"}
                             className="profile-pic ms-4"
                         >
-                            <img src={ProfilePic} alt="avatar" />
+                            <img loading="lazy" src={ProfilePic} alt="avatar" />
                         </Link>
                     </div>
                 </div>

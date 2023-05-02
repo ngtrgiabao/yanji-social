@@ -30,7 +30,7 @@ function Stories() {
                 {stories.map((item) => (
                     <div key={item.id} className="col text-center">
                         <span>
-                            <img src={item.imgURL} alt="" />
+                            <img loading="lazy" src={item.imgURL} alt="" />
                         </span>
                         <div className="title mt-2 fs-4">
                             <p className="d-inline-block">{item.title}</p>

@@ -45,7 +45,11 @@ const Left = (props) => {
                                     key={item.id}
                                 >
                                     <span className="profile-pic">
-                                        <img src={item.avatar} alt="" />
+                                        <img
+                                            loading="lazy"
+                                            src={item.avatar}
+                                            alt=""
+                                        />
                                     </span>
                                     <div className="message-body ms-3">
                                         <div className="fs-4 fw-bold">

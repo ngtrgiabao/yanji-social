@@ -16,6 +16,34 @@
     border: 0.5px solid rgba(204, 204, 204, 0.337);
 }
 
+.middle-msg-page .middle-container .middle-container-header .icon {
+    position: relative;
+}
+
+.middle-msg-page
+    .middle-container
+    .middle-container-header
+    .icon:hover::before {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 10rem;
+
+    position: absolute;
+    top: 110%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: #fff;
+    background: #000;
+
+    padding: 0.5rem;
+
+    border-radius: 0.5rem;
+}
+
 .middle-container .middle-container-header .middle-avatar-chat {
     width: 4rem;
     height: 4rem;
@@ -37,7 +65,7 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(50%, 1fr));
 
-    height: 73vh;
+    height: 70vh;
 
     overflow-y: auto;
 }
@@ -77,14 +105,63 @@
     grid-template-columns: repeat(4, minmax(10rem, 1fr));
 }
 
+.middle-msg-page .middle-container .middle-container-footer .icon {
+    width: 3rem;
+    height: 3rem;
+
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0.5rem;
+
+    background: var(--color-primary);
+
+    position: relative;
+}
+
+.middle-msg-page .middle-container .icon::before {
+    content: attr(aria-label);
+    font-size: 1rem;
+
+    display: none;
+}
+
+.middle-msg-page
+    .middle-container
+    .middle-container-footer
+    .icon:hover::before {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 10rem;
+
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: #fff;
+    background: #000;
+
+    padding: 0.5rem;
+
+    border-radius: 0.5rem;
+}
+
+.middle-msg-page .middle-container .middle-container-footer .icon:hover {
+    background: var(--color-primary-light);
+}
+
 .middle-msg-page .middle-container .middle-container-footer .user-input-chat {
     display: flex;
     justify-content: center;
 
-    grid-column-start: 2;
-    grid-column-end: 4;
-
-    width: 130%;
+    width: 75%;
 }
 
 .middle-msg-page
