@@ -33,6 +33,7 @@ function AvatarFriends() {
                         className="rounded-circle avatar-friends"
                     >
                         <img
+                            loading="lazy"
                             src={item.avatar}
                             alt="avatar"
                             className="rounded-circle"

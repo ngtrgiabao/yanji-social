@@ -26,6 +26,11 @@
 
     --border-color: rgb(67, 23, 239);
 
-    --sticky-top-left: 5.4rem;
-    --sticky-top-right: -18rem;
+    --sticky-top-left: 10%;
+    --sticky-top-right: 10%;
+
+    --hue: 223;
+    --bg: hsl(var(--hue), 90%, 95%);
+    --fg: hsl(var(--hue), 90%, 5%);
+    --trans-dur: 0.3s;
 }

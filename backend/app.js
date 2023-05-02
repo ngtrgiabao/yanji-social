@@ -8,7 +8,7 @@ const ApiError = require("./api.error");
 const router = require("./src/routes/router");
 
 const corsOptions = {
-    origin: "https://yanji-social.onrender.com/api/v1",
+    origin: "http://localhost:3000",
     credentials: true,
     optionSuccessStatus: 200,
 };

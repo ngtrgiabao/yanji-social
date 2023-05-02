@@ -9,7 +9,7 @@ function Header() {
         <>
             <div className="cover position-relative">
                 <span className="position-relative">
-                    <img src={coverImg} alt="cover" />
+                    <img loading="lazy" src={coverImg} alt="cover" />
 
                     <div className="edit-cover d-flex align-items-center">
                         <span className="me-3">

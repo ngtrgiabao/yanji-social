@@ -6,6 +6,8 @@
     main .container {
         grid-template-columns: 0 auto 5rem !important;
         gap: 0;
+
+        margin-top: 8% !important;
     }
 
     main .container .left {

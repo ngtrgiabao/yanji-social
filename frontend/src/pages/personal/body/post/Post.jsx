@@ -59,7 +59,11 @@ const Post = () => {
                 <div className="d-flex personal-post__name">
                     <div className="d-flex ">
                         <span className="avatar">
-                            <img src={avatar || ProfilePic} alt="" />
+                            <img
+                                loading="lazy"
+                                src={avatar || ProfilePic}
+                                alt=""
+                            />
                         </span>
                         <div className="ms-3">
                             <span className="text-bold fs-4">
@@ -173,7 +177,11 @@ const Post = () => {
                 <div className="d-flex personal-post__name">
                     <div className="d-flex ">
                         <span className="avatar">
-                            <img src={avatar || ProfilePic} alt="" />
+                            <img
+                                loading="lazy"
+                                src={avatar || ProfilePic}
+                                alt=""
+                            />
                         </span>
                         <div className="ms-3">
                             <span className="text-bold fs-4">
@@ -262,7 +270,7 @@ const Post = () => {
                     }}
                 >
                     {/* IMAGE */}
-                    <img src={randomPhoto} alt="" />
+                    <img loading="lazy" src={randomPhoto} alt="" />
                 </div>
                 {/* BOTTOM */}
                 <div className="d-flex justify-content-center personal-post__action mt-4 pt-4">
