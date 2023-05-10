@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 
 import { Link, useNavigate } from "react-router-dom";
 
-import Navigation from "../../../components/navigation/Navigation";
-import { loginUser } from "../../../redux/apiRequest";
+import Navigation from "../../../layout/navigation/Navigation";
+import { loginUser } from "../../../redux/request/apiRequest";
 
 function LoginPage() {
     const [username, setUsername] = useState("");
@@ -63,7 +63,9 @@ function LoginPage() {
                                 </div>
                                 <span></span>
                             </div>
-                            <button type="submit">Sign in</button>
+                            <button role="button" type="submit">
+                                Sign in
+                            </button>
                             <div className="register-form__footer">
                                 <Link to="/">Forgot your password?</Link>
                             </div>

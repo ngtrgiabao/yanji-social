@@ -4,19 +4,19 @@ import axios from "axios";
 
 import "../../style/pages/messages/messages.css";
 
-import Navigation from "../../components/navigation/Navigation";
+import Navigation from "../../layout/navigation/Navigation";
 import Left from "./sidebar/left/Left";
 import Middle from "./sidebar/middle/Middle";
 import Right from "./sidebar/right/Right";
 
-import API from "../../api";
+import API from "../../api/api";
 
 function Messages() {
     const [avatarUser, setAvatarUser] = useState([]);
 
     useEffect(() => {
         const getDataUser = async () => {
-            const userAvatar = await axios.get(API.USER_URL);
+            const userAvatar = await axios.get(API.USER_URL.url);
 
             userAvatar.data.results.forEach((user) => {
                 setAvatarUser((pic) => [

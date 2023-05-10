@@ -6,7 +6,7 @@ import "../../../../style/pages/personal/body/post/post.css";
 
 import ProfilePic from "../../../../assets/avatar/profile-pic.png";
 
-import API from "../../../../api";
+import API from "../../../../api/api";
 
 const Post = () => {
     const [avatar, setAvatar] = useState("");
@@ -34,7 +34,7 @@ const Post = () => {
 
     useEffect(() => {
         axios
-            .get(API.RANDOM_IMG_URL)
+            .get(API.RANDOM_IMG_URL.url)
             .then((res) => {
                 setRandomPhoto(res.data);
             })
@@ -61,8 +61,10 @@ const Post = () => {
                         <span className="avatar">
                             <img
                                 loading="lazy"
+                                role="presentation"
+                                decoding="async"
                                 src={avatar || ProfilePic}
-                                alt=""
+                                alt="Avatar user"
                             />
                         </span>
                         <div className="ms-3">
@@ -179,8 +181,10 @@ const Post = () => {
                         <span className="avatar">
                             <img
                                 loading="lazy"
+                                role="presentation"
+                                decoding="async"
                                 src={avatar || ProfilePic}
-                                alt=""
+                                alt="Avatar user"
                             />
                         </span>
                         <div className="ms-3">
@@ -270,7 +274,13 @@ const Post = () => {
                     }}
                 >
                     {/* IMAGE */}
-                    <img loading="lazy" src={randomPhoto} alt="" />
+                    <img
+                        loading="lazy"
+                        role="presentation"
+                        decoding="async"
+                        src={randomPhoto}
+                        alt="Avatar user"
+                    />
                 </div>
                 {/* BOTTOM */}
                 <div className="d-flex justify-content-center personal-post__action mt-4 pt-4">

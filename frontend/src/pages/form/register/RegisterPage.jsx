@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "../../../style/pages/form/register/registerPage.css";
 
-import Navigation from "../../../components/navigation/Navigation";
-import { registerUser } from "../../../redux/apiRequest";
+import Navigation from "../../../layout/navigation/Navigation";
+import { registerUser } from "../../../redux/request/apiRequest";
 
 const RegisterPage = () => {
     const dispatch = useDispatch();
@@ -419,6 +419,7 @@ const RegisterPage = () => {
                                     </div>
 
                                     <button
+                                        role="button"
                                         type="submit"
                                         disabled={
                                             !validName ||

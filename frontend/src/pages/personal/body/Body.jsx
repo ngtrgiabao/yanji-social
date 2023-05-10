@@ -58,11 +58,14 @@ function Body() {
                         <div className="profile-pic p-0 rounded-circle overflow-hidden">
                             <img
                                 loading="lazy"
+                                role="presentation"
+                                decoding="async"
                                 src={avatar || ProfilePic}
-                                alt=""
+                                alt="Avatar user"
                             />
                         </div>
                         <button
+                            role="button"
                             className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted"
                             onClick={handlePopup}
                         >

@@ -22,8 +22,11 @@ const Right = () => {
                     {/* HEADER */}
                     <div className="right-container-header d-flex flex-column align-items-center mb-4">
                         <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
                             src={Photo}
-                            alt=""
+                            alt="Avatar user"
                             className="rounded-circle right-avatar-chat"
                         />
                         <p className="mt-2 mb-0 fs-4 fw-bold">Yanji</p>

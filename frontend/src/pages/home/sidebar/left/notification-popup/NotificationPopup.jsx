@@ -8,7 +8,13 @@ const NotificationItem = (props) => {
     return (
         <div className="notification-item">
             <div className="profile-pic">
-                <img loading="lazy" src={props.avatar} alt="" />
+                <img
+                    loading="lazy"
+                    role="presentation"
+                    decoding="async"
+                    src={props.avatar}
+                    alt="Avatar user"
+                />
             </div>
             <div className="notification-body">
                 <b>{props.name}</b>

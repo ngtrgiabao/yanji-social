@@ -6,7 +6,7 @@ import Left from "./sidebar/left/Left";
 import Middle from "./sidebar/middle/Middle";
 import Right from "./sidebar/right/Right";
 
-const Navigation = lazy(() => import("../../components/navigation/Navigation"));
+const Navigation = lazy(() => import("../../layout/navigation/Navigation"));
 
 const Home = () => {
     return (

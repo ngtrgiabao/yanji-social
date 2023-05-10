@@ -58,7 +58,9 @@ function Introduce() {
                 <p className="inline-block">Frontend Developer</p>
                 <p className="inline-block">😁 Halo, Wie gehts 😁</p>
             </div>
-            <button className="my-4">Edit Slogan</button>
+            <button role="button" className="my-4">
+                Edit Slogan
+            </button>
 
             {introDuceIInfo.map((item) => {
                 return (
@@ -79,12 +81,18 @@ function Introduce() {
                 );
             })}
 
-            <button className="my-4">Edit Details</button>
-            <button className="mb-4">Add Hobbies</button>
+            <button role="button" className="my-4">
+                Edit Details
+            </button>
+            <button role="button" className="mb-4">
+                Add Hobbies
+            </button>
 
             <Stories />
 
-            <button className="mt-5 mb-4">Edit Stories</button>
+            <button role="button" className="mt-5 mb-4">
+                Edit Stories
+            </button>
 
             <Gallery />
         </div>

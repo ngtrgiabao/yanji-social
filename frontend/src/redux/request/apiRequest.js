@@ -1,4 +1,4 @@
-import axios from "../api/axios";
+import axios from "../../api/axios";
 import {
     loginStart,
     loginSuccess,
@@ -9,7 +9,7 @@ import {
     logoutStart,
     logoutSuccess,
     logoutFailed,
-} from "./authSlice";
+} from "../authSlice";
 
 export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart());

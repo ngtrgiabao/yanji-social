@@ -47,8 +47,10 @@ const Left = (props) => {
                                     <span className="profile-pic">
                                         <img
                                             loading="lazy"
+                                            role="presentation"
+                                            decoding="async"
                                             src={item.avatar}
-                                            alt=""
+                                            alt="Avatar user"
                                         />
                                     </span>
                                     <div className="message-body ms-3">

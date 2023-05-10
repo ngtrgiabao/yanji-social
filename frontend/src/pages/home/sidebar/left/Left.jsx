@@ -72,9 +72,12 @@ const Left = () => {
                     title="Truy cập trang cá nhân"
                 >
                     <div className="profile-pic">
-                        <img loading="lazy"
+                        <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
                             src={user ? ProfilePic : avatar || ProfilePic}
-                            alt=""
+                            alt="Avatar user"
                         />
                     </div>
 

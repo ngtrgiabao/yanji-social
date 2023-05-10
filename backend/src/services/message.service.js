@@ -1,23 +1,18 @@
 const { ObjectId } = require("mongodb");
 
-class UserService {
+class MessageService {
     constructor(client) {
         this.account = client.db().collection("account");
     }
 
     extractConactData(payload) {
-        const user = {
-            username: payload.username,
-            password: payload.password,
-            email: payload.email,
-            profilePicture: payload.profilePicture,
-            photos: payload.photos,
-            friends: payload.friends,
-            followers: payload.followers,
-            following: payload.following,
+        const message = {
+            text: payload.text,
+            media: payload.media,
+            file: payload.file,
         };
 
-        return user;
+        return message;
     }
 
     async create(payload) {
@@ -33,15 +28,6 @@ class UserService {
     async find(filter) {
         const cursor = await this.account.find(filter);
         return await cursor.toArray();
-    }
-
-    async findByName(name) {
-        return await this.find({
-            name: {
-                $regex: new RegExp(name),
-                $options: "i",
-            },
-        });
     }
 
     async findById(id) {
@@ -67,11 +53,11 @@ class UserService {
     }
 
     async delete(id) {
-        const result = await this.account.findOneAndDelete({
+        const result = await this.account.deleteOne({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
 
-        return result.value;
+        return result.deletedCount;
     }
 
     async deleteAll() {
@@ -84,4 +70,4 @@ class UserService {
     }
 }
 
-module.exports = UserService;
+module.exports = MessageService;
