@@ -16,8 +16,10 @@ const Middle = () => {
                         <div className="d-flex align-items-center">
                             <img
                                 loading="lazy"
+                                role="presentation"
+                                decoding="async"
                                 src={Photo}
-                                alt=""
+                                alt="Avatar user"
                                 className="rounded-circle middle-avatar-chat"
                             />
                             <span className="ms-2 fs-4 fw-bold">Yanji</span>
@@ -123,6 +125,7 @@ const Middle = () => {
                                 type="text"
                                 className="rounded py-2 px-3 fs-4"
                                 placeholder="Text your message here..."
+                                maxLength="1000"
                                 style={{
                                     border: "1px solid var(--color-primary)",
                                 }}

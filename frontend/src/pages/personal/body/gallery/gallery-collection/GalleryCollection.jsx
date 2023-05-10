@@ -9,7 +9,13 @@ const GalleryCollection = (props) => {
             {photos.map((photo, index) => {
                 return (
                     <div key={index}>
-                        <img loading="lazy" src={photo} alt="" />
+                        <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
+                            src={photo}
+                            alt="Photo"
+                        />
                     </div>
                 );
             })}

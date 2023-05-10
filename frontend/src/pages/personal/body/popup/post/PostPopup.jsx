@@ -84,8 +84,10 @@ const PostPopup = (props) => {
                         <span className="avatar">
                             <img
                                 loading="lazy"
+                                role="presentation"
+                                decoding="async"
                                 src={avatar || ProfilePic}
-                                alt=""
+                                alt="Avatar user"
                             />
                         </span>
                         <div className="ms-3">
@@ -154,6 +156,8 @@ const PostPopup = (props) => {
                     {imageUrl && (
                         <img
                             loading="lazy"
+                            role="presentation"
+                            decoding="async"
                             src={imageUrl}
                             alt="Uploaded file"
                             style={{
@@ -164,6 +168,7 @@ const PostPopup = (props) => {
                     )}
 
                     <button
+                        role="button"
                         type="submit"
                         className="form__post-btn p-2 border-0 rounded fs-5 fw-bold"
                         style={{

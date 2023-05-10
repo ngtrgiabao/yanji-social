@@ -60,8 +60,10 @@ const Stories = () => {
                 <div className="avatar-profile__stories">
                     <img
                         loading="lazy"
+                        role="presentation"
+                        decoding="async"
                         src={user ? ProfilePic : avatar || ProfilePic}
-                        alt=""
+                        alt="Avatar user"
                     />
                 </div>
                 <p className="name text-center">Create story</p>
@@ -77,7 +79,13 @@ const Stories = () => {
                     }}
                 >
                     <div className="profile-pic">
-                        <img loading="lazy" src={item.avatar} alt="" />
+                        <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
+                            src={item.avatar}
+                            alt="Avatar user"
+                        />
                     </div>
                     <p className="name text-center">
                         {item.lastName + " " + item.firstName}

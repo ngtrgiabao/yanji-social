@@ -8,7 +8,7 @@ import "../../style/components/navigation/navigation.css";
 
 import ProfilePic from "../../assets/avatar/profile-pic.png";
 
-import { logout } from "../../redux/apiRequest";
+import { logout } from "../../redux/request/apiRequest";
 
 const Navigation = (props) => {
     const { title, link } = props;
@@ -76,7 +76,13 @@ const Navigation = (props) => {
                             to={user ? `/user/${userID}` : "/"}
                             className="profile-pic ms-4"
                         >
-                            <img loading="lazy" src={ProfilePic} alt="avatar" />
+                            <img
+                                loading="lazy"
+                                role="presentation"
+                                decoding="async"
+                                src={ProfilePic}
+                                alt="Avatar user"
+                            />
                         </Link>
                     </div>
                 </div>

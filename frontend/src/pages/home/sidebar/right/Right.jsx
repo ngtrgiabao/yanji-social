@@ -36,8 +36,10 @@ const Right = () => {
             >
                 <img
                     loading="lazy"
+                    role="presentation"
+                    decoding="async"
                     src={VideoIcon}
-                    alt=""
+                    alt="Avatar user"
                     style={{
                         width: "10%",
                         height: "10%",

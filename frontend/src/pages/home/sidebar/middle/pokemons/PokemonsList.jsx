@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
@@ -21,6 +21,19 @@ const PokemonsList = (props) => {
 
     const [active, setActive] = useState(null);
     const [popup, setPopup] = useState(false);
+    const [time, setTime] = useState(new Date());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTime(new Date());
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const options = {
+        hour: "numeric",
+        minute: "numeric",
+    };
 
     window.addEventListener("click", () => {
         setPopup(false);
@@ -38,13 +51,26 @@ const PokemonsList = (props) => {
                 <div className="head">
                     <div className="user">
                         <Link to="/user" className="profile-pic bg-white">
-                            <img loading="lazy" src={image} alt="" />
+                            <img
+                                loading="lazy"
+                                role="presentation"
+                                decoding="async"
+                                src={image}
+                                alt="Avatar user"
+                            />
                         </Link>
                         <Link to="/user" className="info">
-                            <h3>{name}</h3>
+                            <div className="d-flex align-items-center">
+                                <h3>{name}</h3>
+                                <span className="mx-2">●</span>
+                                <div className="fs-5">
+                                    {time.toLocaleTimeString([], options)}
+                                </div>
+                            </div>
                             <span>@{name}</span>
                         </Link>
                     </div>
+
                     <span className="post-settings">
                         <UilEllipsisH
                             className="dots"
@@ -103,7 +129,13 @@ const PokemonsList = (props) => {
                     </span>
                 </div>
                 <div className="photo">
-                    <img loading="lazy" src={image} alt="image" />
+                    <img
+                        loading="lazy"
+                        role="presentation"
+                        decoding="async"
+                        src={image}
+                        alt="Photo of post"
+                    />
                 </div>
                 <div className="action-buttons">
                     <div className="interaction-buttons d-flex gap-4">
@@ -127,22 +159,28 @@ const PokemonsList = (props) => {
                     <span>
                         <img
                             loading="lazy"
+                            role="presentation"
+                            decoding="async"
                             src="https:images.unsplash.com/photo-1656576413714-b3e5a3d2aab3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxNTV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-                            alt=""
+                            alt="Avatar user"
                         />
                     </span>
                     <span>
                         <img
                             loading="lazy"
+                            role="presentation"
+                            decoding="async"
                             src="https://images.unsplash.com/photo-1656437660370-4e8886a0e8ea?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                            alt=""
+                            alt="Avatar user"
                         />
                     </span>
                     <span>
                         <img
                             loading="lazy"
+                            role="presentation"
+                            decoding="async"
                             src="https://images.unsplash.com/photo-1656354798706-bc0c3b99f291?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyNzd8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-                            alt=""
+                            alt="Avatar user"
                         />
                     </span>
                     <p>

@@ -40,7 +40,13 @@ function Message() {
                 ).map((item) => (
                     <div className="message-item message-sidebar" key={item.id}>
                         <div className="profile-pic active">
-                            <img loading="lazy" src={item.avatar} alt="" />
+                            <img
+                                loading="lazy"
+                                role="presentation"
+                                decoding="async"
+                                src={item.avatar}
+                                alt="Avatar user"
+                            />
                         </div>
                         <div className="message-body">
                             <h5>{item.name}</h5>

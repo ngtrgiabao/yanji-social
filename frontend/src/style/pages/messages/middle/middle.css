@@ -124,7 +124,7 @@
 
 .middle-msg-page .middle-container .icon::before {
     content: attr(aria-label);
-    font-size: 1rem;
+    font-size: 0.8em;
 
     display: none;
 }
@@ -170,4 +170,12 @@
     .user-input-chat
     input {
     width: 100%;
+}
+
+.middle-msg-page
+    .middle-container
+    .middle-container-footer
+    .user-input-chat
+    input:focus {
+    outline: 2px solid var(--color-primary);
 }

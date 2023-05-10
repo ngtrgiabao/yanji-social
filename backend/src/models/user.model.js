@@ -25,6 +25,34 @@ const User = new Schema(
             type: String,
             required: true,
         },
+        profilePicture: {
+            type: String,
+            default: "",
+        },
+        photos: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Photo",
+            },
+        ],
+        friends: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
+        followers: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
+        following: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
     },
     { timestamps: true }
 );

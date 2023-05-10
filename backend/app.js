@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const ApiError = require("./api.error");
-const router = require("./src/routes/router");
+const router = require("./src/routes");
 
 const corsOptions = {
     origin: "http://localhost:3000",
@@ -19,7 +19,8 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("/api/v1", router);
+app.use("/api/v1", router.userRoute);
+app.use("/api/v1/user", router.messageRoute);
 
 //Handle 404 response
 app.use((req, res, next) => {

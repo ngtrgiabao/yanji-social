@@ -34,8 +34,10 @@ function AvatarFriends() {
                     >
                         <img
                             loading="lazy"
+                            role="presentation"
+                            decoding="async"
                             src={item.avatar}
-                            alt="avatar"
+                            alt="Avatar user"
                             className="rounded-circle"
                         />
                     </div>

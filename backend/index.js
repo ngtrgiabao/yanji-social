@@ -10,7 +10,7 @@ const startServer = async () => {
         const PORT = config.app.port;
 
         app.listen(PORT, () => {
-            console.log(`server run success at localhost://${PORT}`);
+            console.log(`Server run success at localhost://${PORT} :D`);
         });
     } catch (error) {
         console.log("Cannot connect to db :<");

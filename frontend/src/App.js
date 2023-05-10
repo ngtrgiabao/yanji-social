@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import LoadingPage from "./pages/loading/LoadingPage";
 import NetworkError from "./pages/networkError/NetworkError";
+
 const Homepage = lazy(() => import("./pages/home/Home"));
 const MessagesPage = lazy(() => import("./pages/messages/Messages"));
 const ExplorePage = lazy(() => import("./pages/explore/Explore"));

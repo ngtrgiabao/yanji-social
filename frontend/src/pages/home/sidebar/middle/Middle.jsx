@@ -5,7 +5,7 @@ import axios from "axios";
 
 import Form from "react-bootstrap/Form";
 
-import API from "../../../../api";
+import API from "../../../../api/api";
 
 import ProfilePic from "../../../../assets/avatar/profile-pic.png";
 
@@ -48,7 +48,7 @@ const Middle = () => {
 
     useEffect(() => {
         const getPokemon = async () => {
-            const res = await axios.get(API.POKEMON_URL);
+            const res = await axios.get(API.POKEMON_URL.url);
             setNextUrl(res.data.next);
             res.data.results.forEach(async (pokemon) => {
                 const poke = await axios.get(
@@ -126,8 +126,10 @@ const Middle = () => {
                         >
                             <img
                                 loading="lazy"
+                                role="presentation"
+                                decoding="async"
                                 src={user ? ProfilePic : avatar || ProfilePic}
-                                alt=""
+                                alt="Avatar user"
                             />
                         </Link>
 
@@ -172,7 +174,11 @@ const Middle = () => {
                         </div>
 
                         <div className="submit d-flex align-items-center">
-                            <button type="submit" className="btn btn-primary">
+                            <button
+                                role="button"
+                                type="submit"
+                                className="btn btn-primary"
+                            >
                                 Post
                             </button>
                         </div>
@@ -184,6 +190,7 @@ const Middle = () => {
 
                 <div className="w-100 my-5 d-flex justify-content-center">
                     <button
+                        role="button"
                         className="p-3 rounded btn-loadmore"
                         onClick={loadMore}
                     >

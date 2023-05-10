@@ -1,19 +1,17 @@
 const express = require("express");
 const router = express.Router();
 
-const UserModel = require("../models/userModel.model");
+const UserModel = require("../models/user.model");
 
 router.get("/", (req, res) => {
     res.send({
-        msg: "hello from server",
+        msg: "Hello from user :D",
     });
 });
 
 // REGISTER
 router.post("/register", (req, res) => {
-    const username = req.body.username;
-    const psw = req.body.password;
-    const email = req.body.email;
+    const { username, psw, email } = req.body;
 
     UserModel.findOne({
         username: username,
@@ -85,46 +83,6 @@ router.get("/user/:id", async (req, res, next) => {
         return res.status(200).send(userId);
     } catch (err) {
         return next(`Error retrieving user id with id=${(req.params.id, err)}`);
-    }
-});
-
-const PAGE_SIZE = 2;
-
-//PAGINATION
-router.get("/users", (req, res, next) => {
-    let page = req.query.page; // "4"
-
-    if (page) {
-        if (page < 1) {
-            page = 1;
-        }
-
-        //Get page
-        const pageNums = parseInt(page);
-        const skip = (pageNums - 1) * PAGE_SIZE; //bo qua 6
-
-        UserModel.find({})
-            .skip(skip)
-            .limit(PAGE_SIZE)
-            .then((data) => {
-                res.status(200).json(data);
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    msg: err,
-                });
-            });
-    } else {
-        // GET ALL
-        UserModel.find({})
-            .then((data) => {
-                res.status(200).json(data);
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    msg: err,
-                });
-            });
     }
 });
 
