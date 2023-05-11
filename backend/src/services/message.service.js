@@ -10,6 +10,9 @@ class MessageService {
             text: payload.text,
             media: payload.media,
             file: payload.file,
+            sender: payload.sender,
+            receiver: payload.receiver,
+            isRead: payload.isRead,
         };
 
         return message;
