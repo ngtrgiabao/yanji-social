@@ -1,26 +1,20 @@
 const { ObjectId } = require("mongodb");
 
-class UserService {
+class RoomService {
     constructor(client) {
         this.account = client.db().collection("account");
     }
 
     extractConactData(payload) {
-        const user = {
-            username: payload.username,
-            password: payload.password,
-            email: payload.email,
-            bio: payload.bio,
-            firstName: payload.firstName,
-            lastName: payload.lastName,
-            profilePicture: payload.profilePicture,
-            photos: payload.photos,
-            friends: payload.friends,
-            followers: payload.followers,
-            following: payload.following,
+        const room = {
+            name: payload.text,
+            participants: payload.participants,
+            messages: payload.messages,
+            settings: payload.settings,
+            isAdmin: payload.isAdmin,
         };
 
-        return user;
+        return room;
     }
 
     async create(payload) {
@@ -38,25 +32,9 @@ class UserService {
         return await cursor.toArray();
     }
 
-    async findByName(name) {
-        return await this.find({
-            name: {
-                $regex: new RegExp(name),
-                $options: "i",
-            },
-        });
-    }
-
     async findById(id) {
-        const REGEX_ID = /^[0-9a-fA-F]{24}$/;
-
-        if (typeof id !== "string" || id.length > 24 || !REGEX_ID.test(id)) {
-            // Invalid ID format
-            return null;
-        }
-
         return await this.account.findOne({
-            _id: ObjectId.isValid(id) ? id : null,
+            _id: ObjectId.isValie(id) ? new ObjectId(id) : null,
         });
     }
 
@@ -77,11 +55,11 @@ class UserService {
     }
 
     async delete(id) {
-        const result = await this.account.findOneAndDelete({
+        const result = await this.account.deleteOne({
             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
         });
 
-        return result.value;
+        return result.deletedCount;
     }
 
     async deleteAll() {
@@ -89,9 +67,9 @@ class UserService {
             const result = await this.account.deleteMany({});
             return result.deletedCount;
         } catch (error) {
-            console.log("Failed to delete all messages");
+            console.log("Failed to delete all rooms");
         }
     }
 }
 
-module.exports = UserService;
+module.exports = RoomService;

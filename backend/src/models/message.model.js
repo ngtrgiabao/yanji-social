@@ -14,14 +14,29 @@ const Message = new Schema(
     {
         text: {
             type: [String],
+            require: true,
         },
         media: String,
         file: String,
+        sender: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "user",
+            required: true,
+        },
+        receiver: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "user",
+            required: true,
+        },
+        isRead: {
+            type: Boolean,
+            default: false,
+        },
         userIDs: Array,
     },
     { timestamps: true }
 );
 
-const messageModel = mongoose.model("messages", Message);
+const messageModel = mongoose.model("message", Message);
 
 module.exports = messageModel;

@@ -27,7 +27,16 @@ const User = new Schema(
         },
         profilePicture: {
             type: String,
-            default: "",
+            default: null,
+        },
+        bio: {
+            type: String,
+        },
+        firstName: {
+            type: String,
+        },
+        lastName: {
+            type: String,
         },
         photos: [
             {
