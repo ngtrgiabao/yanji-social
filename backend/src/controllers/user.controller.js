@@ -3,7 +3,7 @@ const MongoDB = require("../utils/mongodb.utils");
 const UserService = require("../services/user.service");
 
 // REGISTER
-exports.register = (req, res, next) => {
+const register = (req, res, next) => {
     const { username, password, email } = req.body;
 
     UserModel.create({
@@ -24,7 +24,7 @@ exports.register = (req, res, next) => {
 };
 
 // LOGIN
-exports.login = (req, res, next) => {
+const login = (req, res, next) => {
     const { username, password } = req.body;
 
     UserModel.findOne({ username: username, password: password })
@@ -37,11 +37,17 @@ exports.login = (req, res, next) => {
         });
 };
 
-// GET 1 USER
-exports.getUserById = async (req, res, next) => {
+// GET USER BY ID
+const getUserById = async (req, res, next) => {
     const userId = await UserModel.findById(req.params.userID);
 
     return res.status(200).json({
         msg: userId,
     });
+};
+
+module.exports = {
+    register,
+    login,
+    getUserById,
 };

@@ -4,21 +4,40 @@ const Room = require("../models/room.model");
 const validateRoomID = async (req, res, next) => {
     try {
         const roomID = req.params.roomID;
-
-        const room = Room.findById(ObjectId(roomID));
+        const room = await Room.findById(ObjectId(roomID));
 
         if (!room) {
-            console.error("Invalid Room ID");
+            console.error("Room not found!");
             return res.status(404).json({
-                msg: "Invalid Room ID",
+                msg: "Room not foun!d",
             });
         }
 
         next();
     } catch (error) {
-        console.error("Failed to get validate room ID", error);
+        console.error("Failed to validate room ID", error);
         return res.status(500).json({
-            msg: "Failed to get validate room ID",
+            msg: "Failed to validate room ID",
+        });
+    }
+};
+
+const validateNameOfRoom = async (req, res, next) => {
+    try {
+        const { name } = req.body;
+
+        if (!name) {
+            console.error("Name of room can't be empty");
+            return res.status(401).json({
+                msg: "Name of room can't be empty",
+            });
+        }
+
+        next();
+    } catch (error) {
+        console.error("Failed to validate name of room", error);
+        return res.status(500).json({
+            msg: "Failed to validate name of room",
         });
     }
 };
@@ -26,7 +45,7 @@ const validateRoomID = async (req, res, next) => {
 const validateParticipantID = async (req, res, next) => {
     try {
         const participantID = req.params.userID;
-        const participant = Room.findById({
+        const participant = await Room.findById({
             participants: participantID,
         });
 
@@ -49,7 +68,7 @@ const validateParticipantID = async (req, res, next) => {
 const validateJoinedRoom = async (req, res, next) => {
     try {
         const participantID = req.params.userID;
-        const rooms = Room.findById({
+        const rooms = await Room.findById({
             participants: participantID,
         });
 
@@ -69,30 +88,38 @@ const validateJoinedRoom = async (req, res, next) => {
     }
 };
 
-const isParticipant = async (req, res, next) => {
-    const roomID = req.params.roomID;
+const validateIsParticipant = async (req, res, next) => {
     const userID = req.params.userID;
-    const room = await Room.findById(roomID);
+    try {
+        const roomID = req.params.roomID;
+        const room = await Room.findById(roomID);
 
-    if (!room) {
-        console.error(`Room ${roomID} not found!`);
-        return res.status(404).json({ message: "Room not found" });
+        if (!room) {
+            console.error(`Room ${roomID} not found!`);
+            return res.status(404).json({ message: "Room not found" });
+        }
+
+        // Check if the user is already a participant in the room
+        if (room.participants.includes(userID)) {
+            console.error(`User is already a participant in the room`);
+            return res
+                .status(409)
+                .json({ message: "User is already a participant in the room" });
+        }
+
+        next();
+    } catch (error) {
+        console.error(`Failed to validate user ${userID}`);
+        return res.status(500).json({
+            msg: "Failed to validate is participant",
+        });
     }
-
-    // Check if the user is already a participant in the room
-    if (room.participants.includes(userID)) {
-        console.error(`User is already a participant in the room`);
-        return res
-            .status(409)
-            .json({ message: "User is already a participant in the room" });
-    }
-
-    next();
 };
 
 module.exports = {
     validateRoomID,
     validateParticipantID,
     validateJoinedRoom,
-    isParticipant,
+    validateNameOfRoom,
+    validateIsParticipant,
 };

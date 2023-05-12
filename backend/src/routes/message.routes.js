@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const messageController = require("../controllers/message.controller");
-const messageMiddleware = require("../middleware/message.middleware");
+const MessageController = require("../controllers/message.controller");
+const MessageMiddleware = require("../middleware/message.middleware");
 const UserMiddleware = require("../middleware/user.middleware");
 
 router.get("/", (req, res) => {
@@ -11,27 +11,27 @@ router.get("/", (req, res) => {
     });
 });
 router.get(
-    "/:userID/messages",
-    UserMiddleware.getUserById,
-    messageController.getAllMessages
+    "/all-messages/user/:userID",
+    UserMiddleware.validateUserById,
+    MessageController.getAllMessages
 );
 
 router.post(
-    "/:userID/send-message",
-    messageMiddleware.validateSenderAndReceiver,
-    UserMiddleware.getUserById,
-    messageController.sendMessage
+    "/send-message/:userID",
+    MessageMiddleware.validateSenderAndReceiver,
+    UserMiddleware.validateUserById,
+    MessageController.sendMessage
 );
 
 router.delete(
-    "/:msgID/delete-message",
-    messageMiddleware.validateMsgID,
-    messageController.deleteMessage
+    "/delete-message/:msgID",
+    MessageMiddleware.validateMsgID,
+    MessageController.deleteMessage
 );
 router.delete(
-    "/:userID/messages",
-    UserMiddleware.getUserById,
-    messageController.deleteAllMessages
+    "/delete-all/user/:userID",
+    UserMiddleware.validateUserById,
+    MessageController.deleteAllMessages
 );
 
 module.exports = router;

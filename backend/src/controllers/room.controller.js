@@ -1,6 +1,6 @@
 const RoomModel = require("../models/room.model");
 
-exports.createRoom = async (req, res, next) => {
+const createRoom = async (req, res, next) => {
     try {
         const { name } = req.body;
         const userID = req.params.userID;
@@ -37,7 +37,7 @@ exports.createRoom = async (req, res, next) => {
     }
 };
 
-exports.getRoomByID = async (req, res, next) => {
+const getRoomByID = async (req, res, next) => {
     const roomID = await RoomModel.findById(req.params.roomID);
 
     return res.status(200).json({
@@ -45,7 +45,7 @@ exports.getRoomByID = async (req, res, next) => {
     });
 };
 
-exports.getRoomsByParticipant = async (req, res, next) => {
+const getRoomsByParticipant = async (req, res, next) => {
     const participantID = req.params.userID;
     const rooms = await RoomModel.find({
         participants: participantID,
@@ -60,7 +60,7 @@ exports.getRoomsByParticipant = async (req, res, next) => {
     });
 };
 
-exports.joinRoom = async (req, res, next) => {
+const joinRoom = async (req, res, next) => {
     const roomID = req.params.roomID;
     const userID = req.params.userID;
 
@@ -81,7 +81,7 @@ exports.joinRoom = async (req, res, next) => {
     }
 };
 
-exports.updateRoom = async (req, res, next) => {
+const updateRoom = async (req, res, next) => {
     try {
         const roomID = req.params.roomID;
         const { name, participants, settings } = req.body;
@@ -115,10 +115,10 @@ exports.updateRoom = async (req, res, next) => {
     }
 };
 
-exports.deleteRoom = async (req, res, next) => {
+const deleteRoom = async (req, res, next) => {
     try {
         const roomID = req.params.roomID;
-        await RoomModel.deleteOne({ _id: roomID });
+        await RoomModel.findByIdAndDelete(roomID);
 
         return res.status(200).json({
             msg: `Deleted chat room ${roomID} success`,
@@ -131,7 +131,7 @@ exports.deleteRoom = async (req, res, next) => {
     }
 };
 
-exports.deleteAllRooms = async (req, res, next) => {
+const deleteAllRooms = async (req, res, next) => {
     const userID = req.params.userID;
 
     try {
@@ -152,7 +152,7 @@ exports.deleteAllRooms = async (req, res, next) => {
     }
 };
 
-exports.addParticipant = async (req, res, next) => {
+const addParticipant = async (req, res, next) => {
     const roomID = req.params.roomID;
     const userID = req.params.userID;
 
@@ -172,7 +172,7 @@ exports.addParticipant = async (req, res, next) => {
     }
 };
 
-exports.removeParticipant = async (req, res, next) => {
+const removeParticipant = async (req, res, next) => {
     const roomID = req.params.roomID;
     const participantID = req.params.userID;
     const room = await RoomModel.findById(roomID);
@@ -200,4 +200,16 @@ exports.removeParticipant = async (req, res, next) => {
             msg: "Failed to remove participant",
         });
     }
+};
+
+module.exports = {
+    createRoom,
+    getRoomByID,
+    getRoomsByParticipant,
+    joinRoom,
+    updateRoom,
+    deleteRoom,
+    deleteAllRooms,
+    addParticipant,
+    removeParticipant,
 };
