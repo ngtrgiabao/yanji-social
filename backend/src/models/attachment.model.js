@@ -4,8 +4,17 @@ const attachmentSchema = new mongoose.Schema(
     {
         messageId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "messages",
+            ref: "message",
             required: true,
+        },
+        chatRoomId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "chat-room",
+        },
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "user",
+            require: true,
         },
         fileName: {
             type: String,
@@ -27,6 +36,6 @@ const attachmentSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const Attachment = mongoose.model("attachments", attachmentSchema);
+const Attachment = mongoose.model("attachment", attachmentSchema);
 
 module.exports = Attachment;

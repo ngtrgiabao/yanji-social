@@ -9,9 +9,10 @@ router.get("/", (req, res) => {
     res.send({ msg: "Hello from room :D" });
 });
 router.get(
-    "/list-rooms/:userID",
+    "/all-rooms/user/:userID",
     RoomMiddleware.validateJoinedRoom,
     RoomMiddleware.validateParticipantID,
+    UserMiddleware.validateUserById,
     RoomController.getRoomsByParticipant
 );
 router.get(
@@ -20,28 +21,36 @@ router.get(
     RoomController.getRoomByID
 );
 
-router.post("/create-room/:userID", RoomController.createRoom);
 router.post(
-    "/join-room/:roomID/:userID",
-    RoomMiddleware.validateRoomID,
-    RoomMiddleware.isParticipant,
-    RoomController.joinRoom
+    "/create-room/user/:userID",
+    RoomMiddleware.validateNameOfRoom,
+    RoomController.createRoom
 );
 router.post(
-    "/add-participant/:roomID/:userID",
+    "/join-room/:roomID/user/:userID",
+    RoomMiddleware.validateRoomID,
+    RoomMiddleware.validateIsParticipant,
+    UserMiddleware.validateUserById,
+    RoomController.joinRoom
+);
+
+router.put(
+    "/add-participant/:roomID/user/:userID",
     RoomMiddleware.validateRoomID,
     RoomMiddleware.validateJoinedRoom,
-    RoomMiddleware.isParticipant,
+    RoomMiddleware.validateIsParticipant,
+    UserMiddleware.validateUserById,
     RoomController.addParticipant
 );
 
 router.delete(
-    "/participant/:userID/:roomID",
+    "/:roomID/remove-user/:userID",
     RoomMiddleware.validateRoomID,
     RoomMiddleware.validateJoinedRoom,
     RoomMiddleware.validateParticipantID,
+    UserMiddleware.validateUserById,
     RoomController.removeParticipant
 );
-router.delete("/delete-all-rooms/:userID", RoomController.deleteAllRooms);
+router.delete("/delete-all/user/:userID", RoomController.deleteAllRooms);
 
 module.exports = router;

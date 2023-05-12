@@ -39,7 +39,7 @@ const validateSenderAndReceiver = async (req, res, next) => {
 const validateMsgID = async (req, res, next) => {
     try {
         const msgID = req.params.msgID;
-        const result = await Message.findById(msgID);
+        const result = await Message.findById(ObjectId(msgID));
 
         if (!result) {
             console.error("Message not found!");

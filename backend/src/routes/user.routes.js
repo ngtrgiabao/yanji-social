@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
 });
 router.get(
     "/:userID",
-    UserMiddleware.getUserById,
+    UserMiddleware.validateUserById,
     UserController.getUserById
 );
 

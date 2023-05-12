@@ -9,6 +9,12 @@ const ApiError = require("./api.error");
 const userRoute = require("./src/routes/user.routes");
 const msgRoute = require("./src/routes/message.routes");
 const roomRoute = require("./src/routes/room.routes");
+const attachmentRoute = require("./src/routes/attachment.routes");
+const notificationRoute = require("./src/routes/notification.routes");
+const friendRequestRoute = require("./src/routes/friend.request.routes");
+const contactRoute = require("./src/routes/contact.routes");
+const blockListRoute = require("./src/routes/block.list.routes");
+const onlineRoute = require("./src/routes/online.routes");
 
 const corsOptions = {
     origin: "http://localhost:3000",
@@ -26,6 +32,12 @@ app.use(bodyParser.json());
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/message", msgRoute);
 app.use("/api/v1/room", roomRoute);
+app.use("/api/v1/attachment", attachmentRoute);
+app.use("/api/v1/notification", notificationRoute);
+app.use("/api/v1/friend-request", friendRequestRoute);
+app.use("/api/v1/contact", contactRoute);
+app.use("/api/v1/block-list", blockListRoute);
+app.use("/api/v1/online", onlineRoute);
 
 //Handle 404 response
 app.use((req, res, next) => {

@@ -1,7 +1,7 @@
 const MessageModel = require("../models/message.model");
 const UserModel = require("../models/user.model");
 
-exports.sendMessage = async (req, res) => {
+const sendMessage = async (req, res) => {
     const { text, media, file, sender, receiver } = req.body;
 
     const userID = await UserModel.findById(req.params.userID);
@@ -34,7 +34,7 @@ exports.sendMessage = async (req, res) => {
     });
 };
 
-exports.deleteMessage = async (req, res) => {
+const deleteMessage = async (req, res) => {
     const msgID = req.params.msgID;
 
     await MessageModel.findByIdAndDelete(msgID);
@@ -44,10 +44,13 @@ exports.deleteMessage = async (req, res) => {
     });
 };
 
-exports.getAllMessages = async (req, res, next) => {
+const getAllMessages = async (req, res, next) => {
     try {
-        const users = await MessageModel.find({});
-        return res.status(200).json(users);
+        const messages = await MessageModel.find({});
+        return res.status(200).json({
+            msg: "Get all messages successfully",
+            messages,
+        });
     } catch (error) {
         const userID = UserModel.findById(req.params.userID);
 
@@ -58,7 +61,7 @@ exports.getAllMessages = async (req, res, next) => {
     }
 };
 
-exports.deleteAllMessages = async (req, res, next) => {
+const deleteAllMessages = async (req, res, next) => {
     try {
         const userID = req.params.userID;
         const result = await MessageModel.deleteMany({});
@@ -78,4 +81,11 @@ exports.deleteAllMessages = async (req, res, next) => {
             msg: `An error occurred while deleting all messages of user: ${userID}`,
         });
     }
+};
+
+module.exports = {
+    sendMessage,
+    deleteMessage,
+    getAllMessages,
+    deleteAllMessages,
 };
