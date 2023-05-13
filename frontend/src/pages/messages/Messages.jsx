@@ -9,14 +9,14 @@ import Left from "./sidebar/left/Left";
 import Middle from "./sidebar/middle/Middle";
 import Right from "./sidebar/right/Right";
 
-import API from "../../api/api";
+import { USER_URL } from "../../constants/api.data.constant";
 
 function Messages() {
     const [avatarUser, setAvatarUser] = useState([]);
 
     useEffect(() => {
         const getDataUser = async () => {
-            const userAvatar = await axios.get(API.USER_URL.url);
+            const userAvatar = await axios.get(USER_URL);
 
             userAvatar.data.results.forEach((user) => {
                 setAvatarUser((pic) => [

@@ -6,7 +6,7 @@ import "../../../../style/pages/personal/body/gallery/gallery.css";
 
 import GalleryCollection from "./gallery-collection/GalleryCollection";
 
-import API from "../../../../api/api";
+import { CATS_URL } from "../../../../constants/api.data.constant";
 
 function Gallery() {
     // GET RANDOWM GALLERIES
@@ -14,7 +14,7 @@ function Gallery() {
 
     useEffect(() => {
         const getGallery = async () => {
-            const photo = await axios.get(API.CATS_URL.url);
+            const photo = await axios.get(CATS_URL);
 
             photo.data.forEach((catPhoto) => {
                 setRandomPhoto((cat) => [...cat, catPhoto.url]);

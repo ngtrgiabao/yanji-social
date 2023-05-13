@@ -1,4 +1,4 @@
-@import url("../../../../style/varible/varible.css");
+@import url("../../../../style/constants/constant.css");
 
 .form-background {
     display: flex;
@@ -179,6 +179,7 @@
 #register-form .register-form__container .register-form__footer,
 #login-form .login-form__container .register-form__footer {
     display: flex;
+    align-items: center;
 }
 
 #register-form .register-form__container .register-form__footer p,

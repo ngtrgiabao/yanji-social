@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Navigation from "../../../layout/navigation/Navigation";
 import { loginUser } from "../../../redux/request/apiRequest";
 
+import "../../../style/pages/form/register/registerPage.css";
+
 function LoginPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");

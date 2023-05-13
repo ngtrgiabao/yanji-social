@@ -1,4 +1,4 @@
-import axios from "../../api/axios";
+import userService from "../../services/user.service";
 import {
     loginStart,
     loginSuccess,
@@ -14,7 +14,7 @@ import {
 export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart());
     try {
-        const res = await axios.post("/api/v1/login", user);
+        const res = await userService.loginUser(user);
         dispatch(loginSuccess(res.data));
         navigate("/");
     } catch (error) {
@@ -25,7 +25,7 @@ export const loginUser = async (user, dispatch, navigate) => {
 export const registerUser = async (user, dispatch, navigate) => {
     dispatch(registerStart());
     try {
-        const res = await axios.post("/api/v1/register", user);
+        const res = await userService.createUser(user);
         dispatch(registerSuccess(res.data));
     } catch (err) {
         dispatch(registerFailed());

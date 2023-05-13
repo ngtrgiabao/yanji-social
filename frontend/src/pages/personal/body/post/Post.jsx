@@ -6,7 +6,7 @@ import "../../../../style/pages/personal/body/post/post.css";
 
 import ProfilePic from "../../../../assets/avatar/profile-pic.png";
 
-import API from "../../../../api/api";
+import { RANDOM_IMG_URL } from "../../../../constants/api.data.constant";
 
 const Post = () => {
     const [avatar, setAvatar] = useState("");
@@ -34,7 +34,7 @@ const Post = () => {
 
     useEffect(() => {
         axios
-            .get(API.RANDOM_IMG_URL.url)
+            .get(RANDOM_IMG_URL)
             .then((res) => {
                 setRandomPhoto(res.data);
             })
