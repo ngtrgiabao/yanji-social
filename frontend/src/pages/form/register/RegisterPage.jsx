@@ -8,14 +8,15 @@ import "../../../style/pages/form/register/registerPage.css";
 import Navigation from "../../../layout/navigation/Navigation";
 import { registerUser } from "../../../redux/request/apiRequest";
 
+import {
+    USER_REGEX,
+    PSW_REGEX,
+    EMAIL_REGEX,
+} from "../../../constants/regex.constant";
+
 const RegisterPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
-    const PSW_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,}$/;
-    const EMAIL_REGEX =
-        /^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$/;
 
     const userRef = useRef();
     const errRef = useRef();
@@ -434,7 +435,9 @@ const RegisterPage = () => {
                                     </button>
 
                                     <div className="register-form__footer">
-                                        <p>Already have account?</p>
+                                        <span className="me-3">
+                                            Already have account?
+                                        </span>
                                         <Link to="/login">Login now</Link>
                                     </div>
                                 </div>

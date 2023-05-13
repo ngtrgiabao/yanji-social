@@ -1,4 +1,4 @@
-@import "../../../../varible/varible.css";
+@import "../../../../constants/constant.css";
 
 .link:hover {
     text-decoration: underline;

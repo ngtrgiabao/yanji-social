@@ -1,27 +1,33 @@
+import api from "./api.service";
+
 class UserService {
     async getAll() {
-        return await this.api.get("/").data;
+        return await api.get("/").data;
     }
 
-    async create(data) {
-        return await this.api.post("/", data).data;
+    async loginUser(data) {
+        return await api.post("/api/v1/user/login", data);
     }
 
-    async deleteAll() {
-        return await this.api.delete("/").data;
+    async createUser(data) {
+        return await api.post("/api/v1/user/register", data).data;
     }
 
-    async get(id) {
-        return await this.api.get(`/${id}`).data;
-    }
+    // async deleteAll() {
+    //     return await api.delete("/").data;
+    // }
 
-    async update(id, data) {
-        return await this.api.put(`/${id}`, data).data;
-    }
+    // async get(id) {
+    //     return await api.get(`/${id}`).data;
+    // }
 
-    async delete(id) {
-        return await this.api.get(`${id}`).data;
-    }
+    // async update(id, data) {
+    //     return await api.put(`/${id}`, data).data;
+    // }
+
+    // async delete(id) {
+    //     return await api.get(`${id}`).data;
+    // }
 }
 
 export default new UserService();

@@ -1,5 +1,7 @@
 import axios from "axios";
+import { BASE_URL } from "../constants/backend.url.constant";
 
+//WORK TO BACKEND
 const commonConfig = {
     headers: {
         "Content-Type": "application/json",
@@ -7,9 +9,9 @@ const commonConfig = {
     },
 };
 
-export default (baseURL) => {
-    return axios.create({
-        baseURL,
-        ...commonConfig,
-    });
-};
+const api = axios.create({
+    baseURL: BASE_URL,
+    ...commonConfig,
+});
+
+export default api;

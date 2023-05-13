@@ -1,4 +1,4 @@
-@import "../../../../varible/varible.css";
+@import "../../../../constants/constant.css";
 
 .messages-sidebar {
     background-color: var(--color-white);

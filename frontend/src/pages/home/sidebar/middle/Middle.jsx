@@ -5,7 +5,7 @@ import axios from "axios";
 
 import Form from "react-bootstrap/Form";
 
-import API from "../../../../api/api";
+import { POKEMON_URL } from "../../../../constants/api.data.constant";
 
 import ProfilePic from "../../../../assets/avatar/profile-pic.png";
 
@@ -48,7 +48,7 @@ const Middle = () => {
 
     useEffect(() => {
         const getPokemon = async () => {
-            const res = await axios.get(API.POKEMON_URL.url);
+            const res = await axios.get(POKEMON_URL);
             setNextUrl(res.data.next);
             res.data.results.forEach(async (pokemon) => {
                 const poke = await axios.get(

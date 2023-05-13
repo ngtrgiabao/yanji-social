@@ -6,15 +6,15 @@ const app = express();
 
 const ApiError = require("./api.error");
 
-const userRoute = require("./src/routes/user.routes");
-const msgRoute = require("./src/routes/message.routes");
-const roomRoute = require("./src/routes/room.routes");
-const attachmentRoute = require("./src/routes/attachment.routes");
-const notificationRoute = require("./src/routes/notification.routes");
-const friendRequestRoute = require("./src/routes/friend.request.routes");
-const contactRoute = require("./src/routes/contact.routes");
-const blockListRoute = require("./src/routes/block.list.routes");
-const onlineRoute = require("./src/routes/online.routes");
+const userRoute = require("./src/app/routes/user.routes");
+const msgRoute = require("./src/app/routes/message.routes");
+const roomRoute = require("./src/app/routes/room.routes");
+const attachmentRoute = require("./src/app/routes/attachment.routes");
+const notificationRoute = require("./src/app/routes/notification.routes");
+const friendRequestRoute = require("./src/app/routes/friend.request.routes");
+const contactRoute = require("./src/app/routes/contact.routes");
+const blockListRoute = require("./src/app/routes/block.list.routes");
+const onlineRoute = require("./src/app/routes/online.routes");
 
 const corsOptions = {
     origin: "http://localhost:3000",
