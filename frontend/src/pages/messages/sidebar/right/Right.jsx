@@ -1,6 +1,22 @@
 import React, { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faUser,
+    faBellSlash,
+    faBell,
+} from "@fortawesome/free-regular-svg-icons";
+import {
+    faMagnifyingGlass,
+    faCaretDown,
+    faFont,
+    faPhotoFilm,
+    faFile,
+    faLink,
+    faCommentSlash,
+    faUserXmark,
+    faTriangleExclamation,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "../../../../style/pages/messages/right/right.css";
 
@@ -40,7 +56,7 @@ const Right = () => {
                                 className="p-3 rounded-circle text-center mb-2 icon"
                                 style={{ width: "4rem", height: "4rem" }}
                             >
-                                <FontAwesomeIcon icon="fa-regular fa-user" />
+                                <FontAwesomeIcon icon={faUser} />
                             </span>
                             <span>Profile</span>
                         </div>
@@ -50,7 +66,7 @@ const Right = () => {
                                 className="p-3 rounded-circle text-center mb-2 icon"
                                 style={{ width: "4rem", height: "4rem" }}
                             >
-                                <FontAwesomeIcon icon="fa-regular fa-bell-slash" />
+                                <FontAwesomeIcon icon={faBellSlash} />
                             </span>
                             <span>Turn off notification</span>
                         </div>
@@ -60,7 +76,7 @@ const Right = () => {
                                 className="p-3 rounded-circle text-center mb-2 icon"
                                 style={{ width: "4rem", height: "4rem" }}
                             >
-                                <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" />
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </span>
                             <span>Search</span>
                         </div>
@@ -78,7 +94,7 @@ const Right = () => {
                                 <p className="mb-0">Setting this chat</p>
                                 <span>
                                     <FontAwesomeIcon
-                                        icon="fa-solid fa-caret-down"
+                                        icon={faCaretDown}
                                         style={{
                                             transform: `${
                                                 active === "SETTING-CHAT" &&
@@ -102,7 +118,9 @@ const Right = () => {
                                     <li className="drop-menu-item p-3">
                                         <div>
                                             <span className="icon">
-                                                <FontAwesomeIcon icon="fa-solid fa-font" />
+                                                <FontAwesomeIcon
+                                                    icon={faFont}
+                                                />
                                             </span>
                                             <span>Change nickname</span>
                                         </div>
@@ -110,7 +128,9 @@ const Right = () => {
                                     <li className="drop-menu-item p-3">
                                         <div>
                                             <span className="icon">
-                                                <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" />
+                                                <FontAwesomeIcon
+                                                    icon={faMagnifyingGlass}
+                                                />
                                             </span>
                                             <span>Search in chat</span>
                                         </div>
@@ -130,7 +150,7 @@ const Right = () => {
                                 <p className="mb-0">Videos, files and links</p>
                                 <span>
                                     <FontAwesomeIcon
-                                        icon="fa-solid fa-caret-down"
+                                        icon={faCaretDown}
                                         style={{
                                             transform: `${
                                                 active === "SETTING-FILE" &&
@@ -148,7 +168,9 @@ const Right = () => {
                                     <li className="drop-menu-item p-3">
                                         <div>
                                             <span className="icon">
-                                                <FontAwesomeIcon icon="fa-solid fa-photo-film" />
+                                                <FontAwesomeIcon
+                                                    icon={faPhotoFilm}
+                                                />
                                             </span>
                                             <span>Media</span>
                                         </div>
@@ -156,7 +178,9 @@ const Right = () => {
                                     <li className="drop-menu-item p-3">
                                         <div>
                                             <span className="icon">
-                                                <FontAwesomeIcon icon="fa-solid fa-file" />
+                                                <FontAwesomeIcon
+                                                    icon={faFile}
+                                                />
                                             </span>
                                             <span>File</span>
                                         </div>
@@ -164,7 +188,9 @@ const Right = () => {
                                     <li className="drop-menu-item p-3">
                                         <div>
                                             <span className="icon">
-                                                <FontAwesomeIcon icon="fa-solid fa-link" />
+                                                <FontAwesomeIcon
+                                                    icon={faLink}
+                                                />
                                             </span>
                                             <span>Links</span>
                                         </div>
@@ -184,7 +210,7 @@ const Right = () => {
                                 <p className="mb-0">Private and support</p>
                                 <span>
                                     <FontAwesomeIcon
-                                        icon="fa-solid fa-caret-down"
+                                        icon={faCaretDown}
                                         style={{
                                             transform: `${
                                                 active === "SETTING-PRIVATE" &&
@@ -202,7 +228,9 @@ const Right = () => {
                                     <li className="drop-menu-item p-3">
                                         <div>
                                             <span className="icon">
-                                                <FontAwesomeIcon icon="fa-regular fa-bell" />
+                                                <FontAwesomeIcon
+                                                    icon={faBell}
+                                                />
                                             </span>
                                             <span>Turn off notification</span>
                                         </div>
@@ -210,7 +238,9 @@ const Right = () => {
                                     <li className="drop-menu-item p-3">
                                         <div>
                                             <span className="icon">
-                                                <FontAwesomeIcon icon="fa-solid fa-comment-slash" />
+                                                <FontAwesomeIcon
+                                                    icon={faCommentSlash}
+                                                />
                                             </span>
                                             <span>Delete chat</span>
                                         </div>
@@ -218,7 +248,9 @@ const Right = () => {
                                     <li className="drop-menu-item p-3">
                                         <div>
                                             <span className="icon">
-                                                <FontAwesomeIcon icon="fa-solid fa-user-xmark" />
+                                                <FontAwesomeIcon
+                                                    icon={faUserXmark}
+                                                />
                                             </span>
                                             <span>Block user</span>
                                         </div>
@@ -226,7 +258,9 @@ const Right = () => {
                                     <li className="drop-menu-item p-3">
                                         <div>
                                             <span className="icon">
-                                                <FontAwesomeIcon icon="fa-solid fa-triangle-exclamation" />
+                                                <FontAwesomeIcon
+                                                    icon={faTriangleExclamation}
+                                                />
                                             </span>
                                             <span>Report</span>
                                         </div>

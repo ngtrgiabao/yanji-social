@@ -1,6 +1,7 @@
 const app = require("./app");
 const config = require("./src/app/config/index");
 const MongoDB = require("./src/app/utils/mongodb.utils");
+const socket = require("./socket");
 
 const startServer = async () => {
     try {
@@ -8,9 +9,14 @@ const startServer = async () => {
         console.log("Connected to db :D");
 
         const PORT = config.app.port;
+        const SOCKET_PORT = config.socket.port;
 
         app.listen(PORT, () => {
             console.log(`Server run success at localhost://${PORT} :D`);
+        });
+
+        socket.listen(SOCKET_PORT, () => {
+            console.log("Socket connected successfully");
         });
     } catch (error) {
         console.log("Cannot connect to db :<");

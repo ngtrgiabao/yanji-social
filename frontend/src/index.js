@@ -18,17 +18,15 @@ import { ThemeProvider } from "./context/theme/ThemeContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <ThemeProvider>
-                <PersistGate loading={null} persistor={persistor}>
-                    <Router>
-                        <App />
-                    </Router>
-                </PersistGate>
-            </ThemeProvider>
-        </Provider>
-    </React.StrictMode>
+    <Provider store={store}>
+        <ThemeProvider>
+            <PersistGate loading={null} persistor={persistor}>
+                <Router>
+                    <App />
+                </Router>
+            </PersistGate>
+        </ThemeProvider>
+    </Provider>
 );
 
 library.add(fab, fas, far);

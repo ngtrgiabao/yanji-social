@@ -17,11 +17,11 @@ const User = new Schema(
             required: true,
             unique: true,
         },
-        email: {
+        password: {
             type: String,
             required: true,
         },
-        password: {
+        email: {
             type: String,
             required: true,
         },
@@ -31,35 +31,43 @@ const User = new Schema(
         },
         bio: {
             type: String,
+            default: "",
         },
         firstName: {
             type: String,
+            default: "",
         },
         lastName: {
             type: String,
+            default: "",
         },
         photos: [
             {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Photo",
+                name: {
+                    type: String,
+                    default: null,
+                },
             },
         ],
         friends: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
+                ref: "user",
+                default: null,
             },
         ],
         followers: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
+                ref: "user",
+                default: null,
             },
         ],
         following: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
+                ref: "user",
+                default: null,
             },
         ],
     },

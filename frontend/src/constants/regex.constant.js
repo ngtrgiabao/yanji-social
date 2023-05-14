@@ -5,20 +5,20 @@ const PSW_STRENGTH_REGEX =
 const EMAIL_REGEX =
     /^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$/;
 const EMAIL_ADDRESS_REGEX = /^[\w\.-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
-// Validate URLs, including HTTP and HTTPS protocols.
-const URL_REGEX =
-    /(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,}/;
-// Extract hashtags from a text or post
-const HASHTAG_REGEX = /^#[a-zA-Z0-9_]+$/;
 const PHONENUMBER_REGEX =
     /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/;
-const DATE_FORMAT_REGEX = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+// Extract hashtags from a text or post
+const HASHTAG_REGEX = /^#[a-zA-Z0-9_]+$/;
 const MENTION_REGEX = /@[a-zA-Z0-9_]+/;
+
+// YYYY-MM-DD
+const DATE_FORMAT_REGEX = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+
+const DATE_CARD_REGEX = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/;
 const NUMERIC_REGEX = /^\d+$/;
-const YOUTUBE_URL_REGEX =
-    /\b(?:https?:\/\/)?(?:www\.)?youtu(?:be\.com\/(?:watch\?.*v=|embed\/|v\/|u\/\w\/|embed\/|v\/|u\/\w\/)|\.be\/)([\w\-]{10,})\b/;
 const VISA_REGEX = /^4[0-9]{12}(?:[0-9]{3})?$/;
 const MASTER_CARD_REGEX = /^4[0-9]{12}(?:[0-9]{3})?$/;
+
 const IPV4_REGEX =
     /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
 const IPV6_REGEX =
@@ -27,22 +27,66 @@ const IPV6_REGEX =
 const IPV4_AND_IPV5_REGEX =
     /((^\s*((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))\s*$)|(^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$))/;
 
+const DESKTOP_REGEX = /desktop/;
+const MOBILE_REGEX =
+    /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i;
+const TABLET_REGEX = /iPad|Android/i;
+
+const CHROME_REGEX = /Chrome\/([\d.]+)/;
+const FIREFOX_REGEX = /Firefox\/([\d.]+)/;
+const SAFARI_REGEX = /Version\/([\d.]+).*Safari/;
+
+const URL_REGEX =
+    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,}(\/[^\s]*)?$/i;
+const FACEBOOK_REGEX =
+    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)?facebook\.com(\/[^\s]*)?$/i;
+const TWITTER_REGEX =
+    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)?twitter\.com(\/[^\s]*)?$/i;
+const INSTAGRAM_REGEX =
+    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)?instagram\.com(\/[^\s]*)?$/i;
+const LINKDIN_REGEX =
+    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)?linkedin\.com(\/[^\s]*)?$/i;
+const YOUTUBE_REGEX =
+    /\b(?:https?:\/\/)?(?:www\.)?youtu(?:be\.com\/(?:watch\?.*v=|embed\/|v\/|u\/\w\/|embed\/|v\/|u\/\w\/)|\.be\/)([\w\-]{10,})\b/;
+const PINTEREST_REGEX =
+    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)?pinterest\.com(\/[^\s]*)?$/i;
+const SNAPCHAT_REGEX =
+    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)?snapchat\.com(\/[^\s]*)?$/i;
+const TIKTOK_REGEX =
+    /^(https?:\/\/)?([a-zA-Z0-9-]+\.)?tiktok\.com(\/[^\s]*)?$/i;
+const TWITCH_REGEX = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)?twitch\.tv(\/[^\s]*)?$/i;
+
 export {
     USER_REGEX,
     PSW_REGEX,
     PSW_STRENGTH_REGEX,
     EMAIL_REGEX,
     EMAIL_ADDRESS_REGEX,
-    URL_REGEX,
-    HASHTAG_REGEX,
     PHONENUMBER_REGEX,
-    DATE_FORMAT_REGEX,
+    HASHTAG_REGEX,
     MENTION_REGEX,
+    DATE_FORMAT_REGEX,
+    DATE_CARD_REGEX,
     NUMERIC_REGEX,
-    YOUTUBE_URL_REGEX,
     VISA_REGEX,
     MASTER_CARD_REGEX,
     IPV4_REGEX,
     IPV6_REGEX,
     IPV4_AND_IPV5_REGEX,
+    DESKTOP_REGEX,
+    MOBILE_REGEX,
+    TABLET_REGEX,
+    CHROME_REGEX,
+    FIREFOX_REGEX,
+    SAFARI_REGEX,
+    URL_REGEX,
+    FACEBOOK_REGEX,
+    TWITTER_REGEX,
+    INSTAGRAM_REGEX,
+    LINKDIN_REGEX,
+    YOUTUBE_REGEX,
+    PINTEREST_REGEX,
+    SNAPCHAT_REGEX,
+    TIKTOK_REGEX,
+    TWITCH_REGEX,
 };

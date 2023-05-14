@@ -1,6 +1,7 @@
 import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import "../../../../style/pages/messages/left/left.css";
 
@@ -16,7 +17,7 @@ const Left = (props) => {
                         <div className="fs-2 fw-bold">Chat</div>
                         <div>
                             <span className="left-setting-chat__icon border rounded-circle">
-                                <FontAwesomeIcon icon="fa-solid fa-ellipsis" />
+                                <FontAwesomeIcon icon={faEllipsis} />
                             </span>
                         </div>
                     </div>

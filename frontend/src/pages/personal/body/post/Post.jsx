@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faBookmark,
+    faPenToSquare,
+    faThumbsUp,
+    faComment,
+} from "@fortawesome/free-regular-svg-icons";
+import {
+    faLock,
+    faThumbTack,
+    faEarthAmerica,
+    faBoxArchive,
+    faTrash,
+    faShare,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "../../../../style/pages/personal/body/post/post.css";
 
@@ -73,7 +87,7 @@ const Post = () => {
                             </span>
                             <div className="form__status d-flex align-items-center">
                                 <span className="me-2">
-                                    <FontAwesomeIcon icon="fa-solid fa-lock" />
+                                    <FontAwesomeIcon icon={faLock} />
                                 </span>
                                 <select name="" id="" defaultValue="public">
                                     <option value="public">Public</option>
@@ -97,13 +111,17 @@ const Post = () => {
                                 <ul>
                                     <li>
                                         <span className="icon">
-                                            <FontAwesomeIcon icon="fa-solid fa-thumbtack" />
+                                            <FontAwesomeIcon
+                                                icon={faThumbTack}
+                                            />
                                         </span>
                                         Pin this post
                                     </li>
                                     <li>
                                         <span className="icon">
-                                            <FontAwesomeIcon icon="fa-regular fa-bookmark" />
+                                            <FontAwesomeIcon
+                                                icon={faBookmark}
+                                            />
                                         </span>
                                         Save this post
                                     </li>
@@ -111,13 +129,17 @@ const Post = () => {
                                 <ul className="border-bottom border-top py-4">
                                     <li>
                                         <span className="icon">
-                                            <FontAwesomeIcon icon="fa-regular fa-pen-to-square" />
+                                            <FontAwesomeIcon
+                                                icon={faPenToSquare}
+                                            />
                                         </span>
                                         Edit this post
                                     </li>
                                     <li>
                                         <span className="icon">
-                                            <FontAwesomeIcon icon="fa-solid fa-earth-americas" />
+                                            <FontAwesomeIcon
+                                                icon={faEarthAmerica}
+                                            />
                                         </span>
                                         Change status this post
                                     </li>
@@ -131,13 +153,15 @@ const Post = () => {
                                 <ul>
                                     <li>
                                         <span className="icon">
-                                            <FontAwesomeIcon icon="fa-solid fa-box-archive" />
+                                            <FontAwesomeIcon
+                                                icon={faBoxArchive}
+                                            />
                                         </span>
                                         Archived this post
                                     </li>
                                     <li>
                                         <span className="icon">
-                                            <FontAwesomeIcon icon="fa-solid fa-trash" />
+                                            <FontAwesomeIcon icon={faTrash} />
                                         </span>
                                         Move this post to trash bin
                                     </li>
@@ -160,13 +184,13 @@ const Post = () => {
                 <div className="d-flex justify-content-center personal-post__action mt-4 pt-4">
                     <div className="personal-post__action-btn d-flex justify-content-center align-items-center">
                         <span className="icon">
-                            <FontAwesomeIcon icon="fa-regular fa-thumbs-up " />
+                            <FontAwesomeIcon icon={faThumbsUp} />
                         </span>
                         Like
                     </div>
                     <div className="personal-post__action-btn d-flex justify-content-center align-items-center">
                         <span className="icon">
-                            <FontAwesomeIcon icon="fa-regular fa-comment " />
+                            <FontAwesomeIcon icon={faComment} />
                         </span>
                         Comment
                     </div>
@@ -193,7 +217,7 @@ const Post = () => {
                             </span>
                             <div className="form__status d-flex align-items-center">
                                 <span className="me-2">
-                                    <FontAwesomeIcon icon="fa-solid fa-lock" />
+                                    <FontAwesomeIcon icon={faLock} />
                                 </span>
                                 <select name="" id="" defaultValue="public">
                                     <option value="public">Public</option>
@@ -217,13 +241,17 @@ const Post = () => {
                                 <ul>
                                     <li>
                                         <span className="icon">
-                                            <FontAwesomeIcon icon="fa-solid fa-thumbtack" />
+                                            <FontAwesomeIcon
+                                                icon={faThumbTack}
+                                            />
                                         </span>
                                         Pin this post
                                     </li>
                                     <li>
                                         <span className="icon">
-                                            <FontAwesomeIcon icon="fa-regular fa-bookmark" />
+                                            <FontAwesomeIcon
+                                                icon={faBookmark}
+                                            />
                                         </span>
                                         Save this post
                                     </li>
@@ -231,13 +259,17 @@ const Post = () => {
                                 <ul className="border-bottom border-top py-4">
                                     <li>
                                         <span className="icon">
-                                            <FontAwesomeIcon icon="fa-regular fa-pen-to-square" />
+                                            <FontAwesomeIcon
+                                                icon={faPenToSquare}
+                                            />
                                         </span>
                                         Edit this post
                                     </li>
                                     <li>
                                         <span className="icon">
-                                            <FontAwesomeIcon icon="fa-solid fa-earth-americas" />
+                                            <FontAwesomeIcon
+                                                icon={faEarthAmerica}
+                                            />
                                         </span>
                                         Change status this post
                                     </li>
@@ -251,13 +283,15 @@ const Post = () => {
                                 <ul>
                                     <li>
                                         <span className="icon">
-                                            <FontAwesomeIcon icon="fa-solid fa-box-archive" />
+                                            <FontAwesomeIcon
+                                                icon={faBoxArchive}
+                                            />
                                         </span>
                                         Archived this post
                                     </li>
                                     <li>
                                         <span className="icon">
-                                            <FontAwesomeIcon icon="fa-solid fa-trash" />
+                                            <FontAwesomeIcon icon={faTrash} />
                                         </span>
                                         Move this post to trash bin
                                     </li>
@@ -286,19 +320,19 @@ const Post = () => {
                 <div className="d-flex justify-content-center personal-post__action mt-4 pt-4">
                     <div className="personal-post__action-btn d-flex justify-content-center align-items-center">
                         <span className="icon">
-                            <FontAwesomeIcon icon="fa-regular fa-thumbs-up " />
+                            <FontAwesomeIcon icon={faThumbsUp} />
                         </span>
                         Like
                     </div>
                     <div className="personal-post__action-btn d-flex justify-content-center align-items-center">
                         <span className="icon">
-                            <FontAwesomeIcon icon="fa-regular fa-comment " />
+                            <FontAwesomeIcon icon={faComment} />
                         </span>
                         Comment
                     </div>
                     <div className="personal-post__action-btn d-flex justify-content-center align-items-center">
                         <span className="icon">
-                            <FontAwesomeIcon icon="fa-solid fa-share" />
+                            <FontAwesomeIcon icon={faShare} />
                         </span>
                         Share
                     </div>

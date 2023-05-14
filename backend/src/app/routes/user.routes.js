@@ -7,11 +7,9 @@ const UserController = require("../controllers/user.controller");
 router.get("/", (req, res) => {
     res.send({ msg: "Hello from user :D" });
 });
-router.get(
-    "/:userID",
-    UserMiddleware.validateUserById,
-    UserController.getUserById
-);
+
+router.get("/all-users", UserController.getAllUsers);
+router.get("/:userID", UserMiddleware.validateUserById, UserController.getUser);
 
 router.post(
     "/register",
@@ -19,5 +17,18 @@ router.post(
     UserController.register
 );
 router.post("/login", UserMiddleware.validateLoginUser, UserController.login);
+
+router.put(
+    "/update/:userID",
+    UserMiddleware.validateUserById,
+    UserController.updateUser
+);
+
+router.delete("/delete-all", UserController.deleteAllUsers);
+router.delete(
+    "/delete/:userID",
+    UserMiddleware.validateUserById,
+    UserController.deleteUser
+);
 
 module.exports = router;

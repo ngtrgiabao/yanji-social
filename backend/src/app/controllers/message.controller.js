@@ -1,37 +1,47 @@
 const MessageModel = require("../models/message.model");
 const UserModel = require("../models/user.model");
 
+// Add edit message
+
 const sendMessage = async (req, res) => {
     const { text, media, file, sender, receiver } = req.body;
 
-    const userID = await UserModel.findById(req.params.userID);
-    const textField = await MessageModel.find({
-        userIDs: req.params.userID,
-    });
+    try {
+        const existingMessage = await MessageModel.findOne({
+            sender,
+            receiver,
+        });
 
-    if (textField.length > 0 && textField[0].userIDs) {
-        textField[0].text.push(req.body.text);
-        await textField[0].save();
+        if (existingMessage) {
+            existingMessage.text.push(text);
+            await existingMessage.save();
+
+            return res.status(200).json({
+                msg: `User: ${sender} send message success`,
+                data: existingMessage,
+            });
+        }
+
+        const newMessage = await MessageModel.create({
+            text: [text],
+            media,
+            file,
+            sender,
+            receiver,
+            members: [sender, receiver],
+        });
 
         return res.status(200).json({
-            msg: `User: ${userID.id} send message success`,
-            data: textField[0],
+            msg: `User: ${sender} send message success`,
+            data: newMessage,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            msg: "An error occurred while sending the message.",
+            error,
         });
     }
-
-    const newMessage = await MessageModel.create({
-        text: [text],
-        media,
-        file,
-        sender,
-        receiver,
-        userIDs: req.params.userID,
-    });
-
-    return res.status(200).json({
-        msg: `User: ${userID.id} send message success`,
-        data: newMessage,
-    });
 };
 
 const deleteMessage = async (req, res) => {
