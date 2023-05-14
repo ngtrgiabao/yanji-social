@@ -48,18 +48,30 @@ const Middle = () => {
 
     useEffect(() => {
         const getPokemon = async () => {
-            const res = await axios.get(POKEMON_URL);
-            setNextUrl(res.data.next);
-            res.data.results.forEach(async (pokemon) => {
-                const poke = await axios.get(
-                    `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+            try {
+                const res = await axios.get(POKEMON_URL);
+                setNextUrl(res.data.next);
+
+                const pokemonData = await Promise.all(
+                    res.data.results.map(async (pokemon) => {
+                        const poke = await axios.get(
+                            `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+                        );
+                        return poke.data; // Return the fetched data
+                    })
                 );
-                setPokemons((p) => [...p, poke.data]);
+
+                setPokemons((prevPokemons) => [
+                    ...prevPokemons,
+                    ...pokemonData,
+                ]);
                 setLoading(false);
-            });
+            } catch (error) {
+                console.error("Failed to get pokemon data", error);
+            }
         };
 
-        return getPokemon;
+        getPokemon();
     }, []);
 
     const loadMore = async () => {

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
+import { faLock, faImage } from "@fortawesome/free-solid-svg-icons";
 
 import "../../../../../style/pages/personal/body/popup/post/postPopup.css";
 
@@ -75,7 +77,7 @@ const PostPopup = (props) => {
                             className="fs-1 form__title-icon px-2"
                             onClick={onPopup}
                         >
-                            <FontAwesomeIcon icon="fa-regular fa-circle-xmark" />
+                            <FontAwesomeIcon icon={faCircleXmark} />
                         </span>
                     </div>
 
@@ -96,7 +98,7 @@ const PostPopup = (props) => {
                             </span>
                             <div className="form__status d-flex align-items-center">
                                 <span className="me-2 text-white">
-                                    <FontAwesomeIcon icon="fa-solid fa-lock" />
+                                    <FontAwesomeIcon icon={faLock} />
                                 </span>
                                 <select name="" id="" defaultValue="public">
                                     <option value="public">Public</option>
@@ -149,7 +151,7 @@ const PostPopup = (props) => {
                         />
 
                         <span>
-                            <FontAwesomeIcon icon="fa-solid fa-image" />
+                            <FontAwesomeIcon icon={faImage} />
                         </span>
                     </div>
 

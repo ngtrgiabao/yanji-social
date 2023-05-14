@@ -21,18 +21,23 @@ const Message = new Schema(
         sender: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "user",
-            required: true,
+            // required: true,
         },
         receiver: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "user",
-            required: true,
+            // required: true,
         },
+        members: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "user",
+            },
+        ],
         isRead: {
             type: Boolean,
             default: false,
         },
-        userIDs: Array,
     },
     { timestamps: true }
 );

@@ -16,22 +16,21 @@ function Messages() {
 
     useEffect(() => {
         const getDataUser = async () => {
-            const userAvatar = await axios.get(USER_URL);
-
-            userAvatar.data.results.forEach((user) => {
-                setAvatarUser((pic) => [
-                    ...pic,
-                    {
-                        id: user.login.uuid,
-                        avatar: user.picture.large,
-                        firstName: user.name.first,
-                        lastName: user.name.last,
-                    },
-                ]);
-            });
+            try {
+                const response = await axios.get(USER_URL);
+                const userData = response.data.results.map((user) => ({
+                    id: user.login.uuid,
+                    avatar: user.picture.large,
+                    firstName: user.name.first,
+                    lastName: user.name.last,
+                }));
+                setAvatarUser((prevData) => [...prevData, ...userData]);
+            } catch (error) {
+                console.error("Failed to get user data", error);
+            }
         };
 
-        return getDataUser;
+        getDataUser();
     }, []);
 
     return (

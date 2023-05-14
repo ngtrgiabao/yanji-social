@@ -1,8 +1,8 @@
 import api from "./api.service";
 
 class UserService {
-    async getAll() {
-        return await api.get("/").data;
+    async getAllUsers() {
+        return await api.get("/api/v1/all-users").data;
     }
 
     async loginUser(data) {
@@ -13,21 +13,20 @@ class UserService {
         return await api.post("/api/v1/user/register", data).data;
     }
 
-    // async deleteAll() {
-    //     return await api.delete("/").data;
-    // }
+    async getUser(id) {
+        return await api.get(`/api/v1/user/${id}`).data;
+    }
 
-    // async get(id) {
-    //     return await api.get(`/${id}`).data;
-    // }
+    async updateUser(id, data) {
+        return await api.put(`/api/v1/user/${id}`, data).data;
+    }
 
-    // async update(id, data) {
-    //     return await api.put(`/${id}`, data).data;
-    // }
-
-    // async delete(id) {
-    //     return await api.get(`${id}`).data;
-    // }
+    async deleteAllUsers() {
+        return await api.delete("/api/v1/user/delete-all").data;
+    }
+    async deleteUserById(id) {
+        return await api.get(`/api/v1/user/delete/${id}`).data;
+    }
 }
 
 export default new UserService();

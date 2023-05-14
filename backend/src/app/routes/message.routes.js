@@ -18,8 +18,8 @@ router.get(
 
 router.post(
     "/send-message/:userID",
-    MessageMiddleware.validateSenderAndReceiver,
-    UserMiddleware.validateUserById,
+    // MessageMiddleware.validateSenderAndReceiver,
+    // UserMiddleware.validateUserById,
     MessageController.sendMessage
 );
 

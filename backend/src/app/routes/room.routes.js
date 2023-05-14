@@ -8,6 +8,7 @@ const RoomController = require("../controllers/room.controller");
 router.get("/", (req, res) => {
     res.send({ msg: "Hello from room :D" });
 });
+router.get("/all-rooms", RoomController.getAllRooms);
 router.get(
     "/all-rooms/user/:userID",
     RoomMiddleware.validateJoinedRoom,

@@ -45,6 +45,22 @@ const getRoomByID = async (req, res, next) => {
     });
 };
 
+const getAllRooms = async (req, res, next) => {
+    try {
+        const rooms = await RoomModel.find({});
+
+        return res.status(200).json({
+            msg: "Get all rooms successfully",
+            rooms,
+        });
+    } catch (error) {
+        console.error("Failed to get all rooms");
+        return res.status(500).json({
+            msg: "Failed to get all rooms",
+        });
+    }
+};
+
 const getRoomsByParticipant = async (req, res, next) => {
     const participantID = req.params.userID;
     const rooms = await RoomModel.find({
@@ -87,7 +103,7 @@ const updateRoom = async (req, res, next) => {
         const { name, participants, settings } = req.body;
         const room = await RoomModel.findById(roomID);
 
-        if (room.isAdmin !== true) {
+        if (!room.isAdmin) {
             console.error("You don't have permission to update room");
             return res
                 .status(403)
@@ -116,15 +132,15 @@ const updateRoom = async (req, res, next) => {
 };
 
 const deleteRoom = async (req, res, next) => {
+    const roomID = req.params.roomID;
     try {
-        const roomID = req.params.roomID;
         await RoomModel.findByIdAndDelete(roomID);
 
         return res.status(200).json({
-            msg: `Deleted chat room ${roomID} success`,
+            msg: `Deleted chat room ${roomID} successfully`,
         });
     } catch (error) {
-        console.error("Failed to delete room", error);
+        console.error(`Failed to delete room ${roomID}`, error);
         return res.status(500).json({
             msg: "Failed to delete room",
         });
@@ -138,7 +154,7 @@ const deleteAllRooms = async (req, res, next) => {
         const result = await RoomModel.deleteMany({});
 
         return res.status(200).json({
-            msg: `Delete all chat room of user: ${userID} success`,
+            msg: `Deleted all chat rooms of user: ${userID} successfully`,
             count: result.deletedCount,
         });
     } catch (error) {
@@ -205,6 +221,7 @@ const removeParticipant = async (req, res, next) => {
 module.exports = {
     createRoom,
     getRoomByID,
+    getAllRooms,
     getRoomsByParticipant,
     joinRoom,
     updateRoom,

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
 import "../../../style/pages/form/register/registerPage.css";
 
@@ -202,7 +203,9 @@ const RegisterPage = () => {
                                                         : "offscreen"
                                                 }
                                             >
-                                                <FontAwesomeIcon icon="fa-solid fa-circle-info" />
+                                                <FontAwesomeIcon
+                                                    icon={faCircleInfo}
+                                                />
                                                 4 to 24 characters. <br />
                                                 Must begin with a letter. <br />
                                                 Letters, numbers, underscores,
@@ -269,7 +272,9 @@ const RegisterPage = () => {
                                                         : "offscreen"
                                                 }
                                             >
-                                                <FontAwesomeIcon icon="fa-solid fa-circle-info" />
+                                                <FontAwesomeIcon
+                                                    icon={faCircleInfo}
+                                                />
                                                 Must be valid email
                                             </p>
                                         </div>
@@ -327,7 +332,9 @@ const RegisterPage = () => {
                                                         : "offscreen"
                                                 }
                                             >
-                                                <FontAwesomeIcon icon="fa-solid fa-circle-info" />
+                                                <FontAwesomeIcon
+                                                    icon={faCircleInfo}
+                                                />
                                                 8 to 24 characters.
                                                 <br />
                                                 Must include uppercase and
@@ -411,7 +418,9 @@ const RegisterPage = () => {
                                                         : "offscreen"
                                                 }
                                             >
-                                                <FontAwesomeIcon icon="fa-solid fa-circle-info" />
+                                                <FontAwesomeIcon
+                                                    icon={faCircleInfo}
+                                                />
                                                 Must match the first password
                                                 input field.
                                             </p>
