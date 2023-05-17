@@ -263,7 +263,6 @@ const Left = () => {
             </div>
 
             {/* CUSTOMIZE THEME */}
-
             <div
                 className="customize-theme"
                 style={{
