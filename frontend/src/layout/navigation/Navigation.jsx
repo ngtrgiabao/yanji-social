@@ -8,7 +8,7 @@ import "../../style/components/navigation/navigation.css";
 
 import ProfilePic from "../../assets/avatar/profile-pic.png";
 
-import { logout } from "../../redux/request/apiRequest";
+import { logout } from "../../redux/request/userRequest";
 
 const Navigation = (props) => {
     const { title, link } = props;

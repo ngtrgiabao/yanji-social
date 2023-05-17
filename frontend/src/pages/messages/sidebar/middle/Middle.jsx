@@ -18,18 +18,18 @@ import "../../../../style/pages/messages/middle/middle.css";
 import Photo from "../../../../assets/avatar/profile-pic.png";
 
 import { SOCKET_URL } from "../../../../constants/backend.url.constant";
+
 import {
     sendMessage,
     getMessages,
     deleteMessage,
 } from "../../../../redux/request/messageRequest";
-import { getRooms } from "../../../../redux/request/roomRequest";
-import PopupConfirm from "../../../../components/popup/PopupConfirm";
 
 const Middle = () => {
     const [message, setMessage] = useState("");
     const [active, setActive] = useState(false);
     const [messageThread, setMessageThread] = useState([]);
+    const [messageID, setMessageID] = useState("");
     const scrollRef = useRef();
     const dispatch = useDispatch();
 
@@ -103,34 +103,27 @@ const Middle = () => {
             .catch((error) => {
                 console.error("Failed to get messages", error);
             });
-        // getRooms(dispatch)
-        //     .then((data) => {
-        //         Object.keys(data).forEach((key) => {
-        //             if (key === "rooms") {
-        //                 // Return first item in room data include participants in rooms
-        //                 const value = data[key][0].participants;
-        //                 setTest((prevTest) => [...prevTest, value]);
-        //             }
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         alert("Failed to get rooms");
-        //         console.error("Failed to get rooms", error);
-        //     });
     }, []);
 
-    const handleDeleteMsg = (value) => {
-        setActive(true);
-        // deleteMessage(value, dispatch)
-        //     .then(() => {
-        //         setMessageThread((prevMessageThread) =>
-        //             prevMessageThread.filter((message) => message._id !== value)
-        //         );
-        //     })
-        //     .catch((error) => {
-        //         alert("Failed to delete message :<", error);
-        //         console.error("Failed to delete message");
-        //     });
+    const handleDeleteMsg = () => {
+        deleteMessage(messageID, dispatch)
+            .then(() => {
+                setMessageThread((prevMessageThread) =>
+                    prevMessageThread.filter(
+                        (message) => message._id !== messageID
+                    )
+                );
+            })
+            .catch((error) => {
+                alert("Failed to delete message :<", error);
+                console.error("Failed to delete message");
+            });
+
+        setActive(false);
+    };
+
+    const handlePopup = () => {
+        setActive((active) => !active);
     };
 
     useEffect(() => {
@@ -190,12 +183,16 @@ const Middle = () => {
                                         <FontAwesomeIcon
                                             icon={faTrash}
                                             className="text-danger"
-                                            onClick={() =>
-                                                handleDeleteMsg(message._id)
-                                            }
+                                            onClick={() => {
+                                                setMessageID(message._id);
+                                                handlePopup();
+                                            }}
+                                            style={{
+                                                cursor: "pointer",
+                                            }}
                                         />
                                         <span className="middle-container-body__right-message-content ms-3">
-                                            {message.message} - {message._id}
+                                            {message.message}
                                         </span>
                                     </div>
                                 </div>
@@ -211,9 +208,13 @@ const Middle = () => {
                                         <FontAwesomeIcon
                                             icon={faTrash}
                                             className="text-danger"
-                                            onClick={() =>
-                                                handleDeleteMsg(message._id)
-                                            }
+                                            onClick={() => {
+                                                setMessageID(message._id);
+                                                handlePopup();
+                                            }}
+                                            style={{
+                                                cursor: "pointer",
+                                            }}
                                         />
                                     </div>
                                 </div>
@@ -274,7 +275,40 @@ const Middle = () => {
                     </form>
                 </div>
 
-                <PopupConfirm title="Confirm delete message" />
+                {active && (
+                    <div id="confirm" className="p-4" role="document">
+                        <div className="d-flex justify-content-between align-items-center fs-3 border-bottom text-white">
+                            <div className="fw-bold text-uppercase">
+                                Xác nhận xóa tin nhắn này
+                            </div>
+                            <span
+                                className="fs-1 close p-1"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                                onClick={() => handlePopup()}
+                            >
+                                &times;
+                            </span>
+                        </div>
+                        <span className="py-4 pb-5 d-block fs-3 text-white">
+                            Bạn muốn xóa tin nhắn này?
+                        </span>
+                        <div className="fs-3 d-flex justify-content-end">
+                            <button
+                                className="py-2 p-4 me-2"
+                                onClick={() => handlePopup()}
+                            >
+                                Close
+                            </button>
+                            <button
+                                className="py-2 p-4 fw-bold text-white bg-danger"
+                                onClick={() => handleDeleteMsg()}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     );
