@@ -24,7 +24,7 @@ const Friends = () => {
             });
         };
 
-        return getFriendsAvatar;
+        getFriendsAvatar();
     }, []);
 
     return (

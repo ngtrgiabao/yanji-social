@@ -9,19 +9,23 @@ function AvatarFriends() {
 
     useEffect(() => {
         const getFriendsAvatar = async () => {
-            const avatar = await axios.get(
-                "https://randomuser.me/api/?results=9"
-            );
+            try {
+                const avatar = await axios.get(
+                    "https://randomuser.me/api/?results=9"
+                );
 
-            avatar.data.results.forEach((friend) => {
-                setRandomAvatarFriends((avatarFriend) => [
-                    ...avatarFriend,
-                    { id: friend.login.uuid, avatar: friend.picture.large },
-                ]);
-            });
+                avatar.data.results.forEach((friend) => {
+                    setRandomAvatarFriends((avatarFriend) => [
+                        ...avatarFriend,
+                        { id: friend.login.uuid, avatar: friend.picture.large },
+                    ]);
+                });
+            } catch (error) {
+                console.error("Failed to get user data", error);
+            }
         };
 
-        return getFriendsAvatar;
+        getFriendsAvatar();
     }, []);
 
     return (

@@ -97,6 +97,7 @@ const Left = () => {
                             active === "HOME" ? "active" : ""
                         }`}
                         onClick={() => setActive("HOME")}
+                        title="Truy cập trang chủ"
                     >
                         <span>
                             <UilEstate className="sidebar-icon" />
@@ -113,6 +114,7 @@ const Left = () => {
                         onClick={() => {
                             setActive("EXPLORE");
                         }}
+                        title="Khám phá"
                     >
                         <span>
                             <UilCompass className="sidebar-icon" />
@@ -130,6 +132,7 @@ const Left = () => {
                             handleNotification();
                         }}
                         id="notification"
+                        title="Thông báo"
                     >
                         <span>
                             <UilBell className="sidebar-icon" />
@@ -164,6 +167,7 @@ const Left = () => {
                             setActive("MESSAGES");
                         }}
                         id="message-notification"
+                        title="Gửi tin nhắn"
                     >
                         <span>
                             <UilChat className="sidebar-icon" />
@@ -190,6 +194,7 @@ const Left = () => {
                         onClick={() => {
                             setActive("BOOKMARKS");
                         }}
+                        title="Bài viết đã lưu"
                     >
                         <span>
                             <UilBookmark className="sidebar-icon" />
@@ -206,6 +211,7 @@ const Left = () => {
                         onClick={() => {
                             setActive("ANALYTICS");
                         }}
+                        title="Phân tích dữ liệu cá nhân"
                     >
                         <span>
                             <UilAnalysis className="sidebar-icon" />
@@ -222,6 +228,7 @@ const Left = () => {
                         onClick={() => {
                             setActive("THEME");
                         }}
+                        title="Đổi giao diện"
                     >
                         <span>
                             <UilPalette className="sidebar-icon" />
@@ -237,6 +244,7 @@ const Left = () => {
                         onClick={() => {
                             setActive("SETTINGS");
                         }}
+                        title="Cài đặt"
                     >
                         <span>
                             <UilSetting className="sidebar-icon" />

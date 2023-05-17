@@ -7,7 +7,7 @@ class RoomService {
 
     extractConactData(payload) {
         const room = {
-            name: payload.text,
+            name: payload.name,
             participants: payload.participants,
             messages: payload.messages,
             settings: payload.settings,

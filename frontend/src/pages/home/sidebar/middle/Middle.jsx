@@ -185,7 +185,10 @@ const Middle = () => {
                             </span>
                         </div>
 
-                        <div className="submit d-flex align-items-center">
+                        <div
+                            className="submit d-flex align-items-center"
+                            title="Đăng bài viết"
+                        >
                             <button
                                 role="button"
                                 type="submit"

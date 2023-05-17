@@ -38,28 +38,6 @@
     overflow-y: auto;
 }
 
-/* For Chrome, Safari and Opera */
-.left-msg-page .messages-wrapper::-webkit-scrollbar {
-    width: 5px;
-}
-
-/* For Firefox */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: #ccc #fff;
-}
-
-/* Custom styling of scrollbar thumb */
-.left-msg-page .messages-wrapper::-webkit-scrollbar-thumb {
-    background-color: var(--color-primary);
-    border-radius: 5px;
-}
-
-/* Custom styling of scrollbar track */
-.left-msg-page .messages-wrapper::-webkit-scrollbar-track {
-    background-color: var(--color-primary-light);
-}
-
 .left-msg-page .message-item:hover {
     background: var(--color-white);
     border-radius: 1rem;

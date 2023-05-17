@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import io from "socket.io-client";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faVideo,
@@ -11,6 +10,7 @@ import {
     faImage,
     faFaceLaughBeam,
     faThumbsUp,
+    faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "../../../../style/pages/messages/middle/middle.css";
@@ -18,11 +18,19 @@ import "../../../../style/pages/messages/middle/middle.css";
 import Photo from "../../../../assets/avatar/profile-pic.png";
 
 import { SOCKET_URL } from "../../../../constants/backend.url.constant";
-import { sendMessage } from "../../../../redux/request/messageRequest";
+import {
+    sendMessage,
+    getMessages,
+    deleteMessage,
+} from "../../../../redux/request/messageRequest";
+import { getRooms } from "../../../../redux/request/roomRequest";
+import PopupConfirm from "../../../../components/popup/PopupConfirm";
 
 const Middle = () => {
-    let [message, setMessage] = useState("");
-    const messageBlock = useRef(null);
+    const [message, setMessage] = useState("");
+    const [active, setActive] = useState(false);
+    const [messageThread, setMessageThread] = useState([]);
+    const scrollRef = useRef();
     const dispatch = useDispatch();
 
     const socketRef = useRef(null);
@@ -31,32 +39,24 @@ const Middle = () => {
     }
     const socket = socketRef.current;
 
-    const userID = useSelector((state) => {
+    const sender = useSelector((state) => {
         return state.auth.login.currentUser?.data._id;
     });
 
     useEffect(() => {
-        socket.emit("send-msg", {
-            msg: "Hello from react 😀",
+        socket.emit("client", {
+            msg: "Hello from client 😀",
         });
 
         socket.on("server", (data) => {
             console.log(data);
         });
 
-        socket.on("chat-message", (data) => {
-            const { message, userID } = data;
-            const item = document.createElement("p");
-            item.className = "fs-4";
-            item.style.width = "fit-content";
-            item.style.marginBottom = "2%";
-            item.style.padding = "1.5% 5%";
-            item.style.border = "1px solid blue";
-            item.style.borderRadius = "10%";
-            item.innerHTML = message + " " + userID;
-
-            messageBlock.current.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
+        socket.on("receive-message", (data) => {
+            setMessageThread((prevMessageThread) => [
+                ...prevMessageThread,
+                data,
+            ]);
         });
 
         socket.on("disconnect", () => {
@@ -64,21 +64,25 @@ const Middle = () => {
         });
     }, []);
 
+    const now = new Date();
+    const time = `${now.getHours()}:${now.getMinutes()}`;
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const newMessage = {
-            userID,
+            sender,
             message,
+            time,
+            roomId: "6461eed0ccade08bb3c5329f",
         };
 
         sendMessage(newMessage, dispatch)
-            .then(() => {
+            .then(async () => {
                 if (message) {
-                    socket.emit("chat-message", { message, userID });
+                    await socket.emit("send-message", newMessage);
                     setMessage("");
                 }
-                alert("Send message successfully");
             })
             .catch((error) => {
                 alert("Failed to send message");
@@ -86,9 +90,59 @@ const Middle = () => {
             });
     };
 
+    useEffect(() => {
+        getMessages("6461eed0ccade08bb3c5329f", dispatch)
+            .then((data) => {
+                Object.keys(data).forEach((key) => {
+                    if (key === "messages") {
+                        const value = data[key];
+                        setMessageThread(value);
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error("Failed to get messages", error);
+            });
+        // getRooms(dispatch)
+        //     .then((data) => {
+        //         Object.keys(data).forEach((key) => {
+        //             if (key === "rooms") {
+        //                 // Return first item in room data include participants in rooms
+        //                 const value = data[key][0].participants;
+        //                 setTest((prevTest) => [...prevTest, value]);
+        //             }
+        //         });
+        //     })
+        //     .catch((error) => {
+        //         alert("Failed to get rooms");
+        //         console.error("Failed to get rooms", error);
+        //     });
+    }, []);
+
+    const handleDeleteMsg = (value) => {
+        setActive(true);
+        // deleteMessage(value, dispatch)
+        //     .then(() => {
+        //         setMessageThread((prevMessageThread) =>
+        //             prevMessageThread.filter((message) => message._id !== value)
+        //         );
+        //     })
+        //     .catch((error) => {
+        //         alert("Failed to delete message :<", error);
+        //         console.error("Failed to delete message");
+        //     });
+    };
+
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+        });
+    }, [messageThread]);
+
     return (
         <>
-            <div className="middle-msg-page">
+            <div className="middle-msg-page relative">
                 <div className="middle-container">
                     {/* HEADER */}
                     <div className="middle-container-header d-flex align-items-center justify-content-between py-3 px-4 pb-3">
@@ -125,12 +179,47 @@ const Middle = () => {
                         </div>
                     </div>
                     {/* BODY */}
-                    <div className="middle-container-body px-4 pt-4">
-                        <div className="middle-container-body__left-text"></div>
-                        <div
-                            ref={messageBlock}
-                            className="d-flex flex-column align-items-end middle-container-body__right-text"
-                        ></div>
+                    <div className="middle-container-body scrollbar px-4 pt-4 fs-3">
+                        {messageThread.map((message, index) =>
+                            message.sender === sender ? (
+                                <div
+                                    key={index}
+                                    className="middle-container-body__right-text mb-2 fs-4 animate__animated animate__slideInRight"
+                                >
+                                    <div className="w-100 d-flex justify-content-end align-items-center">
+                                        <FontAwesomeIcon
+                                            icon={faTrash}
+                                            className="text-danger"
+                                            onClick={() =>
+                                                handleDeleteMsg(message._id)
+                                            }
+                                        />
+                                        <span className="middle-container-body__right-message-content ms-3">
+                                            {message.message} - {message._id}
+                                        </span>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div
+                                    key={index}
+                                    className="middle-container-body__left-text mb-2 fs-4 animate__animated animate__slideInLeft"
+                                >
+                                    <div className="w-100 d-flex justify-content-start align-items-center">
+                                        <span className="middle-container-body__left-message-content me-2">
+                                            {message.message}
+                                        </span>
+                                        <FontAwesomeIcon
+                                            icon={faTrash}
+                                            className="text-danger"
+                                            onClick={() =>
+                                                handleDeleteMsg(message._id)
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                            )
+                        )}
+                        <div ref={scrollRef} />
                     </div>
                     {/* FOOTER */}
                     <form
@@ -162,12 +251,13 @@ const Middle = () => {
                                 type="text"
                                 className="rounded py-2 px-3 fs-4"
                                 placeholder="Text your message here..."
-                                maxLength="500"
+                                maxLength="3500"
                                 style={{
                                     border: "1px solid var(--color-primary)",
                                 }}
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
+                                autoFocus
                             />
                         </div>
                         <span
@@ -183,6 +273,8 @@ const Middle = () => {
                         </span>
                     </form>
                 </div>
+
+                <PopupConfirm title="Confirm delete message" />
             </div>
         </>
     );

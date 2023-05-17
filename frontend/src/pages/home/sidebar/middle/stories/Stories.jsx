@@ -24,21 +24,25 @@ const Stories = () => {
 
     useEffect(() => {
         const getStory = async () => {
-            const story = await axios.get(USER_URL);
+            try {
+                const story = await axios.get(USER_URL);
 
-            story.data.results.forEach((friend) => {
-                setStoryData((str) => [
-                    ...str,
-                    {
-                        id: friend.login.uuid,
-                        avatar: friend.picture.large,
-                        firstName: friend.name.first,
-                        lastName: friend.name.last,
-                    },
-                ]);
-            });
+                story.data.results.forEach((friend) => {
+                    setStoryData((str) => [
+                        ...str,
+                        {
+                            id: friend.login.uuid,
+                            avatar: friend.picture.large,
+                            firstName: friend.name.first,
+                            lastName: friend.name.last,
+                        },
+                    ]);
+                });
+            } catch (error) {
+                console.error("Failed to get user data", error);
+            }
         };
-        return getStory;
+        getStory();
     }, []);
 
     // GET RANDOM IMG STORY

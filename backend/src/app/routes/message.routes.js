@@ -15,11 +15,12 @@ router.get(
     UserMiddleware.validateUserById,
     MessageController.getAllMessages
 );
+router.get("/all-messages/room/:roomID", MessageController.getAllMessages);
 
 router.post(
     "/send-message/:userID",
     // MessageMiddleware.validateSenderAndReceiver,
-    // UserMiddleware.validateUserById,
+    UserMiddleware.validateUserById,
     MessageController.sendMessage
 );
 
@@ -33,5 +34,6 @@ router.delete(
     UserMiddleware.validateUserById,
     MessageController.deleteAllMessages
 );
+router.delete("/delete-all", MessageController.deleteAllMessages);
 
 module.exports = router;

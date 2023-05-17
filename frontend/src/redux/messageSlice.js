@@ -18,6 +18,11 @@ const messageSlice = createSlice({
             isFetching: false,
             error: false,
         },
+        getMessage: {
+            message: null,
+            isFetching: false,
+            error: false,
+        },
     },
     reducers: {
         // SEND MSG
@@ -32,6 +37,19 @@ const messageSlice = createSlice({
         sendMessageFailed: (state) => {
             state.sendMessage.isFetching = false;
             state.sendMessage.error = true;
+        },
+        //GET MSG
+        getMessageStart: (state) => {
+            state.getMessage.isFetching = true;
+        },
+        getMessageSuccess: (state, action) => {
+            state.getMessage.isFetching = false;
+            state.getMessage.message = action.payload;
+            state.getMessage.error = false;
+        },
+        getMessageFailed: (state) => {
+            state.getMessage.isFetching = false;
+            state.getMessage.error = true;
         },
         // EDIT MSG
         editMessageStart: (state) => {
@@ -71,6 +89,9 @@ export const {
     deleteMessageStart,
     deleteMessageSuccess,
     deleteMessageFailed,
+    getMessageStart,
+    getMessageSuccess,
+    getMessageFailed,
 } = messageSlice.actions;
 
 export default messageSlice.reducer;

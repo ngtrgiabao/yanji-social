@@ -7,7 +7,7 @@ class MessageService {
 
     extractConactData(payload) {
         const message = {
-            text: payload.text,
+            messages: payload.messages,
             media: payload.media,
             file: payload.file,
             sender: payload.sender,

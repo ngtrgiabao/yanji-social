@@ -12,28 +12,18 @@ const Schema = mongoose.Schema;
 
 const Message = new Schema(
     {
-        text: {
-            type: [String],
-            require: true,
+        message: String,
+        roomId: {
+            type: String,
+            required: true,
         },
         media: String,
         file: String,
         sender: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "user",
-            // required: true,
+            required: true,
         },
-        receiver: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "user",
-            // required: true,
-        },
-        members: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "user",
-            },
-        ],
         isRead: {
             type: Boolean,
             default: false,

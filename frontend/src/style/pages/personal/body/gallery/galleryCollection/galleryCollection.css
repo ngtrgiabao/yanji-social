@@ -5,6 +5,7 @@
     grid-template-columns: repeat(3, minmax(10rem, 1fr));
     grid-template-rows: repeat(3, minmax(12rem, 1fr));
     gap: 1rem;
+    place-items: center;
 
     margin-top: 1rem;
 }
