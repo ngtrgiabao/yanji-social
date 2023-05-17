@@ -20,7 +20,7 @@ function Gallery() {
                 setRandomPhoto((cat) => [...cat, catPhoto.url]);
             });
         };
-        return getGallery;
+        getGallery();
     }, []);
 
     return (

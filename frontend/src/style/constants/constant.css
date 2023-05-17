@@ -34,3 +34,27 @@
     --fg: hsl(var(--hue), 90%, 5%);
     --trans-dur: 0.3s;
 }
+
+/* CUSTOME SCROLLBAR */
+
+/* For Chrome, Safari and Opera */
+.scrollbar::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #fff;
+}
+
+/* Custom styling of scrollbar thumb */
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary);
+    border-radius: 5px;
+}
+
+/* Custom styling of scrollbar track */
+.scrollbar::-webkit-scrollbar-track {
+    background-color: var(--color-primary-light);
+}

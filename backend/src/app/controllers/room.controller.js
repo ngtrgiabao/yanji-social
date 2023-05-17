@@ -2,12 +2,11 @@ const RoomModel = require("../models/room.model");
 
 const createRoom = async (req, res, next) => {
     try {
-        const { name } = req.body;
-        const userID = req.params.userID;
+        const { name, sender, receiver } = req.body;
 
         RoomModel.create({
             name,
-            participants: userID,
+            participants: [sender, receiver],
             settings: {
                 notification: true,
                 sound: true,
@@ -64,7 +63,9 @@ const getAllRooms = async (req, res, next) => {
 const getRoomsByParticipant = async (req, res, next) => {
     const participantID = req.params.userID;
     const rooms = await RoomModel.find({
-        participants: participantID,
+        participants: {
+            $in: [participantID],
+        },
     });
     const roomsLength = rooms.length;
     const roomIDs = rooms.map((room) => room._id);
@@ -73,6 +74,7 @@ const getRoomsByParticipant = async (req, res, next) => {
         msg: `Get rooms of participants ${participantID} success`,
         numsRoomsHasJoined: roomsLength,
         roomIDs,
+        rooms,
     });
 };
 

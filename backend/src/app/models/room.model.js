@@ -7,12 +7,8 @@ const chatRoomSchema = new mongoose.Schema(
             required: true,
         },
         participants: {
-            type: [String],
+            type: Array,
         },
-        messages: {
-            type: [String],
-        },
-
         settings: {
             notifications: {
                 type: Boolean,

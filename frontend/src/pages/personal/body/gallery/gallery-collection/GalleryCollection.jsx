@@ -14,7 +14,7 @@ const GalleryCollection = (props) => {
                             role="presentation"
                             decoding="async"
                             src={photo}
-                            alt="Photo"
+                            alt="Cat image"
                         />
                     </div>
                 );

@@ -34,7 +34,7 @@ const Right = () => {
     return (
         <>
             <div className="right-msg-page p-4">
-                <div className="right-container d-flex flex-column align-items-center">
+                <div className="right-container scrollbar d-flex flex-column align-items-center">
                     {/* HEADER */}
                     <div className="right-container-header d-flex flex-column align-items-center mb-4">
                         <img

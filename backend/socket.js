@@ -14,7 +14,7 @@ const io = new Server(httpServer, {
 io.on("connection", (socket) => {
     try {
         console.log(`User connected: ${socket.id} successfully :D`);
-        socket.on("send-msg", (data) => {
+        socket.on("client", (data) => {
             console.log(data);
         });
 
@@ -22,9 +22,10 @@ io.on("connection", (socket) => {
             msg: "Hello from server 😎",
         });
 
-        socket.on("chat-message", (data) => {
-            const { message, userID } = data;
-            io.emit("chat-message", { message, userID });
+        socket.on("send-message", (data) => {
+            const { sender, time } = data;
+            io.emit("receive-message", data);
+            console.log(`User ${sender} have sent message at ${time}`);
         });
 
         socket.on("disconnect", () => {

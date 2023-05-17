@@ -11,8 +11,6 @@ router.get("/", (req, res) => {
 router.get("/all-rooms", RoomController.getAllRooms);
 router.get(
     "/all-rooms/user/:userID",
-    RoomMiddleware.validateJoinedRoom,
-    RoomMiddleware.validateParticipantID,
     UserMiddleware.validateUserById,
     RoomController.getRoomsByParticipant
 );
@@ -23,7 +21,7 @@ router.get(
 );
 
 router.post(
-    "/create-room/user/:userID",
+    "/create-room",
     RoomMiddleware.validateNameOfRoom,
     RoomController.createRoom
 );
@@ -52,6 +50,6 @@ router.delete(
     UserMiddleware.validateUserById,
     RoomController.removeParticipant
 );
-router.delete("/delete-all/user/:userID", RoomController.deleteAllRooms);
+router.delete("/delete-all", RoomController.deleteAllRooms);
 
 module.exports = router;

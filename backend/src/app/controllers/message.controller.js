@@ -4,31 +4,14 @@ const UserModel = require("../models/user.model");
 // Add edit message
 
 const sendMessage = async (req, res) => {
-    const { text, media, file, sender, receiver } = req.body;
-
     try {
-        const existingMessage = await MessageModel.findOne({
-            sender,
-            receiver,
-        });
-
-        if (existingMessage) {
-            existingMessage.text.push(text);
-            await existingMessage.save();
-
-            return res.status(200).json({
-                msg: `User: ${sender} send message success`,
-                data: existingMessage,
-            });
-        }
-
+        const { message, roomId, media, file, sender } = req.body;
         const newMessage = await MessageModel.create({
-            text: [text],
+            roomId,
+            message,
             media,
             file,
             sender,
-            receiver,
-            members: [sender, receiver],
         });
 
         return res.status(200).json({
@@ -36,9 +19,9 @@ const sendMessage = async (req, res) => {
             data: newMessage,
         });
     } catch (error) {
-        console.error(error);
+        console.error("Failed to send message", error);
         return res.status(500).json({
-            msg: "An error occurred while sending the message.",
+            msg: "Failed to send message",
             error,
         });
     }
@@ -56,7 +39,10 @@ const deleteMessage = async (req, res) => {
 
 const getAllMessages = async (req, res, next) => {
     try {
-        const messages = await MessageModel.find({});
+        const roomId = req.params.roomID;
+        const messages = await MessageModel.find({
+            roomId,
+        });
         return res.status(200).json({
             msg: "Get all messages successfully",
             messages,

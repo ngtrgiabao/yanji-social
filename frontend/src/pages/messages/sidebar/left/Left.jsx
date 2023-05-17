@@ -38,7 +38,7 @@ const Left = (props) => {
                             </div>
                         </div>
 
-                        <div className="messages-wrapper">
+                        <div className="messages-wrapper scrollbar">
                             {avatarUser.map((item) => (
                                 <div
                                     className="d-flex align-items-center message-item p-3"
