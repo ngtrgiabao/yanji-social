@@ -12,6 +12,28 @@ function Message() {
         setFilterMessages(e.target.value);
     });
 
+    const renderFilterData = () => {
+        return MessageData.filter((user) =>
+            user.name.toLowerCase().includes(filterMessages)
+        ).map((item) => (
+            <div className="message-item message-sidebar" key={item.id}>
+                <div className="profile-pic active">
+                    <img
+                        loading="lazy"
+                        role="presentation"
+                        decoding="async"
+                        src={item.avatar}
+                        alt="Avatar user"
+                    />
+                </div>
+                <div className="message-body">
+                    <h5>{item.name}</h5>
+                    <p className="text-muted">{item.message}</p>
+                </div>
+            </div>
+        ));
+    };
+
     return (
         <>
             {/* SEARCH BAR */}
@@ -35,25 +57,7 @@ function Message() {
             {/* MESSAGES */}
             <div className="message-items">
                 {/* FILTER NAME WHEN SEARCHING */}
-                {MessageData.filter((user) =>
-                    user.name.toLowerCase().includes(filterMessages)
-                ).map((item) => (
-                    <div className="message-item message-sidebar" key={item.id}>
-                        <div className="profile-pic active">
-                            <img
-                                loading="lazy"
-                                role="presentation"
-                                decoding="async"
-                                src={item.avatar}
-                                alt="Avatar user"
-                            />
-                        </div>
-                        <div className="message-body">
-                            <h5>{item.name}</h5>
-                            <p className="text-muted">{item.message}</p>
-                        </div>
-                    </div>
-                ))}
+                {renderFilterData()}
             </div>
         </>
     );

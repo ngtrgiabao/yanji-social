@@ -28,24 +28,25 @@ function AvatarFriends() {
         getFriendsAvatar();
     }, []);
 
+    const renderRandomAvatarFriends = () => {
+        return randomAvatarFriends.map((item, index) => (
+            <div key={item.id} className="rounded-circle avatar-friends">
+                <img
+                    loading="lazy"
+                    role="presentation"
+                    decoding="async"
+                    src={item.avatar}
+                    alt="Avatar user"
+                    className="rounded-circle"
+                />
+            </div>
+        ));
+    };
+
     return (
         <div className="tools d-flex justify-content-between flex-wrap">
             <div className="d-flex align-items-center justify-content-between">
-                {randomAvatarFriends.map((item, index) => (
-                    <div
-                        key={item.id}
-                        className="rounded-circle avatar-friends"
-                    >
-                        <img
-                            loading="lazy"
-                            role="presentation"
-                            decoding="async"
-                            src={item.avatar}
-                            alt="Avatar user"
-                            className="rounded-circle"
-                        />
-                    </div>
-                ))}
+                {renderRandomAvatarFriends()}
             </div>
 
             <div className="d-flex flex-wrap edit-profile">

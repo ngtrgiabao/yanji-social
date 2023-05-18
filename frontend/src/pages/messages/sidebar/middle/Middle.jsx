@@ -133,6 +133,95 @@ const Middle = () => {
         });
     }, [messageThread]);
 
+    const renderMessages = () => {
+        return messageThread.map((message, index) =>
+            message.sender === sender ? (
+                <div
+                    key={index}
+                    className="middle-container-body__right-text mb-2 fs-4 animate__animated animate__slideInRight"
+                >
+                    <div className="w-100 d-flex justify-content-end align-items-center">
+                        <FontAwesomeIcon
+                            icon={faTrash}
+                            className="text-danger"
+                            onClick={() => {
+                                setMessageID(message._id);
+                                handlePopup();
+                            }}
+                            style={{
+                                cursor: "pointer",
+                            }}
+                        />
+                        <span className="middle-container-body__right-message-content ms-3">
+                            {message.message}
+                        </span>
+                    </div>
+                </div>
+            ) : (
+                <div
+                    key={index}
+                    className="middle-container-body__left-text mb-2 fs-4 animate__animated animate__slideInLeft"
+                >
+                    <div className="w-100 d-flex justify-content-start align-items-center">
+                        <span className="middle-container-body__left-message-content me-2">
+                            {message.message}
+                        </span>
+                        <FontAwesomeIcon
+                            icon={faTrash}
+                            className="text-danger"
+                            onClick={() => {
+                                setMessageID(message._id);
+                                handlePopup();
+                            }}
+                            style={{
+                                cursor: "pointer",
+                            }}
+                        />
+                    </div>
+                </div>
+            )
+        );
+    };
+
+    const confirmPopup = () => {
+        return (
+            active && (
+                <div id="confirm" className="p-4" role="document">
+                    <div className="d-flex justify-content-between align-items-center fs-3 border-bottom text-white">
+                        <div className="fw-bold text-uppercase">
+                            Xác nhận xóa tin nhắn này
+                        </div>
+                        <span
+                            className="fs-1 close p-1"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                            onClick={() => handlePopup()}
+                        >
+                            &times;
+                        </span>
+                    </div>
+                    <span className="py-4 pb-5 d-block fs-3 text-white">
+                        Bạn muốn xóa tin nhắn này?
+                    </span>
+                    <div className="fs-3 d-flex justify-content-end">
+                        <button
+                            className="py-2 p-4 me-2"
+                            onClick={() => handlePopup()}
+                        >
+                            Close
+                        </button>
+                        <button
+                            className="py-2 p-4 fw-bold text-white bg-danger"
+                            onClick={() => handleDeleteMsg()}
+                        >
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            )
+        );
+    };
+
     return (
         <>
             <div className="middle-msg-page relative">
@@ -173,53 +262,7 @@ const Middle = () => {
                     </div>
                     {/* BODY */}
                     <div className="middle-container-body scrollbar px-4 pt-4 fs-3">
-                        {messageThread.map((message, index) =>
-                            message.sender === sender ? (
-                                <div
-                                    key={index}
-                                    className="middle-container-body__right-text mb-2 fs-4 animate__animated animate__slideInRight"
-                                >
-                                    <div className="w-100 d-flex justify-content-end align-items-center">
-                                        <FontAwesomeIcon
-                                            icon={faTrash}
-                                            className="text-danger"
-                                            onClick={() => {
-                                                setMessageID(message._id);
-                                                handlePopup();
-                                            }}
-                                            style={{
-                                                cursor: "pointer",
-                                            }}
-                                        />
-                                        <span className="middle-container-body__right-message-content ms-3">
-                                            {message.message}
-                                        </span>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div
-                                    key={index}
-                                    className="middle-container-body__left-text mb-2 fs-4 animate__animated animate__slideInLeft"
-                                >
-                                    <div className="w-100 d-flex justify-content-start align-items-center">
-                                        <span className="middle-container-body__left-message-content me-2">
-                                            {message.message}
-                                        </span>
-                                        <FontAwesomeIcon
-                                            icon={faTrash}
-                                            className="text-danger"
-                                            onClick={() => {
-                                                setMessageID(message._id);
-                                                handlePopup();
-                                            }}
-                                            style={{
-                                                cursor: "pointer",
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                            )
-                        )}
+                        {renderMessages()}
                         <div ref={scrollRef} />
                     </div>
                     {/* FOOTER */}
@@ -275,40 +318,7 @@ const Middle = () => {
                     </form>
                 </div>
 
-                {active && (
-                    <div id="confirm" className="p-4" role="document">
-                        <div className="d-flex justify-content-between align-items-center fs-3 border-bottom text-white">
-                            <div className="fw-bold text-uppercase">
-                                Xác nhận xóa tin nhắn này
-                            </div>
-                            <span
-                                className="fs-1 close p-1"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                                onClick={() => handlePopup()}
-                            >
-                                &times;
-                            </span>
-                        </div>
-                        <span className="py-4 pb-5 d-block fs-3 text-white">
-                            Bạn muốn xóa tin nhắn này?
-                        </span>
-                        <div className="fs-3 d-flex justify-content-end">
-                            <button
-                                className="py-2 p-4 me-2"
-                                onClick={() => handlePopup()}
-                            >
-                                Close
-                            </button>
-                            <button
-                                className="py-2 p-4 fw-bold text-white bg-danger"
-                                onClick={() => handleDeleteMsg()}
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                )}
+                {confirmPopup()}
             </div>
         </>
     );

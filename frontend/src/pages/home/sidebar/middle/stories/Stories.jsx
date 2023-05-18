@@ -50,6 +50,31 @@ const Stories = () => {
 
     // const IMG_STORY_URL = "https://random.imagecdn.app/v1/image?";
 
+    const renderStory = () => {
+        return storyData.map((item) => (
+            <div
+                className="story-item story"
+                key={item.id}
+                style={{
+                    background: `url(${item.avatar}) no-repeat center center/cover`,
+                }}
+            >
+                <div className="profile-pic">
+                    <img
+                        loading="lazy"
+                        role="presentation"
+                        decoding="async"
+                        src={item.avatar}
+                        alt="Avatar user"
+                    />
+                </div>
+                <p className="name text-center">
+                    {item.lastName + " " + item.firstName}
+                </p>
+            </div>
+        ));
+    };
+
     return (
         <div className="stories d-flex justify-content-between">
             <div
@@ -74,28 +99,7 @@ const Stories = () => {
                 <span className="create-post-icon">+</span>
             </div>
 
-            {storyData.map((item) => (
-                <div
-                    className="story-item story"
-                    key={item.id}
-                    style={{
-                        background: `url(${item.avatar}) no-repeat center center/cover`,
-                    }}
-                >
-                    <div className="profile-pic">
-                        <img
-                            loading="lazy"
-                            role="presentation"
-                            decoding="async"
-                            src={item.avatar}
-                            alt="Avatar user"
-                        />
-                    </div>
-                    <p className="name text-center">
-                        {item.lastName + " " + item.firstName}
-                    </p>
-                </div>
-            ))}
+            {renderStory()}
         </div>
     );
 };

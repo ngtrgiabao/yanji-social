@@ -4,22 +4,23 @@ import "../../../../../../style/pages/personal/body/friends/randomFriends/friend
 
 const RandomFriendsCollection = (props) => {
     const { avatars } = props;
-    return (
-        <div className="friends-grid">
-            {avatars.map((avatar, index) => {
-                return (
-                    <img
-                        loading="lazy"
-                        role="presentation"
-                        decoding="async"
-                        src={avatar}
-                        alt="Avatar user"
-                        key={index}
-                    />
-                );
-            })}
-        </div>
-    );
+
+    const renderAvatars = () => {
+        return avatars.map((avatar, index) => {
+            return (
+                <img
+                    loading="lazy"
+                    role="presentation"
+                    decoding="async"
+                    src={avatar}
+                    alt="Avatar user"
+                    key={index}
+                />
+            );
+        });
+    };
+
+    return <div className="friends-grid">{renderAvatars()}</div>;
 };
 
 export default RandomFriendsCollection;
