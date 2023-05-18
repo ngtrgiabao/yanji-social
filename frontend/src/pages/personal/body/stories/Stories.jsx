@@ -24,25 +24,29 @@ function Stories() {
         },
     ];
 
+    const renderStories = () => {
+        return stories.map((item) => (
+            <div key={item.id} className="col text-center">
+                <span>
+                    <img
+                        loading="lazy"
+                        role="presentation"
+                        decoding="async"
+                        src={item.imgURL}
+                        alt="Avatar user"
+                    />
+                </span>
+                <div className="title mt-2 fs-4">
+                    <p className="d-inline-block">{item.title}</p>
+                </div>
+            </div>
+        ));
+    };
+
     return (
         <div>
             <div className="row p-0 stories-row gap-3 mx-1">
-                {stories.map((item) => (
-                    <div key={item.id} className="col text-center">
-                        <span>
-                            <img
-                                loading="lazy"
-                                role="presentation"
-                                decoding="async"
-                                src={item.imgURL}
-                                alt="Avatar user"
-                            />
-                        </span>
-                        <div className="title mt-2 fs-4">
-                            <p className="d-inline-block">{item.title}</p>
-                        </div>
-                    </div>
-                ))}
+                {renderStories()}
             </div>
         </div>
     );

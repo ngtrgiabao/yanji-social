@@ -25,20 +25,20 @@ const NotificationItem = (props) => {
     );
 };
 
-function NotificationPopup() {
-    return (
-        <div className="d-flex">
-            {NotificationData.map((item, index) => (
-                <NotificationItem
-                    key={item.id}
-                    avatar={item.avatar}
-                    name={item.name}
-                    notificationAlert={item.notificationAlert}
-                    time={item.time}
-                />
-            ))}
-        </div>
-    );
-}
+const renderNotificationData = () => {
+    return NotificationData.map((item, index) => (
+        <NotificationItem
+            key={index}
+            avatar={item.avatar}
+            name={item.name}
+            notificationAlert={item.notificationAlert}
+            time={item.time}
+        />
+    ));
+};
+
+const NotificationPopup = () => {
+    return <div className="d-flex">{renderNotificationData()}</div>;
+};
 
 export default NotificationPopup;

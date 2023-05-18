@@ -14,7 +14,7 @@ import Stories from "../stories/Stories";
 import Gallery from "../gallery/Gallery";
 
 function Introduce() {
-    const introDuceIInfo = [
+    const introduceInfo = [
         {
             id: 1,
             title: "Học Software Engineering tại Đại học Cần Thơ - Can Tho University",
@@ -51,6 +51,27 @@ function Introduce() {
         },
     ];
 
+    const renderIntroduceInfo = () => {
+        return introduceInfo.map((item) => {
+            return (
+                <div key={item.id} className="fs-4 d-flex my-2">
+                    <item.icon />
+                    <p className="ms-3">
+                        {item.title}
+                        <a
+                            className={`m-0 link ${
+                                item.href || item.link ? "link__color" : ""
+                            }`}
+                            href={item.href || "#"}
+                        >
+                            {item.link}
+                        </a>
+                    </p>
+                </div>
+            );
+        });
+    };
+
     return (
         <div>
             <p className="fs-1 fw-bold">Introduce</p>
@@ -62,24 +83,7 @@ function Introduce() {
                 Edit Slogan
             </button>
 
-            {introDuceIInfo.map((item) => {
-                return (
-                    <div key={item.id} className="fs-4 d-flex my-2">
-                        <item.icon />
-                        <p className="ms-3">
-                            {item.title}
-                            <a
-                                className={`m-0 link ${
-                                    item.href || item.link ? "link__color" : ""
-                                }`}
-                                href={item.href || "#"}
-                            >
-                                {item.link}
-                            </a>
-                        </p>
-                    </div>
-                );
-            })}
+            {renderIntroduceInfo()}
 
             <button role="button" className="my-4">
                 Edit Details

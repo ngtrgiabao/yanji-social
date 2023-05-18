@@ -34,15 +34,17 @@ function SocialLinks() {
         },
     ];
 
+    const renderSocialLinks = () => {
+        return socialLinks.map((item) => (
+            <li key={item.id} className="me-1">
+                <a href="#">{item.title}</a>
+            </li>
+        ));
+    };
+
     return (
         <div>
-            <ul className="m-0 d-flex flex-wrap">
-                {socialLinks.map((item) => (
-                    <li key={item.id} className="me-1">
-                        <a href="#">{item.title}</a>
-                    </li>
-                ))}
-            </ul>
+            <ul className="m-0 d-flex flex-wrap">{renderSocialLinks()}</ul>
         </div>
     );
 }
