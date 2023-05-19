@@ -1,9 +1,11 @@
 import api from "./api.service";
 
 class MessageService {
-    async getAllMessages(roomID) {
+    async getAllMessagesByRoomID(roomID) {
         return await api.get(`/api/v1/message/all-messages/room/${roomID}`);
     }
+
+    async
 
     async sendMessage(message) {
         return await api.post(

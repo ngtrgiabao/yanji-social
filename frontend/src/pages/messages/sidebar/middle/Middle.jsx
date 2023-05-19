@@ -21,7 +21,7 @@ import { SOCKET_URL } from "../../../../constants/backend.url.constant";
 
 import {
     sendMessage,
-    getMessages,
+    getMessagesByRoomID,
     deleteMessage,
 } from "../../../../redux/request/messageRequest";
 
@@ -91,7 +91,7 @@ const Middle = () => {
     };
 
     useEffect(() => {
-        getMessages("6461eed0ccade08bb3c5329f", dispatch)
+        getMessagesByRoomID("6461eed0ccade08bb3c5329f", dispatch)
             .then((data) => {
                 Object.keys(data).forEach((key) => {
                     if (key === "messages") {
@@ -138,9 +138,9 @@ const Middle = () => {
             message.sender === sender ? (
                 <div
                     key={index}
-                    className="middle-container-body__right-text mb-2 fs-4 animate__animated animate__slideInRight"
+                    className="middle-container-body__right-text mb-2 fs-4 animate__animated animate__slideInRight d-flex align-items-end flex-column"
                 >
-                    <div className="w-100 d-flex justify-content-end align-items-center">
+                    <div className="d-flex align-items-center justify-content-end w-100">
                         <FontAwesomeIcon
                             icon={faTrash}
                             className="text-danger"
@@ -156,13 +156,16 @@ const Middle = () => {
                             {message.message}
                         </span>
                     </div>
+                    <div className="middle-container-body__right-time">
+                        {time}
+                    </div>
                 </div>
             ) : (
                 <div
                     key={index}
-                    className="middle-container-body__left-text mb-2 fs-4 animate__animated animate__slideInLeft"
+                    className="middle-container-body__left-text mb-2 fs-4 animate__animated animate__slideInLeft d-flex flex-column"
                 >
-                    <div className="w-100 d-flex justify-content-start align-items-center">
+                    <div className="d-flex justify-content-start align-items-center w-100">
                         <span className="middle-container-body__left-message-content me-2">
                             {message.message}
                         </span>
@@ -177,6 +180,9 @@ const Middle = () => {
                                 cursor: "pointer",
                             }}
                         />
+                    </div>
+                    <div className="middle-container-body__left-time">
+                        {time}
                     </div>
                 </div>
             )

@@ -23,8 +23,10 @@ function Gallery() {
         getGallery();
     }, []);
 
+    console.log(randomPhoto);
+
     return (
-        <div>
+        <>
             <div className="header d-flex justify-content-between">
                 <a href="#" className="fw-bold fs-3">
                     Images
@@ -36,7 +38,7 @@ function Gallery() {
             <div>
                 <GalleryCollection photos={randomPhoto} />
             </div>
-        </div>
+        </>
     );
 }
 

@@ -24,10 +24,10 @@ export const sendMessage = async (message, dispatch) => {
     }
 };
 
-export const getMessages = async (roomID, dispatch) => {
+export const getMessagesByRoomID = async (roomID, dispatch) => {
     dispatch(getMessageStart());
     try {
-        const res = await messageService.getAllMessages(roomID);
+        const res = await messageService.getAllMessagesByRoomID(roomID);
         dispatch(getMessageSuccess(res.data));
         return res.data;
     } catch (error) {

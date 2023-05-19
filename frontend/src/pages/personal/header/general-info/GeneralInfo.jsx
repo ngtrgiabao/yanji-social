@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { UilCamera } from "@iconscout/react-unicons";
 
 import AvatarFriends from "./AvatarFriends";
-import avtarImg from "../../../../assets/avatar/9183187b4cdc35c7ab00aa084cefed22.jpg";
+import avtarImg from "../../../../assets/avatar/kayo.jpg";
 
 import "../../../../style/pages/personal/header/general-info/generalInfo.css";
 

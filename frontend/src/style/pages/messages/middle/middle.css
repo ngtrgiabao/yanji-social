@@ -3,10 +3,12 @@
 .middle-msg-page {
     border: 0.5px solid rgba(204, 204, 204, 0.337);
 
-    display: flex;
-    flex-direction: column;
     grid-column-start: 2;
     grid-column-end: 4;
+}
+
+.middle-msg-page .middle-container {
+    height: 100%;
 }
 
 /* HEADER */
@@ -62,7 +64,7 @@
 
 /* BODY */
 .middle-msg-page .middle-container .middle-container-body {
-    height: 70vh;
+    height: 74vh;
 
     overflow-y: auto;
     overflow-x: hidden;
@@ -98,20 +100,6 @@
     .middle-container-body__left-time {
     font-size: 0.8em;
     font-weight: lighter;
-}
-
-.middle-container .middle-container-body .middle-container-body__left-text {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.middle-container .middle-container-body .middle-container-body__right-text {
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
-    align-items: flex-end;
 }
 
 /* FOOTER */

@@ -26,18 +26,18 @@ const Stories = () => {
         const getStory = async () => {
             try {
                 const story = await axios.get(USER_URL);
+                let stories = [];
 
                 story.data.results.forEach((friend) => {
-                    setStoryData((str) => [
-                        ...str,
-                        {
-                            id: friend.login.uuid,
-                            avatar: friend.picture.large,
-                            firstName: friend.name.first,
-                            lastName: friend.name.last,
-                        },
-                    ]);
+                    stories.push({
+                        id: friend.login.uuid,
+                        avatar: friend.picture.large,
+                        firstName: friend.name.first,
+                        lastName: friend.name.last,
+                    });
                 });
+
+                setStoryData(stories);
             } catch (error) {
                 console.error("Failed to get user data", error);
             }
