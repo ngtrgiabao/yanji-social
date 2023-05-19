@@ -13,13 +13,16 @@ function AvatarFriends() {
                 const avatar = await axios.get(
                     "https://randomuser.me/api/?results=9"
                 );
+                let avatars = [];
 
                 avatar.data.results.forEach((friend) => {
-                    setRandomAvatarFriends((avatarFriend) => [
-                        ...avatarFriend,
-                        { id: friend.login.uuid, avatar: friend.picture.large },
-                    ]);
+                    avatars.push({
+                        id: friend.login.uuid,
+                        avatar: friend.picture.large,
+                    });
                 });
+
+                setRandomAvatarFriends(avatars);
             } catch (error) {
                 console.error("Failed to get user data", error);
             }

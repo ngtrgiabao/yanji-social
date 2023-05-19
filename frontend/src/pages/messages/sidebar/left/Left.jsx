@@ -1,35 +1,74 @@
 import React, { useEffect, useState } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import "../../../../style/pages/messages/left/left.css";
-import { getRooms } from "../../../../redux/request/roomRequest";
-import { useDispatch } from "react-redux";
+
+import { getRoomsByUserID } from "../../../../redux/request/roomRequest";
+import { getUserByID } from "../../../../redux/request/userRequest";
 
 const Left = (props) => {
     const { avatarUser } = props;
-
     const [rooms, setRooms] = useState([]);
+    const [users, setUsers] = useState([]);
     const dispatch = useDispatch();
 
+    const sender = useSelector((state) => {
+        return state.auth.login.currentUser?.data._id;
+    });
+
     useEffect(() => {
-        getRooms(dispatch)
+        let isCancalled = false;
+        getRoomsByUserID(dispatch, sender)
             .then((data) => {
-                Object.keys(data).forEach((key) => {
-                    if (key === "rooms") {
-                        const value = data[key];
-                        setRooms(value);
-                    }
-                });
+                if (!isCancalled) {
+                    Object.keys(data).forEach((key) => {
+                        if (key === "rooms") {
+                            const value = data[key];
+                            setRooms(value);
+                        }
+                    });
+                }
             })
             .catch((error) => {
                 console.error("Failed to get rooms", error);
             });
+
+        return () => {
+            isCancalled = true;
+        };
     }, []);
 
+    useEffect(() => {
+        let isCancalled = false;
+
+        const friendIDs = rooms.map((item) => {
+            return item.participants.find((user) => user !== sender);
+        });
+
+        Promise.all(
+            friendIDs.map((friendID) => getUserByID(dispatch, friendID))
+        )
+            .then((responses) => {
+                if (!isCancalled) {
+                    const userList = responses
+                        .map((data) => data?.user)
+                        .filter(Boolean);
+                    setUsers(userList);
+                }
+            })
+            .catch((error) => {
+                console.error("Failed to get users by ID", error);
+            });
+
+        return () => {
+            isCancalled = true;
+        };
+    }, [rooms]);
+
     const renderRooms = () => {
-        return rooms.map((item, index) => (
+        return users.map((user, index) => (
             <div
                 className="d-flex align-items-center message-item p-3"
                 style={{ borderRadius: "1rem" }}
@@ -40,17 +79,12 @@ const Left = (props) => {
                         loading="lazy"
                         role="presentation"
                         decoding="async"
-                        // src={avatarUser}
+                        src={user.profilePicture || avatarUser}
                         alt="Avatar user"
                     />
                 </span>
                 <div className="message-body ms-3">
-                    <div className="fs-4 fw-bold">
-                        {item.name}
-                    </div>
-                    <div>
-                        <p style={{ marginBottom: "0" }}>{item._id}</p>
-                    </div>
+                    <div className="fs-4 fw-bold">{user.username}</div>
                 </div>
             </div>
         ));

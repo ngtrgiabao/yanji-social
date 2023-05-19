@@ -13,8 +13,8 @@ class UserService {
         return await api.post("/api/v1/user/register", data).data;
     }
 
-    async getUser(id) {
-        return await api.get(`/api/v1/user/${id}`).data;
+    async getUser(userID) {
+        return await api.get(`/api/v1/user/${userID}`);
     }
 
     async updateUser(id, data) {

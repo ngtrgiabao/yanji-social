@@ -4,6 +4,8 @@ import axios from "axios";
 
 import "../../style/pages/messages/messages.css";
 
+import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
+
 import Navigation from "../../layout/navigation/Navigation";
 import Left from "./sidebar/left/Left";
 import Middle from "./sidebar/middle/Middle";
@@ -37,7 +39,7 @@ function Messages() {
         <>
             <Navigation title="Login" link="/register" />
             <div className="messages">
-                <Left avatarUser={avatarUser} />
+                <Left avatarUser={KAYO_AVATAR} />
                 <Middle avatarUser={avatarUser} />
                 <Right />
             </div>
