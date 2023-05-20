@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const roomSlice = createSlice({
     name: "room",
     initialState: {
-        getRoom: {
-            room: null,
+        room: {
+            currentRoom: null,
             isFetching: false,
             error: false,
         },
@@ -12,16 +12,17 @@ const roomSlice = createSlice({
     reducers: {
         //GET MSG
         getRoomStart: (state) => {
-            state.getRoom.isFetching = true;
+            state.room = {};
+            state.room.isFetching = true;
         },
         getRoomSuccess: (state, action) => {
-            state.getRoom.isFetching = false;
-            state.getRoom.message = action.payload;
-            state.getRoom.error = false;
+            state.room.isFetching = false;
+            state.room.currentRoom = action.payload;
+            state.room.error = false;
         },
         getRoomFailed: (state) => {
-            state.getRoom.isFetching = false;
-            state.getRoom.error = true;
+            state.room.isFetching = false;
+            state.room.error = true;
         },
     },
 });

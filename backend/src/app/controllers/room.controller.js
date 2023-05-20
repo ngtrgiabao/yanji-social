@@ -37,10 +37,11 @@ const createRoom = async (req, res, next) => {
 };
 
 const getRoomByID = async (req, res, next) => {
-    const roomID = await RoomModel.findById(req.params.roomID);
+    const roomID = req.params.roomID;
+    const room = await RoomModel.findById(roomID);
 
     return res.status(200).json({
-        msg: roomID,
+        data: room,
     });
 };
 
@@ -50,7 +51,7 @@ const getAllRooms = async (req, res, next) => {
 
         return res.status(200).json({
             msg: "Get all rooms successfully",
-            rooms,
+            data: rooms,
         });
     } catch (error) {
         console.error("Failed to get all rooms");

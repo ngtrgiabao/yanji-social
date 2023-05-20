@@ -5,13 +5,17 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import "../../../../style/pages/messages/left/left.css";
 
-import { getRoomsByUserID } from "../../../../redux/request/roomRequest";
-import { getUserByID } from "../../../../redux/request/userRequest";
+import {
+    getCurrentRoom,
+    getRoomsByUserID,
+} from "../../../../redux/request/roomRequest";
+import { getUserByID } from "../../../../redux/request/authRequest";
 
 const Left = (props) => {
     const { avatarUser } = props;
     const [rooms, setRooms] = useState([]);
     const [users, setUsers] = useState([]);
+    const [currentChat, setCurrentChat] = useState(null);
     const dispatch = useDispatch();
 
     const sender = useSelector((state) => {
@@ -19,16 +23,11 @@ const Left = (props) => {
     });
 
     useEffect(() => {
-        let isCancalled = false;
+        let isCancelled = false;
         getRoomsByUserID(dispatch, sender)
             .then((data) => {
-                if (!isCancalled) {
-                    Object.keys(data).forEach((key) => {
-                        if (key === "rooms") {
-                            const value = data[key];
-                            setRooms(value);
-                        }
-                    });
+                if (!isCancelled) {
+                    setRooms(data.rooms); // Set rooms directly
                 }
             })
             .catch((error) => {
@@ -36,7 +35,7 @@ const Left = (props) => {
             });
 
         return () => {
-            isCancalled = true;
+            isCancelled = true;
         };
     }, []);
 
@@ -47,44 +46,60 @@ const Left = (props) => {
             return item.participants.find((user) => user !== sender);
         });
 
-        Promise.all(
-            friendIDs.map((friendID) => getUserByID(dispatch, friendID))
-        )
-            .then((responses) => {
-                if (!isCancalled) {
-                    const userList = responses
-                        .map((data) => data?.user)
-                        .filter(Boolean);
-                    setUsers(userList);
-                }
-            })
-            .catch((error) => {
-                console.error("Failed to get users by ID", error);
-            });
+        // Get all the user data from the server
+        const userPromises = friendIDs.map((friendID) =>
+            getUserByID(dispatch, friendID)
+        );
+
+        // Wait for all the promises to resolve
+        Promise.all(userPromises).then((responses) => {
+            // Check if the request was cancelled
+            if (!isCancalled) {
+                // Create a list of users from the responses
+                const userList = responses
+                    .map((data) => data?.user)
+                    .filter(Boolean);
+
+                // Set the users state
+                setUsers(userList);
+            }
+        });
+
+        // Catch any errors
+        Promise.all(userPromises).catch((error) => {
+            console.error("Failed to get users by ID", error);
+        });
 
         return () => {
             isCancalled = true;
         };
     }, [rooms]);
 
+    useEffect(() => {
+        currentChat && getCurrentRoom(dispatch, currentChat);
+    }, [currentChat, rooms, dispatch]);
+
     const renderRooms = () => {
-        return users.map((user, index) => (
+        return rooms.map((room) => (
             <div
                 className="d-flex align-items-center message-item p-3"
                 style={{ borderRadius: "1rem" }}
-                key={index}
+                key={room._id}
+                onClick={() => setCurrentChat(room._id)}
             >
                 <span className="profile-pic">
                     <img
                         loading="lazy"
                         role="presentation"
                         decoding="async"
-                        src={user.profilePicture || avatarUser}
+                        src={avatarUser}
                         alt="Avatar user"
                     />
                 </span>
                 <div className="message-body ms-3">
-                    <div className="fs-4 fw-bold">{user.username}</div>
+                    <div className="fs-4 fw-bold">
+                        {room.name} - {room._id}
+                    </div>
                 </div>
             </div>
         ));

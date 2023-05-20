@@ -29,9 +29,16 @@ const Middle = () => {
     });
 
     const handleInput = (e) => {
-        let newInput = { [e.target.name]: e.target.value };
+        const { name, value } = e.target;
 
-        setPostData({ ...postData, ...newInput });
+        if (postData[name] === value) {
+            return; // Skip state update if the value hasn't changed
+        }
+
+        setPostData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -77,27 +84,36 @@ const Middle = () => {
     const loadMore = async () => {
         setLoading(true);
 
-        let res = await axios.get(nextUrl);
+        try {
+            const res = await axios.get(nextUrl);
+            setNextUrl(res.data.next);
 
-        setNextUrl(res.data.next);
-
-        res.data.results.forEach(async (pokemon) => {
-            const poke = await axios.get(
-                `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+            const pokemonData = await Promise.all(
+                res.data.results.map(async (pokemon) => {
+                    const poke = await axios.get(pokemon.url);
+                    return poke.data; // Return the fetched data
+                })
             );
-            setPokemons((p) => [...p, poke.data]);
-            setLoading(false);
-        });
+
+            setPokemons((prevPokemons) => [...prevPokemons, ...pokemonData]);
+        } catch (error) {
+            console.error("Failed to get pokemon data", error);
+        }
+
+        setLoading(false);
     };
 
     const [avatar, setAvatar] = useState(null);
 
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {
+        const data = window.localStorage.getItem("avatar");
+        setAvatar(data);
+
         return () => {
-            avatar && URL.revokeObjectURL(avatar.preview);
+            data && URL.revokeObjectURL(data.preview);
         };
-    }, [avatar]);
+    }, []);
 
     // SAVE AVATAR USER TO LOCAL
     useEffect(() => {

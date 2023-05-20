@@ -3,78 +3,65 @@ import { createSlice } from "@reduxjs/toolkit";
 const messageSlice = createSlice({
     name: "message",
     initialState: {
-        sendMessage: {
-            message: null,
+        message: {
             isFetching: false,
             error: false,
-        },
-        editMessage: {
-            message: null,
-            isFetching: false,
-            error: false,
-        },
-        deleteMessage: {
-            message: null,
-            isFetching: false,
-            error: false,
-        },
-        getMessage: {
-            message: null,
-            isFetching: false,
-            error: false,
+            messageThread: null,
         },
     },
+
     reducers: {
         // SEND MSG
         sendMessageStart: (state) => {
-            state.sendMessage.isFetching = true;
+            state.message.isFetching = true;
         },
         sendMessageSuccess: (state, action) => {
-            state.sendMessage.isFetching = false;
-            state.sendMessage.message = action.payload;
-            state.sendMessage.error = false;
+            state.message.isFetching = false;
+            state.message.messageThread = action.payload;
+            state.message.error = false;
         },
         sendMessageFailed: (state) => {
-            state.sendMessage.isFetching = false;
-            state.sendMessage.error = true;
+            state.message.isFetching = false;
+            state.message.error = true;
         },
         //GET MSG
         getMessageStart: (state) => {
-            state.getMessage.isFetching = true;
+            state.message = {};
+            state.message.isFetching = true;
         },
         getMessageSuccess: (state, action) => {
-            state.getMessage.isFetching = false;
-            state.getMessage.message = action.payload;
-            state.getMessage.error = false;
+            state.message.isFetching = false;
+            state.message.messageThread = action.payload;
+            state.message.error = false;
         },
         getMessageFailed: (state) => {
-            state.getMessage.isFetching = false;
-            state.getMessage.error = true;
+            state.message.isFetching = false;
+            state.message.error = true;
         },
         // EDIT MSG
         editMessageStart: (state) => {
-            state.editMessage.isFetching = true;
+            state.message.isFetching = true;
         },
         editMessageSuccess: (state, action) => {
-            state.editMessage.isFetching = false;
-            state.editMessage.message = action.payload;
-            state.editMessage.error = false;
+            state.message.isFetching = false;
+            state.message.messageThread = action.payload;
+            state.message.error = false;
         },
         editMessageFailed: (state) => {
-            state.editMessage.isFetching = false;
-            state.editMessage.error = true;
+            state.message.isFetching = false;
+            state.message.error = true;
         },
         // DELETE MSG
         deleteMessageStart: (state) => {
-            state.deleteMessage.isFetching = true;
+            state.message.isFetching = true;
         },
         deleteMessageSuccess: (state, action) => {
-            state.deleteMessage.isFetching = false;
-            state.deleteMessage.error = false;
+            state.message.isFetching = false;
+            state.message.error = false;
         },
         deleteMessageFailed: (state) => {
-            state.deleteMessage.isFetching = false;
-            state.deleteMessage.error = true;
+            state.message.isFetching = false;
+            state.message.error = true;
         },
     },
 });

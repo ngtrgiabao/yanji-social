@@ -5,8 +5,6 @@ class MessageService {
         return await api.get(`/api/v1/message/all-messages/room/${roomID}`);
     }
 
-    async
-
     async sendMessage(message) {
         return await api.post(
             `/api/v1/message/send-message/${message.sender}`,

@@ -16,28 +16,38 @@ import {
     UilExclamationTriangle,
 } from "@iconscout/react-unicons";
 
-const PokemonsList = (props) => {
-    const { name, id, image } = props;
+const options = {
+    hour: "numeric",
+    minute: "numeric",
+};
 
-    const [active, setActive] = useState(null);
+const PokemonsList = (props) => {
+    const { name, image } = props;
+
     const [popup, setPopup] = useState(false);
     const [time, setTime] = useState(new Date());
 
     useEffect(() => {
-        const interval = setInterval(() => {
+        const updateCurrentTime = () => {
             setTime(new Date());
-        }, 1000);
-        return () => clearInterval(interval);
+
+            setTimeout(updateCurrentTime, 1000);
+        };
+
+        updateCurrentTime();
     }, []);
 
-    const options = {
-        hour: "numeric",
-        minute: "numeric",
-    };
+    useEffect(() => {
+        const handleClickOutside = () => {
+            setPopup(false);
+        };
 
-    window.addEventListener("click", () => {
-        setPopup(false);
-    });
+        window.addEventListener("click", handleClickOutside);
+
+        return () => {
+            window.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
 
     const handlePopup = (e) => {
         e.stopPropagation();
@@ -75,18 +85,11 @@ const PokemonsList = (props) => {
                         <UilEllipsisH
                             className="dots"
                             onClick={(e) => {
-                                setActive(id);
                                 handlePopup(e);
                             }}
                         />
 
-                        <div
-                            className={`edit-post ${
-                                popup && active === id
-                                    ? "animate__animated animate__bounceIn"
-                                    : "hide"
-                            }`}
-                        >
+                        <div className="edit-post" hidden={!popup}>
                             <ul>
                                 <li className="delete-post">
                                     <span>

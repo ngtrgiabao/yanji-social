@@ -62,6 +62,7 @@ const authSlice = createSlice({
         },
         // GET USER
         getUserStart: (state) => {
+            state.user = {};
             state.user.isFetching = true;
         },
         getUserSuccess: (state) => {

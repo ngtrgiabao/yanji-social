@@ -22,3 +22,15 @@ export const getRoomsByUserID = async (dispatch, userID) => {
         dispatch(getRoomFailed());
     }
 };
+
+export const getCurrentRoom = async (dispatch, roomID) => {
+    dispatch(getRoomStart());
+
+    try {
+        const res = await roomService.getRoomByID(roomID);
+        dispatch(getRoomSuccess(res.data));
+        return res.data;
+    } catch (error) {
+        dispatch(getRoomFailed());
+    }
+};
