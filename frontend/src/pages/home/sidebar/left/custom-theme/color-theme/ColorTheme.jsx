@@ -8,9 +8,8 @@ function ColorTheme() {
     const textColorTheme = localStorage.getItem("text_color");
     const { setTextColors } = useTheme();
 
-    return (
-        <div className="color">
-            <h4>Color</h4>
+    const renderColorThemeMenu = () => {
+        return (
             <div className="choose-color d-flex justify-content-between align-items-center">
                 <span
                     className={
@@ -48,6 +47,13 @@ function ColorTheme() {
                     onClick={() => setTextColors("color-5")}
                 ></span>
             </div>
+        );
+    };
+
+    return (
+        <div className="color">
+            <h4>Color</h4>
+            {renderColorThemeMenu()}
         </div>
     );
 }

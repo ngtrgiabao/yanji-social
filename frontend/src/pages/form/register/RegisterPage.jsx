@@ -103,6 +103,260 @@ const RegisterPage = () => {
             });
     };
 
+    const renderUsernameInput = () => {
+        return (
+            <div className="register-form__input">
+                <div>
+                    <label htmlFor="username">
+                        Username
+                        <span className={validName ? "valid" : "hide"}>😀</span>
+                        <span
+                            className={
+                                validName || !username ? "hide" : "invalid"
+                            }
+                        >
+                            😢
+                        </span>
+                    </label>
+                    <input
+                        required
+                        id="username"
+                        type="text"
+                        placeholder="username"
+                        ref={userRef}
+                        onChange={(e) => setUsername(e.target.value)}
+                        aria-invalid={validName ? "false" : "true"}
+                        aria-describedby="uidnote"
+                        onFocus={() => setUserFocus(true)}
+                        onBlur={() => setUserFocus(false)}
+                        autoComplete="off"
+                        value={username}
+                    />
+                    <p
+                        id="uidnote"
+                        className={
+                            userFocus && username && !validName
+                                ? "instructions animate__animated animate__bounceIn"
+                                : "offscreen"
+                        }
+                    >
+                        <FontAwesomeIcon icon={faCircleInfo} />
+                        4 to 24 characters. <br />
+                        Must begin with a letter. <br />
+                        Letters, numbers, underscores, hyphens allowed.
+                    </p>
+                </div>
+                <span></span>
+            </div>
+        );
+    };
+
+    const renderEmailInput = () => {
+        return (
+            <div className="register-form__input">
+                <div>
+                    <label htmlFor="email">
+                        Email
+                        <span className={validEmail ? "valid" : "hide"}>
+                            😀
+                        </span>
+                        <span
+                            className={
+                                validEmail || !email ? "hide" : "invalid"
+                            }
+                        >
+                            😢
+                        </span>
+                    </label>
+                    <input
+                        required
+                        id="email"
+                        type="email"
+                        placeholder="example@gmail.com"
+                        onChange={(e) => setEmail(e.target.value)}
+                        aria-invalid={validEmail ? "false" : "true"}
+                        aria-describedby="emailnote"
+                        onFocus={() => setEmailFocus(true)}
+                        onBlur={() => setEmailFocus(false)}
+                        autoComplete="off"
+                        value={email}
+                    />
+                    <p
+                        id="emailnote"
+                        className={
+                            emailFocus && email && !validEmail
+                                ? "instruction animate__animated animate__bounceIn"
+                                : "offscreen"
+                        }
+                    >
+                        <FontAwesomeIcon icon={faCircleInfo} />
+                        Must be valid email
+                    </p>
+                </div>
+            </div>
+        );
+    };
+
+    const renderPwdInput = () => {
+        return (
+            <div className="register-form__input">
+                <div>
+                    <label htmlFor="password">
+                        Password
+                        <span className={validPwd ? "valid" : "hide"}>😀</span>
+                        <span className={validPwd || !pwd ? "hide" : "invalid"}>
+                            😢
+                        </span>
+                    </label>
+                    <input
+                        required
+                        id="password"
+                        type="password"
+                        placeholder="at least 5 characters"
+                        onChange={(e) => setPwd(e.target.value)}
+                        value={pwd}
+                        aria-invalid={validPwd ? "false" : "true"}
+                        aria-describedby="pwdnote"
+                        onFocus={() => setPwdFocus(true)}
+                        onBlur={() => setPwdFocus(false)}
+                    />
+                    <p
+                        id="pwdnote"
+                        className={
+                            pwdFocus && pwd && !validPwd
+                                ? "instructions animate__animated animate__bounceIn"
+                                : "offscreen"
+                        }
+                    >
+                        <FontAwesomeIcon icon={faCircleInfo} />
+                        8 to 24 characters.
+                        <br />
+                        Must include uppercase and lowercase letters, a number
+                        and a special character.
+                        <br />
+                        Allowed special characters:
+                        <span aria-label="exclamation mark">!</span>
+                        <span aria-label="at symbol">@</span>
+                        <span aria-label="hashtag">#</span>
+                        <span aria-label="dollar sign">$</span>
+                        <span aria-label="percent">%</span>
+                    </p>
+                </div>
+                <span></span>
+            </div>
+        );
+    };
+
+    const renderRePwdInput = () => {
+        return (
+            <div className="register-form__input">
+                <div>
+                    <label htmlFor="re-password">
+                        Re-Password
+                        <span
+                            className={
+                                validMatch && matchPwd ? "valid" : "hide"
+                            }
+                        >
+                            😀
+                        </span>
+                        <span
+                            className={
+                                validMatch || !matchPwd ? "hide" : "invalid"
+                            }
+                        >
+                            😢
+                        </span>
+                    </label>
+                    <input
+                        required
+                        id="re-password"
+                        type="password"
+                        minLength={5}
+                        placeholder="password"
+                        onChange={(e) => setMatchPwd(e.target.value)}
+                        aria-label={validMatch ? "false" : "true"}
+                        aira-describedby="confirmnote"
+                        onFocus={() => setMatchFocus(true)}
+                        onBlur={() => setMatchFocus(false)}
+                    />
+                    <p
+                        id="confirmnote"
+                        className={
+                            matchFocus && matchPwd && !validMatch
+                                ? "instructions"
+                                : "offscreen"
+                        }
+                    >
+                        <FontAwesomeIcon icon={faCircleInfo} />
+                        Must match the first password input field.
+                    </p>
+                </div>
+                <span></span>
+            </div>
+        );
+    };
+
+    const renderSubmitBtn = () => {
+        return (
+            <button
+                role="button"
+                type="submit"
+                disabled={
+                    !validName || !validEmail || !validPwd || !validMatch
+                        ? true
+                        : false
+                }
+            >
+                Register
+            </button>
+        );
+    };
+
+    const renderSuccessMsg = () => {
+        return (
+            <section>
+                <h1>REGISTER SUCCESS 😃🎉🎉</h1>
+                <p>
+                    You can login now [<strong>{username}</strong>] 😎
+                </p>
+                <u>
+                    <Link to="/login">Login now</Link>
+                </u>
+            </section>
+        );
+    };
+
+    const renderForm = () => {
+        return (
+            <>
+                <p
+                    ref={errRef}
+                    className={errMsg ? "errmsg" : "offscreen"}
+                    aria-live="assertive"
+                >
+                    {errMsg}
+                </p>
+                <div className="register-form__container">
+                    <span className="register-form__title">Sign Up</span>
+
+                    <div className="register-form__container-body">
+                        {renderUsernameInput()}
+                        {renderEmailInput()}
+                        {renderPwdInput()}
+                        {renderRePwdInput()}
+                        {renderSubmitBtn()}
+
+                        <div className="register-form__footer">
+                            <span className="me-3">Already have account?</span>
+                            <Link to="/login">Login now</Link>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    };
+
     return (
         <>
             <Navigation title="Login" link="/login" />
@@ -118,341 +372,7 @@ const RegisterPage = () => {
                         }`,
                     }}
                 >
-                    {success ? (
-                        <section>
-                            <h1>REGISTER SUCCESS 😃🎉🎉</h1>
-                            <p>
-                                You can login now [<strong>{username}</strong>]
-                                😎
-                            </p>
-                            <u>
-                                <Link to="/login">Login now</Link>
-                            </u>
-                        </section>
-                    ) : (
-                        <>
-                            <p
-                                ref={errRef}
-                                className={errMsg ? "errmsg" : "offscreen"}
-                                aria-live="assertive"
-                            >
-                                {errMsg}
-                            </p>
-                            <div className="register-form__top">
-                                <h1>Yanji Social</h1>
-                            </div>
-                            <div className="register-form__container">
-                                <div className="register-form__title">
-                                    <span>Sign Up</span>
-                                </div>
-
-                                <div className="register-form__container-body">
-                                    {/* USERNAME */}
-                                    <div className="register-form__input">
-                                        <div>
-                                            <label htmlFor="username">
-                                                Username
-                                                <span
-                                                    className={
-                                                        validName
-                                                            ? "valid"
-                                                            : "hide"
-                                                    }
-                                                >
-                                                    😀
-                                                </span>
-                                                <span
-                                                    className={
-                                                        validName || !username
-                                                            ? "hide"
-                                                            : "invalid"
-                                                    }
-                                                >
-                                                    😢
-                                                </span>
-                                            </label>
-                                            <input
-                                                required
-                                                id="username"
-                                                type="text"
-                                                placeholder="username"
-                                                ref={userRef}
-                                                onChange={(e) =>
-                                                    setUsername(e.target.value)
-                                                }
-                                                aria-invalid={
-                                                    validName ? "false" : "true"
-                                                }
-                                                aria-describedby="uidnote"
-                                                onFocus={() =>
-                                                    setUserFocus(true)
-                                                }
-                                                onBlur={() =>
-                                                    setUserFocus(false)
-                                                }
-                                                autoComplete="off"
-                                                value={username}
-                                            />
-                                            <p
-                                                id="uidnote"
-                                                className={
-                                                    userFocus &&
-                                                    username &&
-                                                    !validName
-                                                        ? "instructions animate__animated animate__bounceIn"
-                                                        : "offscreen"
-                                                }
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faCircleInfo}
-                                                />
-                                                4 to 24 characters. <br />
-                                                Must begin with a letter. <br />
-                                                Letters, numbers, underscores,
-                                                hyphens allowed.
-                                            </p>
-                                        </div>
-                                        <span></span>
-                                    </div>
-
-                                    {/* EMAIL */}
-                                    <div className="register-form__input">
-                                        <div>
-                                            <label htmlFor="email">
-                                                Email
-                                                <span
-                                                    className={
-                                                        validEmail
-                                                            ? "valid"
-                                                            : "hide"
-                                                    }
-                                                >
-                                                    😀
-                                                </span>
-                                                <span
-                                                    className={
-                                                        validEmail || !email
-                                                            ? "hide"
-                                                            : "invalid"
-                                                    }
-                                                >
-                                                    😢
-                                                </span>
-                                            </label>
-                                            <input
-                                                required
-                                                id="email"
-                                                type="email"
-                                                placeholder="example@gmail.com"
-                                                onChange={(e) =>
-                                                    setEmail(e.target.value)
-                                                }
-                                                aria-invalid={
-                                                    validEmail
-                                                        ? "false"
-                                                        : "true"
-                                                }
-                                                aria-describedby="emailnote"
-                                                onFocus={() =>
-                                                    setEmailFocus(true)
-                                                }
-                                                onBlur={() =>
-                                                    setEmailFocus(false)
-                                                }
-                                                autoComplete="off"
-                                                value={email}
-                                            />
-                                            <p
-                                                id="emailnote"
-                                                className={
-                                                    emailFocus &&
-                                                    email &&
-                                                    !validEmail
-                                                        ? "instruction animate__animated animate__bounceIn"
-                                                        : "offscreen"
-                                                }
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faCircleInfo}
-                                                />
-                                                Must be valid email
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    {/* PWD */}
-                                    <div className="register-form__input">
-                                        <div>
-                                            <label htmlFor="password">
-                                                Password
-                                                <span
-                                                    className={
-                                                        validPwd
-                                                            ? "valid"
-                                                            : "hide"
-                                                    }
-                                                >
-                                                    😀
-                                                </span>
-                                                <span
-                                                    className={
-                                                        validPwd || !pwd
-                                                            ? "hide"
-                                                            : "invalid"
-                                                    }
-                                                >
-                                                    😢
-                                                </span>
-                                            </label>
-                                            <input
-                                                required
-                                                id="password"
-                                                type="password"
-                                                placeholder="at least 5 characters"
-                                                onChange={(e) =>
-                                                    setPwd(e.target.value)
-                                                }
-                                                value={pwd}
-                                                aria-invalid={
-                                                    validPwd ? "false" : "true"
-                                                }
-                                                aria-describedby="pwdnote"
-                                                onFocus={() =>
-                                                    setPwdFocus(true)
-                                                }
-                                                onBlur={() =>
-                                                    setPwdFocus(false)
-                                                }
-                                            />
-                                            <p
-                                                id="pwdnote"
-                                                className={
-                                                    pwdFocus && pwd && !validPwd
-                                                        ? "instructions animate__animated animate__bounceIn"
-                                                        : "offscreen"
-                                                }
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faCircleInfo}
-                                                />
-                                                8 to 24 characters.
-                                                <br />
-                                                Must include uppercase and
-                                                lowercase letters, a number and
-                                                a special character.
-                                                <br />
-                                                Allowed special characters:
-                                                <span aria-label="exclamation mark">
-                                                    !
-                                                </span>
-                                                <span aria-label="at symbol">
-                                                    @
-                                                </span>
-                                                <span aria-label="hashtag">
-                                                    #
-                                                </span>
-                                                <span aria-label="dollar sign">
-                                                    $
-                                                </span>
-                                                <span aria-label="percent">
-                                                    %
-                                                </span>
-                                            </p>
-                                        </div>
-                                        <span></span>
-                                    </div>
-
-                                    {/* Re-PWD */}
-                                    <div className="register-form__input">
-                                        <div>
-                                            <label htmlFor="re-password">
-                                                Re-Password
-                                                <span
-                                                    className={
-                                                        validMatch && matchPwd
-                                                            ? "valid"
-                                                            : "hide"
-                                                    }
-                                                >
-                                                    😀
-                                                </span>
-                                                <span
-                                                    className={
-                                                        validMatch || !matchPwd
-                                                            ? "hide"
-                                                            : "invalid"
-                                                    }
-                                                >
-                                                    😢
-                                                </span>
-                                            </label>
-                                            <input
-                                                required
-                                                id="re-password"
-                                                type="password"
-                                                minLength={5}
-                                                placeholder="password"
-                                                onChange={(e) =>
-                                                    setMatchPwd(e.target.value)
-                                                }
-                                                aria-label={
-                                                    validMatch
-                                                        ? "false"
-                                                        : "true"
-                                                }
-                                                aira-describedby="confirmnote"
-                                                onFocus={() =>
-                                                    setMatchFocus(true)
-                                                }
-                                                onBlur={() =>
-                                                    setMatchFocus(false)
-                                                }
-                                            />
-                                            <p
-                                                id="confirmnote"
-                                                className={
-                                                    matchFocus &&
-                                                    matchPwd &&
-                                                    !validMatch
-                                                        ? "instructions"
-                                                        : "offscreen"
-                                                }
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faCircleInfo}
-                                                />
-                                                Must match the first password
-                                                input field.
-                                            </p>
-                                        </div>
-                                        <span></span>
-                                    </div>
-
-                                    <button
-                                        role="button"
-                                        type="submit"
-                                        disabled={
-                                            !validName ||
-                                            !validEmail ||
-                                            !validPwd ||
-                                            !validMatch
-                                                ? true
-                                                : false
-                                        }
-                                    >
-                                        Register
-                                    </button>
-
-                                    <div className="register-form__footer">
-                                        <span className="me-3">
-                                            Already have account?
-                                        </span>
-                                        <Link to="/login">Login now</Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </>
-                    )}
+                    {success ? renderSuccessMsg() : renderForm()}
                 </form>
             </div>
         </>

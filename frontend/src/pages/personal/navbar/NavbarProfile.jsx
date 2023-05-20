@@ -102,6 +102,38 @@ function MenuProfile() {
         setChecked((checked) => !checked);
     };
 
+    const renderSettingProfile = () => {
+        return (
+            <span
+                className="btn btn-dots text-light d-flex align-items-center py-1 px-3 me-2"
+                onClick={handleClick}
+            >
+                <UitEllipsisV className="dots" />
+                {checked && (
+                    <div className="box-setting-profile rounded-3">
+                        <div className="p-3">
+                            {boxSettingProfileItems.map((item) => (
+                                <div
+                                    key={item.id}
+                                    className="box-setting-profile-item d-flex align-items-center  rounded-3 p-2"
+                                >
+                                    <span>
+                                        {React.createElement(item.icon, {
+                                            size: 20,
+                                        })}
+                                    </span>
+                                    <p className="ms-3 my-3 fs-4 fw-bold">
+                                        {item.title}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </span>
+        );
+    };
+
     return (
         <>
             <div className="d-flex align-items-center justify-content-between mb-4">
@@ -153,34 +185,7 @@ function MenuProfile() {
                         </ul>
                     </div>
                 </nav>
-
-                <span
-                    className="btn btn-dots text-light d-flex align-items-center py-1 px-3 me-2"
-                    onClick={handleClick}
-                >
-                    <UitEllipsisV className="dots" />
-                    {checked && (
-                        <div className="box-setting-profile rounded-3">
-                            <div className="p-3">
-                                {boxSettingProfileItems.map((item) => (
-                                    <div
-                                        key={item.id}
-                                        className="box-setting-profile-item d-flex align-items-center  rounded-3 p-2"
-                                    >
-                                        <span>
-                                            {React.createElement(item.icon, {
-                                                size: 20,
-                                            })}
-                                        </span>
-                                        <p className="ms-3 my-3 fs-4 fw-bold">
-                                            {item.title}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                </span>
+                {renderSettingProfile()}
             </div>
         </>
     );

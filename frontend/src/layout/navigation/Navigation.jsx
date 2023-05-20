@@ -28,6 +28,27 @@ const Navigation = (props) => {
         logout(dispatch, navigate);
     };
 
+    const renderSwitchBtn = () => {
+        return user ? (
+            <Link
+                to="/logout"
+                className="btn btn-danger d-flex align-items-center justify-content-center gap-4"
+                htmlFor="#logout"
+                onClick={handleLogout}
+            >
+                Logout
+            </Link>
+        ) : (
+            <Link
+                to={link}
+                className="nav__btn d-flex align-items-center justify-content-center gap-4"
+                htmlFor="#create-post"
+            >
+                {title}
+            </Link>
+        );
+    };
+
     return (
         <>
             <nav className="py-3 header-navbar">
@@ -54,24 +75,7 @@ const Navigation = (props) => {
                             width: "12%",
                         }}
                     >
-                        {user ? (
-                            <Link
-                                to="/logout"
-                                className="btn btn-danger d-flex align-items-center justify-content-center gap-4"
-                                htmlFor="#logout"
-                                onClick={handleLogout}
-                            >
-                                Logout
-                            </Link>
-                        ) : (
-                            <Link
-                                to={link}
-                                className="nav__btn d-flex align-items-center justify-content-center gap-4"
-                                htmlFor="#create-post"
-                            >
-                                {title}
-                            </Link>
-                        )}
+                        {renderSwitchBtn()}
                         <Link
                             to={user ? `/user/${userID}` : "/"}
                             className="profile-pic ms-4"

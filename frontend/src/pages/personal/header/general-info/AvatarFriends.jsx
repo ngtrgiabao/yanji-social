@@ -8,6 +8,8 @@ function AvatarFriends() {
     const [randomAvatarFriends, setRandomAvatarFriends] = useState([]);
 
     useEffect(() => {
+        let isCancelled = false;
+
         const getFriendsAvatar = async () => {
             try {
                 const avatar = await axios.get(
@@ -28,7 +30,13 @@ function AvatarFriends() {
             }
         };
 
-        getFriendsAvatar();
+        if (!isCancelled) {
+            getFriendsAvatar();
+        }
+
+        return () => {
+            isCancelled = true;
+        };
     }, []);
 
     const renderRandomAvatarFriends = () => {

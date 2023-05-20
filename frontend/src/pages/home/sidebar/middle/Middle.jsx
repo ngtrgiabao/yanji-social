@@ -134,6 +134,54 @@ const Middle = () => {
         return state.auth.login.currentUser?.data._id;
     });
 
+    const renderActionUploadPost = () => {
+        return (
+            <div className="d-flex justify-content-between create-post-action">
+                <div className="d-flex justify-items-around create-post-icons">
+                    <Form.Control
+                        type="file"
+                        name="photo"
+                        ref={fileInput}
+                        multiple
+                        accept="image/*"
+                        style={{ display: "none" }}
+                    />
+                    <span>
+                        <UilScenery
+                            className="sidebar-icon"
+                            id="fileSelect"
+                            onClick={() => {
+                                fileInput.current.click();
+                            }}
+                        />
+                    </span>
+                    <span>
+                        <UilSmile className="sidebar-icon" />
+                    </span>
+                    <span>
+                        <UilLocationPoint className="sidebar-icon" />
+                    </span>
+                    <span>
+                        <UilLabelAlt className="sidebar-icon" />
+                    </span>
+                </div>
+
+                <div
+                    className="submit d-flex align-items-center"
+                    title="Đăng bài viết"
+                >
+                    <button
+                        role="button"
+                        type="submit"
+                        className="btn btn-primary"
+                    >
+                        Post
+                    </button>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <>
             <div className="middle animate__animated animate__fadeIn">
@@ -171,49 +219,7 @@ const Middle = () => {
                         />
                     </div>
 
-                    <div className="d-flex justify-content-between create-post-action">
-                        <div className="d-flex justify-items-around create-post-icons">
-                            <Form.Control
-                                type="file"
-                                name="photo"
-                                ref={fileInput}
-                                multiple
-                                accept="image/*"
-                                style={{ display: "none" }}
-                            />
-                            <span>
-                                <UilScenery
-                                    className="sidebar-icon"
-                                    id="fileSelect"
-                                    onClick={() => {
-                                        fileInput.current.click();
-                                    }}
-                                />
-                            </span>
-                            <span>
-                                <UilSmile className="sidebar-icon" />
-                            </span>
-                            <span>
-                                <UilLocationPoint className="sidebar-icon" />
-                            </span>
-                            <span>
-                                <UilLabelAlt className="sidebar-icon" />
-                            </span>
-                        </div>
-
-                        <div
-                            className="submit d-flex align-items-center"
-                            title="Đăng bài viết"
-                        >
-                            <button
-                                role="button"
-                                type="submit"
-                                className="btn btn-primary"
-                            >
-                                Post
-                            </button>
-                        </div>
-                    </div>
+                    {renderActionUploadPost()}
                 </form>
                 {/* END STATUS */}
 
