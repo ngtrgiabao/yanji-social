@@ -62,7 +62,7 @@ const Middle = () => {
         socket.on("disconnect", () => {
             console.log("Server disconnected :<");
         });
-    }, []);
+    }, [socket]);
 
     const now = new Date();
     const time = `${now.getHours()}:${now.getMinutes()}`;
@@ -90,6 +90,7 @@ const Middle = () => {
             });
     };
 
+    // FIX
     useEffect(() => {
         getMessagesByRoomID("6461eed0ccade08bb3c5329f", dispatch)
             .then((data) => {
@@ -191,40 +192,38 @@ const Middle = () => {
 
     const confirmPopup = () => {
         return (
-            active && (
-                <div id="confirm" className="p-4" role="document">
-                    <div className="d-flex justify-content-between align-items-center fs-3 border-bottom text-white">
-                        <div className="fw-bold text-uppercase">
-                            Xác nhận xóa tin nhắn này
-                        </div>
-                        <span
-                            className="fs-1 close p-1"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                            onClick={() => handlePopup()}
-                        >
-                            &times;
-                        </span>
+            <div id="confirm" className="p-4" role="document" hidden={!active}>
+                <div className="d-flex justify-content-between align-items-center fs-3 border-bottom text-white">
+                    <div className="fw-bold text-uppercase">
+                        Xác nhận xóa tin nhắn này
                     </div>
-                    <span className="py-4 pb-5 d-block fs-3 text-white">
-                        Bạn muốn xóa tin nhắn này?
+                    <span
+                        className="fs-1 close p-1"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        onClick={() => handlePopup()}
+                    >
+                        &times;
                     </span>
-                    <div className="fs-3 d-flex justify-content-end">
-                        <button
-                            className="py-2 p-4 me-2"
-                            onClick={() => handlePopup()}
-                        >
-                            Close
-                        </button>
-                        <button
-                            className="py-2 p-4 fw-bold text-white bg-danger"
-                            onClick={() => handleDeleteMsg()}
-                        >
-                            Delete
-                        </button>
-                    </div>
                 </div>
-            )
+                <span className="py-4 pb-5 d-block fs-3 text-white">
+                    Bạn muốn xóa tin nhắn này?
+                </span>
+                <div className="fs-3 d-flex justify-content-end">
+                    <button
+                        className="py-2 p-4 me-2"
+                        onClick={() => handlePopup()}
+                    >
+                        Close
+                    </button>
+                    <button
+                        className="py-2 p-4 fw-bold text-white bg-danger"
+                        onClick={() => handleDeleteMsg()}
+                    >
+                        Delete
+                    </button>
+                </div>
+            </div>
         );
     };
 

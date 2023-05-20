@@ -12,7 +12,7 @@ const Stories = () => {
     useEffect(() => {
         const data = window.localStorage.getItem("avatar");
         setAvatar(data);
-    }, [avatar]);
+    }, []);
 
     // GET RANDOM STORIES
     const [storyData, setStoryData] = useState([]);
@@ -25,18 +25,13 @@ const Stories = () => {
     useEffect(() => {
         const getStory = async () => {
             try {
-                const story = await axios.get(USER_URL);
-                let stories = [];
-
-                story.data.results.forEach((friend) => {
-                    stories.push({
-                        id: friend.login.uuid,
-                        avatar: friend.picture.large,
-                        firstName: friend.name.first,
-                        lastName: friend.name.last,
-                    });
-                });
-
+                const response = await axios.get(USER_URL);
+                const stories = response.data.results.map((friend) => ({
+                    id: friend.login.uuid,
+                    avatar: friend.picture.large,
+                    firstName: friend.name.first,
+                    lastName: friend.name.last,
+                }));
                 setStoryData(stories);
             } catch (error) {
                 console.error("Failed to get user data", error);
