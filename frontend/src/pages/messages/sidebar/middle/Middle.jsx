@@ -28,19 +28,30 @@ import {
 const Middle = () => {
     const [message, setMessage] = useState("");
     const [active, setActive] = useState(false);
-    const [messageThread, setMessageThread] = useState([]);
     const [messageID, setMessageID] = useState("");
+    const [messageThread, setMessageThread] = useState([]);
+    const [currentConversation, setCurrentConversation] = useState(null);
+
     const scrollRef = useRef();
     const dispatch = useDispatch();
 
+    const now = new Date();
+    const time = `${now.getHours()}:${now.getMinutes()}`;
+
     const socketRef = useRef(null);
+
     if (!socketRef.current) {
         socketRef.current = io(SOCKET_URL);
     }
+    
     const socket = socketRef.current;
 
     const sender = useSelector((state) => {
         return state.auth.login.currentUser?.data._id;
+    });
+
+    const currentRoom = useSelector((state) => {
+        return state.room.room?.currentRoom;
     });
 
     useEffect(() => {
@@ -53,58 +64,90 @@ const Middle = () => {
         });
 
         socket.on("receive-message", (data) => {
-            setMessageThread((prevMessageThread) => [
-                ...prevMessageThread,
-                data,
-            ]);
+            const { roomId } = data;
+            roomId === currentConversation &&
+                setMessageThread((prevMessageThread) => [
+                    ...prevMessageThread,
+                    data,
+                ]);
         });
 
         socket.on("disconnect", () => {
             console.log("Server disconnected :<");
         });
-    }, [socket]);
+    }, [socket, currentConversation]);
 
-    const now = new Date();
-    const time = `${now.getHours()}:${now.getMinutes()}`;
+    useEffect(() => {
+        let isCancelled = false;
+
+        if (currentRoom && !isCancelled) {
+            const roomData = currentRoom.data;
+            if (roomData) {
+                Object.keys(roomData).forEach((key) => {
+                    if (key === "_id") {
+                        {
+                            const value = roomData[key];
+                            setCurrentConversation(value);
+                        }
+                    }
+                });
+            }
+        }
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [currentRoom]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const newMessage = {
-            sender,
-            message,
-            time,
-            roomId: "6461eed0ccade08bb3c5329f",
-        };
+        if (currentConversation) {
+            const newMessage = {
+                sender,
+                message,
+                time,
+                roomId: currentConversation,
+            };
 
-        sendMessage(newMessage, dispatch)
-            .then(async () => {
-                if (message) {
-                    await socket.emit("send-message", newMessage);
-                    setMessage("");
-                }
-            })
-            .catch((error) => {
-                alert("Failed to send message");
-                console.error("Failed to send message", error);
-            });
+            sendMessage(newMessage, dispatch)
+                .then(async () => {
+                    if (message) {
+                        await socket.emit("send-message", newMessage);
+                        setMessage("");
+                    }
+                })
+                .catch((error) => {
+                    alert("Failed to send message");
+                    console.error("Failed to send message", error);
+                });
+        }
     };
 
     // FIX
     useEffect(() => {
-        getMessagesByRoomID("6461eed0ccade08bb3c5329f", dispatch)
-            .then((data) => {
-                Object.keys(data).forEach((key) => {
-                    if (key === "messages") {
-                        const value = data[key];
-                        setMessageThread(value);
+        let isCancalled = false;
+
+        if (currentConversation) {
+            getMessagesByRoomID(currentConversation, dispatch)
+                .then((data) => {
+                    if (!isCancalled) {
+                        Object.keys(data).forEach((key) => {
+                            if (key === "messages") {
+                                const value = data[key];
+                                setMessageThread(value);
+                            }
+                        });
                     }
+                })
+                .catch((error) => {
+                    console.error("Failed to get messages", error);
                 });
-            })
-            .catch((error) => {
-                console.error("Failed to get messages", error);
-            });
-    }, []);
+        }
+        return () => {
+            isCancalled = true;
+        };
+    }, [currentConversation]);
 
     const handleDeleteMsg = () => {
         deleteMessage(messageID, dispatch)
@@ -227,103 +270,118 @@ const Middle = () => {
         );
     };
 
+    const renderConversation = () => {
+        return currentConversation ? (
+            <div className="middle-container">
+                {/* HEADER */}
+                <div className="middle-container-header d-flex align-items-center justify-content-between py-3 px-4 pb-3">
+                    <div className="d-flex align-items-center">
+                        <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
+                            src={Photo}
+                            alt="Avatar user"
+                            className="rounded-circle middle-avatar-chat"
+                        />
+                        <span className="ms-2 fs-4 fw-bold">
+                            {currentConversation}
+                        </span>
+                    </div>
+                    <div className="d-flex fs-4">
+                        <span
+                            aria-label="Gọi điện"
+                            className="icon d-flex justify-content-center align-items-center rounded-circle"
+                        >
+                            <FontAwesomeIcon icon={faPhone} />
+                        </span>
+                        <span
+                            aria-label="Gọi video"
+                            className="icon d-flex justify-content-center align-items-center rounded-circle mx-4"
+                        >
+                            <FontAwesomeIcon icon={faVideo} />
+                        </span>
+                        <span
+                            aria-label="Xem thêm thông tin"
+                            className="icon d-flex justify-content-center align-items-center rounded-circle"
+                        >
+                            <FontAwesomeIcon icon={faCircleInfo} />
+                        </span>
+                    </div>
+                </div>
+                {/* BODY */}
+                <div className="middle-container-body scrollbar px-4 pt-4 fs-3">
+                    {renderMessages()}
+                    <div ref={scrollRef} />
+                </div>
+                {/* FOOTER */}
+                <form
+                    onSubmit={(e) => {
+                        handleSubmit(e);
+                    }}
+                    className="middle-container-footer p-4 d-flex justify-content-between align-items-center"
+                >
+                    <div className="d-flex justify-content-between">
+                        <span
+                            className="icon fs-3"
+                            aria-label="Mở hành động khác"
+                        >
+                            <FontAwesomeIcon icon={faPlus} />
+                        </span>
+                        <span
+                            className="icon fs-3 mx-3"
+                            aria-label="Đính kèm file"
+                        >
+                            <FontAwesomeIcon icon={faImage} />
+                        </span>
+                        <span className="icon fs-3" aria-label="Chọn emoji">
+                            <FontAwesomeIcon icon={faFaceLaughBeam} />
+                        </span>
+                    </div>
+
+                    <div className="user-input-chat">
+                        <input
+                            type="text"
+                            className="rounded py-2 px-3 fs-4"
+                            placeholder="Text your message here..."
+                            maxLength="3500"
+                            style={{
+                                border: "1px solid var(--color-primary)",
+                            }}
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            autoFocus
+                        />
+                    </div>
+                    <span
+                        className="icon fs-3 d-flex justify-content-end align-items-center"
+                        style={{
+                            width: "fit-content",
+                            borderRadius: "0.5rem",
+                            padding: "0.8rem",
+                        }}
+                        aria-label="Thả cảm xúc"
+                    >
+                        <FontAwesomeIcon icon={faThumbsUp} />
+                    </span>
+                </form>
+            </div>
+        ) : (
+            <div
+                className="h-100 d-flex justify-content-center align-items-center fs-1"
+                style={{
+                    fontWeight: "bold",
+                }}
+            >
+                Hãy chọn một đoạn chat hoặc bắt đầu cuộc trò chuyện mới
+            </div>
+        );
+    };
+
     return (
         <>
             <div className="middle-msg-page relative">
-                <div className="middle-container">
-                    {/* HEADER */}
-                    <div className="middle-container-header d-flex align-items-center justify-content-between py-3 px-4 pb-3">
-                        <div className="d-flex align-items-center">
-                            <img
-                                loading="lazy"
-                                role="presentation"
-                                decoding="async"
-                                src={Photo}
-                                alt="Avatar user"
-                                className="rounded-circle middle-avatar-chat"
-                            />
-                            <span className="ms-2 fs-4 fw-bold">Yanji</span>
-                        </div>
-                        <div className="d-flex fs-4">
-                            <span
-                                aria-label="Gọi điện"
-                                className="icon d-flex justify-content-center align-items-center rounded-circle"
-                            >
-                                <FontAwesomeIcon icon={faPhone} />
-                            </span>
-                            <span
-                                aria-label="Gọi video"
-                                className="icon d-flex justify-content-center align-items-center rounded-circle mx-4"
-                            >
-                                <FontAwesomeIcon icon={faVideo} />
-                            </span>
-                            <span
-                                aria-label="Xem thêm thông tin"
-                                className="icon d-flex justify-content-center align-items-center rounded-circle"
-                            >
-                                <FontAwesomeIcon icon={faCircleInfo} />
-                            </span>
-                        </div>
-                    </div>
-                    {/* BODY */}
-                    <div className="middle-container-body scrollbar px-4 pt-4 fs-3">
-                        {renderMessages()}
-                        <div ref={scrollRef} />
-                    </div>
-                    {/* FOOTER */}
-                    <form
-                        onSubmit={(e) => {
-                            handleSubmit(e);
-                        }}
-                        className="middle-container-footer p-4 d-flex justify-content-between align-items-center"
-                    >
-                        <div className="d-flex justify-content-between">
-                            <span
-                                className="icon fs-3"
-                                aria-label="Mở hành động khác"
-                            >
-                                <FontAwesomeIcon icon={faPlus} />
-                            </span>
-                            <span
-                                className="icon fs-3 mx-3"
-                                aria-label="Đính kèm file"
-                            >
-                                <FontAwesomeIcon icon={faImage} />
-                            </span>
-                            <span className="icon fs-3" aria-label="Chọn emoji">
-                                <FontAwesomeIcon icon={faFaceLaughBeam} />
-                            </span>
-                        </div>
-
-                        <div className="user-input-chat">
-                            <input
-                                type="text"
-                                className="rounded py-2 px-3 fs-4"
-                                placeholder="Text your message here..."
-                                maxLength="3500"
-                                style={{
-                                    border: "1px solid var(--color-primary)",
-                                }}
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                                autoFocus
-                            />
-                        </div>
-                        <span
-                            className="icon fs-3 d-flex justify-content-end align-items-center"
-                            style={{
-                                width: "fit-content",
-                                borderRadius: "0.5rem",
-                                padding: "0.8rem",
-                            }}
-                            aria-label="Thả cảm xúc"
-                        >
-                            <FontAwesomeIcon icon={faThumbsUp} />
-                        </span>
-                    </form>
-                </div>
-
-                {confirmPopup()}
+                {renderConversation()} {confirmPopup()}
             </div>
         </>
     );

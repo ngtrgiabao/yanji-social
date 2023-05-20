@@ -4,7 +4,6 @@ const messageSlice = createSlice({
     name: "message",
     initialState: {
         message: {
-            currentMessage: null,
             isFetching: false,
             error: false,
             messageThread: null,

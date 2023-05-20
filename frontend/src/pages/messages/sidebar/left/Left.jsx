@@ -5,9 +5,11 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import "../../../../style/pages/messages/left/left.css";
 
-import { getRoomsByUserID } from "../../../../redux/request/roomRequest";
-import { getUserByID } from "../../../../redux/request/userRequest";
-import { getMessagesByRoomID } from "../../../../redux/request/messageRequest";
+import {
+    getCurrentRoom,
+    getRoomsByUserID,
+} from "../../../../redux/request/roomRequest";
+import { getUserByID } from "../../../../redux/request/authRequest";
 
 const Left = (props) => {
     const { avatarUser } = props;
@@ -74,15 +76,8 @@ const Left = (props) => {
     }, [rooms]);
 
     useEffect(() => {
-        currentChat &&
-            getMessagesByRoomID(currentChat, dispatch)
-                .then((data) => {
-                    console.log(data);
-                })
-                .catch((error) => {
-                    console.error("Failed to get message by room", error);
-                });
-    }, [currentChat]);
+        currentChat && getCurrentRoom(dispatch, currentChat);
+    }, [currentChat, rooms, dispatch]);
 
     const renderRooms = () => {
         return rooms.map((room) => (

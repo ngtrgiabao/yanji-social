@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import Navigation from "../../../layout/navigation/Navigation";
-import { loginUser } from "../../../redux/request/userRequest";
+import { loginUser } from "../../../redux/request/authRequest";
 
 import "../../../style/pages/form/register/registerPage.css";
 
