@@ -1,7 +1,6 @@
 import React from "react";
 import { NotificationData } from "../../../../../data/NotificationData";
 
-import "animate.css";
 import "../../../../../style/pages/home/sidebar/left/notificationPopup/notificationPopup.css";
 
 const NotificationItem = (props) => {

@@ -8,9 +8,8 @@ function FontSizeTheme() {
     const fontSize = localStorage.getItem("font_size");
     const { setFontSizes } = useTheme();
 
-    return (
-        <div className="font-size">
-            <h4>Font Size</h4>
+    const renderFontsizeMenu = () => {
+        return (
             <div>
                 <h6>Aa</h6>
                 <div className="choose-size d-flex justify-content-between align-items-center">
@@ -52,6 +51,13 @@ function FontSizeTheme() {
                 </div>
                 <h3>Aa</h3>
             </div>
+        );
+    };
+
+    return (
+        <div className="font-size">
+            <h4>Font Size</h4>
+            {renderFontsizeMenu()}
         </div>
     );
 }

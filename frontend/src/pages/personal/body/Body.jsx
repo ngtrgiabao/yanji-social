@@ -37,6 +37,17 @@ function Body() {
         setPopup((popup) => !popup);
     };
 
+    const renderPostPopup = () => {
+        return (
+            popup && (
+                <PostPopup
+                    onPopup={handlePopup}
+                    animateClass="animate__animated animate__bounceIn"
+                />
+            )
+        );
+    };
+
     return (
         <>
             <div className="row place-items-center gap-3">
@@ -77,12 +88,7 @@ function Body() {
                 </div>
             </div>
 
-            {popup && (
-                <PostPopup
-                    onPopup={handlePopup}
-                    animateClass="animate__animated animate__bounceIn"
-                />
-            )}
+            {renderPostPopup()}
         </>
     );
 }

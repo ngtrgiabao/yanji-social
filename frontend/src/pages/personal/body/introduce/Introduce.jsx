@@ -52,24 +52,22 @@ function Introduce() {
     ];
 
     const renderIntroduceInfo = () => {
-        return introduceInfo.map((item) => {
-            return (
-                <div key={item.id} className="fs-4 d-flex my-2">
-                    <item.icon />
-                    <p className="ms-3">
-                        {item.title}
-                        <a
-                            className={`m-0 link ${
-                                item.href || item.link ? "link__color" : ""
-                            }`}
-                            href={item.href || "#"}
-                        >
-                            {item.link}
-                        </a>
-                    </p>
-                </div>
-            );
-        });
+        return introduceInfo.map((item) => (
+            <div key={item.id} className="fs-4 d-flex my-2">
+                <item.icon />
+                <p className="ms-3">
+                    {item.title}
+                    <a
+                        className={`m-0 link ${
+                            item.href || item.link ? "link__color" : ""
+                        }`}
+                        href={item.href || "#"}
+                    >
+                        {item.link}
+                    </a>
+                </p>
+            </div>
+        ));
     };
 
     return (

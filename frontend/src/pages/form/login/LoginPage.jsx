@@ -25,49 +25,53 @@ function LoginPage() {
         loginUser(newUser, dispatch, navigate);
     };
 
+    const renderUsernameInput = () => {
+        return (
+            <div className="login-form__input">
+                <label htmlFor="">Username</label>
+                <input
+                    type="text"
+                    placeholder="username"
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+            </div>
+        );
+    };
+
+    const renderPwdInput = () => {
+        return (
+            <div className="login-form__input">
+                <label htmlFor="">Password</label>
+                <input
+                    type="password"
+                    placeholder="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </div>
+        );
+    };
+
+    const renderSubmitBtn = () => {
+        return (
+            <button role="button" type="submit">
+                Sign in
+            </button>
+        );
+    };
+
     return (
         <>
             <Navigation title="Register" link="/register" />
 
             <div className="form-background animate__animated animate__fadeIn">
                 <form id="login-form" onSubmit={handleLogin}>
-                    <div className="login-form__top">
-                        <div>Yanji Social</div>
-                    </div>
                     <div className="login-form__container">
-                        <div className="login-form__title">
-                            <span>Login</span>
-                        </div>
+                        <span className="login-form__title">Login</span>
                         <div className="login-form__container-body">
-                            <div className="login-form__input">
-                                <div>
-                                    <label htmlFor="">Username</label>
-                                    <input
-                                        type="text"
-                                        placeholder="username"
-                                        onChange={(e) =>
-                                            setUsername(e.target.value)
-                                        }
-                                    />
-                                </div>
-                                <span></span>
-                            </div>
-                            <div className="login-form__input">
-                                <div>
-                                    <label htmlFor="">Password</label>
-                                    <input
-                                        type="password"
-                                        placeholder="password"
-                                        onChange={(e) =>
-                                            setPassword(e.target.value)
-                                        }
-                                    />
-                                </div>
-                                <span></span>
-                            </div>
-                            <button role="button" type="submit">
-                                Sign in
-                            </button>
+                            {renderUsernameInput()}
+                            {renderPwdInput()}
+                            {renderSubmitBtn()}
+
                             <div className="register-form__footer">
                                 <Link to="/">Forgot your password?</Link>
                             </div>
