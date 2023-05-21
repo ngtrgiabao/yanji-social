@@ -190,6 +190,11 @@
     font-size: 0.8em;
 }
 
+#register-form .register-form__container .register-form__footer a:hover,
+#login-form .login-form__container .register-form__footer a:hover {
+    text-decoration: underline;
+}
+
 /* CHECK VALID */
 
 .instructions {

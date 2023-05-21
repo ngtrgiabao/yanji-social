@@ -10,6 +10,7 @@
         "@fortawesome/react-fontawesome": "^0.2.0",
         "@iconscout/react-unicons": "^1.1.6",
         "@iconscout/react-unicons-thinline": "^0.0.1",
+        "@magicbell/magicbell-react": "^10.7.1",
         "@reduxjs/toolkit": "^1.9.1",
         "@testing-library/jest-dom": "^5.16.4",
         "@testing-library/react": "^13.3.0",

@@ -11,6 +11,24 @@ const io = new Server(httpServer, {
     },
 });
 
+let users = [];
+
+const addUser = (userID, socketID) => {
+    !users.some((user) => user.userID === userID) &&
+        users.push({
+            userID,
+            socketID,
+        });
+
+    console.log(users);
+};
+
+const removeUser = (socketID) => {
+    users = users.filter((user) => user.socketID !== socketID);
+
+    console.log(users);
+};
+
 io.on("connection", (socket) => {
     try {
         console.log(`User connected: ${socket.id} successfully :D`);
@@ -28,8 +46,18 @@ io.on("connection", (socket) => {
             console.log(`User ${sender} have sent message at ${time}`);
         });
 
+        socket.on("add-user", (data) => {
+            const { user } = data;
+            addUser(user, socket?.id);
+            io.emit("get-users", users);
+        });
+
         socket.on("disconnect", () => {
-            console.log(`User disconnected: ${socket.id}`);
+            removeUser(socket?.id);
+            io.emit("get-users", users);
+
+            console.log(users);
+            console.log(`User ${socket.id} disconnected`);
         });
     } catch (error) {
         console.error("User cannot connected");

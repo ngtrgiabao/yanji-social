@@ -137,28 +137,34 @@ const Left = () => {
 
     const renderMessageBtn = () => {
         return (
-            <Link
-                to="/messages"
-                className={`menu-item ${active === "MESSAGES" ? "active" : ""}`}
-                onClick={() => {
-                    setActive("MESSAGES");
-                }}
-                id="message-notification"
-                title="Gửi tin nhắn"
-            >
-                <span>
-                    <UilChat className="sidebar-icon" />
-                    <small
-                        className="notification-count bg-danger"
-                        style={{
-                            display: `${active === "MESSAGES" ? "none" : ""}`,
-                        }}
-                    >
-                        6
-                    </small>
-                </span>
-                <h3 className="ms-4">Messages</h3>
-            </Link>
+            userID && (
+                <Link
+                    to="/messages"
+                    className={`menu-item ${
+                        active === "MESSAGES" ? "active" : ""
+                    }`}
+                    onClick={() => {
+                        setActive("MESSAGES");
+                    }}
+                    id="message-notification"
+                    title="Gửi tin nhắn"
+                >
+                    <span>
+                        <UilChat className="sidebar-icon" />
+                        <small
+                            className="notification-count bg-danger"
+                            style={{
+                                display: `${
+                                    active === "MESSAGES" ? "none" : ""
+                                }`,
+                            }}
+                        >
+                            6
+                        </small>
+                    </span>
+                    <h3 className="ms-4">Messages</h3>
+                </Link>
+            )
         );
     };
 
