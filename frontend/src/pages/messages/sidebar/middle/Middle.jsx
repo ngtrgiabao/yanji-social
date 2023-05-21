@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useDebugValue, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import io from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +12,9 @@ import {
     faThumbsUp,
     faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import MagicBell, {
+    FloatingNotificationInbox,
+} from "@magicbell/magicbell-react";
 
 import "../../../../style/pages/messages/middle/middle.css";
 
@@ -40,12 +43,6 @@ const Middle = () => {
 
     const socketRef = useRef(null);
 
-    if (!socketRef.current) {
-        socketRef.current = io(SOCKET_URL);
-    }
-
-    const socket = socketRef.current;
-
     const sender = useSelector((state) => {
         return state.auth.login.currentUser?.data._id;
     });
@@ -55,42 +52,59 @@ const Middle = () => {
     });
 
     useEffect(() => {
+        socketRef.current = io(SOCKET_URL);
+        const socket = socketRef.current;
+
         socket.emit("client", {
             msg: "Hello from client 😀",
         });
 
-        socket.on("server", (data) => {
-            console.log(data);
+        socket.emit("add-user", {
+            user: sender,
         });
 
-        socket.on("receive-message", (data) => {
+        const handleServerResponse = (data) => {
+            console.log(data);
+        };
+
+        const handleReceivedMessage = (data) => {
             const { roomId } = data;
             roomId === currentConversation &&
                 setMessageThread((prevMessageThread) => [
                     ...prevMessageThread,
                     data,
                 ]);
-        });
+        };
 
-        socket.on("disconnect", () => {
+        const handleGetUsers = (user) => {
+            console.log(user);
+        };
+
+        const handleDisconnect = () => {
             console.log("Server disconnected :<");
-        });
-    }, [socket, currentConversation]);
+        };
+
+        socket.on("server", handleServerResponse);
+        socket.on("receive-message", handleReceivedMessage);
+        socket.on("get-users", handleGetUsers);
+        socket.on("disconnect", handleDisconnect);
+
+        return () => {
+            socket.off("server", handleServerResponse);
+            socket.off("receive-message", handleReceivedMessage);
+            socket.off("get-users", handleGetUsers);
+            socket.off("disconnect", handleDisconnect);
+        };
+    }, [currentConversation]);
 
     useEffect(() => {
         let isCancelled = false;
 
         if (currentRoom && !isCancelled) {
             const roomData = currentRoom.data;
-            if (roomData) {
-                Object.keys(roomData).forEach((key) => {
-                    if (key === "_id") {
-                        {
-                            const value = roomData[key];
-                            setCurrentConversation(value);
-                        }
-                    }
-                });
+            if (roomData && roomData._id) {
+                const value = roomData._id;
+                setCurrentConversation(value);
             }
         }
 
@@ -104,16 +118,19 @@ const Middle = () => {
 
         if (currentConversation) {
             const newMessage = {
-                sender,
-                message,
-                time,
+                sender: sender,
+                message: message,
+                time: time,
                 roomId: currentConversation,
             };
 
             sendMessage(newMessage, dispatch)
                 .then(async () => {
                     if (message) {
-                        await socket.emit("send-message", newMessage);
+                        await socketRef.current.emit(
+                            "send-message",
+                            newMessage
+                        );
                         setMessage("");
                     }
                 })
@@ -124,7 +141,6 @@ const Middle = () => {
         }
     };
 
-    // FIX
     useEffect(() => {
         let isCancalled = false;
 
@@ -147,7 +163,7 @@ const Middle = () => {
         return () => {
             isCancalled = true;
         };
-    }, [currentConversation]);
+    }, [currentConversation, dispatch]);
 
     const handleDeleteMsg = () => {
         deleteMessage(messageID, dispatch)
@@ -390,6 +406,14 @@ const Middle = () => {
     return (
         <>
             <div className="middle-msg-page relative">
+                <MagicBell
+                    apiKey="84b8e554127e05465dcec54678d0f49859b4a548"
+                    userEmail="mary@example.com"
+                >
+                    {(props) => (
+                        <FloatingNotificationInbox height={500} {...props} />
+                    )}
+                </MagicBell>
                 {renderConversation()} {renderConfirmPopup()}
             </div>
         </>

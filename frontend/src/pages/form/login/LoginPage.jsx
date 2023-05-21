@@ -72,8 +72,14 @@ function LoginPage() {
                             {renderPwdInput()}
                             {renderSubmitBtn()}
 
-                            <div className="register-form__footer">
+                            <div className="register-form__footer d-flex flex-column align-items-start">
                                 <Link to="/">Forgot your password?</Link>
+                                <span className="fs-6">
+                                    Not have account?
+                                    <Link to="/register" className="ms-2 fs-4">
+                                        Register
+                                    </Link>
+                                </span>
                             </div>
                         </div>
                     </div>

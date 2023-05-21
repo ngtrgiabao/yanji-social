@@ -14,7 +14,9 @@ const User = new Schema(
     {
         username: {
             type: String,
-            required: true,
+            require: true,
+            min: 3,
+            max: 20,
             unique: true,
         },
         password: {
@@ -26,6 +28,10 @@ const User = new Schema(
             required: true,
         },
         profilePicture: {
+            type: String,
+            default: null,
+        },
+        coverPicture: {
             type: String,
             default: null,
         },
@@ -41,14 +47,10 @@ const User = new Schema(
             type: String,
             default: "",
         },
-        photos: [
-            {
-                name: {
-                    type: String,
-                    default: null,
-                },
-            },
-        ],
+        desc: {
+            type: String,
+            max: 50,
+        },
         friends: [
             {
                 type: mongoose.Schema.Types.ObjectId,

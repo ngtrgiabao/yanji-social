@@ -17,6 +17,8 @@ function Messages() {
     const [avatarUser, setAvatarUser] = useState([]);
 
     useEffect(() => {
+        let isCancalled = false;
+
         const getDataUser = async () => {
             try {
                 const response = await axios.get(USER_URL);
@@ -31,8 +33,13 @@ function Messages() {
                 console.error("Failed to get user data", error);
             }
         };
+        if (!isCancalled) {
+            getDataUser();
+        }
 
-        getDataUser();
+        return () => {
+            isCancalled = true;
+        };
     }, []);
 
     return (
