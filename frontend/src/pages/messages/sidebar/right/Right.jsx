@@ -271,7 +271,7 @@ const Right = () => {
                 <div className="right-container scrollbar d-flex flex-column align-items-center">
                     {renderAvatarUser()}
                     {renderActionUser()}
-                    <ul className="right-container-footer mt-4 d-flex flex-column justify-content-center ps-0">
+                    <div className="right-container-footer mt-4 d-flex flex-column justify-content-center ps-0">
                         <>
                             {renderSettingChat()}
                             {renderSubSettingChat()}
@@ -284,7 +284,7 @@ const Right = () => {
                             {renderSettingPrivateAndPrivacy()}
                             {renderSubSettingPrivateAndPrivacy()}
                         </>
-                    </ul>
+                    </div>
                 </div>
             </div>
         </>

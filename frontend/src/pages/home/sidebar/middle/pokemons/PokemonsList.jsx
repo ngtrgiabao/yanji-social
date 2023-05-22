@@ -139,7 +139,11 @@ const PokemonsList = (props) => {
             <div className="post">
                 <div className="head">
                     <div className="user">
-                        <Link to="/user" className="profile-pic bg-white">
+                        <Link
+                            to="/user"
+                            className="profile-pic bg-white"
+                            aria-label="Avatar user"
+                        >
                             <img
                                 loading="lazy"
                                 role="presentation"

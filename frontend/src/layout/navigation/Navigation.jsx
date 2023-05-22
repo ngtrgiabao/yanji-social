@@ -77,6 +77,7 @@ const Navigation = (props) => {
                     >
                         {renderSwitchBtn()}
                         <Link
+                            aria-label="Avatar user"
                             to={user ? `/user/${userID}` : "/"}
                             className="profile-pic ms-4"
                         >

@@ -199,6 +199,7 @@ const Middle = () => {
                         <Link
                             to={user ? `/user/${userID}` : "/"}
                             className="profile-pic"
+                            aria-label="Avatar user"
                         >
                             <img
                                 loading="lazy"
