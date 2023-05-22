@@ -23,3 +23,7 @@
 .try-video-call__btn:hover {
     background: var(--color-light);
 }
+
+.contact-list > li:hover {
+    color: var(--color-primary);
+}

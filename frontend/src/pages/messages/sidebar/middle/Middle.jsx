@@ -27,6 +27,7 @@ import {
     getMessagesByRoomID,
     deleteMessage,
 } from "../../../../redux/request/messageRequest";
+import { useCallback } from "react";
 
 const Middle = () => {
     const [message, setMessage] = useState("");
@@ -34,22 +35,39 @@ const Middle = () => {
     const [messageID, setMessageID] = useState("");
     const [messageThread, setMessageThread] = useState([]);
     const [currentConversation, setCurrentConversation] = useState(null);
-
+    const socketRef = useRef(null);
     const scrollRef = useRef();
     const dispatch = useDispatch();
 
     const now = new Date();
     const time = `${now.getHours()}:${now.getMinutes()}`;
 
-    const socketRef = useRef(null);
-
     const sender = useSelector((state) => {
         return state.auth.login.currentUser?.data._id;
     });
 
-    const currentRoom = useSelector((state) => {
-        return state.room.room?.currentRoom;
-    });
+    const handleSocket = {
+        serverResponse: useCallback((data) => {
+            console.log(data);
+        }, []),
+        receivedMessage: useCallback(
+            (data) => {
+                const { roomId } = data;
+                roomId === currentConversation &&
+                    setMessageThread((prevMessageThread) => [
+                        ...prevMessageThread,
+                        data,
+                    ]);
+            },
+            [currentConversation]
+        ),
+        getUsers: useCallback((user) => {
+            // console.log(user);
+        }, []),
+        disconnect: useCallback(() => {
+            console.log("Server disconnected :<");
+        }, []),
+    };
 
     useEffect(() => {
         socketRef.current = io(SOCKET_URL);
@@ -63,39 +81,27 @@ const Middle = () => {
             user: sender,
         });
 
-        const handleServerResponse = (data) => {
-            console.log(data);
-        };
-
-        const handleReceivedMessage = (data) => {
-            const { roomId } = data;
-            roomId === currentConversation &&
-                setMessageThread((prevMessageThread) => [
-                    ...prevMessageThread,
-                    data,
-                ]);
-        };
-
-        const handleGetUsers = (user) => {
-            console.log(user);
-        };
-
-        const handleDisconnect = () => {
-            console.log("Server disconnected :<");
-        };
-
-        socket.on("server", handleServerResponse);
-        socket.on("receive-message", handleReceivedMessage);
-        socket.on("get-users", handleGetUsers);
-        socket.on("disconnect", handleDisconnect);
+        socket.on("server", handleSocket.serverResponse);
+        socket.on("receive-message", handleSocket.receivedMessage);
+        socket.on("get-users", handleSocket.getUsers);
+        socket.on("disconnect", handleSocket.disconnect);
 
         return () => {
-            socket.off("server", handleServerResponse);
-            socket.off("receive-message", handleReceivedMessage);
-            socket.off("get-users", handleGetUsers);
-            socket.off("disconnect", handleDisconnect);
+            socket.off("server", handleSocket.serverResponse);
+            socket.off("receive-message", handleSocket.receivedMessage);
+            socket.off("get-users", handleSocket.getUsers);
+            socket.off("disconnect", handleSocket.disconnect);
         };
-    }, [currentConversation]);
+    }, [
+        handleSocket.serverResponse,
+        handleSocket.receivedMessage,
+        handleSocket.getUsers,
+        handleSocket.disconnect,
+    ]);
+
+    const currentRoom = useSelector((state) => {
+        return state.room.room?.currentRoom;
+    });
 
     useEffect(() => {
         let isCancelled = false;
@@ -305,18 +311,21 @@ const Middle = () => {
                 <div className="d-flex fs-4">
                     <span
                         aria-label="Gọi điện"
+                        role="button"
                         className="icon d-flex justify-content-center align-items-center rounded-circle"
                     >
                         <FontAwesomeIcon icon={faPhone} />
                     </span>
                     <span
                         aria-label="Gọi video"
+                        role="button"
                         className="icon d-flex justify-content-center align-items-center rounded-circle mx-4"
                     >
                         <FontAwesomeIcon icon={faVideo} />
                     </span>
                     <span
                         aria-label="Xem thêm thông tin"
+                        role="button"
                         className="icon d-flex justify-content-center align-items-center rounded-circle"
                     >
                         <FontAwesomeIcon icon={faCircleInfo} />
@@ -344,13 +353,25 @@ const Middle = () => {
                 className="middle-container-footer p-4 d-flex justify-content-between align-items-center"
             >
                 <div className="d-flex justify-content-between">
-                    <span className="icon fs-3" aria-label="Mở hành động khác">
+                    <span
+                        className="icon fs-3"
+                        aria-label="Mở hành động khác"
+                        role="button"
+                    >
                         <FontAwesomeIcon icon={faPlus} />
                     </span>
-                    <span className="icon fs-3 mx-3" aria-label="Đính kèm file">
+                    <span
+                        className="icon fs-3 mx-3"
+                        aria-label="Đính kèm file"
+                        role="button"
+                    >
                         <FontAwesomeIcon icon={faImage} />
                     </span>
-                    <span className="icon fs-3" aria-label="Chọn emoji">
+                    <span
+                        className="icon fs-3"
+                        aria-label="Chọn emoji"
+                        role="button"
+                    >
                         <FontAwesomeIcon icon={faFaceLaughBeam} />
                     </span>
                 </div>
@@ -406,14 +427,14 @@ const Middle = () => {
     return (
         <>
             <div className="middle-msg-page relative">
-                <MagicBell
+                {/* <MagicBell
                     apiKey="84b8e554127e05465dcec54678d0f49859b4a548"
                     userEmail="mary@example.com"
                 >
                     {(props) => (
                         <FloatingNotificationInbox height={500} {...props} />
                     )}
-                </MagicBell>
+                </MagicBell> */}
                 {renderConversation()} {renderConfirmPopup()}
             </div>
         </>

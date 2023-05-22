@@ -127,6 +127,7 @@
 
 .middle-msg-page .middle-container .icon::before {
     content: attr(aria-label);
+
     font-size: 0.8em;
 
     display: none;

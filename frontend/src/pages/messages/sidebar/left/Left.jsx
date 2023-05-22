@@ -6,16 +6,14 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import "../../../../style/pages/messages/left/left.css";
 
 import {
-    getCurrentRoom,
     getRoomsByUserID,
+    getCurrentRoom,
 } from "../../../../redux/request/roomRequest";
-import { getUserByID } from "../../../../redux/request/authRequest";
+import Conversation from "../../../../components/Conversation";
 
 const Left = (props) => {
     const { avatarUser } = props;
     const [rooms, setRooms] = useState([]);
-    const [users, setUsers] = useState([]);
-    const [currentChat, setCurrentChat] = useState(null);
     const dispatch = useDispatch();
 
     const sender = useSelector((state) => {
@@ -39,68 +37,28 @@ const Left = (props) => {
         };
     }, []);
 
+    const [currentChat, setCurrentChat] = useState(null);
+
     useEffect(() => {
-        let isCancalled = false;
+        let isCancelled = false;
 
-        const friendIDs = rooms.map((item) => {
-            return item.participants.find((user) => user !== sender);
-        });
-
-        // Get all the user data from the server
-        const userPromises = friendIDs.map((friendID) =>
-            getUserByID(dispatch, friendID)
-        );
-
-        // Wait for all the promises to resolve
-        Promise.all(userPromises).then((responses) => {
-            // Check if the request was cancelled
-            if (!isCancalled) {
-                // Create a list of users from the responses
-                const userList = responses
-                    .map((data) => data?.user)
-                    .filter(Boolean);
-
-                // Set the users state
-                setUsers(userList);
-            }
-        });
-
-        // Catch any errors
-        Promise.all(userPromises).catch((error) => {
-            console.error("Failed to get users by ID", error);
-        });
+        if (!isCancelled) {
+            currentChat && getCurrentRoom(dispatch, currentChat);
+        }
 
         return () => {
-            isCancalled = true;
+            isCancelled = true;
         };
-    }, [rooms]);
-
-    useEffect(() => {
-        currentChat && getCurrentRoom(dispatch, currentChat);
-    }, [currentChat, rooms, dispatch]);
+    }, [currentChat, dispatch]);
 
     const renderRooms = () => {
-        return rooms.map((room) => (
-            <div
-                className="d-flex align-items-center message-item p-3"
-                style={{ borderRadius: "1rem" }}
-                key={room._id}
-                onClick={() => setCurrentChat(room._id)}
-            >
-                <span className="profile-pic">
-                    <img
-                        loading="lazy"
-                        role="presentation"
-                        decoding="async"
-                        src={avatarUser}
-                        alt="Avatar user"
-                    />
-                </span>
-                <div className="message-body ms-3">
-                    <div className="fs-4 fw-bold">
-                        {room.name} - {room._id}
-                    </div>
-                </div>
+        return rooms.map((r) => (
+            <div key={r._id} onClick={() => setCurrentChat(r._id)}>
+                <Conversation
+                    conversation={r}
+                    currentUser={sender}
+                    avatarUser={avatarUser}
+                />
             </div>
         ));
     };
