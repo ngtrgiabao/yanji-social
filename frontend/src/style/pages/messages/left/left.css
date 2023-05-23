@@ -8,15 +8,6 @@
     padding: 1rem;
 }
 
-.left-msg-page .left-setting-chat__icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 3rem;
-    height: 3rem;
-}
-
 .left-msg-page .left-container-main {
     width: 100%;
     height: 80vh;

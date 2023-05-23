@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 
 import "../../../../style/pages/messages/left/left.css";
 
@@ -10,19 +8,23 @@ import {
     getCurrentRoom,
 } from "../../../../redux/request/roomRequest";
 import Conversation from "../../../../components/Conversation";
+import { getUserByID } from "../../../../redux/request/authRequest";
 
 const Left = (props) => {
     const { avatarUser } = props;
+
     const [rooms, setRooms] = useState([]);
+    const [currentChat, setCurrentChat] = useState(null);
+    const [friendID, setFriendID] = useState(null);
     const dispatch = useDispatch();
 
     const sender = useSelector((state) => {
-        return state.auth.login.currentUser?.data._id;
+        return state.auth.login.currentUser?.data;
     });
 
     useEffect(() => {
         let isCancelled = false;
-        getRoomsByUserID(dispatch, sender)
+        getRoomsByUserID(dispatch, sender._id)
             .then((data) => {
                 if (!isCancelled) {
                     setRooms(data.rooms); // Set rooms directly
@@ -37,8 +39,6 @@ const Left = (props) => {
         };
     }, []);
 
-    const [currentChat, setCurrentChat] = useState(null);
-
     useEffect(() => {
         let isCancelled = false;
 
@@ -51,12 +51,33 @@ const Left = (props) => {
         };
     }, [currentChat, dispatch]);
 
+    useEffect(() => {
+        let isCancelled = false;
+
+        if (!isCancelled) {
+            friendID && getUserByID(dispatch, friendID);
+        }
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [friendID, dispatch]);
+
     const renderRooms = () => {
         return rooms.map((r) => (
-            <div key={r._id} onClick={() => setCurrentChat(r._id)}>
+            <div
+                key={r._id}
+                onClick={() => {
+                    setCurrentChat(r._id);
+                    setFriendID(
+                        r.participants.filter((user) => user !== sender._id)
+                    );
+                }}
+                className="messages-wrapper__room-list"
+            >
                 <Conversation
                     conversation={r}
-                    currentUser={sender}
+                    currentUser={sender._id}
                     avatarUser={avatarUser}
                 />
             </div>
@@ -67,21 +88,11 @@ const Left = (props) => {
         <>
             <div className="left-msg-page">
                 <div className="left-container">
-                    {/* HEADER */}
-                    <div className="d-flex justify-content-between align-items-center fs-3 mb-4">
-                        <div className="fs-2 fw-bold">Chat</div>
-                        <div>
-                            <span className="left-setting-chat__icon border rounded-circle">
-                                <FontAwesomeIcon icon={faEllipsis} />
-                            </span>
-                        </div>
-                    </div>
-                    {/* MAIN */}
                     <div className="left-container-main">
                         <input
                             type="text"
-                            placeholder="searching someone?"
-                            className="fs-5 rounded border-0 mb-4"
+                            placeholder="Searching someone?"
+                            className="fs-3 rounded border-0 mb-4"
                         />
 
                         <div className="d-flex mb-4">
