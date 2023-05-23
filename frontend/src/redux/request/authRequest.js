@@ -49,7 +49,7 @@ export const getUserByID = async (dispatch, userID) => {
     dispatch(getUserStart(userID));
     try {
         const res = await userService.getUser(userID);
-        dispatch(getUserSuccess());
+        dispatch(getUserSuccess(res.data));
         return res.data;
     } catch (error) {
         dispatch(getUserFailed());

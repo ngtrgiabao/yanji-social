@@ -35,16 +35,40 @@ const Middle = () => {
     const [messageID, setMessageID] = useState("");
     const [messageThread, setMessageThread] = useState([]);
     const [currentConversation, setCurrentConversation] = useState(null);
+    const [userOnline, setUserOnline] = useState([]);
+    const dispatch = useDispatch();
+
     const socketRef = useRef(null);
     const scrollRef = useRef();
-    const dispatch = useDispatch();
 
     const now = new Date();
     const time = `${now.getHours()}:${now.getMinutes()}`;
 
     const sender = useSelector((state) => {
-        return state.auth.login.currentUser?.data._id;
+        return state.auth.login.currentUser?.data;
     });
+
+    const friendName = useSelector((state) => {
+        return state.auth.user.currentUser?.user;
+    });
+
+    const [titleConversation, setTitleConversation] = useState(null);
+
+    useEffect(() => {
+        let isCancelled = false;
+
+        if (friendName && !isCancelled) {
+            // This conditional will filter one user in list of users
+            if (friendName._id) {
+                const value = friendName.username;
+                setTitleConversation(value);
+            }
+        }
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [currentConversation]);
 
     const handleSocket = {
         serverResponse: useCallback((data) => {
@@ -59,10 +83,16 @@ const Middle = () => {
                         data,
                     ]);
             },
-            [currentConversation]
+            [currentConversation, messageThread]
         ),
-        getUsers: useCallback((user) => {
-            // console.log(user);
+        getUsers: useCallback((userList) => {
+            const users = Object.values(userList);
+            // console.log(users);
+
+            // users.map((u) => {
+            //     console.log(u);
+            // });
+            // setUserOnline(userList);
         }, []),
         disconnect: useCallback(() => {
             console.log("Server disconnected :<");
@@ -78,7 +108,7 @@ const Middle = () => {
         });
 
         socket.emit("add-user", {
-            user: sender,
+            user: sender._id,
         });
 
         socket.on("server", handleSocket.serverResponse);
@@ -108,6 +138,8 @@ const Middle = () => {
 
         if (currentRoom && !isCancelled) {
             const roomData = currentRoom.data;
+
+            // This conditional will filter one room in list of rooms
             if (roomData && roomData._id) {
                 const value = roomData._id;
                 setCurrentConversation(value);
@@ -119,32 +151,44 @@ const Middle = () => {
         };
     }, [currentRoom]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleMsg = {
+        changeInputMsg: (e) => {
+            setMessage(e.target.value);
+        },
+        submit: (e) => {
+            e.preventDefault();
 
-        if (currentConversation) {
-            const newMessage = {
-                sender: sender,
-                message: message,
-                time: time,
-                roomId: currentConversation,
-            };
+            if (currentConversation) {
+                const newMessage = {
+                    sender: sender._id,
+                    message: message,
+                    time: time,
+                    roomId: currentConversation,
+                };
 
-            sendMessage(newMessage, dispatch)
-                .then(async () => {
-                    if (message) {
-                        await socketRef.current.emit(
-                            "send-message",
-                            newMessage
-                        );
-                        setMessage("");
-                    }
-                })
-                .catch((error) => {
-                    alert("Failed to send message");
-                    console.error("Failed to send message", error);
-                });
-        }
+                sendMessage(newMessage, dispatch)
+                    .then(async () => {
+                        if (message) {
+                            await socketRef.current.emit(
+                                "send-message",
+                                newMessage
+                            );
+                            setMessage("");
+                        }
+                    })
+                    .catch((error) => {
+                        alert("Failed to send message");
+                        console.error("Failed to send message", error);
+                    });
+            }
+        },
+        deleteMsg: async () => {
+            await deleteMessage(messageID, dispatch);
+            setMessageThread((prevMessageThread) =>
+                prevMessageThread.filter((message) => message._id !== messageID)
+            );
+            setActive(false);
+        },
     };
 
     useEffect(() => {
@@ -171,24 +215,7 @@ const Middle = () => {
         };
     }, [currentConversation, dispatch]);
 
-    const handleDeleteMsg = () => {
-        deleteMessage(messageID, dispatch)
-            .then(() => {
-                setMessageThread((prevMessageThread) =>
-                    prevMessageThread.filter(
-                        (message) => message._id !== messageID
-                    )
-                );
-            })
-            .catch((error) => {
-                alert("Failed to delete message :<", error);
-                console.error("Failed to delete message");
-            });
-
-        setActive(false);
-    };
-
-    const handlePopup = () => {
+    const handleDeletePopup = () => {
         setActive((active) => !active);
     };
 
@@ -201,7 +228,7 @@ const Middle = () => {
 
     const renderMessages = () => {
         return messageThread.map((message, index) =>
-            message.sender === sender ? (
+            message.sender === sender._id ? (
                 <div
                     key={index}
                     className="middle-container-body__right-text mb-2 fs-4 animate__animated animate__slideInRight d-flex align-items-end flex-column"
@@ -212,7 +239,7 @@ const Middle = () => {
                             className="text-danger"
                             onClick={() => {
                                 setMessageID(message._id);
-                                handlePopup();
+                                handleDeletePopup();
                             }}
                             style={{
                                 cursor: "pointer",
@@ -240,7 +267,7 @@ const Middle = () => {
                             className="text-danger"
                             onClick={() => {
                                 setMessageID(message._id);
-                                handlePopup();
+                                handleDeletePopup();
                             }}
                             style={{
                                 cursor: "pointer",
@@ -266,7 +293,7 @@ const Middle = () => {
                         className="fs-1 close p-1"
                         data-dismiss="modal"
                         aria-label="Close"
-                        onClick={() => handlePopup()}
+                        onClick={() => handleDeletePopup()}
                     >
                         &times;
                     </span>
@@ -277,13 +304,13 @@ const Middle = () => {
                 <div className="fs-3 d-flex justify-content-end">
                     <button
                         className="py-2 p-4 me-2"
-                        onClick={() => handlePopup()}
+                        onClick={() => handleDeletePopup()}
                     >
                         Close
                     </button>
                     <button
                         className="py-2 p-4 fw-bold text-white bg-danger"
-                        onClick={() => handleDeleteMsg()}
+                        onClick={() => handleMsg.deleteMsg()}
                     >
                         Delete
                     </button>
@@ -305,7 +332,7 @@ const Middle = () => {
                         className="rounded-circle middle-avatar-chat"
                     />
                     <span className="ms-2 fs-4 fw-bold">
-                        {currentConversation}
+                        {titleConversation}
                     </span>
                 </div>
                 <div className="d-flex fs-4">
@@ -348,7 +375,7 @@ const Middle = () => {
         return (
             <form
                 onSubmit={(e) => {
-                    handleSubmit(e);
+                    handleMsg.submit(e);
                 }}
                 className="middle-container-footer p-4 d-flex justify-content-between align-items-center"
             >
@@ -386,7 +413,7 @@ const Middle = () => {
                             border: "1px solid var(--color-primary)",
                         }}
                         value={message}
-                        onChange={(e) => setMessage(e.target.value)}
+                        onChange={(e) => handleMsg.changeInputMsg(e)}
                         autoFocus
                     />
                 </div>

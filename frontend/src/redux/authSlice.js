@@ -17,6 +17,7 @@ const authSlice = createSlice({
             isFetching: false,
             error: false,
             success: false,
+            currentUser: null,
         },
     },
     reducers: {
@@ -65,8 +66,9 @@ const authSlice = createSlice({
             state.user = {};
             state.user.isFetching = true;
         },
-        getUserSuccess: (state) => {
+        getUserSuccess: (state, action) => {
             state.user.isFetching = false;
+            state.user.currentUser = action.payload;
             state.user.success = true;
         },
         getUserFailed: (state) => {
