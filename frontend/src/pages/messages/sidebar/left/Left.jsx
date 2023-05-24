@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import io from "socket.io-client";
 
 import "../../../../style/pages/messages/left/left.css";
 
@@ -9,6 +10,7 @@ import {
 } from "../../../../redux/request/roomRequest";
 import Conversation from "../../../../components/Conversation";
 import { getUserByID } from "../../../../redux/request/authRequest";
+import { SOCKET_URL } from "../../../../constants/backend.url.constant";
 
 const Left = (props) => {
     const { avatarUser } = props;
@@ -16,6 +18,7 @@ const Left = (props) => {
     const [rooms, setRooms] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [friendID, setFriendID] = useState(null);
+    const [onlineUsers, setOnlineUsers] = useState([]);
     const dispatch = useDispatch();
 
     const sender = useSelector((state) => {
@@ -37,30 +40,18 @@ const Left = (props) => {
         return () => {
             isCancelled = true;
         };
-    }, []);
+    }, [dispatch, sender._id]);
 
     useEffect(() => {
-        let isCancelled = false;
-
-        if (!isCancelled) {
-            currentChat && getCurrentRoom(dispatch, currentChat);
+        if (currentChat) {
+            getCurrentRoom(dispatch, currentChat);
         }
-
-        return () => {
-            isCancelled = true;
-        };
     }, [currentChat, dispatch]);
 
     useEffect(() => {
-        let isCancelled = false;
-
-        if (!isCancelled) {
-            friendID && getUserByID(dispatch, friendID);
+        if (friendID) {
+            getUserByID(dispatch, friendID);
         }
-
-        return () => {
-            isCancelled = true;
-        };
     }, [friendID, dispatch]);
 
     const renderRooms = () => {
@@ -79,10 +70,38 @@ const Left = (props) => {
                     conversation={r}
                     currentUser={sender._id}
                     avatarUser={avatarUser}
+                    onlineUsers={onlineUsers}
                 />
             </div>
         ));
     };
+
+    const handleInputSearch = (e) => {};
+
+    const socketRef = useRef(null);
+
+    const handleSocket = {
+        getUsersOnline: useCallback((userList) => {
+            const users = Object.values(userList);
+
+            setOnlineUsers(users.filter((u) => u.userID !== sender._id));
+        }, []),
+    };
+
+    useEffect(() => {
+        socketRef.current = io(SOCKET_URL);
+        const socket = socketRef.current;
+
+        socket.emit("add-user", {
+            user: sender._id,
+        });
+
+        socket.on("get-users", handleSocket.getUsersOnline);
+
+        return () => {
+            socket.off("get-users", handleSocket.getUsersOnline);
+        };
+    }, [handleSocket.getUsersOnline]);
 
     return (
         <>
@@ -93,6 +112,7 @@ const Left = (props) => {
                             type="text"
                             placeholder="Searching someone?"
                             className="fs-3 rounded border-0 mb-4"
+                            onChange={handleInputSearch}
                         />
 
                         <div className="d-flex mb-4">

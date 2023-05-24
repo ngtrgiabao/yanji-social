@@ -19,14 +19,10 @@ const addUser = (userID, socketID) => {
             userID,
             socketID,
         });
-
-    console.log(users);
 };
 
 const removeUser = (socketID) => {
     users = users.filter((user) => user.socketID !== socketID);
-
-    console.log(users);
 };
 
 io.on("connection", (socket) => {
@@ -48,12 +44,14 @@ io.on("connection", (socket) => {
 
         socket.on("add-user", (data) => {
             const { user } = data;
-            addUser(user, socket?.id);
+            addUser(user, socket.id);
+
+            console.log(users);
             io.emit("get-users", users);
         });
 
         socket.on("disconnect", () => {
-            removeUser(socket?.id);
+            removeUser(socket.id);
             io.emit("get-users", users);
 
             console.log(users);

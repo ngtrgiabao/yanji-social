@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import "../../../../../style/pages/home/sidebar/middle/stories/stories.css";
 import ProfilePic from "../../../../../assets/avatar/profile-pic.png";

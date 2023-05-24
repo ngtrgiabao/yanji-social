@@ -1,5 +1,3 @@
-import React from "react";
-
 const DownloadBtn = (props) => {
     const { label, filename } = props;
 

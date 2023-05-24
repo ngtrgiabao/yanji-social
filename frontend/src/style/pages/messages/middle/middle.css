@@ -1,10 +1,9 @@
 @import url("../../../constants/constant.css");
 
 .middle-msg-page {
-    border: 0.5px solid rgba(204, 204, 204, 0.337);
+    border: 0.5px solid var(--color-border);
 
-    grid-column-start: 2;
-    grid-column-end: 4;
+    grid-column: 2 / 4;
 }
 
 .middle-msg-page .middle-container {
@@ -30,7 +29,7 @@
     justify-content: center;
     align-items: center;
 
-    width: 10rem;
+    width: max-content;
 
     position: absolute;
     top: 110%;
@@ -88,6 +87,8 @@
     font-weight: 600;
     word-break: break-word;
     color: white;
+
+    z-index: -1;
 }
 
 .middle-container
@@ -100,6 +101,22 @@
     .middle-container-body__left-time {
     font-size: 0.8em;
     font-weight: lighter;
+}
+
+.dot-icon {
+    width: 1.2em;
+    height: 1em;
+}
+
+.dot-icon:hover {
+    background: var(--color-primary-light);
+    color: var(--white);
+}
+
+.dot-icon img {
+    width: 30%;
+    height: 30%;
+    filter: contrast(0);
 }
 
 /* FOOTER */
@@ -130,6 +147,8 @@
 
     font-size: 0.8em;
 
+    z-index: 1;
+
     display: none;
 }
 
@@ -141,7 +160,7 @@
     justify-content: center;
     align-items: center;
 
-    width: 10rem;
+    width: max-content;
 
     position: absolute;
     bottom: 110%;
@@ -185,24 +204,39 @@
 }
 
 /* Popup */
-#confirm {
+.confirm-container {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 
-    width: 45%;
-    height: fit-content;
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(0, 0, 0, 0.29);
+
+    position: absolute;
+}
+
+#confirm {
+    width: max-content;
 
     border-radius: 1rem;
 
     background: rgba(0, 0, 0, 0.744);
     border: 1px solid var(--color-primary);
-
-    position: absolute;
 }
 
-#confirm .close:hover {
+#confirm .confirm-container__dialog-close,
+#confirm .confirm-container__dialog-confirm {
+    font-weight: bold;
+    color: var(--color-secondary);
+
     cursor: pointer;
 
-    font-weight: bold;
+    padding: 0.5em;
+}
+
+#confirm .confirm-container__dialog-close:hover,
+#confirm .confirm-container__dialog-confirm:hover {
+    background: var(--color-bg-hover);
 }

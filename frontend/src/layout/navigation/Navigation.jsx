@@ -1,10 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import React from "react";
 import { UilSearch } from "@iconscout/react-unicons";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 
-import "../../style/components/navigation/navigation.css";
+import "../../style/layouts/navigation.css";
 
 import ProfilePic from "../../assets/avatar/profile-pic.png";
 

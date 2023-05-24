@@ -1,5 +1,3 @@
-import React from "react";
-
 import "../../../../style/pages/personal/body/stories/stories.css";
 import imgStory1 from "../../../../assets/stories-images/imgStory1.jpg";
 import imgStory2 from "../../../../assets/stories-images/imgStory2.jpg";

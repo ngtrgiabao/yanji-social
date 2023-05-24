@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+
 import { getUserByID } from "../redux/request/authRequest";
 
 const Conversation = (props) => {
-    const { conversation, currentUser, avatarUser } = props;
+    const { conversation, currentUser, avatarUser, onlineUsers } = props;
 
     const [user, setUser] = useState(null);
+    const [isOnline, setIsOnline] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -16,7 +18,18 @@ const Conversation = (props) => {
         getUserByID(dispatch, friendID).then((data) => {
             setUser(data.user);
         });
-    }, [currentUser, conversation]);
+    }, [currentUser, conversation, dispatch]);
+
+    useEffect(() => {
+        const uniqueUsers = [];
+
+        onlineUsers.forEach((user) => {
+            if (!uniqueUsers.includes(user)) {
+                uniqueUsers.push(user);
+                console.log(user);
+            }
+        });
+    }, [onlineUsers]);
 
     return (
         <div

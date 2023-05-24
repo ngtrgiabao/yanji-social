@@ -1,5 +1,3 @@
-import React from "react";
-
 import PokemonsList from "./PokemonsList";
 
 function Post(props) {
