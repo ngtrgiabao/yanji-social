@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { UilPlusCircle, UilPen } from "@iconscout/react-unicons";
 
 import axios from "axios";

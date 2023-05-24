@@ -1,5 +1,3 @@
-import React from "react";
-
 import Navigation from "../../layout/navigation/Navigation";
 
 import Body from "./body/Body";

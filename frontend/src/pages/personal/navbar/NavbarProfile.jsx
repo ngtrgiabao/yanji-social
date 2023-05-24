@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, createElement } from "react";
 import { UitEllipsisV } from "@iconscout/react-unicons-thinline";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
@@ -118,7 +118,7 @@ function MenuProfile() {
                                     className="box-setting-profile-item d-flex align-items-center  rounded-3 p-2"
                                 >
                                     <span>
-                                        {React.createElement(item.icon, {
+                                        {createElement(item.icon, {
                                             size: 20,
                                         })}
                                     </span>

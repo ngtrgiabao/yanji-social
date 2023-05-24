@@ -1,4 +1,4 @@
-import React, { useDebugValue, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import io from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,11 +10,12 @@ import {
     faImage,
     faFaceLaughBeam,
     faThumbsUp,
-    faTrash,
+    faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
-import MagicBell, {
-    FloatingNotificationInbox,
-} from "@magicbell/magicbell-react";
+// import MagicBell, {
+//     FloatingNotificationInbox,
+// } from "@magicbell/magicbell-react";
+// import EmojiPicker from "emoji-picker-react";
 
 import "../../../../style/pages/messages/middle/middle.css";
 
@@ -27,7 +28,7 @@ import {
     getMessagesByRoomID,
     deleteMessage,
 } from "../../../../redux/request/messageRequest";
-import { useCallback } from "react";
+import { useTimeAgo } from "../../../../hooks/useTimeAgo";
 
 const Middle = () => {
     const [message, setMessage] = useState("");
@@ -35,8 +36,10 @@ const Middle = () => {
     const [messageID, setMessageID] = useState("");
     const [messageThread, setMessageThread] = useState([]);
     const [currentConversation, setCurrentConversation] = useState(null);
+    const [titleConversation, setTitleConversation] = useState(null);
     const [userOnline, setUserOnline] = useState([]);
     const dispatch = useDispatch();
+    const formatTime = useTimeAgo;
 
     const socketRef = useRef(null);
     const scrollRef = useRef();
@@ -51,8 +54,6 @@ const Middle = () => {
     const friendName = useSelector((state) => {
         return state.auth.user.currentUser?.user;
     });
-
-    const [titleConversation, setTitleConversation] = useState(null);
 
     useEffect(() => {
         let isCancelled = false;
@@ -85,15 +86,7 @@ const Middle = () => {
             },
             [currentConversation, messageThread]
         ),
-        getUsers: useCallback((userList) => {
-            const users = Object.values(userList);
-            // console.log(users);
 
-            // users.map((u) => {
-            //     console.log(u);
-            // });
-            // setUserOnline(userList);
-        }, []),
         disconnect: useCallback(() => {
             console.log("Server disconnected :<");
         }, []),
@@ -107,25 +100,18 @@ const Middle = () => {
             msg: "Hello from client 😀",
         });
 
-        socket.emit("add-user", {
-            user: sender._id,
-        });
-
         socket.on("server", handleSocket.serverResponse);
         socket.on("receive-message", handleSocket.receivedMessage);
-        socket.on("get-users", handleSocket.getUsers);
         socket.on("disconnect", handleSocket.disconnect);
 
         return () => {
             socket.off("server", handleSocket.serverResponse);
             socket.off("receive-message", handleSocket.receivedMessage);
-            socket.off("get-users", handleSocket.getUsers);
             socket.off("disconnect", handleSocket.disconnect);
         };
     }, [
         handleSocket.serverResponse,
         handleSocket.receivedMessage,
-        handleSocket.getUsers,
         handleSocket.disconnect,
     ]);
 
@@ -133,6 +119,7 @@ const Middle = () => {
         return state.room.room?.currentRoom;
     });
 
+    // Loop each room
     useEffect(() => {
         let isCancelled = false;
 
@@ -219,6 +206,7 @@ const Middle = () => {
         setActive((active) => !active);
     };
 
+    // Auto scroll to bottom
     useEffect(() => {
         scrollRef.current?.scrollIntoView({
             behavior: "smooth",
@@ -226,96 +214,38 @@ const Middle = () => {
         });
     }, [messageThread]);
 
-    const renderMessages = () => {
-        return messageThread.map((message, index) =>
-            message.sender === sender._id ? (
+    const renderConfirmPopup = () => {
+        return (
+            active && (
                 <div
-                    key={index}
-                    className="middle-container-body__right-text mb-2 fs-4 animate__animated animate__slideInRight d-flex align-items-end flex-column"
+                    className="confirm-container d-flex justify-content-center align-items-center"
+                    onClick={() => setActive(false)}
                 >
-                    <div className="d-flex align-items-center justify-content-end w-100">
-                        <FontAwesomeIcon
-                            icon={faTrash}
-                            className="text-danger"
-                            onClick={() => {
-                                setMessageID(message._id);
-                                handleDeletePopup();
-                            }}
-                            style={{
-                                cursor: "pointer",
-                            }}
-                        />
-                        <span className="middle-container-body__right-message-content ms-3">
-                            {message.message}
+                    <div
+                        id="confirm"
+                        className="confirm-container__dialog p-4"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <span className="confirm-container__dialog-title d-block fs-3 text-white mb-4">
+                            Bạn muốn xóa tin nhắn này?
                         </span>
-                    </div>
-                    <div className="middle-container-body__right-time">
-                        {time}
-                    </div>
-                </div>
-            ) : (
-                <div
-                    key={index}
-                    className="middle-container-body__left-text mb-2 fs-4 animate__animated animate__slideInLeft d-flex flex-column"
-                >
-                    <div className="d-flex justify-content-start align-items-center w-100">
-                        <span className="middle-container-body__left-message-content me-2">
-                            {message.message}
-                        </span>
-                        <FontAwesomeIcon
-                            icon={faTrash}
-                            className="text-danger"
-                            onClick={() => {
-                                setMessageID(message._id);
-                                handleDeletePopup();
-                            }}
-                            style={{
-                                cursor: "pointer",
-                            }}
-                        />
-                    </div>
-                    <div className="middle-container-body__left-time">
-                        {time}
+                        <div className="confirm-container__dialog-footer fs-5 d-flex justify-content-end">
+                            <span
+                                onClick={() => handleDeletePopup()}
+                                className="confirm-container__dialog-close"
+                            >
+                                Close
+                            </span>
+                            <span
+                                onClick={() => handleMsg.deleteMsg()}
+                                className="confirm-container__dialog-confirm"
+                            >
+                                Delete
+                            </span>
+                        </div>
                     </div>
                 </div>
             )
-        );
-    };
-
-    const renderConfirmPopup = () => {
-        return (
-            <div id="confirm" className="p-4" role="document" hidden={!active}>
-                <div className="d-flex justify-content-between align-items-center fs-3 border-bottom text-white">
-                    <div className="fw-bold text-uppercase">
-                        Xác nhận xóa tin nhắn này
-                    </div>
-                    <span
-                        className="fs-1 close p-1"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                        onClick={() => handleDeletePopup()}
-                    >
-                        &times;
-                    </span>
-                </div>
-                <span className="py-4 pb-5 d-block fs-3 text-white">
-                    Bạn muốn xóa tin nhắn này?
-                </span>
-                <div className="fs-3 d-flex justify-content-end">
-                    <button
-                        className="py-2 p-4 me-2"
-                        onClick={() => handleDeletePopup()}
-                    >
-                        Close
-                    </button>
-                    <button
-                        className="py-2 p-4 fw-bold text-white bg-danger"
-                        onClick={() => handleMsg.deleteMsg()}
-                    >
-                        Delete
-                    </button>
-                </div>
-            </div>
         );
     };
 
@@ -359,6 +289,55 @@ const Middle = () => {
                     </span>
                 </div>
             </div>
+        );
+    };
+
+    const renderMessages = () => {
+        return messageThread.map((message, index) =>
+            message.sender === sender._id ? (
+                <div
+                    key={index}
+                    className="middle-container-body__right-text mb-2 fs-4 animate__animated animate__slideInRight d-flex align-items-end flex-column"
+                >
+                    <div className="d-flex align-items-center justify-content-end w-100">
+                        <span
+                            className="d-flex justify-content-center align-items-center dot-icon"
+                            onClick={() => {
+                                setMessageID(message._id);
+                                handleDeletePopup();
+                            }}
+                            style={{
+                                cursor: "pointer",
+                                width: "2.3rem",
+                                height: "2.3rem",
+                                borderRadius: "50%",
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faEllipsisVertical} />
+                        </span>
+                        <span className="middle-container-body__right-message-content ms-3">
+                            {message.message}
+                        </span>
+                    </div>
+                    <div className="middle-container-body__right-time">
+                        {formatTime(message.createdAt) || "now"}
+                    </div>
+                </div>
+            ) : (
+                <div
+                    key={index}
+                    className="middle-container-body__left-text mb-2 fs-4 animate__animated animate__slideInLeft d-flex flex-column"
+                >
+                    <div className="d-flex justify-content-start align-items-center w-100">
+                        <span className="middle-container-body__left-message-content me-2">
+                            {message.message}
+                        </span>
+                    </div>
+                    <div className="middle-container-body__left-time">
+                        {formatTime(message.createdAt) || "now"}
+                    </div>
+                </div>
+            )
         );
     };
 
@@ -463,6 +442,7 @@ const Middle = () => {
                     )}
                 </MagicBell> */}
                 {renderConversation()} {renderConfirmPopup()}
+                {/* <EmojiPicker /> */}
             </div>
         </>
     );

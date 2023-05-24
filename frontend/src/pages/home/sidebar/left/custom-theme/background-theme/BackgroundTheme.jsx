@@ -1,5 +1,3 @@
-import React from "react";
-
 import "../../../../../../style/pages/home/sidebar/left/custom-theme/background-theme/backgroundTheme.css";
 
 import { useTheme } from "../../../../../../hooks/useTheme";

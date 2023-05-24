@@ -20,6 +20,8 @@
         "bootstrap": "^5.2.3",
         "dotenv": "^16.0.3",
         "dotenv-safe": "^8.2.0",
+        "emoji-picker-react": "^4.4.9",
+        "moment": "^2.29.4",
         "path-browserify": "^1.0.1",
         "react": "^18.2.0",
         "react-bootstrap": "^2.4.0",
