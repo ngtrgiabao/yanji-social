@@ -4,10 +4,9 @@ import { useDispatch } from "react-redux";
 import { getUserByID } from "../redux/request/authRequest";
 
 const Conversation = (props) => {
-    const { conversation, currentUser, avatarUser, onlineUsers } = props;
+    const { conversation, currentUser, avatarUser } = props;
 
     const [user, setUser] = useState(null);
-    const [isOnline, setIsOnline] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -19,17 +18,6 @@ const Conversation = (props) => {
             setUser(data.user);
         });
     }, [currentUser, conversation, dispatch]);
-
-    useEffect(() => {
-        const uniqueUsers = [];
-
-        onlineUsers.forEach((user) => {
-            if (!uniqueUsers.includes(user)) {
-                uniqueUsers.push(user);
-                console.log(user);
-            }
-        });
-    }, [onlineUsers]);
 
     return (
         <div

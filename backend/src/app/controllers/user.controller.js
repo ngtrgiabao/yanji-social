@@ -88,8 +88,9 @@ const updateUser = async (req, res, next) => {
         user.bio = bio || user.bio;
         user.firstName = firstName || user.firstName;
         user.lastName = lastName || user.lastName;
-        // Update photos only if they are new
-        if (Array.isArray(photos) && photos.length > 0) {
+
+        // Update photos if they are new
+        if (photos && photos.length > 0) {
             const newPhotos = photos.map((photo) => {
                 return {
                     name: photo.name || null,
@@ -135,7 +136,7 @@ const updateUser = async (req, res, next) => {
             const newFollowing = following.filter(
                 (follow) => !existingFollowing.includes(follow)
             );
-            user.following = [...existingFollowing, ...newFollowing].map((id) =>
+            user.followings = [...existingFollowing, ...newFollowing].map((id) =>
                 mongoose.Types.ObjectId(id)
             );
         }
@@ -143,7 +144,7 @@ const updateUser = async (req, res, next) => {
         const updatedUser = await user.save();
 
         return res.status(200).json({
-            msg: "User updated",
+            msg: "User updated successfully",
             data: updatedUser,
         });
     } catch (error) {
