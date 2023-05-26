@@ -11,6 +11,7 @@ import {
 import Conversation from "../../../../components/Conversation";
 import { getUserByID } from "../../../../redux/request/authRequest";
 import { SOCKET_URL } from "../../../../constants/backend.url.constant";
+import ChatOnline from "../../../../components/ChatOnline";
 
 const Left = (props) => {
     const { avatarUser } = props;
@@ -67,10 +68,10 @@ const Left = (props) => {
                 className="messages-wrapper__room-list"
             >
                 <Conversation
+                    onlineUsers={onlineUsers}
                     conversation={r}
                     currentUser={sender._id}
                     avatarUser={avatarUser}
-                    onlineUsers={onlineUsers}
                 />
             </div>
         ));
@@ -84,7 +85,14 @@ const Left = (props) => {
         getUsersOnline: useCallback((userList) => {
             const users = Object.values(userList);
 
-            setOnlineUsers(users.filter((u) => u.userID !== sender._id));
+            // Get friends of sender to compare user of socket to set online users
+            getUserByID(dispatch, sender._id).then((data) => {
+                const value = data.user.friends.filter((f) =>
+                    users.some((u) => u.userID === f)
+                );
+
+                setOnlineUsers(value);
+            });
         }, []),
     };
 
@@ -101,7 +109,7 @@ const Left = (props) => {
         return () => {
             socket.off("get-users", handleSocket.getUsersOnline);
         };
-    }, [handleSocket.getUsersOnline]);
+    }, [handleSocket.getUsersOnline, sender._id]);
 
     return (
         <>
@@ -126,6 +134,10 @@ const Left = (props) => {
 
                         <div className="messages-wrapper scrollbar">
                             {renderRooms()}
+                            <ChatOnline
+                                onlineUsers={onlineUsers}
+                                currentUser={sender._id}
+                            />
                         </div>
                     </div>
                 </div>

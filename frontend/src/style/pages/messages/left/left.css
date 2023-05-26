@@ -35,3 +35,31 @@
 
     cursor: pointer;
 }
+
+.message-item .avatar-user {
+    width: 14%;
+    height: 14%;
+
+    border-radius: 50%;
+}
+
+/* ONLINE STATUS */
+.online-status {
+    position: relative;
+}
+
+.online-status::before {
+    content: "";
+
+    width: 1.2rem;
+    height: 1.2rem;
+
+    border-radius: 50%;
+    border: 3px solid var(--color-white);
+
+    bottom: 0;
+    right: 0;
+    position: absolute;
+
+    background-color: var(--color-success);
+}

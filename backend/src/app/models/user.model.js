@@ -51,27 +51,25 @@ const User = new Schema(
             type: String,
             max: 50,
         },
-        friends: [
+        photos: [
             {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "user",
-                default: null,
+                name: {
+                    type: String,
+                },
             },
         ],
-        followers: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "user",
-                default: null,
-            },
-        ],
-        following: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "user",
-                default: null,
-            },
-        ],
+        friends: {
+            type: Array,
+            default: [],
+        },
+        followers: {
+            type: Array,
+            default: [],
+        },
+        followings: {
+            type: Array,
+            default: [],
+        },
     },
     { timestamps: true }
 );
