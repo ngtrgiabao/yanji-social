@@ -68,6 +68,7 @@ const Left = (props) => {
                 className="messages-wrapper__room-list"
             >
                 <Conversation
+                    onlineUsers={onlineUsers}
                     conversation={r}
                     currentUser={sender._id}
                     avatarUser={avatarUser}
@@ -136,7 +137,6 @@ const Left = (props) => {
                             <ChatOnline
                                 onlineUsers={onlineUsers}
                                 currentUser={sender._id}
-                                currentChat={currentChat}
                             />
                         </div>
                     </div>

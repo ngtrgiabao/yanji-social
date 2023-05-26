@@ -3,7 +3,7 @@ import { getUserByID } from "../redux/request/authRequest";
 import { useDispatch } from "react-redux";
 
 const ChatOnline = (props) => {
-    const { onlineUsers, currentUser, currentChat } = props;
+    const { onlineUsers, currentUser } = props;
 
     const [friends, setFriends] = useState([]);
     const [onlineFriends, setOnlineFriends] = useState([]);
@@ -21,9 +21,9 @@ const ChatOnline = (props) => {
 
     return (
         <div>
-            {onlineFriends.map((o, index) => (
+            {/* {onlineFriends.map((o, index) => (
                 <div key={index}>hello {o}</div>
-            ))}
+            ))} */}
         </div>
     );
 };
