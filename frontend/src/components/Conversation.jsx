@@ -4,7 +4,13 @@ import { useDispatch } from "react-redux";
 import { getUserByID } from "../redux/request/authRequest";
 
 const Conversation = (props) => {
-    const { conversation, currentUser, avatarUser, onlineUsers } = props;
+    const {
+        conversation,
+        currentUser,
+        avatarUser,
+        onlineUsers,
+        filterMessages,
+    } = props;
 
     const [user, setUser] = useState(null);
     const [friends, setFriends] = useState([]);
@@ -57,11 +63,8 @@ const Conversation = (props) => {
         };
     }, [friends, onlineUsers, isOnline]);
 
-    return (
-        <div
-            className="d-flex align-items-center message-item p-3"
-            style={{ borderRadius: "1rem" }}
-        >
+    const avatarUserElement = () => {
+        return (
             <span
                 className={
                     isOnline && user
@@ -78,9 +81,33 @@ const Conversation = (props) => {
                     className="rounded-circle"
                 />
             </span>
+        );
+    };
+
+    const messageBodyElement = () => {
+        return (
             <div className="message-body ms-3">
                 <div className="fs-4 fw-bold">{user && user.username}</div>
             </div>
+        );
+    };
+
+    const renderMessageBlock = () => {
+        return filterMessages &&
+            !user.username.toLowerCase().includes(filterMessages) ? null : (
+            <>
+                {avatarUserElement()}
+                {messageBodyElement()}
+            </>
+        );
+    };
+
+    return (
+        <div
+            className="d-flex align-items-center message-item p-3"
+            style={{ borderRadius: "1rem" }}
+        >
+            {renderMessageBlock()}
         </div>
     );
 };

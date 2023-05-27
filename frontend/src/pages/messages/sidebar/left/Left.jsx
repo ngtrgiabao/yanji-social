@@ -20,6 +20,7 @@ const Left = (props) => {
     const [currentChat, setCurrentChat] = useState(null);
     const [friendID, setFriendID] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
+    const [filterMessages, setFilterMessages] = useState("");
     const dispatch = useDispatch();
 
     const sender = useSelector((state) => {
@@ -72,12 +73,15 @@ const Left = (props) => {
                     conversation={r}
                     currentUser={sender._id}
                     avatarUser={avatarUser}
+                    filterMessages={filterMessages}
                 />
             </div>
         ));
     };
 
-    const handleInputSearch = (e) => {};
+    const handleFilterMessages = (e) => {
+        setFilterMessages(e.target.value);
+    };
 
     const socketRef = useRef(null);
 
@@ -120,7 +124,7 @@ const Left = (props) => {
                             type="text"
                             placeholder="Searching someone?"
                             className="fs-3 rounded border-0 mb-4"
-                            onChange={handleInputSearch}
+                            onChange={handleFilterMessages}
                         />
 
                         <div className="d-flex mb-4">
