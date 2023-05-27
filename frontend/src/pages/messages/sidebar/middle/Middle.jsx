@@ -37,7 +37,6 @@ const Middle = () => {
     const [messageThread, setMessageThread] = useState([]);
     const [currentConversation, setCurrentConversation] = useState(null);
     const [titleConversation, setTitleConversation] = useState(null);
-    const [userOnline, setUserOnline] = useState([]);
     const dispatch = useDispatch();
     const formatTime = useTimeAgo;
 
@@ -202,7 +201,7 @@ const Middle = () => {
         };
     }, [currentConversation, dispatch]);
 
-    const handleDeletePopup = () => {
+    const handlePopup = () => {
         setActive((active) => !active);
     };
 
@@ -231,7 +230,7 @@ const Middle = () => {
                         </span>
                         <div className="confirm-container__dialog-footer fs-5 d-flex justify-content-end">
                             <span
-                                onClick={() => handleDeletePopup()}
+                                onClick={() => handlePopup()}
                                 className="confirm-container__dialog-close"
                             >
                                 Close
@@ -304,7 +303,7 @@ const Middle = () => {
                             className="d-flex justify-content-center align-items-center dot-icon"
                             onClick={() => {
                                 setMessageID(message._id);
-                                handleDeletePopup();
+                                handlePopup();
                             }}
                             style={{
                                 cursor: "pointer",
@@ -420,7 +419,7 @@ const Middle = () => {
             </div>
         ) : (
             <div
-                className="h-100 d-flex justify-content-center align-items-center fs-1"
+                className="h-100 d-flex justify-content-center align-items-center fs-1 text-center"
                 style={{
                     fontWeight: "bold",
                 }}

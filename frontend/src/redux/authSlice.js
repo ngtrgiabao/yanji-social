@@ -18,6 +18,7 @@ const authSlice = createSlice({
             error: false,
             success: false,
             currentUser: null,
+            isOnline: false,
         },
     },
     reducers: {

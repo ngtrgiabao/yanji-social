@@ -54,8 +54,8 @@
     margin-bottom: 1rem;
 }
 
-.message-items {
-    max-height: 40rem;
+.message-item {
+    max-height: max-content;
 
     overflow-y: auto;
 }

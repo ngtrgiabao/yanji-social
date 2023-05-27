@@ -82,13 +82,30 @@
     border-radius: 1rem;
 
     padding: 1.5% 2%;
-    background: var(--color-primary);
 
     font-weight: 600;
     word-break: break-word;
-    color: white;
 
     z-index: -1;
+}
+
+.middle-container
+    .middle-container-body
+    .middle-container-body__left-text
+    .middle-container-body__left-message-content {
+    background: whitesmoke;
+    color: black;
+
+    border: 1px solid var(--border-color);
+}
+
+.middle-container
+    .middle-container-body
+    .middle-container-body__right-text
+    .middle-container-body__right-message-content {
+    background: var(--color-primary);
+
+    color: var(--white);
 }
 
 .middle-container
