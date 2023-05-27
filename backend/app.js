@@ -18,7 +18,7 @@ const onlineRoute = require("./src/app/routes/online.routes");
 
 const corsOptions = {
     // origin: "http://localhost:3000",
-    origi: "https://yanji-social.netlify.app/",
+    origin: "https://yanji-social.netlify.app/",
     credentials: true,
     optionSuccessStatus: 200,
 };
