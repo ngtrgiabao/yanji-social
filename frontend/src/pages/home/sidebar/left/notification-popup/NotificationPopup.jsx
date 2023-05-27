@@ -1,4 +1,3 @@
-import React from "react";
 import { NotificationData } from "../../../../../data/NotificationData";
 
 import "../../../../../style/pages/home/sidebar/left/notificationPopup/notificationPopup.css";

@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { UilEdit } from "@iconscout/react-unicons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faLinkedin,
-    faFacebook,
-    faGithub,
-} from "@fortawesome/free-brands-svg-icons";
+import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
 
 import "../../../../style/pages/home/sidebar/right/right.css";
 import VideoIcon from "../../../../assets/icons/video.svg";

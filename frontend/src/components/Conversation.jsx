@@ -52,7 +52,7 @@ const Conversation = (props) => {
 
         if (!isCancelled) {
             friends.forEach((friend) => {
-                if (onlineUsers.includes(friend) && friend === user._id) {
+                if (onlineUsers?.includes(friend) && friend === user._id) {
                     setIsOnline(true);
                 }
             });
@@ -104,7 +104,7 @@ const Conversation = (props) => {
 
     return (
         <div
-            className="d-flex align-items-center message-item p-3"
+            className="d-flex align-items-center message-item pt-3"
             style={{ borderRadius: "1rem" }}
         >
             {renderMessageBlock()}

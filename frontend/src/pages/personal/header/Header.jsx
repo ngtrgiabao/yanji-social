@@ -1,4 +1,3 @@
-import React from "react";
 import { UilCamera } from "@iconscout/react-unicons";
 
 import "../../../style/pages/personal/header/header.css";
