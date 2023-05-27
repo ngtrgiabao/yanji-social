@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,10 +21,55 @@ import {
 import "../../../../style/pages/messages/right/right.css";
 
 import Photo from "../../../../assets/avatar/profile-pic.png";
+import { useSelector } from "react-redux";
 
 const Right = () => {
     const [active, setActive] = useState("");
     const [isChoose, setIsChoose] = useState(false);
+    const [currentConversation, setCurrentConversation] = useState(null);
+    const [titleConversation, setTitleConversation] = useState(null);
+
+    const currentRoom = useSelector((state) => {
+        return state.room.room?.currentRoom;
+    });
+
+    useEffect(() => {
+        let isCancelled = false;
+
+        if (currentRoom && !isCancelled) {
+            const roomData = currentRoom.data;
+
+            if (roomData && roomData._id) {
+                const value = roomData._id;
+
+                setCurrentConversation(value);
+            }
+        }
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [currentRoom]);
+
+    const friendName = useSelector((state) => {
+        return state.auth.user.currentUser?.user;
+    });
+
+    useEffect(() => {
+        let isCancelled = false;
+
+        if (friendName && !isCancelled) {
+            if (friendName._id) {
+                const value = friendName.username;
+
+                setTitleConversation(value);
+            }
+        }
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [currentConversation]);
 
     const handleChoose = (setting) => {
         setActive(setting);
@@ -42,7 +87,7 @@ const Right = () => {
                     alt="Avatar user"
                     className="rounded-circle right-avatar-chat"
                 />
-                <p className="mt-2 mb-0 fs-4 fw-bold">Yanji</p>
+                <p className="mt-2 mb-0 fs-4 fw-bold">{titleConversation}</p>
                 <span className="opacity-75">Online 3mins ago</span>
             </div>
         );
@@ -266,7 +311,7 @@ const Right = () => {
     };
 
     return (
-        <>
+        currentConversation && (
             <div className="right-msg-page p-4">
                 <div className="right-container scrollbar d-flex flex-column align-items-center">
                     {renderAvatarUser()}
@@ -287,7 +332,7 @@ const Right = () => {
                     </div>
                 </div>
             </div>
-        </>
+        )
     );
 };
 

@@ -61,6 +61,7 @@ const Middle = () => {
             // This conditional will filter one user in list of users
             if (friendName._id) {
                 const value = friendName.username;
+
                 setTitleConversation(value);
             }
         }
@@ -300,7 +301,7 @@ const Middle = () => {
                 >
                     <div className="d-flex align-items-center justify-content-end w-100">
                         <span
-                            className="d-flex justify-content-center align-items-center dot-icon"
+                            className="dot-icon"
                             onClick={() => {
                                 setMessageID(message._id);
                                 handlePopup();
@@ -311,6 +312,7 @@ const Middle = () => {
                                 height: "2.3rem",
                                 borderRadius: "50%",
                             }}
+                            aria-label="Xem thêm"
                         >
                             <FontAwesomeIcon icon={faEllipsisVertical} />
                         </span>
@@ -342,7 +344,7 @@ const Middle = () => {
 
     const renderBodyConversation = () => {
         return (
-            <div className="middle-container-body scrollbar px-4 pt-4 fs-3">
+            <div className="middle-container-body scrollbar px-4 py-5 fs-3">
                 {renderMessages()}
                 <div ref={scrollRef} />
             </div>

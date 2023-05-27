@@ -1,5 +1,3 @@
-import React from "react";
-
 import "../../../../style/pages/personal/body/social-links/socialLinks.css";
 
 function SocialLinks() {

@@ -1,5 +1,3 @@
-import React from "react";
-
 import "../../../../../../style/pages/personal/body/friends/randomFriends/friendCollection/randomFriendsCollection.css";
 
 const RandomFriendsCollection = (props) => {
