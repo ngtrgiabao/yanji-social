@@ -9,9 +9,6 @@ import {
     logoutStart,
     logoutSuccess,
     logoutFailed,
-    getUserStart,
-    getUserSuccess,
-    getUserFailed,
 } from "../authSlice";
 
 export const loginUser = async (user, dispatch, navigate) => {
@@ -42,16 +39,5 @@ export const logout = async (dispatch, navigate) => {
         navigate("/");
     } catch (err) {
         dispatch(logoutFailed());
-    }
-};
-
-export const getUserByID = async (dispatch, userID) => {
-    dispatch(getUserStart(userID));
-    try {
-        const res = await userService.getUser(userID);
-        dispatch(getUserSuccess(res.data));
-        return res.data;
-    } catch (error) {
-        dispatch(getUserFailed());
     }
 };
