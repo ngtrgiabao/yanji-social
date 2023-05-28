@@ -9,7 +9,7 @@ import {
     getCurrentRoom,
 } from "../../../../redux/request/roomRequest";
 import Conversation from "../../../../components/Conversation";
-import { getUserByID } from "../../../../redux/request/authRequest";
+import { getUserByID } from "../../../../redux/request/userRequest";
 import { SOCKET_URL } from "../../../../constants/backend.url.constant";
 import ChatOnline from "../../../../components/ChatOnline";
 

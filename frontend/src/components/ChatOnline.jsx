@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { getUserByID } from "../redux/request/authRequest";
 import { useDispatch } from "react-redux";
+
+import { getUserByID } from "../redux/request/userRequest";
 
 const ChatOnline = (props) => {
     const { onlineUsers, currentUser } = props;

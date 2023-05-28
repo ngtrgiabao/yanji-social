@@ -52,7 +52,7 @@ const Right = () => {
     }, [currentRoom]);
 
     const friendName = useSelector((state) => {
-        return state.auth.user.currentUser?.user;
+        return state.user.user.currentUser?.user;
     });
 
     useEffect(() => {
