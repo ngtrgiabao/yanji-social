@@ -3,8 +3,13 @@ import "../../../../../../style/pages/home/sidebar/left/custom-theme/fontsize-th
 import { useTheme } from "../../../../../../hooks/useTheme";
 
 function FontSizeTheme() {
-    const fontSize = localStorage.getItem("font_size");
     const { setFontSizes } = useTheme();
+    const fontSize = localStorage.getItem("font_size");
+
+    const handleFontSizeChange = (fontSize) => {
+        localStorage.setItem("font_size", fontSize);
+        setFontSizes(fontSize);
+    };
 
     const renderFontsizeMenu = () => {
         return (
@@ -16,35 +21,35 @@ function FontSizeTheme() {
                             "font-size-1" +
                             (fontSize === "font-size-1" ? " active" : "")
                         }
-                        onClick={() => setFontSizes("font-size-1")}
+                        onClick={() => handleFontSizeChange("font-size-1")}
                     ></span>
                     <span
                         className={
                             "font-size-2" +
                             (fontSize === "font-size-2" ? " active" : "")
                         }
-                        onClick={() => setFontSizes("font-size-2")}
+                        onClick={() => handleFontSizeChange("font-size-2")}
                     ></span>
                     <span
                         className={
                             "font-size-3" +
                             (fontSize === "font-size-3" ? " active" : "")
                         }
-                        onClick={() => setFontSizes("font-size-3")}
+                        onClick={() => handleFontSizeChange("font-size-3")}
                     ></span>
                     <span
                         className={
                             "font-size-4" +
                             (fontSize === "font-size-4" ? " active" : "")
                         }
-                        onClick={() => setFontSizes("font-size-4")}
+                        onClick={() => handleFontSizeChange("font-size-4")}
                     ></span>
                     <span
                         className={
                             "font-size-5" +
                             (fontSize === "font-size-5" ? " active" : "")
                         }
-                        onClick={() => setFontSizes("font-size-5")}
+                        onClick={() => handleFontSizeChange("font-size-5")}
                     ></span>
                 </div>
                 <h3>Aa</h3>

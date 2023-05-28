@@ -349,7 +349,7 @@ const RegisterPage = () => {
 
                         <div className="register-form__footer">
                             <span className="me-3">Already have account?</span>
-                            <Link to="/login">Login now</Link>
+                            <Link to="/login" className="fs-4">Login now</Link>
                         </div>
                     </div>
                 </div>
