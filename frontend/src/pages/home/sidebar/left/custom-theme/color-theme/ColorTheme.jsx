@@ -3,8 +3,13 @@ import "../../../../../../style/pages/home/sidebar/left/custom-theme/color-theme
 import { useTheme } from "../../../../../../hooks/useTheme";
 
 function ColorTheme() {
-    const textColorTheme = localStorage.getItem("text_color");
     const { setTextColors } = useTheme();
+    const textColorTheme = localStorage.getItem("text_color");
+
+    const handleTextColorChange = (color) => {
+        localStorage.setItem("text_color", color);
+        setTextColors(color);
+    };
 
     const renderColorThemeMenu = () => {
         return (
@@ -14,35 +19,35 @@ function ColorTheme() {
                         "color-1" +
                         (textColorTheme === "color-1" ? " active" : "")
                     }
-                    onClick={() => setTextColors("color-1")}
+                    onClick={() => handleTextColorChange("color-1")}
                 ></span>
                 <span
                     className={
                         "color-2" +
                         (textColorTheme === "color-2" ? " active" : "")
                     }
-                    onClick={() => setTextColors("color-2")}
+                    onClick={() => handleTextColorChange("color-2")}
                 ></span>
                 <span
                     className={
                         "color-3" +
                         (textColorTheme === "color-3" ? " active" : "")
                     }
-                    onClick={() => setTextColors("color-3")}
+                    onClick={() => handleTextColorChange("color-3")}
                 ></span>
                 <span
                     className={
                         "color-4" +
                         (textColorTheme === "color-4" ? " active" : "")
                     }
-                    onClick={() => setTextColors("color-4")}
+                    onClick={() => handleTextColorChange("color-4")}
                 ></span>
                 <span
                     className={
                         "color-5" +
                         (textColorTheme === "color-5" ? " active" : "")
                     }
-                    onClick={() => setTextColors("color-5")}
+                    onClick={() => handleTextColorChange("color-5")}
                 ></span>
             </div>
         );

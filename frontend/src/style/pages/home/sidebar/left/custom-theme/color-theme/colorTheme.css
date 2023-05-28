@@ -40,6 +40,6 @@
     background: hsl(152, 75%, 60%);
 }
 
-.choose-color span.active {
+.choose-color .active {
     border: 5px solid white;
 }
