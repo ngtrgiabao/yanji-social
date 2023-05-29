@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 
 const UserModel = require("../models/user.model");
-const MongoDB = require("../utils/mongodb.utils");
-const UserService = require("../services/user.service");
 
 const register = (req, res, next) => {
     const { username, password, email } = req.body;
@@ -132,12 +130,12 @@ const updateUser = async (req, res, next) => {
         }
 
         if (Array.isArray(following)) {
-            const existingFollowing = user.following || [];
+            const existingFollowing = user.followings || [];
             const newFollowing = following.filter(
                 (follow) => !existingFollowing.includes(follow)
             );
-            user.followings = [...existingFollowing, ...newFollowing].map((id) =>
-                mongoose.Types.ObjectId(id)
+            user.followings = [...existingFollowing, ...newFollowing].map(
+                (id) => mongoose.Types.ObjectId(id)
             );
         }
 

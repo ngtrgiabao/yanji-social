@@ -17,13 +17,13 @@ const validateSenderAndReceiver = async (req, res, next) => {
 
         if (!checkValidReceiver) {
             return res.status(404).json({
-                msg: "Receiver not found!",
+                msg: "Receiver not found!, please check your receiver ID",
             });
         }
 
         if (!checkValidSender) {
             return res.status(404).json({
-                msg: "Sender not found!",
+                msg: "Sender not found!, please check your sender ID",
             });
         }
 
@@ -42,9 +42,9 @@ const validateMsgID = async (req, res, next) => {
         const result = await Message.findById(ObjectId(msgID));
 
         if (!result) {
-            console.error("Message not found!");
+            console.error("Message not found!, please check your message ID");
             return res.status(404).json({
-                msg: "Message not found",
+                msg: "Message not found, please check your message ID",
             });
         }
 

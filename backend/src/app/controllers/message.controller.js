@@ -79,9 +79,56 @@ const deleteAllMessages = async (req, res, next) => {
     }
 };
 
+const getMessageByID = async (req, res, next) => {
+    const msgID = req.params.msgID;
+
+    try {
+        const result = await MessageModel.findById(msgID);
+
+        return res.status(200).json({
+            msg: `Get message ${msgID} successfully`,
+            data: result,
+        });
+    } catch (error) {}
+};
+
+const updateMessage = async (req, res, next) => {
+    const msgID = req.params.msgID;
+
+    try {
+        const { message } = req.body;
+
+        const msg = await MessageModel.findById(msgID);
+
+        console.log(msg, typeof message);
+
+        if (message && message.length > 0) {
+            msg.message = message || msg.message;
+
+            const updatedMsg = await msg.save();
+
+            return res.status(200).json({
+                msg: "Updated message",
+                data: updatedMsg,
+            });
+        }
+
+        return res.status(200).json({
+            msg: "Saved message",
+        });
+    } catch (error) {
+        console.error("Failed to update message", error);
+        return res.status(500).json({
+            msg: "Failed to update message",
+        });
+    }
+};
+
 module.exports = {
     sendMessage,
     deleteMessage,
     getAllMessages,
     deleteAllMessages,
+    updateMessage,
+    getMessageByID,
 };

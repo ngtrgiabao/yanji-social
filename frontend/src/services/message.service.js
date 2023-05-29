@@ -5,6 +5,10 @@ class MessageService {
         return await api.get(`/api/v1/message/all-messages/room/${roomID}`);
     }
 
+    async getMessageByID(msgID) {
+        return await api.get(`/api/v1/message/get-message/${msgID}`);
+    }
+
     async sendMessage(message) {
         return await api.post(
             `/api/v1/message/send-message/${message.sender}`,
@@ -12,7 +16,9 @@ class MessageService {
         );
     }
 
-    async editMessage(id, data) {}
+    async updateMessage(msgID, data) {
+        return await api.put(`/api/v1/message/update-message/${msgID}`, data);
+    }
 
     async deleteMessage(msgID) {
         return await api.delete(`/api/v1/message/delete-message/${msgID}`);

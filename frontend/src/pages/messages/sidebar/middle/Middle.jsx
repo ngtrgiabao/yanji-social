@@ -12,6 +12,7 @@ import {
     faThumbsUp,
     faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 // import MagicBell, {
 //     FloatingNotificationInbox,
 // } from "@magicbell/magicbell-react";
@@ -351,12 +352,44 @@ const Middle = () => {
         );
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (message) {
+            handleMsg.submit(e);
+        }
+    };
+
+    const handleSendLike = (emoji) => {
+        if (currentConversation) {
+            const newMessage = {
+                sender: sender._id,
+                message: emoji,
+                time: time,
+                roomId: currentConversation,
+            };
+
+            sendMessage(newMessage, dispatch)
+                .then(async () => {
+                    if (message) {
+                        await socketRef.current.emit(
+                            "send-message",
+                            newMessage
+                        );
+                        setMessage("");
+                    }
+                })
+                .catch((error) => {
+                    alert("Failed to send message");
+                    console.error("Failed to send message", error);
+                });
+        }
+    };
+
     const renderFooterConversation = () => {
         return (
             <form
-                onSubmit={(e) => {
-                    handleMsg.submit(e);
-                }}
+                onSubmit={handleSubmit}
                 className="middle-container-footer p-4 d-flex justify-content-between align-items-center"
             >
                 <div className="d-flex justify-content-between">
@@ -404,9 +437,11 @@ const Middle = () => {
                         borderRadius: "0.5rem",
                         padding: "0.8rem",
                     }}
-                    aria-label="Thả cảm xúc"
+                    aria-label="Gửi tin nhắn"
+                    role="button"
+                    onClick={handleSubmit}
                 >
-                    <FontAwesomeIcon icon={faThumbsUp} />
+                    <FontAwesomeIcon icon={faPaperPlane} />
                 </span>
             </form>
         );

@@ -1,9 +1,17 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Form from "react-bootstrap/Form";
 import { UilSearch } from "@iconscout/react-unicons";
+import { io } from "socket.io-client";
 
 import "../../../../../style/pages/home/sidebar/right/message/message.css";
-import { MessageData } from "../../../../../data/MessageData";
+
+import KAYO_AVATAR from "../../../../../assets/avatar/kayo.jpg";
+
+import { getRoomsByUserID } from "../../../../../redux/request/roomRequest";
+import Conversation from "../../../../../components/Conversation";
+import { getUserByID } from "../../../../../redux/request/userRequest";
+import { SOCKET_URL } from "../../../../../constants/backend.url.constant";
 
 function Message() {
     const [filterMessages, setFilterMessages] = useState("");
@@ -12,27 +20,32 @@ function Message() {
         setFilterMessages(e.target.value);
     });
 
+    const [rooms, setRooms] = useState([]);
+    const [onlineUsers, setOnlineUsers] = useState([]);
+    const socketRef = useRef(null);
+    const dispatch = useDispatch();
+
+    const sender = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
     const renderFilterData = () => {
-        return MessageData.filter((user) =>
-            user.name.toLowerCase().includes(filterMessages)
-        ).map((item) => (
-            <div className="message-item message-sidebar" key={item.id}>
-                <div className="profile-pic active">
-                    <img
-                        loading="lazy"
-                        role="presentation"
-                        decoding="async"
-                        src={item.avatar}
-                        alt="Avatar user"
-                    />
-                </div>
-                <div className="message-body">
-                    <h5>{item.name}</h5>
-                    <p className="text-muted">{item.message}</p>
-                </div>
+        return rooms.map((r) => (
+            <div key={r._id} className="message-item message-sidebar">
+                <Conversation
+                    onlineUsers={onlineUsers}
+                    conversation={r}
+                    currentUser={sender._id}
+                    avatarUser={KAYO_AVATAR}
+                    filterMessages={filterMessages}
+                />
             </div>
         ));
     };
+
+    useEffect(() => {
+        console.log(onlineUsers);
+    }, [onlineUsers]);
 
     return (
         <>
@@ -55,7 +68,7 @@ function Message() {
             </div>
 
             {/* MESSAGES */}
-            <div className="message-items">
+            <div className="message-items scrollbar">
                 {/* FILTER NAME WHEN SEARCHING */}
                 {renderFilterData()}
             </div>

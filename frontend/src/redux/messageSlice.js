@@ -38,16 +38,16 @@ const messageSlice = createSlice({
             state.message.isFetching = false;
             state.message.error = true;
         },
-        // EDIT MSG
-        editMessageStart: (state) => {
+        // UPDATE MSG
+        updateMessageStart: (state) => {
             state.message.isFetching = true;
         },
-        editMessageSuccess: (state, action) => {
+        updateMessageSuccess: (state, action) => {
             state.message.isFetching = false;
             state.message.messageThread = action.payload;
             state.message.error = false;
         },
-        editMessageFailed: (state) => {
+        updateMessageFailed: (state) => {
             state.message.isFetching = false;
             state.message.error = true;
         },
@@ -70,9 +70,9 @@ export const {
     sendMessageStart,
     sendMessageSuccess,
     sendMessageFailed,
-    editMessageStart,
-    editMessageSuccess,
-    editMessageFailed,
+    updateMessageStart,
+    updateMessageSuccess,
+    updateMessageFailed,
     deleteMessageStart,
     deleteMessageSuccess,
     deleteMessageFailed,
