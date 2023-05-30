@@ -3,9 +3,9 @@ import {
     sendMessageStart,
     sendMessageSuccess,
     sendMessageFailed,
-    editMessageStart,
-    editMessageSuccess,
-    editMessageFailed,
+    updateMessageStart,
+    updateMessageSuccess,
+    updateMessageFailed,
     deleteMessageStart,
     deleteMessageSuccess,
     deleteMessageFailed,
@@ -42,5 +42,28 @@ export const deleteMessage = async (msgID, dispatch) => {
         dispatch(deleteMessageSuccess());
     } catch (error) {
         dispatch(deleteMessageFailed());
+    }
+};
+
+export const getMessageByID = async (msgID, dispatch) => {
+    dispatch(getMessageStart());
+
+    try {
+        const res = await messageService.getMessageByID(msgID);
+        dispatch(getMessageSuccess(res.data));
+        return res.data;
+    } catch (error) {
+        dispatch(getMessageFailed());
+    }
+};
+
+export const updateMessage = async (msgID, dispatch) => {
+    dispatch(updateMessageStart());
+
+    try {
+        const res = await messageService.updateMessage(msgID);
+        dispatch(updateMessageSuccess(res.data));
+    } catch (error) {
+        dispatch(updateMessageFailed());
     }
 };

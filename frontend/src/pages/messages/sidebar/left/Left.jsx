@@ -11,7 +11,7 @@ import {
 import Conversation from "../../../../components/Conversation";
 import { getUserByID } from "../../../../redux/request/userRequest";
 import { SOCKET_URL } from "../../../../constants/backend.url.constant";
-import ChatOnline from "../../../../components/ChatOnline";
+// import ChatOnline from "../../../../components/ChatOnline";
 
 const Left = (props) => {
     const { avatarUser } = props;
@@ -138,10 +138,10 @@ const Left = (props) => {
 
                         <div className="messages-wrapper scrollbar">
                             {renderRooms()}
-                            <ChatOnline
+                            {/* <ChatOnline
                                 onlineUsers={onlineUsers}
                                 currentUser={sender._id}
-                            />
+                            /> */}
                         </div>
                     </div>
                 </div>

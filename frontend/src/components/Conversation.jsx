@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-// import { getUserByID } from "../redux/request/authRequest";
 import { getUserByID } from "../redux/request/userRequest";
 
 const Conversation = (props) => {
@@ -94,23 +93,37 @@ const Conversation = (props) => {
     };
 
     const renderMessageBlock = () => {
-        return filterMessages &&
-            !user.username.toLowerCase().includes(filterMessages) ? null : (
-            <>
+        if (
+            filterMessages &&
+            !user.username.toLowerCase().includes(filterMessages)
+        ) {
+            return null;
+        }
+
+        return (
+            <div className="d-flex w-100 align-items-center">
                 {avatarUserElement()}
                 {messageBodyElement()}
-            </>
+            </div>
         );
     };
 
-    return (
-        <div
-            className="d-flex align-items-center message-item pt-3"
-            style={{ borderRadius: "1rem" }}
-        >
-            {renderMessageBlock()}
-        </div>
-    );
+    const MessageItem = () => {
+        const showItem = user?.username.toLowerCase().includes(filterMessages);
+
+        return (
+            <div
+                className={`message-item py-3 px-2 ${
+                    showItem ? "d-flex flex-column" : "d-none"
+                }`}
+                style={{ borderRadius: "1rem" }}
+            >
+                {renderMessageBlock()}
+            </div>
+        );
+    };
+
+    return MessageItem();
 };
 
 export default Conversation;

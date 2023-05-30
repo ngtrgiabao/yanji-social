@@ -16,12 +16,22 @@ router.get(
     MessageController.getAllMessages
 );
 router.get("/all-messages/room/:roomID", MessageController.getAllMessages);
+router.get(
+    "/get-message/:msgID",
+    MessageMiddleware.validateMsgID,
+    MessageController.getMessageByID
+);
 
 router.post(
     "/send-message/:userID",
-    // MessageMiddleware.validateSenderAndReceiver,
     UserMiddleware.validateUserById,
     MessageController.sendMessage
+);
+
+router.put(
+    "/update-message/:msgID",
+    MessageMiddleware.validateMsgID,
+    MessageController.updateMessage
 );
 
 router.delete(
