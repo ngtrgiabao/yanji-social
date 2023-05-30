@@ -43,9 +43,9 @@ function Message() {
         ));
     };
 
-    useEffect(() => {
-        console.log(onlineUsers);
-    }, [onlineUsers]);
+    // useEffect(() => {
+    //     console.log(onlineUsers);
+    // }, [onlineUsers]);
 
     return (
         <>

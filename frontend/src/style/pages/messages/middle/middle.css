@@ -221,10 +221,9 @@
 }
 
 .middle-msg-page .middle-container .middle-container-footer .user-input-chat {
+    flex: 1;
     display: flex;
     justify-content: center;
-
-    width: 75%;
 }
 
 .middle-msg-page

@@ -9,8 +9,8 @@ import {
     faPlus,
     faImage,
     faFaceLaughBeam,
-    faThumbsUp,
     faEllipsisVertical,
+    faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 // import MagicBell, {
@@ -225,18 +225,25 @@ const Middle = () => {
             handleMsg.submit(e);
         }
 
+        // Handle edit message
         if (message !== oldMessage && edit) {
-            const updateMsg = {
-                msgID: messageID,
-                message: message,
-                sender: sender._id,
-            };
-            updateMessage(updateMsg, dispatch).then(async () => {
-                await socketRef.current.emit("update-message", updateMsg);
-
+            if (message === "") {
+                togglePopup();
                 setEdit(false);
-                setMessage("");
-            });
+            } else {
+                const updateMsg = {
+                    msgID: messageID,
+                    message: message,
+                    sender: sender._id,
+                };
+
+                updateMessage(updateMsg, dispatch).then(async () => {
+                    await socketRef.current.emit("update-message", updateMsg);
+
+                    setEdit(false);
+                    setMessage("");
+                });
+            }
         }
     };
 
@@ -360,7 +367,7 @@ const Middle = () => {
             message.sender === sender._id ? (
                 <div
                     key={index}
-                    className="middle-container-body__right-text mb-2 fs-4 animate__animated animate__slideInRight d-flex align-items-end flex-column"
+                    className="middle-container-body__right-text my-4 fs-4 animate__animated animate__slideInRight d-flex align-items-end flex-column"
                 >
                     <div className="d-flex align-items-center justify-content-end w-100">
                         <span
@@ -385,6 +392,9 @@ const Middle = () => {
                     </div>
                     <div className="middle-container-body__right-time">
                         {formatTime(message.createdAt) || "now"}
+                        {message.createdAt !== message.updatedAt && (
+                            <> - edited {formatTime(message.updatedAt)}</>
+                        )}
                     </div>
                 </div>
             ) : (
@@ -440,6 +450,29 @@ const Middle = () => {
         }
     };
 
+    const handleCancelEditMsg = () => {
+        setEdit(false);
+        setMessage("");
+    };
+
+    const renderLabelEditMessage = () => {
+        return (
+            <span
+                className="position-absolute bottom-100 bg-warning text-black  h-100 p-3"
+                style={{
+                    left: 10,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "max-content",
+                    fontWeight: "bolder",
+                }}
+            >
+                Chỉnh sửa tin nhắn
+            </span>
+        );
+    };
+
     const renderFooterConversation = () => {
         return (
             <form
@@ -470,7 +503,8 @@ const Middle = () => {
                     </span>
                 </div>
 
-                <div className="user-input-chat">
+                <div className="user-input-chat position-relative mx-3">
+                    {edit && renderLabelEditMessage()}
                     <input
                         type="text"
                         className="rounded py-2 px-3 fs-4"
@@ -484,19 +518,38 @@ const Middle = () => {
                         autoFocus
                     />
                 </div>
-                <span
-                    className="icon fs-3 d-flex justify-content-end align-items-center"
-                    style={{
-                        width: "fit-content",
-                        borderRadius: "0.5rem",
-                        padding: "0.8rem",
-                    }}
-                    aria-label="Gửi tin nhắn"
-                    role="button"
-                    onClick={handleSubmit}
-                >
-                    <FontAwesomeIcon icon={faPaperPlane} />
-                </span>
+
+                {edit ? (
+                    <span
+                        className="icon fs-3 d-flex justify-content-center align-items-center"
+                        style={{
+                            width: "2em",
+                            height: "2em",
+                            borderRadius: "0.5rem",
+                            padding: "0.8rem",
+                        }}
+                        aria-label="Hủy chỉnh sửa"
+                        role="button"
+                        onClick={() => handleCancelEditMsg()}
+                    >
+                        <FontAwesomeIcon icon={faX} />
+                    </span>
+                ) : (
+                    <span
+                        className="icon fs-3 d-flex justify-content-center align-items-center"
+                        style={{
+                            width: "2em",
+                            height: "2em",
+                            borderRadius: "0.5rem",
+                            padding: "0.8rem",
+                        }}
+                        aria-label="Gửi tin nhắn"
+                        role="button"
+                        onClick={handleSubmit}
+                    >
+                        <FontAwesomeIcon icon={faPaperPlane} />
+                    </span>
+                )}
             </form>
         );
     };

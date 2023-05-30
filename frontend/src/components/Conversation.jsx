@@ -87,7 +87,7 @@ const Conversation = (props) => {
     const messageBodyElement = () => {
         return (
             <div className="message-body ms-3">
-                <div className="fs-4 fw-bold">{user && user.username}</div>
+                <div className="fs-3 fw-bold">{user && user.username}</div>
             </div>
         );
     };
