@@ -42,7 +42,12 @@ io.on("connection", (socket) => {
             io.emit("receive-message", data);
             console.log(`User ${sender} have sent message at ${time}`);
         });
+        socket.on("update-message", (data) => {
+            const { msgID } = data;
 
+            io.emit("updated-message", data);
+            console.log(`Update message ${msgID} successfully`);
+        });
         socket.on("add-user", (data) => {
             const { user } = data;
             addUser(user, socket.id);

@@ -45,6 +45,18 @@ export const deleteMessage = async (msgID, dispatch) => {
     }
 };
 
+export const getMessageByID = async (msgID, dispatch) => {
+    dispatch(getMessageStart());
+
+    try {
+        const res = await messageService.getMessageByID(msgID);
+        dispatch(getMessageSuccess(res.data));
+        return res.data;
+    } catch (error) {
+        dispatch(getMessageFailed());
+    }
+};
+
 export const updateMessage = async (msgID, dispatch) => {
     dispatch(updateMessageStart());
 

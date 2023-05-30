@@ -7,6 +7,7 @@ const messageSlice = createSlice({
             isFetching: false,
             error: false,
             messageThread: null,
+            currentMsg: null,
         },
     },
 

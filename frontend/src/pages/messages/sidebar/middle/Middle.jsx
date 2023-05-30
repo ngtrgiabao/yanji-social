@@ -28,16 +28,20 @@ import {
     sendMessage,
     getMessagesByRoomID,
     deleteMessage,
+    updateMessage,
+    getMessageByID,
 } from "../../../../redux/request/messageRequest";
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
 
 const Middle = () => {
     const [message, setMessage] = useState("");
     const [active, setActive] = useState(false);
-    const [messageID, setMessageID] = useState("");
+    const [messageID, setMessageID] = useState(null);
     const [messageThread, setMessageThread] = useState([]);
     const [currentConversation, setCurrentConversation] = useState(null);
     const [titleConversation, setTitleConversation] = useState(null);
+    const [oldMessage, setOldMessage] = useState("");
+    const [edit, setEdit] = useState(false);
     const dispatch = useDispatch();
     const formatTime = useTimeAgo;
 
@@ -76,6 +80,7 @@ const Middle = () => {
         serverResponse: useCallback((data) => {
             console.log(data);
         }, []),
+
         receivedMessage: useCallback(
             (data) => {
                 const { roomId } = data;
@@ -86,6 +91,20 @@ const Middle = () => {
                     ]);
             },
             [currentConversation, messageThread]
+        ),
+        updatedMessage: useCallback(
+            (data) => {
+                const { msgID } = data;
+
+                setMessageThread((prevMessageThread) => {
+                    const updatedThread = prevMessageThread.map((message) =>
+                        message._id === msgID ? data : message
+                    );
+
+                    return updatedThread;
+                });
+            },
+            [messageThread]
         ),
 
         disconnect: useCallback(() => {
@@ -103,16 +122,19 @@ const Middle = () => {
 
         socket.on("server", handleSocket.serverResponse);
         socket.on("receive-message", handleSocket.receivedMessage);
+        socket.on("updated-message", handleSocket.updatedMessage);
         socket.on("disconnect", handleSocket.disconnect);
 
         return () => {
             socket.off("server", handleSocket.serverResponse);
             socket.off("receive-message", handleSocket.receivedMessage);
+            socket.off("updated-message", handleSocket.updatedMessage);
             socket.off("disconnect", handleSocket.disconnect);
         };
     }, [
         handleSocket.serverResponse,
         handleSocket.receivedMessage,
+        handleSocket.updatedMessage,
         handleSocket.disconnect,
     ]);
 
@@ -170,6 +192,12 @@ const Middle = () => {
                     });
             }
         },
+        updateMsg: async (msgID) => {
+            await getMessageByID(msgID, dispatch).then((data) => {
+                setMessage(data.data.message);
+                setOldMessage(data.data.message);
+            });
+        },
         deleteMsg: async () => {
             await deleteMessage(messageID, dispatch);
             setMessageThread((prevMessageThread) =>
@@ -179,6 +207,40 @@ const Middle = () => {
         },
     };
 
+    const handleSetMsgID = (msgID) => {
+        setMessageID(msgID);
+
+        handleUpdateMsg(msgID);
+    };
+
+    const handleUpdateMsg = (msgID) => {
+        handleMsg.updateMsg(msgID);
+        setEdit(true);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (message && !edit) {
+            handleMsg.submit(e);
+        }
+
+        if (message !== oldMessage && edit) {
+            const updateMsg = {
+                msgID: messageID,
+                message: message,
+                sender: sender._id,
+            };
+            updateMessage(updateMsg, dispatch).then(async () => {
+                await socketRef.current.emit("update-message", updateMsg);
+
+                setEdit(false);
+                setMessage("");
+            });
+        }
+    };
+
+    // Get msg thread by room ID
     useEffect(() => {
         let isCancalled = false;
 
@@ -203,7 +265,7 @@ const Middle = () => {
         };
     }, [currentConversation, dispatch]);
 
-    const handlePopup = () => {
+    const togglePopup = () => {
         setActive((active) => !active);
     };
 
@@ -215,7 +277,7 @@ const Middle = () => {
         });
     }, [messageThread]);
 
-    const renderConfirmPopup = () => {
+    const renderConfirmPopupDeleteMsg = () => {
         return (
             active && (
                 <div
@@ -232,7 +294,7 @@ const Middle = () => {
                         </span>
                         <div className="confirm-container__dialog-footer fs-5 d-flex justify-content-end">
                             <span
-                                onClick={() => handlePopup()}
+                                onClick={() => togglePopup()}
                                 className="confirm-container__dialog-close"
                             >
                                 Close
@@ -304,8 +366,8 @@ const Middle = () => {
                         <span
                             className="dot-icon"
                             onClick={() => {
-                                setMessageID(message._id);
-                                handlePopup();
+                                handleSetMsgID(message._id);
+                                // togglePopup();
                             }}
                             style={{
                                 cursor: "pointer",
@@ -350,14 +412,6 @@ const Middle = () => {
                 <div ref={scrollRef} />
             </div>
         );
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (message) {
-            handleMsg.submit(e);
-        }
     };
 
     const handleSendLike = (emoji) => {
@@ -477,7 +531,7 @@ const Middle = () => {
                         <FloatingNotificationInbox height={500} {...props} />
                     )}
                 </MagicBell> */}
-                {renderConversation()} {renderConfirmPopup()}
+                {renderConversation()} {renderConfirmPopupDeleteMsg()}
                 {/* <EmojiPicker /> */}
             </div>
         </>

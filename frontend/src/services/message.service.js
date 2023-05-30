@@ -16,8 +16,11 @@ class MessageService {
         );
     }
 
-    async updateMessage(msgID, data) {
-        return await api.put(`/api/v1/message/update-message/${msgID}`, data);
+    async updateMessage(updateMessage) {
+        return await api.put(
+            `/api/v1/message/update-message/${updateMessage.msgID}`,
+            updateMessage
+        );
     }
 
     async deleteMessage(msgID) {
