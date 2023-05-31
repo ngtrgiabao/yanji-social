@@ -1,4 +1,5 @@
 @import url("../../../constants/constant.css");
+@import url("../../../../index.css");
 
 .middle-msg-page {
     border: 0.5px solid var(--color-border);

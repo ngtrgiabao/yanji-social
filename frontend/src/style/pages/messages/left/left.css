@@ -51,24 +51,3 @@
     border-radius: 50%;
     border: 1px solid var(--color-primary);
 }
-
-/* ONLINE STATUS */
-.online-status {
-    position: relative;
-}
-
-.online-status::before {
-    content: "";
-
-    width: 1.2rem;
-    height: 1.2rem;
-
-    border-radius: 50%;
-    border: 3px solid var(--color-white);
-
-    top: 70%;
-    right: 0;
-    position: absolute;
-
-    background-color: var(--color-success);
-}

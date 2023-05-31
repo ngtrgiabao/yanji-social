@@ -11,8 +11,12 @@ import {
     faFaceLaughBeam,
     faEllipsisVertical,
     faX,
+    faCircleCheck as seenIcon,
 } from "@fortawesome/free-solid-svg-icons";
-import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
+import {
+    faPaperPlane,
+    faCircleCheck as unseenIcon,
+} from "@fortawesome/free-regular-svg-icons";
 // import MagicBell, {
 //     FloatingNotificationInbox,
 // } from "@magicbell/magicbell-react";
@@ -30,6 +34,7 @@ import {
     deleteMessage,
     updateMessage,
     getMessageByID,
+    markMessageSeen,
 } from "../../../../redux/request/messageRequest";
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
 
@@ -174,6 +179,7 @@ const Middle = () => {
                     message: message,
                     time: time,
                     roomId: currentConversation,
+                    isRead: false,
                 };
 
                 sendMessage(newMessage, dispatch)
@@ -257,9 +263,40 @@ const Middle = () => {
                     if (!isCancalled) {
                         Object.keys(data).forEach((key) => {
                             if (key === "messages") {
-                                const value = data[key];
-                                setMessageThread(value);
+                                const messages = data[key];
+                                setMessageThread(messages);
                             }
+                        });
+
+                        const value = messageThread.filter(
+                            (m) => m.sender !== sender
+                        );
+                        // console.log(m);
+
+                        // Object.keys(m).forEach((key) => {
+                        //     if (key === "isRead") {
+                        //         let isRead = m[key];
+                        //         isRead = true;
+                        //         console.log(isRead);
+                        //     }
+                        // });
+
+                        value.map(async (m) => {
+                            const updateMsg = {
+                                ...m,
+                                isRead: true,
+                                msgID: m._id,
+                            };
+
+                            await markMessageSeen(updateMsg, dispatch).then(
+                                async (data) => {
+                                    console.log(data);
+                                    await socketRef.current.emit(
+                                        "update-message",
+                                        updateMsg
+                                    );
+                                }
+                            );
                         });
                     }
                 })
@@ -329,7 +366,7 @@ const Middle = () => {
                         decoding="async"
                         src={Photo}
                         alt="Avatar user"
-                        className="rounded-circle middle-avatar-chat"
+                        className="rounded-circle middle-avatar-chat online-status"
                     />
                     <span className="ms-2 fs-4 fw-bold">
                         {titleConversation}
@@ -390,10 +427,19 @@ const Middle = () => {
                             {message.message}
                         </span>
                     </div>
-                    <div className="middle-container-body__right-time">
+                    <div className="middle-container-body__right-time d-flex align-items-center">
                         {formatTime(message.createdAt) || "now"}
                         {message.createdAt !== message.updatedAt && (
                             <> - edited {formatTime(message.updatedAt)}</>
+                        )}
+
+                        {!message.isRead ? (
+                            <FontAwesomeIcon
+                                icon={unseenIcon}
+                                className="ms-2"
+                            />
+                        ) : (
+                            <FontAwesomeIcon icon={seenIcon} className="ms-2" />
                         )}
                     </div>
                 </div>
@@ -409,6 +455,9 @@ const Middle = () => {
                     </div>
                     <div className="middle-container-body__left-time">
                         {formatTime(message.createdAt) || "now"}
+                        {message.createdAt !== message.updatedAt && (
+                            <> - edited {formatTime(message.updatedAt)}</>
+                        )}
                     </div>
                 </div>
             )
@@ -521,7 +570,7 @@ const Middle = () => {
 
                 {edit ? (
                     <span
-                        className="icon fs-3 d-flex justify-content-center align-items-center"
+                        className="icon fs-3 d-flex justify-content-center align-items-center bg-danger"
                         style={{
                             width: "2em",
                             height: "2em",
