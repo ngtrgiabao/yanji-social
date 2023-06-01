@@ -111,6 +111,7 @@ const Middle = () => {
             },
             [messageThread]
         ),
+        markMessage: useCallback(() => {}, []),
 
         disconnect: useCallback(() => {
             console.log("Server disconnected :<");
@@ -179,7 +180,6 @@ const Middle = () => {
                     message: message,
                     time: time,
                     roomId: currentConversation,
-                    isRead: false,
                 };
 
                 sendMessage(newMessage, dispatch)
@@ -253,51 +253,41 @@ const Middle = () => {
         }
     };
 
+    const handelMarkMessageSeen = async (data) => {
+        const friendMsg = data.messages.filter((m) => m.sender !== sender._id);
+
+        const messageKeys = Object.keys(friendMsg);
+        const latestMessageKey = messageKeys[messageKeys.length - 1];
+
+        if (latestMessageKey) {
+            const latestMessage = friendMsg[latestMessageKey];
+
+            const markMsg = {
+                ...latestMessage,
+                msgID: latestMessage._id,
+                isRead: true,
+            };
+
+            await markMessageSeen(markMsg, dispatch);
+        }
+    };
+
     // Get msg thread by room ID
     useEffect(() => {
         let isCancalled = false;
 
         if (currentConversation) {
             getMessagesByRoomID(currentConversation, dispatch)
-                .then((data) => {
+                .then(async (data) => {
                     if (!isCancalled) {
                         Object.keys(data).forEach((key) => {
                             if (key === "messages") {
-                                const messages = data[key];
-                                setMessageThread(messages);
+                                const value = data[key];
+                                setMessageThread(value);
                             }
                         });
 
-                        const value = messageThread.filter(
-                            (m) => m.sender !== sender
-                        );
-                        // console.log(m);
-
-                        // Object.keys(m).forEach((key) => {
-                        //     if (key === "isRead") {
-                        //         let isRead = m[key];
-                        //         isRead = true;
-                        //         console.log(isRead);
-                        //     }
-                        // });
-
-                        value.map(async (m) => {
-                            const updateMsg = {
-                                ...m,
-                                isRead: true,
-                                msgID: m._id,
-                            };
-
-                            await markMessageSeen(updateMsg, dispatch).then(
-                                async (data) => {
-                                    console.log(data);
-                                    await socketRef.current.emit(
-                                        "update-message",
-                                        updateMsg
-                                    );
-                                }
-                            );
-                        });
+                        handelMarkMessageSeen(data);
                     }
                 })
                 .catch((error) => {
@@ -307,7 +297,7 @@ const Middle = () => {
         return () => {
             isCancalled = true;
         };
-    }, [currentConversation, dispatch]);
+    }, [currentConversation, dispatch, sender._id]);
 
     const togglePopup = () => {
         setActive((active) => !active);
@@ -366,7 +356,7 @@ const Middle = () => {
                         decoding="async"
                         src={Photo}
                         alt="Avatar user"
-                        className="rounded-circle middle-avatar-chat online-status"
+                        className="rounded-circle middle-avatar-chat"
                     />
                     <span className="ms-2 fs-4 fw-bold">
                         {titleConversation}
@@ -427,19 +417,16 @@ const Middle = () => {
                             {message.message}
                         </span>
                     </div>
-                    <div className="middle-container-body__right-time d-flex align-items-center">
+                    <div className="middle-container-body__right-time">
                         {formatTime(message.createdAt) || "now"}
                         {message.createdAt !== message.updatedAt && (
                             <> - edited {formatTime(message.updatedAt)}</>
                         )}
-
-                        {!message.isRead ? (
-                            <FontAwesomeIcon
-                                icon={unseenIcon}
-                                className="ms-2"
-                            />
+                        -
+                        {message.isRead ? (
+                            <FontAwesomeIcon icon={seenIcon} />
                         ) : (
-                            <FontAwesomeIcon icon={seenIcon} className="ms-2" />
+                            <FontAwesomeIcon icon={unseenIcon} />
                         )}
                     </div>
                 </div>
@@ -455,9 +442,6 @@ const Middle = () => {
                     </div>
                     <div className="middle-container-body__left-time">
                         {formatTime(message.createdAt) || "now"}
-                        {message.createdAt !== message.updatedAt && (
-                            <> - edited {formatTime(message.updatedAt)}</>
-                        )}
                     </div>
                 </div>
             )

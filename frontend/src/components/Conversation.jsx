@@ -31,7 +31,7 @@ const Conversation = (props) => {
         return () => {
             isCancelled = true;
         };
-    }, [currentUser]);
+    }, [currentUser, dispatch]);
 
     useEffect(() => {
         let isCancelled = false;
@@ -52,7 +52,7 @@ const Conversation = (props) => {
 
         if (!isCancelled) {
             friends.forEach((friend) => {
-                if (onlineUsers?.includes(friend) && friend === user._id) {
+                if (onlineUsers?.includes(friend) && friend === user?._id) {
                     setIsOnline(true);
                 }
             });

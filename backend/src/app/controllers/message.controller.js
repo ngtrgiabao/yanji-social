@@ -96,14 +96,12 @@ const updateMessage = async (req, res, next) => {
     const msgID = req.params.msgID;
 
     try {
-        const { message } = req.body;
-
+        const { message, isRead } = req.body;
         const msg = await MessageModel.findById(msgID);
-
-        console.log(msg, typeof message);
 
         if (message && message.length > 0) {
             msg.message = message || msg.message;
+            msg.isRead = isRead || msg.isRead;
 
             const updatedMsg = await msg.save();
 

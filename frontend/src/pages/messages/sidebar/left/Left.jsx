@@ -74,10 +74,6 @@ const Left = (props) => {
             },
             [sender._id, dispatch]
         ),
-        markSeenMessage: (id) => {
-            // console.log(id);
-            // console.log(sender._id);
-        },
     };
 
     useEffect(() => {
@@ -104,8 +100,6 @@ const Left = (props) => {
                     setFriendID(
                         r.participants.filter((user) => user !== sender._id)
                     );
-
-                    handleSocket.markSeenMessage(r._id);
                 }}
                 className="messages-wrapper__room-list"
             >

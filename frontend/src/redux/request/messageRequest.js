@@ -73,8 +73,8 @@ export const markMessageSeen = async (msg, dispatch) => {
 
     try {
         const res = await messageService.updateMessage(msg);
-        console.log(res.data.data);
         dispatch(updateMessageSuccess(res.data));
+
         return res.data;
     } catch (error) {
         dispatch(updateMessageFailed());
