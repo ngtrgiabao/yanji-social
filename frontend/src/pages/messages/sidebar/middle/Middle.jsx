@@ -11,8 +11,12 @@ import {
     faFaceLaughBeam,
     faEllipsisVertical,
     faX,
+    faCircleCheck as seenIcon,
 } from "@fortawesome/free-solid-svg-icons";
-import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
+import {
+    faPaperPlane,
+    faCircleCheck as unseenIcon,
+} from "@fortawesome/free-regular-svg-icons";
 // import MagicBell, {
 //     FloatingNotificationInbox,
 // } from "@magicbell/magicbell-react";
@@ -30,6 +34,7 @@ import {
     deleteMessage,
     updateMessage,
     getMessageByID,
+    markMessageSeen,
 } from "../../../../redux/request/messageRequest";
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
 
@@ -66,7 +71,6 @@ const Middle = () => {
             // This conditional will filter one user in list of users
             if (friendName._id) {
                 const value = friendName.username;
-
                 setTitleConversation(value);
             }
         }
@@ -197,6 +201,28 @@ const Middle = () => {
                 setMessage(data.data.message);
                 setOldMessage(data.data.message);
             });
+
+            setEdit(true);
+        },
+        markMsgSeen: async (data) => {
+            const friendMsg = data.messages.filter(
+                (m) => m.sender !== sender._id
+            );
+
+            const messageKeys = Object.keys(friendMsg);
+            const latestMessageKey = messageKeys[messageKeys.length - 1];
+
+            if (latestMessageKey) {
+                const latestMessage = friendMsg[latestMessageKey];
+
+                const markMsg = {
+                    ...latestMessage,
+                    msgID: latestMessage._id,
+                    isRead: true,
+                };
+
+                await markMessageSeen(markMsg, dispatch);
+            }
         },
         deleteMsg: async () => {
             await deleteMessage(messageID, dispatch);
@@ -210,12 +236,7 @@ const Middle = () => {
     const handleSetMsgID = (msgID) => {
         setMessageID(msgID);
 
-        handleUpdateMsg(msgID);
-    };
-
-    const handleUpdateMsg = (msgID) => {
         handleMsg.updateMsg(msgID);
-        setEdit(true);
     };
 
     const handleSubmit = (e) => {
@@ -253,7 +274,7 @@ const Middle = () => {
 
         if (currentConversation) {
             getMessagesByRoomID(currentConversation, dispatch)
-                .then((data) => {
+                .then(async (data) => {
                     if (!isCancalled) {
                         Object.keys(data).forEach((key) => {
                             if (key === "messages") {
@@ -261,6 +282,8 @@ const Middle = () => {
                                 setMessageThread(value);
                             }
                         });
+
+                        handleMsg.markMsgSeen(data);
                     }
                 })
                 .catch((error) => {
@@ -270,7 +293,7 @@ const Middle = () => {
         return () => {
             isCancalled = true;
         };
-    }, [currentConversation, dispatch]);
+    }, [currentConversation, dispatch, sender._id]);
 
     const togglePopup = () => {
         setActive((active) => !active);
@@ -394,6 +417,12 @@ const Middle = () => {
                         {formatTime(message.createdAt) || "now"}
                         {message.createdAt !== message.updatedAt && (
                             <> - edited {formatTime(message.updatedAt)}</>
+                        )}
+                        -
+                        {message.isRead ? (
+                            <FontAwesomeIcon icon={seenIcon} />
+                        ) : (
+                            <FontAwesomeIcon icon={unseenIcon} />
                         )}
                     </div>
                 </div>
@@ -521,7 +550,7 @@ const Middle = () => {
 
                 {edit ? (
                     <span
-                        className="icon fs-3 d-flex justify-content-center align-items-center"
+                        className="icon fs-3 d-flex justify-content-center align-items-center bg-danger"
                         style={{
                             width: "2em",
                             height: "2em",

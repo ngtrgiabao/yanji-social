@@ -67,3 +67,16 @@ export const updateMessage = async (msgID, dispatch) => {
         dispatch(updateMessageFailed());
     }
 };
+
+export const markMessageSeen = async (msg, dispatch) => {
+    dispatch(updateMessageStart());
+
+    try {
+        const res = await messageService.updateMessage(msg);
+        dispatch(updateMessageSuccess(res.data));
+
+        return res.data;
+    } catch (error) {
+        dispatch(updateMessageFailed());
+    }
+};

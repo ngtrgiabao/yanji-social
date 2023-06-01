@@ -56,6 +56,41 @@ const Left = (props) => {
         }
     }, [friendID, dispatch]);
 
+    const socketRef = useRef(null);
+
+    const handleSocket = {
+        getUsersOnline: useCallback(
+            (userList) => {
+                const users = Object.values(userList);
+
+                // Get friends of sender to compare user of socket to set online users
+                getUserByID(dispatch, sender._id).then((data) => {
+                    const value = data.user.friends.filter((f) =>
+                        users.some((u) => u.userID === f)
+                    );
+
+                    setOnlineUsers(value);
+                });
+            },
+            [sender._id, dispatch]
+        ),
+    };
+
+    useEffect(() => {
+        socketRef.current = io(SOCKET_URL);
+        const socket = socketRef.current;
+
+        socket.emit("add-user", {
+            user: sender._id,
+        });
+
+        socket.on("get-users", handleSocket.getUsersOnline);
+
+        return () => {
+            socket.off("get-users", handleSocket.getUsersOnline);
+        };
+    }, [handleSocket.getUsersOnline, sender._id]);
+
     const renderRooms = () => {
         return rooms.map((r) => (
             <div
@@ -82,38 +117,6 @@ const Left = (props) => {
     const handleFilterMessages = (e) => {
         setFilterMessages(e.target.value);
     };
-
-    const socketRef = useRef(null);
-
-    const handleSocket = {
-        getUsersOnline: useCallback((userList) => {
-            const users = Object.values(userList);
-
-            // Get friends of sender to compare user of socket to set online users
-            getUserByID(dispatch, sender._id).then((data) => {
-                const value = data.user.friends.filter((f) =>
-                    users.some((u) => u.userID === f)
-                );
-
-                setOnlineUsers(value);
-            });
-        }, []),
-    };
-
-    useEffect(() => {
-        socketRef.current = io(SOCKET_URL);
-        const socket = socketRef.current;
-
-        socket.emit("add-user", {
-            user: sender._id,
-        });
-
-        socket.on("get-users", handleSocket.getUsersOnline);
-
-        return () => {
-            socket.off("get-users", handleSocket.getUsersOnline);
-        };
-    }, [handleSocket.getUsersOnline, sender._id]);
 
     return (
         <>
