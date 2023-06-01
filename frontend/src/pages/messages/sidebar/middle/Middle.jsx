@@ -71,7 +71,6 @@ const Middle = () => {
             // This conditional will filter one user in list of users
             if (friendName._id) {
                 const value = friendName.username;
-
                 setTitleConversation(value);
             }
         }
@@ -111,7 +110,6 @@ const Middle = () => {
             },
             [messageThread]
         ),
-        markMessage: useCallback(() => {}, []),
 
         disconnect: useCallback(() => {
             console.log("Server disconnected :<");
@@ -203,6 +201,28 @@ const Middle = () => {
                 setMessage(data.data.message);
                 setOldMessage(data.data.message);
             });
+
+            setEdit(true);
+        },
+        markMsgSeen: async (data) => {
+            const friendMsg = data.messages.filter(
+                (m) => m.sender !== sender._id
+            );
+
+            const messageKeys = Object.keys(friendMsg);
+            const latestMessageKey = messageKeys[messageKeys.length - 1];
+
+            if (latestMessageKey) {
+                const latestMessage = friendMsg[latestMessageKey];
+
+                const markMsg = {
+                    ...latestMessage,
+                    msgID: latestMessage._id,
+                    isRead: true,
+                };
+
+                await markMessageSeen(markMsg, dispatch);
+            }
         },
         deleteMsg: async () => {
             await deleteMessage(messageID, dispatch);
@@ -216,12 +236,7 @@ const Middle = () => {
     const handleSetMsgID = (msgID) => {
         setMessageID(msgID);
 
-        handleUpdateMsg(msgID);
-    };
-
-    const handleUpdateMsg = (msgID) => {
         handleMsg.updateMsg(msgID);
-        setEdit(true);
     };
 
     const handleSubmit = (e) => {
@@ -253,25 +268,6 @@ const Middle = () => {
         }
     };
 
-    const handelMarkMessageSeen = async (data) => {
-        const friendMsg = data.messages.filter((m) => m.sender !== sender._id);
-
-        const messageKeys = Object.keys(friendMsg);
-        const latestMessageKey = messageKeys[messageKeys.length - 1];
-
-        if (latestMessageKey) {
-            const latestMessage = friendMsg[latestMessageKey];
-
-            const markMsg = {
-                ...latestMessage,
-                msgID: latestMessage._id,
-                isRead: true,
-            };
-
-            await markMessageSeen(markMsg, dispatch);
-        }
-    };
-
     // Get msg thread by room ID
     useEffect(() => {
         let isCancalled = false;
@@ -287,7 +283,7 @@ const Middle = () => {
                             }
                         });
 
-                        handelMarkMessageSeen(data);
+                        handleMsg.markMsgSeen(data);
                     }
                 })
                 .catch((error) => {
