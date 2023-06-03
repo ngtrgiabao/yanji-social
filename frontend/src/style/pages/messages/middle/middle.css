@@ -7,10 +7,6 @@
     grid-column: 2 / 4;
 }
 
-.middle-msg-page .middle-container {
-    height: 100%;
-}
-
 /* HEADER */
 .middle-msg-page .middle-container .middle-container-header {
     border-left: 0;
@@ -139,7 +135,9 @@
     display: none;
 }
 
-.middle-container .middle-container-body__right-text .action-message:hover::before {
+.middle-container
+    .middle-container-body__right-text
+    .action-message:hover::before {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -148,7 +146,7 @@
 
     position: absolute;
     bottom: 100%;
-    left: 0;
+    left: 50%;
 
     transform: translateX(-50%);
 

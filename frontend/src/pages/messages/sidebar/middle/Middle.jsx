@@ -6,18 +6,20 @@ import {
     faVideo,
     faPhone,
     faCircleInfo,
-    faPlus,
     faImage,
     faFaceLaughBeam,
     faX,
     faCircleCheck as seenIcon,
     faTrash,
+    faPaperclip,
 } from "@fortawesome/free-solid-svg-icons";
 import {
     faPaperPlane,
     faCircleCheck as unseenIcon,
     faPenToSquare,
 } from "@fortawesome/free-regular-svg-icons";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
 // import MagicBell, {
 //     FloatingNotificationInbox,
 // } from "@magicbell/magicbell-react";
@@ -39,14 +41,15 @@ import {
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
 
 const Middle = () => {
+    const [edit, setEdit] = useState(false);
     const [message, setMessage] = useState("");
     const [active, setActive] = useState(false);
     const [messageID, setMessageID] = useState(null);
-    const [messageThread, setMessageThread] = useState([]);
-    const [currentConversation, setCurrentConversation] = useState(null);
-    const [titleConversation, setTitleConversation] = useState(null);
     const [oldMessage, setOldMessage] = useState("");
-    const [edit, setEdit] = useState(false);
+    const [openEmoji, setOpenEmoji] = useState(false);
+    const [messageThread, setMessageThread] = useState([]);
+    const [titleConversation, setTitleConversation] = useState(null);
+    const [currentConversation, setCurrentConversation] = useState(null);
     const dispatch = useDispatch();
     const formatTime = useTimeAgo;
 
@@ -104,17 +107,16 @@ const Middle = () => {
                     const updatedThread = prevMessageThread.map((message) =>
                         message._id === msgID ? data : message
                     );
-
                     return updatedThread;
                 });
             },
             [messageThread]
         ),
         deletedMesssage: useCallback(
-            (data) => {
+            (msgID) => {
                 setMessageThread((prevMessageThread) => {
                     const updatedThread = prevMessageThread.filter(
-                        (message) => message._id !== data
+                        (message) => message._id !== msgID
                     );
                     return updatedThread;
                 });
@@ -406,7 +408,7 @@ const Middle = () => {
             message.sender === sender._id ? (
                 <div
                     key={index}
-                    className="middle-container-body__right-text my-4 fs-4 animate__animated animate__slideInRight d-flex align-items-end flex-column"
+                    className="middle-container-body__right-text mb-3 fs-4 animate__animated animate__slideInRight d-flex align-items-end flex-column"
                 >
                     <div className="d-flex align-items-center justify-content-end w-100">
                         <span
@@ -461,7 +463,7 @@ const Middle = () => {
             ) : (
                 <div
                     key={index}
-                    className="middle-container-body__left-text mb-2 fs-4 animate__animated animate__slideInLeft d-flex flex-column"
+                    className="middle-container-body__left-text mb-3 fs-4 animate__animated animate__slideInLeft d-flex flex-column"
                 >
                     <div className="d-flex justify-content-start align-items-center w-100">
                         <span className="middle-container-body__left-message-content me-2">
@@ -478,7 +480,7 @@ const Middle = () => {
 
     const renderBodyConversation = () => {
         return (
-            <div className="middle-container-body scrollbar px-4 py-5 fs-3">
+            <div className="middle-container-body scrollbar px-4 py-4 fs-3">
                 {renderMessages()}
                 <div ref={scrollRef} />
             </div>
@@ -519,7 +521,7 @@ const Middle = () => {
     const renderLabelEditMessage = () => {
         return (
             <span
-                className="position-absolute bottom-100 bg-warning text-black  h-100 p-3"
+                className="position-absolute bottom-100 bg-warning text-black h-100 p-3"
                 style={{
                     left: 10,
                     display: "flex",
@@ -534,16 +536,28 @@ const Middle = () => {
         );
     };
 
+    const handleAddEmoji = (e) => {
+        const sym = e.unified.split("_");
+        const codeArray = [];
+        sym.forEach((el) => codeArray.push("0x" + el));
+        let emoji = String.fromCodePoint(...codeArray);
+        setMessage(message + emoji);
+    };
+
+    const handleOpenEmoji = () => {
+        setOpenEmoji((openEmoji) => !openEmoji);
+    };
+
     const renderFooterConversation = () => {
         return (
             <form
                 onSubmit={handleSubmit}
-                className="middle-container-footer p-4 d-flex justify-content-between align-items-center"
+                className="middle-container-footer px-3 d-flex justify-content-between align-items-center"
             >
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between position-relative">
                     <button
                         className="icon fs-3 border-0"
-                        aria-label="Mở hành động khác"
+                        aria-label="Đính kèm tệp tin"
                         role="button"
                         style={{
                             width: "2em",
@@ -552,7 +566,7 @@ const Middle = () => {
                             padding: "0.8rem",
                         }}
                     >
-                        <FontAwesomeIcon icon={faPlus} />
+                        <FontAwesomeIcon icon={faPaperclip} />
                     </button>
                     <button
                         className="icon fs-3 mx-3 border-0"
@@ -568,6 +582,25 @@ const Middle = () => {
                         <FontAwesomeIcon icon={faImage} />
                     </button>
 
+                    {/* Emoji picker */}
+                    <div
+                        className="position-absolute"
+                        style={{
+                            bottom: "120%",
+                        }}
+                        hidden={!openEmoji}
+                    >
+                        <Picker
+                            data={data}
+                            emojiSize={22}
+                            emojiButtonSize={29}
+                            maxFrequentRows={0}
+                            onEmojiSelect={handleAddEmoji}
+                            locale="vi"
+                            perLine={8}
+                            previewPosition="none"
+                        />
+                    </div>
                     <button
                         className="icon fs-3 border-0"
                         aria-label="Chọn emoji"
@@ -578,6 +611,7 @@ const Middle = () => {
                             borderRadius: "0.5rem",
                             padding: "0.8rem",
                         }}
+                        onClick={() => handleOpenEmoji()}
                     >
                         <FontAwesomeIcon icon={faFaceLaughBeam} />
                     </button>
@@ -637,7 +671,7 @@ const Middle = () => {
 
     const renderConversation = () => {
         return currentConversation ? (
-            <div className="middle-container">
+            <div className="middle-container d-flex flex-column justify-content-between h-100 pb-3">
                 {renderTitleConversation()}
                 {renderBodyConversation()}
                 {renderFooterConversation()}
