@@ -33,6 +33,7 @@ function LoginPage() {
                     type="text"
                     placeholder="username"
                     onChange={(e) => setUsername(e.target.value)}
+                    className="border border-dark"
                 />
             </div>
         );
@@ -46,6 +47,7 @@ function LoginPage() {
                     type="password"
                     placeholder="password"
                     onChange={(e) => setPassword(e.target.value)}
+                    className="border border-dark"
                 />
             </div>
         );

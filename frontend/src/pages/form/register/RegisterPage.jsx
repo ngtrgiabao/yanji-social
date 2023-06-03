@@ -131,6 +131,7 @@ const RegisterPage = () => {
                         onBlur={() => setUserFocus(false)}
                         autoComplete="off"
                         value={username}
+                        className="border border-dark"
                     />
                     <p
                         id="uidnote"
@@ -180,6 +181,7 @@ const RegisterPage = () => {
                         onBlur={() => setEmailFocus(false)}
                         autoComplete="off"
                         value={email}
+                        className="border border-dark"
                     />
                     <p
                         id="emailnote"
@@ -219,6 +221,7 @@ const RegisterPage = () => {
                         aria-describedby="pwdnote"
                         onFocus={() => setPwdFocus(true)}
                         onBlur={() => setPwdFocus(false)}
+                        className="border border-dark"
                     />
                     <p
                         id="pwdnote"
@@ -279,6 +282,7 @@ const RegisterPage = () => {
                         aira-describedby="confirmnote"
                         onFocus={() => setMatchFocus(true)}
                         onBlur={() => setMatchFocus(false)}
+                        className="border border-dark"
                     />
                     <p
                         id="confirmnote"
@@ -349,7 +353,9 @@ const RegisterPage = () => {
 
                         <div className="register-form__footer">
                             <span className="me-3">Already have account?</span>
-                            <Link to="/login" className="fs-4">Login now</Link>
+                            <Link to="/login" className="fs-4">
+                                Login now
+                            </Link>
                         </div>
                     </div>
                 </div>

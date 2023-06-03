@@ -9,18 +9,18 @@ import {
     faPlus,
     faImage,
     faFaceLaughBeam,
-    faEllipsisVertical,
     faX,
     faCircleCheck as seenIcon,
+    faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import {
     faPaperPlane,
     faCircleCheck as unseenIcon,
+    faPenToSquare,
 } from "@fortawesome/free-regular-svg-icons";
 // import MagicBell, {
 //     FloatingNotificationInbox,
 // } from "@magicbell/magicbell-react";
-// import EmojiPicker from "emoji-picker-react";
 
 import "../../../../style/pages/messages/middle/middle.css";
 
@@ -110,6 +110,17 @@ const Middle = () => {
             },
             [messageThread]
         ),
+        deletedMesssage: useCallback(
+            (data) => {
+                setMessageThread((prevMessageThread) => {
+                    const updatedThread = prevMessageThread.filter(
+                        (message) => message._id !== data
+                    );
+                    return updatedThread;
+                });
+            },
+            [messageThread]
+        ),
 
         disconnect: useCallback(() => {
             console.log("Server disconnected :<");
@@ -127,18 +138,21 @@ const Middle = () => {
         socket.on("server", handleSocket.serverResponse);
         socket.on("receive-message", handleSocket.receivedMessage);
         socket.on("updated-message", handleSocket.updatedMessage);
+        socket.on("deleted-message", handleSocket.deletedMesssage);
         socket.on("disconnect", handleSocket.disconnect);
 
         return () => {
             socket.off("server", handleSocket.serverResponse);
             socket.off("receive-message", handleSocket.receivedMessage);
             socket.off("updated-message", handleSocket.updatedMessage);
+            socket.off("deleted-message", handleSocket.deletedMesssage);
             socket.off("disconnect", handleSocket.disconnect);
         };
     }, [
         handleSocket.serverResponse,
         handleSocket.receivedMessage,
         handleSocket.updatedMessage,
+        handleSocket.deletedMesssage,
         handleSocket.disconnect,
     ]);
 
@@ -197,56 +211,47 @@ const Middle = () => {
             }
         },
         updateMsg: async (msgID) => {
+            setMessageID(msgID);
+
             await getMessageByID(msgID, dispatch).then((data) => {
-                setMessage(data.data.message);
-                setOldMessage(data.data.message);
+                setMessage(data?.data.message);
+                setOldMessage(data?.data.message);
             });
 
             setEdit(true);
+        },
+        deleteMsg: async (msgID) => {
+            setMessageID(msgID);
+
+            togglePopup();
         },
         markMsgSeen: async (data) => {
             const friendMsg = data.messages.filter(
                 (m) => m.sender !== sender._id
             );
-
             const messageKeys = Object.keys(friendMsg);
             const latestMessageKey = messageKeys[messageKeys.length - 1];
-
             if (latestMessageKey) {
                 const latestMessage = friendMsg[latestMessageKey];
-
                 const markMsg = {
                     ...latestMessage,
                     msgID: latestMessage._id,
                     isRead: true,
                 };
-
                 await markMessageSeen(markMsg, dispatch);
             }
         },
-        deleteMsg: async () => {
-            await deleteMessage(messageID, dispatch);
-            setMessageThread((prevMessageThread) =>
-                prevMessageThread.filter((message) => message._id !== messageID)
-            );
-            setActive(false);
-        },
     };
 
-    const handleSetMsgID = (msgID) => {
-        setMessageID(msgID);
+    const handleDeleteMsg = async (msgID) => {
+        await deleteMessage(msgID, dispatch).then(async () => {
+            await socketRef.current.emit("delete-message", msgID);
+        });
 
-        handleMsg.updateMsg(msgID);
+        setActive(false);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (message && !edit) {
-            handleMsg.submit(e);
-        }
-
-        // Handle edit message
+    const handleEditMsg = () => {
         if (message !== oldMessage && edit) {
             if (message === "") {
                 togglePopup();
@@ -268,6 +273,16 @@ const Middle = () => {
         }
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (message && !edit) {
+            handleMsg.submit(e);
+        }
+
+        handleEditMsg();
+    };
+
     // Get msg thread by room ID
     useEffect(() => {
         let isCancalled = false;
@@ -283,7 +298,8 @@ const Middle = () => {
                             }
                         });
 
-                        handleMsg.markMsgSeen(data);
+                        //! Fix mark seen doesn't show edited msg
+                        // handleMsg.markMsgSeen(data);
                     }
                 })
                 .catch((error) => {
@@ -330,7 +346,7 @@ const Middle = () => {
                                 Close
                             </span>
                             <span
-                                onClick={() => handleMsg.deleteMsg()}
+                                onClick={() => handleDeleteMsg(messageID)}
                                 className="confirm-container__dialog-confirm"
                             >
                                 Delete
@@ -394,10 +410,9 @@ const Middle = () => {
                 >
                     <div className="d-flex align-items-center justify-content-end w-100">
                         <span
-                            className="dot-icon"
+                            className="action-message fs-5"
                             onClick={() => {
-                                handleSetMsgID(message._id);
-                                // togglePopup();
+                                handleMsg.updateMsg(message._id);
                             }}
                             style={{
                                 cursor: "pointer",
@@ -405,9 +420,24 @@ const Middle = () => {
                                 height: "2.3rem",
                                 borderRadius: "50%",
                             }}
-                            aria-label="Xem thêm"
+                            aria-label="Chỉnh sửa"
                         >
-                            <FontAwesomeIcon icon={faEllipsisVertical} />
+                            <FontAwesomeIcon icon={faPenToSquare} />
+                        </span>
+                        <span
+                            className="action-message fs-5 text-danger"
+                            onClick={() => {
+                                handleMsg.deleteMsg(message._id);
+                            }}
+                            style={{
+                                cursor: "pointer",
+                                width: "2.3rem",
+                                height: "2.3rem",
+                                borderRadius: "50%",
+                            }}
+                            aria-label="Xóa"
+                        >
+                            <FontAwesomeIcon icon={faTrash} />
                         </span>
                         <span className="middle-container-body__right-message-content ms-3">
                             {message.message}
@@ -418,12 +448,14 @@ const Middle = () => {
                         {message.createdAt !== message.updatedAt && (
                             <> - edited {formatTime(message.updatedAt)}</>
                         )}
-                        -
-                        {message.isRead ? (
-                            <FontAwesomeIcon icon={seenIcon} />
+                        {/* {message.isRead ? (
+                            <FontAwesomeIcon className="ms-1" icon={seenIcon} />
                         ) : (
-                            <FontAwesomeIcon icon={unseenIcon} />
-                        )}
+                            <FontAwesomeIcon
+                                className="ms-1"
+                                icon={unseenIcon}
+                            />
+                        )} */}
                     </div>
                 </div>
             ) : (
@@ -509,27 +541,46 @@ const Middle = () => {
                 className="middle-container-footer p-4 d-flex justify-content-between align-items-center"
             >
                 <div className="d-flex justify-content-between">
-                    <span
-                        className="icon fs-3"
+                    <button
+                        className="icon fs-3 border-0"
                         aria-label="Mở hành động khác"
                         role="button"
+                        style={{
+                            width: "2em",
+                            height: "2em",
+                            borderRadius: "0.5rem",
+                            padding: "0.8rem",
+                        }}
                     >
                         <FontAwesomeIcon icon={faPlus} />
-                    </span>
-                    <span
-                        className="icon fs-3 mx-3"
+                    </button>
+                    <button
+                        className="icon fs-3 mx-3 border-0"
                         aria-label="Đính kèm file"
                         role="button"
+                        style={{
+                            width: "2em",
+                            height: "2em",
+                            borderRadius: "0.5rem",
+                            padding: "0.8rem",
+                        }}
                     >
                         <FontAwesomeIcon icon={faImage} />
-                    </span>
-                    <span
-                        className="icon fs-3"
+                    </button>
+
+                    <button
+                        className="icon fs-3 border-0"
                         aria-label="Chọn emoji"
                         role="button"
+                        style={{
+                            width: "2em",
+                            height: "2em",
+                            borderRadius: "0.5rem",
+                            padding: "0.8rem",
+                        }}
                     >
                         <FontAwesomeIcon icon={faFaceLaughBeam} />
-                    </span>
+                    </button>
                 </div>
 
                 <div className="user-input-chat position-relative mx-3">
@@ -549,8 +600,8 @@ const Middle = () => {
                 </div>
 
                 {edit ? (
-                    <span
-                        className="icon fs-3 d-flex justify-content-center align-items-center bg-danger"
+                    <button
+                        className="icon fs-3 d-flex justify-content-center border-0 align-items-center bg-danger"
                         style={{
                             width: "2em",
                             height: "2em",
@@ -562,10 +613,10 @@ const Middle = () => {
                         onClick={() => handleCancelEditMsg()}
                     >
                         <FontAwesomeIcon icon={faX} />
-                    </span>
+                    </button>
                 ) : (
-                    <span
-                        className="icon fs-3 d-flex justify-content-center align-items-center"
+                    <button
+                        className="icon fs-3 d-flex justify-content-center border-0 align-items-center"
                         style={{
                             width: "2em",
                             height: "2em",
@@ -574,10 +625,11 @@ const Middle = () => {
                         }}
                         aria-label="Gửi tin nhắn"
                         role="button"
+                        type="submit"
                         onClick={handleSubmit}
                     >
                         <FontAwesomeIcon icon={faPaperPlane} />
-                    </span>
+                    </button>
                 )}
             </form>
         );
@@ -614,7 +666,6 @@ const Middle = () => {
                     )}
                 </MagicBell> */}
                 {renderConversation()} {renderConfirmPopupDeleteMsg()}
-                {/* <EmojiPicker /> */}
             </div>
         </>
     );
