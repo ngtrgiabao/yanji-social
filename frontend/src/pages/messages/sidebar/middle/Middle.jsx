@@ -555,7 +555,7 @@ const Middle = () => {
                 className="middle-container-footer px-3 d-flex justify-content-between align-items-center"
             >
                 <div className="d-flex justify-content-between position-relative">
-                    <span
+                    <button
                         className="icon fs-3 border-0"
                         aria-label="Đính kèm tệp tin"
                         role="button"
@@ -567,8 +567,8 @@ const Middle = () => {
                         }}
                     >
                         <FontAwesomeIcon icon={faPaperclip} />
-                    </span>
-                    <span
+                    </button>
+                    <button
                         className="icon fs-3 mx-3 border-0"
                         aria-label="Đính kèm file"
                         role="button"
@@ -580,7 +580,7 @@ const Middle = () => {
                         }}
                     >
                         <FontAwesomeIcon icon={faImage} />
-                    </span>
+                    </button>
 
                     {/* Emoji picker */}
                     <div
@@ -601,7 +601,7 @@ const Middle = () => {
                             previewPosition="none"
                         />
                     </div>
-                    <span
+                    <button
                         className="icon fs-3 border-0"
                         aria-label="Chọn emoji"
                         role="button"
@@ -614,7 +614,7 @@ const Middle = () => {
                         onClick={() => handleOpenEmoji()}
                     >
                         <FontAwesomeIcon icon={faFaceLaughBeam} />
-                    </span>
+                    </button>
                 </div>
 
                 <div className="user-input-chat position-relative mx-3">
