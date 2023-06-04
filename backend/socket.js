@@ -48,9 +48,9 @@ io.on("connection", (socket) => {
             io.emit("updated-message", data);
             console.log(`Update message ${msgID} successfully`);
         });
-        socket.on("delete-message", (data) => {
-            io.emit("deleted-message", data);
-            console.log(`Deleted message ${data} successfully`);
+        socket.on("delete-message", (msgID) => {
+            io.emit("deleted-message", msgID);
+            console.log(`Deleted message ${msgID} successfully`);
         });
         socket.on("add-user", (data) => {
             const { user } = data;

@@ -555,7 +555,7 @@ const Middle = () => {
                 className="middle-container-footer px-3 d-flex justify-content-between align-items-center"
             >
                 <div className="d-flex justify-content-between position-relative">
-                    <button
+                    <span
                         className="icon fs-3 border-0"
                         aria-label="Đính kèm tệp tin"
                         role="button"
@@ -567,8 +567,8 @@ const Middle = () => {
                         }}
                     >
                         <FontAwesomeIcon icon={faPaperclip} />
-                    </button>
-                    <button
+                    </span>
+                    <span
                         className="icon fs-3 mx-3 border-0"
                         aria-label="Đính kèm file"
                         role="button"
@@ -580,7 +580,7 @@ const Middle = () => {
                         }}
                     >
                         <FontAwesomeIcon icon={faImage} />
-                    </button>
+                    </span>
 
                     {/* Emoji picker */}
                     <div
@@ -595,13 +595,13 @@ const Middle = () => {
                             emojiSize={22}
                             emojiButtonSize={29}
                             maxFrequentRows={0}
-                            onEmojiSelect={handleAddEmoji}
+                            onEmojiSelect={(e) => handleAddEmoji(e)}
                             locale="vi"
                             perLine={8}
                             previewPosition="none"
                         />
                     </div>
-                    <button
+                    <span
                         className="icon fs-3 border-0"
                         aria-label="Chọn emoji"
                         role="button"
@@ -614,7 +614,7 @@ const Middle = () => {
                         onClick={() => handleOpenEmoji()}
                     >
                         <FontAwesomeIcon icon={faFaceLaughBeam} />
-                    </button>
+                    </span>
                 </div>
 
                 <div className="user-input-chat position-relative mx-3">
