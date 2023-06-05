@@ -39,6 +39,7 @@ import {
     markMessageSeen,
 } from "../../../../redux/request/messageRequest";
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
+import axios from "axios";
 
 const Middle = () => {
     const [edit, setEdit] = useState(false);
@@ -66,6 +67,12 @@ const Middle = () => {
     const friendName = useSelector((state) => {
         return state.user.user.currentUser?.user;
     });
+
+    useEffect(() => {
+        axios.get("http://localhost:8000/image").then((res) => {
+            console.log(res.dat);
+        });
+    }, []);
 
     useEffect(() => {
         let isCancelled = false;
