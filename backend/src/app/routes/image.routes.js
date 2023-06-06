@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const fs = require("fs");
 
 const ImageModel = require("../models/image.model");
+
+const ImageController = require("../controllers/image.controller");
+
+const UserMiddleware = require("../middleware/user.middleware");
+const ImageMiddleware = require("../middleware/image.middleware");
 
 const multer = require("multer");
 
@@ -19,17 +23,20 @@ const storage = multer.diskStorage({
 // Create the upload middleware using the storage object.
 const upload = multer({ storage: storage }).single("newImage");
 
-router.post("/upload", (req, res) => {
+router.post("/upload/:userID", UserMiddleware.validateUserById, (req, res) => {
     upload(req, res, (err) => {
         if (err) {
             console.log(err);
         } else {
+            const userID = req.params.userID;
+
             const newImage = new ImageModel({
                 imgName: req.body.imgName,
                 image: {
                     data: req.file.filename,
                     contentType: "image/png" || "image/jpg" || "image/jpeg",
                 },
+                userID,
             });
 
             newImage
@@ -49,5 +56,33 @@ router.post("/upload", (req, res) => {
         }
     });
 });
+
+router.get(
+    "/all-images/:userID",
+    UserMiddleware.validateUserById,
+    ImageController.getAllImagesByUserID
+);
+router.get(
+    "/:imgID",
+    ImageMiddleware.validateImageID,
+    ImageController.getImageByID
+);
+
+router.put(
+    "/update/:imgID/:userID",
+    ImageMiddleware.validateImageID,
+    ImageController.updateImageByUserID
+);
+
+router.delete(
+    "/delete/all-images/:userID",
+    UserMiddleware.validateUserById,
+    ImageController.deleteAllImagesByUserID
+);
+router.delete(
+    "/delete/:imgID",
+    ImageMiddleware.validateImageID,
+    ImageController.deleteImageByID
+);
 
 module.exports = router;

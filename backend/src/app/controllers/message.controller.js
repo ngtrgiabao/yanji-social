@@ -60,7 +60,7 @@ const getAllMessages = async (req, res, next) => {
 const deleteAllMessages = async (req, res, next) => {
     try {
         const userID = req.params.userID;
-        const result = await MessageModel.deleteMany({});
+        const result = await MessageModel.deleteMany({ sender });
 
         return res.status(200).json({
             msg: `Delete all messages of user: ${userID} success`,
@@ -89,7 +89,13 @@ const getMessageByID = async (req, res, next) => {
             msg: `Get message ${msgID} successfully`,
             data: result,
         });
-    } catch (error) {}
+    } catch (error) {
+        console.error(`Failed to get message ${msgID}`);
+
+        return res.status(500).json({
+            msg: `Failed to get message ${msgID}`,
+        });
+    }
 };
 
 const updateMessage = async (req, res, next) => {
@@ -106,7 +112,7 @@ const updateMessage = async (req, res, next) => {
             const updatedMsg = await msg.save();
 
             return res.status(200).json({
-                msg: "Updated message",
+                msg: "Updated message successfully",
                 data: updatedMsg,
             });
         }

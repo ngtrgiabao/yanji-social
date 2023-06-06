@@ -6,6 +6,7 @@ const messageSlice = createSlice({
         message: {
             isFetching: false,
             error: false,
+            success: false,
             messageThread: null,
             currentMsg: null,
             isRead: false,
@@ -20,7 +21,7 @@ const messageSlice = createSlice({
         sendMessageSuccess: (state, action) => {
             state.message.isFetching = false;
             state.message.messageThread = action.payload;
-            state.message.error = false;
+            state.message.success = true;
         },
         sendMessageFailed: (state) => {
             state.message.isFetching = false;
@@ -34,7 +35,7 @@ const messageSlice = createSlice({
         getMessageSuccess: (state, action) => {
             state.message.isFetching = false;
             state.message.messageThread = action.payload;
-            state.message.error = false;
+            state.message.success = true;
         },
         getMessageFailed: (state) => {
             state.message.isFetching = false;
@@ -47,7 +48,7 @@ const messageSlice = createSlice({
         updateMessageSuccess: (state, action) => {
             state.message.isFetching = false;
             state.message.messageThread = action.payload;
-            state.message.error = false;
+            state.message.success = true;
         },
         updateMessageFailed: (state) => {
             state.message.isFetching = false;
@@ -59,7 +60,7 @@ const messageSlice = createSlice({
         },
         deleteMessageSuccess: (state, action) => {
             state.message.isFetching = false;
-            state.message.error = false;
+            state.message.success = true;
         },
         deleteMessageFailed: (state) => {
             state.message.isFetching = false;

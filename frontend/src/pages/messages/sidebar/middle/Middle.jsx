@@ -40,6 +40,7 @@ import {
 } from "../../../../redux/request/messageRequest";
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
 import axios from "axios";
+import { getImageByID } from "../../../../redux/request/imageRequest";
 
 const Middle = () => {
     const [edit, setEdit] = useState(false);
@@ -67,12 +68,6 @@ const Middle = () => {
     const friendName = useSelector((state) => {
         return state.user.user.currentUser?.user;
     });
-
-    useEffect(() => {
-        axios.get("http://localhost:8000/image").then((res) => {
-            console.log(res.dat);
-        });
-    }, []);
 
     useEffect(() => {
         let isCancelled = false;
@@ -367,6 +362,35 @@ const Middle = () => {
         );
     };
 
+    const [imgData, setImgData] = useState("");
+    const handleGetImage = () => {
+        getImageByID("647f36da1a300cbbfe927162", dispatch)
+            .then((data) => {
+                Object.values(data.data).forEach((value) => {
+                    // if (value.data) {
+                    //     const convertedData = btoa(value.data.data);
+                    //     setImgData(`data:image/png;base64,${convertedData}`);
+                    // }
+                    if (value && value.data) {
+                        const blob = new Blob(
+                            [Int8Array.from(value.data.data)],
+                            { type: value.contentType }
+                        );
+                        const image = window.URL.createObjectURL(blob);
+
+                        setImgData(image);
+                    }
+                });
+            })
+            .catch((err) => {
+                console.error("Failed to get image :<", err);
+            });
+    };
+
+    useEffect(() => {
+        console.log(imgData);
+    }, [imgData]);
+
     const renderTitleConversation = () => {
         return (
             <div className="middle-container-header d-flex align-items-center justify-content-between py-3 px-4 pb-3">
@@ -379,6 +403,12 @@ const Middle = () => {
                         alt="Avatar user"
                         className="rounded-circle middle-avatar-chat"
                     />
+                    <img
+                        className="rounded-circle middle-avatar-chat"
+                        src={imgData}
+                        alt="ok"
+                    />
+
                     <span className="ms-2 fs-4 fw-bold">
                         {titleConversation}
                     </span>
@@ -562,7 +592,7 @@ const Middle = () => {
                 className="middle-container-footer px-3 d-flex justify-content-between align-items-center"
             >
                 <div className="d-flex justify-content-between position-relative">
-                    <button
+                    <span
                         className="icon fs-3 border-0"
                         aria-label="Đính kèm tệp tin"
                         role="button"
@@ -574,8 +604,8 @@ const Middle = () => {
                         }}
                     >
                         <FontAwesomeIcon icon={faPaperclip} />
-                    </button>
-                    <button
+                    </span>
+                    <span
                         className="icon fs-3 mx-3 border-0"
                         aria-label="Đính kèm file"
                         role="button"
@@ -585,9 +615,10 @@ const Middle = () => {
                             borderRadius: "0.5rem",
                             padding: "0.8rem",
                         }}
+                        onClick={handleGetImage}
                     >
                         <FontAwesomeIcon icon={faImage} />
-                    </button>
+                    </span>
 
                     {/* Emoji picker */}
                     <div
@@ -608,7 +639,7 @@ const Middle = () => {
                             previewPosition="none"
                         />
                     </div>
-                    <button
+                    <span
                         className="icon fs-3 border-0"
                         aria-label="Chọn emoji"
                         role="button"
@@ -621,7 +652,7 @@ const Middle = () => {
                         onClick={() => handleOpenEmoji()}
                     >
                         <FontAwesomeIcon icon={faFaceLaughBeam} />
-                    </button>
+                    </span>
                 </div>
 
                 <div className="user-input-chat position-relative mx-3">
@@ -641,7 +672,7 @@ const Middle = () => {
                 </div>
 
                 {edit ? (
-                    <button
+                    <span
                         className="icon fs-3 d-flex justify-content-center border-0 align-items-center bg-danger"
                         style={{
                             width: "2em",
@@ -654,9 +685,9 @@ const Middle = () => {
                         onClick={() => handleCancelEditMsg()}
                     >
                         <FontAwesomeIcon icon={faX} />
-                    </button>
+                    </span>
                 ) : (
-                    <button
+                    <span
                         className="icon fs-3 d-flex justify-content-center border-0 align-items-center"
                         style={{
                             width: "2em",
@@ -670,7 +701,7 @@ const Middle = () => {
                         onClick={handleSubmit}
                     >
                         <FontAwesomeIcon icon={faPaperPlane} />
-                    </button>
+                    </span>
                 )}
             </form>
         );

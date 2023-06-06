@@ -9,11 +9,11 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 const imageSchema = new mongoose.Schema(
     {
-        // userId: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: "user",
-        //     require: true,
-        // },
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "user",
+            require: true,
+        },
         imgName: String,
         image: {
             data: Buffer,
