@@ -363,29 +363,35 @@ const Middle = () => {
     };
 
     const [imgData, setImgData] = useState("");
-    const handleGetImage = () => {
-        getImageByID("647f36da1a300cbbfe927162", dispatch)
-            .then((data) => {
-                Object.values(data.data).forEach((value) => {
-                    // if (value.data) {
-                    //     const convertedData = btoa(value.data.data);
-                    //     setImgData(`data:image/png;base64,${convertedData}`);
-                    // }
-                    if (value && value.data) {
-                        const blob = new Blob(
-                            [Int8Array.from(value.data.data)],
-                            { type: value.contentType }
-                        );
-                        const image = window.URL.createObjectURL(blob);
 
-                        setImgData(image);
+    useEffect(() => {
+        getImageByID("648041ed1549bec7095dd12c", dispatch)
+            .then((data) => {
+                Object.values(data.data).forEach((img) => {
+                    // if (img.data) {
+                    //     const convert = new Blob([img.data.data], {
+                    //         type: "image/png",
+                    //     });
+                    //     const imageDataUrl = URL.createObjectURL(convert);
+                    //     setImgData(imageDataUrl);
+                    // }
+                    if (img.data) {
+                        console.log(img.data.data);
+                        const convertedData = btoa(
+                            String.fromCharCode(
+                                ...new Uint8Array(img.data.data)
+                            )
+                        );
+
+                        console.log(convertedData);
+                        setImgData(`data:image/png;base64,${convertedData}`);
                     }
                 });
             })
             .catch((err) => {
                 console.error("Failed to get image :<", err);
             });
-    };
+    }, []);
 
     useEffect(() => {
         console.log(imgData);
@@ -405,7 +411,10 @@ const Middle = () => {
                     />
                     <img
                         className="rounded-circle middle-avatar-chat"
-                        src={imgData}
+                        src={imgValueRef.myFile || imgData}
+                        loading="lazy"
+                        role="presentation"
+                        decoding="async"
                         alt="ok"
                     />
 
@@ -585,6 +594,37 @@ const Middle = () => {
         setOpenEmoji((openEmoji) => !openEmoji);
     };
 
+    const uploadImgRef = useRef(null);
+    const [imgValueRef, setImgValueRef] = useState({
+        myFile: "",
+    });
+
+    const handleUploadImage = async (e) => {
+        uploadImgRef.current.click();
+    };
+
+    const handleFileChange = async (e) => {
+        const files = e.target.files;
+        if (files.length > 0) {
+            const file = files[0];
+            const base64 = await convertBase64String(file);
+            setImgValueRef({ ...imgValueRef, myFile: base64 });
+        }
+    };
+
+    const convertBase64String = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
     const renderFooterConversation = () => {
         return (
             <form
@@ -615,10 +655,22 @@ const Middle = () => {
                             borderRadius: "0.5rem",
                             padding: "0.8rem",
                         }}
-                        onClick={handleGetImage}
+                        onClick={() => {
+                            handleUploadImage();
+                        }}
                     >
                         <FontAwesomeIcon icon={faImage} />
                     </span>
+
+                    <input
+                        type="file"
+                        name=""
+                        id=""
+                        ref={uploadImgRef}
+                        hidden={true}
+                        accept=".png"
+                        onChange={(e) => handleFileChange(e)}
+                    />
 
                     {/* Emoji picker */}
                     <div
