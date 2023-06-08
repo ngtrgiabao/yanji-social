@@ -5,11 +5,12 @@ const ImageController = require("../controllers/image.controller");
 
 const UserMiddleware = require("../middleware/user.middleware");
 const ImageMiddleware = require("../middleware/image.middleware");
-const uploaderMiddleware = require("../middleware/uploader.middleware");
+const UploaderMiddleware = require("../middleware/uploader.middleware");
 
 router.post(
     "/upload/:userID",
-    uploaderMiddleware.single("newImage"),
+    UserMiddleware.validateUserById,
+    UploaderMiddleware.single("newImage"),
     ImageController.uploadImageByUserID
 );
 

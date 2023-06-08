@@ -37,7 +37,11 @@ import {
     markMessageSeen,
 } from "../../../../redux/request/messageRequest";
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
-import { getImageByID } from "../../../../redux/request/imageRequest";
+import {
+    getImageByID,
+    sendImage,
+} from "../../../../redux/request/imageRequest";
+import axios from "axios";
 
 const Middle = () => {
     const [edit, setEdit] = useState(false);
@@ -49,6 +53,11 @@ const Middle = () => {
     const [messageThread, setMessageThread] = useState([]);
     const [titleConversation, setTitleConversation] = useState(null);
     const [currentConversation, setCurrentConversation] = useState(null);
+    const [imgData, setImgData] = useState("");
+    const [imageSelected, setImageSelected] = useState("");
+
+    const uploadImgRef = useRef(null);
+
     const dispatch = useDispatch();
     const formatTime = useTimeAgo;
 
@@ -325,7 +334,7 @@ const Middle = () => {
         });
     }, [messageThread]);
 
-    const renderConfirmPopupDeleteMsg = () => {
+    const renderPopupConfirmDeleteMsg = () => {
         return (
             active && (
                 <div
@@ -360,29 +369,71 @@ const Middle = () => {
         );
     };
 
-    const [imgData, setImgData] = useState("");
+    const renderPopupConfirmUploadImg = () => {
+        return (
+            <div
+                className="confirm-container d-flex justify-content-center align-items-center"
+                onClick={() => setActive(false)}
+            >
+                <div
+                    id="confirm"
+                    className="confirm-container__dialog p-4"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <span className="confirm-container__dialog-title d-block fs-3 text-white mb-4">
+                        Bạn muốn xóa tin nhắn này?
+                    </span>
+                    <img src="" alt="" />
+                    <div className="confirm-container__dialog-footer fs-5 d-flex justify-content-end">
+                        <span
+                            onClick={() => togglePopup()}
+                            className="confirm-container__dialog-close"
+                        >
+                            Close
+                        </span>
+                        <span
+                            onClick={() => handleDeleteMsg(messageID)}
+                            className="confirm-container__dialog-confirm"
+                        >
+                            Delete
+                        </span>
+                    </div>
+                </div>
+            </div>
+        );
+    };
 
-    useEffect(() => {
-        getImageByID("648041ed1549bec7095dd12c", dispatch)
+    const handleUploadImage = async () => {
+        uploadImgRef.current.click();
+    };
+
+    const uploadImage = async () => {
+        const data = new FormData();
+        data.append("file", imageSelected);
+        data.append("upload_preset", process.env.REACT_APP_CLOUD_UPLOAD_PRESET);
+        data.append("cloud_name", process.env.REACT_APP_CLOUD_STORAGE_NAME);
+        data.append("folder", process.env.REACT_APP_CLOUD_FOLDER);
+
+        const res = await axios.post(
+            `${process.env.REACT_APP_CLOUD_URL}/${process.env.REACT_APP_CLOUD_STORAGE_NAME}/image/upload/`,
+            data
+        );
+        const imageUrl = res.data.secure_url;
+
+        const newImage = {
+            imageUrl,
+            userID: sender._id,
+        };
+
+        sendImage(newImage, dispatch)
             .then((data) => {
-                Object.values(data.data).forEach((img) => {
-                    if (img.data) {
-                        const convert = new Blob([img.data.data], {
-                            type: "image/png",
-                        });
-                        const imageDataUrl = URL.createObjectURL(convert);
-                        setImgData(imageDataUrl);
-                    }
-                });
+                setImgData(data.data.imageUrl);
+                console.log("Successfully upload image");
             })
             .catch((err) => {
-                console.error("Failed to get image :<", err);
+                console.error("Failed to upload image", err);
             });
-    }, []);
-
-    useEffect(() => {
-        console.log(imgData);
-    }, [imgData]);
+    };
 
     const renderTitleConversation = () => {
         return (
@@ -398,7 +449,7 @@ const Middle = () => {
                     />
                     <img
                         className="rounded-circle middle-avatar-chat"
-                        src={imgValueRef.myFile || "hello" + "/" + imgData}
+                        src={imgData}
                         loading="lazy"
                         role="presentation"
                         decoding="async"
@@ -581,37 +632,6 @@ const Middle = () => {
         setOpenEmoji((openEmoji) => !openEmoji);
     };
 
-    const uploadImgRef = useRef(null);
-    const [imgValueRef, setImgValueRef] = useState({
-        myFile: "",
-    });
-
-    const handleUploadImage = async (e) => {
-        uploadImgRef.current.click();
-    };
-
-    const handleFileChange = async (e) => {
-        const files = e.target.files;
-        if (files.length > 0) {
-            const file = files[0];
-            const base64 = await convertBase64String(file);
-            setImgValueRef({ ...imgValueRef, myFile: base64 });
-        }
-    };
-
-    const convertBase64String = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => {
-                resolve(fileReader.result);
-            };
-            fileReader.onerror = (error) => {
-                reject(error);
-            };
-        });
-    };
-
     const renderFooterConversation = () => {
         return (
             <form
@@ -632,6 +652,7 @@ const Middle = () => {
                     >
                         <FontAwesomeIcon icon={faPaperclip} />
                     </span>
+
                     <span
                         className="icon fs-3 mx-3 border-0"
                         aria-label="Đính kèm file"
@@ -655,9 +676,11 @@ const Middle = () => {
                         id=""
                         ref={uploadImgRef}
                         hidden={true}
-                        accept=".png"
-                        onChange={(e) => handleFileChange(e)}
+                        accept=".png, .jpg, .jpeg"
+                        onChange={(e) => setImageSelected(e.target.files[0])}
                     />
+
+                    <button onClick={uploadImage}>Upload</button>
 
                     {/* Emoji picker */}
                     <div
@@ -776,7 +799,7 @@ const Middle = () => {
                         <FloatingNotificationInbox height={500} {...props} />
                     )}
                 </MagicBell> */}
-                {renderConversation()} {renderConfirmPopupDeleteMsg()}
+                {renderConversation()} {renderPopupConfirmDeleteMsg()}
             </div>
         </>
     );

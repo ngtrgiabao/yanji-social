@@ -20,6 +20,7 @@
         "animate.css": "^4.1.1",
         "axios": "^1.2.1",
         "bootstrap": "^5.2.3",
+        "cloudinary-react": "^1.8.1",
         "dotenv": "^16.0.3",
         "dotenv-safe": "^8.2.0",
         "emoji-mart": "^5.5.2",
