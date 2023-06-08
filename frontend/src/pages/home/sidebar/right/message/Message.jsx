@@ -11,7 +11,6 @@ import KAYO_AVATAR from "../../../../../assets/avatar/kayo.jpg";
 import { getRoomsByUserID } from "../../../../../redux/request/roomRequest";
 import Conversation from "../../../../../components/Conversation";
 import { getUserByID } from "../../../../../redux/request/userRequest";
-import { SOCKET_URL } from "../../../../../constants/backend.url.constant";
 
 function Message() {
     const [filterMessages, setFilterMessages] = useState("");

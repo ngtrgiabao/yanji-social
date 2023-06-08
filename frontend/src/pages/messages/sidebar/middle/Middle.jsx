@@ -28,8 +28,6 @@ import "../../../../style/pages/messages/middle/middle.css";
 
 import Photo from "../../../../assets/avatar/profile-pic.png";
 
-import { SOCKET_URL } from "../../../../constants/backend.url.constant";
-
 import {
     sendMessage,
     getMessagesByRoomID,
@@ -39,7 +37,6 @@ import {
     markMessageSeen,
 } from "../../../../redux/request/messageRequest";
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
-import axios from "axios";
 import { getImageByID } from "../../../../redux/request/imageRequest";
 
 const Middle = () => {
@@ -57,6 +54,7 @@ const Middle = () => {
 
     const socketRef = useRef(null);
     const scrollRef = useRef();
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
     const now = new Date();
     const time = `${now.getHours()}:${now.getMinutes()}`;
@@ -368,23 +366,12 @@ const Middle = () => {
         getImageByID("648041ed1549bec7095dd12c", dispatch)
             .then((data) => {
                 Object.values(data.data).forEach((img) => {
-                    // if (img.data) {
-                    //     const convert = new Blob([img.data.data], {
-                    //         type: "image/png",
-                    //     });
-                    //     const imageDataUrl = URL.createObjectURL(convert);
-                    //     setImgData(imageDataUrl);
-                    // }
                     if (img.data) {
-                        console.log(img.data.data);
-                        const convertedData = btoa(
-                            String.fromCharCode(
-                                ...new Uint8Array(img.data.data)
-                            )
-                        );
-
-                        console.log(convertedData);
-                        setImgData(`data:image/png;base64,${convertedData}`);
+                        const convert = new Blob([img.data.data], {
+                            type: "image/png",
+                        });
+                        const imageDataUrl = URL.createObjectURL(convert);
+                        setImgData(imageDataUrl);
                     }
                 });
             })
@@ -411,7 +398,7 @@ const Middle = () => {
                     />
                     <img
                         className="rounded-circle middle-avatar-chat"
-                        src={imgValueRef.myFile || imgData}
+                        src={imgValueRef.myFile || "hello" + "/" + imgData}
                         loading="lazy"
                         role="presentation"
                         decoding="async"

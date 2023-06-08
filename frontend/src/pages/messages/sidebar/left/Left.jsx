@@ -10,7 +10,6 @@ import {
 } from "../../../../redux/request/roomRequest";
 import Conversation from "../../../../components/Conversation";
 import { getUserByID } from "../../../../redux/request/userRequest";
-import { SOCKET_URL } from "../../../../constants/backend.url.constant";
 // import ChatOnline from "../../../../components/ChatOnline";
 
 const Left = (props) => {
@@ -22,6 +21,8 @@ const Left = (props) => {
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [filterMessages, setFilterMessages] = useState("");
     const dispatch = useDispatch();
+
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
     const sender = useSelector((state) => {
         return state.auth.login.currentUser?.data;
