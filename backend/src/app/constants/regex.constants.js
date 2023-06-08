@@ -1,5 +1,5 @@
-const OBJECTT_ID_REGEX = /^[0-9a-fA-F]{24}$/;
+const OBJECT_ID_REGEX = /^[0-9a-fA-F]{24}$/;
 
 module.exports = {
-    OBJECTT_ID_REGEX,
+    OBJECT_ID_REGEX,
 };

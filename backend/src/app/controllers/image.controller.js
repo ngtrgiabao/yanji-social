@@ -1,4 +1,8 @@
+const cloudinary = require("cloudinary").v2;
+
 const ImageModel = require("../models/image.model");
+
+// TODO FIX DELETE, UPDATE IMAGE
 
 const getAllImagesByUserID = async (req, res, next) => {
     const userID = req.params.userID;
@@ -37,6 +41,50 @@ const getImageByID = async (req, res, next) => {
             msg: `Failed to get image ${imgID}`,
         });
     }
+};
+
+const uploadImageByUserID = async (req, res, next) => {
+    const userID = req.params.userID;
+    const imageData = req.file;
+
+    ImageModel.create({
+        userID,
+        image: {
+            fileName: imageData.filename,
+            contentType: imageData.mimetype,
+            path: imageData.path,
+            originalName: imageData.originalname,
+            size: imageData.size,
+            encoding: imageData.encoding,
+        },
+    })
+        .then((data) => {
+            if (data.image.size / (1024 * 1024) > 4) {
+                console.error("Image size is less than 4 MB");
+                if (imageData) {
+                    cloudinary.uploader.destroy(imageData.filename);
+                }
+                return res.status(400).json({
+                    msg: "Image size must be less than 4 MB",
+                });
+            } else {
+                return res.status(200).json({
+                    msg: "Uploaded image successfully",
+                    data,
+                });
+            }
+        })
+        .catch((error) => {
+            console.error("Failed to upload image", error);
+
+            if (imageData) {
+                cloudinary.uploader.destroy(imageData.filename);
+            }
+
+            return res.status(500).json({
+                msg: "Failed to upload image",
+            });
+        });
 };
 
 const updateImageByUserID = async (req, res, next) => {
@@ -100,4 +148,5 @@ module.exports = {
     deleteImageByID,
     getImageByID,
     updateImageByUserID,
+    uploadImageByUserID,
 };

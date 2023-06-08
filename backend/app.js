@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+require("dotenv").config();
 const app = express();
 
 const ApiError = require("./api.error");
@@ -18,8 +19,7 @@ const onlineRoute = require("./src/app/routes/online.routes");
 const imageRoute = require("./src/app/routes/image.routes");
 
 const corsOptions = {
-    origin: "http://localhost:3000",
-    // origin: "https://yanji-social.netlify.app",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
     optionSuccessStatus: 200,
 };
