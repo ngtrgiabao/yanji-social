@@ -28,8 +28,6 @@ import "../../../../style/pages/messages/middle/middle.css";
 
 import Photo from "../../../../assets/avatar/profile-pic.png";
 
-import { SOCKET_URL } from "../../../../constants/backend.url.constant";
-
 import {
     sendMessage,
     getMessagesByRoomID,
@@ -39,6 +37,7 @@ import {
     markMessageSeen,
 } from "../../../../redux/request/messageRequest";
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
+import { getImageByID } from "../../../../redux/request/imageRequest";
 
 const Middle = () => {
     const [edit, setEdit] = useState(false);
@@ -55,6 +54,7 @@ const Middle = () => {
 
     const socketRef = useRef(null);
     const scrollRef = useRef();
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
     const now = new Date();
     const time = `${now.getHours()}:${now.getMinutes()}`;
@@ -360,6 +360,30 @@ const Middle = () => {
         );
     };
 
+    const [imgData, setImgData] = useState("");
+
+    useEffect(() => {
+        getImageByID("648041ed1549bec7095dd12c", dispatch)
+            .then((data) => {
+                Object.values(data.data).forEach((img) => {
+                    if (img.data) {
+                        const convert = new Blob([img.data.data], {
+                            type: "image/png",
+                        });
+                        const imageDataUrl = URL.createObjectURL(convert);
+                        setImgData(imageDataUrl);
+                    }
+                });
+            })
+            .catch((err) => {
+                console.error("Failed to get image :<", err);
+            });
+    }, []);
+
+    useEffect(() => {
+        console.log(imgData);
+    }, [imgData]);
+
     const renderTitleConversation = () => {
         return (
             <div className="middle-container-header d-flex align-items-center justify-content-between py-3 px-4 pb-3">
@@ -372,6 +396,15 @@ const Middle = () => {
                         alt="Avatar user"
                         className="rounded-circle middle-avatar-chat"
                     />
+                    <img
+                        className="rounded-circle middle-avatar-chat"
+                        src={imgValueRef.myFile || "hello" + "/" + imgData}
+                        loading="lazy"
+                        role="presentation"
+                        decoding="async"
+                        alt="ok"
+                    />
+
                     <span className="ms-2 fs-4 fw-bold">
                         {titleConversation}
                     </span>
@@ -548,6 +581,37 @@ const Middle = () => {
         setOpenEmoji((openEmoji) => !openEmoji);
     };
 
+    const uploadImgRef = useRef(null);
+    const [imgValueRef, setImgValueRef] = useState({
+        myFile: "",
+    });
+
+    const handleUploadImage = async (e) => {
+        uploadImgRef.current.click();
+    };
+
+    const handleFileChange = async (e) => {
+        const files = e.target.files;
+        if (files.length > 0) {
+            const file = files[0];
+            const base64 = await convertBase64String(file);
+            setImgValueRef({ ...imgValueRef, myFile: base64 });
+        }
+    };
+
+    const convertBase64String = (file) => {
+        return new Promise((resolve, reject) => {
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result);
+            };
+            fileReader.onerror = (error) => {
+                reject(error);
+            };
+        });
+    };
+
     const renderFooterConversation = () => {
         return (
             <form
@@ -555,7 +619,7 @@ const Middle = () => {
                 className="middle-container-footer px-3 d-flex justify-content-between align-items-center"
             >
                 <div className="d-flex justify-content-between position-relative">
-                    <button
+                    <span
                         className="icon fs-3 border-0"
                         aria-label="Đính kèm tệp tin"
                         role="button"
@@ -567,8 +631,8 @@ const Middle = () => {
                         }}
                     >
                         <FontAwesomeIcon icon={faPaperclip} />
-                    </button>
-                    <button
+                    </span>
+                    <span
                         className="icon fs-3 mx-3 border-0"
                         aria-label="Đính kèm file"
                         role="button"
@@ -578,9 +642,22 @@ const Middle = () => {
                             borderRadius: "0.5rem",
                             padding: "0.8rem",
                         }}
+                        onClick={() => {
+                            handleUploadImage();
+                        }}
                     >
                         <FontAwesomeIcon icon={faImage} />
-                    </button>
+                    </span>
+
+                    <input
+                        type="file"
+                        name=""
+                        id=""
+                        ref={uploadImgRef}
+                        hidden={true}
+                        accept=".png"
+                        onChange={(e) => handleFileChange(e)}
+                    />
 
                     {/* Emoji picker */}
                     <div
@@ -595,13 +672,13 @@ const Middle = () => {
                             emojiSize={22}
                             emojiButtonSize={29}
                             maxFrequentRows={0}
-                            onEmojiSelect={handleAddEmoji}
+                            onEmojiSelect={(e) => handleAddEmoji(e)}
                             locale="vi"
                             perLine={8}
                             previewPosition="none"
                         />
                     </div>
-                    <button
+                    <span
                         className="icon fs-3 border-0"
                         aria-label="Chọn emoji"
                         role="button"
@@ -614,7 +691,7 @@ const Middle = () => {
                         onClick={() => handleOpenEmoji()}
                     >
                         <FontAwesomeIcon icon={faFaceLaughBeam} />
-                    </button>
+                    </span>
                 </div>
 
                 <div className="user-input-chat position-relative mx-3">
@@ -634,7 +711,7 @@ const Middle = () => {
                 </div>
 
                 {edit ? (
-                    <button
+                    <span
                         className="icon fs-3 d-flex justify-content-center border-0 align-items-center bg-danger"
                         style={{
                             width: "2em",
@@ -647,9 +724,9 @@ const Middle = () => {
                         onClick={() => handleCancelEditMsg()}
                     >
                         <FontAwesomeIcon icon={faX} />
-                    </button>
+                    </span>
                 ) : (
-                    <button
+                    <span
                         className="icon fs-3 d-flex justify-content-center border-0 align-items-center"
                         style={{
                             width: "2em",
@@ -663,7 +740,7 @@ const Middle = () => {
                         onClick={handleSubmit}
                     >
                         <FontAwesomeIcon icon={faPaperPlane} />
-                    </button>
+                    </span>
                 )}
             </form>
         );

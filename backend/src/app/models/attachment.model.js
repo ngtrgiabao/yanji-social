@@ -14,7 +14,7 @@ const attachmentSchema = new mongoose.Schema(
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "user",
-            require: true,
+            required: true,
         },
         fileName: {
             type: String,

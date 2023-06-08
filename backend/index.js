@@ -1,5 +1,5 @@
 const app = require("./app");
-const config = require("./src/app/config/index");
+const config = require("./src/app/config/port.config");
 const MongoDB = require("./src/app/utils/mongodb.utils");
 const socket = require("./socket");
 

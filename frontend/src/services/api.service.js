@@ -1,5 +1,4 @@
 import axios from "axios";
-import { BASE_URL } from "../constants/backend.url.constant";
 
 //WORK TO BACKEND
 const commonConfig = {
@@ -10,7 +9,7 @@ const commonConfig = {
 };
 
 const api = axios.create({
-    baseURL: BASE_URL,
+    baseURL: process.env.REACT_APP_BACKEND_URL,
     ...commonConfig,
 });
 
