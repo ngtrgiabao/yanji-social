@@ -12,9 +12,9 @@ export const sendImage = async (image, dispatch) => {
     dispatch(sendImageStart());
 
     try {
-        const res = await imageService.uploadImage(image);
-
+        const res = await imageService.uploadImageByUserID(image);
         dispatch(sendImageSuccess(res.data));
+        return res.data;
     } catch (error) {
         dispatch(sendImageFailed());
     }

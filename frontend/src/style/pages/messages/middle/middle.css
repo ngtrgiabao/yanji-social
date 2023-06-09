@@ -34,19 +34,15 @@
 
     transform: translateX(-50%);
 
-    color: #fff;
-    background: #000;
+    color: var(--white);
+    background: var(--black);
 
     padding: 0.5rem;
 
     border-radius: 0.5rem;
 }
 
-.middle-container .middle-container-header .middle-avatar-chat {
-    width: 4rem;
-    height: 4rem;
-}
-
+.middle-container .middle-container-header .middle-avatar-chat,
 .middle-container .middle-container-header .icon {
     width: 4rem;
     height: 4rem;
@@ -62,8 +58,7 @@
 .middle-msg-page .middle-container .middle-container-body {
     height: 74vh;
 
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden auto;
 }
 
 .middle-container
@@ -75,6 +70,7 @@
     .middle-container-body__left-text
     .middle-container-body__left-message-content {
     width: fit-content;
+    max-width: 55%;
 
     border-radius: 1rem;
 
@@ -86,12 +82,18 @@
     z-index: -1;
 }
 
+.middle-container img,
+.middle-container img {
+    border-radius: 1rem;
+    object-fit: contain;
+}
+
 .middle-container
     .middle-container-body
     .middle-container-body__left-text
     .middle-container-body__left-message-content {
-    background: whitesmoke;
-    color: black;
+    background: var(--white);
+    color: var(--black);
 
     border: 1px solid var(--border-color);
 }
@@ -101,7 +103,6 @@
     .middle-container-body__right-text
     .middle-container-body__right-message-content {
     background: var(--color-primary);
-
     color: var(--white);
 }
 
@@ -150,8 +151,8 @@
 
     transform: translateX(-50%);
 
-    color: #fff;
-    background: #000;
+    color: var(--white);
+    background: var(--black);
 
     padding: 0.5rem;
 
@@ -168,15 +169,14 @@
     width: 3rem;
     height: 3rem;
 
-    color: white;
+    background: var(--color-primary);
+    color: var(--white);
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     border-radius: 0.5rem;
-
-    background: var(--color-primary);
 
     position: relative;
 }
@@ -201,14 +201,14 @@
 
     width: max-content;
 
-    position: absolute;
-    bottom: 110%;
     left: 50%;
+    bottom: 110%;
+    position: absolute;
 
     transform: translateX(-50%);
 
-    color: #fff;
-    background: #000;
+    color: var(--white);
+    background: var(--black);
 
     padding: 0.5rem;
 
@@ -250,18 +250,31 @@
     width: 100vw;
     height: 100vh;
 
-    background: rgba(0, 0, 0, 0.29);
+    background: var(--bg-container-popup);
 
     position: absolute;
 }
 
 #confirm {
-    width: max-content;
+    max-width: 30%;
 
     border-radius: 1rem;
 
-    background: rgba(0, 0, 0, 0.744);
+    background: var(--bg-popup);
     border: 1px solid var(--color-primary);
+}
+
+#confirm .confirm-container__dialog-review-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 1rem;
+}
+
+#confirm .confirm-container__dialog-review-image img {
+    aspect-ratio: 16/9;
+    object-fit: contain;
 }
 
 #confirm .confirm-container__dialog-close,

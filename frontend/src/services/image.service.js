@@ -9,8 +9,8 @@ class ImageService {
         return await api.get(`/api/v1/image/${imgID}`);
     }
 
-    async uploadImage(image) {
-        return await api.post(`/api/v1/image/upload/${image.userID}`, image);
+    async uploadImageByUserID(img) {
+        return await api.post(`/api/v1/image/upload/${img.userID}`, img);
     }
 
     async updateImageByUserID(updateImage) {

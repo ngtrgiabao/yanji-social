@@ -12,7 +12,7 @@ const startServer = async () => {
         const SOCKET_PORT = config.socket.port;
 
         app.listen(PORT, () => {
-            console.log(`Server run success at localhost://${PORT} :D`);
+            console.log(`Server run success at localhost:${PORT} :D`);
         });
 
         socket.listen(SOCKET_PORT, () => {

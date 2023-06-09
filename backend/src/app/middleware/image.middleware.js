@@ -1,5 +1,4 @@
 const { ObjectId } = require("mongodb");
-const Image = require("../models/image.model");
 const ImageModel = require("../models/image.model");
 
 const validateImageID = async (req, res, next) => {

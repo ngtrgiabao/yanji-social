@@ -14,14 +14,7 @@ const imageSchema = new mongoose.Schema(
             ref: "user",
             required: true,
         },
-        image: {
-            fileName: String,
-            contentType: String,
-            path: String,
-            originalName: String,
-            size: Number,
-            encoding: String,
-        },
+        imageUrl: String,
     },
     { timestamps: true }
 );

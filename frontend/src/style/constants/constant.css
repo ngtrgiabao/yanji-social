@@ -16,6 +16,9 @@
     --color-black: hsl(252, 30%, 10%);
     --color-border: rgba(204, 204, 204, 0.337);
     --white: aliceblue;
+    --black: #000;
+    --bg-container-popup: rgba(0, 0, 0, 0.29);
+    --bg-popup: rgba(0, 0, 0, 0.744);
 
     --border-radius: 2rem;
     --card-border-radius: 1rem;
