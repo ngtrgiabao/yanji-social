@@ -46,15 +46,15 @@ import axios from "axios";
 const Middle = () => {
     const [edit, setEdit] = useState(false);
     const [message, setMessage] = useState("");
-    const [active, setActive] = useState(false);
+    const [active, setActive] = useState("");
     const [messageID, setMessageID] = useState(null);
     const [oldMessage, setOldMessage] = useState("");
-    const [openEmoji, setOpenEmoji] = useState(false);
     const [messageThread, setMessageThread] = useState([]);
     const [titleConversation, setTitleConversation] = useState(null);
     const [currentConversation, setCurrentConversation] = useState(null);
     const [imgData, setImgData] = useState("");
     const [imageSelected, setImageSelected] = useState("");
+    const [base64Image, setBase64Image] = useState(""); // Base64 string representing the image
 
     const uploadImgRef = useRef(null);
 
@@ -234,7 +234,7 @@ const Middle = () => {
         deleteMsg: async (msgID) => {
             setMessageID(msgID);
 
-            togglePopup();
+            setActive("DELETE_MSG");
         },
         markMsgSeen: async (data) => {
             const friendMsg = data.messages.filter(
@@ -252,6 +252,51 @@ const Middle = () => {
                 await markMessageSeen(markMsg, dispatch);
             }
         },
+        sendEmoji: (e) => {
+            const sym = e.unified.split("_");
+            const codeArray = [];
+
+            sym.forEach((el) => codeArray.push("0x" + el));
+            let emoji = String.fromCodePoint(...codeArray);
+
+            setMessage(message + emoji);
+        },
+        reviewImageBeforeUpload: (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const base64 = reader.result;
+                    setBase64Image(base64);
+                };
+                reader.readAsDataURL(file);
+            }
+        },
+        sendLike: (emoji) => {
+            if (currentConversation) {
+                const newMessage = {
+                    sender: sender._id,
+                    message: emoji,
+                    time: time,
+                    roomId: currentConversation,
+                };
+
+                sendMessage(newMessage, dispatch)
+                    .then(async () => {
+                        if (message) {
+                            await socketRef.current.emit(
+                                "send-message",
+                                newMessage
+                            );
+                            setMessage("");
+                        }
+                    })
+                    .catch((error) => {
+                        alert("Failed to send message");
+                        console.error("Failed to send message", error);
+                    });
+            }
+        },
     };
 
     const handleDeleteMsg = async (msgID) => {
@@ -259,13 +304,13 @@ const Middle = () => {
             await socketRef.current.emit("delete-message", msgID);
         });
 
-        setActive(false);
+        setActive("");
     };
 
     const handleEditMsg = () => {
         if (message !== oldMessage && edit) {
             if (message === "") {
-                togglePopup();
+                setActive("");
                 setEdit(false);
             } else {
                 const updateMsg = {
@@ -322,10 +367,6 @@ const Middle = () => {
         };
     }, [currentConversation, dispatch, sender._id]);
 
-    const togglePopup = () => {
-        setActive((active) => !active);
-    };
-
     // Auto scroll to bottom
     useEffect(() => {
         scrollRef.current?.scrollIntoView({
@@ -333,75 +374,6 @@ const Middle = () => {
             block: "end",
         });
     }, [messageThread]);
-
-    const renderPopupConfirmDeleteMsg = () => {
-        return (
-            active && (
-                <div
-                    className="confirm-container d-flex justify-content-center align-items-center"
-                    onClick={() => setActive(false)}
-                >
-                    <div
-                        id="confirm"
-                        className="confirm-container__dialog p-4"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <span className="confirm-container__dialog-title d-block fs-3 text-white mb-4">
-                            Bạn muốn xóa tin nhắn này?
-                        </span>
-                        <div className="confirm-container__dialog-footer fs-5 d-flex justify-content-end">
-                            <span
-                                onClick={() => togglePopup()}
-                                className="confirm-container__dialog-close"
-                            >
-                                Close
-                            </span>
-                            <span
-                                onClick={() => handleDeleteMsg(messageID)}
-                                className="confirm-container__dialog-confirm"
-                            >
-                                Delete
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            )
-        );
-    };
-
-    const renderPopupConfirmUploadImg = () => {
-        return (
-            <div
-                className="confirm-container d-flex justify-content-center align-items-center"
-                onClick={() => setActive(false)}
-            >
-                <div
-                    id="confirm"
-                    className="confirm-container__dialog p-4"
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <span className="confirm-container__dialog-title d-block fs-3 text-white mb-4">
-                        Bạn muốn xóa tin nhắn này?
-                    </span>
-                    <img src="" alt="" />
-                    <div className="confirm-container__dialog-footer fs-5 d-flex justify-content-end">
-                        <span
-                            onClick={() => togglePopup()}
-                            className="confirm-container__dialog-close"
-                        >
-                            Close
-                        </span>
-                        <span
-                            onClick={() => handleDeleteMsg(messageID)}
-                            className="confirm-container__dialog-confirm"
-                        >
-                            Delete
-                        </span>
-                    </div>
-                </div>
-            </div>
-        );
-    };
 
     const handleUploadImage = async () => {
         uploadImgRef.current.click();
@@ -428,11 +400,36 @@ const Middle = () => {
         sendImage(newImage, dispatch)
             .then((data) => {
                 setImgData(data.data.imageUrl);
+
+                if (currentConversation) {
+                    const newMessage = {
+                        sender: sender._id,
+                        time: time,
+                        roomId: currentConversation,
+                        media: data.data.imageUrl,
+                    };
+
+                    sendMessage(newMessage, dispatch)
+                        .then(async () => {
+                            await socketRef.current.emit(
+                                "send-message",
+                                newMessage
+                            );
+                            setMessage("");
+                        })
+                        .catch((error) => {
+                            alert("Failed to send message");
+                            console.error("Failed to send message", error);
+                        });
+                }
+
                 console.log("Successfully upload image");
             })
             .catch((err) => {
                 console.error("Failed to upload image", err);
             });
+
+        setActive("");
     };
 
     const renderTitleConversation = () => {
@@ -446,14 +443,6 @@ const Middle = () => {
                         src={Photo}
                         alt="Avatar user"
                         className="rounded-circle middle-avatar-chat"
-                    />
-                    <img
-                        className="rounded-circle middle-avatar-chat"
-                        src={imgData}
-                        loading="lazy"
-                        role="presentation"
-                        decoding="async"
-                        alt="ok"
                     />
 
                     <span className="ms-2 fs-4 fw-bold">
@@ -527,6 +516,9 @@ const Middle = () => {
                         </span>
                         <span className="middle-container-body__right-message-content ms-3">
                             {message.message}
+                            {message.media && (
+                                <img src={message.media} alt="" />
+                            )}
                         </span>
                     </div>
                     <div className="middle-container-body__right-time">
@@ -552,6 +544,9 @@ const Middle = () => {
                     <div className="d-flex justify-content-start align-items-center w-100">
                         <span className="middle-container-body__left-message-content me-2">
                             {message.message}
+                            {message.media && (
+                                <img src={message.media} alt="" />
+                            )}
                         </span>
                     </div>
                     <div className="middle-container-body__left-time">
@@ -569,32 +564,6 @@ const Middle = () => {
                 <div ref={scrollRef} />
             </div>
         );
-    };
-
-    const handleSendLike = (emoji) => {
-        if (currentConversation) {
-            const newMessage = {
-                sender: sender._id,
-                message: emoji,
-                time: time,
-                roomId: currentConversation,
-            };
-
-            sendMessage(newMessage, dispatch)
-                .then(async () => {
-                    if (message) {
-                        await socketRef.current.emit(
-                            "send-message",
-                            newMessage
-                        );
-                        setMessage("");
-                    }
-                })
-                .catch((error) => {
-                    alert("Failed to send message");
-                    console.error("Failed to send message", error);
-                });
-        }
     };
 
     const handleCancelEditMsg = () => {
@@ -620,16 +589,78 @@ const Middle = () => {
         );
     };
 
-    const handleAddEmoji = (e) => {
-        const sym = e.unified.split("_");
-        const codeArray = [];
-        sym.forEach((el) => codeArray.push("0x" + el));
-        let emoji = String.fromCodePoint(...codeArray);
-        setMessage(message + emoji);
+    const renderPopupConfirmDeleteMsg = () => {
+        return (
+            active === "DELETE_MSG" && (
+                <div
+                    className="confirm-container d-flex justify-content-center align-items-center"
+                    onClick={() => setActive("")}
+                >
+                    <div
+                        id="confirm"
+                        className="confirm-container__dialog p-4"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <span className="confirm-container__dialog-title d-block fs-3 text-white mb-4">
+                            Bạn muốn xóa tin nhắn này?
+                        </span>
+                        <div className="confirm-container__dialog-footer fs-5 d-flex justify-content-end">
+                            <span
+                                onClick={() => setActive("")}
+                                className="confirm-container__dialog-close"
+                            >
+                                Close
+                            </span>
+                            <span
+                                onClick={() => handleDeleteMsg(messageID)}
+                                className="confirm-container__dialog-confirm"
+                            >
+                                Delete
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            )
+        );
     };
 
-    const handleOpenEmoji = () => {
-        setOpenEmoji((openEmoji) => !openEmoji);
+    const renderPopupConfirmUploadImg = () => {
+        return (
+            active === "UPLOAD_IMAGE" &&
+            imageSelected && (
+                <div
+                    className="confirm-container d-flex justify-content-center align-items-center"
+                    onClick={() => setActive("")}
+                >
+                    <div
+                        id="confirm"
+                        className="confirm-container__dialog p-4"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <span className="confirm-container__dialog-title d-block fs-3 text-white">
+                            Bạn muốn gửi hình ảnh này?
+                        </span>
+                        <div className="confirm-container__dialog-review-image">
+                            <img src={base64Image} alt="image" />
+                        </div>
+                        <div className="confirm-container__dialog-footer fs-5 d-flex justify-content-end">
+                            <span
+                                onClick={() => setActive("")}
+                                className="confirm-container__dialog-close"
+                            >
+                                Close
+                            </span>
+                            <span
+                                onClick={() => uploadImage()}
+                                className="confirm-container__dialog-confirm"
+                            >
+                                Send
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            )
+        );
     };
 
     const renderFooterConversation = () => {
@@ -665,6 +696,7 @@ const Middle = () => {
                         }}
                         onClick={() => {
                             handleUploadImage();
+                            setActive("UPLOAD_IMAGE");
                         }}
                     >
                         <FontAwesomeIcon icon={faImage} />
@@ -677,10 +709,11 @@ const Middle = () => {
                         ref={uploadImgRef}
                         hidden={true}
                         accept=".png, .jpg, .jpeg"
-                        onChange={(e) => setImageSelected(e.target.files[0])}
+                        onChange={(e) => {
+                            setImageSelected(e.target.files[0]);
+                            handleMsg.reviewImageBeforeUpload(e);
+                        }}
                     />
-
-                    <button onClick={uploadImage}>Upload</button>
 
                     {/* Emoji picker */}
                     <div
@@ -688,14 +721,14 @@ const Middle = () => {
                         style={{
                             bottom: "120%",
                         }}
-                        hidden={!openEmoji}
+                        hidden={active !== "EMOJI"}
                     >
                         <Picker
                             data={data}
                             emojiSize={22}
                             emojiButtonSize={29}
                             maxFrequentRows={0}
-                            onEmojiSelect={(e) => handleAddEmoji(e)}
+                            onEmojiSelect={(e) => handleMsg.sendEmoji(e)}
                             locale="vi"
                             perLine={8}
                             previewPosition="none"
@@ -711,7 +744,11 @@ const Middle = () => {
                             borderRadius: "0.5rem",
                             padding: "0.8rem",
                         }}
-                        onClick={() => handleOpenEmoji()}
+                        onClick={() => {
+                            active !== "EMOJI"
+                                ? setActive("EMOJI")
+                                : setActive("");
+                        }}
                     >
                         <FontAwesomeIcon icon={faFaceLaughBeam} />
                     </span>
@@ -800,6 +837,7 @@ const Middle = () => {
                     )}
                 </MagicBell> */}
                 {renderConversation()} {renderPopupConfirmDeleteMsg()}
+                {renderPopupConfirmUploadImg()}
             </div>
         </>
     );

@@ -3,11 +3,11 @@ const app = require("./app");
 const http = require("http");
 const { Server } = require("socket.io");
 const httpServer = http.createServer(app);
+require("dotenv").config();
 
 const io = new Server(httpServer, {
     cors: {
-        origin: "http://localhost:3000",
-        // origin: "https://yanji-social.netlify.app/",
+        origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST", "PUT", "DELETE"],
     },
 });
