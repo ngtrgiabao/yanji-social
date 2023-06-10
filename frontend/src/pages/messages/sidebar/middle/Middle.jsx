@@ -23,6 +23,7 @@ import data from "@emoji-mart/data";
 // import MagicBell, {
 //     FloatingNotificationInbox,
 // } from "@magicbell/magicbell-react";
+import axios from "axios";
 
 import "../../../../style/pages/messages/middle/middle.css";
 
@@ -41,7 +42,6 @@ import {
     getImageByID,
     sendImage,
 } from "../../../../redux/request/imageRequest";
-import axios from "axios";
 
 const Middle = () => {
     const [edit, setEdit] = useState(false);
@@ -52,7 +52,6 @@ const Middle = () => {
     const [messageThread, setMessageThread] = useState([]);
     const [titleConversation, setTitleConversation] = useState(null);
     const [currentConversation, setCurrentConversation] = useState(null);
-    const [imgData, setImgData] = useState("");
     const [imageSelected, setImageSelected] = useState("");
     const [base64Image, setBase64Image] = useState(""); // Base64 string representing the image
 
@@ -399,8 +398,6 @@ const Middle = () => {
 
         sendImage(newImage, dispatch)
             .then((data) => {
-                setImgData(data.data.imageUrl);
-
                 if (currentConversation) {
                     const newMessage = {
                         sender: sender._id,
@@ -431,6 +428,36 @@ const Middle = () => {
 
         setActive("");
     };
+
+    const [imagePublicID, setImagePublicID] = useState("");
+
+    useEffect(() => {
+        const deleteImage = async () => {
+            // https://example.com/REACT_APP_CLOUD_STORAGE_NAME/image/upload/v0123456789/REACT_APP_CLOUD_UPLOAD_PRESET/PHOTO-NAME_DATE_UPLOAD_IMAGE-ID.jpg;
+            const parts = imagePublicID.split("/");
+
+            const pathIndex = parts.findIndex(
+                (part) => part === process.env.REACT_APP_CLOUD_UPLOAD_PRESET
+            );
+            const pathWithoutExtension = parts
+                .slice(pathIndex)
+                .join("/")
+                .split(".")
+                .slice(0, -1)
+                .join(".");
+
+            const res = await axios.delete(
+                `${process.env.REACT_APP_CLOUD_URL}/${pathWithoutExtension}/image/destroy`
+            );
+
+            console.log(res);
+
+            // "REACT_APP_CLOUD_UPLOAD_PRESET/PHOTO-NAME_DATE-UPLOAD_IMAGE-ID"
+        };
+        if (imagePublicID) {
+            deleteImage();
+        }
+    }, [imagePublicID]);
 
     const renderTitleConversation = () => {
         return (
@@ -517,9 +544,12 @@ const Middle = () => {
                         <span className="middle-container-body__right-message-content ms-3">
                             {message.message}
                             {message.media && (
-                                <img src={message.media} alt="" />
+                                <img src={message.media} alt="image_uploaded" />
                             )}
                         </span>
+                        <button onClick={() => setImagePublicID(message.media)}>
+                            click
+                        </button>
                     </div>
                     <div className="middle-container-body__right-time">
                         {formatTime(message.createdAt) || "now"}
