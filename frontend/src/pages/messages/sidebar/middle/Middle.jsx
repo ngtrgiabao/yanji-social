@@ -23,6 +23,7 @@ import data from "@emoji-mart/data";
 // import MagicBell, {
 //     FloatingNotificationInbox,
 // } from "@magicbell/magicbell-react";
+import axios from "axios";
 
 import "../../../../style/pages/messages/middle/middle.css";
 
@@ -37,11 +38,7 @@ import {
     markMessageSeen,
 } from "../../../../redux/request/messageRequest";
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
-import {
-    getImageByID,
-    sendImage,
-} from "../../../../redux/request/imageRequest";
-import axios from "axios";
+import { getImageByID } from "../../../../redux/request/imageRequest";
 
 const Middle = () => {
     const [edit, setEdit] = useState(false);
@@ -52,7 +49,6 @@ const Middle = () => {
     const [messageThread, setMessageThread] = useState([]);
     const [titleConversation, setTitleConversation] = useState(null);
     const [currentConversation, setCurrentConversation] = useState(null);
-    const [imgData, setImgData] = useState("");
     const [imageSelected, setImageSelected] = useState("");
     const [base64Image, setBase64Image] = useState(""); // Base64 string representing the image
 
@@ -392,42 +388,24 @@ const Middle = () => {
         );
         const imageUrl = res.data.secure_url;
 
-        const newImage = {
-            imageUrl,
-            userID: sender._id,
-        };
+        if (currentConversation) {
+            const newMessage = {
+                sender: sender._id,
+                time: time,
+                roomId: currentConversation,
+                media: imageUrl,
+            };
 
-        sendImage(newImage, dispatch)
-            .then((data) => {
-                setImgData(data.data.imageUrl);
-
-                if (currentConversation) {
-                    const newMessage = {
-                        sender: sender._id,
-                        time: time,
-                        roomId: currentConversation,
-                        media: data.data.imageUrl,
-                    };
-
-                    sendMessage(newMessage, dispatch)
-                        .then(async () => {
-                            await socketRef.current.emit(
-                                "send-message",
-                                newMessage
-                            );
-                            setMessage("");
-                        })
-                        .catch((error) => {
-                            alert("Failed to send message");
-                            console.error("Failed to send message", error);
-                        });
-                }
-
-                console.log("Successfully upload image");
-            })
-            .catch((err) => {
-                console.error("Failed to upload image", err);
-            });
+            sendMessage(newMessage, dispatch)
+                .then(async () => {
+                    await socketRef.current.emit("send-message", newMessage);
+                    setMessage("");
+                })
+                .catch((error) => {
+                    alert("Failed to send message");
+                    console.error("Failed to send message", error);
+                });
+        }
 
         setActive("");
     };
@@ -517,7 +495,7 @@ const Middle = () => {
                         <span className="middle-container-body__right-message-content ms-3">
                             {message.message}
                             {message.media && (
-                                <img src={message.media} alt="" />
+                                <img src={message.media} alt="image_uploaded" />
                             )}
                         </span>
                     </div>

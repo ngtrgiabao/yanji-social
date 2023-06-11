@@ -1,4 +1,5 @@
 const cloudinary = require("cloudinary").v2;
+require("dotenv").config();
 
 const ImageModel = require("../models/image.model");
 
@@ -41,26 +42,16 @@ const getImageByID = async (req, res, next) => {
     }
 };
 
-const uploadImageByUserID = async (req, res, next) => {
-    const userID = req.params.userID;
-    const { imageUrl } = req.body;
-
+const uploadImageByUserID = async (userID, imageUrl) => {
     ImageModel.create({
         userID,
         imageUrl,
     })
         .then((data) => {
-            return res.status(200).json({
-                msg: "Uploaded image successfully",
-                data,
-            });
+            console.log("Uploaded image successfully", data);
         })
         .catch((error) => {
             console.error("Failed to upload image", error);
-
-            return res.status(500).json({
-                msg: "Failed to upload image",
-            });
         });
 };
 
@@ -109,13 +100,22 @@ const deleteAllImagesByUserID = async (req, res, next) => {
     }
 };
 
-const deleteImageByID = async (req, res, next) => {
-    const imgID = req.params.imgID;
+const deleteImageByID = async (mediaValue) => {
+    const pathWithoutExtension = mediaValue.split("/").pop().split(".")[0];
+    const startIndex = mediaValue.indexOf(process.env.CLOUD_UPLOAD_PRESET);
+    const endIndex = mediaValue.lastIndexOf(".");
+    const publicID = mediaValue.substring(startIndex, endIndex);
 
-    await ImageModel.findByIdAndDelete(imgID);
+    cloudinary.config({
+        cloud_name: process.env.CLOUD_STORAGE_NAME,
+        api_key: process.env.CLOUD_STORAGE_API_KEY,
+        api_secret: process.env.CLOUD_SECRET_KEY,
+    });
 
-    return res.status(200).json({
-        msg: `Delete image ${imgID} successfully`,
+    cloudinary.uploader.destroy(publicID);
+
+    await ImageModel.findOneAndDelete({
+        imageUrl: { $regex: pathWithoutExtension },
     });
 };
 
