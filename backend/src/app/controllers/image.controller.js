@@ -1,4 +1,5 @@
 const cloudinary = require("cloudinary").v2;
+require("dotenv").config();
 
 const ImageModel = require("../models/image.model");
 
@@ -100,14 +101,22 @@ const deleteAllImagesByUserID = async (req, res, next) => {
 };
 
 const deleteImageByID = async (mediaValue) => {
+    const pathWithoutExtension = mediaValue.split("/").pop().split(".")[0];
     const startIndex = mediaValue.indexOf(process.env.CLOUD_UPLOAD_PRESET);
-
     const endIndex = mediaValue.lastIndexOf(".");
-    const pathWithoutExtension = mediaValue.substring(startIndex, endIndex);
+    const publicID = mediaValue.substring(startIndex, endIndex);
 
-    cloudinary.uploader.destroy(pathWithoutExtension);
+    cloudinary.config({
+        cloud_name: process.env.CLOUD_STORAGE_NAME,
+        api_key: process.env.CLOUD_STORAGE_API_KEY,
+        api_secret: process.env.CLOUD_SECRET_KEY,
+    });
 
-    console.log("Delete image successfully");
+    cloudinary.uploader.destroy(publicID);
+
+    await ImageModel.findOneAndDelete({
+        imageUrl: { $regex: pathWithoutExtension },
+    });
 };
 
 module.exports = {

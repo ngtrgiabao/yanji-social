@@ -1,5 +1,3 @@
-const cloudinary = require("cloudinary").v2;
-
 const MessageModel = require("../models/message.model");
 const UserModel = require("../models/user.model");
 const { deleteImageByID, uploadImageByUserID } = require("./image.controller");
@@ -40,7 +38,7 @@ const deleteMessage = async (req, res) => {
     const message = await MessageModel.findById(msgID);
     const mediaValue = message.media;
     if (mediaValue) {
-        deleteImageByID(mediaValue);
+        await deleteImageByID(mediaValue);
     }
 
     await MessageModel.findByIdAndDelete(msgID);
