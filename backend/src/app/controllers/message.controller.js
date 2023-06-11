@@ -1,7 +1,10 @@
+const cloudinary = require("cloudinary").v2;
+
 const MessageModel = require("../models/message.model");
 const UserModel = require("../models/user.model");
+const { deleteImageByID, uploadImageByUserID } = require("./image.controller");
 
-// Add edit message
+//TODO Add edit message
 
 const sendMessage = async (req, res) => {
     try {
@@ -13,6 +16,10 @@ const sendMessage = async (req, res) => {
             file,
             sender,
         });
+
+        if (media) {
+            uploadImageByUserID(sender, media);
+        }
 
         return res.status(200).json({
             msg: `User: ${sender} send message success`,
@@ -29,6 +36,12 @@ const sendMessage = async (req, res) => {
 
 const deleteMessage = async (req, res) => {
     const msgID = req.params.msgID;
+
+    const message = await MessageModel.findById(msgID);
+    const mediaValue = message.media;
+    if (mediaValue) {
+        deleteImageByID(mediaValue);
+    }
 
     await MessageModel.findByIdAndDelete(msgID);
 

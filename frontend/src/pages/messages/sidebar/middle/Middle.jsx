@@ -38,10 +38,7 @@ import {
     markMessageSeen,
 } from "../../../../redux/request/messageRequest";
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
-import {
-    getImageByID,
-    sendImage,
-} from "../../../../redux/request/imageRequest";
+import { getImageByID } from "../../../../redux/request/imageRequest";
 
 const Middle = () => {
     const [edit, setEdit] = useState(false);
@@ -391,73 +388,27 @@ const Middle = () => {
         );
         const imageUrl = res.data.secure_url;
 
-        const newImage = {
-            imageUrl,
-            userID: sender._id,
-        };
+        if (currentConversation) {
+            const newMessage = {
+                sender: sender._id,
+                time: time,
+                roomId: currentConversation,
+                media: imageUrl,
+            };
 
-        sendImage(newImage, dispatch)
-            .then((data) => {
-                if (currentConversation) {
-                    const newMessage = {
-                        sender: sender._id,
-                        time: time,
-                        roomId: currentConversation,
-                        media: data.data.imageUrl,
-                    };
-
-                    sendMessage(newMessage, dispatch)
-                        .then(async () => {
-                            await socketRef.current.emit(
-                                "send-message",
-                                newMessage
-                            );
-                            setMessage("");
-                        })
-                        .catch((error) => {
-                            alert("Failed to send message");
-                            console.error("Failed to send message", error);
-                        });
-                }
-
-                console.log("Successfully upload image");
-            })
-            .catch((err) => {
-                console.error("Failed to upload image", err);
-            });
+            sendMessage(newMessage, dispatch)
+                .then(async () => {
+                    await socketRef.current.emit("send-message", newMessage);
+                    setMessage("");
+                })
+                .catch((error) => {
+                    alert("Failed to send message");
+                    console.error("Failed to send message", error);
+                });
+        }
 
         setActive("");
     };
-
-    const [imagePublicID, setImagePublicID] = useState("");
-
-    useEffect(() => {
-        const deleteImage = async () => {
-            // https://example.com/REACT_APP_CLOUD_STORAGE_NAME/image/upload/v0123456789/REACT_APP_CLOUD_UPLOAD_PRESET/PHOTO-NAME_DATE_UPLOAD_IMAGE-ID.jpg;
-            const parts = imagePublicID.split("/");
-
-            const pathIndex = parts.findIndex(
-                (part) => part === process.env.REACT_APP_CLOUD_UPLOAD_PRESET
-            );
-            const pathWithoutExtension = parts
-                .slice(pathIndex)
-                .join("/")
-                .split(".")
-                .slice(0, -1)
-                .join(".");
-
-            const res = await axios.delete(
-                `${process.env.REACT_APP_CLOUD_URL}/${pathWithoutExtension}/image/destroy`
-            );
-
-            console.log(res);
-
-            // "REACT_APP_CLOUD_UPLOAD_PRESET/PHOTO-NAME_DATE-UPLOAD_IMAGE-ID"
-        };
-        if (imagePublicID) {
-            deleteImage();
-        }
-    }, [imagePublicID]);
 
     const renderTitleConversation = () => {
         return (
@@ -547,9 +498,6 @@ const Middle = () => {
                                 <img src={message.media} alt="image_uploaded" />
                             )}
                         </span>
-                        <button onClick={() => setImagePublicID(message.media)}>
-                            click
-                        </button>
                     </div>
                     <div className="middle-container-body__right-time">
                         {formatTime(message.createdAt) || "now"}

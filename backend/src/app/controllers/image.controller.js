@@ -41,26 +41,16 @@ const getImageByID = async (req, res, next) => {
     }
 };
 
-const uploadImageByUserID = async (req, res, next) => {
-    const userID = req.params.userID;
-    const { imageUrl } = req.body;
-
+const uploadImageByUserID = async (userID, imageUrl) => {
     ImageModel.create({
         userID,
         imageUrl,
     })
         .then((data) => {
-            return res.status(200).json({
-                msg: "Uploaded image successfully",
-                data,
-            });
+            console.log("Uploaded image successfully", data);
         })
         .catch((error) => {
             console.error("Failed to upload image", error);
-
-            return res.status(500).json({
-                msg: "Failed to upload image",
-            });
         });
 };
 
@@ -109,14 +99,15 @@ const deleteAllImagesByUserID = async (req, res, next) => {
     }
 };
 
-const deleteImageByID = async (req, res, next) => {
-    const imgID = req.params.imgID;
+const deleteImageByID = async (mediaValue) => {
+    const startIndex = mediaValue.indexOf(process.env.CLOUD_UPLOAD_PRESET);
 
-    await ImageModel.findByIdAndDelete(imgID);
+    const endIndex = mediaValue.lastIndexOf(".");
+    const pathWithoutExtension = mediaValue.substring(startIndex, endIndex);
 
-    return res.status(200).json({
-        msg: `Delete image ${imgID} successfully`,
-    });
+    cloudinary.uploader.destroy(pathWithoutExtension);
+
+    console.log("Delete image successfully");
 };
 
 module.exports = {
