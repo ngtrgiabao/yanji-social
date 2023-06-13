@@ -78,8 +78,19 @@
 
     font-weight: 600;
     word-break: break-word;
+}
 
-    z-index: -1;
+.middle-container
+    .middle-container-body
+    .middle-container-body__right-text
+    .middle-container-body__right-message-content
+    img,
+.middle-container
+    .middle-container-body
+    .middle-container-body__left-text
+    .middle-container-body__left-message-content
+    img {
+    cursor: pointer;
 }
 
 .middle-container img,

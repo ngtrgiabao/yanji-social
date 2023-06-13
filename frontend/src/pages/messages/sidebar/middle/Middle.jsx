@@ -39,6 +39,8 @@ import {
 } from "../../../../redux/request/messageRequest";
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
 import { getImageByID } from "../../../../redux/request/imageRequest";
+import PreviewImage from "../../../../components/PreviewImage";
+import ConfirmDialog from "../../../../components/ConfirmDialog";
 
 const Middle = () => {
     const [edit, setEdit] = useState(false);
@@ -50,6 +52,7 @@ const Middle = () => {
     const [titleConversation, setTitleConversation] = useState(null);
     const [currentConversation, setCurrentConversation] = useState(null);
     const [imageSelected, setImageSelected] = useState("");
+    const [imgSrc, setImgSrc] = useState("");
     const [base64Image, setBase64Image] = useState(""); // Base64 string representing the image
 
     const uploadImgRef = useRef(null);
@@ -102,7 +105,7 @@ const Middle = () => {
                         data,
                     ]);
             },
-            [currentConversation, messageThread]
+            [currentConversation]
         ),
         updatedMessage: useCallback(
             (data) => {
@@ -161,6 +164,7 @@ const Middle = () => {
         handleSocket.updatedMessage,
         handleSocket.deletedMesssage,
         handleSocket.disconnect,
+        SOCKET_URL,
     ]);
 
     const currentRoom = useSelector((state) => {
@@ -454,6 +458,11 @@ const Middle = () => {
         );
     };
 
+    const handlePreviewImage = (imgSrc) => {
+        setActive("PREVIEW_IMAGE");
+        setImgSrc(imgSrc);
+    };
+
     const renderMessages = () => {
         return messageThread.map((message, index) =>
             message.sender === sender._id ? (
@@ -464,9 +473,7 @@ const Middle = () => {
                     <div className="d-flex align-items-center justify-content-end w-100">
                         <span
                             className="action-message fs-5"
-                            onClick={() => {
-                                handleMsg.updateMsg(message._id);
-                            }}
+                            onClick={() => handleMsg.updateMsg(message._id)}
                             style={{
                                 cursor: "pointer",
                                 width: "2.3rem",
@@ -479,9 +486,7 @@ const Middle = () => {
                         </span>
                         <span
                             className="action-message fs-5 text-danger"
-                            onClick={() => {
-                                handleMsg.deleteMsg(message._id);
-                            }}
+                            onClick={() => handleMsg.deleteMsg(message._id)}
                             style={{
                                 cursor: "pointer",
                                 width: "2.3rem",
@@ -492,10 +497,16 @@ const Middle = () => {
                         >
                             <FontAwesomeIcon icon={faTrash} />
                         </span>
-                        <span className="middle-container-body__right-message-content ms-3">
+                        <span className="middle-container-body__right-message-content ms-2">
                             {message.message}
                             {message.media && (
-                                <img src={message.media} alt="image_uploaded" />
+                                <img
+                                    src={message.media}
+                                    alt="image_uploaded"
+                                    onClick={() =>
+                                        handlePreviewImage(message.media)
+                                    }
+                                />
                             )}
                         </span>
                     </div>
@@ -570,73 +581,59 @@ const Middle = () => {
     const renderPopupConfirmDeleteMsg = () => {
         return (
             active === "DELETE_MSG" && (
-                <div
-                    className="confirm-container d-flex justify-content-center align-items-center"
-                    onClick={() => setActive("")}
-                >
-                    <div
-                        id="confirm"
-                        className="confirm-container__dialog p-4"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <span className="confirm-container__dialog-title d-block fs-3 text-white mb-4">
-                            Bạn muốn xóa tin nhắn này?
-                        </span>
-                        <div className="confirm-container__dialog-footer fs-5 d-flex justify-content-end">
-                            <span
-                                onClick={() => setActive("")}
-                                className="confirm-container__dialog-close"
-                            >
-                                Close
-                            </span>
-                            <span
-                                onClick={() => handleDeleteMsg(messageID)}
-                                className="confirm-container__dialog-confirm"
-                            >
-                                Delete
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <ConfirmDialog
+                    title="Bạn muốn xóa tin nhắn này?"
+                    onClose={() => setActive("")}
+                    onConfirm={() => handleDeleteMsg(messageID)}
+                    confirmButtonText="Delete"
+                />
             )
         );
+    };
+
+    const downloadImage = async () => {
+        try {
+            const response = await fetch(imgSrc);
+            const blob = await response.blob();
+
+            const anchor = document.createElement("a");
+            anchor.href = URL.createObjectURL(blob);
+            anchor.download = "image.jpg";
+            anchor.style.display = "none";
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+        } catch (error) {
+            console.error("Error downloading image:", error);
+        }
     };
 
     const renderPopupConfirmUploadImg = () => {
         return (
             active === "UPLOAD_IMAGE" &&
             imageSelected && (
-                <div
-                    className="confirm-container d-flex justify-content-center align-items-center"
-                    onClick={() => setActive("")}
-                >
-                    <div
-                        id="confirm"
-                        className="confirm-container__dialog p-4"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <span className="confirm-container__dialog-title d-block fs-3 text-white">
-                            Bạn muốn gửi hình ảnh này?
-                        </span>
-                        <div className="confirm-container__dialog-review-image">
-                            <img src={base64Image} alt="image" />
-                        </div>
-                        <div className="confirm-container__dialog-footer fs-5 d-flex justify-content-end">
-                            <span
-                                onClick={() => setActive("")}
-                                className="confirm-container__dialog-close"
-                            >
-                                Close
-                            </span>
-                            <span
-                                onClick={() => uploadImage()}
-                                className="confirm-container__dialog-confirm"
-                            >
-                                Send
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <ConfirmDialog
+                    title="Bạn muốn gửi hình ảnh này?"
+                    children={
+                        <img src={base64Image} alt="image_before_upload" />
+                    }
+                    onClose={() => setActive("")}
+                    onConfirm={uploadImage}
+                    confirmButtonText="Send"
+                />
+            )
+        );
+    };
+
+    const renderPreviewPopupImage = () => {
+        return (
+            active === "PREVIEW_IMAGE" && (
+                <ConfirmDialog
+                    children={<PreviewImage imgSrc={imgSrc} />}
+                    onClose={() => setActive("")}
+                    onConfirm={downloadImage}
+                    confirmButtonText="Download"
+                />
             )
         );
     };
@@ -816,6 +813,7 @@ const Middle = () => {
                 </MagicBell> */}
                 {renderConversation()} {renderPopupConfirmDeleteMsg()}
                 {renderPopupConfirmUploadImg()}
+                {renderPreviewPopupImage()}
             </div>
         </>
     );
