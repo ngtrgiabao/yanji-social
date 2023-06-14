@@ -7,7 +7,6 @@ const ConfirmDialog = ({
     onConfirm,
     confirmButtonText,
 }) => {
-    console.log(children);
     return (
         <div
             className="confirm-container d-flex justify-content-center align-items-center"

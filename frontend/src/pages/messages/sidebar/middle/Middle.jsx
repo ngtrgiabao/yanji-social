@@ -29,6 +29,8 @@ import "../../../../style/pages/messages/middle/middle.css";
 
 import Photo from "../../../../assets/avatar/profile-pic.png";
 
+//TODO Fix layout message content
+
 import {
     sendMessage,
     getMessagesByRoomID,
@@ -38,7 +40,6 @@ import {
     markMessageSeen,
 } from "../../../../redux/request/messageRequest";
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
-import { getImageByID } from "../../../../redux/request/imageRequest";
 import PreviewImage from "../../../../components/PreviewImage";
 import ConfirmDialog from "../../../../components/ConfirmDialog";
 
@@ -403,7 +404,6 @@ const Middle = () => {
             sendMessage(newMessage, dispatch)
                 .then(async () => {
                     await socketRef.current.emit("send-message", newMessage);
-                    setMessage("");
                 })
                 .catch((error) => {
                     alert("Failed to send message");
@@ -463,6 +463,10 @@ const Middle = () => {
         setImgSrc(imgSrc);
     };
 
+    const loadingMsg = useSelector((state) => {
+        return state.message.message.isFetching;
+    });
+
     const renderMessages = () => {
         return messageThread.map((message, index) =>
             message.sender === sender._id ? (
@@ -497,18 +501,29 @@ const Middle = () => {
                         >
                             <FontAwesomeIcon icon={faTrash} />
                         </span>
-                        <span className="middle-container-body__right-message-content ms-2">
-                            {message.message}
-                            {message.media && (
-                                <img
-                                    src={message.media}
-                                    alt="image_uploaded"
-                                    onClick={() =>
-                                        handlePreviewImage(message.media)
-                                    }
-                                />
+                        <div className="middle-container-body__right-message-content ms-2">
+                            {loadingMsg ? (
+                                "Loading message..."
+                            ) : (
+                                <>
+                                    {message.media ? (
+                                        <img
+                                            src={message.media}
+                                            alt="image_uploaded"
+                                            onClick={() =>
+                                                handlePreviewImage(
+                                                    message.media
+                                                )
+                                            }
+                                        />
+                                    ) : (
+                                        <div className="middle-container-body__right-message-content-text">
+                                            {message.message}
+                                        </div>
+                                    )}
+                                </>
                             )}
-                        </span>
+                        </div>
                     </div>
                     <div className="middle-container-body__right-time">
                         {formatTime(message.createdAt) || "now"}
@@ -532,9 +547,26 @@ const Middle = () => {
                 >
                     <div className="d-flex justify-content-start align-items-center w-100">
                         <span className="middle-container-body__left-message-content me-2">
-                            {message.message}
-                            {message.media && (
-                                <img src={message.media} alt="" />
+                            {loadingMsg ? (
+                                "Loading message..."
+                            ) : (
+                                <>
+                                    {message.media ? (
+                                        <img
+                                            src={message.media}
+                                            alt="image_uploaded"
+                                            onClick={() =>
+                                                handlePreviewImage(
+                                                    message.media
+                                                )
+                                            }
+                                        />
+                                    ) : (
+                                        <div className="middle-container-body__left-message-content-text">
+                                            {message.message}
+                                        </div>
+                                    )}
+                                </>
                             )}
                         </span>
                     </div>
