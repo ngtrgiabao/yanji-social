@@ -28,7 +28,7 @@ class MessageService {
     }
 
     async deleteAllNessages(userID) {
-        return await api.delete(`api/v1/message/delete-all/user/${userID}`);
+        return await api.delete(`/api/v1/message/delete-all/user/${userID}`);
     }
 }
 

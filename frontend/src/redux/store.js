@@ -18,6 +18,7 @@ import authReducer from "./authSlice";
 import roomSlice from "./roomSlice";
 import messageSlice from "./messageSlice";
 import userReducer from "./userSlice";
+import postSlice from "./postSlice"
 
 const persistConfig = {
     key: "root",
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
     room: roomSlice,
     message: messageSlice,
     user: userReducer,
+    post: postSlice,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

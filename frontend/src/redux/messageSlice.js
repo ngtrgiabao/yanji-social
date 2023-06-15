@@ -8,7 +8,6 @@ const messageSlice = createSlice({
             error: false,
             success: false,
             messageThread: null,
-            currentMsg: null,
             isRead: false,
         },
     },

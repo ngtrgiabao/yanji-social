@@ -1,4 +1,3 @@
-const { ObjectId } = require("mongodb");
 const User = require("../models/user.model");
 
 // Middleware to validate user data before account creation
@@ -68,7 +67,7 @@ const validateLoginUser = async (req, res, next) => {
 const validateUserById = async (req, res, next) => {
     try {
         const userID = req.params.userID;
-        const validUser = await User.findById(ObjectId(userID));
+        const validUser = await User.findById(userID);
         // Check if the user ID is valid
         if (!validUser) {
             console.error(`Invalid user ID`, error);
