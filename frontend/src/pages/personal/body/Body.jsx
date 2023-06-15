@@ -7,7 +7,7 @@ import ProfilePic from "../../../assets/avatar/profile-pic.png";
 import Friends from "./friends/Friends";
 import Introduce from "./introduce/Introduce";
 import SocialLinks from "./social-links/SocialLinks";
-import PostPopup from "./popup/post/PostPopup";
+import PostPopup from "../../../components/PostPopup";
 import Post from "./post/Post";
 
 function Body() {

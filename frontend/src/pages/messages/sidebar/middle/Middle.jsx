@@ -42,6 +42,7 @@ import {
 import { useTimeAgo } from "../../../../hooks/useTimeAgo";
 import PreviewImage from "../../../../components/PreviewImage";
 import ConfirmDialog from "../../../../components/ConfirmDialog";
+import useUploadImage from "../../../../hooks/useUploadImage";
 
 const Middle = () => {
     const [edit, setEdit] = useState(false);
@@ -60,6 +61,7 @@ const Middle = () => {
 
     const dispatch = useDispatch();
     const formatTime = useTimeAgo;
+    const cloudStorage = useUploadImage;
 
     const socketRef = useRef(null);
     const scrollRef = useRef();
@@ -381,17 +383,9 @@ const Middle = () => {
     };
 
     const uploadImage = async () => {
-        const data = new FormData();
-        data.append("file", imageSelected);
-        data.append("upload_preset", process.env.REACT_APP_CLOUD_UPLOAD_PRESET);
-        data.append("cloud_name", process.env.REACT_APP_CLOUD_STORAGE_NAME);
-        data.append("folder", process.env.REACT_APP_CLOUD_FOLDER);
+        const result = await cloudStorage(imageSelected);
 
-        const res = await axios.post(
-            `${process.env.REACT_APP_CLOUD_URL}/${process.env.REACT_APP_CLOUD_STORAGE_NAME}/image/upload/`,
-            data
-        );
-        const imageUrl = res.data.secure_url;
+        const imageUrl = result.secure_url;
 
         if (currentConversation) {
             const newMessage = {

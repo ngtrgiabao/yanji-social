@@ -1,4 +1,5 @@
-@import "../../../../../constants/constant.css";
+@import "../constants/constant.css";
+@import "../../index.css";
 
 .post-popup__container {
     width: 100vw;
@@ -11,7 +12,7 @@
     position: fixed;
     background: rgba(0, 0, 0, 0.43);
 
-    z-index: 1;
+    z-index: 3;
 }
 
 .post-popup__container form {
@@ -20,7 +21,7 @@
     padding: 1rem;
 
     width: 45rem;
-    height: 75%;
+    height: max-content;
 
     overflow: auto;
 
@@ -28,37 +29,11 @@
 }
 
 /* TITLE */
-.post-popup__container form .form__title {
-    position: relative;
-}
-
-.post-popup__container form .form__title span:first-child {
-    display: block;
-
-    width: 100%;
-    padding: 1rem;
-
-    text-align: center;
-    font-weight: bold;
-    color: var(--white);
-    font-size: 1.8rem;
-}
 
 .post-popup__container form .form__title-icon {
-    top: 50%;
-    right: 0;
-    position: absolute;
-
-    text-align: center;
-    color: var(--white);
-
-    transform: translateY(-50%);
-}
-
-.post-popup__container form .form__title-icon:hover {
-    color: var(--color-danger);
-
     cursor: pointer;
+
+    color: var(--white);
 }
 
 /* NAME */
@@ -106,10 +81,6 @@
 /* INPUT FORM */
 .post-popup__container form .form__input {
     width: 100%;
-
-    margin-top: 2rem;
-
-    position: relative;
 }
 
 .post-popup__container form .form__input .input {
@@ -117,12 +88,12 @@
     padding: 1rem;
 
     font-size: 1.5rem;
-    color: var(--white);
 
     overflow-y: auto;
     overflow-wrap: break-word;
 
     background: var(--color-white);
+    color: var(--color-dark);
 
     border: transparent;
     outline: none;
@@ -141,6 +112,8 @@
 
 /* DRAG IMAGE */
 .post-popup__container form .form__drag-image {
+    width: fit-content;
+
     font-size: 2rem;
     font-weight: lighter;
     color: var(--white);

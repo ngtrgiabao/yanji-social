@@ -10,7 +10,7 @@ class PostService {
     }
 
     async uploadPost(post) {
-        return await api.post(`/api/v1/post/upload-post/${post.sender}`, post);
+        return await api.post(`/api/v1/post/upload-post/${post.userID}`, post);
     }
 
     async updatePost(updatePost) {

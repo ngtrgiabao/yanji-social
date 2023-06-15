@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
 import {
     UilBookmark,
     UilEllipsisH,
@@ -16,16 +15,33 @@ import {
     UilExclamationTriangle,
 } from "@iconscout/react-unicons";
 
+import { getAllPostsByUser } from "../redux/request/postRequest";
+
 const options = {
     hour: "numeric",
     minute: "numeric",
 };
 
-const PokemonsList = (props) => {
-    const { name, image } = props;
-
-    const [popup, setPopup] = useState(false);
+const Posts = () => {
+    const [posts, setPosts] = useState([]);
     const [time, setTime] = useState(new Date());
+    const [popup, setPopup] = useState(false);
+
+    const dispatch = useDispatch();
+
+    const user = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
+    useEffect(() => {
+        getAllPostsByUser(user._id, dispatch)
+            .then((data) => {
+                setPosts(data.posts);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }, []);
 
     useEffect(() => {
         const updateCurrentTime = () => {
@@ -134,87 +150,88 @@ const PokemonsList = (props) => {
         );
     };
 
-    return (
-        <>
-            <div className="post">
-                <div className="head">
-                    <div className="user">
-                        <Link
-                            to="/user"
-                            className="profile-pic bg-white"
-                            aria-label="Avatar user"
-                        >
-                            <img
-                                loading="lazy"
-                                role="presentation"
-                                decoding="async"
-                                src={image}
-                                alt="Avatar user"
-                            />
-                        </Link>
-                        <Link to="/user" className="info">
-                            <div className="d-flex align-items-center">
-                                <h3>{name}</h3>
-                                <span className="mx-2">●</span>
-                                <div className="fs-5">
-                                    {time.toLocaleTimeString([], options)}
-                                </div>
-                            </div>
-                            <span>@{name}</span>
-                        </Link>
-                    </div>
-
-                    <span className="post-settings">
-                        <UilEllipsisH
-                            className="dots"
-                            onClick={(e) => {
-                                handlePopup(e);
-                            }}
+    return posts.map((post) => (
+        <div key={post._id} className="post">
+            <div className="head">
+                <div className="user">
+                    <Link
+                        to="/user"
+                        className="profile-pic bg-white"
+                        aria-label="Avatar user"
+                    >
+                        <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
+                            src={post.img}
+                            alt="Avatar user"
                         />
-                        {renderEditPost()}
-                    </span>
+                    </Link>
+                    <Link to="/user" className="info">
+                        <div className="d-flex align-items-center">
+                            <h3>{post.userID}</h3>
+                            <span className="mx-2">●</span>
+                            <div className="fs-5">
+                                {time.toLocaleTimeString([], options)}
+                            </div>
+                        </div>
+                        <span>@{post.userID}</span>
+                    </Link>
                 </div>
+
+                <span className="post-settings">
+                    <UilEllipsisH
+                        className="dots"
+                        onClick={(e) => {
+                            handlePopup(e);
+                        }}
+                    />
+                    {renderEditPost()}
+                </span>
+            </div>
+
+            <div className="caption">
+                <p>{post.desc}</p>
+            </div>
+            {post.img && (
                 <div className="photo">
                     <img
                         loading="lazy"
                         role="presentation"
                         decoding="async"
-                        src={image}
+                        src={post.img}
                         alt="Photo of post"
                     />
                 </div>
-                <div className="action-buttons">
-                    <div className="interaction-buttons d-flex gap-4">
-                        <span>
-                            <UilHeart className="heart" />
-                        </span>
-                        <span>
-                            <UilCommentDots />
-                        </span>
-                        <span>
-                            <UilShare />
-                        </span>
-                    </div>
-                    <div className="bookmark">
-                        <span>
-                            <UilBookmark />
-                        </span>
-                    </div>
+            )}
+            <div className="action-buttons">
+                <div className="interaction-buttons d-flex gap-4">
+                    <span>
+                        <UilHeart className="heart" />
+                    </span>
+                    <span>
+                        <UilCommentDots />
+                    </span>
+                    <span>
+                        <UilShare />
+                    </span>
                 </div>
-                <div className="liked-by">
-                    {renderUserLikedPost()}
-                    <p>
-                        Liked by <b>Erest Achivers</b> and
-                        <b> 2.245 others</b>
-                    </p>
+                <div className="bookmark">
+                    <span>
+                        <UilBookmark />
+                    </span>
                 </div>
-                <div className="caption">
-                    <p></p>
-                </div>
-                <div className="comments text-muted">View all comments</div>
             </div>
-        </>
-    );
+            <div className="liked-by">
+                {renderUserLikedPost()}
+                <p>
+                    Liked by <b>Erest Achivers</b> and
+                    <b> 2.245 others</b>
+                </p>
+            </div>
+            <div className="comments text-muted">View all comments</div>
+        </div>
+    ));
 };
 
-export default PokemonsList;
+export default Posts;

@@ -154,6 +154,7 @@ const Right = () => {
             </div>
         );
     };
+
     const renderSubSettingChat = () => {
         return (
             isChoose &&
@@ -210,6 +211,7 @@ const Right = () => {
             </div>
         );
     };
+
     const renderSubViewFile = () => {
         return (
             isChoose &&
@@ -268,6 +270,7 @@ const Right = () => {
             </div>
         );
     };
+    
     const renderSubSettingPrivateAndPrivacy = () => {
         return (
             isChoose &&
