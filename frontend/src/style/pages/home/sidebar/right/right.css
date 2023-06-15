@@ -1,5 +1,21 @@
 @import "../../../../constants/constant.css";
 
+main .container .right {
+    height: max-content;
+
+    top: var(--sticky-top-right);
+    bottom: 0;
+    position: sticky;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+}
+
+.search-bar input[type="search"] {
+    background: transparent;
+}
+
 .messages-sidebar {
     background-color: var(--color-white);
 

@@ -69,14 +69,28 @@
     .middle-container-body
     .middle-container-body__left-text
     .middle-container-body__left-message-content {
-    width: fit-content;
-    max-width: 55%;
+    /* width: max-content; */
+    max-width: 50%;
+    background: red;
 
     border-radius: 1rem;
+}
 
-    padding: 1.5% 2%;
+.middle-container
+    .middle-container-body
+    .middle-container-body__right-text
+    .middle-container-body__right-message-content
+    .middle-container-body__right-message-content-text,
+.middle-container
+    .middle-container-body
+    .middle-container-body__left-text
+    .middle-container-body__left-message-content
+    .middle-container-body__left-message-content-text {
+    width: 100%;
 
     font-weight: 600;
+
+    padding: 0.75em;
     word-break: break-word;
 }
 

@@ -53,7 +53,7 @@ function Message() {
                 <UilSearch />
                 <Form.Control
                     type="search"
-                    placeholder="Search messages-sidebar"
+                    placeholder="Search"
                     id="message-search"
                     onChange={handleInputSearch}
                 />

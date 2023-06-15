@@ -1,13 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-
 import axios from "axios";
-
 import Form from "react-bootstrap/Form";
-
-import { POKEMON_URL } from "../../../../constants/api.data.constant";
-
-import ProfilePic from "../../../../assets/avatar/profile-pic.png";
+import { useSelector } from "react-redux";
 
 import {
     UilScenery,
@@ -16,35 +11,20 @@ import {
     UilLabelAlt,
 } from "@iconscout/react-unicons";
 
+import { POKEMON_URL } from "../../../../constants/api.data.constant";
+
+import ProfilePic from "../../../../assets/avatar/profile-pic.png";
+
 import "../../../../style/pages/home/sidebar/middle/middle.css";
 
 import Stories from "./stories/Stories";
-import PokemonsCollection from "./pokemons/PokemonsCollection";
-import { useSelector } from "react-redux";
+import PostPopup from "../../../../components/PostPopup";
+import Posts from "../../../../components/Posts";
 
 const Middle = () => {
-    // Write Data post
-    const [postData, setPostData] = useState({
-        caption: "",
-    });
+    const [popup, setPopup] = useState(false);
+    const [avatar, setAvatar] = useState(null);
 
-    const handleInput = (e) => {
-        const { name, value } = e.target;
-
-        if (postData[name] === value) {
-            return; // Skip state update if the value hasn't changed
-        }
-
-        setPostData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        e.target.reset();
-    };
     // UPLOAD IMG
     const fileInput = useRef(null);
 
@@ -103,8 +83,6 @@ const Middle = () => {
         setLoading(false);
     };
 
-    const [avatar, setAvatar] = useState(null);
-
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {
         const data = window.localStorage.getItem("avatar");
@@ -126,13 +104,13 @@ const Middle = () => {
         setAvatar(data);
     }, [avatar]);
 
-    const user = useSelector((state) => {
-        return state.auth.login.currentUser?.data;
-    });
-
     const userID = useSelector((state) => {
         return state.auth.login.currentUser?.data._id;
     });
+
+    const handlePopup = () => {
+        setPopup((popup) => !popup);
+    };
 
     const renderActionUploadPost = () => {
         return (
@@ -144,7 +122,7 @@ const Middle = () => {
                         ref={fileInput}
                         multiple
                         accept="image/*"
-                        style={{ display: "none" }}
+                        hidden={true}
                     />
                     <span>
                         <UilScenery
@@ -171,6 +149,7 @@ const Middle = () => {
                     title="Đăng bài viết"
                 >
                     <button
+                        onClick={handlePopup}
                         role="button"
                         type="submit"
                         className="btn btn-primary"
@@ -182,18 +161,30 @@ const Middle = () => {
         );
     };
 
+    const renderPostPopup = () => {
+        return (
+            popup && (
+                <PostPopup
+                    onPopup={handlePopup}
+                    animateClass="animate__animated animate__bounceIn"
+                />
+            )
+        );
+    };
+
+    const user = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
     return (
         <>
             <div className="middle animate__animated animate__fadeIn">
                 <Stories />
 
                 {/* STATUS */}
-                <form
+                <div
                     action=""
                     className="create-post d-flex flex-column align-items-center"
-                    onSubmit={(e) => {
-                        handleSubmit(e);
-                    }}
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
                         <Link
@@ -210,23 +201,27 @@ const Middle = () => {
                             />
                         </Link>
 
-                        <Form.Control
-                            type="text"
-                            placeholder="What's on your mind, Nguyen Tran Gia Bao?"
-                            className="border-0 ps-3 me-3 ms-3"
+                        <div
+                            className="border-0 ps-3 me-3 ms-3 caption fs-4"
                             name="caption"
-                            onChange={handleInput}
+                            onClick={handlePopup}
                             id="caption"
-                        />
+                        >
+                            What's in your mind, {user.username}?
+                        </div>
+
+                        {renderPostPopup()}
                     </div>
 
                     {renderActionUploadPost()}
-                </form>
+                </div>
                 {/* END STATUS */}
 
-                <PokemonsCollection pokemons={pokemons} />
+                <div className="posts">
+                    <Posts />
+                </div>
 
-                <div className="w-100 my-5 d-flex justify-content-center">
+                {/* <div className="w-100 my-5 d-flex justify-content-center">
                     <button
                         role="button"
                         className="p-3 rounded btn-loadmore"
@@ -234,7 +229,7 @@ const Middle = () => {
                     >
                         {loading ? "loading..." : "Load more"}
                     </button>
-                </div>
+                </div> */}
             </div>
         </>
     );

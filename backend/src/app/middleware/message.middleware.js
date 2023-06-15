@@ -1,4 +1,3 @@
-const { ObjectId } = require("mongodb");
 const User = require("../models/user.model");
 const Message = require("../models/message.model");
 
@@ -6,8 +5,8 @@ const validateSenderAndReceiver = async (req, res, next) => {
     try {
         const { sender, receiver } = req.body;
 
-        const checkValidSender = await User.findById(ObjectId(sender));
-        const checkValidReceiver = await User.findById(ObjectId(receiver));
+        const checkValidSender = await User.findById(sender);
+        const checkValidReceiver = await User.findById(receiver);
 
         if (!checkValidReceiver && !checkValidSender) {
             return res.status(400).json({
@@ -39,7 +38,7 @@ const validateSenderAndReceiver = async (req, res, next) => {
 const validateMsgID = async (req, res, next) => {
     try {
         const msgID = req.params.msgID;
-        const result = await Message.findById(ObjectId(msgID));
+        const result = await Message.findById(msgID);
 
         if (!result) {
             console.error("Message not found!, please check your message ID");

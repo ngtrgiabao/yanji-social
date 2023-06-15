@@ -1,11 +1,10 @@
-const { ObjectId } = require("mongodb");
 const ImageModel = require("../models/image.model");
 
 const validateImageID = async (req, res, next) => {
     const imgID = req.params.imgID;
 
     try {
-        const result = await ImageModel.findById(ObjectId(imgID));
+        const result = await ImageModel.findById(imgID);
 
         if (!result) {
             console.error(`Image ID not found!, please check your image ID`);

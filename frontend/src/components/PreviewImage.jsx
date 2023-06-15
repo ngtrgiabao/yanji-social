@@ -1,7 +1,7 @@
 import React from "react";
 
 const PreviewImage = (props) => {
-    const { imgSrc } = props;
+    const { imgSrc, width, heigth } = props;
 
     return (
         <img
@@ -10,8 +10,9 @@ const PreviewImage = (props) => {
             style={{
                 aspectRatio: "16/9",
                 objectFit: "cover",
+                width: width,
+                height: heigth,
             }}
-            
         />
     );
 };

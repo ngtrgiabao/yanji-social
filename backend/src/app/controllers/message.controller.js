@@ -2,8 +2,6 @@ const MessageModel = require("../models/message.model");
 const UserModel = require("../models/user.model");
 const { deleteImageByID, uploadImageByUserID } = require("./image.controller");
 
-//TODO Add edit message
-
 const sendMessage = async (req, res) => {
     try {
         const { message, roomId, media, file, sender } = req.body;
@@ -69,8 +67,9 @@ const getAllMessages = async (req, res, next) => {
 };
 
 const deleteAllMessages = async (req, res, next) => {
+    const userID = req.params.userID;
+
     try {
-        const userID = req.params.userID;
         const result = await MessageModel.deleteMany({ sender });
 
         return res.status(200).json({
@@ -78,8 +77,6 @@ const deleteAllMessages = async (req, res, next) => {
             count: result.deletedCount,
         });
     } catch (error) {
-        const userID = req.params.id;
-
         console.error(
             `An error occurred while deleting all messages of user: ${userID}`,
             error

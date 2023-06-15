@@ -1,10 +1,9 @@
-const { ObjectId } = require("mongodb");
 const Room = require("../models/room.model");
 
 const validateRoomID = async (req, res, next) => {
     try {
         const roomID = req.params.roomID;
-        const room = await Room.findById(ObjectId(roomID));
+        const room = await Room.findById(roomID);
 
         if (!room) {
             console.error("Room not found!");
