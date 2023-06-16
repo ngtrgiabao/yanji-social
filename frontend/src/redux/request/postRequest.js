@@ -66,11 +66,22 @@ export const deleteAllPosts = async (userID, dispatch) => {
     }
 };
 
-export const updateMessage = async (updatePost, dispatch) => {
+export const updatePost = async (updatePost, dispatch) => {
     dispatch(updatePostStart());
 
     try {
         const res = await postService.updatePost(updatePost);
+        dispatch(updatePostSuccess(res.data));
+    } catch (error) {
+        dispatch(updatePostFailed());
+    }
+};
+
+export const likePost = async (post, dispatch) => {
+    dispatch(updatePostStart());
+
+    try {
+        const res = await postService.likePost(post);
         dispatch(updatePostSuccess(res.data));
     } catch (error) {
         dispatch(updatePostFailed());

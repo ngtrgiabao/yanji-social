@@ -141,6 +141,51 @@ const updatePost = async (req, res) => {
     }
 };
 
+const likePost = async (req, res) => {
+    const postID = req.params.postID;
+
+    try {
+        const { userID } = req.body;
+        const post = await PostModel.findById(postID);
+
+        if (!post.likes.includes(userID)) {
+            await post.updateOne({
+                $push: {
+                    likes: userID,
+                },
+            });
+
+            return res.status(200).json({
+                msg: "The post has been liked",
+            });
+        } else {
+            await post.updateOne({
+                $pull: {
+                    likes: userID,
+                },
+            });
+            return res.status(200).json({
+                msg: "The post has been disliked",
+            });
+        }
+    } catch (error) {
+        console.error(`Failed to action post ${postID}`, error);
+        return res.status(500).json({
+            msg: `Failed to action post ${postID}`,
+            error,
+        });
+    }
+};
+
+const sharePost = async (req, res) => {
+    const postID = req.params.postID;
+
+    try {
+    } catch (error) {}
+};
+
+const commentPost = async (req, res) => {};
+
 module.exports = {
     uploadPost,
     deletePost,
@@ -148,4 +193,7 @@ module.exports = {
     deleteAllPostsByUser,
     getPostByID,
     updatePost,
+    likePost,
+    sharePost,
+    commentPost,
 };

@@ -1,15 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import Form from "react-bootstrap/Form";
 import { useSelector } from "react-redux";
-
-import {
-    UilScenery,
-    UilSmile,
-    UilLocationPoint,
-    UilLabelAlt,
-} from "@iconscout/react-unicons";
 
 import { POKEMON_URL } from "../../../../constants/api.data.constant";
 
@@ -112,61 +104,12 @@ const Middle = () => {
         setPopup((popup) => !popup);
     };
 
-    const renderActionUploadPost = () => {
-        return (
-            <div className="d-flex justify-content-between create-post-action">
-                <div className="d-flex justify-items-around create-post-icons">
-                    <Form.Control
-                        type="file"
-                        name="photo"
-                        ref={fileInput}
-                        multiple
-                        accept="image/*"
-                        hidden={true}
-                    />
-                    <span>
-                        <UilScenery
-                            className="sidebar-icon"
-                            id="fileSelect"
-                            onClick={() => {
-                                fileInput.current.click();
-                            }}
-                        />
-                    </span>
-                    <span>
-                        <UilSmile className="sidebar-icon" />
-                    </span>
-                    <span>
-                        <UilLocationPoint className="sidebar-icon" />
-                    </span>
-                    <span>
-                        <UilLabelAlt className="sidebar-icon" />
-                    </span>
-                </div>
-
-                <div
-                    className="submit d-flex align-items-center"
-                    title="Đăng bài viết"
-                >
-                    <button
-                        onClick={handlePopup}
-                        role="button"
-                        type="submit"
-                        className="btn btn-primary"
-                    >
-                        Post
-                    </button>
-                </div>
-            </div>
-        );
-    };
-
     const renderPostPopup = () => {
         return (
             popup && (
                 <PostPopup
                     onPopup={handlePopup}
-                    animateClass="animate__animated animate__bounceIn"
+                    animateClass="animate__animated animate__fadeIn"
                 />
             )
         );
@@ -184,7 +127,7 @@ const Middle = () => {
                 {/* STATUS */}
                 <div
                     action=""
-                    className="create-post d-flex flex-column align-items-center"
+                    className="create-post d-flex align-items-center"
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
                         <Link
@@ -209,11 +152,21 @@ const Middle = () => {
                         >
                             What's in your mind, {user.username}?
                         </div>
-
-                        {renderPostPopup()}
                     </div>
-
-                    {renderActionUploadPost()}
+                    <div
+                        className="submit d-flex align-items-center"
+                        title="Đăng bài viết"
+                    >
+                        <button
+                            onClick={handlePopup}
+                            role="button"
+                            type="submit"
+                            className="btn btn-primary"
+                        >
+                            Post
+                        </button>
+                    </div>
+                    {renderPostPopup()}
                 </div>
                 {/* END STATUS */}
 

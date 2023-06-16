@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
     UilBookmark,
     UilEllipsisH,
-    UilHeart,
-    UilCommentDots,
-    UilShare,
     UilTrash,
     UilBell,
     UilTimesSquare,
@@ -14,8 +11,16 @@ import {
     UilUserTimes,
     UilExclamationTriangle,
 } from "@iconscout/react-unicons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as liked } from "@fortawesome/free-solid-svg-icons";
+import {
+    faHeart as likeDefault,
+    faComment,
+    faShareFromSquare,
+} from "@fortawesome/free-regular-svg-icons";
 
-import { getAllPostsByUser } from "../redux/request/postRequest";
+import { getAllPostsByUser, likePost } from "../redux/request/postRequest";
+import { useTimeAgo } from "../hooks/useTimeAgo";
 
 const options = {
     hour: "numeric",
@@ -24,9 +29,9 @@ const options = {
 
 const Posts = () => {
     const [posts, setPosts] = useState([]);
-    const [time, setTime] = useState(new Date());
     const [popup, setPopup] = useState(false);
 
+    const formatTime = useTimeAgo;
     const dispatch = useDispatch();
 
     const user = useSelector((state) => {
@@ -41,16 +46,6 @@ const Posts = () => {
             .catch((err) => {
                 console.error(err);
             });
-    }, []);
-
-    useEffect(() => {
-        const updateCurrentTime = () => {
-            setTime(new Date());
-
-            setTimeout(updateCurrentTime, 1000);
-        };
-
-        updateCurrentTime();
     }, []);
 
     useEffect(() => {
@@ -150,6 +145,26 @@ const Posts = () => {
         );
     };
 
+    const handleLikePost = async (postID) => {
+        const post = {
+            userID: user._id,
+            postID: postID,
+        };
+
+        try {
+            const updatedPost = await likePost(post, dispatch);
+            const updatedPosts = posts.map((p) => {
+                if (p && p._id === updatedPost?._id) {
+                    return updatedPost;
+                }
+                return p;
+            });
+            setPosts(updatedPosts);
+        } catch (err) {
+            console.error("Failed to like post", err);
+        }
+    };
+
     return posts.map((post) => (
         <div key={post._id} className="post">
             <div className="head">
@@ -172,7 +187,7 @@ const Posts = () => {
                             <h3>{post.userID}</h3>
                             <span className="mx-2">●</span>
                             <div className="fs-5">
-                                {time.toLocaleTimeString([], options)}
+                                {formatTime(post.createdAt) || "now"}
                             </div>
                         </div>
                         <span>@{post.userID}</span>
@@ -204,16 +219,50 @@ const Posts = () => {
                     />
                 </div>
             )}
-            <div className="action-buttons">
+            <div className="action-buttons d-flex align-items-center">
                 <div className="interaction-buttons d-flex gap-4">
                     <span>
-                        <UilHeart className="heart" />
+                        {/* share */}
+                        <FontAwesomeIcon
+                            icon={faShareFromSquare}
+                            style={{
+                                fontSize: "1.4em",
+                            }}
+                        />
                     </span>
                     <span>
-                        <UilCommentDots />
+                        {/* comment */}
+                        <FontAwesomeIcon
+                            icon={faComment}
+                            style={{
+                                fontSize: "1.4em",
+                            }}
+                        />
                     </span>
-                    <span>
-                        <UilShare />
+                    <span
+                        className="d-flex align-content-center"
+                        onClick={() => handleLikePost(post._id)}
+                    >
+                        {/* like */}
+                        {post.likes.includes(user._id) ? (
+                            <FontAwesomeIcon
+                                icon={liked}
+                                style={{
+                                    fontSize: "1.4em",
+                                }}
+                            />
+                        ) : (
+                            <FontAwesomeIcon
+                                icon={likeDefault}
+                                style={{
+                                    fontSize: "1.4em",
+                                }}
+                            />
+                        )}
+
+                        <p className="ms-2">
+                            <b>{post.likes.length}</b>
+                        </p>
                     </span>
                 </div>
                 <div className="bookmark">
@@ -222,13 +271,7 @@ const Posts = () => {
                     </span>
                 </div>
             </div>
-            <div className="liked-by">
-                {renderUserLikedPost()}
-                <p>
-                    Liked by <b>Erest Achivers</b> and
-                    <b> 2.245 others</b>
-                </p>
-            </div>
+            <div className="liked-by">{renderUserLikedPost()}</div>
             <div className="comments text-muted">View all comments</div>
         </div>
     ));

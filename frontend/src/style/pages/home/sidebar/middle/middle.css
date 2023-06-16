@@ -58,8 +58,6 @@ img {
     justify-content: center;
     align-items: center;
 
-    border-radius: var(--card-border-radius);
-
     overflow: hidden;
 
     margin: 1rem 0;
@@ -251,10 +249,6 @@ hr {
 
 .middle .create-post-wrapper {
     width: 100%;
-
-    border-bottom: 1px solid #ccc;
-
-    padding-bottom: 1rem;
 }
 
 .middle .create-post-wrapper input[type="text"] {
@@ -276,12 +270,6 @@ hr {
     -webkit-text-fill-color: #fff !important;
 
     transition: background-color 5000s ease-in-out 0s;
-}
-
-.middle .create-post-action {
-    width: 100%;
-
-    padding: 0 5rem;
 }
 
 .middle .sidebar-icon {

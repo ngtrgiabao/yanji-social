@@ -20,6 +20,10 @@ class PostService {
         );
     }
 
+    async likePost(post) {
+        return await api.put(`/api/v1/post/${post.postID}/like`, post);
+    }
+
     async deletePost(postID) {
         return await api.delete(`/api/v1/post/delete-post/${postID}`);
     }

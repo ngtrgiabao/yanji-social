@@ -33,6 +33,11 @@ router.put(
     PostMiddleware.validatePostID,
     PostController.updatePost
 );
+router.put(
+    "/:postID/like",
+    PostMiddleware.validatePostID,
+    PostController.likePost
+);
 
 router.delete(
     "/delete-post/:postID",
