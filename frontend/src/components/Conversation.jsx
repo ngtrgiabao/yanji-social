@@ -3,15 +3,13 @@ import { useDispatch } from "react-redux";
 
 import { getUserByID } from "../redux/request/userRequest";
 
-const Conversation = (props) => {
-    const {
-        conversation,
-        currentUser,
-        avatarUser,
-        onlineUsers,
-        filterMessages,
-    } = props;
-
+const Conversation = ({
+    conversation,
+    currentUser,
+    avatarUser,
+    onlineUsers,
+    filterMessages,
+}) => {
     const [user, setUser] = useState(null);
     const [friends, setFriends] = useState([]);
     const [isOnline, setIsOnline] = useState(false);

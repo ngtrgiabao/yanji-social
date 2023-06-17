@@ -12,9 +12,7 @@ import Conversation from "../../../../components/Conversation";
 import { getUserByID } from "../../../../redux/request/userRequest";
 // import ChatOnline from "../../../../components/ChatOnline";
 
-const Left = (props) => {
-    const { avatarUser } = props;
-
+const Left = ({ avatarUser }) => {
     const [rooms, setRooms] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [friendID, setFriendID] = useState(null);

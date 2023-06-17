@@ -15,6 +15,7 @@
     --color-dark: hsl(252, 30%, var(--dark-color-lightness));
     --color-black: hsl(252, 30%, 10%);
     --color-border: rgba(204, 204, 204, 0.337);
+    --color-blue: #1d9bf0;
     --white: aliceblue;
     --black: #000;
     --bg-container-popup: rgba(0, 0, 0, 0.29);

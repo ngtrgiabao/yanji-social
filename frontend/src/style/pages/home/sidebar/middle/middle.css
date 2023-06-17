@@ -92,13 +92,21 @@ img {
 }
 
 .middle .post .action-buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
     font-size: 1.4rem;
 
     margin: 0.6rem;
+}
+
+.middle .post .action-buttons .share:hover {
+    color: var(--color-blue);
+}
+
+.middle .post .action-buttons .comment:hover {
+    color: var(--color-success);
+}
+
+.middle .post .action-buttons .heart:hover {
+    color: var(--color-danger);
 }
 
 .interaction-buttons span {

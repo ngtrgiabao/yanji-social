@@ -24,6 +24,14 @@ class PostService {
         return await api.put(`/api/v1/post/${post.postID}/like`, post);
     }
 
+    async sharePost(post) {
+        return await api.put(`/api/v1/post/${post.postID}/share`, post);
+    }
+
+    async commentPost(post) {
+        return await api.put(`/api/v1/post/${post.postID}/comment`, post);
+    }
+
     async deletePost(postID) {
         return await api.delete(`/api/v1/post/delete-post/${postID}`);
     }

@@ -12,9 +12,7 @@ import { uploadPost } from "../redux/request/postRequest";
 import useUploadImage from "../hooks/useUploadImage";
 import PreviewImage from "./PreviewImage";
 
-const PostPopup = (props) => {
-    const { onPopup, animateClass } = props;
-
+const PostPopup = ({ onPopup, animateClass }) => {
     const [avatar, setAvatar] = useState("");
     const [imageUrl, setImageUrl] = useState(null);
     const [imageSrc, setImageSrc] = useState("");

@@ -38,6 +38,16 @@ router.put(
     PostMiddleware.validatePostID,
     PostController.likePost
 );
+router.put(
+    "/:postID/share",
+    PostMiddleware.validatePostID,
+    PostController.sharePost
+);
+router.put(
+    "/:postID/comment",
+    PostMiddleware.validatePostID,
+    PostController.commentPost
+);
 
 router.delete(
     "/delete-post/:postID",

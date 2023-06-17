@@ -1,8 +1,6 @@
 import React from "react";
 
-const PreviewImage = (props) => {
-    const { imgSrc, width, heigth } = props;
-
+const PreviewImage = ({ imgSrc, width, heigth }) => {
     return (
         <img
             src={imgSrc}

@@ -9,9 +9,7 @@ import ProfilePic from "../../assets/avatar/profile-pic.png";
 
 import { logout } from "../../redux/request/authRequest";
 
-const Navigation = (props) => {
-    const { title, link } = props;
-
+const Navigation = ({ title, link }) => {
     const user = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });

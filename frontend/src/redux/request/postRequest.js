@@ -87,3 +87,25 @@ export const likePost = async (post, dispatch) => {
         dispatch(updatePostFailed());
     }
 };
+
+export const sharePost = async (post, dispatch) => {
+    dispatch(updatePostStart());
+
+    try {
+        const res = await postService.sharePost(post);
+        dispatch(updatePostSuccess(res.data));
+    } catch (error) {
+        dispatch(updatePostFailed());
+    }
+};
+
+export const commentPost = async (post, dispatch) => {
+    dispatch(updatePostStart());
+
+    try {
+        const res = await postService.commentPost(post);
+        dispatch(updatePostSuccess(res.data));
+    } catch (error) {
+        dispatch(updatePostFailed());
+    }
+};

@@ -12,14 +12,18 @@ import {
     UilExclamationTriangle,
 } from "@iconscout/react-unicons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as liked } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as liked, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import {
     faHeart as likeDefault,
     faComment,
     faShareFromSquare,
 } from "@fortawesome/free-regular-svg-icons";
 
-import { getAllPostsByUser, likePost } from "../redux/request/postRequest";
+import {
+    getAllPostsByUser,
+    likePost,
+    sharePost,
+} from "../redux/request/postRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
 
 const options = {
@@ -160,8 +164,28 @@ const Posts = () => {
                 return p;
             });
             setPosts(updatedPosts);
-        } catch (err) {
-            console.error("Failed to like post", err);
+        } catch (error) {
+            console.error("Failed to like post", error);
+        }
+    };
+
+    const handleSharePost = async (postID) => {
+        const post = {
+            userID: user._id,
+            postID: postID,
+        };
+
+        try {
+            const updatedPost = await sharePost(post, dispatch);
+            const updatedPosts = posts.map((p) => {
+                if (p && p._id === updatedPost?._id) {
+                    return updatedPost;
+                }
+                return p;
+            });
+            setPosts(updatedPosts);
+        } catch (error) {
+            console.error("Failed to share post", error);
         }
     };
 
@@ -219,18 +243,34 @@ const Posts = () => {
                     />
                 </div>
             )}
-            <div className="action-buttons d-flex align-items-center">
+            <div className="action-buttons d-flex justify-content-between align-items-center">
                 <div className="interaction-buttons d-flex gap-4">
-                    <span>
+                    <span
+                        className="d-flex align-content-center share"
+                        onClick={() => handleSharePost(post._id)}
+                    >
                         {/* share */}
-                        <FontAwesomeIcon
-                            icon={faShareFromSquare}
-                            style={{
-                                fontSize: "1.4em",
-                            }}
-                        />
+                        {post.shares.includes(user._id) ? (
+                            <FontAwesomeIcon
+                                icon={faRepeat}
+                                style={{
+                                    fontSize: "1.4em",
+                                    color: "var(--color-blue)",
+                                }}
+                            />
+                        ) : (
+                            <FontAwesomeIcon
+                                icon={faRepeat}
+                                style={{
+                                    fontSize: "1.4em",
+                                }}
+                            />
+                        )}
+                        <p className="ms-2">
+                            <b>{post.shares.length}</b>
+                        </p>
                     </span>
-                    <span>
+                    <span className="d-flex align-content-center comment">
                         {/* comment */}
                         <FontAwesomeIcon
                             icon={faComment}
@@ -238,9 +278,12 @@ const Posts = () => {
                                 fontSize: "1.4em",
                             }}
                         />
+                        <p className="ms-2">
+                            <b>{post.comments.length}</b>
+                        </p>
                     </span>
                     <span
-                        className="d-flex align-content-center"
+                        className="d-flex align-content-center heart"
                         onClick={() => handleLikePost(post._id)}
                     >
                         {/* like */}
@@ -249,6 +292,7 @@ const Posts = () => {
                                 icon={liked}
                                 style={{
                                     fontSize: "1.4em",
+                                    color: "crimson",
                                 }}
                             />
                         ) : (

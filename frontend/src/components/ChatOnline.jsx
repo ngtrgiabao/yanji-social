@@ -3,9 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { getUserByID } from "../redux/request/userRequest";
 
-const ChatOnline = (props) => {
-    const { onlineUsers, currentUser } = props;
-
+const ChatOnline = ({ onlineUsers, currentUser }) => {
     const [friends, setFriends] = useState([]);
     const [onlineFriends, setOnlineFriends] = useState([]);
     const dispatch = useDispatch();

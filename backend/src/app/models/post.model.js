@@ -1,5 +1,17 @@
 const mongoose = require("mongoose");
 
+const commentSchema = new mongoose.Schema({
+    userID: {
+        type: String,
+        required: true,
+    },
+    content: {
+        type: String,
+        required: true,
+        max: 500,
+    },
+});
+
 const postSchema = new mongoose.Schema(
     {
         userID: {
@@ -17,10 +29,7 @@ const postSchema = new mongoose.Schema(
             type: Array,
             default: [],
         },
-        comments: {
-            type: Array,
-            default: [],
-        },
+        comments: [commentSchema],
         shares: {
             type: Array,
             default: [],

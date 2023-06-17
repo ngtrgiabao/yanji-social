@@ -1,6 +1,4 @@
-const DownloadBtn = (props) => {
-    const { label, filename } = props;
-
+const DownloadBtn = ({ label, filename }) => {
     const handleDownload = () => {
         const a = document.createElement("a");
         a.href = filename;
