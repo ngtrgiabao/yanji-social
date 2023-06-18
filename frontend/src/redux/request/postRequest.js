@@ -46,6 +46,17 @@ export const getAllPostsByUser = async (userID, dispatch) => {
     }
 };
 
+export const getAllPosts = async (dispatch) => {
+    dispatch(getPostStart());
+    try {
+        const res = await postService.getAllPosts();
+        dispatch(getPostSuccess(res.data));
+        return res.data;
+    } catch (error) {
+        dispatch(getPostFailed());
+    }
+};
+
 export const deletePost = async (postID, dispatch) => {
     dispatch(deletePostStart());
     try {

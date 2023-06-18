@@ -21,6 +21,7 @@ router.get(
     PostMiddleware.validatePostID,
     PostController.getPostByID
 );
+router.get("/all-posts", PostController.getAllPosts);
 
 router.post(
     "/upload-post/:userID",

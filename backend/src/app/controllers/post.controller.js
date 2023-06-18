@@ -40,10 +40,12 @@ const getAllPostsByUser = async (req, res) => {
     try {
         const posts = await PostModel.find({
             userID,
-        });
+        }).sort({ createdAt: -1 });
+        const countPosts = await PostModel.countDocuments();
 
         return res.status(200).json({
-            msg: "Get all posts successfully",
+            msg: `Get all posts successfully of user: ${userID}`,
+            length: countPosts,
             posts,
         });
     } catch (error) {
@@ -51,6 +53,25 @@ const getAllPostsByUser = async (req, res) => {
 
         return res.status(500).json({
             msg: `Error retrieving posts of user ${userID}: ${error}`,
+        });
+    }
+};
+
+const getAllPosts = async (req, res) => {
+    try {
+        const posts = await PostModel.find({}).sort({ createdAt: -1 });
+        const countPosts = await PostModel.countDocuments();
+
+        return res.status(200).json({
+            msg: "Get all posts successfully",
+            length: countPosts,
+            posts,
+        });
+    } catch (error) {
+        console.error(`Error retrieving posts: ${error}`);
+
+        return res.status(500).json({
+            msg: `Error retrieving posts: ${error}`,
         });
     }
 };
@@ -251,6 +272,7 @@ module.exports = {
     getAllPostsByUser,
     deleteAllPostsByUser,
     getPostByID,
+    getAllPosts,
     updatePost,
     likePost,
     sharePost,

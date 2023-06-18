@@ -19,12 +19,9 @@ import {
     faShareFromSquare,
 } from "@fortawesome/free-regular-svg-icons";
 
-import {
-    getAllPostsByUser,
-    likePost,
-    sharePost,
-} from "../redux/request/postRequest";
+import { getAllPosts, likePost, sharePost } from "../redux/request/postRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
+import { getUserByID } from "../redux/request/userRequest";
 
 const options = {
     hour: "numeric",
@@ -43,7 +40,7 @@ const Posts = () => {
     });
 
     useEffect(() => {
-        getAllPostsByUser(user._id, dispatch)
+        getAllPosts(dispatch)
             .then((data) => {
                 setPosts(data.posts);
             })
@@ -189,136 +186,153 @@ const Posts = () => {
         }
     };
 
-    return posts.map((post) => (
-        <div key={post._id} className="post">
-            <div className="head">
-                <div className="user">
-                    <Link
-                        to="/user"
-                        className="profile-pic bg-white"
-                        aria-label="Avatar user"
-                    >
-                        <img
-                            loading="lazy"
-                            role="presentation"
-                            decoding="async"
-                            src={post.img}
-                            alt="Avatar user"
-                        />
-                    </Link>
-                    <Link to="/user" className="info">
-                        <div className="d-flex align-items-center">
-                            <h3>{post.userID}</h3>
-                            <span className="mx-2">●</span>
-                            <div className="fs-5">
-                                {formatTime(post.createdAt) || "now"}
-                            </div>
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser?.data._id;
+    });
+
+    return (
+        currentUser &&
+        posts.map((post) => {
+            getUserByID(dispatch, post.userID)
+                .then((data) => {
+                    console.log(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            return (
+                <div key={post._id} className="post">
+                    <div className="head">
+                        <div className="user">
+                            <Link
+                                to="/user"
+                                className="profile-pic bg-white"
+                                aria-label="Avatar user"
+                            >
+                                <img
+                                    loading="lazy"
+                                    role="presentation"
+                                    decoding="async"
+                                    src={post.img}
+                                    alt="Avatar user"
+                                />
+                            </Link>
+                            <Link to="/user" className="info">
+                                <div className="d-flex align-items-center">
+                                    <h3>{post.userID}</h3>
+                                    <span className="mx-2">●</span>
+                                    <div className="fs-5">
+                                        {formatTime(post.createdAt) || "now"}
+                                    </div>
+                                </div>
+                                <span>@{post.userID}</span>
+                            </Link>
                         </div>
-                        <span>@{post.userID}</span>
-                    </Link>
-                </div>
 
-                <span className="post-settings">
-                    <UilEllipsisH
-                        className="dots"
-                        onClick={(e) => {
-                            handlePopup(e);
-                        }}
-                    />
-                    {renderEditPost()}
-                </span>
-            </div>
+                        <span className="post-settings">
+                            <UilEllipsisH
+                                className="dots"
+                                onClick={(e) => {
+                                    handlePopup(e);
+                                }}
+                            />
+                            {renderEditPost()}
+                        </span>
+                    </div>
 
-            <div className="caption">
-                <p>{post.desc}</p>
-            </div>
-            {post.img && (
-                <div className="photo">
-                    <img
-                        loading="lazy"
-                        role="presentation"
-                        decoding="async"
-                        src={post.img}
-                        alt="Photo of post"
-                    />
-                </div>
-            )}
-            <div className="action-buttons d-flex justify-content-between align-items-center">
-                <div className="interaction-buttons d-flex gap-4">
-                    <span
-                        className="d-flex align-content-center share"
-                        onClick={() => handleSharePost(post._id)}
-                    >
-                        {/* share */}
-                        {post.shares.includes(user._id) ? (
-                            <FontAwesomeIcon
-                                icon={faRepeat}
-                                style={{
-                                    fontSize: "1.4em",
-                                    color: "var(--color-blue)",
-                                }}
+                    <div className="caption">
+                        <p>{post.desc}</p>
+                    </div>
+                    {post.img && (
+                        <div className="photo">
+                            <img
+                                loading="lazy"
+                                role="presentation"
+                                decoding="async"
+                                src={post.img}
+                                alt="Photo of post"
                             />
-                        ) : (
-                            <FontAwesomeIcon
-                                icon={faRepeat}
-                                style={{
-                                    fontSize: "1.4em",
-                                }}
-                            />
-                        )}
-                        <p className="ms-2">
-                            <b>{post.shares.length}</b>
-                        </p>
-                    </span>
-                    <span className="d-flex align-content-center comment">
-                        {/* comment */}
-                        <FontAwesomeIcon
-                            icon={faComment}
-                            style={{
-                                fontSize: "1.4em",
-                            }}
-                        />
-                        <p className="ms-2">
-                            <b>{post.comments.length}</b>
-                        </p>
-                    </span>
-                    <span
-                        className="d-flex align-content-center heart"
-                        onClick={() => handleLikePost(post._id)}
-                    >
-                        {/* like */}
-                        {post.likes.includes(user._id) ? (
-                            <FontAwesomeIcon
-                                icon={liked}
-                                style={{
-                                    fontSize: "1.4em",
-                                    color: "crimson",
-                                }}
-                            />
-                        ) : (
-                            <FontAwesomeIcon
-                                icon={likeDefault}
-                                style={{
-                                    fontSize: "1.4em",
-                                }}
-                            />
-                        )}
+                        </div>
+                    )}
+                    <div className="action-buttons d-flex justify-content-between align-items-center">
+                        <div className="interaction-buttons d-flex gap-4">
+                            <span
+                                className="d-flex align-content-center share"
+                                onClick={() => handleSharePost(post._id)}
+                            >
+                                {/* share */}
+                                {post.shares.includes(user._id) ? (
+                                    <FontAwesomeIcon
+                                        icon={faRepeat}
+                                        style={{
+                                            fontSize: "1.4em",
+                                            color: "var(--color-blue)",
+                                        }}
+                                    />
+                                ) : (
+                                    <FontAwesomeIcon
+                                        icon={faRepeat}
+                                        style={{
+                                            fontSize: "1.4em",
+                                        }}
+                                    />
+                                )}
+                                <p className="ms-2">
+                                    <b>{post.shares.length}</b>
+                                </p>
+                            </span>
+                            <span className="d-flex align-content-center comment">
+                                {/* comment */}
+                                <FontAwesomeIcon
+                                    icon={faComment}
+                                    style={{
+                                        fontSize: "1.4em",
+                                    }}
+                                />
+                                <p className="ms-2">
+                                    <b>{post.comments.length}</b>
+                                </p>
+                            </span>
+                            <span
+                                className="d-flex align-content-center heart"
+                                onClick={() => handleLikePost(post._id)}
+                            >
+                                {/* like */}
+                                {post.likes.includes(user._id) ? (
+                                    <FontAwesomeIcon
+                                        icon={liked}
+                                        style={{
+                                            fontSize: "1.4em",
+                                            color: "crimson",
+                                        }}
+                                    />
+                                ) : (
+                                    <FontAwesomeIcon
+                                        icon={likeDefault}
+                                        style={{
+                                            fontSize: "1.4em",
+                                        }}
+                                    />
+                                )}
 
-                        <p className="ms-2">
-                            <b>{post.likes.length}</b>
-                        </p>
-                    </span>
+                                <p className="ms-2">
+                                    <b>{post.likes.length}</b>
+                                </p>
+                            </span>
+                        </div>
+                        <div className="bookmark">
+                            <span>
+                                <UilBookmark />
+                            </span>
+                        </div>
+                    </div>
+                    <div className="liked-by">{renderUserLikedPost()}</div>
+                    <div className="comments text-muted">View all comments</div>
                 </div>
-                <div className="bookmark">
-                    <span>
-                        <UilBookmark />
-                    </span>
-                </div>
-            </div>
-            <div className="liked-by">{renderUserLikedPost()}</div>
-            <div className="comments text-muted">View all comments</div>
-        </div>
-    ));
+            );
+        })
+    );
 };
 
 export default Posts;

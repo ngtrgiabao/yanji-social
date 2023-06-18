@@ -106,6 +106,7 @@ const Middle = () => {
 
     const renderPostPopup = () => {
         return (
+            userID &&
             popup && (
                 <PostPopup
                     onPopup={handlePopup}
@@ -150,7 +151,8 @@ const Middle = () => {
                             onClick={handlePopup}
                             id="caption"
                         >
-                            What's in your mind, {user.username}?
+                            What's in your mind,{" "}
+                            {"user" || (user && user.username)}?
                         </div>
                     </div>
                     <div

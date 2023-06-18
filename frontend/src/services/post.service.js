@@ -5,6 +5,10 @@ class PostService {
         return await api.get(`/api/v1/post/all-posts/author/${userID}`);
     }
 
+    async getAllPosts() {
+        return await api.get(`/api/v1/post/all-posts`);
+    }
+
     async getPostByID(postID) {
         return await api.get(`/api/v1/post/get-post/${postID}`);
     }
