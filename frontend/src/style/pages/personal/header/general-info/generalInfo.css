@@ -12,22 +12,22 @@
 }
 
 .header-title .header-title-container .avatar {
-    min-width: 20rem;
-    height: 20rem;
+    width: 18em;
+    height: 18em;
 
-    border: 1px solid var(--color-black);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.header-title .header-title-container .avatar img {
     border-radius: 50%;
 
     object-fit: cover;
 }
 
-.header-title .header-title-container .avatar img {
-    object-fit: cover;
-}
-
 .header-title .header-title-container .edit-avatar {
     bottom: 2%;
-    right: 5%;
+    right: 10%;
     color: #fff;
 
     background: rgb(36, 37, 38);
@@ -85,7 +85,7 @@
     font-weight: bold;
     font-size: 1.2em;
 
-    border-radius: 1rem;
+    border-radius: var(--card-border-radius);
 
     padding: 0.5em;
 }

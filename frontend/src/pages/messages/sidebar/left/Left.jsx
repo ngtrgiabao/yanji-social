@@ -51,7 +51,7 @@ const Left = ({ avatarUser }) => {
 
     useEffect(() => {
         if (friendID) {
-            getUserByID(dispatch, friendID);
+            getUserByID(friendID, dispatch);
         }
     }, [friendID, dispatch]);
 
@@ -63,7 +63,7 @@ const Left = ({ avatarUser }) => {
                 const users = Object.values(userList);
 
                 // Get friends of sender to compare user of socket to set online users
-                getUserByID(dispatch, sender._id).then((data) => {
+                getUserByID(sender._id, dispatch).then((data) => {
                     const value = data.user.friends.filter((f) =>
                         users.some((u) => u.userID === f)
                     );

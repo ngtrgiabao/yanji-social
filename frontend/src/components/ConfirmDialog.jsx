@@ -1,7 +1,7 @@
 import "../style/pages/messages/middle/middle.css";
 
 const ConfirmDialog = ({
-    title,
+    title = "Title",
     children,
     onClose,
     onConfirm,

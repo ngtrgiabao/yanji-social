@@ -3,7 +3,7 @@
 /* Personal-post */
 .personal-post {
     border: 1.2px solid var(--color-primary);
-    border-radius: 1rem;
+    border-radius: var(--card-border-radius);
 
     background-color: var(--color-white);
 
@@ -134,7 +134,7 @@
 .personal-post__setting
     .personal-post__setting-container::-webkit-scrollbar-thumb {
     background-color: var(--color-white);
-    border-radius: 1rem;
+    border-radius: var(--card-border-radius);
 }
 
 .personal-post__setting

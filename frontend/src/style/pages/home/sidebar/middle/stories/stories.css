@@ -76,32 +76,11 @@
 }
 
 /* NAME STORY */
-.stories #your-story .name {
-    margin-top: 8.2rem;
-}
-
 .stories .story-item .name {
     z-index: 2;
 }
 
 /* PROFILE PIC */
 .story-item .profile-pic {
-    width: 4rem;
-    height: 4rem;
-
-    align-self: flex-start;
-
-    border: 3px solid var(--color-primary);
-}
-
-.story-item .avatar-profile__stories {
-    min-width: 4rem;
-    min-height: 4rem;
-
-    overflow: hidden;
-
-    align-self: flex-start;
-
-    border-radius: 50%;
     border: 3px solid var(--color-primary);
 }

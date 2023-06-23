@@ -26,31 +26,39 @@ const Middle = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        let isCancelled = false;
+
         const getPokemon = async () => {
             try {
-                const res = await axios.get(POKEMON_URL);
-                setNextUrl(res.data.next);
+                if (!isCancelled) {
+                    const res = await axios.get(POKEMON_URL);
+                    setNextUrl(res.data.next);
 
-                const pokemonData = await Promise.all(
-                    res.data.results.map(async (pokemon) => {
-                        const poke = await axios.get(
-                            `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
-                        );
-                        return poke.data; // Return the fetched data
-                    })
-                );
+                    const pokemonData = await Promise.all(
+                        res.data.results.map(async (pokemon) => {
+                            const poke = await axios.get(
+                                `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+                            );
+                            return poke.data; // Return the fetched data
+                        })
+                    );
 
-                setPokemons((prevPokemons) => [
-                    ...prevPokemons,
-                    ...pokemonData,
-                ]);
-                setLoading(false);
+                    setPokemons((prevPokemons) => [
+                        ...prevPokemons,
+                        ...pokemonData,
+                    ]);
+                    setLoading(false);
+                }
             } catch (error) {
                 console.error("Failed to get pokemon data", error);
             }
         };
 
         getPokemon();
+
+        return () => {
+            isCancelled = true;
+        };
     }, []);
 
     const loadMore = async () => {
@@ -77,17 +85,30 @@ const Middle = () => {
 
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {
+        let isCancelled = false;
         const data = window.localStorage.getItem("avatar");
-        setAvatar(data);
+
+        if (!isCancelled) {
+            setAvatar(data);
+        }
 
         return () => {
+            isCancelled = true;
             data && URL.revokeObjectURL(data.preview);
         };
     }, []);
 
     // SAVE AVATAR USER TO LOCAL
     useEffect(() => {
-        avatar && window.localStorage.setItem("avatar", avatar);
+        let isCancelled = false;
+
+        if (!isCancelled) {
+            avatar && window.localStorage.setItem("avatar", avatar);
+        }
+
+        return () => {
+            isCancelled = true;
+        };
     }, [avatar]);
 
     // GET AVATAR USER FROM LOCAL
@@ -116,7 +137,7 @@ const Middle = () => {
         );
     };
 
-    const user = useSelector((state) => {
+    const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
 
@@ -132,7 +153,7 @@ const Middle = () => {
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
                         <Link
-                            to={user ? `/user/${userID}` : "/"}
+                            to={currentUser ? `/user/${userID}` : "/"}
                             className="profile-pic"
                             aria-label="Avatar user"
                         >
@@ -140,7 +161,11 @@ const Middle = () => {
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
-                                src={user ? ProfilePic : avatar || ProfilePic}
+                                src={
+                                    currentUser
+                                        ? currentUser.profilePicture
+                                        : ProfilePic
+                                }
                                 alt="Avatar user"
                             />
                         </Link>
@@ -152,7 +177,7 @@ const Middle = () => {
                             id="caption"
                         >
                             What's in your mind,{" "}
-                            {"user" || (user && user.username)}?
+                            {currentUser?.username || " user"}?
                         </div>
                     </div>
                     <div

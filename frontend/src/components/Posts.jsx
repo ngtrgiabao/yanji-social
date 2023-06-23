@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import "../style/components/post.css"
+
 import { getAllPosts } from "../redux/request/postRequest";
 import Post from "./Post";
 

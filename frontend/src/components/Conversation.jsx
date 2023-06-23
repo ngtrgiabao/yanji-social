@@ -20,7 +20,7 @@ const Conversation = ({
     useEffect(() => {
         let isCancelled = false;
 
-        getUserByID(dispatch, currentUser).then((data) => {
+        getUserByID(currentUser, dispatch).then((data) => {
             if (!isCancelled) {
                 setFriends(data.user.friends);
             }
@@ -34,7 +34,7 @@ const Conversation = ({
     useEffect(() => {
         let isCancelled = false;
 
-        getUserByID(dispatch, friendID).then((data) => {
+        getUserByID(friendID, dispatch).then((data) => {
             if (!isCancelled) {
                 setUser(data.user);
             }

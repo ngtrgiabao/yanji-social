@@ -2,9 +2,11 @@
     margin: 10rem 12vw;
 }
 
-img {
+.cover-picture {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.cover-picture img {
     width: 100%;
-    height: 100%;
-    
-    border-radius: var(--card-border-radius);
 }

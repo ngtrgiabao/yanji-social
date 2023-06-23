@@ -16,7 +16,12 @@ import {
     faComment,
 } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as liked, faRepeat } from "@fortawesome/free-solid-svg-icons";
+import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import KAYO_AVATAR from "../assets/avatar/kayo.jpg";
+
+import "../style/components/post.css";
 
 import {
     deletePost,
@@ -26,8 +31,6 @@ import {
 } from "../redux/request/postRequest";
 import { getUserByID } from "../redux/request/userRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
-
-import KAYO_AVATAR from "../assets/avatar/kayo.jpg";
 
 const Post = ({
     image,
@@ -41,7 +44,7 @@ const Post = ({
 }) => {
     const [posts, setPosts] = useState([]);
     const [popup, setPopup] = useState(false);
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState("User");
 
     const dispatch = useDispatch();
     const formatTime = useTimeAgo;
@@ -49,10 +52,6 @@ const Post = ({
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
-
-    useEffect(() => {
-        console.log(currentUser);
-    }, []);
 
     useEffect(() => {
         let isCancelled = false;
@@ -84,9 +83,9 @@ const Post = ({
     }, [popup]);
 
     useEffect(() => {
-        getUserByID(dispatch, userID)
+        getUserByID(userID, dispatch)
             .then((data) => {
-                setUsername(data.user.username);
+                setUsername(data?.user.username);
             })
             .catch((err) => {
                 console.error("Failed", err);
@@ -200,7 +199,7 @@ const Post = ({
             <div className="head">
                 <div className="user">
                     <Link
-                        to="/user"
+                        to={`/user/${currentUser._id}`}
                         className="profile-pic bg-white"
                         aria-label="Avatar user"
                     >
@@ -212,9 +211,9 @@ const Post = ({
                             alt="Avatar user"
                         />
                     </Link>
-                    <Link to="/user" className="info">
+                    <Link to={`/user/${currentUser._id}`} className="info">
                         <div className="d-flex align-items-center">
-                            <h3>{username}</h3>
+                            <div className="fs-4 fw-bold">{username}</div>
                             <span className="mx-2">●</span>
                             <div className="fs-5">
                                 {formatTime(createdAt) || "now"}
@@ -249,7 +248,10 @@ const Post = ({
                     />
                 </div>
             )}
-            <div className="action-buttons d-flex justify-content-between align-items-center">
+            <div className="action-buttons d-flex justify-content-between align-items-center fs-3">
+                <span className="bookmark">
+                    <FontAwesomeIcon icon={faBookmark} />
+                </span>
                 <div className="interaction-buttons d-flex align-items-center gap-4">
                     <span
                         className="d-flex align-items-center share"
@@ -261,19 +263,13 @@ const Post = ({
                                 <FontAwesomeIcon
                                     icon={faRepeat}
                                     style={{
-                                        fontSize: "1.4em",
                                         color: "var(--color-blue)",
                                     }}
                                 />
                             </span>
                         ) : (
                             <span>
-                                <FontAwesomeIcon
-                                    icon={faRepeat}
-                                    style={{
-                                        fontSize: "1.4em",
-                                    }}
-                                />
+                                <FontAwesomeIcon icon={faRepeat} />
                             </span>
                         )}
                         <div className="ms-2">
@@ -283,12 +279,7 @@ const Post = ({
                     <span className="d-flex align-items-center comment">
                         {/* comment */}
                         <span>
-                            <FontAwesomeIcon
-                                icon={faComment}
-                                style={{
-                                    fontSize: "1.4em",
-                                }}
-                            />
+                            <FontAwesomeIcon icon={faComment} />
                         </span>
                         <div className="ms-2">
                             <b>{comments.length}</b>
@@ -304,30 +295,19 @@ const Post = ({
                                 <FontAwesomeIcon
                                     icon={liked}
                                     style={{
-                                        fontSize: "1.4em",
                                         color: "crimson",
                                     }}
                                 />
                             </span>
                         ) : (
                             <span>
-                                <FontAwesomeIcon
-                                    icon={likeDefault}
-                                    style={{
-                                        fontSize: "1.4em",
-                                    }}
-                                />
+                                <FontAwesomeIcon icon={likeDefault} />
                             </span>
                         )}
 
                         <div className="ms-2">
                             <b>{likes.length}</b>
                         </div>
-                    </span>
-                </div>
-                <div className="bookmark">
-                    <span>
-                        <UilBookmark />
                     </span>
                 </div>
             </div>

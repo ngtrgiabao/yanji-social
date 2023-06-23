@@ -1,9 +1,10 @@
-import React from "react";
-
 const PreviewImage = ({ imgSrc, width, heigth }) => {
     return (
         <img
             src={imgSrc}
+            loading="lazy"
+            role="presentation"
+            decoding="async"
             alt="preview_image"
             style={{
                 aspectRatio: "16/9",

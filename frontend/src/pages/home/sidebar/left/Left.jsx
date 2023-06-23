@@ -14,13 +14,13 @@ import {
 
 import "../../../../style/pages/home/sidebar/left/left.css";
 
+import KAYO_AVATAR from "../../../../assets/avatar/kayo.jpg";
+
 // SETTINGS
 import FontSizeTheme from "./custom-theme/fontsize-theme/FontSizeTheme";
 import BackgroundTheme from "./custom-theme/background-theme/BackgroundTheme";
 import ColorTheme from "./custom-theme/color-theme/ColorTheme";
 import NotificationPopup from "./notification-popup/NotificationPopup";
-
-import ProfilePic from "../../../../assets/avatar/profile-pic.png";
 
 const Left = () => {
     const [active, setActive] = useState("HOME");
@@ -55,12 +55,8 @@ const Left = () => {
     2. It’s using the optional chaining operator to check if the currentUser is not null.
     3. It’s returning the currentUser.
     */
-    const user = useSelector((state) => {
+    const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
-    });
-
-    const userID = useSelector((state) => {
-        return state.auth.login.currentUser?.data._id;
     });
 
     const renderHomeBtn = () => {
@@ -137,7 +133,7 @@ const Left = () => {
 
     const renderMessageBtn = () => {
         return (
-            userID && (
+            currentUser?._id && (
                 <Link
                     to="/messages"
                     className={`menu-item ${
@@ -279,7 +275,7 @@ const Left = () => {
         <>
             <div className="left animate__animated animate__bounceInLeft">
                 <Link
-                    to={user ? `/user/${userID}` : "/"}
+                    to={currentUser ? `/user/${currentUser._id}` : "/"}
                     className="profile d-flex align-items-center"
                     title="Truy cập trang cá nhân"
                 >
@@ -288,15 +284,21 @@ const Left = () => {
                             loading="lazy"
                             role="presentation"
                             decoding="async"
-                            src={user ? ProfilePic : avatar || ProfilePic}
+                            src={
+                                currentUser
+                                    ? currentUser.profilePicture
+                                    : KAYO_AVATAR
+                            }
                             alt="Avatar user"
                         />
                     </div>
 
                     <div className="handle">
-                        <h4>{user ? `${user.username}` : `user`}</h4>
+                        <h4>
+                            {currentUser ? `${currentUser.username}` : `user`}
+                        </h4>
                         <p className="text-muted m-0">
-                            @{user ? user.username : "user"}
+                            @{currentUser ? currentUser.username : "user"}
                         </p>
                     </div>
                 </Link>

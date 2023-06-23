@@ -9,7 +9,7 @@ const ChatOnline = ({ onlineUsers, currentUser }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getUserByID(dispatch, currentUser).then((data) => {
+        getUserByID(currentUser, dispatch).then((data) => {
             setFriends(data.user.friends);
         });
     }, [currentUser]);

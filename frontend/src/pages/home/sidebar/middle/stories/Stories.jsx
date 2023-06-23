@@ -18,7 +18,7 @@ const Stories = () => {
     const [storyData, setStoryData] = useState([]);
     const USER_URL = "https://randomuser.me/api/?results=6";
 
-    const user = useSelector((state) => {
+    const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
 
@@ -77,20 +77,24 @@ const Stories = () => {
                 id="your-story"
                 style={{
                     background: `url(${
-                        user ? ProfilePic : avatar || ProfilePic
+                        currentUser ? currentUser.profilePicture : ProfilePic
                     }) no-repeat center center/cover`,
                 }}
             >
-                <div className="avatar-profile__stories">
+                <div className="profile-pic">
                     <img
                         loading="lazy"
                         role="presentation"
                         decoding="async"
-                        src={user ? ProfilePic : avatar || ProfilePic}
+                        src={
+                            currentUser
+                                ? currentUser.profilePicture
+                                : ProfilePic
+                        }
                         alt="Avatar user"
                     />
                 </div>
-                <p className="name text-center">Create story</p>
+                <p className="name text-center mb-1">Create story</p>
                 <span className="create-post-icon">+</span>
             </div>
 
