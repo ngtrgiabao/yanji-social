@@ -46,6 +46,17 @@ export const getAllPostsByUser = async (userID, dispatch) => {
     }
 };
 
+export const getAllPosts = async (dispatch) => {
+    dispatch(getPostStart());
+    try {
+        const res = await postService.getAllPosts();
+        dispatch(getPostSuccess(res.data));
+        return res.data;
+    } catch (error) {
+        dispatch(getPostFailed());
+    }
+};
+
 export const deletePost = async (postID, dispatch) => {
     dispatch(deletePostStart());
     try {
@@ -66,11 +77,44 @@ export const deleteAllPosts = async (userID, dispatch) => {
     }
 };
 
-export const updateMessage = async (updatePost, dispatch) => {
+export const updatePost = async (updatePost, dispatch) => {
     dispatch(updatePostStart());
 
     try {
         const res = await postService.updatePost(updatePost);
+        dispatch(updatePostSuccess(res.data));
+    } catch (error) {
+        dispatch(updatePostFailed());
+    }
+};
+
+export const likePost = async (post, dispatch) => {
+    dispatch(updatePostStart());
+
+    try {
+        const res = await postService.likePost(post);
+        dispatch(updatePostSuccess(res.data));
+    } catch (error) {
+        dispatch(updatePostFailed());
+    }
+};
+
+export const sharePost = async (post, dispatch) => {
+    dispatch(updatePostStart());
+
+    try {
+        const res = await postService.sharePost(post);
+        dispatch(updatePostSuccess(res.data));
+    } catch (error) {
+        dispatch(updatePostFailed());
+    }
+};
+
+export const commentPost = async (post, dispatch) => {
+    dispatch(updatePostStart());
+
+    try {
+        const res = await postService.commentPost(post);
         dispatch(updatePostSuccess(res.data));
     } catch (error) {
         dispatch(updatePostFailed());

@@ -12,9 +12,7 @@ import { uploadPost } from "../redux/request/postRequest";
 import useUploadImage from "../hooks/useUploadImage";
 import PreviewImage from "./PreviewImage";
 
-const PostPopup = (props) => {
-    const { onPopup, animateClass } = props;
-
+const PostPopup = ({ onPopup, animateClass }) => {
     const [avatar, setAvatar] = useState("");
     const [imageUrl, setImageUrl] = useState(null);
     const [imageSrc, setImageSrc] = useState("");
@@ -65,7 +63,6 @@ const PostPopup = (props) => {
     const handleSubmit = async (e) => {
         if (content) {
             e.preventDefault();
-
             const result = await cloudStorage(imageUrl);
             const imageURL = result?.secure_url;
 
@@ -88,19 +85,21 @@ const PostPopup = (props) => {
         }
     };
 
-    const user = useSelector((state) => {
-        return state.auth.login.currentUser?.data;
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser.data;
     });
 
     return (
         <div
-            className="d-flex justify-content-center align-items-center post-popup__container"
+            className={
+                "d-flex justify-content-center align-items-center post-popup__container " +
+                animateClass
+            }
             onClick={onPopup}
         >
             {/* FORM */}
             <form
                 onSubmit={handleSubmit}
-                className={animateClass}
                 onClick={(e) => {
                     e.stopPropagation();
                 }}
@@ -113,13 +112,13 @@ const PostPopup = (props) => {
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
-                                src={avatar || ProfilePic}
+                                src={currentUser.profilePicture || ProfilePic}
                                 alt="Avatar user"
                             />
                         </span>
                         <div className="ms-3">
                             <span className="text-white text-bold fs-4">
-                                {user.username}
+                                {currentUser.username}
                             </span>
                             <div className="form__status d-flex align-items-center mt-1">
                                 <span className="me-2 text-white">
@@ -153,7 +152,7 @@ const PostPopup = (props) => {
                             height: "25rem",
                         }}
                         onChange={handleContent}
-                        placeholder={`What's in your mind, ${user.username}?`}
+                        placeholder={`What's in your mind, ${currentUser.username}?`}
                     ></textarea>
                 </div>
 

@@ -73,7 +73,7 @@
     max-width: 50%;
     background: red;
 
-    border-radius: 1rem;
+    border-radius: var(--card-border-radius);
 }
 
 .middle-container
@@ -107,9 +107,8 @@
     cursor: pointer;
 }
 
-.middle-container img,
 .middle-container img {
-    border-radius: 1rem;
+    border-radius: var(--card-border-radius);
     object-fit: contain;
 }
 
@@ -283,7 +282,7 @@
 #confirm {
     max-width: 30%;
 
-    border-radius: 1rem;
+    border-radius: var(--card-border-radius);
 
     background: var(--bg-popup);
     border: 1px solid var(--color-primary);

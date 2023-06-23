@@ -17,8 +17,8 @@ class UserService {
         return await api.get(`/api/v1/user/${userID}`);
     }
 
-    async updateUser(id, data) {
-        return await api.put(`/api/v1/user/${id}`, data).data;
+    async updateUser(updateUser) {
+        return await api.put(`/api/v1/user/update/${updateUser.userID}`, updateUser);
     }
 
     async deleteAllUsers() {

@@ -3,15 +3,13 @@ import { useDispatch } from "react-redux";
 
 import { getUserByID } from "../redux/request/userRequest";
 
-const Conversation = (props) => {
-    const {
-        conversation,
-        currentUser,
-        avatarUser,
-        onlineUsers,
-        filterMessages,
-    } = props;
-
+const Conversation = ({
+    conversation,
+    currentUser,
+    avatarUser,
+    onlineUsers,
+    filterMessages,
+}) => {
     const [user, setUser] = useState(null);
     const [friends, setFriends] = useState([]);
     const [isOnline, setIsOnline] = useState(false);
@@ -22,7 +20,7 @@ const Conversation = (props) => {
     useEffect(() => {
         let isCancelled = false;
 
-        getUserByID(dispatch, currentUser).then((data) => {
+        getUserByID(currentUser, dispatch).then((data) => {
             if (!isCancelled) {
                 setFriends(data.user.friends);
             }
@@ -36,7 +34,7 @@ const Conversation = (props) => {
     useEffect(() => {
         let isCancelled = false;
 
-        getUserByID(dispatch, friendID).then((data) => {
+        getUserByID(friendID, dispatch).then((data) => {
             if (!isCancelled) {
                 setUser(data.user);
             }

@@ -69,6 +69,7 @@ const updateUser = async (req, res, next) => {
             password,
             email,
             profilePicture,
+            coverPicture,
             bio,
             firstName,
             lastName,
@@ -83,6 +84,7 @@ const updateUser = async (req, res, next) => {
         user.password = password || user.password;
         user.email = email || user.email;
         user.profilePicture = profilePicture || user.profilePicture;
+        user.coverPicture = coverPicture || user.coverPicture
         user.bio = bio || user.bio;
         user.firstName = firstName || user.firstName;
         user.lastName = lastName || user.lastName;

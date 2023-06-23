@@ -23,8 +23,6 @@ function Gallery() {
         getGallery();
     }, []);
 
-    console.log(randomPhoto);
-
     return (
         <>
             <div className="header d-flex justify-content-between">

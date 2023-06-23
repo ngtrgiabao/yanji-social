@@ -9,15 +9,9 @@ import ProfilePic from "../../assets/avatar/profile-pic.png";
 
 import { logout } from "../../redux/request/authRequest";
 
-const Navigation = (props) => {
-    const { title, link } = props;
-
-    const user = useSelector((state) => {
+const Navigation = ({ title, link }) => {
+    const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
-    });
-
-    const userID = useSelector((state) => {
-        return state.auth.login.currentUser?.data._id;
     });
 
     const dispatch = useDispatch();
@@ -28,7 +22,7 @@ const Navigation = (props) => {
     };
 
     const renderSwitchBtn = () => {
-        return user ? (
+        return currentUser ? (
             <Link
                 to="/logout"
                 className="btn btn-danger d-flex align-items-center justify-content-center gap-4"
@@ -68,23 +62,18 @@ const Navigation = (props) => {
                         />
                     </div>
 
-                    <div
-                        className="d-flex justify-content-end align-items-center"
-                        style={{
-                            width: "12%",
-                        }}
-                    >
+                    <div className="d-flex justify-content-end align-items-center">
                         {renderSwitchBtn()}
                         <Link
                             aria-label="Avatar user"
-                            to={user ? `/user/${userID}` : "/"}
+                            to={currentUser ? `/user/${currentUser._id}` : "/"}
                             className="profile-pic ms-4"
                         >
                             <img
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
-                                src={ProfilePic}
+                                src={currentUser?.profilePicture || ProfilePic}
                                 alt="Avatar user"
                             />
                         </Link>

@@ -1,8 +1,6 @@
 import "../../../../../../style/pages/personal/body/friends/randomFriends/friendCollection/randomFriendsCollection.css";
 
-const RandomFriendsCollection = (props) => {
-    const { avatars } = props;
-
+const RandomFriendsCollection = ({ avatars }) => {
     const renderAvatars = () => {
         return avatars.map((avatar, index) => {
             return (

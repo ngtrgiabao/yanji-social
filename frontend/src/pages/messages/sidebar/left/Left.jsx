@@ -12,9 +12,7 @@ import Conversation from "../../../../components/Conversation";
 import { getUserByID } from "../../../../redux/request/userRequest";
 // import ChatOnline from "../../../../components/ChatOnline";
 
-const Left = (props) => {
-    const { avatarUser } = props;
-
+const Left = ({ avatarUser }) => {
     const [rooms, setRooms] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [friendID, setFriendID] = useState(null);
@@ -53,7 +51,7 @@ const Left = (props) => {
 
     useEffect(() => {
         if (friendID) {
-            getUserByID(dispatch, friendID);
+            getUserByID(friendID, dispatch);
         }
     }, [friendID, dispatch]);
 
@@ -65,7 +63,7 @@ const Left = (props) => {
                 const users = Object.values(userList);
 
                 // Get friends of sender to compare user of socket to set online users
-                getUserByID(dispatch, sender._id).then((data) => {
+                getUserByID(sender._id, dispatch).then((data) => {
                     const value = data.user.friends.filter((f) =>
                         users.some((u) => u.userID === f)
                     );

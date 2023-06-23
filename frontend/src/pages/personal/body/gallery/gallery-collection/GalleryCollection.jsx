@@ -1,7 +1,6 @@
 import "../../../../../style/pages/personal/body/gallery/galleryCollection/galleryCollection.css";
 
-const GalleryCollection = (props) => {
-    const { photos } = props;
+const GalleryCollection = ({ photos }) => {
     const renderPhotos = () => {
         return photos.map((photo, index) => {
             return (

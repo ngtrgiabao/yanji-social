@@ -1,15 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import Form from "react-bootstrap/Form";
 import { useSelector } from "react-redux";
-
-import {
-    UilScenery,
-    UilSmile,
-    UilLocationPoint,
-    UilLabelAlt,
-} from "@iconscout/react-unicons";
 
 import { POKEMON_URL } from "../../../../constants/api.data.constant";
 
@@ -34,31 +26,39 @@ const Middle = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        let isCancelled = false;
+
         const getPokemon = async () => {
             try {
-                const res = await axios.get(POKEMON_URL);
-                setNextUrl(res.data.next);
+                if (!isCancelled) {
+                    const res = await axios.get(POKEMON_URL);
+                    setNextUrl(res.data.next);
 
-                const pokemonData = await Promise.all(
-                    res.data.results.map(async (pokemon) => {
-                        const poke = await axios.get(
-                            `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
-                        );
-                        return poke.data; // Return the fetched data
-                    })
-                );
+                    const pokemonData = await Promise.all(
+                        res.data.results.map(async (pokemon) => {
+                            const poke = await axios.get(
+                                `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+                            );
+                            return poke.data; // Return the fetched data
+                        })
+                    );
 
-                setPokemons((prevPokemons) => [
-                    ...prevPokemons,
-                    ...pokemonData,
-                ]);
-                setLoading(false);
+                    setPokemons((prevPokemons) => [
+                        ...prevPokemons,
+                        ...pokemonData,
+                    ]);
+                    setLoading(false);
+                }
             } catch (error) {
                 console.error("Failed to get pokemon data", error);
             }
         };
 
         getPokemon();
+
+        return () => {
+            isCancelled = true;
+        };
     }, []);
 
     const loadMore = async () => {
@@ -85,17 +85,30 @@ const Middle = () => {
 
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {
+        let isCancelled = false;
         const data = window.localStorage.getItem("avatar");
-        setAvatar(data);
+
+        if (!isCancelled) {
+            setAvatar(data);
+        }
 
         return () => {
+            isCancelled = true;
             data && URL.revokeObjectURL(data.preview);
         };
     }, []);
 
     // SAVE AVATAR USER TO LOCAL
     useEffect(() => {
-        avatar && window.localStorage.setItem("avatar", avatar);
+        let isCancelled = false;
+
+        if (!isCancelled) {
+            avatar && window.localStorage.setItem("avatar", avatar);
+        }
+
+        return () => {
+            isCancelled = true;
+        };
     }, [avatar]);
 
     // GET AVATAR USER FROM LOCAL
@@ -112,67 +125,19 @@ const Middle = () => {
         setPopup((popup) => !popup);
     };
 
-    const renderActionUploadPost = () => {
-        return (
-            <div className="d-flex justify-content-between create-post-action">
-                <div className="d-flex justify-items-around create-post-icons">
-                    <Form.Control
-                        type="file"
-                        name="photo"
-                        ref={fileInput}
-                        multiple
-                        accept="image/*"
-                        hidden={true}
-                    />
-                    <span>
-                        <UilScenery
-                            className="sidebar-icon"
-                            id="fileSelect"
-                            onClick={() => {
-                                fileInput.current.click();
-                            }}
-                        />
-                    </span>
-                    <span>
-                        <UilSmile className="sidebar-icon" />
-                    </span>
-                    <span>
-                        <UilLocationPoint className="sidebar-icon" />
-                    </span>
-                    <span>
-                        <UilLabelAlt className="sidebar-icon" />
-                    </span>
-                </div>
-
-                <div
-                    className="submit d-flex align-items-center"
-                    title="Đăng bài viết"
-                >
-                    <button
-                        onClick={handlePopup}
-                        role="button"
-                        type="submit"
-                        className="btn btn-primary"
-                    >
-                        Post
-                    </button>
-                </div>
-            </div>
-        );
-    };
-
     const renderPostPopup = () => {
         return (
+            userID &&
             popup && (
                 <PostPopup
                     onPopup={handlePopup}
-                    animateClass="animate__animated animate__bounceIn"
+                    animateClass="animate__animated animate__fadeIn"
                 />
             )
         );
     };
 
-    const user = useSelector((state) => {
+    const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
 
@@ -184,11 +149,11 @@ const Middle = () => {
                 {/* STATUS */}
                 <div
                     action=""
-                    className="create-post d-flex flex-column align-items-center"
+                    className="create-post d-flex align-items-center"
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
                         <Link
-                            to={user ? `/user/${userID}` : "/"}
+                            to={currentUser ? `/user/${userID}` : "/"}
                             className="profile-pic"
                             aria-label="Avatar user"
                         >
@@ -196,7 +161,11 @@ const Middle = () => {
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
-                                src={user ? ProfilePic : avatar || ProfilePic}
+                                src={
+                                    currentUser
+                                        ? currentUser.profilePicture
+                                        : ProfilePic
+                                }
                                 alt="Avatar user"
                             />
                         </Link>
@@ -207,13 +176,24 @@ const Middle = () => {
                             onClick={handlePopup}
                             id="caption"
                         >
-                            What's in your mind, {user.username}?
+                            What's in your mind,{" "}
+                            {currentUser?.username || " user"}?
                         </div>
-
-                        {renderPostPopup()}
                     </div>
-
-                    {renderActionUploadPost()}
+                    <div
+                        className="submit d-flex align-items-center"
+                        title="Đăng bài viết"
+                    >
+                        <button
+                            onClick={handlePopup}
+                            role="button"
+                            type="submit"
+                            className="btn btn-primary"
+                        >
+                            Post
+                        </button>
+                    </div>
+                    {renderPostPopup()}
                 </div>
                 {/* END STATUS */}
 

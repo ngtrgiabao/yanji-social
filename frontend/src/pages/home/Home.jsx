@@ -4,7 +4,6 @@ import "../../style/pages/home/home.css";
 
 import Left from "./sidebar/left/Left";
 import Middle from "./sidebar/middle/Middle";
-import Right from "./sidebar/right/Right";
 
 const Navigation = lazy(() => import("../../layout/navigation/Navigation"));
 
@@ -19,7 +18,6 @@ const Home = () => {
                 <div className="container">
                     <Left />
                     <Middle />
-                    <Right />
                 </div>
             </main>
         </>

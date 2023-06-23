@@ -1,8 +1,15 @@
 import userService from "../../services/user.service";
 
-import { getUserStart, getUserSuccess, getUserFailed } from "../userSlice";
+import {
+    getUserStart,
+    getUserSuccess,
+    getUserFailed,
+    updateUserStart,
+    updateUserSuccess,
+    updateUserFailed,
+} from "../userSlice";
 
-export const getUserByID = async (dispatch, userID) => {
+export const getUserByID = async (userID, dispatch) => {
     dispatch(getUserStart(userID));
 
     try {
@@ -11,5 +18,16 @@ export const getUserByID = async (dispatch, userID) => {
         return res.data;
     } catch (error) {
         dispatch(getUserFailed());
+    }
+};
+
+export const updateUser = async (updateUser, dispatch) => {
+    dispatch(updateUserStart(updateUser));
+
+    try {
+        const res = await userService.updateUser(updateUser);
+        dispatch(updateUserSuccess(res.data));
+    } catch (error) {
+        dispatch(updateUserFailed());
     }
 };

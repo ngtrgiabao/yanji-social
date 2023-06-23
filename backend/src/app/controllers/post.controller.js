@@ -1,5 +1,7 @@
 const PostModel = require("../models/post.model");
 
+//TODO ADD SHARE AND COMMENT
+
 const uploadPost = async (req, res) => {
     try {
         const { userID, desc, img } = req.body;
@@ -38,10 +40,12 @@ const getAllPostsByUser = async (req, res) => {
     try {
         const posts = await PostModel.find({
             userID,
-        });
+        }).sort({ createdAt: -1 });
+        const countPosts = await PostModel.countDocuments();
 
         return res.status(200).json({
-            msg: "Get all posts successfully",
+            msg: `Get all posts successfully of user: ${userID}`,
+            length: countPosts,
             posts,
         });
     } catch (error) {
@@ -49,6 +53,25 @@ const getAllPostsByUser = async (req, res) => {
 
         return res.status(500).json({
             msg: `Error retrieving posts of user ${userID}: ${error}`,
+        });
+    }
+};
+
+const getAllPosts = async (req, res) => {
+    try {
+        const posts = await PostModel.find({}).sort({ createdAt: -1 });
+        const countPosts = await PostModel.countDocuments();
+
+        return res.status(200).json({
+            msg: "Get all posts successfully",
+            length: countPosts,
+            posts,
+        });
+    } catch (error) {
+        console.error(`Error retrieving posts: ${error}`);
+
+        return res.status(500).json({
+            msg: `Error retrieving posts: ${error}`,
         });
     }
 };
@@ -141,11 +164,117 @@ const updatePost = async (req, res) => {
     }
 };
 
+const likePost = async (req, res) => {
+    const postID = req.params.postID;
+
+    try {
+        const { userID } = req.body;
+        const post = await PostModel.findById(postID);
+
+        if (!post.likes.includes(userID)) {
+            const updatedPost = await PostModel.findOneAndUpdate(
+                { _id: postID },
+                { $push: { likes: userID } },
+                { new: true } // Returns the updated post
+            );
+
+            return res.status(200).json({
+                msg: "The post has been liked",
+                data: updatedPost,
+            });
+        } else {
+            const updatedPost = await PostModel.findOneAndUpdate(
+                { _id: postID },
+                { $pull: { likes: userID } },
+                { new: true } // Returns the updated post
+            );
+
+            return res.status(200).json({
+                msg: "The post has been disliked",
+                data: updatedPost,
+            });
+        }
+    } catch (error) {
+        console.error(`Failed to action post ${postID}`, error);
+        return res.status(500).json({
+            msg: `Failed to action post ${postID}`,
+            error,
+        });
+    }
+};
+
+const sharePost = async (req, res) => {
+    const postID = req.params.postID;
+
+    try {
+        const { userID } = req.body;
+        const post = await PostModel.findById(postID);
+
+        if (!post.shares.includes(userID)) {
+            const updatedPost = await PostModel.findOneAndUpdate(
+                { _id: postID },
+                { $push: { shares: userID } },
+                { new: true } // Returns the updated post
+            );
+
+            return res.status(200).json({
+                msg: "The post has been shared",
+                data: updatedPost,
+            });
+        } else {
+            const updatedPost = await PostModel.findOneAndUpdate(
+                { _id: postID },
+                { $pull: { shares: userID } },
+                { new: true } // Returns the updated post
+            );
+
+            return res.status(200).json({
+                msg: "The post has been unShared",
+                data: updatedPost,
+            });
+        }
+    } catch (error) {
+        console.error(`Failed to share post ${postID}`, error);
+        return res.status(500).json({
+            msg: `Failed to share post ${postID}`,
+            error,
+        });
+    }
+};
+
+const commentPost = async (req, res) => {
+    const postID = req.params.postID;
+
+    try {
+        const { userID, content } = req.body;
+        const updatedPost = await PostModel.findOneAndUpdate(
+            { _id: postID },
+            { $push: { comments: { userID, content } } },
+            { new: true } // Returns the updated post
+        );
+
+        return res.status(200).json({
+            msg: "The post has been commented",
+            data: updatedPost,
+        });
+    } catch (error) {
+        console.error(`Failed to comment post ${postID}`, error);
+        return res.status(500).json({
+            msg: `Failed to comment post ${postID}`,
+            error,
+        });
+    }
+};
+
 module.exports = {
     uploadPost,
     deletePost,
     getAllPostsByUser,
     deleteAllPostsByUser,
     getPostByID,
+    getAllPosts,
     updatePost,
+    likePost,
+    sharePost,
+    commentPost,
 };

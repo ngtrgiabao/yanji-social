@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import "../../../style/pages/personal/body/body.css";
-
-import ProfilePic from "../../../assets/avatar/profile-pic.png";
 
 import Friends from "./friends/Friends";
 import Introduce from "./introduce/Introduce";
 import SocialLinks from "./social-links/SocialLinks";
 import PostPopup from "../../../components/PostPopup";
-import Post from "./post/Post";
+import Post from "../../../components/Post";
+import { getAllPostsByUser } from "../../../redux/request/postRequest";
 
 function Body() {
     const [avatar, setAvatar] = useState("");
+    const [popup, setPopup] = useState(false);
+    const [posts, setPosts] = useState([]);
+    const dispatch = useDispatch();
 
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {
@@ -31,8 +34,6 @@ function Body() {
         setAvatar(data);
     }, [avatar]);
 
-    const [popup, setPopup] = useState(false);
-
     const handlePopup = () => {
         setPopup((popup) => !popup);
     };
@@ -42,11 +43,25 @@ function Body() {
             popup && (
                 <PostPopup
                     onPopup={handlePopup}
-                    animateClass="animate__animated animate__bounceIn"
+                    animateClass="animate__animated animate__fadeIn"
                 />
             )
         );
     };
+
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
+    useEffect(() => {
+        getAllPostsByUser(currentUser._id, dispatch)
+            .then((data) => {
+                setPosts(data.posts);
+            })
+            .catch((err) => {
+                console.error("Failed to get post of user", err);
+            });
+    }, []);
 
     return (
         <>
@@ -71,20 +86,34 @@ function Body() {
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
-                                src={avatar || ProfilePic}
+                                src={currentUser.profilePicture}
                                 alt="Avatar user"
                             />
                         </div>
                         <button
                             role="button"
-                            className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted"
+                            className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted text-center"
                             onClick={handlePopup}
                         >
-                            What are you thinking, Yanji
+                            What are you thinking, {currentUser.username} ?
                         </button>
                     </div>
 
-                    <Post />
+                    <div className="posts">
+                        {posts.map((post) => (
+                            <Post
+                                key={post._id}
+                                postID={post._id}
+                                image={post.img}
+                                userID={post.userID}
+                                createdAt={post.createdAt}
+                                desc={post.desc}
+                                likes={post.likes}
+                                shares={post.shares}
+                                comments={post.comments}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
 

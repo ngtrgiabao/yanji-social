@@ -21,6 +21,7 @@ router.get(
     PostMiddleware.validatePostID,
     PostController.getPostByID
 );
+router.get("/all-posts", PostController.getAllPosts);
 
 router.post(
     "/upload-post/:userID",
@@ -32,6 +33,21 @@ router.put(
     "/update-post/:postID",
     PostMiddleware.validatePostID,
     PostController.updatePost
+);
+router.put(
+    "/:postID/like",
+    PostMiddleware.validatePostID,
+    PostController.likePost
+);
+router.put(
+    "/:postID/share",
+    PostMiddleware.validatePostID,
+    PostController.sharePost
+);
+router.put(
+    "/:postID/comment",
+    PostMiddleware.validatePostID,
+    PostController.commentPost
 );
 
 router.delete(
