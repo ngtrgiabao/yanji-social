@@ -44,8 +44,12 @@
 
 .middle-container .middle-container-header .middle-avatar-chat,
 .middle-container .middle-container-header .icon {
-    width: 4rem;
-    height: 4rem;
+    width: 2.5em;
+    height: 2.5em;
+}
+
+.middle-container .middle-container-header .middle-avatar-chat img {
+    object-fit: cover;
 }
 
 .middle-msg-page .middle-container .icon:hover {

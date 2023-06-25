@@ -75,6 +75,10 @@ ul {
     overflow: hidden;
 }
 
+.profile-pic img {
+    object-fit: cover;
+}
+
 /* CUSTOME SCROLLBAR */
 
 /* For Chrome, Safari and Opera */

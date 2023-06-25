@@ -29,7 +29,7 @@ import "../../../../style/pages/messages/middle/middle.css";
 
 import Photo from "../../../../assets/avatar/profile-pic.png";
 
-//TODO Fix layout message content
+//TODO Fix layout message content, fix avatar user
 
 import {
     sendMessage,
@@ -51,10 +51,10 @@ const Middle = () => {
     const [messageID, setMessageID] = useState(null);
     const [oldMessage, setOldMessage] = useState("");
     const [messageThread, setMessageThread] = useState([]);
-    const [titleConversation, setTitleConversation] = useState(null);
     const [currentConversation, setCurrentConversation] = useState(null);
     const [imageSelected, setImageSelected] = useState("");
     const [imgSrc, setImgSrc] = useState("");
+    const [friend, setFriend] = useState({ name: "", avatar: "" });
     const [base64Image, setBase64Image] = useState(""); // Base64 string representing the image
 
     const uploadImgRef = useRef(null);
@@ -74,18 +74,20 @@ const Middle = () => {
         return state.auth.login.currentUser?.data;
     });
 
-    const friendName = useSelector((state) => {
+    const friendInfo = useSelector((state) => {
         return state.user.user.currentUser?.user;
     });
 
     useEffect(() => {
         let isCancelled = false;
 
-        if (friendName && !isCancelled) {
+        if (friendInfo && !isCancelled) {
             // This conditional will filter one user in list of users
-            if (friendName._id) {
-                const value = friendName.username;
-                setTitleConversation(value);
+            if (friendInfo._id) {
+                setFriend({
+                    name: friendInfo.username,
+                    avatar: friendInfo.profilePicture,
+                });
             }
         }
 
@@ -412,18 +414,17 @@ const Middle = () => {
         return (
             <div className="middle-container-header d-flex align-items-center justify-content-between py-3 px-4 pb-3">
                 <div className="d-flex align-items-center">
-                    <img
-                        loading="lazy"
-                        role="presentation"
-                        decoding="async"
-                        src={Photo}
-                        alt="Avatar user"
-                        className="rounded-circle middle-avatar-chat"
-                    />
+                    <div className="middle-avatar-chat rounded-circle">
+                        <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
+                            src={friend.avatar || Photo}
+                            alt="Avatar user"
+                        />
+                    </div>
 
-                    <span className="ms-2 fs-4 fw-bold">
-                        {titleConversation}
-                    </span>
+                    <span className="ms-2 fs-4 fw-bold">{friend.name}</span>
                 </div>
                 <div className="d-flex fs-4">
                     <span
