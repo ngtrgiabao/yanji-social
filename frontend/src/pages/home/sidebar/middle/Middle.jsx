@@ -13,7 +13,7 @@ import Stories from "./stories/Stories";
 import PostPopup from "../../../../components/PostPopup";
 import Posts from "../../../../components/Posts";
 
-const Middle = () => {
+const Middle = ({ user }) => {
     const [popup, setPopup] = useState(false);
     const [avatar, setAvatar] = useState(null);
 
@@ -117,17 +117,17 @@ const Middle = () => {
         setAvatar(data);
     }, [avatar]);
 
-    const userID = useSelector((state) => {
-        return state.auth.login.currentUser?.data._id;
-    });
-
     const handlePopup = () => {
         setPopup((popup) => !popup);
     };
 
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
     const renderPostPopup = () => {
         return (
-            userID &&
+            currentUser?._id &&
             popup && (
                 <PostPopup
                     onPopup={handlePopup}
@@ -136,10 +136,6 @@ const Middle = () => {
             )
         );
     };
-
-    const currentUser = useSelector((state) => {
-        return state.auth.login.currentUser?.data;
-    });
 
     return (
         <>
@@ -153,7 +149,7 @@ const Middle = () => {
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
                         <Link
-                            to={currentUser ? `/user/${userID}` : "/"}
+                            to={currentUser ? `/user/${currentUser._id}` : "/"}
                             className="profile-pic"
                             aria-label="Avatar user"
                         >

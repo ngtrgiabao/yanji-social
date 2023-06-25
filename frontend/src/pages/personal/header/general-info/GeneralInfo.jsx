@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { UilCamera } from "@iconscout/react-unicons";
 
 import AvatarFriends from "./AvatarFriends";
@@ -9,12 +8,8 @@ import "../../../../style/pages/personal/header/general-info/generalInfo.css";
 
 import ChangeImagePopup from "../../../../components/ChangeImagePopup";
 
-function GeneralInfo() {
+function GeneralInfo({ user }) {
     const [openPopup, setOpenPopup] = useState(false);
-
-    const currentUser = useSelector((state) => {
-        return state.auth.login.currentUser?.data;
-    });
 
     const handlePopup = () => {
         setOpenPopup((openPopup) => !openPopup);
@@ -34,7 +29,7 @@ function GeneralInfo() {
                             loading="lazy"
                             role="presentation"
                             decoding="async"
-                            src={currentUser?.profilePicture || KAYO_AVATAR}
+                            src={user?.profilePicture || KAYO_AVATAR}
                             alt="Avatar user"
                         />
                     </div>
@@ -45,7 +40,7 @@ function GeneralInfo() {
 
                 <div className="information ms-4 mt-5">
                     <p className="name" onClick={handlePopup}>
-                        {currentUser?.username || "User"}
+                        {user?.username || "User"}
                     </p>
                     <div className="friends mb-4">1,2k Friends</div>
 
@@ -58,7 +53,7 @@ function GeneralInfo() {
             {openPopup && (
                 <ChangeImagePopup
                     title="Cập nhật ảnh đại diện"
-                    imgSrc={currentUser.profilePicture}
+                    imgSrc={user.profilePicture}
                     isAvatar={true}
                     onClose={() => setOpenPopup("")}
                 />

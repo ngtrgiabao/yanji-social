@@ -37,7 +37,7 @@ const Post = ({
     comments,
 }) => {
     const [popup, setPopup] = useState(false);
-    const [username, setUsername] = useState("User");
+    const [user, setUser] = useState({});
 
     const dispatch = useDispatch();
     const formatTime = useTimeAgo;
@@ -45,6 +45,11 @@ const Post = ({
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
+
+    const socketRef = useRef(null);
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+    socketRef.current = io(SOCKET_URL);
+    const socket = socketRef.current;
 
     useEffect(() => {
         const handleClickOutside = () => {
@@ -60,7 +65,7 @@ const Post = ({
     useEffect(() => {
         getUserByID(userID, dispatch)
             .then((data) => {
-                setUsername(data?.user.username);
+                setUser(data?.user);
             })
             .catch((err) => {
                 console.error("Failed", err);
@@ -73,12 +78,69 @@ const Post = ({
         setPopup((popup) => !popup);
     };
 
-    const handleDeletePost = async (postID) => {
-        try {
-            await deletePost(postID, dispatch);
-        } catch (error) {
-            console.error("Failed to delete post", error);
-        }
+    const post = {
+        userID: currentUser._id,
+        postID: postID,
+    };
+
+    const handlePost = {
+        likePost: () => {
+            likePost(post, dispatch)
+                .then(async (data) => {
+                    await socket.emit("update-post", data.data);
+                })
+                .catch((error) => {
+                    console.error("Failed to like post", error);
+                });
+        },
+        sharePost: async () => {
+            sharePost(post, dispatch)
+                .then(async (data) => {
+                    await socket.emit("update-post", data.data);
+                })
+                .catch((error) => {
+                    console.error("Failed to share post", error);
+                });
+        },
+        deletePost: async (postID) => {
+            try {
+                deletePost(postID, dispatch).then(async (data) => {
+                    await socket.emit("delete-post", data.data);
+                });
+            } catch (error) {
+                console.error("Failed to delete post", error);
+            }
+        },
+    };
+
+    const renderTitle = () => {
+        return (
+            <div className="user">
+                <Link
+                    to={`/user/${user._id}`}
+                    className="profile-pic bg-white"
+                    aria-label="Avatar user"
+                >
+                    <img
+                        loading="lazy"
+                        role="presentation"
+                        decoding="async"
+                        src={user.profilePicture || KAYO_AVATAR}
+                        alt="Avatar user"
+                    />
+                </Link>
+                <Link to={`/user/${user._id}`} className="info">
+                    <div className="d-flex align-items-center">
+                        <div className="fs-5 fw-bold">{user.username}</div>
+                        <span className="mx-2">●</span>
+                        <div className="fs-5">
+                            {formatTime(createdAt) || "now"}
+                        </div>
+                    </div>
+                    <span>@{user.username}</span>
+                </Link>
+            </div>
+        );
     };
 
     const renderEditPost = () => {
@@ -87,7 +149,7 @@ const Post = ({
                 <ul>
                     <li
                         className="delete-post"
-                        onClick={() => handleDeletePost(postID)}
+                        onClick={() => handlePost.deletePost(postID)}
                     >
                         <span>
                             <UilTrash />
@@ -129,64 +191,70 @@ const Post = ({
         );
     };
 
-    const socketRef = useRef(null);
-    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    socketRef.current = io(SOCKET_URL);
-    const socket = socketRef.current;
-    const post = {
-        userID: currentUser._id,
-        postID: postID,
-    };
-
-    const handlePost = {
-        likePost: () => {
-            likePost(post, dispatch)
-                .then(async (data) => {
-                    await socket.emit("update-post", data.data);
-                })
-                .catch((error) => {
-                    console.error("Failed to like post", error);
-                });
-        },
-        sharePost: async () => {
-            sharePost(post, dispatch)
-                .then(async (data) => {
-                    await socket.emit("update-post", data.data);
-                })
-                .catch((error) => {
-                    console.error("Failed to share post", error);
-                });
-        },
+    const renderActionBtn = () => {
+        return (
+            <div className="action-buttons d-flex justify-content-between align-items-center fs-3 border-top pt-3">
+                <div className="interaction-buttons d-flex justify-content-between w-100 align-items-center gap-4">
+                    <span
+                        className="d-flex justify-content-center align-items-center share flex-fill p-1 post-action__btn rounded-2"
+                        onClick={() => handlePost.sharePost(postID)}
+                    >
+                        {/* share */}
+                        <span>
+                            {shares.includes(currentUser._id) ? (
+                                <FontAwesomeIcon
+                                    icon={faRepeat}
+                                    style={{
+                                        color: "var(--color-blue)",
+                                    }}
+                                />
+                            ) : (
+                                <FontAwesomeIcon icon={faRepeat} />
+                            )}
+                        </span>
+                        <div className="ms-2">
+                            <b>{shares.length}</b>
+                        </div>
+                    </span>
+                    <span className="d-flex justify-content-center align-items-center comment flex-fill p-1 post-action__btn rounded-2">
+                        {/* comment */}
+                        <span>
+                            <FontAwesomeIcon icon={faComment} />
+                        </span>
+                        <div className="ms-2">
+                            <b>{comments.length}</b>
+                        </div>
+                    </span>
+                    <span
+                        className="d-flex justify-content-center align-items-center heart flex-fill p-1 post-action__btn rounded-2 overflow-hidden"
+                        onClick={() => handlePost.likePost()}
+                    >
+                        {/* like */}
+                        <span>
+                            {likes.includes(currentUser._id) ? (
+                                <FontAwesomeIcon
+                                    icon={liked}
+                                    style={{
+                                        color: "crimson",
+                                    }}
+                                />
+                            ) : (
+                                <FontAwesomeIcon icon={likeDefault} />
+                            )}
+                        </span>
+                        <div className="ms-2">
+                            <b>{likes.length}</b>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        );
     };
 
     return (
         <div className="post">
             <div className="head">
-                <div className="user">
-                    <Link
-                        to={`/user/${currentUser._id}`}
-                        className="profile-pic bg-white"
-                        aria-label="Avatar user"
-                    >
-                        <img
-                            loading="lazy"
-                            role="presentation"
-                            decoding="async"
-                            src={currentUser.profilePicture || KAYO_AVATAR}
-                            alt="Avatar user"
-                        />
-                    </Link>
-                    <Link to={`/user/${currentUser._id}`} className="info">
-                        <div className="d-flex align-items-center">
-                            <div className="fs-4 fw-bold">{username}</div>
-                            <span className="mx-2">●</span>
-                            <div className="fs-5">
-                                {formatTime(createdAt) || "now"}
-                            </div>
-                        </div>
-                        <span>@{username}</span>
-                    </Link>
-                </div>
+                {renderTitle()}
 
                 <span className="post-settings">
                     <UilEllipsisH
@@ -202,6 +270,7 @@ const Post = ({
             <div className="caption">
                 <p>{desc}</p>
             </div>
+
             {image && (
                 <div className="photo">
                     <img
@@ -213,66 +282,8 @@ const Post = ({
                     />
                 </div>
             )}
-            <div className="action-buttons d-flex justify-content-between align-items-center fs-3">
-                <div className="interaction-buttons d-flex justify-content-between w-100 align-items-center gap-4">
-                    <span
-                        className="d-flex justify-content-center align-items-center share flex-fill p-1 post-action__btn rounded-2"
-                        onClick={() => handlePost.sharePost(postID)}
-                    >
-                        {/* share */}
-                        {shares.includes(currentUser._id) ? (
-                            <span>
-                                <FontAwesomeIcon
-                                    icon={faRepeat}
-                                    style={{
-                                        color: "var(--color-blue)",
-                                    }}
-                                />
-                            </span>
-                        ) : (
-                            <span>
-                                <FontAwesomeIcon icon={faRepeat} />
-                            </span>
-                        )}
-                        <div className="ms-2">
-                            <b>{shares.length}</b>
-                        </div>
-                    </span>
-                    <span className="d-flex justify-content-center align-items-center comment flex-fill p-1 post-action__btn rounded-2">
-                        {/* comment */}
-                        <span>
-                            <FontAwesomeIcon icon={faComment} />
-                        </span>
-                        <div className="ms-2">
-                            <b>{comments.length}</b>
-                        </div>
-                    </span>
-                    <span
-                        className="d-flex justify-content-center align-items-center heart flex-fill p-1 post-action__btn rounded-2"
-                        onClick={() => handlePost.likePost()}
-                    >
-                        {/* like */}
-                        {likes.includes(currentUser._id) ? (
-                            <span>
-                                <FontAwesomeIcon
-                                    icon={liked}
-                                    style={{
-                                        color: "crimson",
-                                    }}
-                                />
-                            </span>
-                        ) : (
-                            <span>
-                                <FontAwesomeIcon icon={likeDefault} />
-                            </span>
-                        )}
 
-                        <div className="ms-2">
-                            <b>{likes.length}</b>
-                        </div>
-                    </span>
-                </div>
-            </div>
+            {renderActionBtn()}
         </div>
     );
 };

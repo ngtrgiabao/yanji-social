@@ -19,7 +19,7 @@ const startServer = async () => {
             console.log("Socket connected successfully");
         });
     } catch (error) {
-        console.log("Cannot connect to db :<");
+        console.log("Cannot connect to db :<", error);
         process.exit();
     }
 };

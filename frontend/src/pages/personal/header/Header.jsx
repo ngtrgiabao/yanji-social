@@ -1,17 +1,12 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { UilCamera } from "@iconscout/react-unicons";
 
 import "../../../style/pages/personal/header/header.css";
 import coverImg from "../../../assets/background/coverfb.jpg";
 import ChangeImagePopup from "../../../components/ChangeImagePopup";
 
-function Header() {
+function Header({ user }) {
     const [openPopup, setOpenPopup] = useState(false);
-
-    const currentUser = useSelector((state) => {
-        return state.auth.login.currentUser?.data;
-    });
 
     const handlePopup = () => {
         setOpenPopup((openPopup) => !openPopup);
@@ -25,7 +20,7 @@ function Header() {
                         loading="lazy"
                         role="presentation"
                         decoding="async"
-                        src={currentUser.coverPicture || coverImg}
+                        src={user.coverPicture || coverImg}
                         alt="Background cover"
                     />
                 </div>
@@ -43,7 +38,7 @@ function Header() {
                 {openPopup && (
                     <ChangeImagePopup
                         title="Cập nhật ảnh bìa"
-                        imgSrc={currentUser.coverPicture}
+                        imgSrc={user.coverPicture}
                         isCircle={false}
                         isCover={true}
                         onClose={() => setOpenPopup("")}

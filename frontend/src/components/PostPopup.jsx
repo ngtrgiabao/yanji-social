@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { io } from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import { faLock, faImage } from "@fortawesome/free-solid-svg-icons";
@@ -59,30 +59,33 @@ const PostPopup = ({ onPopup, animateClass }) => {
     };
 
     const cloudStorage = useUploadImage;
+    const socketRef = useRef(null);
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+    socketRef.current = io(SOCKET_URL);
+    const socket = socketRef.current;
 
     const handleSubmit = async (e) => {
-        if (content) {
-            e.preventDefault();
-            const result = await cloudStorage(imageUrl);
-            const imageURL = result?.secure_url;
+        e.preventDefault();
+        const result = await cloudStorage(imageUrl);
+        const imageURL = result?.secure_url;
 
-            const newPost = {
-                userID: userID,
-                desc: content,
-            };
+        const newPost = {
+            userID: userID,
+            desc: content,
+        };
 
-            if (imageURL) {
-                newPost.img = imageURL;
-            }
-
-            uploadPost(newPost, dispatch)
-                .then(() => {
-                    console.log("Upload post successfully");
-                })
-                .catch((err) => console.error("Failed to upload post", err));
-
-            onPopup();
+        if (imageURL) {
+            newPost.img = imageURL;
         }
+
+        uploadPost(newPost, dispatch)
+            .then(async (data) => {
+                await socket.emit("upload-post", data.data);
+                console.log("Upload post successfully");
+            })
+            .catch((err) => console.error("Failed to upload post", err));
+
+        onPopup();
     };
 
     const currentUser = useSelector((state) => {

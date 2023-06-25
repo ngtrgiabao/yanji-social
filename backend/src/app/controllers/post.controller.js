@@ -27,10 +27,12 @@ const uploadPost = async (req, res) => {
 const deletePost = async (req, res) => {
     const postID = req.params.postID;
 
+    const result = await PostModel.findById(postID);
     await PostModel.findByIdAndDelete(postID);
 
     return res.status(200).json({
         msg: "Deleted post successfully",
+        data: result,
     });
 };
 

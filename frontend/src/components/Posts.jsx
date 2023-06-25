@@ -45,6 +45,22 @@ const Posts = () => {
             },
             [posts]
         ),
+        uploadPost: useCallback(
+            (data) => {
+                setPosts((prevPosts) => [data, ...prevPosts]);
+            },
+            [posts]
+        ),
+        deletePost: useCallback(
+            (data) => {
+                const { _id } = data;
+                setPosts((prevPosts) => {
+                    const updatedPosts = prevPosts.filter((p) => p._id !== _id);
+                    return updatedPosts;
+                });
+            },
+            [posts]
+        ),
     };
 
     useEffect(() => {
@@ -52,11 +68,19 @@ const Posts = () => {
         const socket = socketRef.current;
 
         socket.on("updated-post", handelSocket.updatePost);
+        socket.on("uploaded-post", handelSocket.uploadPost);
+        socket.on("deleted-post", handelSocket.deletePost);
 
         return () => {
             socket.off("updated-post", handelSocket.updatePost);
+            socket.off("uploaded-post", handelSocket.uploadPost);
+            socket.off("deleted-post", handelSocket.deletePost);
         };
-    }, [handelSocket.updatePost]);
+    }, [
+        handelSocket.updatePost,
+        handelSocket.uploadPost,
+        handelSocket.deletePost,
+    ]);
 
     return (
         currentUser &&

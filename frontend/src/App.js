@@ -33,7 +33,7 @@ function App() {
                     path="/messages"
                     element={
                         <Suspense fallback={<LoadingPage />}>
-                            <MessagesPage />
+                            {userID ? <MessagesPage /> : <RegisterPage />}
                         </Suspense>
                     }
                 />
@@ -46,7 +46,8 @@ function App() {
                     }
                 />
                 <Route
-                    path={"/user" + `/${userID}`}
+                    // path={"/user" + `/${userID}`}
+                    path={"/user/:userID"}
                     element={
                         <Suspense fallback={<LoadingPage />}>
                             <PersonalPage />

@@ -10,7 +10,7 @@ import PostPopup from "../../../components/PostPopup";
 import Post from "../../../components/Post";
 import { getAllPostsByUser } from "../../../redux/request/postRequest";
 
-function Body() {
+function Body({ user }) {
     const [avatar, setAvatar] = useState("");
     const [popup, setPopup] = useState(false);
     const [posts, setPosts] = useState([]);
@@ -49,19 +49,16 @@ function Body() {
         );
     };
 
-    const currentUser = useSelector((state) => {
-        return state.auth.login.currentUser?.data;
-    });
-
     useEffect(() => {
-        getAllPostsByUser(currentUser._id, dispatch)
-            .then((data) => {
-                setPosts(data.posts);
-            })
-            .catch((err) => {
-                console.error("Failed to get post of user", err);
-            });
-    }, []);
+        user._id &&
+            getAllPostsByUser(user._id, dispatch)
+                .then((data) => {
+                    setPosts(data.posts);
+                })
+                .catch((err) => {
+                    console.error("Failed to get post of user", err);
+                });
+    }, [user]);
 
     return (
         <>
@@ -86,7 +83,7 @@ function Body() {
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
-                                src={currentUser.profilePicture}
+                                src={user.profilePicture}
                                 alt="Avatar user"
                             />
                         </div>
@@ -95,7 +92,7 @@ function Body() {
                             className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted text-center"
                             onClick={handlePopup}
                         >
-                            What are you thinking, {currentUser.username} ?
+                            What are you thinking, {user.username} ?
                         </button>
                     </div>
 

@@ -59,10 +59,22 @@ io.on("connection", (socket) => {
             console.log(users);
             io.emit("get-users", users);
         });
+        socket.on("upload-post", (data) => {
+            const { _id } = data;
+            io.emit("uploaded-post", data);
+
+            console.log(data);
+            console.log(`Uploaded post ${_id} successfully`);
+        });
         socket.on("update-post", (data) => {
             const { _id } = data;
             io.emit("updated-post", data);
             console.log(`Updated post ${_id} successfully`);
+        });
+        socket.on("delete-post", (data) => {
+            const { _id } = data;
+            io.emit("deleted-post", data);
+            console.log(`deleted post ${_id} successfully`);
         });
 
         socket.on("disconnect", () => {

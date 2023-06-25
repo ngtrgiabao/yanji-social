@@ -19,6 +19,7 @@ export const uploadPost = async (post, dispatch) => {
     try {
         const res = await postService.uploadPost(post);
         dispatch(uploadPostSuccess(res.data));
+        return res.data;
     } catch (error) {
         dispatch(uploadPostFailed());
     }
@@ -60,8 +61,9 @@ export const getAllPosts = async (dispatch) => {
 export const deletePost = async (postID, dispatch) => {
     dispatch(deletePostStart());
     try {
-        await postService.deletePost(postID);
+        const res = await postService.deletePost(postID);
         dispatch(deletePostSuccess());
+        return res.data;
     } catch (error) {
         dispatch(deletePostFailed());
     }
