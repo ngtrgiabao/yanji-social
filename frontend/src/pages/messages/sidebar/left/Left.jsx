@@ -22,13 +22,13 @@ const Left = ({ avatarUser }) => {
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
-    const sender = useSelector((state) => {
+    const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
 
     useEffect(() => {
         let isCancelled = false;
-        getRoomsByUserID(dispatch, sender._id)
+        getRoomsByUserID(dispatch, currentUser._id)
             .then((data) => {
                 if (!isCancelled) {
                     setRooms(data.rooms); // Set rooms directly
@@ -41,7 +41,7 @@ const Left = ({ avatarUser }) => {
         return () => {
             isCancelled = true;
         };
-    }, [dispatch, sender._id]);
+    }, [dispatch, currentUser._id]);
 
     useEffect(() => {
         if (currentChat) {
@@ -62,8 +62,8 @@ const Left = ({ avatarUser }) => {
             (userList) => {
                 const users = Object.values(userList);
 
-                // Get friends of sender to compare user of socket to set online users
-                getUserByID(sender._id, dispatch).then((data) => {
+                // Get friends of currentUser to compare user of socket to set online users
+                getUserByID(currentUser._id, dispatch).then((data) => {
                     const value = data.user.friends.filter((f) =>
                         users.some((u) => u.userID === f)
                     );
@@ -71,7 +71,7 @@ const Left = ({ avatarUser }) => {
                     setOnlineUsers(value);
                 });
             },
-            [sender._id, dispatch]
+            [currentUser._id, dispatch]
         ),
     };
 
@@ -80,7 +80,7 @@ const Left = ({ avatarUser }) => {
         const socket = socketRef.current;
 
         socket.emit("add-user", {
-            user: sender._id,
+            user: currentUser._id,
         });
 
         socket.on("get-users", handleSocket.getUsersOnline);
@@ -88,7 +88,7 @@ const Left = ({ avatarUser }) => {
         return () => {
             socket.off("get-users", handleSocket.getUsersOnline);
         };
-    }, [handleSocket.getUsersOnline, sender._id]);
+    }, [handleSocket.getUsersOnline, currentUser._id]);
 
     const renderRooms = () => {
         return rooms.map((r) => (
@@ -97,7 +97,9 @@ const Left = ({ avatarUser }) => {
                 onClick={() => {
                     setCurrentChat(r._id);
                     setFriendID(
-                        r.participants.filter((user) => user !== sender._id)
+                        r.participants.filter(
+                            (user) => user !== currentUser._id
+                        )
                     );
                 }}
                 className="messages-wrapper__room-list"
@@ -105,7 +107,7 @@ const Left = ({ avatarUser }) => {
                 <Conversation
                     onlineUsers={onlineUsers}
                     conversation={r}
-                    currentUser={sender._id}
+                    currentUser={currentUser._id}
                     avatarUser={avatarUser}
                     filterMessages={filterMessages}
                 />
@@ -142,7 +144,7 @@ const Left = ({ avatarUser }) => {
                             {renderRooms()}
                             {/* <ChatOnline
                                 onlineUsers={onlineUsers}
-                                currentUser={sender._id}
+                                currentUser={currentUser._id}
                             /> */}
                         </div>
                     </div>

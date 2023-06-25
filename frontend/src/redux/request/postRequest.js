@@ -94,6 +94,7 @@ export const likePost = async (post, dispatch) => {
     try {
         const res = await postService.likePost(post);
         dispatch(updatePostSuccess(res.data));
+        return res.data;
     } catch (error) {
         dispatch(updatePostFailed());
     }
@@ -105,6 +106,7 @@ export const sharePost = async (post, dispatch) => {
     try {
         const res = await postService.sharePost(post);
         dispatch(updatePostSuccess(res.data));
+        return res.data;
     } catch (error) {
         dispatch(updatePostFailed());
     }
@@ -116,6 +118,7 @@ export const commentPost = async (post, dispatch) => {
     try {
         const res = await postService.commentPost(post);
         dispatch(updatePostSuccess(res.data));
+        return res.data;
     } catch (error) {
         dispatch(updatePostFailed());
     }

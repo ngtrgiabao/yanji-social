@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { io } from "socket.io-client";
 
-import "../style/components/post.css"
+import "../style/components/post.css";
 
-import { getAllPosts } from "../redux/request/postRequest";
+import { getAllPosts, getPostByID } from "../redux/request/postRequest";
 import Post from "./Post";
 
 const Posts = () => {
@@ -24,6 +25,38 @@ const Posts = () => {
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
+
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+    const socketRef = useRef(null);
+
+    const handelSocket = {
+        updatePost: useCallback(
+            (data) => {
+                const { _id } = data;
+                getPostByID(_id, dispatch).then((data) => {
+                    setPosts((prevPosts) => {
+                        const updatePost = prevPosts.map((p) =>
+                            p._id === data?.data._id ? data.data : p
+                        );
+
+                        return updatePost;
+                    });
+                });
+            },
+            [posts]
+        ),
+    };
+
+    useEffect(() => {
+        socketRef.current = io(SOCKET_URL);
+        const socket = socketRef.current;
+
+        socket.on("updated-post", handelSocket.updatePost);
+
+        return () => {
+            socket.off("updated-post", handelSocket.updatePost);
+        };
+    }, [handelSocket.updatePost]);
 
     return (
         currentUser &&

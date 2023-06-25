@@ -71,7 +71,7 @@ nav .nav__btn {
 
     padding: 0.5rem;
 
-    width: 45%;
+    min-width: 6em;
     height: 20%;
 
     border: 1px solid white;

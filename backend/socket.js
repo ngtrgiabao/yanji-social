@@ -59,6 +59,11 @@ io.on("connection", (socket) => {
             console.log(users);
             io.emit("get-users", users);
         });
+        socket.on("update-post", (data) => {
+            const { _id } = data;
+            io.emit("updated-post", data);
+            console.log(`Updated post ${_id} successfully`);
+        });
 
         socket.on("disconnect", () => {
             removeUser(socket.id);

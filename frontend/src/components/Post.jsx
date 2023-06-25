@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
-    UilBookmark,
     UilEllipsisH,
     UilTrash,
     UilBell,
@@ -18,17 +17,13 @@ import {
 import { faHeart as liked, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import io from "socket.io-client";
 
 import KAYO_AVATAR from "../assets/avatar/kayo.jpg";
 
 import "../style/components/post.css";
 
-import {
-    deletePost,
-    getAllPosts,
-    likePost,
-    sharePost,
-} from "../redux/request/postRequest";
+import { deletePost, likePost, sharePost } from "../redux/request/postRequest";
 import { getUserByID } from "../redux/request/userRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
 
@@ -42,7 +37,6 @@ const Post = ({
     shares,
     comments,
 }) => {
-    const [posts, setPosts] = useState([]);
     const [popup, setPopup] = useState(false);
     const [username, setUsername] = useState("User");
 
@@ -52,24 +46,6 @@ const Post = ({
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
-
-    useEffect(() => {
-        let isCancelled = false;
-
-        getAllPosts(dispatch)
-            .then((data) => {
-                if (!isCancelled) {
-                    setPosts(data.posts);
-                }
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-
-        return () => {
-            isCancelled = true;
-        };
-    }, [dispatch]);
 
     useEffect(() => {
         const handleClickOutside = () => {
@@ -96,46 +72,6 @@ const Post = ({
         e.stopPropagation();
 
         setPopup((popup) => !popup);
-    };
-
-    const handleSharePost = async (postID) => {
-        const post = {
-            userID: currentUser._id,
-            postID: postID,
-        };
-
-        try {
-            const updatedPost = await sharePost(post, dispatch);
-            const updatedPosts = posts.map((p) => {
-                if (p && p._id === updatedPost?._id) {
-                    return updatedPost;
-                }
-                return p;
-            });
-            setPosts(updatedPosts);
-        } catch (error) {
-            console.error("Failed to share post", error);
-        }
-    };
-
-    const handleLikePost = async (postID) => {
-        const post = {
-            userID: currentUser._id,
-            postID: postID,
-        };
-
-        try {
-            const updatedPost = await likePost(post, dispatch);
-            const updatedPosts = posts.map((p) => {
-                if (p && p._id === updatedPost?._id) {
-                    return updatedPost;
-                }
-                return p;
-            });
-            setPosts(updatedPosts);
-        } catch (error) {
-            console.error("Failed to like post", error);
-        }
     };
 
     const handleDeletePost = async (postID) => {
@@ -192,6 +128,36 @@ const Post = ({
                 </ul>
             </div>
         );
+    };
+
+    const socketRef = useRef(null);
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+    socketRef.current = io(SOCKET_URL);
+    const socket = socketRef.current;
+    const post = {
+        userID: currentUser._id,
+        postID: postID,
+    };
+
+    const handlePost = {
+        likePost: () => {
+            likePost(post, dispatch)
+                .then(async (data) => {
+                    await socket.emit("update-post", data.data);
+                })
+                .catch((error) => {
+                    console.error("Failed to like post", error);
+                });
+        },
+        sharePost: async () => {
+            sharePost(post, dispatch)
+                .then(() => {
+                    console.log("Shared post successully");
+                })
+                .catch((error) => {
+                    console.error("Failed to share post", error);
+                });
+        },
     };
 
     return (
@@ -255,7 +221,7 @@ const Post = ({
                 <div className="interaction-buttons d-flex align-items-center gap-4">
                     <span
                         className="d-flex align-items-center share"
-                        onClick={() => handleSharePost(postID)}
+                        onClick={() => handlePost.sharePost(postID)}
                     >
                         {/* share */}
                         {shares.includes(currentUser._id) ? (
@@ -287,7 +253,7 @@ const Post = ({
                     </span>
                     <span
                         className="d-flex align-items-center heart"
-                        onClick={() => handleLikePost(postID)}
+                        onClick={() => handlePost.likePost()}
                     >
                         {/* like */}
                         {likes.includes(currentUser._id) ? (
