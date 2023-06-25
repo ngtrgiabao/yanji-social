@@ -256,15 +256,17 @@ const Post = ({
             <div className="head">
                 {renderTitle()}
 
-                <span className="post-settings">
-                    <UilEllipsisH
-                        className="dots"
-                        onClick={(e) => {
-                            handlePopup(e);
-                        }}
-                    />
-                    {renderEditPost()}
-                </span>
+                {user._id === currentUser._id && (
+                    <span className="post-settings">
+                        <UilEllipsisH
+                            className="dots"
+                            onClick={(e) => {
+                                handlePopup(e);
+                            }}
+                        />
+                        {renderEditPost()}
+                    </span>
+                )}
             </div>
 
             <div className="caption">

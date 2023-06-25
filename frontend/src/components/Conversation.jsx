@@ -61,7 +61,7 @@ const Conversation = ({
         };
     }, [friends, onlineUsers, isOnline]);
 
-    const avatarUserElement = () => {
+    const renderAvatarUser = () => {
         return (
             <span
                 className={
@@ -74,7 +74,7 @@ const Conversation = ({
                     loading="lazy"
                     role="presentation"
                     decoding="async"
-                    src={avatarUser}
+                    src={user?.profilePicture}
                     alt="Avatar user"
                     className="rounded-circle"
                 />
@@ -82,10 +82,10 @@ const Conversation = ({
         );
     };
 
-    const messageBodyElement = () => {
+    const renderMessageBodyElement = () => {
         return (
             <div className="message-body ms-3">
-                <div className="fs-3 fw-bold">{user && user.username}</div>
+                <div className="fs-3 fw-bold">{user?.username}</div>
             </div>
         );
     };
@@ -100,8 +100,8 @@ const Conversation = ({
 
         return (
             <div className="d-flex w-100 align-items-center">
-                {avatarUserElement()}
-                {messageBodyElement()}
+                {renderAvatarUser()}
+                {renderMessageBodyElement()}
             </div>
         );
     };
