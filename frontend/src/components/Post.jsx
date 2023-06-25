@@ -15,7 +15,6 @@ import {
     faComment,
 } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as liked, faRepeat } from "@fortawesome/free-solid-svg-icons";
-import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import io from "socket.io-client";
 
@@ -151,8 +150,8 @@ const Post = ({
         },
         sharePost: async () => {
             sharePost(post, dispatch)
-                .then(() => {
-                    console.log("Shared post successully");
+                .then(async (data) => {
+                    await socket.emit("update-post", data.data);
                 })
                 .catch((error) => {
                     console.error("Failed to share post", error);
@@ -215,12 +214,9 @@ const Post = ({
                 </div>
             )}
             <div className="action-buttons d-flex justify-content-between align-items-center fs-3">
-                <span className="bookmark">
-                    <FontAwesomeIcon icon={faBookmark} />
-                </span>
-                <div className="interaction-buttons d-flex align-items-center gap-4">
+                <div className="interaction-buttons d-flex justify-content-between w-100 align-items-center gap-4">
                     <span
-                        className="d-flex align-items-center share"
+                        className="d-flex justify-content-center align-items-center share flex-fill p-1 post-action__btn rounded-2"
                         onClick={() => handlePost.sharePost(postID)}
                     >
                         {/* share */}
@@ -242,7 +238,7 @@ const Post = ({
                             <b>{shares.length}</b>
                         </div>
                     </span>
-                    <span className="d-flex align-items-center comment">
+                    <span className="d-flex justify-content-center align-items-center comment flex-fill p-1 post-action__btn rounded-2">
                         {/* comment */}
                         <span>
                             <FontAwesomeIcon icon={faComment} />
@@ -252,7 +248,7 @@ const Post = ({
                         </div>
                     </span>
                     <span
-                        className="d-flex align-items-center heart"
+                        className="d-flex justify-content-center align-items-center heart flex-fill p-1 post-action__btn rounded-2"
                         onClick={() => handlePost.likePost()}
                     >
                         {/* like */}
