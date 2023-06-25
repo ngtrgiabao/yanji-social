@@ -48,6 +48,10 @@
     overflow: hidden;
 }
 
+.post-popup__container form .form__name .avatar img {
+    object-fit: cover;
+}
+
 .post-popup__container form .form__status {
     width: fit-content;
 

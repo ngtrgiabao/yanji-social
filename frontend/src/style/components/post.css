@@ -239,3 +239,8 @@ hr {
 
     cursor: pointer;
 }
+
+/* Footer  */
+.post-action__btn:hover {
+    background: var(--color-bg-hover);
+}
