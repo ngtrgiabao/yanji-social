@@ -1,0 +1,13 @@
+@import url("../../constants/constant.css");
+@import url("../../animations/index.css");
+
+.middle {
+    grid-column-start: 2;
+    grid-column-end: 4;
+}
+
+img {
+    display: block;
+
+    object-fit: cover;
+}

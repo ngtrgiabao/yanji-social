@@ -6,11 +6,11 @@ import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
 
 import Navigation from "../../layout/navigation/Navigation";
 
-import Middle from "./sidebar/middle/Middle";
-import Right from "./sidebar/right/Right";
+import MessagesMiddle from "./MessagesMiddle";
+import MessagesRight from "./MessagesRight";
 import LoadingPage from "../loading/LoadingPage";
 
-const Left = lazy(() => import("./sidebar/left/Left"));
+const MessagesLeft = lazy(() => import("./MessagesLeft"));
 
 function Messages() {
     return (
@@ -18,11 +18,11 @@ function Messages() {
             <Navigation title="Login" link="/register" />
             <div className="messages">
                 <Suspense fallback={<LoadingPage />}>
-                    <Left avatarUser={KAYO_AVATAR} />
+                    <MessagesLeft avatarUser={KAYO_AVATAR} />
                 </Suspense>
 
-                <Middle />
-                <Right />
+                <MessagesMiddle />
+                <MessagesRight />
             </div>
         </>
     );

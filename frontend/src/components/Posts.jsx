@@ -7,10 +7,11 @@ import "../style/components/post.css";
 import { getAllPosts, getPostByID } from "../redux/request/postRequest";
 import Post from "./Post";
 
-const Posts = () => {
+const Posts = ({ socket }) => {
     const [posts, setPosts] = useState([]);
-
     const dispatch = useDispatch();
+
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
     useEffect(() => {
         getAllPosts(dispatch)
@@ -25,9 +26,6 @@ const Posts = () => {
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
-
-    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    const socketRef = useRef(null);
 
     const handelSocket = {
         updatePost: useCallback(
@@ -64,8 +62,7 @@ const Posts = () => {
     };
 
     useEffect(() => {
-        socketRef.current = io(SOCKET_URL);
-        const socket = socketRef.current;
+        socket = io(SOCKET_URL);
 
         socket.on("updated-post", handelSocket.updatePost);
         socket.on("uploaded-post", handelSocket.uploadPost);
@@ -80,6 +77,7 @@ const Posts = () => {
         handelSocket.updatePost,
         handelSocket.uploadPost,
         handelSocket.deletePost,
+        socket,
     ]);
 
     return (

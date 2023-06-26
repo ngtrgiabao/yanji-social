@@ -1,6 +1,7 @@
-import { Suspense, lazy } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Suspense, lazy, useEffect, useRef } from "react";
+import { Routes, Route, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { io } from "socket.io-client";
 
 import LoadingPage from "./pages/loading/LoadingPage";
 import NetworkError from "./pages/networkError/NetworkError";
@@ -10,13 +11,21 @@ const MessagesPage = lazy(() => import("./pages/messages/Messages"));
 const ExplorePage = lazy(() => import("./pages/explore/Explore"));
 const PersonalPage = lazy(() => import("./pages/personal/Personal"));
 
-const RegisterPage = lazy(() => import("./pages/form/register/RegisterPage"));
-const LoginPage = lazy(() => import("./pages/form/login/LoginPage"));
+const RegisterPage = lazy(() => import("./pages/form/RegisterPage"));
+const LoginPage = lazy(() => import("./pages/form/LoginPage"));
 
 function App() {
-    const userID = useSelector((state) => {
+    const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data._id;
     });
+
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+    const socketRef = useRef(null);
+    const socket = socketRef.current;
+
+    useEffect(() => {
+        socketRef.current = io(SOCKET_URL);
+    }, [SOCKET_URL]);
 
     return (
         <div className="App">
@@ -25,7 +34,7 @@ function App() {
                     path="/"
                     element={
                         <Suspense fallback={<LoadingPage />}>
-                            <Homepage />
+                            <Homepage socket={socket} />
                         </Suspense>
                     }
                 />
@@ -33,7 +42,7 @@ function App() {
                     path="/messages"
                     element={
                         <Suspense fallback={<LoadingPage />}>
-                            {userID ? <MessagesPage /> : <RegisterPage />}
+                            {currentUser ? <MessagesPage /> : <RegisterPage />}
                         </Suspense>
                     }
                 />
@@ -46,7 +55,7 @@ function App() {
                     }
                 />
                 <Route
-                    // path={"/user" + `/${userID}`}
+                    // path={"/user" + `/${currentUser._id}`}
                     path={"/user/:userID"}
                     element={
                         <Suspense fallback={<LoadingPage />}>

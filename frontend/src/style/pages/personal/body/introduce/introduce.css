@@ -1,9 +1,0 @@
-@import "../../../../constants/constant.css";
-
-.link:hover {
-    text-decoration: underline;
-}
-
-.link__color {
-    color: var(--color-primary);
-}
