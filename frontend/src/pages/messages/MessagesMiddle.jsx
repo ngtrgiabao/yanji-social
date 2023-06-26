@@ -29,8 +29,6 @@ import "../../style/pages/messages/messagesMiddle.css";
 
 import Photo from "../../assets/avatar/profile-pic.png";
 
-//TODO Fix layout message content, fix avatar user
-
 import {
     sendMessage,
     getMessagesByRoomID,
