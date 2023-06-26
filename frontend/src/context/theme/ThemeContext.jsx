@@ -85,35 +85,35 @@ const ThemeProvider = ({ children }) => {
     // Set Font size
     useEffect(() => {
         switch (fontSize) {
-            case "font-size-1":
+            case "fs-1":
                 root.style.setProperty("--sticky-top-left", "8rem");
                 root.style.setProperty("--sticky-top-right", "8rem");
                 root.style.fontSize = "10px";
 
                 break;
 
-            case "font-size-2":
+            case "fs-2":
                 root.style.setProperty("--sticky-top-left", "8.4rem");
                 root.style.setProperty("--sticky-top-right", "8.4rem");
                 root.style.fontSize = "11.5px";
 
                 break;
 
-            case "font-size-3":
+            case "fs-3":
                 root.style.setProperty("--sticky-top-left", "8rem");
                 root.style.setProperty("--sticky-top-right", "8rem");
                 root.style.fontSize = "16px";
 
                 break;
 
-            case "font-size-4":
+            case "fs-4":
                 root.style.setProperty("--sticky-top-left", "8rem");
                 root.style.setProperty("--sticky-top-right", "8rem");
                 root.style.fontSize = "19px";
 
                 break;
 
-            case "font-size-5":
+            case "fs-5":
                 root.style.setProperty("--sticky-top-left", "8rem");
                 root.style.setProperty("--sticky-top-right", "8rem");
                 root.style.fontSize = "22px";
@@ -149,16 +149,16 @@ const ThemeProvider = ({ children }) => {
     };
 
     const setFontSizes = (newFontSize) => {
-        if (newFontSize === "font-size-1") {
-            setFontSize("font-size-1");
-        } else if (newFontSize === "font-size-2") {
-            setFontSize("font-size-2");
-        } else if (newFontSize === "font-size-3") {
-            setFontSize("font-size-3");
-        } else if (newFontSize === "font-size-4") {
-            setFontSize("font-size-4");
-        } else if (newFontSize === "font-size-5") {
-            setFontSize("font-size-5");
+        if (newFontSize === "fs-1") {
+            setFontSize("fs-1");
+        } else if (newFontSize === "fs-2") {
+            setFontSize("fs-2");
+        } else if (newFontSize === "fs-3") {
+            setFontSize("fs-3");
+        } else if (newFontSize === "fs-4") {
+            setFontSize("fs-4");
+        } else if (newFontSize === "fs-5") {
+            setFontSize("fs-5");
         }
     };
 

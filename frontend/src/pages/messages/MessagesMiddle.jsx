@@ -39,6 +39,7 @@ import {
     getMessageByID,
     markMessageSeen,
 } from "../../redux/request/messageRequest";
+import { getUserByID } from "../../redux/request/userRequest";
 import { useTimeAgo } from "../../hooks/useTimeAgo";
 import PreviewImage from "../../components/PreviewImage";
 import ConfirmDialog from "../../components/ConfirmDialog";
@@ -54,6 +55,7 @@ const MessagesMiddle = () => {
     const [currentConversation, setCurrentConversation] = useState(null);
     const [imageSelected, setImageSelected] = useState("");
     const [imgSrc, setImgSrc] = useState("");
+    const [friendID, setFriendID] = useState("");
     const [friend, setFriend] = useState({ name: "", avatar: "" });
     const [base64Image, setBase64Image] = useState(""); // Base64 string representing the image
     const uploadImgRef = useRef(null);
@@ -72,28 +74,6 @@ const MessagesMiddle = () => {
     const sender = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
-
-    const friendInfo = useSelector((state) => {
-        return state.user.user.currentUser?.user;
-    });
-
-    useEffect(() => {
-        let isCancelled = false;
-
-        if (friendInfo && !isCancelled) {
-            // This conditional will filter one user in list of users
-            if (friendInfo._id) {
-                setFriend({
-                    name: friendInfo.username,
-                    avatar: friendInfo.profilePicture,
-                });
-            }
-        }
-
-        return () => {
-            isCancelled = true;
-        };
-    }, [currentConversation]);
 
     const handleSocket = {
         serverResponse: useCallback((data) => {
@@ -174,6 +154,17 @@ const MessagesMiddle = () => {
         return state.room.room?.currentRoom;
     });
 
+    useEffect(() => {
+        friendID &&
+            getUserByID(friendID, dispatch).then((data) => {
+                const friendInfo = data.user;
+                setFriend({
+                    name: friendInfo.username,
+                    avatar: friendInfo.profilePicture,
+                });
+            });
+    }, [friendID]);
+
     // Loop each room
     useEffect(() => {
         let isCancelled = false;
@@ -184,6 +175,9 @@ const MessagesMiddle = () => {
             // This conditional will filter one room in list of rooms
             if (roomData && roomData._id) {
                 const value = roomData._id;
+                setFriendID(
+                    roomData.participants.filter((p) => p !== sender._id)
+                );
                 setCurrentConversation(value);
             }
         }

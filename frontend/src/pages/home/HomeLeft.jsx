@@ -31,12 +31,6 @@ const HomeLeft = () => {
         setPopup((popup) => !popup);
     };
 
-    useEffect(() => {
-        localStorage.setItem("font_size", "fs-1");
-        localStorage.setItem("background_theme", "bg-1");
-        localStorage.setItem("text_color", "color-1");
-    }, []);
-
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {
         return () => {
@@ -241,9 +235,7 @@ const HomeLeft = () => {
         return (
             <div
                 className="customize-theme"
-                style={{
-                    display: `${active === "THEME" ? "grid" : "none"}`,
-                }}
+                hidden={active !== "THEME"}
                 onClick={() => setActive("")}
             >
                 <div
