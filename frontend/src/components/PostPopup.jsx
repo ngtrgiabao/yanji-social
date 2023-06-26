@@ -2,8 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
+import {
+    faCircleXmark,
+    faFaceSmile,
+} from "@fortawesome/free-regular-svg-icons";
 import { faLock, faImage } from "@fortawesome/free-solid-svg-icons";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
 
 import "../style/components/postPopup.css";
 
@@ -17,6 +22,7 @@ const PostPopup = ({ onPopup, animateClass }) => {
     const [imageUrl, setImageUrl] = useState(null);
     const [imageSrc, setImageSrc] = useState("");
     const [content, setContent] = useState("");
+    const [active, setActive] = useState("");
     const uploadImg = useRef(null);
 
     // CLEANUP URL WHEN CHANGE IMG
@@ -54,6 +60,16 @@ const PostPopup = ({ onPopup, animateClass }) => {
         return state.auth.login.currentUser?.data._id;
     });
 
+    const handleSendEmoji = (e) => {
+        const sym = e.unified.split("_");
+        const codeArray = [];
+
+        sym.forEach((el) => codeArray.push("0x" + el));
+        let emoji = String.fromCodePoint(...codeArray);
+
+        setContent(content + emoji);
+    };
+
     const handleContent = (e) => {
         setContent(e.target.value);
     };
@@ -88,6 +104,11 @@ const PostPopup = ({ onPopup, animateClass }) => {
         onPopup();
     };
 
+    const handleDeleteImage = () => {
+        setImageSrc("");
+        uploadImg.current.value = "";
+    };
+
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser.data;
     });
@@ -106,6 +127,7 @@ const PostPopup = ({ onPopup, animateClass }) => {
                 onClick={(e) => {
                     e.stopPropagation();
                 }}
+                className="scrollbar"
             >
                 {/* NAME */}
                 <div className="form__name d-flex justify-content-between">
@@ -152,40 +174,77 @@ const PostPopup = ({ onPopup, animateClass }) => {
                             overflowY: "auto",
                             overflowX: "hidden",
                             width: "100%",
-                            height: "25rem",
+                            height: "10em",
                         }}
                         onChange={handleContent}
                         placeholder={`What's in your mind, ${currentUser.username}?`}
+                        value={content}
                     ></textarea>
                 </div>
 
-                {/* DRAG IMG */}
-                <div
-                    className="form__drag-image"
-                    style={{
-                        fontSize: "1.8rem",
-                        cursor: "pointer",
-                    }}
-                    onClick={() => handleUploadImgFile()}
-                >
-                    <input
-                        type="file"
-                        style={{ display: "none" }}
-                        ref={uploadImg}
-                        onChange={(e) => handleImageUpload(e)}
-                    />
+                <div className="d-flex">
+                    <div
+                        className="form__drag-image"
+                        style={{
+                            fontSize: "1.8rem",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => handleUploadImgFile()}
+                    >
+                        <input
+                            type="file"
+                            style={{ display: "none" }}
+                            ref={uploadImg}
+                            onChange={(e) => handleImageUpload(e)}
+                        />
 
-                    <span>
-                        <FontAwesomeIcon icon={faImage} />
+                        <span>
+                            <FontAwesomeIcon icon={faImage} />
+                        </span>
+                    </div>
+                    <span
+                        style={{ fontSize: "1.8rem" }}
+                        className="ms-3 position-relative"
+                    >
+                        <FontAwesomeIcon
+                            icon={faFaceSmile}
+                            onClick={() => {
+                                active !== "EMOJI"
+                                    ? setActive("EMOJI")
+                                    : setActive("");
+                            }}
+                            style={{
+                                cursor: "pointer",
+                            }}
+                        />
+                        <span
+                            className="position-absolute top-50"
+                            hidden={active !== "EMOJI"}
+                        >
+                            <Picker
+                                data={data}
+                                emojiSize={22}
+                                emojiButtonSize={29}
+                                maxFrequentRows={0}
+                                onEmojiSelect={(e) => handleSendEmoji(e)}
+                                locale="vi"
+                                perLine={8}
+                                previewPosition="none"
+                            />
+                        </span>
                     </span>
                 </div>
 
                 {imageSrc && (
-                    <PreviewImage
-                        imgSrc={imageSrc}
-                        width="10rem"
-                        height="10rem"
-                    />
+                    <div className="w-100 position-relative">
+                        <PreviewImage imgSrc={imageSrc} />
+                        <span
+                            className="delete-image"
+                            onClick={handleDeleteImage}
+                        >
+                            <FontAwesomeIcon icon={faCircleXmark} />
+                        </span>
+                    </div>
                 )}
 
                 <input

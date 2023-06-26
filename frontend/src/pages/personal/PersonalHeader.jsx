@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { UilCamera } from "@iconscout/react-unicons";
-
-import coverImg from "../../assets/background/coverfb.jpg";
+import { useSelector } from "react-redux";
 
 import "../../style/pages/personal/personalHeader.css";
 
@@ -14,6 +13,10 @@ const PersonalHeader = ({ user }) => {
         setOpenPopup((openPopup) => !openPopup);
     };
 
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
     return (
         <div className="cover">
             <span className="position-relative">
@@ -22,20 +25,22 @@ const PersonalHeader = ({ user }) => {
                         loading="lazy"
                         role="presentation"
                         decoding="async"
-                        src={user.coverPicture || coverImg}
+                        src={user.coverPicture}
                         alt="Background cover"
                     />
                 </div>
 
-                <div
-                    className="edit-cover d-flex align-items-center"
-                    onClick={handlePopup}
-                >
-                    <span className="me-3">
-                        <UilCamera />
-                    </span>
-                    Edit cover
-                </div>
+                {user._id === currentUser._id && (
+                    <div
+                        className="edit-cover d-flex align-items-center"
+                        onClick={handlePopup}
+                    >
+                        <span className="me-3">
+                            <UilCamera />
+                        </span>
+                        Edit cover
+                    </div>
+                )}
 
                 {openPopup && (
                     <ChangeImagePopup

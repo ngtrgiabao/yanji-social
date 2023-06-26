@@ -1,11 +1,18 @@
 import { useState, useEffect } from "react";
 import { UilPlusCircle, UilPen } from "@iconscout/react-unicons";
+import { useSelector } from "react-redux";
+import { faUserPlus, faWifi } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import axios from "axios";
 
-const PersonalAvatarFriends = () => {
+const PersonalAvatarFriends = ({ user }) => {
     // GET RANDOM AVATAR FRIENDS IN PERSONAL PAGE
     const [randomAvatarFriends, setRandomAvatarFriends] = useState([]);
+
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
 
     useEffect(() => {
         let isCancelled = false;
@@ -61,17 +68,43 @@ const PersonalAvatarFriends = () => {
             </div>
 
             <div className="d-flex flex-wrap edit-profile">
-                <div className="add-stories d-flex align-items-center text-light">
-                    <span>
-                        <UilPlusCircle />
+                <div className="add-stories me-3 d-flex align-items-center text-light text-center">
+                    {user._id === currentUser._id ? (
+                        <span className="me-2">
+                            <UilPlusCircle />
+                        </span>
+                    ) : (
+                        <span className="me-2">
+                            <FontAwesomeIcon icon={faUserPlus} />
+                        </span>
+                    )}
+                    <span className="d-block">
+                        {user._id === currentUser._id
+                            ? "Add stories"
+                            : "Add friend"}
                     </span>
-                    <span className="d-block ms-2 ">Add stories</span>
                 </div>
-                <div className="d-flex align-items-center edit-profile-page text-light">
-                    <span>
-                        <UilPen />
-                    </span>
-                    <span className="d-block ms-2">Edit profile page</span>
+                <div className="d-flex align-items-center edit-profile-page text-light border">
+                    {user._id === currentUser._id ? (
+                        <>
+                            <span>
+                                <UilPen />
+                            </span>
+                            <span className="ms-2">Edit profile page</span>
+                        </>
+                    ) : (
+                        <>
+                            <span
+                                className="me-2"
+                                style={{
+                                    transform: "rotate(45deg)",
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faWifi} />
+                            </span>
+                            <span>Follow</span>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

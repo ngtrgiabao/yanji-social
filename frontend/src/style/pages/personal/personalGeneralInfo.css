@@ -100,10 +100,6 @@
     cursor: pointer;
 }
 
-.header-title-container .add-stories {
-    margin-right: 2rem;
-}
-
 .header-title-container .edit-profile-page {
     background: rgba(36, 37, 38, 0.904);
 }
