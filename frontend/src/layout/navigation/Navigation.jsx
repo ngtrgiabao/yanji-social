@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import "../../style/layouts/navigation.css";
 
-import ProfilePic from "../../assets/avatar/profile-pic.png";
+import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
 
 import { logout } from "../../redux/request/authRequest";
 
@@ -73,7 +73,7 @@ const Navigation = ({ title, link }) => {
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
-                                src={currentUser?.profilePicture || ProfilePic}
+                                src={currentUser?.profilePicture || KAYO_AVATAR}
                                 alt="Avatar user"
                             />
                         </Link>

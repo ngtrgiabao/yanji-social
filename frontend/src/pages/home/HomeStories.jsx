@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import "../../style/pages/home/homeStories.css";
-import ProfilePic from "../../assets/avatar/profile-pic.png";
+import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
 
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -77,7 +77,7 @@ const HomeStories = () => {
                 id="your-story"
                 style={{
                     background: `url(${
-                        currentUser ? currentUser.profilePicture : ProfilePic
+                        currentUser ? currentUser.profilePicture : KAYO_AVATAR
                     }) no-repeat center center/cover`,
                 }}
             >
@@ -89,7 +89,7 @@ const HomeStories = () => {
                         src={
                             currentUser
                                 ? currentUser.profilePicture
-                                : ProfilePic
+                                : KAYO_AVATAR
                         }
                         alt="Avatar user"
                     />

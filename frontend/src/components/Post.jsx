@@ -25,9 +25,11 @@ import "../style/components/post.css";
 import { deletePost, likePost, sharePost } from "../redux/request/postRequest";
 import { getUserByID } from "../redux/request/userRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
+import DetailsPost from "./DetailsPost";
 
 const Post = ({
     image,
+    video,
     postID,
     userID,
     createdAt,
@@ -36,8 +38,13 @@ const Post = ({
     shares,
     comments,
 }) => {
-    const [popup, setPopup] = useState(false);
-    const [user, setUser] = useState({});
+    const [popup, setPopup] = useState("");
+    const [user, setUser] = useState({
+        _id: "",
+        username: "",
+        profilePicture: "",
+    });
+    const videoRef = useRef(null);
 
     const dispatch = useDispatch();
     const formatTime = useTimeAgo;
@@ -53,7 +60,7 @@ const Post = ({
 
     useEffect(() => {
         const handleClickOutside = () => {
-            setPopup(false);
+            setPopup("");
         };
 
         window.addEventListener("click", handleClickOutside);
@@ -65,17 +72,34 @@ const Post = ({
     useEffect(() => {
         getUserByID(userID, dispatch)
             .then((data) => {
-                setUser(data?.user);
+                const userInfo = data?.user;
+                setUser({
+                    _id: userInfo._id,
+                    username: userInfo.username,
+                    profilePicture: userInfo.profilePicture,
+                });
             })
             .catch((err) => {
                 console.error("Failed", err);
             });
     }, []);
 
-    const handlePopup = (e) => {
+    const handleSetting = (e) => {
         e.stopPropagation();
+        if (popup !== "SETTING") {
+            setPopup("SETTING");
+        } else {
+            setPopup("");
+        }
+    };
 
-        setPopup((popup) => !popup);
+    const handleDetailsPost = (e) => {
+        e.stopPropagation();
+        if (popup !== "DETAILS") {
+            setPopup("DETAILS");
+        } else {
+            setPopup("");
+        }
     };
 
     const post = {
@@ -145,7 +169,7 @@ const Post = ({
 
     const renderEditPost = () => {
         return (
-            <div className="edit-post" hidden={!popup}>
+            <div className="edit-post" hidden={popup !== "SETTING"}>
                 <ul>
                     <li
                         className="delete-post"
@@ -197,7 +221,7 @@ const Post = ({
                 <div className="interaction-buttons d-flex justify-content-between w-100 align-items-center gap-4">
                     <span
                         className="d-flex justify-content-center align-items-center share flex-fill p-1 post-action__btn rounded-2"
-                        onClick={() => handlePost.sharePost(postID)}
+                        onClick={() => handlePost.sharePost()}
                     >
                         {/* share */}
                         <span>
@@ -216,7 +240,13 @@ const Post = ({
                             <b>{shares.length}</b>
                         </div>
                     </span>
-                    <span className="d-flex justify-content-center align-items-center comment flex-fill p-1 post-action__btn rounded-2">
+                    <span
+                        className="d-flex justify-content-center align-items-center comment flex-fill p-1 post-action__btn rounded-2"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleDetailsPost(e);
+                        }}
+                    >
                         {/* comment */}
                         <span>
                             <FontAwesomeIcon icon={faComment} />
@@ -251,42 +281,83 @@ const Post = ({
         );
     };
 
-    return (
-        <div className="post">
-            <div className="head">
-                {renderTitle()}
+    const renderPost = () => {
+        return (
+            <div className="post mb-4">
+                <div className="head">
+                    {renderTitle()}
 
-                {user._id === currentUser._id && (
-                    <span className="post-settings">
-                        <UilEllipsisH
-                            className="dots"
-                            onClick={(e) => {
-                                handlePopup(e);
-                            }}
-                        />
-                        {renderEditPost()}
-                    </span>
-                )}
-            </div>
-
-            <div className="caption">
-                <p>{desc}</p>
-            </div>
-
-            {image && (
-                <div className="photo">
-                    <img
-                        loading="lazy"
-                        role="presentation"
-                        decoding="async"
-                        src={image}
-                        alt="Photo of post"
-                    />
+                    {user._id === currentUser._id && (
+                        <span className="post-settings">
+                            <UilEllipsisH
+                                className="dots"
+                                onClick={(e) => {
+                                    handleSetting(e);
+                                }}
+                            />
+                            {renderEditPost()}
+                        </span>
+                    )}
                 </div>
-            )}
 
-            {renderActionBtn()}
-        </div>
+                <div className="caption">
+                    <p>{desc}</p>
+                </div>
+
+                {image && (
+                    <div className="photo">
+                        <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
+                            src={image}
+                            alt="Photo of post"
+                        />
+                    </div>
+                )}
+
+                {video && (
+                    <div className="photo">
+                        <video
+                            preload="metadata"
+                            className="w-100"
+                            ref={videoRef}
+                            controls
+                            draggable="false"
+                            muted
+                            autoPlay
+                            loop
+                        >
+                            <source src={video} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                )}
+
+                {renderActionBtn()}
+            </div>
+        );
+    };
+
+    const renderDetailsPost = () => {
+        return (
+            popup === "DETAILS" && (
+                <DetailsPost
+                    onPopup={handleDetailsPost}
+                    children={renderPost()}
+                    author={user}
+                    comments={comments}
+                    postID={postID}
+                />
+            )
+        );
+    };
+
+    return (
+        <>
+            {renderPost()}
+            {renderDetailsPost()}
+        </>
     );
 };
 

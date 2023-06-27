@@ -6,35 +6,35 @@ import "../../style/pages/personal/personalGallery.css";
 
 import PersonalGalleryCollection from "./PersonalGalleryCollection";
 
-import { CATS_URL } from "../../constants/api.data.constant";
-
 const PersonalGallery = () => {
-    // GET RANDOWM GALLERIES
-    const [randomPhoto, setRandomPhoto] = useState([]);
+    const [randomAvatarFriends, setRandomAvatarFriends] = useState([]);
 
     useEffect(() => {
-        const getGallery = async () => {
-            const photo = await axios.get(CATS_URL);
+        const getFriendsAvatar = async () => {
+            const avatar = await axios.get(
+                "https://randomuser.me/api/?results=9&inc=picture"
+            );
 
-            photo.data.forEach((catPhoto) => {
-                setRandomPhoto((cat) => [...cat, catPhoto.url]);
+            avatar.data.results.forEach((friend) => {
+                setRandomAvatarFriends((friendAvatar) => [
+                    ...friendAvatar,
+                    friend.picture.large,
+                ]);
             });
         };
-        getGallery();
-    }, []);
 
+        getFriendsAvatar();
+    }, []);
     return (
         <>
             <div className="header d-flex justify-content-between">
-                <a href="#" className="fw-bold fs-3">
-                    Images
-                </a>
+                <span className="fw-bold fs-3">Images</span>
                 <a href="#" className="fs-3">
                     All images
                 </a>
             </div>
             <div>
-                <PersonalGalleryCollection photos={randomPhoto} />
+                <PersonalGalleryCollection photos={randomAvatarFriends} />
             </div>
         </>
     );

@@ -4,7 +4,7 @@ const PersonalGalleryCollection = ({ photos }) => {
     const renderPhotos = () => {
         return photos.map((photo, index) => {
             return (
-                <div key={index}>
+                <div key={index} className="gallery-image w-100 h-100">
                     <img
                         loading="lazy"
                         role="presentation"

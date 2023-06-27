@@ -29,7 +29,7 @@ function Personal() {
                 setIsValid(false);
                 console.error("User is not valid", err);
             });
-    }, [userID]);
+    }, [userID, dispatch]);
 
     return isValid ? (
         <>

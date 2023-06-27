@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { UilCamera } from "@iconscout/react-unicons";
+import { useSelector } from "react-redux";
 
-import AvatarFriends from "./PersonalAvatarFriends";
-import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
+import PersonalAvatarFriends from "./PersonalAvatarFriends";
 
 import "../../style/pages/personal/personalGeneralInfo.css";
 
@@ -15,27 +15,39 @@ const PersonalGeneralInfo = ({ user }) => {
         setOpenPopup((openPopup) => !openPopup);
     };
 
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
     return (
         <div className="px-5 header-title">
-            <div className="d-flex align-items-center justify-content-between header-title-container">
-                <div className="position-relative" onClick={handlePopup}>
-                    <div
-                        className="avatar"
-                        style={{
-                            border: "3px solid black",
-                        }}
-                    >
-                        <img
-                            loading="lazy"
-                            role="presentation"
-                            decoding="async"
-                            src={user?.profilePicture || KAYO_AVATAR}
-                            alt="Avatar user"
-                        />
+            <div className="d-flex align-items-center justify-content-between header-title-container w-100 h-100">
+                <div
+                    className="position-relative"
+                    onClick={() =>
+                        user._id === currentUser._id && handlePopup()
+                    }
+                >
+                    <div className="avatar d-flex justify-content-center align-items-center">
+                        {user.profilePicture ? (
+                            <img
+                                loading="lazy"
+                                role="presentation"
+                                decoding="async"
+                                src={user.profilePicture}
+                                alt="Avatar user"
+                            />
+                        ) : (
+                            <div className="fs-1 fw-bolder">
+                                {user.username}
+                            </div>
+                        )}
                     </div>
-                    <span className="position-absolute border border-primary rounded-circle p-2 edit-avatar">
-                        <UilCamera />
-                    </span>
+                    {user._id === currentUser._id && (
+                        <span className="position-absolute border border-primary rounded-circle p-2 edit-avatar">
+                            <UilCamera />
+                        </span>
+                    )}
                 </div>
 
                 <div className="information ms-4 mt-5">
@@ -45,7 +57,7 @@ const PersonalGeneralInfo = ({ user }) => {
                     <div className="friends mb-4">1,2k Friends</div>
 
                     <div className="profile-title">
-                        <AvatarFriends />
+                        <PersonalAvatarFriends user={user} />
                     </div>
                 </div>
             </div>

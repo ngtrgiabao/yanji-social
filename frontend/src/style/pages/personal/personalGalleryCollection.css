@@ -14,24 +14,25 @@
     width: 100%;
     height: 100%;
 
-    transition: all 0.25s ease;
-
-    scale: 1.1;
+    transition: all 0.55s ease;
 
     object-fit: cover;
 }
 
-.gallery-grid div:last-child {
-    display: none;
+.gallery-grid .gallery-image {
+    width: 5em;
+    height: 5em;
+
+    background: var(--color-primary);
 }
 
-.gallery-grid div {
+.gallery-grid .gallery-image {
     border-radius: var(--card-border-radius);
 
     overflow: hidden;
 }
 
-.gallery-grid div img:hover {
+.gallery-grid .gallery-image img:hover {
     cursor: pointer;
 
     scale: 1.2;

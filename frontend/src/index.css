@@ -79,6 +79,16 @@ ul {
     object-fit: cover;
 }
 
+.delete-image {
+    font-size: 2rem;
+
+    top: 2%;
+    right: 2%;
+    position: absolute;
+
+    cursor: pointer;
+}
+
 /* CUSTOME SCROLLBAR */
 
 /* For Chrome, Safari and Opera */

@@ -20,16 +20,12 @@ import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
 import FontSizeTheme from "./customTheme/FontSizeTheme";
 import BackgroundTheme from "./customTheme/BackgroundTheme";
 import ColorTheme from "./customTheme/ColorTheme";
+import PostPopup from "../../components/PostPopup";
 
 const HomeLeft = () => {
     const [active, setActive] = useState("HOME");
     const [avatar, setAvatar] = useState("");
-
     const [popup, setPopup] = useState(false);
-
-    const handleNotification = () => {
-        setPopup((popup) => !popup);
-    };
 
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {
@@ -100,7 +96,6 @@ const HomeLeft = () => {
                 }`}
                 onClick={() => {
                     setActive("NOTIFICATION");
-                    handleNotification();
                 }}
                 id="notification"
                 title="Thông báo"
@@ -261,6 +256,22 @@ const HomeLeft = () => {
         );
     };
 
+    const handlePopup = () => {
+        setPopup((popup) => !popup);
+    };
+
+    const renderPostPopup = () => {
+        return (
+            currentUser?._id &&
+            popup && (
+                <PostPopup
+                    onPopup={handlePopup}
+                    animateClass="animate__animated animate__fadeIn"
+                />
+            )
+        );
+    };
+
     return (
         <>
             <div className="left animate__animated animate__bounceInLeft">
@@ -308,13 +319,14 @@ const HomeLeft = () => {
                 <label
                     htmlFor="create-post"
                     className="btn btn-primary mt-3 py-3"
+                    onClick={handlePopup}
                 >
                     Create Post
                 </label>
             </div>
 
-            {/* CUSTOMIZE THEME */}
             {renderCustomThemePopup()}
+            {renderPostPopup()}
         </>
     );
 };

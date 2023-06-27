@@ -342,7 +342,7 @@ const RegisterPage = () => {
                     {errMsg}
                 </p>
                 <div className="register-form__container">
-                    <span className="register-form__title">Sign Up</span>
+                    <span className="register-form__title">Register</span>
 
                     <div className="register-form__container-body">
                         {renderUsernameInput()}

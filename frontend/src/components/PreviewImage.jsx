@@ -1,5 +1,5 @@
 const PreviewImage = ({ imgSrc, width, heigth }) => {
-    return (
+    return imgSrc ? (
         <img
             src={imgSrc}
             loading="lazy"
@@ -13,6 +13,8 @@ const PreviewImage = ({ imgSrc, width, heigth }) => {
                 height: heigth,
             }}
         />
+    ) : (
+        <>Hello</>
     );
 };
 

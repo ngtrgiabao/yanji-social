@@ -11,9 +11,8 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
     cloudinary,
-    allowedFormats: ["jpg", "png"],
     params: {
-        folder: "uploaded_images",
+        folder: process.env.CLOUD_FOLDER_NAME,
     },
 });
 

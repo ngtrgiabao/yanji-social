@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import { useSelector } from "react-redux";
 
-import { POKEMON_URL } from "../../constants/api.data.constant";
-
-import ProfilePic from "../../assets/avatar/profile-pic.png";
+import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
 
 import "../../style/pages/home/homeMiddle.css";
 
@@ -15,7 +12,6 @@ import Posts from "../../components/Posts";
 
 const HomeMiddle = ({ socket }) => {
     const [popup, setPopup] = useState(false);
-    const [avatar, setAvatar] = useState(null);
 
     // Get Data
     const [nextUrl, setNextUrl] = useState("");
@@ -27,39 +23,7 @@ const HomeMiddle = ({ socket }) => {
         setLoading(false);
     };
 
-    // CLEANUP URL WHEN CHANGE IMG
-    useEffect(() => {
-        let isCancelled = false;
-        const data = window.localStorage.getItem("avatar");
-
-        if (!isCancelled) {
-            setAvatar(data);
-        }
-
-        return () => {
-            isCancelled = true;
-            data && URL.revokeObjectURL(data.preview);
-        };
-    }, []);
-
-    // SAVE AVATAR USER TO LOCAL
-    useEffect(() => {
-        let isCancelled = false;
-
-        if (!isCancelled) {
-            avatar && window.localStorage.setItem("avatar", avatar);
-        }
-
-        return () => {
-            isCancelled = true;
-        };
-    }, [avatar]);
-
     // GET AVATAR USER FROM LOCAL
-    useEffect(() => {
-        const data = window.localStorage.getItem("avatar");
-        setAvatar(data);
-    }, [avatar]);
 
     const handlePopup = () => {
         setPopup((popup) => !popup);
@@ -89,7 +53,7 @@ const HomeMiddle = ({ socket }) => {
                 {/* STATUS */}
                 <div
                     action=""
-                    className="create-post d-flex align-items-center"
+                    className="create-post d-flex align-items-center mb-4"
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
                         <Link
@@ -104,7 +68,7 @@ const HomeMiddle = ({ socket }) => {
                                 src={
                                     currentUser
                                         ? currentUser.profilePicture
-                                        : ProfilePic
+                                        : KAYO_AVATAR
                                 }
                                 alt="Avatar user"
                             />
