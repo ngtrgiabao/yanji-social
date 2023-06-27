@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 
 import "../../style/pages/personal/personalHeader.css";
 
+import DEFAULT_BG from "../../assets/background/default_bg_user.svg";
+
 import ChangeImagePopup from "../../components/ChangeImagePopup";
 
 const PersonalHeader = ({ user }) => {
@@ -20,14 +22,24 @@ const PersonalHeader = ({ user }) => {
     return (
         <div className="cover">
             <span className="position-relative">
-                <div className="cover-picture">
-                    <img
-                        loading="lazy"
-                        role="presentation"
-                        decoding="async"
-                        src={user.coverPicture}
-                        alt="Background cover"
-                    />
+                <div className="cover-picture bg-black">
+                    {user.coverPicture ? (
+                        <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
+                            src={user.coverPicture}
+                            alt="Background cover"
+                        />
+                    ) : (
+                        <img
+                            src={DEFAULT_BG}
+                            alt=""
+                            style={{
+                                objectFit: "cover",
+                            }}
+                        />
+                    )}
                 </div>
 
                 {user._id === currentUser._id && (

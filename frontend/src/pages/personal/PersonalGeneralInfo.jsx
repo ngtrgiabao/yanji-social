@@ -21,26 +21,27 @@ const PersonalGeneralInfo = ({ user }) => {
 
     return (
         <div className="px-5 header-title">
-            <div className="d-flex align-items-center justify-content-between header-title-container">
+            <div className="d-flex align-items-center justify-content-between header-title-container w-100 h-100">
                 <div
                     className="position-relative"
                     onClick={() =>
                         user._id === currentUser._id && handlePopup()
                     }
                 >
-                    <div
-                        className="avatar"
-                        style={{
-                            border: "3px solid black",
-                        }}
-                    >
-                        <img
-                            loading="lazy"
-                            role="presentation"
-                            decoding="async"
-                            src={user?.profilePicture}
-                            alt="Avatar user"
-                        />
+                    <div className="avatar d-flex justify-content-center align-items-center">
+                        {user.profilePicture ? (
+                            <img
+                                loading="lazy"
+                                role="presentation"
+                                decoding="async"
+                                src={user.profilePicture}
+                                alt="Avatar user"
+                            />
+                        ) : (
+                            <div className="fs-1 fw-bolder">
+                                {user.username}
+                            </div>
+                        )}
                     </div>
                     {user._id === currentUser._id && (
                         <span className="position-absolute border border-primary rounded-circle p-2 edit-avatar">

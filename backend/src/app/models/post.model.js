@@ -1,16 +1,19 @@
 const mongoose = require("mongoose");
 
-const commentSchema = new mongoose.Schema({
-    userID: {
-        type: String,
-        required: true,
+const commentSchema = new mongoose.Schema(
+    {
+        userID: {
+            type: String,
+            required: true,
+        },
+        content: {
+            type: String,
+            required: true,
+            max: 500,
+        },
     },
-    content: {
-        type: String,
-        required: true,
-        max: 500,
-    },
-});
+    { timestamps: true }
+);
 
 const postSchema = new mongoose.Schema(
     {
@@ -23,6 +26,9 @@ const postSchema = new mongoose.Schema(
             max: 500,
         },
         img: {
+            type: String,
+        },
+        video: {
             type: String,
         },
         likes: {

@@ -11,7 +11,7 @@ const Home = ({ socket }) => {
     return (
         <>
             <Suspense fallback={null}>
-                <Navigation title="Login" link="/register" />
+                <Navigation title="Login" link="/login" />
             </Suspense>
 
             <main>

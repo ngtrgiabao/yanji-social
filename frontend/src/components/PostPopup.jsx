@@ -18,36 +18,29 @@ import useUploadImage from "../hooks/useUploadImage";
 import PreviewImage from "./PreviewImage";
 
 const PostPopup = ({ onPopup, animateClass }) => {
-    const [avatar, setAvatar] = useState("");
     const [imageUrl, setImageUrl] = useState(null);
     const [imageSrc, setImageSrc] = useState("");
+    const [videoUrl, setVideoUrl] = useState(null);
+    const [videoSrc, setVideoSrc] = useState("");
     const [content, setContent] = useState("");
     const [active, setActive] = useState("");
     const uploadImg = useRef(null);
 
-    // CLEANUP URL WHEN CHANGE IMG
-    useEffect(() => {
-        return () => {
-            avatar && URL.revokeObjectURL(avatar.preview);
-        };
-    }, [avatar]);
-
-    // SAVE IMG TO LOCAL
-    useEffect(() => {
-        avatar && window.localStorage.setItem("avatar", avatar);
-    }, [avatar]);
-
-    // GET IMG FROM LOCAL
-    useEffect(() => {
-        const data = window.localStorage.getItem("avatar");
-        setAvatar(data);
-    }, [avatar]);
-
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         const imgUrl = URL.createObjectURL(file);
-        setImageUrl(file);
-        setImageSrc(imgUrl);
+
+        if (file.type === "video/mp4") {
+            // For upload cloud
+            setVideoUrl(file);
+            // For preview image
+            setVideoSrc(imgUrl);
+        } else {
+            // For upload cloud
+            setImageUrl(file);
+            // For preview image
+            setImageSrc(imgUrl);
+        }
     };
 
     const handleUploadImgFile = () => {
@@ -82,22 +75,26 @@ const PostPopup = ({ onPopup, animateClass }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const result = await cloudStorage(imageUrl);
-        const imageURL = result?.secure_url;
 
         const newPost = {
             userID: userID,
             desc: content,
         };
 
-        if (imageURL) {
+        if (imageSrc) {
+            const result = await cloudStorage(imageUrl);
+            const imageURL = result?.secure_url;
             newPost.img = imageURL;
+        }
+        if (videoSrc) {
+            const result = await cloudStorage(videoUrl, true);
+            const videoURL = result?.secure_url;
+            newPost.video = videoURL;
         }
 
         uploadPost(newPost, dispatch)
             .then(async (data) => {
                 await socket.emit("upload-post", data.data);
-                console.log("Upload post successfully");
             })
             .catch((err) => console.error("Failed to upload post", err));
 
@@ -106,7 +103,7 @@ const PostPopup = ({ onPopup, animateClass }) => {
 
     const handleDeleteImage = () => {
         setImageSrc("");
-        uploadImg.current.value = "";
+        uploadImg.current.value = null;
     };
 
     const currentUser = useSelector((state) => {
@@ -246,6 +243,8 @@ const PostPopup = ({ onPopup, animateClass }) => {
                         </span>
                     </div>
                 )}
+
+                {videoSrc && <video src={videoSrc} controls></video>}
 
                 <input
                     type="submit"

@@ -4,11 +4,12 @@ const PostModel = require("../models/post.model");
 
 const uploadPost = async (req, res) => {
     try {
-        const { userID, desc, img } = req.body;
+        const { userID, desc, img, video } = req.body;
         const newPost = await PostModel.create({
             userID,
             desc,
             img,
+            video,
         });
 
         return res.status(200).json({
@@ -132,7 +133,7 @@ const updatePost = async (req, res) => {
     const postID = req.params.postID;
 
     try {
-        const { desc, img, userID } = req.body;
+        const { desc, img, video, userID } = req.body;
         const post = await PostModel.findById(postID);
 
         if (userID) {
@@ -146,6 +147,7 @@ const updatePost = async (req, res) => {
         if ((desc && desc.length > 0) || img) {
             post.desc = desc || post.desc;
             post.img = img || post.img;
+            post.video = video || post.video;
 
             const updatedPost = await post.save();
 

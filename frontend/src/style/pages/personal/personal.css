@@ -1,12 +1,3 @@
 .personal-container {
     margin: 10rem 12vw;
 }
-
-.cover-picture {
-    border-radius: 1rem;
-    overflow: hidden;
-}
-
-.cover-picture img {
-    width: 100%;
-}

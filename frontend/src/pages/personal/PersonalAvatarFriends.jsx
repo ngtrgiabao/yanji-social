@@ -68,7 +68,7 @@ const PersonalAvatarFriends = ({ user }) => {
             </div>
 
             <div className="d-flex flex-wrap edit-profile">
-                <div className="add-stories me-3 d-flex align-items-center text-light text-center">
+                <div className="add-stories me-3 d-flex align-items-center text-light text-center py-3">
                     {user._id === currentUser._id ? (
                         <span className="me-2">
                             <UilPlusCircle />
@@ -84,7 +84,7 @@ const PersonalAvatarFriends = ({ user }) => {
                             : "Add friend"}
                     </span>
                 </div>
-                <div className="d-flex align-items-center edit-profile-page text-light border">
+                <div className="d-flex align-items-center edit-profile-page text-light border py-3">
                     {user._id === currentUser._id ? (
                         <>
                             <span>
