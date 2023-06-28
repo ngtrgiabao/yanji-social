@@ -1,8 +1,15 @@
 import React from "react";
 
-import Comment from "./Comment";
+import Comments from "./Comments";
 
-const DetailsPost = ({ onPopup, animateClass, children, author, comments, postID }) => {
+const DetailsPost = ({
+    onPopup,
+    animateClass,
+    children,
+    author,
+    comments,
+    postID,
+}) => {
     return (
         <div
             onClick={(e) => onPopup(e)}
@@ -23,14 +30,14 @@ const DetailsPost = ({ onPopup, animateClass, children, author, comments, postID
                     Bài viết từ {author.username}
                 </p>
                 <div
-                    className="p-2 scrollbar"
+                    className="p-2 scrollbar w-100"
                     style={{
                         overflowY: "scroll",
                         borderRadius: "1rem",
                     }}
                 >
                     {children}
-                    <Comment
+                    <Comments
                         author={author}
                         comments={comments}
                         postID={postID}
