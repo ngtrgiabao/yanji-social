@@ -44,7 +44,12 @@ const Post = ({
         username: "",
         profilePicture: "",
     });
+    const [commentList, setCommentList] = useState([]);
     const videoRef = useRef(null);
+
+    useEffect(() => {
+        setCommentList([...comments].reverse());
+    }, [comments]);
 
     const dispatch = useDispatch();
     const formatTime = useTimeAgo;
@@ -346,7 +351,7 @@ const Post = ({
                     onPopup={handleDetailsPost}
                     children={renderPost()}
                     author={user}
-                    comments={comments}
+                    comments={commentList}
                     postID={postID}
                 />
             )

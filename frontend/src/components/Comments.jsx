@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,7 +8,7 @@ import { commentPost } from "../redux/request/postRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
 import Comment from "./Comment";
 
-//TODO FIX DUPLICATION USER WHEN COMMENT
+//TODO FIX SORT LATEST COMMENTS WORKING NOT RIGHT
 
 const Comments = ({ author, comments, postID }) => {
     const [content, setContent] = useState("");
@@ -17,8 +17,11 @@ const Comments = ({ author, comments, postID }) => {
 
     const socketRef = useRef(null);
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    socketRef.current = io(SOCKET_URL);
     const socket = socketRef.current;
+
+    useEffect(() => {
+        socketRef.current = io(SOCKET_URL);
+    }, [SOCKET_URL]);
 
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
@@ -55,10 +58,6 @@ const Comments = ({ author, comments, postID }) => {
     const handleContent = (e) => {
         setContent(e.target.value);
     };
-
-    const sortedLatestComments = [...comments].sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
 
     return (
         <>
@@ -106,13 +105,13 @@ const Comments = ({ author, comments, postID }) => {
             </form>
 
             {/* Comment */}
-            {sortedLatestComments.map((c, index) => (
+            {comments.map((c, index) => (
                 <Comment
                     key={index}
                     createdAt={c.createdAt}
                     content={c.content}
                     userID={c.userID}
-                    // postID={postID}
+                    postID={postID}
                     commentID={c._id}
                 />
             ))}

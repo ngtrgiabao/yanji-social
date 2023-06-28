@@ -140,7 +140,9 @@ const getCommentsByPostId = async (req, res) => {
             });
         }
 
-        const comments = post.comments;
+        const comments = post.comments.sort(
+            (a, b) => b.createdAt - a.createdAt
+        );
 
         return res.status(200).json({
             msg: "Get comments by post ID successfully",

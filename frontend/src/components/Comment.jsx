@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UilEllipsisH } from "@iconscout/react-unicons";
 import { Link } from "react-router-dom";
+import { io } from "socket.io-client";
 
 import { getUserByID } from "../redux/request/userRequest";
-import { getCommentByID, deleteComment } from "../redux/request/commentRequest";
+import { deleteComment } from "../redux/request/commentRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
-import { io } from "socket.io-client";
 
 const Comment = ({ userID, createdAt, content, commentID, postID }) => {
     const [user, setUser] = useState({
@@ -15,6 +15,7 @@ const Comment = ({ userID, createdAt, content, commentID, postID }) => {
         profilePicture: "",
     });
     const [isActive, setIsActive] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
 
     const formatTime = useTimeAgo;
@@ -43,25 +44,26 @@ const Comment = ({ userID, createdAt, content, commentID, postID }) => {
                 });
     }, []);
 
-    // const socketRef = useRef(null);
-    // const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    // socketRef.current = io(SOCKET_URL);
-    // const socket = socketRef.current;
+    const socketRef = useRef(null);
 
-    const renderSettingComment = () => {
-        // getCommentByID(commentID, dispatch).then((data) => {
-        //     console.log(data);
-        // });
-        // deleteComment(commentID, dispatch).then(async () => {
-        //     const updatePost = {
-        //         _id: postID,
-        //     };
+    const deleteComments = () => {
+        const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+        socketRef.current = io(SOCKET_URL);
+        const socket = socketRef.current;
 
-        //     await socket.emit("update-post", updatePost);
-        // });
+        setIsLoading(true);
+        deleteComment(commentID, dispatch).then(async () => {
+            const updatePost = {
+                _id: postID,
+            };
+            await socket.emit("update-post", updatePost);
+            setIsLoading(false);
+        });
     };
 
-    return (
+    return isLoading ? (
+        <div className="text-white">Loading...</div>
+    ) : (
         <div
             className="d-flex text-white flex-column pb-2 animate__animated animate__fadeIn my-4"
             style={{
@@ -98,14 +100,15 @@ const Comment = ({ userID, createdAt, content, commentID, postID }) => {
                 {currentUser._id === userID && (
                     <UilEllipsisH
                         className="dots"
-                        onClick={handleComment}
+                        onClick={() => {
+                            handleComment();
+                            deleteComments();
+                        }}
                         style={{
                             cursor: "pointer",
                         }}
                     />
                 )}
-
-                {isActive && renderSettingComment()}
             </div>
             <div
                 className="mt-2 fs-3 text-break border border-1 p-3"
