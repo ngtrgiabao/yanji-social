@@ -162,6 +162,7 @@ const PersonalBody = ({ user }) => {
                                 key={post._id}
                                 postID={post._id}
                                 image={post.img}
+                                video={post.video}
                                 userID={post.userID}
                                 createdAt={post.createdAt}
                                 desc={post.desc}

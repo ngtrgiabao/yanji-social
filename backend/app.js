@@ -17,6 +17,7 @@ const contactRoute = require("./src/app/routes/contact.routes");
 const blockListRoute = require("./src/app/routes/block.list.routes");
 const onlineRoute = require("./src/app/routes/online.routes");
 const postRoute = require("./src/app/routes/post.routes");
+const commentRoute = require("./src/app/routes/comment.routes");
 
 const corsOptions = {
     origin: process.env.FRONTEND_URL,
@@ -41,6 +42,7 @@ app.use("/api/v1/contact", contactRoute);
 app.use("/api/v1/block-list", blockListRoute);
 app.use("/api/v1/online", onlineRoute);
 app.use("/api/v1/post", postRoute);
+app.use("/api/v1/comment", commentRoute);
 
 //Handle 404 response
 app.use((req, res, next) => {

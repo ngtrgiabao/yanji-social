@@ -94,6 +94,7 @@ const Posts = ({ socket }) => {
                 likes={post.likes}
                 shares={post.shares}
                 comments={post.comments}
+                socket={socket}
             />
         ))
     );

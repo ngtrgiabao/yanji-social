@@ -10,6 +10,36 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 const Schema = mongoose.Schema;
 
+const postShared = new mongoose.Schema(
+    {
+        postID: {
+            type: String,
+            required: true,
+        },
+    },
+    { timestamps: true }
+);
+
+const postSaved = new mongoose.Schema(
+    {
+        postID: {
+            type: String,
+            required: true,
+        },
+    },
+    { timestamps: true }
+);
+
+const blackList = new mongoose.Schema(
+    {
+        userID: {
+            type: String,
+            required: true,
+        },
+    },
+    { timestamps: true }
+);
+
 const User = new Schema(
     {
         username: {
@@ -70,6 +100,9 @@ const User = new Schema(
             type: Array,
             default: [],
         },
+        postShared: [postShared],
+        blackList: [blackList],
+        postSaved: [postSaved],
     },
     { timestamps: true }
 );

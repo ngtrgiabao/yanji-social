@@ -1,126 +1,138 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { UilEllipsisH } from "@iconscout/react-unicons";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { io } from "socket.io-client";
 
-import { commentPost } from "../redux/request/postRequest";
+import { getUserByID } from "../redux/request/userRequest";
+import { deleteComment } from "../redux/request/commentRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
 
-const Comment = ({ author, comments, postID }) => {
-    const [content, setContent] = useState("");
+const Comment = ({
+    userCommented,
+    createdAt,
+    content,
+    commentID,
+    postID,
+    authorPost,
+    socket,
+}) => {
+    const [user, setUser] = useState({
+        _id: "",
+        username: "",
+        profilePicture: "",
+    });
+    const [isActive, setIsActive] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
 
     const formatTime = useTimeAgo;
 
-    const socketRef = useRef(null);
-    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    socketRef.current = io(SOCKET_URL);
-    const socket = socketRef.current;
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
 
-    const handleComment = {
-        commentPost: () => {
-            const newComment = {
-                _id: postID,
-                userID: author._id,
-                postID: postID,
-            };
+    const handleComment = () => {
+        setIsActive((isActive) => !isActive);
+    };
 
-            if (content) {
-                newComment.content = content;
-                commentPost(newComment, dispatch)
-                    .then(async () => {
-                        await socket.emit("update-post", newComment);
-                    })
-                    .catch((err) => {
-                        console.error("Failed to comment", err);
+    useEffect(() => {
+        // Get info of each user commented in post
+        userCommented &&
+            getUserByID(userCommented, dispatch)
+                .then((data) => {
+                    const userInfo = data?.user;
+                    setUser({
+                        _id: userInfo._id,
+                        username: userInfo.username,
+                        profilePicture: userInfo.profilePicture,
                     });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+    }, []);
 
-                setContent("");
-            }
-        },
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+
+    const deleteComments = () => {
+        socket = io(SOCKET_URL);
+
+        setIsLoading(true);
+        deleteComment(commentID, dispatch).then(async () => {
+            const updatePost = {
+                _id: postID,
+            };
+            await socket.emit("update-post", updatePost);
+            setIsLoading(false);
+        });
     };
 
-    const handleContent = (e) => {
-        setContent(e.target.value);
-    };
-
-    const sortedComments = [...comments].sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
-
-    console.log(sortedComments);
-
-    return (
-        <>
-            <div className="d-flex align-items-center justify-content-between border-bottom pb-4 mb-4">
-                <div className="profile-pic bg-white">
-                    <img
-                        src={author.profilePicture}
-                        alt="avatar_user"
-                        style={{
-                            objectFit: "cover",
-                        }}
-                    />
-                </div>
-                <div className="flex-fill mx-2">
-                    <input
-                        type="text"
-                        className="fs-3 p-2 w-100 border-0"
-                        placeholder="Đăng bình luận của bạn"
-                        value={content}
-                        onChange={handleContent}
-                    />
-                </div>
-                <button
-                    onClick={() => handleComment.commentPost()}
-                    style={{
-                        width: "7%",
-                    }}
-                    className="fs-3 p-2"
+    return isLoading ? (
+        <div className="text-white">Loading...</div>
+    ) : (
+        <div
+            className="d-flex text-white flex-column pb-2 animate__animated animate__fadeIn my-4"
+            style={{
+                overflowX: "hidden",
+            }}
+        >
+            <div className="d-flex align-items-center justify-content-between">
+                <Link
+                    to={"/user/" + userCommented}
+                    className="d-flex align-items-center"
                 >
-                    <FontAwesomeIcon icon={faPaperPlane} />
-                </button>
-            </div>
-
-            {/* Comment */}
-            {sortedComments.map((c) => (
-                <div key={c._id} className="d-flex text-white flex-column pb-2">
-                    <div className="d-flex align-items-center">
-                        <div className="profile-pic bg-white">
+                    <div className="profile-pic bg-white text-black d-flex justify-content-center align-items-center">
+                        {user.profilePicture ? (
                             <img
-                                src={author.profilePicture}
+                                src={user.profilePicture}
                                 alt="avatar_user"
+                                style={{
+                                    objectFit: "cover",
+                                }}
                             />
-                        </div>
-                        <div className="ms-3 d-flex align-items-center">
-                            <Link
-                                to="/"
-                                className="d-flex align-items-center text-white"
-                            >
-                                <div className="fw-bold fs-4">
-                                    {author.username}
+                        ) : (
+                            <>{user.username || "user"}</>
+                        )}
+                    </div>
+                    <div className="d-flex align-items-center justify-content-between flex-fill">
+                        <div className="ms-3 d-flex align-items-center justify-content-between">
+                            <div className="d-flex text-white fs-4 flex-column">
+                                <div className="fw-bold">
+                                    {user._id === authorPost ? (
+                                        <span className="author">Author</span>
+                                    ) : (
+                                        `@${user.username}` || "user"
+                                    )}
                                 </div>
-                                <div className="mx-2 fs-4 fw-light">
-                                    @{author.username} -
-                                </div>
-                                <div>commented {formatTime(c.createdAt)}</div>
-                            </Link>
+                                <div>commented {formatTime(createdAt)}</div>
+                            </div>
                         </div>
                     </div>
-                    <div
-                        className="mt-2 fs-3 text-break border border-2 p-3"
-                        style={{
-                            marginLeft: "2.8em",
-                            borderRadius: "1rem",
+                </Link>
+                {currentUser._id === userCommented && (
+                    <UilEllipsisH
+                        className="dots"
+                        onClick={() => {
+                            handleComment();
+                            deleteComments();
                         }}
-                    >
-                        {c.content}
-                    </div>
-                </div>
-            ))}
-        </>
+                        style={{
+                            cursor: "pointer",
+                        }}
+                    />
+                )}
+            </div>
+            <div
+                className="mt-2 fs-3 text-break border border-1 p-3"
+                style={{
+                    marginLeft: "2.8em",
+                    borderRadius: "1rem",
+                }}
+            >
+                {content}
+            </div>
+        </div>
     );
 };
 
