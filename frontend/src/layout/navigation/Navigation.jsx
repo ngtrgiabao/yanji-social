@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import "../../style/layouts/navigation.css";
 
-import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
+import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
 
 import { logout } from "../../redux/request/authRequest";
 
@@ -45,10 +45,7 @@ const Navigation = ({ title, link }) => {
     return (
         <>
             <nav className="py-3 header-navbar">
-                <div
-                    className="container d-flex align-items-center"
-                    style={{ height: "100%" }}
-                >
+                <div className="container d-flex align-items-center h-100">
                     <Link to="/" className="logo mb-0">
                         Yanji Social
                     </Link>
@@ -67,13 +64,16 @@ const Navigation = ({ title, link }) => {
                         <Link
                             aria-label="Avatar user"
                             to={currentUser ? `/user/${currentUser._id}` : "/"}
-                            className="profile-pic ms-4"
+                            className="profile-pic ms-4 border border-2"
                         >
                             <img
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
-                                src={currentUser?.profilePicture || KAYO_AVATAR}
+                                src={
+                                    currentUser?.profilePicture ||
+                                    DEFAULT_AVATAR
+                                }
                                 alt="Avatar user"
                             />
                         </Link>

@@ -466,7 +466,6 @@ const MessagesMiddle = () => {
                                 cursor: "pointer",
                                 width: "2.3rem",
                                 height: "2.3rem",
-                                borderRadius: "50%",
                             }}
                             aria-label="Chỉnh sửa"
                         >
@@ -479,7 +478,6 @@ const MessagesMiddle = () => {
                                 cursor: "pointer",
                                 width: "2.3rem",
                                 height: "2.3rem",
-                                borderRadius: "50%",
                             }}
                             aria-label="Xóa"
                         >
@@ -806,12 +804,7 @@ const MessagesMiddle = () => {
                 {renderFooterConversation()}
             </div>
         ) : (
-            <div
-                className="h-100 d-flex justify-content-center align-items-center fs-1 text-center"
-                style={{
-                    fontWeight: "bold",
-                }}
-            >
+            <div className="h-100 d-flex justify-content-center align-items-center fs-1 text-center fw-bold">
                 Hãy chọn một đoạn chat hoặc bắt đầu cuộc trò chuyện mới
             </div>
         );

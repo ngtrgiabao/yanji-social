@@ -14,7 +14,6 @@ const postShared = new mongoose.Schema(
     {
         postID: {
             type: String,
-            required: true,
         },
     },
     { timestamps: true }
@@ -24,7 +23,6 @@ const postSaved = new mongoose.Schema(
     {
         postID: {
             type: String,
-            required: true,
         },
     },
     { timestamps: true }

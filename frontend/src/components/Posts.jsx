@@ -13,6 +13,10 @@ const Posts = ({ socket }) => {
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
     useEffect(() => {
         getAllPosts(dispatch)
             .then((data) => {
@@ -22,10 +26,6 @@ const Posts = ({ socket }) => {
                 console.error(err);
             });
     }, []);
-
-    const currentUser = useSelector((state) => {
-        return state.auth.login.currentUser?.data;
-    });
 
     const handelSocket = {
         updatePost: useCallback(

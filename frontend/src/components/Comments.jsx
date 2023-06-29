@@ -85,9 +85,8 @@ const Comments = ({ postID, author, socket }) => {
         <>
             <form
                 onSubmit={handleSubmit}
-                className="d-flex align-items-center justify-content-between border-bottom pb-4 mb-4 w-100 rounded-0 p-0"
+                className="d-flex align-items-center justify-content-between border-bottom pb-4 mb-4 w-100 rounded-0 p-0 overflowXHidden"
                 style={{
-                    overflowX: "hidden",
                     background: "unset",
                     outline: "0",
                 }}

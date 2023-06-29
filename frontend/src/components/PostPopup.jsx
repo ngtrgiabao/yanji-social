@@ -165,11 +165,10 @@ const PostPopup = ({ onPopup, animateClass }) => {
                 <div className="form__input">
                     <textarea
                         id="post-input"
-                        className="input scrollbar"
+                        className="input scrollbar overflowXHidden"
                         maxLength="5000"
                         style={{
                             overflowY: "auto",
-                            overflowX: "hidden",
                             width: "100%",
                             height: "10em",
                         }}

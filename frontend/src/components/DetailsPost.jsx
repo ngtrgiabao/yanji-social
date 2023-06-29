@@ -18,7 +18,7 @@ const DetailsPost = ({
             }
         >
             <div
-                className="d-flex justify-content-center align-items-center flex-column h-75 w-50 py-3 px-4"
+                className="d-flex align-items-center flex-column h-75 w-50 py-3 px-4"
                 onClick={(e) => e.stopPropagation()}
                 style={{
                     borderRadius: "1rem",

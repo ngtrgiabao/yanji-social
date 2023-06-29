@@ -71,12 +71,7 @@ const Comment = ({
     return isLoading ? (
         <div className="text-white">Loading...</div>
     ) : (
-        <div
-            className="d-flex text-white flex-column pb-2 animate__animated animate__fadeIn my-4"
-            style={{
-                overflowX: "hidden",
-            }}
-        >
+        <div className="d-flex text-white flex-column pb-2 animate__animated animate__fadeIn my-4 overflowXHidden">
             <div className="d-flex align-items-center justify-content-between">
                 <Link
                     to={"/user/" + userCommented}
@@ -100,7 +95,12 @@ const Comment = ({
                             <div className="d-flex text-white fs-4 flex-column">
                                 <div className="fw-bold">
                                     {user._id === authorPost ? (
-                                        <span className="author">Author</span>
+                                        <>
+                                            <span className="author me-2">
+                                                Author
+                                            </span>
+                                            @{user.username}
+                                        </>
                                     ) : (
                                         `@${user.username}` || "user"
                                     )}

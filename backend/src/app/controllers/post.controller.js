@@ -1,6 +1,7 @@
 const PostModel = require("../models/post.model");
+const UserModel = require("../models/user.model");
 
-//TODO ADD SHARE AND COMMENT
+//TODO ADD SHARE
 
 const uploadPost = async (req, res) => {
     try {
@@ -209,12 +210,20 @@ const likePost = async (req, res) => {
 
 const sharePost = async (req, res) => {
     const postID = req.params.postID;
+    const { userID } = req.body;
 
     try {
-        const { userID } = req.body;
-        const post = await PostModel.findById(postID);
+        const user = await UserModel.findOne({ _id: userID });
 
-        if (!post.shares.includes(userID)) {
+        const sharedIndex = user.postShared.findIndex(
+            (item) => item.postID === postID
+        );
+
+        if (sharedIndex === -1) {
+            // Post is not shared by the user, add it to the shared posts
+            user.postShared.push({ postID });
+            await user.save();
+
             const updatedPost = await PostModel.findOneAndUpdate(
                 { _id: postID },
                 { $push: { shares: userID } },
@@ -226,6 +235,10 @@ const sharePost = async (req, res) => {
                 data: updatedPost,
             });
         } else {
+            // Post is already shared by the user, remove it from the shared posts
+            user.postShared.splice(sharedIndex, 1);
+            await user.save();
+
             const updatedPost = await PostModel.findOneAndUpdate(
                 { _id: postID },
                 { $pull: { shares: userID } },
@@ -233,14 +246,14 @@ const sharePost = async (req, res) => {
             );
 
             return res.status(200).json({
-                msg: "The post has been unShared",
+                msg: "The post has been unshared",
                 data: updatedPost,
             });
         }
     } catch (error) {
-        console.error(`Failed to share post ${postID}`, error);
+        console.error(`Failed to share/unshare post ${postID}`, error);
         return res.status(500).json({
-            msg: `Failed to share post ${postID}`,
+            msg: `Failed to share/unshare post ${postID}`,
             error,
         });
     }
