@@ -1,27 +1,46 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { io } from "socket.io-client";
 
 import { commentPost } from "../redux/request/postRequest";
-import { useTimeAgo } from "../hooks/useTimeAgo";
 import Comment from "./Comment";
+import { getAllCommentsByPostID } from "../redux/request/commentRequest";
 
-//TODO FIX SORT LATEST COMMENTS WORKING NOT RIGHT
-
-const Comments = ({ author, comments, postID }) => {
+const Comments = ({ postID, author, socket }) => {
     const [content, setContent] = useState("");
-
+    const [comments, setComments] = useState([]);
     const dispatch = useDispatch();
 
-    const socketRef = useRef(null);
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    const socket = socketRef.current;
+
+    const handleSocket = {
+        commentPost: useCallback(
+            (data) => {
+                const updatedComments = data.reverse();
+                setComments(updatedComments);
+            },
+            [comments]
+        ),
+    };
 
     useEffect(() => {
-        socketRef.current = io(SOCKET_URL);
-    }, [SOCKET_URL]);
+        getAllCommentsByPostID(postID, dispatch).then((data) => {
+            const { comments } = data;
+            setComments(comments);
+        });
+    }, []);
+
+    useEffect(() => {
+        socket = io(SOCKET_URL);
+
+        socket.on("commented-post", handleSocket.commentPost);
+
+        return () => {
+            socket.off("commented-post", handleSocket.commentPost);
+        };
+    }, [handleSocket.commentPost]);
 
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
@@ -36,10 +55,13 @@ const Comments = ({ author, comments, postID }) => {
             };
 
             if (content) {
+                socket = io(SOCKET_URL);
+
                 newComment.content = content;
                 commentPost(newComment, dispatch)
-                    .then(async () => {
-                        await socket.emit("update-post", newComment);
+                    .then(async (data) => {
+                        const { comments } = data.data;
+                        await socket.emit("comment-post", comments);
                     })
                     .catch((err) => {
                         console.error("Failed to comment", err);
@@ -105,14 +127,16 @@ const Comments = ({ author, comments, postID }) => {
             </form>
 
             {/* Comment */}
-            {comments.map((c, index) => (
+            {comments.map((c) => (
                 <Comment
-                    key={index}
+                    key={c._id}
                     createdAt={c.createdAt}
                     content={c.content}
-                    userID={c.userID}
+                    userCommented={c.userID}
+                    authorPost={author._id}
                     postID={postID}
                     commentID={c._id}
+                    socket={socket}
                 />
             ))}
         </>

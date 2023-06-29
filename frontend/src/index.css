@@ -79,6 +79,10 @@ ul {
     object-fit: cover;
 }
 
+.author {
+    color: var(--color-author);
+}
+
 .delete-image {
     font-size: 2rem;
 

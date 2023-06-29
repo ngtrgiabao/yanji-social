@@ -37,6 +37,7 @@ const Post = ({
     likes,
     shares,
     comments,
+    socket,
 }) => {
     const [popup, setPopup] = useState("");
     const [user, setUser] = useState({
@@ -44,12 +45,7 @@ const Post = ({
         username: "",
         profilePicture: "",
     });
-    const [commentList, setCommentList] = useState([]);
     const videoRef = useRef(null);
-
-    useEffect(() => {
-        setCommentList([...comments].reverse());
-    }, [comments]);
 
     const dispatch = useDispatch();
     const formatTime = useTimeAgo;
@@ -58,10 +54,7 @@ const Post = ({
         return state.auth.login.currentUser?.data;
     });
 
-    const socketRef = useRef(null);
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    socketRef.current = io(SOCKET_URL);
-    const socket = socketRef.current;
 
     useEffect(() => {
         const handleClickOutside = () => {
@@ -116,6 +109,8 @@ const Post = ({
         likePost: () => {
             likePost(post, dispatch)
                 .then(async (data) => {
+                    socket = io(SOCKET_URL);
+
                     await socket.emit("update-post", data.data);
                 })
                 .catch((error) => {
@@ -125,6 +120,8 @@ const Post = ({
         sharePost: async () => {
             sharePost(post, dispatch)
                 .then(async (data) => {
+                    socket = io(SOCKET_URL);
+
                     await socket.emit("update-post", data.data);
                 })
                 .catch((error) => {
@@ -133,6 +130,8 @@ const Post = ({
         },
         deletePost: async (postID) => {
             try {
+                socket = io(SOCKET_URL);
+
                 deletePost(postID, dispatch).then(async (data) => {
                     await socket.emit("delete-post", data.data);
                 });
@@ -351,8 +350,8 @@ const Post = ({
                     onPopup={handleDetailsPost}
                     children={renderPost()}
                     author={user}
-                    comments={commentList}
                     postID={postID}
+                    socket={socket}
                 />
             )
         );

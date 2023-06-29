@@ -7,8 +7,8 @@ const DetailsPost = ({
     animateClass,
     children,
     author,
-    comments,
     postID,
+    socket,
 }) => {
     return (
         <div
@@ -37,11 +37,7 @@ const DetailsPost = ({
                     }}
                 >
                     {children}
-                    <Comments
-                        author={author}
-                        comments={comments}
-                        postID={postID}
-                    />
+                    <Comments postID={postID} author={author} socket={socket} />
                 </div>
             </div>
         </div>

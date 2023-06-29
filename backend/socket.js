@@ -71,6 +71,11 @@ io.on("connection", (socket) => {
             io.emit("updated-post", data);
             console.log(`Updated post ${_id} successfully`);
         });
+        socket.on("comment-post", (data) => {
+            const { postID } = data;
+            io.emit("commented-post", data);
+            console.log(`Commented post ${postID} successfully`);
+        });
         socket.on("delete-post", (data) => {
             const { _id } = data;
             io.emit("deleted-post", data);

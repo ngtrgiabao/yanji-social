@@ -8,7 +8,15 @@ import { getUserByID } from "../redux/request/userRequest";
 import { deleteComment } from "../redux/request/commentRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
 
-const Comment = ({ userID, createdAt, content, commentID, postID }) => {
+const Comment = ({
+    userCommented,
+    createdAt,
+    content,
+    commentID,
+    postID,
+    authorPost,
+    socket,
+}) => {
     const [user, setUser] = useState({
         _id: "",
         username: "",
@@ -29,8 +37,9 @@ const Comment = ({ userID, createdAt, content, commentID, postID }) => {
     };
 
     useEffect(() => {
-        userID &&
-            getUserByID(userID, dispatch)
+        // Get info of each user commented in post
+        userCommented &&
+            getUserByID(userCommented, dispatch)
                 .then((data) => {
                     const userInfo = data?.user;
                     setUser({
@@ -44,12 +53,10 @@ const Comment = ({ userID, createdAt, content, commentID, postID }) => {
                 });
     }, []);
 
-    const socketRef = useRef(null);
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
     const deleteComments = () => {
-        const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-        socketRef.current = io(SOCKET_URL);
-        const socket = socketRef.current;
+        socket = io(SOCKET_URL);
 
         setIsLoading(true);
         deleteComment(commentID, dispatch).then(async () => {
@@ -72,7 +79,7 @@ const Comment = ({ userID, createdAt, content, commentID, postID }) => {
         >
             <div className="d-flex align-items-center justify-content-between">
                 <Link
-                    to={"/user/" + userID}
+                    to={"/user/" + userCommented}
                     className="d-flex align-items-center"
                 >
                     <div className="profile-pic bg-white text-black d-flex justify-content-center align-items-center">
@@ -85,19 +92,25 @@ const Comment = ({ userID, createdAt, content, commentID, postID }) => {
                                 }}
                             />
                         ) : (
-                            <>{user.username}</>
+                            <>{user.username || "user"}</>
                         )}
                     </div>
                     <div className="d-flex align-items-center justify-content-between flex-fill">
                         <div className="ms-3 d-flex align-items-center justify-content-between">
                             <div className="d-flex text-white fs-4 flex-column">
-                                <div className="fw-bold">@{user.username}</div>
+                                <div className="fw-bold">
+                                    {user._id === authorPost ? (
+                                        <span className="author">Author</span>
+                                    ) : (
+                                        `@${user.username}` || "user"
+                                    )}
+                                </div>
                                 <div>commented {formatTime(createdAt)}</div>
                             </div>
                         </div>
                     </div>
                 </Link>
-                {currentUser._id === userID && (
+                {currentUser._id === userCommented && (
                     <UilEllipsisH
                         className="dots"
                         onClick={() => {
