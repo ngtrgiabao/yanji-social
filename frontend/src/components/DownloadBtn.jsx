@@ -11,7 +11,7 @@ const DownloadBtn = ({ label, filename }) => {
             onClick={handleDownload}
             className="p-2 text-white mt-2 fs-3"
             style={{
-                background: "tomato",
+                background: "var(--color-author)",
                 fontWeight: "bold",
                 borderRadius: "0.5em",
             }}

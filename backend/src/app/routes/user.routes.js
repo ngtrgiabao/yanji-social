@@ -7,9 +7,13 @@ const UserController = require("../controllers/user.controller");
 router.get("/", (req, res) => {
     res.send({ msg: "Hello from user :D" });
 });
-
 router.get("/all-users", UserController.getAllUsers);
 router.get("/:userID", UserMiddleware.validateUserById, UserController.getUser);
+router.get(
+    "/:userID/shared",
+    UserMiddleware.validateUserById,
+    UserController.getPostsShared
+);
 
 router.post(
     "/register",

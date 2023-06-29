@@ -14,7 +14,7 @@ import {
 
 import "../../style/pages/home/homeLeft.css";
 
-import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
+import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
 
 // SETTINGS
 import FontSizeTheme from "./customTheme/FontSizeTheme";
@@ -288,7 +288,7 @@ const HomeLeft = () => {
                             src={
                                 currentUser
                                     ? currentUser.profilePicture
-                                    : KAYO_AVATAR
+                                    : DEFAULT_AVATAR
                             }
                             alt="Avatar user"
                         />

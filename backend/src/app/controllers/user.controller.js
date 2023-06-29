@@ -84,7 +84,7 @@ const updateUser = async (req, res, next) => {
         user.password = password || user.password;
         user.email = email || user.email;
         user.profilePicture = profilePicture || user.profilePicture;
-        user.coverPicture = coverPicture || user.coverPicture
+        user.coverPicture = coverPicture || user.coverPicture;
         user.bio = bio || user.bio;
         user.firstName = firstName || user.firstName;
         user.lastName = lastName || user.lastName;
@@ -182,6 +182,28 @@ const deleteAllUsers = async (req, res, next) => {
     }
 };
 
+const getPostsShared = async (req, res) => {
+    const userID = req.params.userID;
+
+    try {
+        const user = await UserModel.findById(userID);
+
+        const postShared = user.postShared.sort(
+            (a, b) => b.createdAt - a.createdAt
+        );
+
+        return res.status(200).json({
+            msg: "Get posts shared successfully",
+            postShared,
+        });
+    } catch (error) {
+        console.error(`Error retrieving posts shared: ${error}`);
+        return res.status(500).json({
+            msg: `Error retrieving posts shared: ${error}`,
+        });
+    }
+};
+
 module.exports = {
     register,
     login,
@@ -190,4 +212,5 @@ module.exports = {
     updateUser,
     deleteUser,
     deleteAllUsers,
+    getPostsShared,
 };

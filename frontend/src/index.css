@@ -83,6 +83,14 @@ ul {
     color: var(--color-author);
 }
 
+.overflowXHidden {
+    overflow-x: hidden;
+}
+
+.overflowYHidden {
+    overflow-y: hidden;
+}
+
 .delete-image {
     font-size: 2rem;
 

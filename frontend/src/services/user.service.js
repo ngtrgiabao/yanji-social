@@ -5,6 +5,10 @@ class UserService {
         return await api.get("/api/v1/all-users").data;
     }
 
+    async getPostsShared(userID) {
+        return await api.get(`/api/v1/user/${userID}/shared`);
+    }
+
     async loginUser(data) {
         return await api.post("/api/v1/user/login", data);
     }
@@ -18,7 +22,10 @@ class UserService {
     }
 
     async updateUser(updateUser) {
-        return await api.put(`/api/v1/user/update/${updateUser.userID}`, updateUser);
+        return await api.put(
+            `/api/v1/user/update/${updateUser.userID}`,
+            updateUser
+        );
     }
 
     async deleteAllUsers() {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "../../style/pages/personal/personalBody.css";
 
@@ -13,6 +13,9 @@ import {
     getPostByID,
 } from "../../redux/request/postRequest";
 import { io } from "socket.io-client";
+import { getPostsShared } from "../../redux/request/userRequest";
+
+//TODO FIX POST SHARED ALWAYS PIN
 
 const PersonalBody = ({ user }) => {
     const [avatar, setAvatar] = useState("");
@@ -118,6 +121,14 @@ const PersonalBody = ({ user }) => {
                 .catch((err) => {
                     console.error("Failed to get post of user", err);
                 });
+        user._id &&
+            getPostsShared(user._id, dispatch).then((data) => {
+                data.postShared.map((p) =>
+                    getPostByID(p.postID, dispatch).then((data) => {
+                        setPosts((prevPosts) => [data.data, ...prevPosts]);
+                    })
+                );
+            });
     }, [user]);
 
     return (
@@ -152,11 +163,11 @@ const PersonalBody = ({ user }) => {
                             className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted text-center"
                             onClick={handlePopup}
                         >
-                            What are you thinking, {user.username} ?
+                            What are you thinking, {user.username || "user"} ?
                         </button>
                     </div>
 
-                    <div className="posts">
+                    <div className="posts mt-4">
                         {posts.map((post) => (
                             <Post
                                 key={post._id}

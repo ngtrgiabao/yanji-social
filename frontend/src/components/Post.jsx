@@ -23,7 +23,7 @@ import KAYO_AVATAR from "../assets/avatar/kayo.jpg";
 import "../style/components/post.css";
 
 import { deletePost, likePost, sharePost } from "../redux/request/postRequest";
-import { getUserByID } from "../redux/request/userRequest";
+import { getPostsShared, getUserByID } from "../redux/request/userRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
 import DetailsPost from "./DetailsPost";
 
@@ -45,6 +45,7 @@ const Post = ({
         username: "",
         profilePicture: "",
     });
+    const [postShared, setPostShared] = useState([]);
     const videoRef = useRef(null);
 
     const dispatch = useDispatch();
@@ -55,6 +56,13 @@ const Post = ({
     });
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+
+    useEffect(() => {
+        getPostsShared(currentUser._id, dispatch).then((data) => {
+            const { postShared } = data;
+            setPostShared(postShared.map((p) => p.postID));
+        });
+    }, []);
 
     useEffect(() => {
         const handleClickOutside = () => {
@@ -158,14 +166,20 @@ const Post = ({
                     />
                 </Link>
                 <Link to={`/user/${user._id}`} className="info">
-                    <div className="d-flex align-items-center">
-                        <div className="fs-5 fw-bold">{user.username}</div>
+                    <div className="d-flex align-items-center fs-5">
+                        <div className="fw-bold">{user.username}</div>
                         <span className="mx-2">●</span>
-                        <div className="fs-5">
-                            {formatTime(createdAt) || "now"}
-                        </div>
+                        <div>{formatTime(createdAt) || "now"}</div>
+                        {postShared.includes(postID) && (
+                            <div className="d-flex align-items-center">
+                                <span className="mx-2">●</span>
+                                Shared
+                            </div>
+                        )}
                     </div>
-                    <span>@{user.username}</span>
+                    <span>
+                        <>@{user.username}</>
+                    </span>
                 </Link>
             </div>
         );
