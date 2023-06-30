@@ -4,17 +4,12 @@ import YoutubeEmbed from "./YoutubeEmbed";
 
 const ParagraphWithLink = ({ text }) => {
     const parts = text?.split("\n");
-    const [isExpanded, setIsExpanded] = useState(false);
 
     const textOverflow = {
         overflow: "hidden",
         display: "inline-block",
         textOverflow: "ellipsis",
         WebkitBoxOrient: "vertical",
-    };
-
-    const handleExpandText = () => {
-        setIsExpanded(true);
     };
 
     return parts.map((part, index) => {
@@ -63,42 +58,7 @@ const ParagraphWithLink = ({ text }) => {
                 </a>
             );
         } else {
-            return !isExpanded && part.length > 400 ? (
-                <div key={index}>
-                    <p
-                        style={{
-                            ...textOverflow,
-                            display: "-webkit-box",
-                            WebkitLineClamp: 5,
-                        }}
-                    >
-                        {part}
-                    </p>
-                    <div className="d-flex justify-content-end me-2">
-                        <button
-                            onClick={handleExpandText}
-                            className="fs-5 text-white text-decoration-underline"
-                            style={{
-                                background: "none",
-                                border: "none",
-                            }}
-                        >
-                            Read more...
-                        </button>
-                    </div>
-                </div>
-            ) : (
-                <div key={index}>
-                    <p
-                        style={{
-                            ...textOverflow,
-                            display: "-webkit-box",
-                        }}
-                    >
-                        {part}
-                    </p>
-                </div>
-            );
+            return <p key={index}>{part}</p>;
         }
     });
 };
