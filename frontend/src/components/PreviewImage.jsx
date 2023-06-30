@@ -14,7 +14,7 @@ const PreviewImage = ({ imgSrc, width, heigth }) => {
             }}
         />
     ) : (
-        <>Hello</>
+        <>Loading...</>
     );
 };
 

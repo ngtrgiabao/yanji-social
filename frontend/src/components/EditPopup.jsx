@@ -1,7 +1,6 @@
-import { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { io } from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
     faCircleXmark,
     faFaceSmile,
@@ -9,49 +8,38 @@ import {
 import { faLock, faImage } from "@fortawesome/free-solid-svg-icons";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+import { io } from "socket.io-client";
 
-import "../style/components/postPopup.css";
-
-import ProfilePic from "../assets/avatar/profile-pic.png";
-import { uploadPost } from "../redux/request/postRequest";
-import useUploadImage from "../hooks/useUploadImage";
 import PreviewImage from "./PreviewImage";
+import { updatePost } from "../redux/request/postRequest";
+import useUploadImage from "../hooks/useUploadImage";
 
-const PostPopup = ({ onPopup, animateClass }) => {
-    const [imageUrl, setImageUrl] = useState(null);
-    const [imageSrc, setImageSrc] = useState("");
-    const [videoUrl, setVideoUrl] = useState(null);
-    const [videoSrc, setVideoSrc] = useState("");
-    const [content, setContent] = useState("");
+const EditPopup = ({
+    onPopup,
+    animateClass,
+    currentUser,
+    defaultAvatar,
+    imageSrc,
+    videoSrc,
+    content,
+    socket,
+    postID,
+    title,
+}) => {
+    const [newContent, setNewContent] = useState(content);
     const [active, setActive] = useState("");
+    const [newVideoSrc, setNewVideoSrc] = useState("");
+    const [newVideoUrl, setNewVideoUrl] = useState("");
+    const [newImageUrl, setNewImageUrl] = useState("");
+    const [newImageSrc, setNewImageSrc] = useState("");
+    const [oldVideoSrc, setOldVideoSrc] = useState(videoSrc);
+    const [oldImageSrc, setOldImageSrc] = useState(imageSrc);
     const [isLoading, setIsLoading] = useState(false);
     const uploadImg = useRef(null);
     const dispatch = useDispatch();
 
-    const handleImageUpload = (e) => {
-        const file = e.target.files[0];
-        const imgUrl = URL.createObjectURL(file);
-
-        if (file.type === "video/mp4") {
-            // For upload cloud
-            setVideoUrl(file);
-            // For preview image
-            setVideoSrc(imgUrl);
-        } else {
-            // For upload cloud
-            setImageUrl(file);
-            // For preview image
-            setImageSrc(imgUrl);
-        }
-    };
-
-    const handleUploadImgFile = () => {
-        uploadImg.current.click();
-    };
-
-    const currentUser = useSelector((state) => {
-        return state.auth.login.currentUser.data;
-    });
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+    const cloudStorage = useUploadImage;
 
     const handleSendEmoji = (e) => {
         const sym = e.unified.split("_");
@@ -60,52 +48,81 @@ const PostPopup = ({ onPopup, animateClass }) => {
         sym.forEach((el) => codeArray.push("0x" + el));
         let emoji = String.fromCodePoint(...codeArray);
 
-        setContent(content + emoji);
+        setNewContent(newContent + emoji);
     };
 
-    const handleContent = (e) => {
-        setContent(e.target.value);
+    const handleNewContent = (e) => {
+        setNewContent(e.target.value);
     };
 
-    const cloudStorage = useUploadImage;
-    const socketRef = useRef(null);
-    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    socketRef.current = io(SOCKET_URL);
-    const socket = socketRef.current;
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        const imgUrl = URL.createObjectURL(file);
+
+        if (file.type === "video/mp4") {
+            // For upload cloud
+            setNewVideoUrl(file);
+            // For preview image
+            setNewVideoSrc(imgUrl);
+        } else {
+            // For upload cloud
+            setNewImageUrl(file);
+            // For preview image
+            setNewImageSrc(imgUrl);
+        }
+    };
+
+    const handleUploadImgFile = () => {
+        uploadImg.current.click();
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
         setIsLoading(true);
+        socket = io(SOCKET_URL);
+        e.preventDefault();
 
-        const newPost = {
-            userID: currentUser._id,
-            desc: content,
+        const updatedPost = {
+            desc: newContent,
+            postID: postID,
+            img: newImageSrc,
         };
 
-        if (imageSrc) {
-            const result = await cloudStorage(imageUrl);
+        if (newImageSrc) {
+            const result = await cloudStorage(newImageUrl);
             const imageURL = result?.secure_url;
-            newPost.img = imageURL;
+            updatedPost.img = imageURL;
+        } else if (!oldImageSrc) {
+            updatedPost.img = null;
         }
-        if (videoSrc) {
-            const result = await cloudStorage(videoUrl, true);
+        if (newVideoSrc) {
+            const result = await cloudStorage(newVideoUrl, true);
             const videoURL = result?.secure_url;
-            newPost.video = videoURL;
+            updatedPost.video = videoURL;
         }
 
-        uploadPost(newPost, dispatch)
+        updatePost(updatedPost, dispatch)
             .then(async (data) => {
-                await socket.emit("upload-post", data.data);
+                await socket.emit("update-post", data.data);
             })
-            .catch((err) => console.error("Failed to upload post", err));
+            .catch((err) => console.error("Failed to update post", err));
 
         setIsLoading(false);
         onPopup();
     };
 
     const handleDeleteImage = () => {
-        setImageSrc("");
+        setNewImageSrc("");
+        setOldImageSrc("");
+        setOldVideoSrc("");
+
         uploadImg.current.value = null;
+    };
+
+    const textOverflow = {
+        overflow: "hidden",
+        display: "inline-block",
+        textOverflow: "ellipsis",
+        WebkitBoxOrient: "vertical",
     };
 
     return (
@@ -122,7 +139,8 @@ const PostPopup = ({ onPopup, animateClass }) => {
                 onClick={(e) => {
                     e.stopPropagation();
                 }}
-                className="scrollbar"
+                className="scrollbar overflow-hidden"
+                style={textOverflow}
             >
                 {/* NAME */}
                 <div className="form__name d-flex justify-content-between">
@@ -132,7 +150,9 @@ const PostPopup = ({ onPopup, animateClass }) => {
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
-                                src={currentUser.profilePicture || ProfilePic}
+                                src={
+                                    currentUser.profilePicture || defaultAvatar
+                                }
                                 alt="Avatar user"
                             />
                         </span>
@@ -140,8 +160,8 @@ const PostPopup = ({ onPopup, animateClass }) => {
                             <span className="text-white text-bold fs-4">
                                 {currentUser.username}
                             </span>
-                            <div className="form__status d-flex align-items-center mt-1 text-white fw-bold">
-                                Upload post
+                            <div className="form__status d-flex align-items-center mt-1 fw-bold text-white">
+                                {title}
                             </div>
                         </div>
                     </div>
@@ -156,7 +176,6 @@ const PostPopup = ({ onPopup, animateClass }) => {
                 {/* INPUT FORM */}
                 <div className="form__input">
                     <textarea
-                        id="post-input"
                         className="input scrollbar overflowXHidden"
                         maxLength="5000"
                         style={{
@@ -164,9 +183,9 @@ const PostPopup = ({ onPopup, animateClass }) => {
                             width: "100%",
                             height: "10em",
                         }}
-                        onChange={handleContent}
+                        onChange={handleNewContent}
                         placeholder={`What's in your mind, ${currentUser.username}?`}
-                        value={content}
+                        value={newContent}
                     ></textarea>
                 </div>
 
@@ -204,6 +223,7 @@ const PostPopup = ({ onPopup, animateClass }) => {
                             style={{
                                 cursor: "pointer",
                             }}
+                            className="text-white"
                         />
                         <span
                             className="position-absolute top-50"
@@ -223,10 +243,10 @@ const PostPopup = ({ onPopup, animateClass }) => {
                     </span>
                 </div>
 
-                {imageSrc && (
+                {(oldImageSrc || newImageSrc) && (
                     <div className="w-100 position-relative">
-                        <PreviewImage imgSrc={imageSrc} />
-                        <span
+                        <PreviewImage imgSrc={oldImageSrc || newImageSrc} />
+                        <div
                             className="delete-image"
                             onClick={handleDeleteImage}
                         >
@@ -234,21 +254,23 @@ const PostPopup = ({ onPopup, animateClass }) => {
                                 icon={faCircleXmark}
                                 className="bg-black rounded-circle"
                             />
-                        </span>
+                        </div>
                     </div>
                 )}
 
-                {videoSrc && <video src={videoSrc} controls></video>}
+                {(oldVideoSrc || newVideoSrc) && (
+                    <video src={oldVideoSrc || newVideoSrc} controls></video>
+                )}
 
                 {!isLoading ? (
                     <input
                         type="submit"
                         className="form__post-btn p-2 w-100 border-0 rounded fs-5 fw-bold mt-4"
-                        value="Post"
+                        value="Update post"
                     />
                 ) : (
                     <div className="text-center bg-white text-black form__post-btn p-2 w-100 border-0 rounded fs-5 fw-bold mt-4">
-                        Uploading post...
+                        Updating post...
                     </div>
                 )}
             </form>
@@ -256,4 +278,4 @@ const PostPopup = ({ onPopup, animateClass }) => {
     );
 };
 
-export default PostPopup;
+export default EditPopup;

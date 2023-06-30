@@ -144,10 +144,14 @@ const updatePost = async (req, res) => {
                 msg: "You can't change userID of this post!",
             });
         }
-
-        if ((desc && desc.length > 0) || img) {
+        if ((desc && desc.length > 0) || img || video) {
             post.desc = desc || post.desc;
-            post.img = img || post.img;
+            if (img === null) {
+                post.img = "";
+            } else {
+                post.img = img || post.img;
+            }
+
             post.video = video || post.video;
 
             const updatedPost = await post.save();

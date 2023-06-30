@@ -90,6 +90,7 @@ const Posts = ({ socket }) => {
                 video={post.video}
                 userID={post.userID}
                 createdAt={post.createdAt}
+                updatedAt={post.updatedAt}
                 desc={post.desc}
                 likes={post.likes}
                 shares={post.shares}

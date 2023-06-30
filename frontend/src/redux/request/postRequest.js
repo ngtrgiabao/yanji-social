@@ -85,6 +85,7 @@ export const updatePost = async (updatePost, dispatch) => {
     try {
         const res = await postService.updatePost(updatePost);
         dispatch(updatePostSuccess(res.data));
+        return res.data
     } catch (error) {
         dispatch(updatePostFailed());
     }

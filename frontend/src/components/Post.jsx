@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import {
     UilEllipsisH,
     UilTrash,
-    UilBell,
     UilTimesSquare,
     UilLinkAlt,
     UilUserTimes,
@@ -13,6 +12,7 @@ import {
 import {
     faHeart as likeDefault,
     faComment,
+    faPenToSquare,
 } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as liked, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,6 +26,8 @@ import { deletePost, likePost, sharePost } from "../redux/request/postRequest";
 import { getPostsShared, getUserByID } from "../redux/request/userRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
 import DetailsPost from "./DetailsPost";
+import ParagraphWithLink from "./ParagraphWithLink";
+import EditPopup from "./EditPopup";
 
 const Post = ({
     image,
@@ -33,6 +35,7 @@ const Post = ({
     postID,
     userID,
     createdAt,
+    updatedAt,
     desc,
     likes,
     shares,
@@ -108,6 +111,14 @@ const Post = ({
         }
     };
 
+    const handleEditPost = () => {
+        if (popup !== "EDIT") {
+            setPopup("EDIT");
+        } else {
+            setPopup("");
+        }
+    };
+
     const post = {
         userID: currentUser._id,
         postID: postID,
@@ -169,7 +180,11 @@ const Post = ({
                     <div className="d-flex align-items-center fs-5">
                         <div className="fw-bold">{user.username}</div>
                         <span className="mx-2">●</span>
-                        <div>{formatTime(createdAt) || "now"}</div>
+                        {createdAt === updatedAt ? (
+                            <div>{formatTime(createdAt) || "now"}</div>
+                        ) : (
+                            <div>edited {formatTime(updatedAt)}</div>
+                        )}
                         {postShared.includes(postID) && (
                             <div className="d-flex align-items-center">
                                 <span className="mx-2">●</span>
@@ -198,11 +213,16 @@ const Post = ({
                         </span>
                         Delete this post
                     </li>
-                    <li>
-                        <span>
-                            <UilBell />
+                    <li
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditPost();
+                        }}
+                    >
+                        <span className="fs-2">
+                            <FontAwesomeIcon icon={faPenToSquare} />
                         </span>
-                        Notification for this post
+                        Edit this post
                     </li>
                     <li>
                         <span>
@@ -318,8 +338,8 @@ const Post = ({
                     )}
                 </div>
 
-                <div className="caption">
-                    <p>{desc}</p>
+                <div className="caption fs-3 my-3">
+                    <ParagraphWithLink text={desc} />
                 </div>
 
                 {image && (
@@ -371,10 +391,28 @@ const Post = ({
         );
     };
 
+    const renderEditPostPopup = () => {
+        return (
+            popup === "EDIT" && (
+                <EditPopup
+                    title="Edit post"
+                    onPopup={handleEditPost}
+                    currentUser={currentUser}
+                    defaultAvatar={KAYO_AVATAR}
+                    imageSrc={image}
+                    content={desc}
+                    socket={socket}
+                    postID={postID}
+                />
+            )
+        );
+    };
+
     return (
         <>
             {renderPost()}
             {renderDetailsPost()}
+            {renderEditPostPopup()}
         </>
     );
 };
