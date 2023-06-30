@@ -38,8 +38,11 @@ const SAFARI_REGEX = /Version\/([\d.]+).*Safari/;
 
 const URL_REGEX =
     /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z0-9]{2,}(\/[^\s]*)?$/i;
+const URL_SPLIT_REGEX = /(http[s]?:\/\/[^\s]+)/gi;
 const FACEBOOK_REGEX =
     /^(https?:\/\/)?([a-zA-Z0-9-]+\.)?facebook\.com(\/[^\s]*)?$/i;
+const FACEBOOK_VIDEO_REGEX =
+    /^https:\/\/www\.facebook\.com\/([^\/?].+\/)?video(s|\.php)[\/?].*$/gm;
 const TWITTER_REGEX =
     /^(https?:\/\/)?([a-zA-Z0-9-]+\.)?twitter\.com(\/[^\s]*)?$/i;
 const INSTAGRAM_REGEX =
@@ -80,7 +83,9 @@ export {
     FIREFOX_REGEX,
     SAFARI_REGEX,
     URL_REGEX,
+    URL_SPLIT_REGEX,
     FACEBOOK_REGEX,
+    FACEBOOK_VIDEO_REGEX,
     TWITTER_REGEX,
     INSTAGRAM_REGEX,
     LINKDIN_REGEX,

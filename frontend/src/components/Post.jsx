@@ -26,6 +26,7 @@ import { deletePost, likePost, sharePost } from "../redux/request/postRequest";
 import { getPostsShared, getUserByID } from "../redux/request/userRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
 import DetailsPost from "./DetailsPost";
+import ParagraphWithLink from "./ParagraphWithLink";
 
 const Post = ({
     image,
@@ -318,8 +319,8 @@ const Post = ({
                     )}
                 </div>
 
-                <div className="caption">
-                    <p>{desc}</p>
+                <div className="caption fs-3 my-3">
+                    <ParagraphWithLink text={desc} />
                 </div>
 
                 {image && (

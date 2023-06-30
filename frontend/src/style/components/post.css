@@ -88,12 +88,6 @@
     cursor: pointer;
 }
 
-.caption p {
-    margin: 1rem 0;
-
-    font-size: 1.7em;
-}
-
 .btn-loadmore {
     border: none;
 
