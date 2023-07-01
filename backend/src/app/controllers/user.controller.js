@@ -163,7 +163,11 @@ const deleteUser = async (req, res, next) => {
         return res.status(200).json({
             msg: `Deleted user ${userID} successfully`,
         });
-    } catch (error) {}
+    } catch (error) {
+        return res.status(500).json({
+            msg: `Failed to delete user ${userID}`,
+        });
+    }
 };
 
 const deleteAllUsers = async (req, res, next) => {
