@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
-import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
+import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
 
 import "../../style/pages/home/homeMiddle.css";
 
@@ -67,8 +67,9 @@ const HomeMiddle = ({ socket }) => {
                                 decoding="async"
                                 src={
                                     currentUser
-                                        ? currentUser.profilePicture
-                                        : KAYO_AVATAR
+                                        ? currentUser.profilePicture ||
+                                          DEFAULT_AVATAR
+                                        : DEFAULT_AVATAR
                                 }
                                 alt="Avatar user"
                             />
@@ -80,7 +81,7 @@ const HomeMiddle = ({ socket }) => {
                             onClick={handlePopup}
                             id="caption"
                         >
-                            What's in your mind,{" "}
+                            What's in your mind,
                             {currentUser?.username || " user"}?
                         </div>
                     </div>
@@ -88,14 +89,20 @@ const HomeMiddle = ({ socket }) => {
                         className="submit d-flex align-items-center"
                         title="Đăng bài viết"
                     >
-                        <button
-                            onClick={handlePopup}
-                            role="button"
-                            type="submit"
-                            className="btn btn-primary"
-                        >
-                            Post
-                        </button>
+                        {currentUser ? (
+                            <button
+                                onClick={handlePopup}
+                                role="button"
+                                type="submit"
+                                className="btn btn-primary"
+                            >
+                                Post
+                            </button>
+                        ) : (
+                            <Link to="/login" className="btn btn-primary">
+                                Post
+                            </Link>
+                        )}
                     </div>
                     {renderPostPopup()}
                 </div>

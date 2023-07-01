@@ -287,7 +287,8 @@ const HomeLeft = () => {
                             decoding="async"
                             src={
                                 currentUser
-                                    ? currentUser.profilePicture
+                                    ? currentUser.profilePicture ||
+                                      DEFAULT_AVATAR
                                     : DEFAULT_AVATAR
                             }
                             alt="Avatar user"

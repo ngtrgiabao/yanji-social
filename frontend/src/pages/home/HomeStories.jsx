@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import "../../style/pages/home/homeStories.css";
 import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
+import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
 
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -77,7 +78,9 @@ const HomeStories = () => {
                 id="your-story"
                 style={{
                     background: `url(${
-                        currentUser ? currentUser.profilePicture : KAYO_AVATAR
+                        currentUser
+                            ? currentUser.profilePicture || KAYO_AVATAR
+                            : KAYO_AVATAR
                     }) no-repeat center center/cover`,
                 }}
             >
@@ -88,8 +91,8 @@ const HomeStories = () => {
                         decoding="async"
                         src={
                             currentUser
-                                ? currentUser.profilePicture
-                                : KAYO_AVATAR
+                                ? currentUser.profilePicture || DEFAULT_AVATAR
+                                : DEFAULT_AVATAR
                         }
                         alt="Avatar user"
                     />

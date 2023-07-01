@@ -145,16 +145,21 @@ const EditPopup = ({
                 {/* NAME */}
                 <div className="form__name d-flex justify-content-between">
                     <div className="d-flex">
-                        <span className="avatar">
-                            <img
-                                loading="lazy"
-                                role="presentation"
-                                decoding="async"
-                                src={
-                                    currentUser.profilePicture || defaultAvatar
-                                }
-                                alt="Avatar user"
-                            />
+                        <span className="avatar border d-flex justify-content-center align-items-center text-white">
+                            {currentUser.profilePicture ? (
+                                <img
+                                    loading="lazy"
+                                    role="presentation"
+                                    decoding="async"
+                                    src={
+                                        currentUser.profilePicture ||
+                                        defaultAvatar
+                                    }
+                                    alt="Avatar user"
+                                />
+                            ) : (
+                                currentUser.username
+                            )}
                         </span>
                         <div className="ms-3">
                             <span className="text-white text-bold fs-4">

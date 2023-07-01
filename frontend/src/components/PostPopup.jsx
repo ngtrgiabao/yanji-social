@@ -12,7 +12,8 @@ import data from "@emoji-mart/data";
 
 import "../style/components/postPopup.css";
 
-import ProfilePic from "../assets/avatar/profile-pic.png";
+import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
+
 import { uploadPost } from "../redux/request/postRequest";
 import useUploadImage from "../hooks/useUploadImage";
 import PreviewImage from "./PreviewImage";
@@ -127,14 +128,21 @@ const PostPopup = ({ onPopup, animateClass }) => {
                 {/* NAME */}
                 <div className="form__name d-flex justify-content-between">
                     <div className="d-flex">
-                        <span className="avatar">
-                            <img
-                                loading="lazy"
-                                role="presentation"
-                                decoding="async"
-                                src={currentUser.profilePicture || ProfilePic}
-                                alt="Avatar user"
-                            />
+                        <span className="avatar d-flex justify-content-center align-items-center border">
+                            {currentUser.profilePicture ? (
+                                <img
+                                    loading="lazy"
+                                    role="presentation"
+                                    decoding="async"
+                                    src={
+                                        currentUser.profilePicture ||
+                                        DEFAULT_AVATAR
+                                    }
+                                    alt="Avatar user"
+                                />
+                            ) : (
+                                currentUser.username
+                            )}
                         </span>
                         <div className="ms-3">
                             <span className="text-white text-bold fs-4">
