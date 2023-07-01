@@ -180,11 +180,8 @@ const Post = ({
                     <div className="d-flex align-items-center fs-5">
                         <div className="fw-bold">{user.username}</div>
                         <span className="mx-2">●</span>
-                        {createdAt === updatedAt ? (
-                            <div>{formatTime(createdAt) || "now"}</div>
-                        ) : (
-                            <div>edited {formatTime(updatedAt)}</div>
-                        )}
+                        <div>Upload {formatTime(createdAt) || "now"}</div>
+
                         {postShared.includes(postID) && (
                             <div className="d-flex align-items-center">
                                 <span className="mx-2">●</span>
@@ -403,6 +400,7 @@ const Post = ({
                     content={desc}
                     socket={socket}
                     postID={postID}
+                    animateClass="animate__animated animate__fadeIn"
                 />
             )
         );
