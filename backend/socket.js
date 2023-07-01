@@ -35,6 +35,7 @@ io.on("connection", (socket) => {
             msg: "Hello from server 😎",
         });
 
+        // HANDLE MESSAGE OF USER
         socket.on("send-message", (data) => {
             const { sender, time } = data;
             io.emit("receive-message", data);
@@ -50,6 +51,8 @@ io.on("connection", (socket) => {
             io.emit("deleted-message", msgID);
             console.log(`Deleted message ${msgID} successfully`);
         });
+
+        // HANDLE USER ONLINE
         socket.on("add-user", (data) => {
             const { user } = data;
             addUser(user, socket.id);
@@ -57,6 +60,13 @@ io.on("connection", (socket) => {
             console.log(users);
             io.emit("get-users", users);
         });
+        socket.on("delete-post", (data) => {
+            const { _id } = data;
+            io.emit("deleted-post", data);
+            console.log(`deleted post ${_id} successfully`);
+        });
+
+        // HANDLE POST
         socket.on("upload-post", (data) => {
             const { _id } = data;
             io.emit("uploaded-post", data);
@@ -70,14 +80,9 @@ io.on("connection", (socket) => {
             console.log(`Updated post ${_id} successfully`);
         });
         socket.on("comment-post", (data) => {
-            const { postID } = data;
-            io.emit("commented-post", data);
+            const { postID, comments } = data;
+            io.emit("commented-post", comments);
             console.log(`Commented post ${postID} successfully`);
-        });
-        socket.on("delete-post", (data) => {
-            const { _id } = data;
-            io.emit("deleted-post", data);
-            console.log(`deleted post ${_id} successfully`);
         });
 
         socket.on("disconnect", () => {

@@ -14,7 +14,8 @@ const DetailsPost = ({
         <div
             onClick={(e) => onPopup(e)}
             className={
-                "d-flex justify-content-center align-items-center post-popup__container text-white"
+                "d-flex justify-content-center align-items-center post-popup__container text-white " +
+                animateClass
             }
         >
             <div

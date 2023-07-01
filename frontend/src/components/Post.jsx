@@ -18,7 +18,6 @@ import { faHeart as liked, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import io from "socket.io-client";
 
-import KAYO_AVATAR from "../assets/avatar/kayo.jpg";
 import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 
 import "../style/components/post.css";
@@ -384,6 +383,7 @@ const Post = ({
             popup === "DETAILS" && (
                 <DetailsPost
                     onPopup={handleDetailsPost}
+                    animateClass="animate__animated animate__fadeIn"
                     children={renderPost()}
                     author={user}
                     postID={postID}
