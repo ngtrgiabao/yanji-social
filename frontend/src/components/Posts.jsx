@@ -12,6 +12,7 @@ const Posts = ({ socket }) => {
     const dispatch = useDispatch();
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+    socket = io(SOCKET_URL);
 
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
@@ -62,8 +63,6 @@ const Posts = ({ socket }) => {
     };
 
     useEffect(() => {
-        socket = io(SOCKET_URL);
-
         socket.on("updated-post", handelSocket.updatePost);
         socket.on("uploaded-post", handelSocket.uploadPost);
         socket.on("deleted-post", handelSocket.deletePost);

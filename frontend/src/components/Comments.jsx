@@ -14,6 +14,7 @@ const Comments = ({ postID, author, socket }) => {
     const dispatch = useDispatch();
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+    socket = io(SOCKET_URL);
 
     const handleSocket = {
         commentPost: useCallback(
@@ -25,16 +26,25 @@ const Comments = ({ postID, author, socket }) => {
         ),
     };
 
-    useEffect(() => {
+    const fetchComments = () => {
         getAllCommentsByPostID(postID, dispatch).then((data) => {
             const { comments } = data;
             setComments(comments);
         });
+    };
+
+    useEffect(() => {
+        fetchComments();
+
+        socket.on("updated-post", (data) => {
+            const { _id } = data;
+            if (_id === postID) {
+                fetchComments();
+            }
+        });
     }, []);
 
     useEffect(() => {
-        socket = io(SOCKET_URL);
-
         socket.on("commented-post", handleSocket.commentPost);
 
         return () => {
@@ -55,8 +65,6 @@ const Comments = ({ postID, author, socket }) => {
             };
 
             if (content) {
-                socket = io(SOCKET_URL);
-
                 newComment.content = content;
                 commentPost(newComment, dispatch)
                     .then(async (data) => {

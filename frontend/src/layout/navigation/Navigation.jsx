@@ -8,8 +8,15 @@ import "../../style/layouts/navigation.css";
 import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
 
 import { logout } from "../../redux/request/authRequest";
+import { useEffect, useState } from "react";
+import { getUserByID } from "../../redux/request/userRequest";
 
 const Navigation = ({ title, link }) => {
+    const [user, setUser] = useState({
+        userID: "",
+        profilePicture: "",
+    });
+
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
@@ -20,6 +27,17 @@ const Navigation = ({ title, link }) => {
     const handleLogout = () => {
         logout(dispatch, navigate);
     };
+
+    useEffect(() => {
+        currentUser &&
+            getUserByID(currentUser._id, dispatch).then((data) => {
+                const { _id, profilePicture } = data.user;
+                setUser({
+                    userID: _id,
+                    profilePicture: profilePicture,
+                });
+            });
+    }, [currentUser]);
 
     const renderSwitchBtn = () => {
         return currentUser ? (
@@ -63,17 +81,15 @@ const Navigation = ({ title, link }) => {
                         {renderSwitchBtn()}
                         <Link
                             aria-label="Avatar user"
-                            to={currentUser ? `/user/${currentUser._id}` : "/"}
+                            to={currentUser ? `/user/${user.userID}` : "/"}
                             className="profile-pic ms-4 border border-2"
                         >
                             <img
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
-                                src={
-                                    currentUser?.profilePicture ||
-                                    DEFAULT_AVATAR
-                                }
+                                className="w-100"
+                                src={user.profilePicture || DEFAULT_AVATAR}
                                 alt="Avatar user"
                             />
                         </Link>

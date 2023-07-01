@@ -8,7 +8,7 @@ import DEFAULT_BG from "../../assets/background/default_bg_user.svg";
 
 import ChangeImagePopup from "../../components/ChangeImagePopup";
 
-const PersonalHeader = ({ user }) => {
+const PersonalHeader = ({ user, socket }) => {
     const [openPopup, setOpenPopup] = useState(false);
 
     const handlePopup = () => {
@@ -61,6 +61,8 @@ const PersonalHeader = ({ user }) => {
                         isCircle={false}
                         isCover={true}
                         onClose={() => setOpenPopup("")}
+                        message="Update cover successfully"
+                        socket={socket}
                     />
                 )}
             </span>

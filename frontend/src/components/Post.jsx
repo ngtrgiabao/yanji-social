@@ -65,7 +65,7 @@ const Post = ({
             const { postShared } = data;
             setPostShared(postShared.map((p) => p.postID));
         });
-    }, []);
+    }, [currentUser]);
 
     useEffect(() => {
         const handleClickOutside = () => {
@@ -91,7 +91,7 @@ const Post = ({
             .catch((err) => {
                 console.error("Failed", err);
             });
-    }, []);
+    }, [userID]);
 
     const handleSetting = (e) => {
         e.stopPropagation();
@@ -129,7 +129,6 @@ const Post = ({
             likePost(post, dispatch)
                 .then(async (data) => {
                     socket = io(SOCKET_URL);
-
                     await socket.emit("update-post", data.data);
                 })
                 .catch((error) => {
@@ -140,7 +139,6 @@ const Post = ({
             sharePost(post, dispatch)
                 .then(async (data) => {
                     socket = io(SOCKET_URL);
-
                     await socket.emit("update-post", data.data);
                 })
                 .catch((error) => {
@@ -149,9 +147,8 @@ const Post = ({
         },
         deletePost: async (postID) => {
             try {
-                socket = io(SOCKET_URL);
-
                 deletePost(postID, dispatch).then(async (data) => {
+                    socket = io(SOCKET_URL);
                     await socket.emit("delete-post", data.data);
                 });
             } catch (error) {
@@ -175,6 +172,7 @@ const Post = ({
                             decoding="async"
                             src={user.profilePicture || DEFAULT_AVATAR}
                             alt="Avatar user"
+                            className="w-100"
                         />
                     ) : (
                         user.username

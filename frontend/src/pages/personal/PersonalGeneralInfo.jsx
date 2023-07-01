@@ -8,7 +8,7 @@ import "../../style/pages/personal/personalGeneralInfo.css";
 
 import ChangeImagePopup from "../../components/ChangeImagePopup";
 
-const PersonalGeneralInfo = ({ user }) => {
+const PersonalGeneralInfo = ({ user, socket }) => {
     const [openPopup, setOpenPopup] = useState(false);
 
     const handlePopup = () => {
@@ -36,6 +36,7 @@ const PersonalGeneralInfo = ({ user }) => {
                                 decoding="async"
                                 src={user.profilePicture}
                                 alt="Avatar user"
+                                className="w-100"
                             />
                         ) : (
                             <div className="fs-1 fw-bolder">
@@ -68,6 +69,8 @@ const PersonalGeneralInfo = ({ user }) => {
                     imgSrc={user.profilePicture}
                     isAvatar={true}
                     onClose={() => setOpenPopup("")}
+                    message="Update avatar successfully"
+                    socket={socket}
                 />
             )}
         </div>

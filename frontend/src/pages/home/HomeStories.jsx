@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 
 import "../../style/pages/home/homeStories.css";
+
 import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
 import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
 
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { getUserByID } from "../../redux/request/userRequest";
 
 const HomeStories = () => {
-    const [avatar, setAvatar] = useState(null);
-
-    useEffect(() => {
-        const data = window.localStorage.getItem("avatar");
-        setAvatar(data);
-    }, []);
+    const [user, setUser] = useState({
+        _id: "",
+        profilePicture: "",
+        username: "",
+    });
+    const dispatch = useDispatch();
 
     // GET RANDOM STORIES
     const [storyData, setStoryData] = useState([]);
@@ -22,6 +24,18 @@ const HomeStories = () => {
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
+
+    useEffect(() => {
+        currentUser &&
+            getUserByID(currentUser._id, dispatch).then((data) => {
+                const { _id, profilePicture, username } = data.user;
+                setUser({
+                    _id,
+                    profilePicture,
+                    username,
+                });
+            });
+    }, [currentUser]);
 
     useEffect(() => {
         const getStory = async () => {
@@ -79,7 +93,7 @@ const HomeStories = () => {
                 style={{
                     background: `url(${
                         currentUser
-                            ? currentUser.profilePicture || KAYO_AVATAR
+                            ? user.profilePicture || KAYO_AVATAR
                             : KAYO_AVATAR
                     }) no-repeat center center/cover`,
                 }}
@@ -91,7 +105,7 @@ const HomeStories = () => {
                         decoding="async"
                         src={
                             currentUser
-                                ? currentUser.profilePicture || DEFAULT_AVATAR
+                                ? user.profilePicture || DEFAULT_AVATAR
                                 : DEFAULT_AVATAR
                         }
                         alt="Avatar user"

@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { io } from "socket.io-client";
 
 import "../style/components/changeImagePopup.css";
 
@@ -16,6 +17,8 @@ const ChangeImagePopup = ({
     isCover = false,
     imgSrc = "imgSrc",
     onClose,
+    message,
+    socket,
 }) => {
     const [avatar, setAvatar] = useState("");
     const [previewImg, setPreviewImg] = useState("");
@@ -25,6 +28,8 @@ const ChangeImagePopup = ({
     const dispatch = useDispatch();
 
     const cloudStorage = useUploadImage;
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+    socket = io(SOCKET_URL);
 
     const handleUploadAvatar = (e) => {
         const file = e.target.files[0];
@@ -61,9 +66,20 @@ const ChangeImagePopup = ({
         }
 
         updateUser(newUpdateUser, dispatch)
-            .then(() => {
-                console.log("Update avatar successfully");
+            .then((data) => {
+                alert(message);
                 setIsLoading(false);
+
+                const { _id, coverPicture, profilePicture } = data.data;
+
+                const updatedUser = {
+                    userID: _id,
+                    coverPicture: coverPicture,
+                    profilePicture: profilePicture,
+                };
+
+                socket.emit("update-user", updatedUser);
+
                 setIsSuccess(true);
             })
             .catch((err) => {
@@ -108,7 +124,11 @@ const ChangeImagePopup = ({
                             <button className="p-2" onClick={onClose}>
                                 Cancel
                             </button>
-                            <button className="p-2" onClick={handleSubmit}>
+                            <button
+                                className="p-2"
+                                onClick={handleSubmit}
+                                disabled={isLoading}
+                            >
                                 {isLoading ? "Loading..." : "Save"}
                             </button>
                         </div>
