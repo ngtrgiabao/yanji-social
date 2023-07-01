@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
-import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
+import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
 
 import "../../style/pages/home/homeMiddle.css";
 
@@ -67,8 +67,9 @@ const HomeMiddle = ({ socket }) => {
                                 decoding="async"
                                 src={
                                     currentUser
-                                        ? currentUser.profilePicture
-                                        : KAYO_AVATAR
+                                        ? currentUser.profilePicture ||
+                                          DEFAULT_AVATAR
+                                        : DEFAULT_AVATAR
                                 }
                                 alt="Avatar user"
                             />

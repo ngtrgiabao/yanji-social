@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import io from "socket.io-client";
 
 import KAYO_AVATAR from "../assets/avatar/kayo.jpg";
+import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 
 import "../style/components/post.css";
 
@@ -165,16 +166,20 @@ const Post = ({
             <div className="user">
                 <Link
                     to={`/user/${user._id}`}
-                    className="profile-pic bg-white"
+                    className="profile-pic bg-black text-white d-flex justify-content-center align-items-center border"
                     aria-label="Avatar user"
                 >
-                    <img
-                        loading="lazy"
-                        role="presentation"
-                        decoding="async"
-                        src={user.profilePicture || KAYO_AVATAR}
-                        alt="Avatar user"
-                    />
+                    {user.profilePicture ? (
+                        <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
+                            src={user.profilePicture || DEFAULT_AVATAR}
+                            alt="Avatar user"
+                        />
+                    ) : (
+                        user.username
+                    )}
                 </Link>
                 <Link to={`/user/${user._id}`} className="info">
                     <div className="d-flex align-items-center fs-5">
@@ -395,7 +400,7 @@ const Post = ({
                     title="Edit post"
                     onPopup={handleEditPost}
                     currentUser={currentUser}
-                    defaultAvatar={KAYO_AVATAR}
+                    defaultAvatar={DEFAULT_AVATAR}
                     imageSrc={image}
                     content={desc}
                     socket={socket}
