@@ -13,7 +13,7 @@ import PersonalHeader from "./PersonalHeader";
 import PersonalNavbarProfile from "./PersonalNavbarProfile";
 import NotFound from "../notFound/NotFound";
 
-function Personal() {
+function Personal({ socket }) {
     const userID = useParams().userID;
     const [user, setUser] = useState({});
     const [isValid, setIsValid] = useState(true);
@@ -36,8 +36,8 @@ function Personal() {
             <Navigation title="Login" link="/register" />
 
             <div className="personal-container">
-                <PersonalHeader user={user} />
-                <PersonalGeneralInfo user={user} />
+                <PersonalHeader user={user} socket={socket} />
+                <PersonalGeneralInfo user={user} socket={socket} />
 
                 <hr className="my-5" />
 

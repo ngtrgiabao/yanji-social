@@ -66,6 +66,14 @@ io.on("connection", (socket) => {
             console.log(`deleted post ${_id} successfully`);
         });
 
+        // HANDLE USER
+        socket.on("update-user", (data) => {
+            const { userID } = data;
+            io.emit("updated-user", data);
+
+            console.log(`Updated user ${userID} successfully`);
+        });
+
         // HANDLE POST
         socket.on("upload-post", (data) => {
             const { _id } = data;

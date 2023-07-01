@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { UilEllipsisH } from "@iconscout/react-unicons";
+import { UilTrash } from "@iconscout/react-unicons";
 import { Link } from "react-router-dom";
 import { io } from "socket.io-client";
 
@@ -15,6 +15,7 @@ const Comment = ({
     commentID,
     postID,
     authorPost,
+    comments,
     socket,
 }) => {
     const [user, setUser] = useState({
@@ -27,6 +28,8 @@ const Comment = ({
     const dispatch = useDispatch();
 
     const formatTime = useTimeAgo;
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+    socket = io(SOCKET_URL);
 
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
@@ -53,17 +56,15 @@ const Comment = ({
                 });
     }, []);
 
-    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-
     const deleteComments = () => {
-        socket = io(SOCKET_URL);
-
         setIsLoading(true);
         deleteComment(commentID, dispatch).then(async () => {
             const updatePost = {
                 _id: postID,
             };
+
             await socket.emit("update-post", updatePost);
+
             setIsLoading(false);
         });
     };
@@ -111,8 +112,7 @@ const Comment = ({
                     </div>
                 </Link>
                 {currentUser._id === userCommented && (
-                    <UilEllipsisH
-                        className="dots"
+                    <UilTrash
                         onClick={() => {
                             handleComment();
                             deleteComments();

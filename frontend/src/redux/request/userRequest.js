@@ -39,6 +39,7 @@ export const updateUser = async (updateUser, dispatch) => {
     try {
         const res = await userService.updateUser(updateUser);
         dispatch(updateUserSuccess(res.data));
+        return res.data;
     } catch (error) {
         dispatch(updateUserFailed());
     }

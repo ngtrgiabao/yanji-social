@@ -38,8 +38,9 @@ const EditPopup = ({
     const uploadImg = useRef(null);
     const dispatch = useDispatch();
 
-    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
     const cloudStorage = useUploadImage;
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+    socket = io(SOCKET_URL);
 
     const handleSendEmoji = (e) => {
         const sym = e.unified.split("_");
@@ -78,7 +79,6 @@ const EditPopup = ({
 
     const handleSubmit = async (e) => {
         setIsLoading(true);
-        socket = io(SOCKET_URL);
         e.preventDefault();
 
         const updatedPost = {

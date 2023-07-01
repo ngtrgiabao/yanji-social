@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
 
@@ -9,10 +9,17 @@ import "../../style/pages/home/homeMiddle.css";
 import HomeStories from "./HomeStories";
 import PostPopup from "../../components/PostPopup";
 import Posts from "../../components/Posts";
+import { getUserByID } from "../../redux/request/userRequest";
 
 const HomeMiddle = ({ socket }) => {
     const [popup, setPopup] = useState(false);
+    const [user, setUser] = useState({
+        _id: "",
+        profilePicture: "",
+        username: "",
+    });
 
+    const dispatch = useDispatch();
     // Get Data
     const [nextUrl, setNextUrl] = useState("");
     const [loading, setLoading] = useState(true);
@@ -32,6 +39,19 @@ const HomeMiddle = ({ socket }) => {
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
+
+    useEffect(() => {
+        currentUser &&
+            getUserByID(currentUser._id, dispatch).then((data) => {
+                const { _id, profilePicture, username } = data.user;
+
+                setUser({
+                    _id,
+                    profilePicture,
+                    username,
+                });
+            });
+    }, [currentUser]);
 
     const renderPostPopup = () => {
         return (
@@ -57,7 +77,7 @@ const HomeMiddle = ({ socket }) => {
                 >
                     <div className="create-post-wrapper d-flex align-items-center">
                         <Link
-                            to={currentUser ? `/user/${currentUser._id}` : "/"}
+                            to={currentUser ? `/user/${user._id}` : "/"}
                             className="profile-pic"
                             aria-label="Avatar user"
                         >
@@ -65,10 +85,10 @@ const HomeMiddle = ({ socket }) => {
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
+                                className="w-100"
                                 src={
                                     currentUser
-                                        ? currentUser.profilePicture ||
-                                          DEFAULT_AVATAR
+                                        ? user.profilePicture || DEFAULT_AVATAR
                                         : DEFAULT_AVATAR
                                 }
                                 alt="Avatar user"
@@ -82,7 +102,7 @@ const HomeMiddle = ({ socket }) => {
                             id="caption"
                         >
                             What's in your mind,
-                            {currentUser?.username || " user"}?
+                            {user.username || " user"}?
                         </div>
                     </div>
                     <div

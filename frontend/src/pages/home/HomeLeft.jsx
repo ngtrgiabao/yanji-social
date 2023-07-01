@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     UilEstate,
     UilCompass,
@@ -16,6 +16,8 @@ import "../../style/pages/home/homeLeft.css";
 
 import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
 
+import { getUserByID } from "../../redux/request/userRequest";
+
 // SETTINGS
 import FontSizeTheme from "./customTheme/FontSizeTheme";
 import BackgroundTheme from "./customTheme/BackgroundTheme";
@@ -26,6 +28,12 @@ const HomeLeft = () => {
     const [active, setActive] = useState("HOME");
     const [avatar, setAvatar] = useState("");
     const [popup, setPopup] = useState(false);
+    const [user, setUser] = useState({
+        _id: "",
+        profilePicture: "",
+        username: "",
+    });
+    const dispatch = useDispatch();
 
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {
@@ -53,6 +61,18 @@ const HomeLeft = () => {
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
+
+    useEffect(() => {
+        currentUser &&
+            getUserByID(currentUser._id, dispatch).then((data) => {
+                const { _id, profilePicture, username } = data.user;
+                setUser({
+                    _id: _id,
+                    profilePicture: profilePicture,
+                    username: username,
+                });
+            });
+    }, []);
 
     const renderHomeBtn = () => {
         return (
@@ -276,7 +296,7 @@ const HomeLeft = () => {
         <>
             <div className="left animate__animated animate__bounceInLeft">
                 <Link
-                    to={currentUser ? `/user/${currentUser._id}` : "/"}
+                    to={currentUser ? `/user/${user._id}` : "/"}
                     className="profile d-flex align-items-center"
                     title="Truy cập trang cá nhân"
                 >
@@ -287,20 +307,18 @@ const HomeLeft = () => {
                             decoding="async"
                             src={
                                 currentUser
-                                    ? currentUser.profilePicture ||
-                                      DEFAULT_AVATAR
+                                    ? user.profilePicture || DEFAULT_AVATAR
                                     : DEFAULT_AVATAR
                             }
                             alt="Avatar user"
+                            className="w-100"
                         />
                     </div>
 
                     <div className="handle">
-                        <h4>
-                            {currentUser ? `${currentUser.username}` : `user`}
-                        </h4>
+                        <h4>{currentUser ? `${user.username}` : `user`}</h4>
                         <p className="text-muted m-0">
-                            @{currentUser ? currentUser.username : "user"}
+                            @{currentUser ? user.username : "user"}
                         </p>
                     </div>
                 </Link>

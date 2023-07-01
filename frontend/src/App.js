@@ -59,7 +59,7 @@ function App() {
                     path={"/user/:userID"}
                     element={
                         <Suspense fallback={<LoadingPage />}>
-                            <PersonalPage />
+                            <PersonalPage socket={socket} />
                         </Suspense>
                     }
                 />
