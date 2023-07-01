@@ -61,7 +61,15 @@ const Comments = ({ postID, author, socket }) => {
                 commentPost(newComment, dispatch)
                     .then(async (data) => {
                         const { comments } = data.data;
-                        await socket.emit("comment-post", comments);
+                        const updatePost = {
+                            _id: postID,
+                        };
+
+                        await socket.emit("update-post", updatePost);
+                        await socket.emit("comment-post", {
+                            comments: comments,
+                            postID: postID,
+                        });
                     })
                     .catch((err) => {
                         console.error("Failed to comment", err);

@@ -80,8 +80,8 @@ io.on("connection", (socket) => {
             console.log(`Updated post ${_id} successfully`);
         });
         socket.on("comment-post", (data) => {
-            const { postID } = data;
-            io.emit("commented-post", data);
+            const { postID, comments } = data;
+            io.emit("commented-post", comments);
             console.log(`Commented post ${postID} successfully`);
         });
 
