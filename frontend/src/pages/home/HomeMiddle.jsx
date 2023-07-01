@@ -81,7 +81,7 @@ const HomeMiddle = ({ socket }) => {
                             onClick={handlePopup}
                             id="caption"
                         >
-                            What's in your mind,{" "}
+                            What's in your mind,
                             {currentUser?.username || " user"}?
                         </div>
                     </div>
@@ -89,14 +89,20 @@ const HomeMiddle = ({ socket }) => {
                         className="submit d-flex align-items-center"
                         title="Đăng bài viết"
                     >
-                        <button
-                            onClick={handlePopup}
-                            role="button"
-                            type="submit"
-                            className="btn btn-primary"
-                        >
-                            Post
-                        </button>
+                        {currentUser ? (
+                            <button
+                                onClick={handlePopup}
+                                role="button"
+                                type="submit"
+                                className="btn btn-primary"
+                            >
+                                Post
+                            </button>
+                        ) : (
+                            <Link to="/login" className="btn btn-primary">
+                                Post
+                            </Link>
+                        )}
                     </div>
                     {renderPostPopup()}
                 </div>
