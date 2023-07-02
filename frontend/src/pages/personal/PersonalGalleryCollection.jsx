@@ -10,7 +10,7 @@ const PersonalGalleryCollection = ({ photos }) => {
                         role="presentation"
                         decoding="async"
                         src={photo}
-                        alt="Cat image"
+                        alt="avatar_user"
                     />
                 </div>
             );

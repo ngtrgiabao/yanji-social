@@ -10,24 +10,19 @@ import {
     faFaceLaughBeam,
     faX,
     faCircleCheck as seenIcon,
-    faTrash,
     faPaperclip,
 } from "@fortawesome/free-solid-svg-icons";
 import {
     faPaperPlane,
     faCircleCheck as unseenIcon,
-    faPenToSquare,
 } from "@fortawesome/free-regular-svg-icons";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 // import MagicBell, {
 //     FloatingNotificationInbox,
 // } from "@magicbell/magicbell-react";
-import axios from "axios";
 
 import "../../style/pages/messages/messagesMiddle.css";
-
-import Photo from "../../assets/avatar/profile-pic.png";
 
 import {
     sendMessage,
@@ -42,6 +37,8 @@ import { useTimeAgo } from "../../hooks/useTimeAgo";
 import PreviewImage from "../../components/PreviewImage";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import useUploadImage from "../../hooks/useUploadImage";
+import useDownloadImage from "../../hooks/useDownloadImage";
+import Message from "../../components/Message";
 
 const MessagesMiddle = () => {
     const [edit, setEdit] = useState(false);
@@ -57,6 +54,7 @@ const MessagesMiddle = () => {
     const [friend, setFriend] = useState({ name: "", avatar: "" });
     const [base64Image, setBase64Image] = useState(""); // Base64 string representing the image
     const uploadImgRef = useRef(null);
+    const downloadImage = useDownloadImage(imgSrc);
     const dispatch = useDispatch();
 
     const formatTime = useTimeAgo;
@@ -400,18 +398,36 @@ const MessagesMiddle = () => {
         setActive("");
     };
 
+    const handlePreviewImage = (imgSrc) => {
+        setActive("PREVIEW_IMAGE");
+        setImgSrc(imgSrc);
+    };
+
+    const loadingMsg = useSelector((state) => {
+        return state.message.message.isFetching;
+    });
+
+    const handleCancelEditMsg = () => {
+        setEdit(false);
+        setMessage("");
+    };
+
     const renderTitleConversation = () => {
         return (
             <div className="middle-container-header d-flex align-items-center justify-content-between py-3 px-4 pb-3">
                 <div className="d-flex align-items-center">
-                    <div className="profile-pic">
-                        <img
-                            loading="lazy"
-                            role="presentation"
-                            decoding="async"
-                            src={friend.avatar}
-                            alt="Avatar user"
-                        />
+                    <div className="profile-pic d-flex justify-content-center align-items-center">
+                        {friend.avatar ? (
+                            <img
+                                loading="lazy"
+                                role="presentation"
+                                decoding="async"
+                                src={friend.avatar}
+                                alt="Avatar user"
+                            />
+                        ) : (
+                            <>{friend.name}</>
+                        )}
                     </div>
                     <span className="ms-2 fs-4 fw-bold">{friend.name}</span>
                 </div>
@@ -442,122 +458,21 @@ const MessagesMiddle = () => {
         );
     };
 
-    const handlePreviewImage = (imgSrc) => {
-        setActive("PREVIEW_IMAGE");
-        setImgSrc(imgSrc);
-    };
-
-    const loadingMsg = useSelector((state) => {
-        return state.message.message.isFetching;
-    });
-
     const renderMessages = () => {
-        return messageThread.map((message, index) =>
-            message.sender === sender._id ? (
-                <div
-                    key={index}
-                    className="middle-container-body__right-text mb-3 fs-4 animate__animated animate__slideInRight d-flex align-items-end flex-column"
-                >
-                    <div className="d-flex align-items-center justify-content-end w-100">
-                        <span
-                            className="action-message fs-5"
-                            onClick={() => handleMsg.updateMsg(message._id)}
-                            style={{
-                                cursor: "pointer",
-                                width: "2.3rem",
-                                height: "2.3rem",
-                            }}
-                            aria-label="Chỉnh sửa"
-                        >
-                            <FontAwesomeIcon icon={faPenToSquare} />
-                        </span>
-                        <span
-                            className="action-message fs-5 text-danger"
-                            onClick={() => handleMsg.deleteMsg(message._id)}
-                            style={{
-                                cursor: "pointer",
-                                width: "2.3rem",
-                                height: "2.3rem",
-                            }}
-                            aria-label="Xóa"
-                        >
-                            <FontAwesomeIcon icon={faTrash} />
-                        </span>
-                        <div className="middle-container-body__right-message-content ms-2">
-                            {loadingMsg ? (
-                                "Loading message..."
-                            ) : (
-                                <>
-                                    {message.media ? (
-                                        <img
-                                            src={message.media}
-                                            alt="image_uploaded"
-                                            onClick={() =>
-                                                handlePreviewImage(
-                                                    message.media
-                                                )
-                                            }
-                                        />
-                                    ) : (
-                                        <div className="middle-container-body__right-message-content-text">
-                                            {message.message}
-                                        </div>
-                                    )}
-                                </>
-                            )}
-                        </div>
-                    </div>
-                    <div className="middle-container-body__right-time">
-                        {formatTime(message.createdAt) || "now"}
-                        {message.createdAt !== message.updatedAt && (
-                            <> - edited {formatTime(message.updatedAt)}</>
-                        )}
-                        {/* {message.isRead ? (
-                            <FontAwesomeIcon className="ms-1" icon={seenIcon} />
-                        ) : (
-                            <FontAwesomeIcon
-                                className="ms-1"
-                                icon={unseenIcon}
-                            />
-                        )} */}
-                    </div>
-                </div>
-            ) : (
-                <div
-                    key={index}
-                    className="middle-container-body__left-text mb-3 fs-4 animate__animated animate__slideInLeft d-flex flex-column"
-                >
-                    <div className="d-flex justify-content-start align-items-center w-100">
-                        <span className="middle-container-body__left-message-content me-2">
-                            {loadingMsg ? (
-                                "Loading message..."
-                            ) : (
-                                <>
-                                    {message.media ? (
-                                        <img
-                                            src={message.media}
-                                            alt="image_uploaded"
-                                            onClick={() =>
-                                                handlePreviewImage(
-                                                    message.media
-                                                )
-                                            }
-                                        />
-                                    ) : (
-                                        <div className="middle-container-body__left-message-content-text">
-                                            {message.message}
-                                        </div>
-                                    )}
-                                </>
-                            )}
-                        </span>
-                    </div>
-                    <div className="middle-container-body__left-time">
-                        {formatTime(message.createdAt) || "now"}
-                    </div>
-                </div>
-            )
-        );
+        return messageThread.map((message, index) => (
+            <Message
+                key={index}
+                media={message.media}
+                sender={message.sender}
+                loadingMsg={loadingMsg}
+                content={message.message}
+                createdAt={message.createdAt}
+                updatedAt={message.updatedAt}
+                onUpdateMsg={() => handleMsg.updateMsg(message._id)}
+                onDeleteMsg={() => handleMsg.deleteMsg(message._id)}
+                onPreviewImage={() => handlePreviewImage(message.media)}
+            />
+        ));
     };
 
     const renderBodyConversation = () => {
@@ -567,11 +482,6 @@ const MessagesMiddle = () => {
                 <div ref={scrollRef} />
             </div>
         );
-    };
-
-    const handleCancelEditMsg = () => {
-        setEdit(false);
-        setMessage("");
     };
 
     const renderLabelEditMessage = () => {
@@ -605,23 +515,6 @@ const MessagesMiddle = () => {
         );
     };
 
-    const downloadImage = async () => {
-        try {
-            const response = await fetch(imgSrc);
-            const blob = await response.blob();
-
-            const anchor = document.createElement("a");
-            anchor.href = URL.createObjectURL(blob);
-            anchor.download = "image.jpg";
-            anchor.style.display = "none";
-            document.body.appendChild(anchor);
-            anchor.click();
-            document.body.removeChild(anchor);
-        } catch (error) {
-            console.error("Error downloading image:", error);
-        }
-    };
-
     const renderPopupConfirmUploadImg = () => {
         return (
             active === "UPLOAD_IMAGE" &&
@@ -650,6 +543,47 @@ const MessagesMiddle = () => {
                     confirmButtonText="Download"
                 />
             )
+        );
+    };
+
+    const renderEmojiPicker = () => {
+        return (
+            <>
+                <div
+                    className="position-absolute"
+                    style={{
+                        bottom: "120%",
+                    }}
+                    hidden={active !== "EMOJI"}
+                >
+                    <Picker
+                        data={data}
+                        emojiSize={22}
+                        emojiButtonSize={29}
+                        maxFrequentRows={0}
+                        onEmojiSelect={(e) => handleMsg.sendEmoji(e)}
+                        locale="vi"
+                        perLine={8}
+                        previewPosition="none"
+                    />
+                </div>
+                <span
+                    className="icon fs-3 border-0"
+                    aria-label="Chọn emoji"
+                    role="button"
+                    style={{
+                        width: "2em",
+                        height: "2em",
+                        borderRadius: "0.5rem",
+                        padding: "0.8rem",
+                    }}
+                    onClick={() => {
+                        active !== "EMOJI" ? setActive("EMOJI") : setActive("");
+                    }}
+                >
+                    <FontAwesomeIcon icon={faFaceLaughBeam} />
+                </span>
+            </>
         );
     };
 
@@ -706,42 +640,7 @@ const MessagesMiddle = () => {
                     />
 
                     {/* Emoji picker */}
-                    <div
-                        className="position-absolute"
-                        style={{
-                            bottom: "120%",
-                        }}
-                        hidden={active !== "EMOJI"}
-                    >
-                        <Picker
-                            data={data}
-                            emojiSize={22}
-                            emojiButtonSize={29}
-                            maxFrequentRows={0}
-                            onEmojiSelect={(e) => handleMsg.sendEmoji(e)}
-                            locale="vi"
-                            perLine={8}
-                            previewPosition="none"
-                        />
-                    </div>
-                    <span
-                        className="icon fs-3 border-0"
-                        aria-label="Chọn emoji"
-                        role="button"
-                        style={{
-                            width: "2em",
-                            height: "2em",
-                            borderRadius: "0.5rem",
-                            padding: "0.8rem",
-                        }}
-                        onClick={() => {
-                            active !== "EMOJI"
-                                ? setActive("EMOJI")
-                                : setActive("");
-                        }}
-                    >
-                        <FontAwesomeIcon icon={faFaceLaughBeam} />
-                    </span>
+                    {renderEmojiPicker()}
                 </div>
 
                 <div className="user-input-chat position-relative mx-3">

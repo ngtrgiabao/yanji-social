@@ -72,7 +72,7 @@ const HomeLeft = () => {
                     username: username,
                 });
             });
-    }, []);
+    }, [currentUser, dispatch]);
 
     const renderHomeBtn = () => {
         return (
