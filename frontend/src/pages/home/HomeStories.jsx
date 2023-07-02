@@ -35,7 +35,7 @@ const HomeStories = () => {
                     username,
                 });
             });
-    }, [currentUser]);
+    }, [currentUser, dispatch]);
 
     useEffect(() => {
         const getStory = async () => {

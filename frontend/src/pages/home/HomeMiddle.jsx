@@ -51,7 +51,7 @@ const HomeMiddle = ({ socket }) => {
                     username,
                 });
             });
-    }, [currentUser]);
+    }, [currentUser, dispatch]);
 
     const renderPostPopup = () => {
         return (
@@ -112,7 +112,6 @@ const HomeMiddle = ({ socket }) => {
                         {currentUser ? (
                             <button
                                 onClick={handlePopup}
-                                role="button"
                                 type="submit"
                                 className="btn btn-primary"
                             >

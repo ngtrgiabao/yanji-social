@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import "../../style/pages/personal/personalBody.css";
 
@@ -73,24 +73,18 @@ const PersonalBody = ({ user }) => {
                     });
                 });
             },
-            [posts]
+            [dispatch]
         ),
-        uploadPost: useCallback(
-            (data) => {
-                setPosts((prevPosts) => [data, ...prevPosts]);
-            },
-            [posts]
-        ),
-        deletePost: useCallback(
-            (data) => {
-                const { _id } = data;
-                setPosts((prevPosts) => {
-                    const updatedPosts = prevPosts.filter((p) => p._id !== _id);
-                    return updatedPosts;
-                });
-            },
-            [posts]
-        ),
+        uploadPost: useCallback((data) => {
+            setPosts((prevPosts) => [data, ...prevPosts]);
+        }, []),
+        deletePost: useCallback((data) => {
+            const { _id } = data;
+            setPosts((prevPosts) => {
+                const updatedPosts = prevPosts.filter((p) => p._id !== _id);
+                return updatedPosts;
+            });
+        }, []),
     };
 
     useEffect(() => {
@@ -110,6 +104,7 @@ const PersonalBody = ({ user }) => {
         handelSocket.updatePost,
         handelSocket.uploadPost,
         handelSocket.deletePost,
+        SOCKET_URL,
     ]);
 
     useEffect(() => {
@@ -129,7 +124,7 @@ const PersonalBody = ({ user }) => {
                     })
                 );
             });
-    }, [user]);
+    }, [user, dispatch]);
 
     return (
         <>
@@ -159,7 +154,6 @@ const PersonalBody = ({ user }) => {
                             />
                         </div>
                         <button
-                            role="button"
                             className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted text-center"
                             onClick={handlePopup}
                         >
