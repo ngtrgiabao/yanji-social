@@ -14,13 +14,13 @@ import PersonalNavbarProfile from "./PersonalNavbarProfile";
 import NotFound from "../notFound/NotFound";
 
 function Personal({ socket }) {
-    const userID = useParams().userID;
+    const userRoute = useParams().userID;
     const [user, setUser] = useState({});
     const [isValid, setIsValid] = useState(true);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getUserByID(userID, dispatch)
+        getUserByID(userRoute, dispatch)
             .then((data) => {
                 setIsValid(true);
                 setUser(data.user);
@@ -29,7 +29,7 @@ function Personal({ socket }) {
                 setIsValid(false);
                 console.error("User is not valid", err);
             });
-    }, [userID, dispatch]);
+    }, [userRoute, dispatch]);
 
     return isValid ? (
         <>

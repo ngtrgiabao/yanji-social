@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UilCamera } from "@iconscout/react-unicons";
 import { useSelector } from "react-redux";
 
@@ -28,7 +28,7 @@ const PersonalGeneralInfo = ({ user, socket }) => {
                         user._id === currentUser._id && handlePopup()
                     }
                 >
-                    <div className="avatar d-flex justify-content-center align-items-center">
+                    <div className="avatar d-flex justify-content-center align-items-center text-white">
                         {user.profilePicture ? (
                             <img
                                 loading="lazy"
@@ -58,7 +58,7 @@ const PersonalGeneralInfo = ({ user, socket }) => {
                     <div className="friends mb-4">1,2k Friends</div>
 
                     <div className="profile-title">
-                        <PersonalAvatarFriends user={user} />
+                        <PersonalAvatarFriends user={user} socket={socket} />
                     </div>
                 </div>
             </div>

@@ -84,10 +84,6 @@
     color: var(--color-danger);
 }
 
-.interaction-buttons span {
-    cursor: pointer;
-}
-
 .btn-loadmore {
     border: none;
 
@@ -236,4 +232,6 @@ hr {
 /* Footer  */
 .post-action__btn:hover {
     background: var(--color-bg-hover);
+
+    cursor: pointer;
 }

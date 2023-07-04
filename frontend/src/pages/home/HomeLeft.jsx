@@ -110,7 +110,8 @@ const HomeLeft = () => {
 
     const renderNotificationBtn = () => {
         return (
-            <div
+            <Link
+                to="/notification"
                 className={`menu-item ${
                     active === "NOTIFICATION" ? "active" : ""
                 }`}
@@ -134,7 +135,7 @@ const HomeLeft = () => {
                     </small>
                 </span>
                 <h3 className="ms-4">Notification</h3>
-            </div>
+            </Link>
         );
     };
 

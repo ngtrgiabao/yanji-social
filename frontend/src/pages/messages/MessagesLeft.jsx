@@ -58,21 +58,19 @@ const MessagesLeft = ({ avatarUser }) => {
     const socketRef = useRef(null);
 
     const handleSocket = {
-        getUsersOnline: useCallback(
-            (userList) => {
-                const users = Object.values(userList);
+        getUsersOnline: useCallback((userList) => {
+            const users = Object.values(userList);
 
-                // Get friends of currentUser to compare user of socket to set online users
-                getUserByID(currentUser._id, dispatch).then((data) => {
-                    const value = data.user.friends.filter((f) =>
-                        users.some((u) => u.userID === f)
-                    );
+            // Get friends of currentUser to compare user of socket to set online users
+            getUserByID(currentUser._id, dispatch).then((data) => {
+                const value = data.user.friends.filter((f) =>
+                    users.some((u) => u.userID === f)
+                );
 
-                    setOnlineUsers(value);
-                });
-            },
-            [currentUser._id, dispatch]
-        ),
+                data.user.friends.map((t) => console.log(t));
+                setOnlineUsers(value);
+            });
+        }, []),
     };
 
     useEffect(() => {

@@ -70,7 +70,7 @@ const validateUserById = async (req, res, next) => {
         const validUser = await User.findById(userID);
         // Check if the user ID is valid
         if (!validUser) {
-            console.error(`Invalid user ID`, error);
+            console.error(`Invalid user ID`);
             return res.status(401).json({ message: "Invalid user ID" });
         }
 
@@ -79,6 +79,7 @@ const validateUserById = async (req, res, next) => {
         console.error("An error occur while retrieving user account:", error);
         return res.status(500).json({
             message: "An error occur while retrieving user account",
+            error,
         });
     }
 };

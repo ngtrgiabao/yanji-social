@@ -159,10 +159,17 @@ const Post = ({
 
     const renderTitle = () => {
         return (
-            <div className="user">
+            <div
+                className="user"
+                title={
+                    user._id === currentUser._id
+                        ? `Truy cập trang cá nhân`
+                        : `Truy cập trang cá nhân ${user.username}`
+                }
+            >
                 <Link
                     to={`/user/${user._id}`}
-                    className="profile-pic bg-black text-white d-flex justify-content-center align-items-center border"
+                    className="profile-pic bg-black text-white border"
                     aria-label="Avatar user"
                 >
                     {user.profilePicture ? (
@@ -183,13 +190,6 @@ const Post = ({
                         <div className="fw-bold">{user.username}</div>
                         <span className="mx-2">●</span>
                         <div>Upload {formatTime(createdAt) || "now"}</div>
-
-                        {postShared.includes(postID) && (
-                            <div className="d-flex align-items-center">
-                                <span className="mx-2">●</span>
-                                Shared
-                            </div>
-                        )}
                     </div>
                     <span>
                         <>@{user.username}</>
@@ -259,6 +259,7 @@ const Post = ({
                     <span
                         className="d-flex justify-content-center align-items-center share flex-fill p-1 post-action__btn rounded-2"
                         onClick={() => handlePost.sharePost()}
+                        title="Share"
                     >
                         {/* share */}
                         <span>
@@ -283,6 +284,7 @@ const Post = ({
                             e.stopPropagation();
                             handleDetailsPost(e);
                         }}
+                        title="Comment"
                     >
                         {/* comment */}
                         <span>
@@ -295,6 +297,7 @@ const Post = ({
                     <span
                         className="d-flex justify-content-center align-items-center heart flex-fill p-1 post-action__btn rounded-2 overflow-hidden"
                         onClick={() => handlePost.likePost()}
+                        title="Like"
                     >
                         {/* like */}
                         <span>
@@ -325,7 +328,7 @@ const Post = ({
                     {renderTitle()}
 
                     {user._id === currentUser._id && (
-                        <span className="post-settings">
+                        <span className="post-settings" title="Setting post">
                             <UilEllipsisH
                                 className="dots"
                                 onClick={(e) => {

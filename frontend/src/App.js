@@ -1,15 +1,19 @@
 import { Suspense, lazy, useEffect, useRef } from "react";
-import { Routes, Route, useParams } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
 import LoadingPage from "./pages/loading/LoadingPage";
 import NetworkError from "./pages/networkError/NetworkError";
 
+const _404 = lazy(() => import("./pages/notFound/NotFound"));
 const Homepage = lazy(() => import("./pages/home/Home"));
 const MessagesPage = lazy(() => import("./pages/messages/Messages"));
 const ExplorePage = lazy(() => import("./pages/explore/Explore"));
 const PersonalPage = lazy(() => import("./pages/personal/Personal"));
+const NotificationPage = lazy(() =>
+    import("./pages/notification/Notification")
+);
 
 const RegisterPage = lazy(() => import("./pages/form/RegisterPage"));
 const LoginPage = lazy(() => import("./pages/form/LoginPage"));
@@ -30,6 +34,14 @@ function App() {
     return (
         <div className="App">
             <Routes>
+                <Route
+                    path="*"
+                    element={
+                        <Suspense fallback={<LoadingPage />}>
+                            <_404 />
+                        </Suspense>
+                    }
+                />
                 <Route
                     path="/"
                     element={
@@ -60,6 +72,14 @@ function App() {
                     element={
                         <Suspense fallback={<LoadingPage />}>
                             <PersonalPage socket={socket} />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path="/notification"
+                    element={
+                        <Suspense fallback={<LoadingPage />}>
+                            <NotificationPage />
                         </Suspense>
                     }
                 />

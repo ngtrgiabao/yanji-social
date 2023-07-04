@@ -90,6 +90,10 @@ const User = new Schema(
             type: Array,
             default: [],
         },
+        friendRequests: {
+            type: Array,
+            default: [],
+        },
         followers: {
             type: Array,
             default: [],

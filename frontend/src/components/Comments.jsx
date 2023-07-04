@@ -107,14 +107,18 @@ const Comments = ({ postID, author, socket }) => {
                     outline: "0",
                 }}
             >
-                <div className="profile-pic bg-white">
-                    <img
-                        src={currentUser.profilePicture}
-                        alt="avatar_user"
-                        style={{
-                            objectFit: "cover",
-                        }}
-                    />
+                <div className="profile-pic">
+                    {currentUser.profilePicture ? (
+                        <img
+                            src={currentUser.profilePicture}
+                            alt="avatar_user"
+                            style={{
+                                objectFit: "cover",
+                            }}
+                        />
+                    ) : (
+                        <>{currentUser.username || "user"}</>
+                    )}
                 </div>
                 <div className="flex-fill mx-2">
                     <input
