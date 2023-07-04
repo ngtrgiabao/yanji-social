@@ -17,7 +17,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { getUserByID, updateUser } from "../../redux/request/userRequest";
 
-//TODO CREATE USER WAITTING LIST AND RESOLVE USER OF CURRENT ACCOUNT CAN UPDATE FRIEND LIST WHEN ACCEPT FRIEND REQUEST
+//TODO CREATE USER WAITTING LIST AND UPDATE BUTTON ADD FRIEND IN REALTIME
 
 const PersonalAvatarFriends = ({ user, socket }) => {
     const [randomAvatarFriends, setRandomAvatarFriends] = useState([]);
