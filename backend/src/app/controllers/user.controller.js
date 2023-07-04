@@ -79,7 +79,7 @@ const updateUser = async (req, res, next) => {
             friends,
             followers,
             following,
-            userWaiting,
+            friendRequests,
         } = req.body;
         const user = await UserModel.findById(userID);
 
@@ -135,22 +135,25 @@ const updateUser = async (req, res, next) => {
             );
 
             // If approver accept friend, then remove user who request to become friend from friendRequest list
-            user.userWaiting = user.userWaiting.filter((friendRequest) => {
-                return !user.friends.some(
-                    (friend) => friendRequest.toString() === friend.toString()
-                );
-            });
+            user.friendRequests = user.friendRequests.filter(
+                (friendRequest) => {
+                    return !user.friends.some(
+                        (friend) =>
+                            friendRequest.toString() === friend.toString()
+                    );
+                }
+            );
         }
 
-        if (Array.isArray(userWaiting)) {
-            const existingUserWaiting = user.userWaiting || [];
-            const newUserWaiting = userWaiting.filter(
-                (user) => !existingUserWaiting.includes(user)
+        if (Array.isArray(friendRequests)) {
+            const existingFriendRequests = user.friendRequests || [];
+            const newFriendRequests = friendRequests.filter(
+                (user) => !existingFriendRequests.includes(user)
             );
 
-            user.userWaiting = [
-                ...existingUserWaiting,
-                ...newUserWaiting.map((id) => mongoose.Types.ObjectId(id)),
+            user.friendRequests = [
+                ...existingFriendRequests,
+                ...newFriendRequests.map((id) => mongoose.Types.ObjectId(id)),
             ];
         }
 

@@ -90,7 +90,7 @@ const User = new Schema(
             type: Array,
             default: [],
         },
-        userWaiting: {
+        friendRequests: {
             type: Array,
             default: [],
         },

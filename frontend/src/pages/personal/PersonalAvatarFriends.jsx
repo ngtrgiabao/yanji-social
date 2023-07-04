@@ -24,6 +24,7 @@ const PersonalAvatarFriends = ({ user, socket }) => {
     const userRoutePage = useParams().userID;
     const [isAddFriend, setIsAddFriend] = useState(false);
     const [isApprover, setIsApprover] = useState(false);
+    const [isFriend, setIsFriend] = useState(false);
     const dispatch = useDispatch();
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
@@ -36,7 +37,7 @@ const PersonalAvatarFriends = ({ user, socket }) => {
         socket = io(SOCKET_URL);
 
         socket.emit("add-friend", {
-            // add author of current account to update userWaiting list
+            // add author of current account to update friendRequests list
             userID: currentUser._id,
             // add user route page to checking is this user send request?
             userRoute: userRoutePage,
@@ -45,11 +46,14 @@ const PersonalAvatarFriends = ({ user, socket }) => {
 
     const handleAcceptFriend = () => {
         getUserByID(currentUser._id, dispatch).then((data) => {
-            const { userWaiting, friends } = data.user;
+            const { friendRequests, friends } = data.user;
 
-            // checking user route page to update friend list if author of current account accept user who send request, by compare userRoutePage with user in userWaiting list
-            const updateFriends = userWaiting.find((u) => u === userRoutePage);
+            // checking user route page to update friend list if author of current account accept user who send request, by compare userRoutePage with user in friendRequests list
+            const updateFriends = friendRequests.find(
+                (u) => u === userRoutePage
+            );
 
+            // Update friend list of user who sent request to friend if that user accept request
             const updateUserSentRequest = {
                 userID: currentUser._id,
                 friends: [updateFriends, ...friends],
@@ -57,7 +61,7 @@ const PersonalAvatarFriends = ({ user, socket }) => {
 
             updateUser(updateUserSentRequest, dispatch)
                 .then(() => {
-                    console.log("Accepted friend successfully");
+                    console.log("Added friend successfully");
                 })
                 .catch((err) => {
                     console.error("Failed to accept friend", err);
@@ -66,6 +70,7 @@ const PersonalAvatarFriends = ({ user, socket }) => {
 
         getUserByID(userRoutePage, dispatch).then((data) => {
             const { friends } = data.user;
+            // Update friend list of user who accept friend request
             const updateUserAcceptRequest = {
                 userID: userRoutePage,
                 friends: [currentUser._id, ...friends],
@@ -87,15 +92,15 @@ const PersonalAvatarFriends = ({ user, socket }) => {
             userRoute === userRoutePage &&
                 // userRoutePage now is friend route
                 getUserByID(userRoutePage, dispatch).then((data) => {
-                    const { userWaiting } = data.user;
+                    const { friendRequests } = data.user;
                     const newUpdateUser = {
                         userID: userRoutePage,
                     };
 
-                    // add user who send friend request to userWaiting
-                    newUpdateUser.userWaiting = [
+                    // add user who send friend request to friendRequests
+                    newUpdateUser.friendRequests = [
                         currentUser._id,
-                        ...userWaiting,
+                        ...friendRequests,
                     ];
 
                     updateUser(newUpdateUser, dispatch)
@@ -109,13 +114,11 @@ const PersonalAvatarFriends = ({ user, socket }) => {
         }, []),
     };
 
-    const [isFriend, setIsFriend] = useState(false);
-
     // Check user is approver ?
     useEffect(() => {
         getUserByID(userRoutePage, dispatch).then((data) => {
-            const { userWaiting, friends } = data.user;
-            const isWaiting = userWaiting.some((u) => u === currentUser._id);
+            const { friendRequests, friends } = data.user;
+            const isWaiting = friendRequests.some((u) => u === currentUser._id);
             const isFriend = friends.some((u) => u === currentUser._id);
 
             if (isWaiting) {
@@ -128,9 +131,9 @@ const PersonalAvatarFriends = ({ user, socket }) => {
         });
 
         getUserByID(currentUser._id, dispatch).then((data) => {
-            const { userWaiting } = data.user;
-            if (userWaiting.length > 0) {
-                const checkIsApprover = userWaiting.some(
+            const { friendRequests } = data.user;
+            if (friendRequests.length > 0) {
+                const checkIsApprover = friendRequests.some(
                     (u) => u === userRoutePage
                 );
 
