@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 
 const UserModel = require("../models/user.model");
 
+//TODO FIX CANNOT REMOVE USER WAITING WHEN ADD USER IN FRIENDS
+
 const register = (req, res, next) => {
     const { username, password, email } = req.body;
 
@@ -77,6 +79,7 @@ const updateUser = async (req, res, next) => {
             friends,
             followers,
             following,
+            userWaiting,
         } = req.body;
         const user = await UserModel.findById(userID);
 
@@ -115,8 +118,10 @@ const updateUser = async (req, res, next) => {
             const newFollowers = followers.filter(
                 (follower) => !existingFollowers.includes(follower)
             );
-            user.followers = [...existingFollowers, ...newFollowers].map((id) =>
-                mongoose.Types.ObjectId(id)
+            user.followers = [...existingFollowers, ...newFollowers].map(
+                (id) => ({
+                    userID: mongoose.Types.ObjectId(id),
+                })
             );
         }
 
@@ -125,10 +130,28 @@ const updateUser = async (req, res, next) => {
             const newFriends = friends.filter(
                 (friend) => !existingFriends.includes(friend)
             );
-
             user.friends = [...existingFriends, ...newFriends].map((id) =>
                 mongoose.Types.ObjectId(id)
             );
+
+            // If approver accept friend, then remove user who request to become friend from friendRequest list
+            user.userWaiting = user.userWaiting.filter((friendRequest) => {
+                return !user.friends.some(
+                    (friend) => friendRequest.toString() === friend.toString()
+                );
+            });
+        }
+
+        if (Array.isArray(userWaiting)) {
+            const existingUserWaiting = user.userWaiting || [];
+            const newUserWaiting = userWaiting.filter(
+                (user) => !existingUserWaiting.includes(user)
+            );
+
+            user.userWaiting = [
+                ...existingUserWaiting,
+                ...newUserWaiting.map((id) => mongoose.Types.ObjectId(id)),
+            ];
         }
 
         if (Array.isArray(following)) {
@@ -137,7 +160,9 @@ const updateUser = async (req, res, next) => {
                 (follow) => !existingFollowing.includes(follow)
             );
             user.followings = [...existingFollowing, ...newFollowing].map(
-                (id) => mongoose.Types.ObjectId(id)
+                (id) => ({
+                    userID: mongoose.Types.ObjectId(id),
+                })
             );
         }
 

@@ -78,7 +78,7 @@ const Comment = ({
                     to={"/user/" + userCommented}
                     className="d-flex align-items-center"
                 >
-                    <div className="profile-pic bg-white text-black d-flex justify-content-center align-items-center">
+                    <div className="profile-pic bg-white text-black">
                         {user.profilePicture ? (
                             <img
                                 src={user.profilePicture}

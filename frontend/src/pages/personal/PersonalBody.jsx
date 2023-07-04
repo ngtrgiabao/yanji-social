@@ -145,13 +145,17 @@ const PersonalBody = ({ user }) => {
 
                     <div className="row d-flex border-bottom pb-4">
                         <div className="profile-pic p-0 rounded-circle overflow-hidden">
-                            <img
-                                loading="lazy"
-                                role="presentation"
-                                decoding="async"
-                                src={user.profilePicture}
-                                alt="Avatar user"
-                            />
+                            {user.profilePicture ? (
+                                <img
+                                    loading="lazy"
+                                    role="presentation"
+                                    decoding="async"
+                                    src={user.profilePicture}
+                                    alt="Avatar user"
+                                />
+                            ) : (
+                                <>{user.username}</>
+                            )}
                         </div>
                         <button
                             className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted text-center"

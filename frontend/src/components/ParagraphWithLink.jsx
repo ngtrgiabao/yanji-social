@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { URL_SPLIT_REGEX, YOUTUBE_REGEX } from "../constants/regex.constant";
 import YoutubeEmbed from "./YoutubeEmbed";
 

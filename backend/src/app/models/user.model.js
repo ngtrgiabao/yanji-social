@@ -90,6 +90,10 @@ const User = new Schema(
             type: Array,
             default: [],
         },
+        userWaiting: {
+            type: Array,
+            default: [],
+        },
         followers: {
             type: Array,
             default: [],

@@ -72,8 +72,8 @@ const MessagesMiddle = () => {
     });
 
     const handleSocket = {
-        serverResponse: useCallback((data) => {
-            console.log(data);
+        serverResponse: useCallback(() => {
+            console.log("Server connected");
         }, []),
 
         receivedMessage: useCallback(
@@ -416,7 +416,7 @@ const MessagesMiddle = () => {
         return (
             <div className="middle-container-header d-flex align-items-center justify-content-between py-3 px-4 pb-3">
                 <div className="d-flex align-items-center">
-                    <div className="profile-pic d-flex justify-content-center align-items-center">
+                    <div className="profile-pic">
                         {friend.avatar ? (
                             <img
                                 loading="lazy"

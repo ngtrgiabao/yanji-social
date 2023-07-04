@@ -35,6 +35,10 @@ io.on("connection", (socket) => {
             msg: "Hello from server 😎",
         });
 
+        socket.on("add-friend", (data) => {
+            io.emit("added-friend", data);
+        });
+
         // HANDLE MESSAGE OF USER
         socket.on("send-message", (data) => {
             const { sender, time } = data;
