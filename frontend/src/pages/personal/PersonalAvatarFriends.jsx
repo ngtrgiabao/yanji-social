@@ -1,20 +1,19 @@
 import { useState, useEffect, useCallback } from "react";
 import { UilPen } from "@iconscout/react-unicons";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import {
     faUserPlus,
     faWifi,
-    faArrowRight,
     faPlus,
     faUserGroup,
     faUserCheck,
-    faUserGear,
+    faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { io } from "socket.io-client";
 
-import axios from "axios";
-import { useParams } from "react-router-dom";
 import { getUserByID, updateUser } from "../../redux/request/userRequest";
 
 //TODO CREATE USER WAITTING LIST AND UPDATE BUTTON ADD FRIEND IN REALTIME
@@ -22,9 +21,9 @@ import { getUserByID, updateUser } from "../../redux/request/userRequest";
 const PersonalAvatarFriends = ({ user, socket }) => {
     const [randomAvatarFriends, setRandomAvatarFriends] = useState([]);
     const userRoutePage = useParams().userID;
-    const [isAddFriend, setIsAddFriend] = useState(false);
     const [isApprover, setIsApprover] = useState(false);
     const [isFriend, setIsFriend] = useState(false);
+    const [isFriendRequestPending, setIsFriendRequestPending] = useState(false);
     const dispatch = useDispatch();
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
@@ -41,6 +40,8 @@ const PersonalAvatarFriends = ({ user, socket }) => {
             userID: currentUser._id,
             // add user route page to checking is this user send request?
             userRoute: userRoutePage,
+            isPending: true,
+            isFriend: false,
         });
     };
 
@@ -84,63 +85,70 @@ const PersonalAvatarFriends = ({ user, socket }) => {
                     console.error("Failed to accept friend", err);
                 });
         });
+
+        socket = io(SOCKET_URL);
+
+        socket.emit("add-friend", {
+            isFriend: true,
+        });
+
+        setIsApprover(false);
     };
 
     const handleSocket = {
-        addFriend: useCallback((data) => {
-            const { userRoute } = data;
-            userRoute === userRoutePage &&
-                // userRoutePage now is friend route
-                getUserByID(userRoutePage, dispatch).then((data) => {
-                    const { friendRequests } = data.user;
-                    const newUpdateUser = {
-                        userID: userRoutePage,
-                    };
+        addFriend: useCallback(
+            (data) => {
+                const { userRoute, isPending, isFriend } = data;
 
-                    // add user who send friend request to friendRequests
-                    newUpdateUser.friendRequests = [
-                        currentUser._id,
-                        ...friendRequests,
-                    ];
+                userRoute === userRoutePage &&
+                    // userRoutePage now is friend route
+                    getUserByID(userRoutePage, dispatch).then((data) => {
+                        const { friendRequests } = data.user;
+                        const newUpdateUser = {
+                            userID: userRoutePage,
+                        };
 
-                    updateUser(newUpdateUser, dispatch)
-                        .then(() => {
-                            console.log("Sent friend request successfully");
-                        })
-                        .catch((err) => {
-                            console.error("Failed to send friend request", err);
-                        });
-                });
-        }, []),
+                        // add user who send friend request to friendRequests
+                        newUpdateUser.friendRequests = [
+                            currentUser._id,
+                            ...friendRequests,
+                        ];
+
+                        updateUser(newUpdateUser, dispatch)
+                            .then(() => {
+                                console.log("Sent friend request successfully");
+                                setIsFriendRequestPending(true);
+                            })
+                            .catch((err) => {
+                                console.error(
+                                    "Failed to send friend request",
+                                    err
+                                );
+                            });
+                    });
+
+                isFriend &&
+                    setIsFriend(true) &&
+                    setIsFriendRequestPending(false) &&
+                    setIsApprover(false);
+
+                //TODO FIX CANNOT CHANGE CONTENT FROM APPROVER TO FRIEND WHEN ACCEPT REQUEST OF APPROVER
+                if (userRoute === currentUser._id) {
+                    setIsApprover(true);
+                }
+            },
+            [currentUser._id, dispatch, userRoutePage]
+        ),
     };
 
-    // Check user is approver ?
     useEffect(() => {
-        getUserByID(userRoutePage, dispatch).then((data) => {
-            const { friendRequests, friends } = data.user;
-            const isWaiting = friendRequests.some((u) => u === currentUser._id);
-            const isFriend = friends.some((u) => u === currentUser._id);
-
-            if (isWaiting) {
-                setIsAddFriend(true);
-            }
-
-            if (isFriend) {
-                setIsFriend(true);
-            }
-        });
-
-        getUserByID(currentUser._id, dispatch).then((data) => {
-            const { friendRequests } = data.user;
-            if (friendRequests.length > 0) {
-                const checkIsApprover = friendRequests.some(
-                    (u) => u === userRoutePage
-                );
-
-                checkIsApprover && setIsApprover(true);
-            }
-        });
-    }, []);
+        console.log(
+            "isFriendRequestPending",
+            isFriendRequestPending,
+            "approver",
+            isApprover
+        );
+    }, [isFriendRequestPending, isApprover]);
 
     useEffect(() => {
         socket = io(SOCKET_URL);
@@ -152,6 +160,41 @@ const PersonalAvatarFriends = ({ user, socket }) => {
         };
     }, [SOCKET_URL, handleSocket.addFriend]);
 
+    // Check user is approver ?
+    useEffect(() => {
+        let isCancelled = false;
+
+        getUserByID(currentUser._id, dispatch).then((data) => {
+            if (!isCancelled) {
+                const { friendRequests, friends } = data.user;
+                if (friendRequests.length > 0) {
+                    const checkIsApprover = friendRequests.some(
+                        (u) => u === userRoutePage
+                    );
+
+                    checkIsApprover && setIsApprover(true);
+                }
+
+                getUserByID(userRoutePage, dispatch).then((data) => {
+                    const { friendRequests } = data.user;
+
+                    const isRequestFriend = friendRequests.includes(
+                        currentUser._id
+                    );
+                    const isFriend = friends.includes(userRoutePage);
+
+                    setIsFriendRequestPending(isRequestFriend);
+                    setIsFriend(isFriend);
+                });
+            }
+        });
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [currentUser._id, dispatch, userRoutePage, isFriend]);
+
+    // Get random avatars of friend
     useEffect(() => {
         let isCancelled = false;
 
@@ -201,7 +244,7 @@ const PersonalAvatarFriends = ({ user, socket }) => {
 
     const renderAddFriendBtn = () => {
         const isCurrentUser = user._id === currentUser._id;
-        const isFriendRequestPending = isAddFriend && !isCurrentUser;
+        // const isFriendRequestPending = isAddFriend && !isCurrentUser;
 
         let icon, label, handleClick;
 
@@ -213,8 +256,8 @@ const PersonalAvatarFriends = ({ user, socket }) => {
         }
         // user who send friend request
         else if (isFriendRequestPending) {
-            icon = faUserGear;
-            label = "Waiting accept";
+            icon = faRotateRight;
+            label = "Pending accept";
             handleClick = null;
         }
         // user who author of current account
@@ -236,11 +279,15 @@ const PersonalAvatarFriends = ({ user, socket }) => {
 
         return (
             <div
-                className="add-stories me-3 flex-fill d-flex justify-content-center align-items-center text-light text-center py-3 fs-4"
+                className="add-stories w-100 d-flex text-white justify-content-center align-items-center text-center py-3 fs-5 me-2"
                 onClick={handleClick}
             >
-                <span className="me-2">
-                    <FontAwesomeIcon icon={icon} />
+                <span className="me-3 fs-4">
+                    {isFriendRequestPending ? (
+                        <FontAwesomeIcon icon={icon} spin />
+                    ) : (
+                        <FontAwesomeIcon icon={icon} />
+                    )}
                 </span>
                 <span className="d-block">{label}</span>
             </div>
@@ -254,24 +301,24 @@ const PersonalAvatarFriends = ({ user, socket }) => {
             </div>
 
             <div
-                className="d-flex flex-wrap edit-profile"
+                className="d-flex edit-profile"
                 style={{
-                    width: "25%",
+                    width: "calc(15% * 2)",
                 }}
             >
                 {renderAddFriendBtn()}
-                <div className="d-flex align-items-center edit-profile-page text-light border py-3 fs-4">
+                <div className="d-flex align-items-center justify-content-center edit-profile-page text-light py-3 fs-5 w-100 border">
                     {user._id === currentUser._id ? (
                         <>
                             <span>
                                 <UilPen />
                             </span>
-                            <span className="ms-2">Edit profile page</span>
+                            <span className="ms-2">Edit profile</span>
                         </>
                     ) : (
                         <>
                             <span
-                                className="me-2"
+                                className="me-3"
                                 style={{
                                     transform: "rotate(45deg)",
                                 }}

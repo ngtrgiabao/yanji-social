@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 
 const UserModel = require("../models/user.model");
 
-//TODO FIX CANNOT REMOVE USER WAITING WHEN ADD USER IN FRIENDS
-
 const register = (req, res, next) => {
     const { username, password, email } = req.body;
 
