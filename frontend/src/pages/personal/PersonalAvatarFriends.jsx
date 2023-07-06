@@ -21,17 +21,18 @@ const PersonalAvatarFriends = ({ user, socket }) => {
         return state.auth.login.currentUser?.data;
     });
 
-    const handleAddFriend = () => {
+    const handleFollow = () => {
         socket = io(SOCKET_URL);
 
         socket.emit("follow", {
             // add author of current account to update friendRequests list
-            userID: currentUser._id,
+            sender: currentUser._id,
             // add user route page to checking is this user send request?
             userRoute: userRoutePage,
             isFollowing: true,
         });
 
+        // Add userRoutePage to following list of user who sent follow
         getUserByID(currentUser._id, dispatch).then((data) => {
             const { followings } = data.user;
 
@@ -52,9 +53,9 @@ const PersonalAvatarFriends = ({ user, socket }) => {
     };
 
     const handleSocket = {
-        addFriend: useCallback(
+        follow: useCallback(
             (data) => {
-                const { userRoute, isFollowing } = data;
+                const { userRoute, isFollowing, sender } = data;
 
                 userRoute === userRoutePage &&
                     // userRoutePage now is friend route
@@ -83,7 +84,7 @@ const PersonalAvatarFriends = ({ user, socket }) => {
                     setIsApprover(true);
                 }
 
-                isFollowing && setIsFollow(true);
+                isFollowing && sender === currentUser._id && setIsFollow(true);
             },
             [currentUser._id, dispatch, userRoutePage]
         ),
@@ -92,12 +93,12 @@ const PersonalAvatarFriends = ({ user, socket }) => {
     useEffect(() => {
         socket = io(SOCKET_URL);
 
-        socket.on("followed", handleSocket.addFriend);
+        socket.on("followed", handleSocket.follow);
 
         return () => {
-            socket.off("followed", handleSocket.addFriend);
+            socket.off("followed", handleSocket.follow);
         };
-    }, [SOCKET_URL, handleSocket.addFriend]);
+    }, [SOCKET_URL, handleSocket.follow]);
 
     // Get random avatars of friend
     useEffect(() => {
@@ -139,6 +140,7 @@ const PersonalAvatarFriends = ({ user, socket }) => {
         getUserByID(currentUser._id, dispatch).then((data) => {
             if (!isCancelled) {
                 const { followers, followings } = data.user;
+
                 if (followers.length > 0) {
                     const checkIsApprover = followers.some(
                         (u) => u === userRoutePage
@@ -147,14 +149,10 @@ const PersonalAvatarFriends = ({ user, socket }) => {
                     checkIsApprover && setIsApprover(true);
                 }
 
-                getUserByID(userRoutePage, dispatch).then((data) => {
-                    const { followers } = data.user;
-
-                    const isRequestFriend = followers.includes(currentUser._id);
+                getUserByID(userRoutePage, dispatch).then(() => {
                     const isFollowing = followings.includes(userRoutePage);
 
                     setIsFollow(isFollowing);
-                    console.log(isFollowing, isRequestFriend);
                 });
             }
         });
@@ -179,9 +177,8 @@ const PersonalAvatarFriends = ({ user, socket }) => {
         ));
     };
 
-    const renderAddFriendBtn = () => {
+    const renderFollowBtn = () => {
         const isCurrentUser = user._id === currentUser._id;
-        // const isFriendRequestPending = isAddFriend && !isCurrentUser;
 
         let icon, label, handleClick;
 
@@ -201,7 +198,7 @@ const PersonalAvatarFriends = ({ user, socket }) => {
         // user who not friend
         else {
             label = "Follow";
-            handleClick = handleAddFriend;
+            handleClick = handleFollow;
         }
 
         return (
@@ -220,7 +217,7 @@ const PersonalAvatarFriends = ({ user, socket }) => {
                 {renderRandomAvatarFriends()}
             </div>
 
-            <div className="d-flex edit-profile">{renderAddFriendBtn()}</div>
+            <div className="d-flex edit-profile">{renderFollowBtn()}</div>
         </div>
     );
 };
