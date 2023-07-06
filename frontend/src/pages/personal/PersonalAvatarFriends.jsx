@@ -1,29 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
-import { UilPen } from "@iconscout/react-unicons";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import {
-    faUserPlus,
-    faWifi,
-    faPlus,
-    faUserGroup,
-    faUserCheck,
-    faRotateRight,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { io } from "socket.io-client";
 
 import { getUserByID, updateUser } from "../../redux/request/userRequest";
 
-//TODO CREATE USER WAITTING LIST AND UPDATE BUTTON ADD FRIEND IN REALTIME
+//TODO CREATE USER WAITTING LIST
 
 const PersonalAvatarFriends = ({ user, socket }) => {
     const [randomAvatarFriends, setRandomAvatarFriends] = useState([]);
     const userRoutePage = useParams().userID;
     const [isApprover, setIsApprover] = useState(false);
-    const [isFriend, setIsFriend] = useState(false);
-    const [isFriendRequestPending, setIsFriendRequestPending] = useState(false);
+    const [isFollow, setIsFollow] = useState(false);
     const dispatch = useDispatch();
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
@@ -35,164 +24,80 @@ const PersonalAvatarFriends = ({ user, socket }) => {
     const handleAddFriend = () => {
         socket = io(SOCKET_URL);
 
-        socket.emit("add-friend", {
+        socket.emit("follow", {
             // add author of current account to update friendRequests list
             userID: currentUser._id,
             // add user route page to checking is this user send request?
             userRoute: userRoutePage,
-            isPending: true,
-            isFriend: false,
+            isFollowing: true,
         });
-    };
 
-    const handleAcceptFriend = () => {
         getUserByID(currentUser._id, dispatch).then((data) => {
-            const { friendRequests, friends } = data.user;
+            const { followings } = data.user;
 
-            // checking user route page to update friend list if author of current account accept user who send request, by compare userRoutePage with user in friendRequests list
-            const updateFriends = friendRequests.find(
-                (u) => u === userRoutePage
-            );
-
-            // Update friend list of user who sent request to friend if that user accept request
-            const updateUserSentRequest = {
+            const newUpdateUser = {
                 userID: currentUser._id,
-                friends: [updateFriends, ...friends],
             };
 
-            updateUser(updateUserSentRequest, dispatch)
-                .then(() => {
-                    console.log("Added friend successfully");
+            newUpdateUser.followings = [userRoutePage, ...followings];
+
+            updateUser(newUpdateUser, dispatch)
+                .then((data) => {
+                    console.log("Followed user", userRoutePage, data);
                 })
                 .catch((err) => {
-                    console.error("Failed to accept friend", err);
+                    console.error("Failed to follow", err);
                 });
         });
-
-        getUserByID(userRoutePage, dispatch).then((data) => {
-            const { friends } = data.user;
-            // Update friend list of user who accept friend request
-            const updateUserAcceptRequest = {
-                userID: userRoutePage,
-                friends: [currentUser._id, ...friends],
-            };
-
-            updateUser(updateUserAcceptRequest, dispatch)
-                .then(() => {
-                    console.log("Accepted friend successfully");
-                })
-                .catch((err) => {
-                    console.error("Failed to accept friend", err);
-                });
-        });
-
-        socket = io(SOCKET_URL);
-
-        socket.emit("add-friend", {
-            isFriend: true,
-        });
-
-        setIsApprover(false);
     };
 
     const handleSocket = {
         addFriend: useCallback(
             (data) => {
-                const { userRoute, isPending, isFriend } = data;
+                const { userRoute, isFollowing } = data;
 
                 userRoute === userRoutePage &&
                     // userRoutePage now is friend route
                     getUserByID(userRoutePage, dispatch).then((data) => {
-                        const { friendRequests } = data.user;
+                        const { followers } = data.user;
                         const newUpdateUser = {
                             userID: userRoutePage,
                         };
 
-                        // add user who send friend request to friendRequests
-                        newUpdateUser.friendRequests = [
+                        // add user who sent follow to follower list
+                        newUpdateUser.followers = [
                             currentUser._id,
-                            ...friendRequests,
+                            ...followers,
                         ];
 
                         updateUser(newUpdateUser, dispatch)
                             .then(() => {
-                                console.log("Sent friend request successfully");
-                                setIsFriendRequestPending(true);
+                                console.log("Sent follow successfully");
                             })
                             .catch((err) => {
-                                console.error(
-                                    "Failed to send friend request",
-                                    err
-                                );
+                                console.error("Failed to send follow", err);
                             });
                     });
 
-                isFriend &&
-                    setIsFriend(true) &&
-                    setIsFriendRequestPending(false) &&
-                    setIsApprover(false);
-
-                //TODO FIX CANNOT CHANGE CONTENT FROM APPROVER TO FRIEND WHEN ACCEPT REQUEST OF APPROVER
                 if (userRoute === currentUser._id) {
                     setIsApprover(true);
                 }
+
+                isFollowing && setIsFollow(true);
             },
             [currentUser._id, dispatch, userRoutePage]
         ),
     };
 
     useEffect(() => {
-        console.log(
-            "isFriendRequestPending",
-            isFriendRequestPending,
-            "approver",
-            isApprover
-        );
-    }, [isFriendRequestPending, isApprover]);
-
-    useEffect(() => {
         socket = io(SOCKET_URL);
 
-        socket.on("added-friend", handleSocket.addFriend);
+        socket.on("followed", handleSocket.addFriend);
 
         return () => {
-            socket.off("added-friend", handleSocket.addFriend);
+            socket.off("followed", handleSocket.addFriend);
         };
     }, [SOCKET_URL, handleSocket.addFriend]);
-
-    // Check user is approver ?
-    useEffect(() => {
-        let isCancelled = false;
-
-        getUserByID(currentUser._id, dispatch).then((data) => {
-            if (!isCancelled) {
-                const { friendRequests, friends } = data.user;
-                if (friendRequests.length > 0) {
-                    const checkIsApprover = friendRequests.some(
-                        (u) => u === userRoutePage
-                    );
-
-                    checkIsApprover && setIsApprover(true);
-                }
-
-                getUserByID(userRoutePage, dispatch).then((data) => {
-                    const { friendRequests } = data.user;
-
-                    const isRequestFriend = friendRequests.includes(
-                        currentUser._id
-                    );
-                    const isFriend = friends.includes(userRoutePage);
-
-                    setIsFriendRequestPending(isRequestFriend);
-                    setIsFriend(isFriend);
-                });
-            }
-        });
-
-        return () => {
-            isCancelled = true;
-        };
-    }, [currentUser._id, dispatch, userRoutePage, isFriend]);
 
     // Get random avatars of friend
     useEffect(() => {
@@ -227,6 +132,38 @@ const PersonalAvatarFriends = ({ user, socket }) => {
         };
     }, []);
 
+    // Check user is approver ?
+    useEffect(() => {
+        let isCancelled = false;
+
+        getUserByID(currentUser._id, dispatch).then((data) => {
+            if (!isCancelled) {
+                const { followers, followings } = data.user;
+                if (followers.length > 0) {
+                    const checkIsApprover = followers.some(
+                        (u) => u === userRoutePage
+                    );
+
+                    checkIsApprover && setIsApprover(true);
+                }
+
+                getUserByID(userRoutePage, dispatch).then((data) => {
+                    const { followers } = data.user;
+
+                    const isRequestFriend = followers.includes(currentUser._id);
+                    const isFollowing = followings.includes(userRoutePage);
+
+                    setIsFollow(isFollowing);
+                    console.log(isFollowing, isRequestFriend);
+                });
+            }
+        });
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [currentUser._id, dispatch, userRoutePage]);
+
     const renderRandomAvatarFriends = () => {
         return randomAvatarFriends.map((item, index) => (
             <div key={item.id} className="rounded-circle avatar-friends">
@@ -250,45 +187,28 @@ const PersonalAvatarFriends = ({ user, socket }) => {
 
         // author of current account who can accept friend request
         if (isApprover) {
-            icon = faUserGroup;
-            label = "Accept";
-            handleClick = handleAcceptFriend;
-        }
-        // user who send friend request
-        else if (isFriendRequestPending) {
-            icon = faRotateRight;
-            label = "Pending accept";
+            label = "Follow back";
             handleClick = null;
         }
         // user who author of current account
         else if (isCurrentUser) {
-            icon = faPlus;
             label = "Add stories";
             handleClick = null;
-        } else if (isFriend) {
-            icon = faUserCheck;
-            label = "Friend";
+        } else if (isFollow) {
+            label = "Following";
             handleClick = null;
         }
         // user who not friend
         else {
-            icon = faUserPlus;
-            label = "Add friend";
+            label = "Follow";
             handleClick = handleAddFriend;
         }
 
         return (
             <div
-                className="add-stories w-100 d-flex text-white justify-content-center align-items-center text-center py-3 fs-5 me-2"
+                className="add-stories w-100 text-white py-3 px-4 fs-5 me-2"
                 onClick={handleClick}
             >
-                <span className="me-3 fs-4">
-                    {isFriendRequestPending ? (
-                        <FontAwesomeIcon icon={icon} spin />
-                    ) : (
-                        <FontAwesomeIcon icon={icon} />
-                    )}
-                </span>
                 <span className="d-block">{label}</span>
             </div>
         );
@@ -300,36 +220,7 @@ const PersonalAvatarFriends = ({ user, socket }) => {
                 {renderRandomAvatarFriends()}
             </div>
 
-            <div
-                className="d-flex edit-profile"
-                style={{
-                    width: "calc(15% * 2)",
-                }}
-            >
-                {renderAddFriendBtn()}
-                <div className="d-flex align-items-center justify-content-center edit-profile-page text-light py-3 fs-5 w-100 border">
-                    {user._id === currentUser._id ? (
-                        <>
-                            <span>
-                                <UilPen />
-                            </span>
-                            <span className="ms-2">Edit profile</span>
-                        </>
-                    ) : (
-                        <>
-                            <span
-                                className="me-3"
-                                style={{
-                                    transform: "rotate(45deg)",
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faWifi} />
-                            </span>
-                            <span>Follow</span>
-                        </>
-                    )}
-                </div>
-            </div>
+            <div className="d-flex edit-profile">{renderAddFriendBtn()}</div>
         </div>
     );
 };

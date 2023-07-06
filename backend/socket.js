@@ -35,8 +35,8 @@ io.on("connection", (socket) => {
             msg: "Hello from server 😎",
         });
 
-        socket.on("add-friend", (data) => {
-            io.emit("added-friend", data);
+        socket.on("follow", (data) => {
+            io.emit("followed", data);
         });
 
         // HANDLE MESSAGE OF USER

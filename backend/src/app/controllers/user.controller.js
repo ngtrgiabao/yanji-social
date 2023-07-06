@@ -76,7 +76,7 @@ const updateUser = async (req, res, next) => {
             photos,
             friends,
             followers,
-            following,
+            followings,
             friendRequests,
         } = req.body;
         const user = await UserModel.findById(userID);
@@ -111,18 +111,6 @@ const updateUser = async (req, res, next) => {
             }
         }
 
-        if (Array.isArray(followers)) {
-            const existingFollowers = user.followers || [];
-            const newFollowers = followers.filter(
-                (follower) => !existingFollowers.includes(follower)
-            );
-            user.followers = [...existingFollowers, ...newFollowers].map(
-                (id) => ({
-                    userID: mongoose.Types.ObjectId(id),
-                })
-            );
-        }
-
         if (Array.isArray(friends)) {
             const existingFriends = user.friends || [];
             const newFriends = friends.filter(
@@ -143,6 +131,27 @@ const updateUser = async (req, res, next) => {
             );
         }
 
+        if (Array.isArray(followings)) {
+            const existingFollowings = user.followings || [];
+            const newFollowing = followings.filter(
+                (follower) => !existingFollowings.includes(follower)
+            );
+            user.followings = [...existingFollowings, ...newFollowing].map(
+                (id) => mongoose.Types.ObjectId(id)
+            );
+        }
+
+        if (Array.isArray(followers)) {
+            const existingFollowers = user.followers || [];
+            const newFollowers = followers.filter(
+                (follower) => !existingFollowers.includes(follower)
+            );
+            user.followers = [
+                ...existingFollowers,
+                ...newFollowers.map((id) => mongoose.Types.ObjectId(id)),
+            ];
+        }
+
         if (Array.isArray(friendRequests)) {
             const existingFriendRequests = user.friendRequests || [];
             const newFriendRequests = friendRequests.filter(
@@ -153,18 +162,6 @@ const updateUser = async (req, res, next) => {
                 ...existingFriendRequests,
                 ...newFriendRequests.map((id) => mongoose.Types.ObjectId(id)),
             ];
-        }
-
-        if (Array.isArray(following)) {
-            const existingFollowing = user.followings || [];
-            const newFollowing = following.filter(
-                (follow) => !existingFollowing.includes(follow)
-            );
-            user.followings = [...existingFollowing, ...newFollowing].map(
-                (id) => ({
-                    userID: mongoose.Types.ObjectId(id),
-                })
-            );
         }
 
         const updatedUser = await user.save();
