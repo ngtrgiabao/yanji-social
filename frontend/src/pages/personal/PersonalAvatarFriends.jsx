@@ -1,16 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 
 import { getUserByID, updateUser } from "../../redux/request/userRequest";
 
 //TODO CREATE USER WAITTING LIST
 
-const PersonalAvatarFriends = ({ user, socket }) => {
+const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
     const [randomAvatarFriends, setRandomAvatarFriends] = useState([]);
-    const userRoutePage = useParams().userID;
     const [isApprover, setIsApprover] = useState(false);
     const [isFollow, setIsFollow] = useState(false);
     const dispatch = useDispatch();
@@ -28,7 +26,7 @@ const PersonalAvatarFriends = ({ user, socket }) => {
             // add author of current account to update friendRequests list
             sender: currentUser._id,
             // add user route page to checking is this user send request?
-            userRoute: userRoutePage,
+            userRoute: userRoutePage._id,
             isFollowing: true,
         });
 
@@ -40,11 +38,11 @@ const PersonalAvatarFriends = ({ user, socket }) => {
                 userID: currentUser._id,
             };
 
-            newUpdateUser.followings = [userRoutePage, ...followings];
+            newUpdateUser.followings = [userRoutePage._id, ...followings];
 
             updateUser(newUpdateUser, dispatch)
-                .then((data) => {
-                    console.log("Followed user", userRoutePage, data);
+                .then(() => {
+                    console.log("Followed user", userRoutePage._id);
                 })
                 .catch((err) => {
                     console.error("Failed to follow", err);
@@ -56,13 +54,11 @@ const PersonalAvatarFriends = ({ user, socket }) => {
         follow: useCallback(
             (data) => {
                 const { userRoute, isFollowing, sender } = data;
-
-                userRoute === userRoutePage &&
-                    // userRoutePage now is friend route
-                    getUserByID(userRoutePage, dispatch).then((data) => {
-                        const { followers } = data.user;
+                userRoute === userRoutePage._id &&
+                    getUserByID(userRoute, dispatch).then((data) => {
+                        const { followers } = data?.user;
                         const newUpdateUser = {
-                            userID: userRoutePage,
+                            userID: userRoute,
                         };
 
                         // add user who sent follow to follower list
@@ -80,13 +76,33 @@ const PersonalAvatarFriends = ({ user, socket }) => {
                             });
                     });
 
-                if (userRoute === currentUser._id) {
-                    setIsApprover(true);
-                }
+                userRoute === currentUser._id && setIsApprover(true);
+
+                getUserByID(userRoute, dispatch).then((data) => {
+                    const { followings } = data?.user;
+
+                    const checkIsFollowedBack = followings.some(
+                        (u) => u === userRoutePage._id
+                    );
+
+                    if (followings.length > 0) {
+                        checkIsFollowedBack &&
+                            setIsApprover(false) &&
+                            setIsFollow(isFollowing);
+                    }
+                });
+
+                getUserByID(currentUser._id, dispatch).then((data) => {
+                    const { followers } = data.user;
+
+                    const isFollowing = followers.includes(userRoutePage._id);
+
+                    isFollowing && setIsApprover(false) && setIsFollow(true);
+                });
 
                 isFollowing && sender === currentUser._id && setIsFollow(true);
             },
-            [currentUser._id, dispatch, userRoutePage]
+            [currentUser._id, dispatch, userRoutePage._id]
         ),
     };
 
@@ -143,14 +159,19 @@ const PersonalAvatarFriends = ({ user, socket }) => {
 
                 if (followers.length > 0) {
                     const checkIsApprover = followers.some(
-                        (u) => u === userRoutePage
+                        (u) => u === userRoutePage._id
+                    );
+                    const checkIsFollowedBack = followings.some(
+                        (u) => u === userRoutePage._id
                     );
 
-                    checkIsApprover && setIsApprover(true);
+                    checkIsApprover &&
+                        !checkIsFollowedBack &&
+                        setIsApprover(true);
                 }
 
-                getUserByID(userRoutePage, dispatch).then(() => {
-                    const isFollowing = followings.includes(userRoutePage);
+                getUserByID(userRoutePage._id, dispatch).then(() => {
+                    const isFollowing = followings.includes(userRoutePage._id);
 
                     setIsFollow(isFollowing);
                 });
@@ -160,7 +181,7 @@ const PersonalAvatarFriends = ({ user, socket }) => {
         return () => {
             isCancelled = true;
         };
-    }, [currentUser._id, dispatch, userRoutePage]);
+    }, [currentUser._id, dispatch, userRoutePage._id]);
 
     const renderRandomAvatarFriends = () => {
         return randomAvatarFriends.map((item, index) => (
@@ -178,14 +199,14 @@ const PersonalAvatarFriends = ({ user, socket }) => {
     };
 
     const renderFollowBtn = () => {
-        const isCurrentUser = user._id === currentUser._id;
+        const isCurrentUser = userRoutePage._id === currentUser._id;
 
         let icon, label, handleClick;
 
         // author of current account who can accept friend request
         if (isApprover) {
             label = "Follow back";
-            handleClick = null;
+            handleClick = handleFollow;
         }
         // user who author of current account
         else if (isCurrentUser) {

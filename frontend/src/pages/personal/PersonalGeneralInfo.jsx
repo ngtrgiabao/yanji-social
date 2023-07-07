@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { UilCamera } from "@iconscout/react-unicons";
 import { useSelector } from "react-redux";
 
@@ -8,7 +8,7 @@ import "../../style/pages/personal/personalGeneralInfo.css";
 
 import ChangeImagePopup from "../../components/ChangeImagePopup";
 
-const PersonalGeneralInfo = ({ user, socket }) => {
+const PersonalGeneralInfo = ({ userRoute, socket }) => {
     const [openPopup, setOpenPopup] = useState(false);
 
     const handlePopup = () => {
@@ -25,26 +25,26 @@ const PersonalGeneralInfo = ({ user, socket }) => {
                 <div
                     className="position-relative"
                     onClick={() =>
-                        user._id === currentUser._id && handlePopup()
+                        userRoute._id === currentUser._id && handlePopup()
                     }
                 >
                     <div className="avatar d-flex justify-content-center align-items-center text-white">
-                        {user.profilePicture ? (
+                        {userRoute.profilePicture ? (
                             <img
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
-                                src={user.profilePicture}
+                                src={userRoute.profilePicture}
                                 alt="Avatar user"
                                 className="w-100"
                             />
                         ) : (
                             <div className="fs-1 fw-bolder">
-                                {user.username}
+                                {userRoute.username}
                             </div>
                         )}
                     </div>
-                    {user._id === currentUser._id && (
+                    {userRoute._id === currentUser._id && (
                         <span className="position-absolute border border-primary rounded-circle p-2 edit-avatar">
                             <UilCamera />
                         </span>
@@ -52,13 +52,14 @@ const PersonalGeneralInfo = ({ user, socket }) => {
                 </div>
 
                 <div className="information ms-4 mt-5">
-                    <p className="name" onClick={handlePopup}>
-                        {user?.username || "User"}
-                    </p>
+                    <p className="name">{userRoute?.username || "User"}</p>
                     <div className="friends mb-4">1,2k Friends</div>
 
                     <div className="profile-title">
-                        <PersonalAvatarFriends user={user} socket={socket} />
+                        <PersonalAvatarFriends
+                            userRoutePage={userRoute}
+                            socket={socket}
+                        />
                     </div>
                 </div>
             </div>
@@ -66,7 +67,7 @@ const PersonalGeneralInfo = ({ user, socket }) => {
             {openPopup && (
                 <ChangeImagePopup
                     title="Cập nhật ảnh đại diện"
-                    imgSrc={user.profilePicture}
+                    imgSrc={userRoute.profilePicture}
                     isAvatar={true}
                     onClose={() => setOpenPopup("")}
                     message="Update avatar successfully"
