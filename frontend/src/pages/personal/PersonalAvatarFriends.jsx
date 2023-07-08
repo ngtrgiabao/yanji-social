@@ -43,6 +43,10 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
             updateUser(newUpdateUser, dispatch)
                 .then(() => {
                     console.log("Followed user", userRoutePage._id);
+                    if (isApprover) {
+                        setIsApprover(false);
+                        setIsFollow(true);
+                    }
                 })
                 .catch((err) => {
                     console.error("Failed to follow", err);
