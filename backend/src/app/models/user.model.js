@@ -86,14 +86,6 @@ const User = new Schema(
                 },
             },
         ],
-        friends: {
-            type: Array,
-            default: [],
-        },
-        friendRequests: {
-            type: Array,
-            default: [],
-        },
         followers: {
             type: Array,
             default: [],

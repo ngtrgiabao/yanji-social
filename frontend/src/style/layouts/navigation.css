@@ -86,6 +86,8 @@ nav .nav__btn:hover {
 
 .header-navbar {
     z-index: 999;
+
+    width: 100vw;
 }
 
 .logo {

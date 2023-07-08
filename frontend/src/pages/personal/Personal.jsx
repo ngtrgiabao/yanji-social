@@ -15,7 +15,7 @@ import NotFound from "../notFound/NotFound";
 
 function Personal({ socket }) {
     const userRoute = useParams().userID;
-    const [user, setUser] = useState({});
+    const [userRoutePage, setUserRoutePage] = useState({});
     const [isValid, setIsValid] = useState(true);
     const dispatch = useDispatch();
 
@@ -23,7 +23,7 @@ function Personal({ socket }) {
         getUserByID(userRoute, dispatch)
             .then((data) => {
                 setIsValid(true);
-                setUser(data.user);
+                setUserRoutePage(data.user);
             })
             .catch((err) => {
                 setIsValid(false);
@@ -36,13 +36,16 @@ function Personal({ socket }) {
             <Navigation title="Login" link="/register" />
 
             <div className="personal-container">
-                <PersonalHeader user={user} socket={socket} />
-                <PersonalGeneralInfo user={user} socket={socket} />
+                <PersonalHeader user={userRoutePage} socket={socket} />
+                <PersonalGeneralInfo
+                    userRoute={userRoutePage}
+                    socket={socket}
+                />
 
                 <hr className="my-5" />
 
                 <PersonalNavbarProfile />
-                <PersonalBody user={user} />
+                <PersonalBody user={userRoutePage} />
             </div>
         </>
     ) : (
