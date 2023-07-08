@@ -1,3 +1,5 @@
+#### BACKEND .env
+
 <!-- ----- BACKEND .env ----- -->
 
 SOCKET_PORT=8000
@@ -15,6 +17,9 @@ CLOUD_STORAGE_NAME=""
 CLOUD_STORAGE_API_KEY=""
 CLOUD_SECRET_KEY=""
 CLOUD_FOLDER_NAME=""
+
+
+#### FRONTEND .env
 
 <!-- ----- FRONTEND .env ----- -->
 
