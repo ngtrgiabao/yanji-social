@@ -21,7 +21,8 @@ const Posts = ({ socket }) => {
     useEffect(() => {
         getAllPosts(dispatch)
             .then((data) => {
-                setPosts(data.posts);
+                const { posts } = data;
+                setPosts(posts);
             })
             .catch((err) => {
                 console.error(err);
