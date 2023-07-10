@@ -3,28 +3,14 @@ import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect, useCallback } from "react";
 
-import {
-    followUser,
-    getUserByID,
-    updateUser,
-} from "../../redux/request/userRequest";
+import { followUser, getUserByID } from "../../redux/request/userRequest";
 
 //TODO CREATE USER WAITTING LIST
 
 const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
-    const [isApprover, setIsApprover] = useState(false);
     const [isFollow, setIsFollow] = useState(false);
+    const [isApprover, setIsApprover] = useState(false);
     const [randomAvatarFriends, setRandomAvatarFriends] = useState([]);
-    const [userAccept, setUserAccept] = useState({
-        _id: "",
-        followers: [],
-        followings: [],
-    });
-    const [userRequest, setUserRequest] = useState({
-        _id: "",
-        followers: [],
-        followings: [],
-    });
     const dispatch = useDispatch();
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
@@ -34,27 +20,87 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
     });
 
     const handleFollow = () => {
-        socket = io(SOCKET_URL);
-
-        socket.emit("follow", {
-            // add author of current account to update friendRequests list
-            sender: currentUser._id,
-            // add user route page to checking is this user send request?
-            userRoute: userRoutePage._id,
-        });
-
         const updatedUser = {
             userID: userRoutePage._id,
             newFollower: currentUser._id,
         };
 
         followUser(updatedUser, dispatch)
-            .then(() => {
-                console.log("Follow user", userRoutePage._id, "successfully");
+            .then((data) => {
+                const { userAccept, userRequest } = data.data;
+
+                socket = io(SOCKET_URL);
+
+                socket.emit("follow", {
+                    // add author of current account to update friendRequests list
+                    sender: userRequest._id,
+                    // add user route page to checking is this user send request?
+                    userRoute: userAccept._id,
+                });
             })
             .catch((err) => {
                 console.error("Failed to follow", err);
             });
+    };
+
+    const isUserGotFollowed = (sender, userRoute) => {
+        getUserByID(userRoute, dispatch).then((data) => {
+            const { followers, followings } = data.user;
+
+            const isFollower = followers.includes(sender);
+            const isFollowing = followings.includes(sender);
+
+            // If got request follow will active isApprover
+            if (isFollower) {
+                setIsApprover(true);
+            }
+
+            // If user who got followed also following user who sent follow will set isApprover to false and set isFollow is true
+            if (isFollowing) {
+                setIsApprover(false);
+                setIsFollow(true);
+            } else {
+                // Check is user who sent follow still follow ?
+                getUserByID(sender, dispatch).then((data) => {
+                    const { followings } = data.user;
+
+                    const isFollowing = followings.includes(userRoute);
+
+                    // If both user not follow each other will set to default btn
+                    if (!isFollowing) {
+                        setIsApprover(false);
+                        setIsFollow(false);
+                    }
+                });
+            }
+        });
+    };
+
+    const isUserSendFollow = (sender, userRoute) => {
+        getUserByID(sender, dispatch).then((data) => {
+            const { followings } = data.user;
+
+            const isFollowing = followings.includes(userRoute);
+
+            if (isFollowing) {
+                setIsApprover(false);
+                setIsFollow(true);
+            } else {
+                // Check is user who sent follow still follow ?
+                getUserByID(userRoute, dispatch).then((data) => {
+                    const { followings } = data.user;
+
+                    const isFollowing = followings.includes(sender);
+
+                    if (isFollowing) {
+                        setIsApprover(true);
+                    } else {
+                        setIsApprover(false);
+                        setIsFollow(false);
+                    }
+                });
+            }
+        });
     };
 
     const handleSocket = {
@@ -62,15 +108,11 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
             const { userRoute, sender } = data;
 
             if (userRoute === currentUser._id) {
-                setIsApprover((isApprover) => !isApprover);
+                isUserGotFollowed(sender, userRoute);
             }
 
-            getUserByID(userRoute, dispatch).then((data) => {
-                console.log(data);
-            });
-
             if (sender === currentUser._id) {
-                setIsFollow((isFollow) => !isFollow);
+                isUserSendFollow(sender, userRoute);
             }
         }, []),
     };
