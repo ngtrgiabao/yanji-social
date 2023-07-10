@@ -28,6 +28,13 @@ class UserService {
         );
     }
 
+    async followUser(updatedUser) {
+        return await api.put(
+            `/api/v1/user/${updatedUser.userID}/follow`,
+            updatedUser
+        );
+    }
+
     async deleteAllUsers() {
         return await api.delete("/api/v1/user/delete-all").data;
     }

@@ -178,6 +178,100 @@ const updateUser = async (req, res, next) => {
     }
 };
 
+const followUser = async (req, res, next) => {
+    const userID = req.params.userID;
+    const user = await UserModel.findById(userID);
+    const { newFollower } = req.body;
+    const infoNewFollower = await UserModel.findById(newFollower);
+
+    try {
+        if (
+            !infoNewFollower.followings.includes(userID) &&
+            !user.followers.includes(newFollower)
+        ) {
+            const updatedUserWhoSentRequest = await UserModel.findOneAndUpdate(
+                {
+                    _id: newFollower,
+                },
+                {
+                    $push: {
+                        followings: userID,
+                    },
+                },
+                {
+                    new: true,
+                }
+            );
+
+            const updatedUserWhoAcceptRequest =
+                await UserModel.findOneAndUpdate(
+                    {
+                        _id: userID,
+                    },
+                    {
+                        $push: {
+                            followers: newFollower,
+                        },
+                    },
+                    {
+                        new: true,
+                    }
+                );
+
+            return res.status(200).json({
+                msg: "Added new follower",
+                data: {
+                    userRequest: updatedUserWhoSentRequest,
+                    userAccept: updatedUserWhoAcceptRequest,
+                },
+            });
+        } else {
+            const updatedUserWhoSentRequest = await UserModel.findOneAndUpdate(
+                {
+                    _id: newFollower,
+                },
+                {
+                    $pull: {
+                        followings: userID,
+                    },
+                },
+                {
+                    new: true,
+                }
+            );
+
+            const updatedUserWhoAcceptRequest =
+                await UserModel.findOneAndUpdate(
+                    {
+                        _id: userID,
+                    },
+                    {
+                        $pull: {
+                            followers: newFollower,
+                        },
+                    },
+                    {
+                        new: true,
+                    }
+                );
+
+            return res.status(200).json({
+                msg: "Removed follower",
+                data: {
+                    userRequest: updatedUserWhoSentRequest,
+                    userAccept: updatedUserWhoAcceptRequest,
+                },
+            });
+        }
+    } catch (error) {
+        console.error("Failed to sent follow", error);
+
+        return res.status(500).json({
+            msg: "Failed to sent follow",
+        });
+    }
+};
+
 const deleteUser = async (req, res, next) => {
     const userID = req.params.userID;
     try {
@@ -240,4 +334,5 @@ module.exports = {
     deleteUser,
     deleteAllUsers,
     getPostsShared,
+    followUser,
 };

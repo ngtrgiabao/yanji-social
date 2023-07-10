@@ -33,11 +33,23 @@ export const getPostsShared = async (userID, dispatch) => {
     }
 };
 
-export const updateUser = async (updateUser, dispatch) => {
-    dispatch(updateUserStart(updateUser));
+export const updateUser = async (updatedUser, dispatch) => {
+    dispatch(updateUserStart(updatedUser));
 
     try {
-        const res = await userService.updateUser(updateUser);
+        const res = await userService.updateUser(updatedUser);
+        dispatch(updateUserSuccess(res.data));
+        return res.data;
+    } catch (error) {
+        dispatch(updateUserFailed());
+    }
+};
+
+export const followUser = async (updatedUser, dispatch) => {
+    dispatch(updateUserStart(updatedUser));
+
+    try {
+        const res = await userService.followUser(updatedUser);
         dispatch(updateUserSuccess(res.data));
         return res.data;
     } catch (error) {

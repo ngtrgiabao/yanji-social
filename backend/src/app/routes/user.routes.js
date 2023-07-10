@@ -27,6 +27,11 @@ router.put(
     UserMiddleware.validateUserById,
     UserController.updateUser
 );
+router.put(
+    "/:userID/follow",
+    UserMiddleware.validateUserById,
+    UserController.followUser
+);
 
 router.delete("/delete-all", UserController.deleteAllUsers);
 router.delete(
