@@ -49,7 +49,7 @@ const Conversation = ({
         let isCancelled = false;
 
         if (!isCancelled) {
-            friends.forEach((friend) => {
+            friends?.forEach((friend) => {
                 if (onlineUsers?.includes(friend) && friend === user?._id) {
                     setIsOnline(true);
                 }

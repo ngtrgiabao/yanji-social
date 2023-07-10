@@ -63,11 +63,11 @@ const MessagesLeft = ({ avatarUser }) => {
 
             // Get friends of currentUser to compare user of socket to set online users
             getUserByID(currentUser._id, dispatch).then((data) => {
-                const value = data.user.friends.filter((f) =>
+                const value = data.user.friends?.filter((f) =>
                     users.some((u) => u.userID === f)
                 );
 
-                data.user.friends.map((t) => console.log(t));
+                data.user.friends?.map((t) => console.log(t));
                 setOnlineUsers(value);
             });
         }, []),
