@@ -22,7 +22,15 @@ const Conversation = ({
 
         getUserByID(currentUser, dispatch).then((data) => {
             if (!isCancelled) {
-                setFriends(data.user.friends);
+                const { followers, followings } = data.user;
+
+                console.log(currentUser);
+
+                if (followings.length > 0) {
+                    setFriends(followings);
+                } else if (followers.length > 0) {
+                    setFriends(followers);
+                }
             }
         });
 
@@ -49,8 +57,8 @@ const Conversation = ({
         let isCancelled = false;
 
         if (!isCancelled) {
-            friends?.forEach((friend) => {
-                if (onlineUsers?.includes(friend) && friend === user?._id) {
+            friends.forEach((friend) => {
+                if (onlineUsers.includes(friend) && friend === user?._id) {
                     setIsOnline(true);
                 }
             });

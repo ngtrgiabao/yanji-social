@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import io from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
     faVideo,
     faPhone,
@@ -32,13 +32,13 @@ import {
     getMessageByID,
     markMessageSeen,
 } from "../../redux/request/messageRequest";
-import { getUserByID } from "../../redux/request/userRequest";
+import Message from "../../components/Message";
 import { useTimeAgo } from "../../hooks/useTimeAgo";
+import useUploadImage from "../../hooks/useUploadImage";
 import PreviewImage from "../../components/PreviewImage";
 import ConfirmDialog from "../../components/ConfirmDialog";
-import useUploadImage from "../../hooks/useUploadImage";
 import useDownloadImage from "../../hooks/useDownloadImage";
-import Message from "../../components/Message";
+import { getUserByID } from "../../redux/request/userRequest";
 
 const MessagesMiddle = () => {
     const [edit, setEdit] = useState(false);
@@ -459,9 +459,9 @@ const MessagesMiddle = () => {
     };
 
     const renderMessages = () => {
-        return messageThread.map((message, index) => (
+        return messageThread.map((message) => (
             <Message
-                key={index}
+                key={message._id}
                 media={message.media}
                 sender={message.sender}
                 loadingMsg={loadingMsg}

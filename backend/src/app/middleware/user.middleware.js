@@ -65,8 +65,9 @@ const validateLoginUser = async (req, res, next) => {
 
 // Middleware to validate and retrieve user account by ID
 const validateUserById = async (req, res, next) => {
+    const userID = req.params.userID;
+
     try {
-        const userID = req.params.userID;
         const validUser = await User.findById(userID);
         // Check if the user ID is valid
         if (!validUser) {
@@ -77,6 +78,7 @@ const validateUserById = async (req, res, next) => {
         next();
     } catch (error) {
         console.error("An error occur while retrieving user account:", error);
+        console.log(userID);
         return res.status(500).json({
             message: "An error occur while retrieving user account",
             error,

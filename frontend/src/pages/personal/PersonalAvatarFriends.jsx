@@ -1,4 +1,7 @@
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect, useCallback } from "react";
@@ -231,21 +234,30 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
 
         return (
             <div
-                className="add-stories w-100 text-white py-3 px-4 fs-5 me-2"
+                className="add-stories text-white py-1 px-4 d-flex justify-content-center align-items-center"
                 onClick={handleClick}
             >
-                <span className="d-block">{label}</span>
+                {label}
             </div>
         );
     };
 
     return (
-        <div className="tools d-flex justify-content-between flex-wrap">
+        <div className="tools d-flex justify-content-between align-items-center flex-wrap">
             <div className="d-flex align-items-center justify-content-between">
                 {renderRandomAvatarFriends()}
             </div>
 
-            <div className="d-flex edit-profile">{renderFollowBtn()}</div>
+            <div className="d-flex align-items-center">
+                <Link
+                    to="/messages"
+                    className="rounded rounded-circle d-flex justify-content-center align-items-center me-3 msg-btn"
+                    title="Message"
+                >
+                    <FontAwesomeIcon icon={faEnvelope} className="fs-3" />
+                </Link>
+                {renderFollowBtn()}
+            </div>
         </div>
     );
 };

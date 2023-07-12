@@ -76,7 +76,7 @@ function App() {
                         element={
                             <Suspense fallback={<LoadingPage />}>
                                 {currentUser ? (
-                                    <MessagesPage />
+                                    <MessagesPage socket={socket} />
                                 ) : (
                                     <RegisterPage />
                                 )}
