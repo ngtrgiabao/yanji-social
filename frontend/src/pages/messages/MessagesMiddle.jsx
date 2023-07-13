@@ -170,7 +170,7 @@ const MessagesMiddle = () => {
             const roomData = currentRoom.data;
 
             // This conditional will filter one room in list of rooms
-            if (roomData && roomData._id) {
+            if (roomData?._id) {
                 const value = roomData._id;
                 setFriendID(
                     roomData.participants.filter((p) => p !== sender._id)

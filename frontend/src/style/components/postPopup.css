@@ -123,7 +123,11 @@
 }
 
 /* POST BTN */
-.post-popup__container form .form__post-btn:hover {
+.post-popup__container form .form__post-btn:disabled:hover {
+    cursor: default;
+}
+
+.post-popup__container form .form__post-btn:not(:disabled):hover {
     background: var(--color-primary-light);
     color: var(--white);
 }

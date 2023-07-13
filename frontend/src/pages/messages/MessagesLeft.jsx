@@ -137,15 +137,6 @@ const MessagesLeft = ({ avatarUser, socket = {} }) => {
                             onChange={handleFilterMessages}
                         />
 
-                        <div className="d-flex mb-4">
-                            <div className="border px-4 py-2 fs-4 rounded-3">
-                                Box
-                            </div>
-                            <div className="border px-4 py-2 fs-4 rounded-3 ms-3">
-                                Communites
-                            </div>
-                        </div>
-
                         <div className="messages-wrapper scrollbar">
                             {renderRooms()}
                             {/* <ChatOnline

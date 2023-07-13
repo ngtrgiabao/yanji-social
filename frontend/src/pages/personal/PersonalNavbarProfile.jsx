@@ -47,36 +47,43 @@ const boxSettingProfileItems = [
         id: 1,
         icon: UilEye,
         title: "See mode",
+        handleClick: () => alert("hello"),
     },
     {
         id: 2,
         icon: UilSearch,
         title: "Search",
+        handleClick: null,
     },
     {
         id: 3,
         icon: UilExclamationTriangle,
         title: "Account status",
+        handleClick: null,
     },
     {
         id: 4,
         icon: UilBookmark,
         title: "Saved",
+        handleClick: null,
     },
     {
         id: 5,
         icon: UilClock,
         title: "Stories saved",
+        handleClick: null,
     },
     {
         id: 6,
         icon: UilListUl,
         title: "Dictionary",
+        handleClick: null,
     },
     {
         id: 7,
         icon: UilUserCircle,
         title: "Setting profile and tag",
+        handleClick: null,
     },
 ];
 
@@ -115,7 +122,8 @@ const PersonalNavbarProfile = () => {
                             {boxSettingProfileItems.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="box-setting-profile-item d-flex align-items-center  rounded-3 p-2"
+                                    className="box-setting-profile-item d-flex align-items-center rounded-3 p-2"
+                                    onClick={() => item.handleClick()}
                                 >
                                     <span>
                                         {createElement(item.icon, {

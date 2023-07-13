@@ -253,6 +253,7 @@ const PostPopup = ({ onPopup, animateClass }) => {
                         type="submit"
                         className="form__post-btn p-2 w-100 border-0 rounded fs-5 fw-bold mt-4"
                         value="Post"
+                        disabled={!content}
                     />
                 ) : (
                     <div className="text-center bg-white text-black form__post-btn p-2 w-100 border-0 rounded fs-5 fw-bold mt-4">
