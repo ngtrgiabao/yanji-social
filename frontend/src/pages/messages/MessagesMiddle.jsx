@@ -53,6 +53,7 @@ const MessagesMiddle = () => {
     const [friendID, setFriendID] = useState("");
     const [friend, setFriend] = useState({ name: "", avatar: "" });
     const [base64Image, setBase64Image] = useState(""); // Base64 string representing the image
+    const [isLoading, setIsLoading] = useState(false);
     const uploadImgRef = useRef(null);
     const downloadImage = useDownloadImage(imgSrc);
     const dispatch = useDispatch();
@@ -373,6 +374,7 @@ const MessagesMiddle = () => {
     };
 
     const uploadImage = async () => {
+        setIsLoading(true);
         const result = await cloudStorage(imageSelected);
 
         const imageUrl = result.secure_url;
@@ -395,6 +397,7 @@ const MessagesMiddle = () => {
                 });
         }
 
+        setIsLoading(false);
         setActive("");
     };
 
@@ -527,6 +530,7 @@ const MessagesMiddle = () => {
                     onClose={() => setActive("")}
                     onConfirm={uploadImage}
                     confirmButtonText="Send"
+                    isLoading={isLoading}
                 />
             )
         );

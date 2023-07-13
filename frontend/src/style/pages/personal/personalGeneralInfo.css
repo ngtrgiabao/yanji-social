@@ -47,18 +47,6 @@
     font-size: 1.5rem;
 }
 
-.header-title .header-title-container .information {
-    width: 100%;
-}
-
-.header-title-container .information .profile-title {
-    width: 100%;
-}
-
-.information .profile-title .tools {
-    width: 100%;
-}
-
 .header-title-container .avatar-friends {
     width: 4em;
     height: 4em;

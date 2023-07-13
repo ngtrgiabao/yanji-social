@@ -194,21 +194,6 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
         };
     }, [currentUser._id, dispatch, userRoutePage._id]);
 
-    const renderRandomAvatarFriends = () => {
-        return randomAvatarFriends.map((item, index) => (
-            <div key={item.id} className="rounded-circle avatar-friends">
-                <img
-                    loading="lazy"
-                    role="presentation"
-                    decoding="async"
-                    src={item.avatar}
-                    alt="Avatar user"
-                    className="rounded-circle"
-                />
-            </div>
-        ));
-    };
-
     const renderFollowBtn = () => {
         const isCurrentUser = userRoutePage._id === currentUser._id;
 
@@ -254,11 +239,7 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
     };
 
     return (
-        <div className="tools d-flex justify-content-between align-items-center flex-wrap">
-            <div className="d-flex align-items-center justify-content-between">
-                {renderRandomAvatarFriends()}
-            </div>
-
+        <div className="w-100 d-flex justify-content-between align-items-center flex-wrap">
             <div className="d-flex align-items-center">
                 {userRoutePage._id !== currentUser._id && (
                     <Link

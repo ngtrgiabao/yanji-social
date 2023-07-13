@@ -6,6 +6,7 @@ const ConfirmDialog = ({
     onClose,
     onConfirm,
     confirmButtonText,
+    isLoading,
 }) => {
     return (
         <div
@@ -32,12 +33,18 @@ const ConfirmDialog = ({
                     >
                         Close
                     </span>
-                    <span
+                    <button
                         onClick={onConfirm}
-                        className="confirm-container__dialog-confirm"
+                        className="confirm-container__dialog-confirm bg-transparent border-0"
+                        disabled={isLoading}
+                        style={
+                            isLoading
+                                ? { cursor: "default", color: "white" }
+                                : null
+                        }
                     >
-                        {confirmButtonText}
-                    </span>
+                        {isLoading ? "Loading..." : confirmButtonText}
+                    </button>
                 </div>
             </div>
         </div>
