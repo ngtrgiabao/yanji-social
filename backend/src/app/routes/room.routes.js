@@ -50,6 +50,11 @@ router.delete(
     UserMiddleware.validateUserById,
     RoomController.removeParticipant
 );
+router.delete(
+    "/delete/:roomID",
+    RoomMiddleware.validateRoomID,
+    RoomController.deleteRoom
+);
 router.delete("/delete-all", RoomController.deleteAllRooms);
 
 module.exports = router;

@@ -20,11 +20,10 @@ const Conversation = ({
     useEffect(() => {
         let isCancelled = false;
 
+        // Set list friends to apply online symbol
         getUserByID(currentUser, dispatch).then((data) => {
             if (!isCancelled) {
                 const { followers, followings } = data.user;
-
-                console.log(currentUser);
 
                 if (followings.length > 0) {
                     setFriends(followings);

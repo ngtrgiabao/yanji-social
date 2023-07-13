@@ -12,6 +12,14 @@ class RoomService {
     async getRoomByID(roomID) {
         return await api.get(`/api/v1/room/${roomID}`);
     }
+
+    async createRoom(roomInfo) {
+        return await api.post(`/api/v1/room/create-room`, roomInfo);
+    }
+
+    async deleteRoomByID(roomID) {
+        return await api.get(`/api/v1/room/delete/${roomID}`);
+    }
 }
 
 export default new RoomService();

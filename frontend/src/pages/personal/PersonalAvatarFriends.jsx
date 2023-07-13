@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect, useCallback } from "react";
 
 import { followUser, getUserByID } from "../../redux/request/userRequest";
+import { createRoom } from "../../redux/request/roomRequest";
 
 //TODO CREATE USER WAITTING LIST
 
@@ -242,6 +243,16 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
         );
     };
 
+    const createNewMsg = () => {
+        const roomInfo = {
+            sender: currentUser._id,
+            receiver: userRoutePage._id,
+            name: "Hello",
+        };
+
+        createRoom(dispatch, roomInfo);
+    };
+
     return (
         <div className="tools d-flex justify-content-between align-items-center flex-wrap">
             <div className="d-flex align-items-center justify-content-between">
@@ -249,13 +260,16 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
             </div>
 
             <div className="d-flex align-items-center">
-                <Link
-                    to="/messages"
-                    className="rounded rounded-circle d-flex justify-content-center align-items-center me-3 msg-btn"
-                    title="Message"
-                >
-                    <FontAwesomeIcon icon={faEnvelope} className="fs-3" />
-                </Link>
+                {userRoutePage._id !== currentUser._id && (
+                    <Link
+                        to="/messages"
+                        className="rounded rounded-circle d-flex justify-content-center align-items-center me-3 msg-btn"
+                        title="Message"
+                        onClick={createNewMsg}
+                    >
+                        <FontAwesomeIcon icon={faEnvelope} className="fs-3" />
+                    </Link>
+                )}
                 {renderFollowBtn()}
             </div>
         </div>

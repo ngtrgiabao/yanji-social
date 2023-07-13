@@ -459,9 +459,9 @@ const MessagesMiddle = () => {
     };
 
     const renderMessages = () => {
-        return messageThread.map((message) => (
+        return messageThread.map((message, idx) => (
             <Message
-                key={message._id}
+                key={idx}
                 media={message.media}
                 sender={message.sender}
                 loadingMsg={loadingMsg}

@@ -1,5 +1,12 @@
 import roomService from "../../services/room.service";
-import { getRoomStart, getRoomSuccess, getRoomFailed } from "../roomSlice";
+import {
+    getRoomStart,
+    getRoomSuccess,
+    getRoomFailed,
+    createRoomStart,
+    createRoomSuccess,
+    createRoomFailed,
+} from "../roomSlice";
 
 export const getAllRooms = async (dispatch) => {
     dispatch(getRoomStart());
@@ -32,5 +39,17 @@ export const getCurrentRoom = async (dispatch, roomID) => {
         return res.data;
     } catch (error) {
         dispatch(getRoomFailed());
+    }
+};
+
+export const createRoom = async (dispatch, roomInfo) => {
+    dispatch(createRoomStart());
+
+    try {
+        const res = await roomService.createRoom(roomInfo);
+        dispatch(createRoomSuccess(res.data));
+        return res.data;
+    } catch (error) {
+        dispatch(createRoomFailed());
     }
 };
