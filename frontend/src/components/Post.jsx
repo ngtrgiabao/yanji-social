@@ -28,6 +28,8 @@ import { useTimeAgo } from "../hooks/useTimeAgo";
 import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "./ParagraphWithLink";
 import EditPopup from "./EditPopup";
+import { pushNewNotification } from "../redux/request/notificationRequest";
+import { LIKE_POST } from "../constants/noti.type.constant";
 
 const Post = ({
     image,
@@ -60,6 +62,7 @@ const Post = ({
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
+    // Update title to edited when post has been edited
     useEffect(() => {
         getPostsShared(currentUser._id, dispatch).then((data) => {
             const { postShared } = data;
@@ -133,6 +136,19 @@ const Post = ({
                 })
                 .catch((error) => {
                     console.error("Failed to like post", error);
+                });
+
+            const notification = {
+                sender: currentUser._id,
+                receiver: user._id,
+                type: LIKE_POST,
+            };
+            pushNewNotification(notification, dispatch)
+                .then((data) => {
+                    console.log(data);
+                })
+                .catch((err) => {
+                    console.error("Failed to create new notification", err);
                 });
         },
         sharePost: async () => {

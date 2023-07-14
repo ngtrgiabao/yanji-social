@@ -7,16 +7,15 @@ const app = express();
 
 const ApiError = require("./api.error");
 
-const userRoute = require("./src/app/routes/user.routes");
-const msgRoute = require("./src/app/routes/message.routes");
-const roomRoute = require("./src/app/routes/room.routes");
-const attachmentRoute = require("./src/app/routes/attachment.routes");
-const notificationRoute = require("./src/app/routes/notification.routes");
-const contactRoute = require("./src/app/routes/contact.routes");
 const blockListRoute = require("./src/app/routes/block.list.routes");
+const commentRoute = require("./src/app/routes/comment.routes");
+const contactRoute = require("./src/app/routes/contact.routes");
+const msgRoute = require("./src/app/routes/message.routes");
+const notificationRoute = require("./src/app/routes/notification.routes");
 const onlineRoute = require("./src/app/routes/online.routes");
 const postRoute = require("./src/app/routes/post.routes");
-const commentRoute = require("./src/app/routes/comment.routes");
+const roomRoute = require("./src/app/routes/room.routes");
+const userRoute = require("./src/app/routes/user.routes");
 
 const corsOptions = {
     origin: process.env.FRONTEND_URL,
@@ -31,16 +30,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Routes
-app.use("/api/v1/user", userRoute);
-app.use("/api/v1/message", msgRoute);
-app.use("/api/v1/room", roomRoute);
-app.use("/api/v1/attachment", attachmentRoute);
-app.use("/api/v1/notification", notificationRoute);
-app.use("/api/v1/contact", contactRoute);
 app.use("/api/v1/block-list", blockListRoute);
+app.use("/api/v1/comment", commentRoute);
+app.use("/api/v1/contact", contactRoute);
+app.use("/api/v1/message", msgRoute);
+app.use("/api/v1/notification", notificationRoute);
 app.use("/api/v1/online", onlineRoute);
 app.use("/api/v1/post", postRoute);
-app.use("/api/v1/comment", commentRoute);
+app.use("/api/v1/room", roomRoute);
+app.use("/api/v1/user", userRoute);
 
 //Handle 404 response
 app.use((req, res, next) => {

@@ -70,7 +70,7 @@ const deleteAllMessages = async (req, res, next) => {
     const userID = req.params.userID;
 
     try {
-        const result = await MessageModel.deleteMany({ sender });
+        const result = await MessageModel.deleteMany({ sender: userID });
 
         return res.status(200).json({
             msg: `Delete all messages of user: ${userID} success`,

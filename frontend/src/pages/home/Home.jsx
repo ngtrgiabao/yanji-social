@@ -2,7 +2,7 @@ import { Suspense, lazy } from "react";
 
 import "../../style/pages/home/home.css";
 
-import Left from "./HomeLeft";
+import HomeLeft from "./HomeLeft";
 import HomeMiddle from "./HomeMiddle";
 
 const Navigation = lazy(() => import("../../layout/navigation/Navigation"));
@@ -16,7 +16,7 @@ const Home = ({ socket }) => {
 
             <main>
                 <div className="container">
-                    <Left />
+                    <HomeLeft socket={socket} />
                     <HomeMiddle socket={socket} />
                 </div>
             </main>

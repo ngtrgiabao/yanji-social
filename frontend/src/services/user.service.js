@@ -38,6 +38,7 @@ class UserService {
     async deleteAllUsers() {
         return await api.delete("/api/v1/user/delete-all").data;
     }
+
     async deleteUserById(id) {
         return await api.get(`/api/v1/user/delete/${id}`).data;
     }

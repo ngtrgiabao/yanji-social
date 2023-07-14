@@ -14,7 +14,6 @@ import { createRoom } from "../../redux/request/roomRequest";
 const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
     const [isFollow, setIsFollow] = useState(false);
     const [isApprover, setIsApprover] = useState(false);
-    const [randomAvatarFriends, setRandomAvatarFriends] = useState([]);
     const dispatch = useDispatch();
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
@@ -47,7 +46,7 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
             });
     };
 
-    const isUserGotFollowed = (sender, userRoute) => {
+    const handleUserGotFollowed = (sender, userRoute) => {
         getUserByID(userRoute, dispatch).then((data) => {
             const { followers, followings } = data.user;
 
@@ -80,7 +79,7 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
         });
     };
 
-    const isUserSendFollow = (sender, userRoute) => {
+    const handleUserSendFollow = (sender, userRoute) => {
         getUserByID(sender, dispatch).then((data) => {
             const { followings } = data.user;
 
@@ -112,11 +111,11 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
             const { userRoute, sender } = data;
 
             if (userRoute === currentUser._id) {
-                isUserGotFollowed(sender, userRoute);
+                handleUserGotFollowed(sender, userRoute);
             }
 
             if (sender === currentUser._id) {
-                isUserSendFollow(sender, userRoute);
+                handleUserSendFollow(sender, userRoute);
             }
         }, []),
     };
@@ -130,39 +129,6 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
             socket.off("followed", handleSocket.follow);
         };
     }, [SOCKET_URL, handleSocket.follow]);
-
-    // Get random avatars of friend
-    useEffect(() => {
-        let isCancelled = false;
-
-        const getFriendsAvatar = async () => {
-            try {
-                const avatar = await axios.get(
-                    "https://randomuser.me/api/?results=9"
-                );
-                let avatars = [];
-
-                avatar.data.results.forEach((friend) => {
-                    avatars.push({
-                        id: friend.login.uuid,
-                        avatar: friend.picture.large,
-                    });
-                });
-
-                setRandomAvatarFriends(avatars);
-            } catch (error) {
-                console.error("Failed to get user data", error);
-            }
-        };
-
-        if (!isCancelled) {
-            getFriendsAvatar();
-        }
-
-        return () => {
-            isCancelled = true;
-        };
-    }, []);
 
     // Check user is approver ?
     useEffect(() => {
