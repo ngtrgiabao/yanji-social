@@ -12,13 +12,13 @@ import LoadingPage from "../loading/LoadingPage";
 
 const MessagesLeft = lazy(() => import("./MessagesLeft"));
 
-function Messages() {
+function Messages({ socket }) {
     return (
         <>
             <Navigation title="Login" link="/register" />
             <div className="messages">
                 <Suspense fallback={<LoadingPage />}>
-                    <MessagesLeft avatarUser={KAYO_AVATAR} />
+                    <MessagesLeft avatarUser={KAYO_AVATAR} socket={socket} />
                 </Suspense>
 
                 <MessagesMiddle />

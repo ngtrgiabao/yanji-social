@@ -1,39 +1,32 @@
 const RoomModel = require("../models/room.model");
 
 const createRoom = async (req, res, next) => {
-    try {
-        const { name, sender, receiver } = req.body;
+    const { name, sender, receiver } = req.body;
 
-        RoomModel.create({
-            name,
-            participants: [sender, receiver],
-            settings: {
-                notification: true,
-                sound: true,
-                theme: "light",
-                private: false,
-            },
-            isAdmin: true,
-        })
-            .then((data) => {
-                return res.status(200).json({
-                    msg: `Created chat room ${name} success`,
-                    data,
-                });
-            })
-            .catch((err) => {
-                console.error(`Failed to create chat room ${name}`);
-                return res.status(500).json({
-                    msg: `Failed to create chat room ${name}`,
-                    err,
-                });
+    RoomModel.create({
+        name,
+        participants: [sender, receiver],
+        settings: {
+            notification: true,
+            sound: true,
+            theme: "light",
+            private: false,
+        },
+        isAdmin: true,
+    })
+        .then((data) => {
+            return res.status(200).json({
+                msg: `Created chat room ${name} success`,
+                data: data,
             });
-    } catch (error) {
-        console.error("Failed to create room", error);
-        return res.status(500).json({
-            msg: "Failed to create room",
+        })
+        .catch((err) => {
+            console.error(`Failed to create chat room ${name}`);
+            return res.status(500).json({
+                msg: `Failed to create chat room ${name}`,
+                err,
+            });
         });
-    }
 };
 
 const getRoomByID = async (req, res, next) => {

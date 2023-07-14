@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import io from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
     faVideo,
     faPhone,
@@ -32,13 +32,13 @@ import {
     getMessageByID,
     markMessageSeen,
 } from "../../redux/request/messageRequest";
-import { getUserByID } from "../../redux/request/userRequest";
+import Message from "../../components/Message";
 import { useTimeAgo } from "../../hooks/useTimeAgo";
+import useUploadImage from "../../hooks/useUploadImage";
 import PreviewImage from "../../components/PreviewImage";
 import ConfirmDialog from "../../components/ConfirmDialog";
-import useUploadImage from "../../hooks/useUploadImage";
 import useDownloadImage from "../../hooks/useDownloadImage";
-import Message from "../../components/Message";
+import { getUserByID } from "../../redux/request/userRequest";
 
 const MessagesMiddle = () => {
     const [edit, setEdit] = useState(false);
@@ -53,6 +53,7 @@ const MessagesMiddle = () => {
     const [friendID, setFriendID] = useState("");
     const [friend, setFriend] = useState({ name: "", avatar: "" });
     const [base64Image, setBase64Image] = useState(""); // Base64 string representing the image
+    const [isLoading, setIsLoading] = useState(false);
     const uploadImgRef = useRef(null);
     const downloadImage = useDownloadImage(imgSrc);
     const dispatch = useDispatch();
@@ -169,7 +170,7 @@ const MessagesMiddle = () => {
             const roomData = currentRoom.data;
 
             // This conditional will filter one room in list of rooms
-            if (roomData && roomData._id) {
+            if (roomData?._id) {
                 const value = roomData._id;
                 setFriendID(
                     roomData.participants.filter((p) => p !== sender._id)
@@ -373,6 +374,7 @@ const MessagesMiddle = () => {
     };
 
     const uploadImage = async () => {
+        setIsLoading(true);
         const result = await cloudStorage(imageSelected);
 
         const imageUrl = result.secure_url;
@@ -395,6 +397,7 @@ const MessagesMiddle = () => {
                 });
         }
 
+        setIsLoading(false);
         setActive("");
     };
 
@@ -459,9 +462,9 @@ const MessagesMiddle = () => {
     };
 
     const renderMessages = () => {
-        return messageThread.map((message, index) => (
+        return messageThread.map((message, idx) => (
             <Message
-                key={index}
+                key={idx}
                 media={message.media}
                 sender={message.sender}
                 loadingMsg={loadingMsg}
@@ -527,6 +530,7 @@ const MessagesMiddle = () => {
                     onClose={() => setActive("")}
                     onConfirm={uploadImage}
                     confirmButtonText="Send"
+                    isLoading={isLoading}
                 />
             )
         );

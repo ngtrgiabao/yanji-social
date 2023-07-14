@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 
@@ -12,7 +12,7 @@ import Conversation from "../../components/Conversation";
 import { getUserByID } from "../../redux/request/userRequest";
 // import ChatOnline from "../../../../components/ChatOnline";
 
-const MessagesLeft = ({ avatarUser }) => {
+const MessagesLeft = ({ avatarUser, socket = {} }) => {
     const [rooms, setRooms] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [friendID, setFriendID] = useState(null);
@@ -55,27 +55,35 @@ const MessagesLeft = ({ avatarUser }) => {
         }
     }, [friendID, dispatch]);
 
-    const socketRef = useRef(null);
-
     const handleSocket = {
         getUsersOnline: useCallback((userList) => {
             const users = Object.values(userList);
 
             // Get friends of currentUser to compare user of socket to set online users
-            getUserByID(currentUser._id, dispatch).then((data) => {
-                const value = data.user.friends?.filter((f) =>
-                    users.some((u) => u.userID === f)
-                );
+            getUserByID(currentUser._id, dispatch)
+                .then((data) => {
+                    const { followers, followings } = data.user;
 
-                data.user.friends?.map((t) => console.log(t));
-                setOnlineUsers(value);
-            });
+                    if (followers.length > 0) {
+                        const value = followers.filter((f) =>
+                            users.some((u) => u.userID === f)
+                        );
+                        setOnlineUsers(value);
+                    } else if (followings.length > 0) {
+                        const value = followings.filter((f) =>
+                            users.some((u) => u.userID === f)
+                        );
+                        setOnlineUsers(value);
+                    }
+                })
+                .catch((err) => {
+                    console.error("Failed to get user online", err);
+                });
         }, []),
     };
 
     useEffect(() => {
-        socketRef.current = io(SOCKET_URL);
-        const socket = socketRef.current;
+        socket = io(SOCKET_URL);
 
         socket.emit("add-user", {
             user: currentUser._id,
@@ -128,15 +136,6 @@ const MessagesLeft = ({ avatarUser }) => {
                             className="fs-3 rounded border-0 mb-4"
                             onChange={handleFilterMessages}
                         />
-
-                        <div className="d-flex mb-4">
-                            <div className="border px-4 py-2 fs-4 rounded-3">
-                                Box
-                            </div>
-                            <div className="border px-4 py-2 fs-4 rounded-3 ms-3">
-                                Communites
-                            </div>
-                        </div>
 
                         <div className="messages-wrapper scrollbar">
                             {renderRooms()}

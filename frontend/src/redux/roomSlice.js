@@ -24,10 +24,29 @@ const roomSlice = createSlice({
             state.room.isFetching = false;
             state.room.error = true;
         },
+        createRoomStart: (state) => {
+            state.room = {};
+            state.room.isFetching = true;
+        },
+        createRoomSuccess: (state, action) => {
+            state.room.isFetching = false;
+            state.room.currentRoom = action.payload;
+            state.room.error = false;
+        },
+        createRoomFailed: (state) => {
+            state.room.isFetching = false;
+            state.room.error = true;
+        },
     },
 });
 
-export const { getRoomStart, getRoomSuccess, getRoomFailed } =
-    roomSlice.actions;
+export const {
+    getRoomStart,
+    getRoomSuccess,
+    getRoomFailed,
+    createRoomStart,
+    createRoomSuccess,
+    createRoomFailed,
+} = roomSlice.actions;
 
 export default roomSlice.reducer;

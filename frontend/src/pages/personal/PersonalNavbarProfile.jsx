@@ -1,17 +1,18 @@
-import { useEffect, useState, createElement } from "react";
+import { useEffect, useState, useRef } from "react";
 import { UitEllipsisV } from "@iconscout/react-unicons-thinline";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
-
 import {
-    UilSearch,
-    UilEye,
-    UilExclamationTriangle,
-    UilBookmark,
-    UilClock,
-    UilListUl,
-    UilUserCircle,
-} from "@iconscout/react-unicons";
+    faCaretDown,
+    faFileArrowDown,
+    faSearch,
+    faExclamationTriangle,
+    faBookmark,
+    faClock,
+    faListUl,
+    faUserCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CSVLink } from "react-csv";
+import { useSelector } from "react-redux";
 
 import "../../style/pages/personal/personalNavbarProfile.css";
 
@@ -42,46 +43,62 @@ const menuItems = [
     },
 ];
 
-const boxSettingProfileItems = [
-    {
-        id: 1,
-        icon: UilEye,
-        title: "See mode",
-    },
-    {
-        id: 2,
-        icon: UilSearch,
-        title: "Search",
-    },
-    {
-        id: 3,
-        icon: UilExclamationTriangle,
-        title: "Account status",
-    },
-    {
-        id: 4,
-        icon: UilBookmark,
-        title: "Saved",
-    },
-    {
-        id: 5,
-        icon: UilClock,
-        title: "Stories saved",
-    },
-    {
-        id: 6,
-        icon: UilListUl,
-        title: "Dictionary",
-    },
-    {
-        id: 7,
-        icon: UilUserCircle,
-        title: "Setting profile and tag",
-    },
-];
-
 const PersonalNavbarProfile = () => {
     const [checked, setChecked] = useState(false);
+    const exportData = useRef(null);
+
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
+    const handleExportData = () => {
+        exportData.current.link.click();
+    };
+
+    const boxSettingProfileItems = [
+        {
+            id: 1,
+            icon: faFileArrowDown,
+            title: "Export Data",
+            handleClick: handleExportData,
+        },
+        {
+            id: 2,
+            icon: faSearch,
+            title: "Search",
+            handleClick: null,
+        },
+        {
+            id: 3,
+            icon: faExclamationTriangle,
+            title: "Account status",
+            handleClick: null,
+        },
+        {
+            id: 4,
+            icon: faBookmark,
+            title: "Saved",
+            handleClick: null,
+        },
+        {
+            id: 5,
+            icon: faClock,
+            title: "Stories saved",
+            handleClick: null,
+        },
+        {
+            id: 6,
+            icon: faListUl,
+            title: "Dictionary",
+            handleClick: null,
+        },
+        {
+            id: 7,
+            icon: faUserCircle,
+            title: "Setting profile and tag",
+            handleClick: null,
+        },
+    ];
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -115,13 +132,13 @@ const PersonalNavbarProfile = () => {
                             {boxSettingProfileItems.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="box-setting-profile-item d-flex align-items-center  rounded-3 p-2"
+                                    className="box-setting-profile-item d-flex align-items-center rounded-3 p-2"
+                                    onClick={() => item.handleClick()}
                                 >
-                                    <span>
-                                        {createElement(item.icon, {
-                                            size: 20,
-                                        })}
-                                    </span>
+                                    <FontAwesomeIcon
+                                        className="fs-3"
+                                        icon={item.icon}
+                                    />
                                     <p className="ms-3 my-3 fs-4 fw-bold">
                                         {item.title}
                                     </p>
@@ -133,6 +150,11 @@ const PersonalNavbarProfile = () => {
             </span>
         );
     };
+
+    const csvData = [
+        ["username", "password", "email"],
+        [currentUser.username, currentUser.password, currentUser.email],
+    ];
 
     return (
         <>
@@ -155,6 +177,15 @@ const PersonalNavbarProfile = () => {
                                     </a>
                                 </li>
                             ))}
+
+                            {/* Export user data */}
+                            <CSVLink
+                                ref={exportData}
+                                data={csvData}
+                                filename={`${currentUser.username}-data.csv`}
+                                target="_blank"
+                                style={{ display: "none" }}
+                            />
 
                             <li className="nav-item dropdown">
                                 <a href="#" data-bs-toggle="dropdown">

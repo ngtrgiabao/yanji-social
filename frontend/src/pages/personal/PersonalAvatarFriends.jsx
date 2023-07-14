@@ -1,9 +1,13 @@
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect, useCallback } from "react";
 
 import { followUser, getUserByID } from "../../redux/request/userRequest";
+import { createRoom } from "../../redux/request/roomRequest";
 
 //TODO CREATE USER WAITTING LIST
 
@@ -190,21 +194,6 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
         };
     }, [currentUser._id, dispatch, userRoutePage._id]);
 
-    const renderRandomAvatarFriends = () => {
-        return randomAvatarFriends.map((item, index) => (
-            <div key={item.id} className="rounded-circle avatar-friends">
-                <img
-                    loading="lazy"
-                    role="presentation"
-                    decoding="async"
-                    src={item.avatar}
-                    alt="Avatar user"
-                    className="rounded-circle"
-                />
-            </div>
-        ));
-    };
-
     const renderFollowBtn = () => {
         const isCurrentUser = userRoutePage._id === currentUser._id;
 
@@ -231,21 +220,39 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
 
         return (
             <div
-                className="add-stories w-100 text-white py-3 px-4 fs-5 me-2"
+                className="add-stories text-white py-1 px-4 d-flex justify-content-center align-items-center"
                 onClick={handleClick}
             >
-                <span className="d-block">{label}</span>
+                {label}
             </div>
         );
     };
 
-    return (
-        <div className="tools d-flex justify-content-between flex-wrap">
-            <div className="d-flex align-items-center justify-content-between">
-                {renderRandomAvatarFriends()}
-            </div>
+    const createNewMsg = () => {
+        const roomInfo = {
+            sender: currentUser._id,
+            receiver: userRoutePage._id,
+            name: "Hello",
+        };
 
-            <div className="d-flex edit-profile">{renderFollowBtn()}</div>
+        createRoom(dispatch, roomInfo);
+    };
+
+    return (
+        <div className="w-100 d-flex justify-content-between align-items-center flex-wrap">
+            <div className="d-flex align-items-center">
+                {userRoutePage._id !== currentUser._id && (
+                    <Link
+                        to="/messages"
+                        className="rounded rounded-circle d-flex justify-content-center align-items-center me-3 msg-btn"
+                        title="Message"
+                        onClick={createNewMsg}
+                    >
+                        <FontAwesomeIcon icon={faEnvelope} className="fs-3" />
+                    </Link>
+                )}
+                {renderFollowBtn()}
+            </div>
         </div>
     );
 };

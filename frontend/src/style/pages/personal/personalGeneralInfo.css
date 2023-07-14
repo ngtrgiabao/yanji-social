@@ -47,18 +47,6 @@
     font-size: 1.5rem;
 }
 
-.header-title .header-title-container .information {
-    width: 100%;
-}
-
-.header-title-container .information .profile-title {
-    width: 100%;
-}
-
-.information .profile-title .tools {
-    width: 100%;
-}
-
 .header-title-container .avatar-friends {
     width: 4em;
     height: 4em;
@@ -80,26 +68,33 @@
     margin-left: -1em;
 }
 
-.header-title-container .add-stories,
-.header-title-container .edit-profile-page {
+.header-title-container .add-stories {
     font-weight: bold;
     font-size: 1.2em;
 
-    border-radius: var(--card-border-radius);
-
-    padding: 0.5em;
-}
-
-.tools .edit-profile .add-stories {
+    border-radius: var(--card-border-radius-l);
     background: var(--color-primary);
-}
 
-.header-title-container .add-stories:hover,
-.header-title-container .edit-profile-page:hover {
-    opacity: 0.9;
+    width: 10em;
+    height: 3em;
+
     cursor: pointer;
 }
 
-.header-title-container .edit-profile-page {
-    background: rgba(36, 37, 38, 0.904);
+.header-title-container .add-stories:hover {
+    opacity: 0.8;
+}
+
+.header-title-container .msg-btn {
+    width: 3.8em;
+    height: 3.8em;
+
+    border: 1.8px solid var(--color-dark);
+
+    cursor: pointer;
+}
+
+.header-title-container .msg-btn:hover {
+    background: var(--black);
+    color: var(--white);
 }
