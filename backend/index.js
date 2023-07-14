@@ -1,8 +1,7 @@
-const config = require("./src/app/config/port.config");
+require("dotenv").config();
+
 const MongoDB = require("./src/app/utils/mongodb.utils");
 const socket = require("./socket");
-
-require("dotenv").config();
 
 const startServer = async () => {
     try {
@@ -15,8 +14,8 @@ const startServer = async () => {
             console.log("Socket connected successfully");
         });
     } catch (error) {
-        console.log("Cannot connect to db :<", error);
-        process.exit();
+        console.error("Cannot connect to db :<", error);
+        process.exit(1);
     }
 };
 
