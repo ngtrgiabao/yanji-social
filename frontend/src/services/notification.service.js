@@ -15,7 +15,7 @@ class NotificationService {
 
     async markSeen(updateNoti) {
         return await api.put(
-            `/api/v1/notification/${updateNoti.isRead}`,
+            `/api/v1/notification/mark-seen/${updateNoti.notiID}`,
             updateNoti
         );
     }

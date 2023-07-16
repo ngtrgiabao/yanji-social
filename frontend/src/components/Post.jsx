@@ -17,6 +17,7 @@ import {
 import { faHeart as liked, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import io from "socket.io-client";
+import { LIKE_POST, SHARE_POST } from "../constants/noti.type.constant";
 
 import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 
@@ -29,7 +30,8 @@ import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "./ParagraphWithLink";
 import EditPopup from "./EditPopup";
 import { pushNewNotification } from "../redux/request/notificationRequest";
-import { LIKE_POST } from "../constants/noti.type.constant";
+
+// TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 
 const Post = ({
     image,
@@ -94,7 +96,7 @@ const Post = ({
             .catch((err) => {
                 console.error("Failed", err);
             });
-    }, [userID]);
+    }, []);
 
     const handleSetting = (e) => {
         e.stopPropagation();
@@ -133,22 +135,30 @@ const Post = ({
                 .then(async (data) => {
                     socket = io(SOCKET_URL);
                     await socket.emit("update-post", data.data);
+
+                    const { isLiked } = data;
+
+                    if (isLiked) {
+                        const notification = {
+                            sender: currentUser._id,
+                            receiver: user._id,
+                            type: LIKE_POST,
+                        };
+
+                        pushNewNotification(notification, dispatch)
+                            .then((data) => {
+                                socket.emit("push-notification", data.data);
+                            })
+                            .catch((err) => {
+                                console.error(
+                                    "Failed to create new notification",
+                                    err
+                                );
+                            });
+                    }
                 })
                 .catch((error) => {
                     console.error("Failed to like post", error);
-                });
-
-            const notification = {
-                sender: currentUser._id,
-                receiver: user._id,
-                type: LIKE_POST,
-            };
-            pushNewNotification(notification, dispatch)
-                .then((data) => {
-                    console.log(data);
-                })
-                .catch((err) => {
-                    console.error("Failed to create new notification", err);
                 });
         },
         sharePost: async () => {
@@ -156,6 +166,27 @@ const Post = ({
                 .then(async (data) => {
                     socket = io(SOCKET_URL);
                     await socket.emit("update-post", data.data);
+
+                    const { isShared } = data;
+
+                    if (isShared) {
+                        const notification = {
+                            sender: currentUser._id,
+                            receiver: user._id,
+                            type: SHARE_POST,
+                        };
+
+                        pushNewNotification(notification, dispatch)
+                            .then((data) => {
+                                socket.emit("push-notification", data.data);
+                            })
+                            .catch((err) => {
+                                console.error(
+                                    "Failed to create new notification",
+                                    err
+                                );
+                            });
+                    }
                 })
                 .catch((error) => {
                     console.error("Failed to share post", error);
@@ -355,11 +386,9 @@ const Post = ({
                         </span>
                     )}
                 </div>
-
                 <div className="caption fs-3 my-3">
                     <ParagraphWithLink text={desc} />
                 </div>
-
                 {image && (
                     <div className="photo">
                         <img
@@ -389,7 +418,6 @@ const Post = ({
                         </video>
                     </div>
                 )}
-
                 {renderActionBtn()}
             </div>
         );

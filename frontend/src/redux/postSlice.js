@@ -8,7 +8,6 @@ const postSlice = createSlice({
             error: false,
             success: false,
             currentPost: null,
-            isRead: false,
         },
     },
 

@@ -7,8 +7,6 @@ const notificationSlice = createSlice({
             isFetching: false,
             error: false,
             success: false,
-            isRead: false,
-            isDeleted: false,
             currentNotification: null,
         },
     },
@@ -28,8 +26,9 @@ const notificationSlice = createSlice({
         newNotificationStart: (state) => {
             state.notification.isFetching = true;
         },
-        newNotificationSuccess: (state) => {
+        newNotificationSuccess: (state, action) => {
             state.notification.isFetching = false;
+            state.notification.currentNotification = action.payload;
             state.notification.success = true;
         },
         newNotificationFailed: (state) => {

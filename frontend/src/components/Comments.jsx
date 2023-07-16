@@ -7,6 +7,8 @@ import { io } from "socket.io-client";
 import { commentPost } from "../redux/request/postRequest";
 import Comment from "./Comment";
 import { getAllCommentsByPostID } from "../redux/request/commentRequest";
+import { pushNewNotification } from "../redux/request/notificationRequest";
+import { COMMENT_POST } from "../constants/noti.type.constant";
 
 const Comments = ({ postID, author, socket }) => {
     const [content, setContent] = useState("");
@@ -14,7 +16,6 @@ const Comments = ({ postID, author, socket }) => {
     const dispatch = useDispatch();
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    socket = io(SOCKET_URL);
 
     const handleSocket = {
         commentPost: useCallback(
@@ -35,6 +36,7 @@ const Comments = ({ postID, author, socket }) => {
 
     useEffect(() => {
         fetchComments();
+        socket = io(SOCKET_URL);
 
         socket.on("updated-post", (data) => {
             const { _id } = data;
@@ -45,6 +47,8 @@ const Comments = ({ postID, author, socket }) => {
     }, []);
 
     useEffect(() => {
+        socket = io(SOCKET_URL);
+
         socket.on("commented-post", handleSocket.commentPost);
 
         return () => {
@@ -73,11 +77,30 @@ const Comments = ({ postID, author, socket }) => {
                             _id: postID,
                         };
 
+                        socket = io(SOCKET_URL);
+
                         await socket.emit("update-post", updatePost);
                         await socket.emit("comment-post", {
                             comments: comments,
                             postID: postID,
                         });
+
+                        const notification = {
+                            sender: currentUser._id,
+                            receiver: author._id,
+                            type: COMMENT_POST,
+                        };
+
+                        pushNewNotification(notification, dispatch)
+                            .then((data) => {
+                                socket.emit("push-notification", data.data);
+                            })
+                            .catch((err) => {
+                                console.error(
+                                    "Failed to create new notification",
+                                    err
+                                );
+                            });
                     })
                     .catch((err) => {
                         console.error("Failed to comment", err);

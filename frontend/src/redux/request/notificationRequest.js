@@ -43,7 +43,7 @@ export const pushNewNotification = async (notication, dispatch) => {
 
     try {
         const res = await notificationService.newNotification(notication);
-        dispatch(newNotificationSuccess(res.data));
+        dispatch(newNotificationSuccess(res.data.data));
         return res.data;
     } catch (error) {
         dispatch(newNotificationFailed());

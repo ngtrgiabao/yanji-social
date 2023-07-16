@@ -25,7 +25,7 @@ import ColorTheme from "./customTheme/ColorTheme";
 import PostPopup from "../../components/PostPopup";
 import { io } from "socket.io-client";
 
-const HomeLeft = ({ socket }) => {
+const HomeLeft = ({ socket, isReadNotification }) => {
     const [active, setActive] = useState("HOME");
     const [avatar, setAvatar] = useState("");
     const [popup, setPopup] = useState(false);
@@ -126,14 +126,16 @@ const HomeLeft = ({ socket }) => {
             >
                 <span>
                     <UilBell className="sidebar-icon" />
-                    <small
-                        className="notification-count bg-danger"
-                        style={{
-                            display: `${
-                                active === "NOTIFICATION" ? "none" : ""
-                            }`,
-                        }}
-                    ></small>
+                    {isReadNotification && (
+                        <small
+                            className="notification-count bg-danger"
+                            style={{
+                                display: `${
+                                    active === "NOTIFICATION" ? "none" : ""
+                                }`,
+                            }}
+                        ></small>
+                    )}
                 </span>
                 <h3 className="ms-4">Notification</h3>
             </Link>

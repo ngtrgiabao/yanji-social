@@ -104,7 +104,7 @@ function App() {
                         path="/notification"
                         element={
                             <Suspense fallback={<LoadingPage />}>
-                                <NotificationPage />
+                                <NotificationPage socket={socket} />
                             </Suspense>
                         }
                     />

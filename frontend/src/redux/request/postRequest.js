@@ -51,7 +51,7 @@ export const getAllPosts = async (dispatch) => {
     dispatch(getPostStart());
     try {
         const res = await postService.getAllPosts();
-        dispatch(getPostSuccess(res.data));
+        dispatch(getPostSuccess(res.data.posts));
         return res.data;
     } catch (error) {
         dispatch(getPostFailed());
@@ -85,7 +85,7 @@ export const updatePost = async (updatePost, dispatch) => {
     try {
         const res = await postService.updatePost(updatePost);
         dispatch(updatePostSuccess(res.data));
-        return res.data
+        return res.data;
     } catch (error) {
         dispatch(updatePostFailed());
     }
