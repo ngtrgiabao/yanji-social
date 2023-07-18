@@ -38,14 +38,19 @@ const Home = ({ socket }) => {
     };
 
     useEffect(() => {
-        getAllNotificationsByUser(currentUser._id, dispatch).then((data) => {
-            const isGotNotification = Object.values(data.data).some(
-                (noti) => noti.isRead === false
-            );
+        currentUser &&
+            getAllNotificationsByUser(currentUser._id, dispatch).then(
+                (data) => {
+                    if (data) {
+                        const isGotNotification = Object.values(data.data).some(
+                            (noti) => noti.isRead === false
+                        );
 
-            setIsReadNotification(isGotNotification);
-        });
-    }, []);
+                        setIsReadNotification(isGotNotification);
+                    }
+                }
+            );
+    }, [currentUser, dispatch]);
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 

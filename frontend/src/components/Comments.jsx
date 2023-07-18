@@ -20,8 +20,8 @@ const Comments = ({ postID, author, socket }) => {
     const handleSocket = {
         commentPost: useCallback(
             (data) => {
-                const updatedComments = data.reverse();
-                setComments(updatedComments);
+                const sortLatestComments = data.reverse();
+                setComments(sortLatestComments);
             },
             [comments]
         ),

@@ -20,12 +20,9 @@ const Notification = ({ socket }) => {
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
     const handleSocket = {
-        getNewNotification: useCallback(
-            (data) => {
-                setNotiList((prevNoti) => [data, ...prevNoti]);
-            },
-            [notiList]
-        ),
+        getNewNotification: useCallback((data) => {
+            setNotiList((prevNoti) => [data, ...prevNoti]);
+        }, []),
     };
 
     useEffect(() => {
@@ -39,28 +36,32 @@ const Notification = ({ socket }) => {
     }, [handleSocket.getNewNotification]);
 
     useEffect(() => {
-        getAllNotificationsByUser(currentUser._id, dispatch).then((data) => {
-            const originalNotiList = data.data;
+        let isCancelled = false;
 
-            console.log(data);
-            setNotiList(originalNotiList);
+        getAllNotificationsByUser(currentUser._id, dispatch).then((data) => {
+            if (!isCancelled) {
+                const originalNotiList = data.data;
+                const sortLatestNoti = [...originalNotiList].reverse();
+
+                setNotiList(sortLatestNoti);
+            }
         });
-    }, []);
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [currentUser._id, dispatch]);
 
     const markSeenNoti = () => {
-        notiList.map((noti) => {
+        notiList.forEach((noti) => {
             const updateNoti = {
                 notiID: noti._id,
                 isRead: true,
             };
 
-            markSeenNotification(updateNoti, dispatch)
-                .then((data) => {
-                    console.log(data);
-                })
-                .catch((err) => {
-                    console.error("Failed to mark seen", err);
-                });
+            markSeenNotification(updateNoti, dispatch).catch((err) => {
+                console.error("Failed to mark seen", err);
+            });
         });
     };
 
@@ -72,9 +73,8 @@ const Notification = ({ socket }) => {
             className="position-relative overflow-hidden"
         >
             <div
-                className="position-absolute w-100 p-3 d-flex align-items-center justify-content-between fs-2 text-uppercase text-white"
+                className="position-absolute w-100 p-3 d-flex align-items-center justify-content-between fs-2 text-uppercase text-white border-bottom border-white"
                 style={{
-                    zIndex: "1",
                     background: "var(--color-primary)",
                 }}
             >
@@ -91,13 +91,14 @@ const Notification = ({ socket }) => {
                 className="h-100 overflow-auto scrollbar"
                 style={{
                     maxHeight: "100vh",
+                    background: "var(--color-white)",
                 }}
             >
                 {notiList.length > 0 ? (
                     <div
                         className="d-flex flex-column align-items-center"
                         style={{
-                            marginTop: "5.8rem",
+                            margin: "5.8rem 0 1rem",
                         }}
                     >
                         {notiList.map((noti) => (
@@ -105,7 +106,7 @@ const Notification = ({ socket }) => {
                                 key={noti._id}
                                 sender={noti.sender}
                                 type={noti.type}
-                                notiID={noti._id}
+                                createdAt={noti.createdAt}
                             />
                         ))}
                     </div>
