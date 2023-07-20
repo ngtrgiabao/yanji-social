@@ -78,6 +78,7 @@ const updateUser = async (req, res, next) => {
             followers,
             followings,
             friendRequests,
+            postSaved,
         } = req.body;
         const user = await UserModel.findById(userID);
 
@@ -150,6 +151,18 @@ const updateUser = async (req, res, next) => {
                 ...existingFollowers,
                 ...newFollowers.map((id) => mongoose.Types.ObjectId(id)),
             ];
+        }
+
+        if (postSaved) {
+            const existingPostSaved = user.postSaved.find(
+                (post) => post.postID === postSaved.postID
+            );
+
+            if (!existingPostSaved) {
+                user.postSaved.push(postSaved);
+            } else {
+                user.postSaved.pull(existingPostSaved._id);
+            }
         }
 
         if (Array.isArray(friendRequests)) {
@@ -325,6 +338,28 @@ const getPostsShared = async (req, res) => {
     }
 };
 
+const getPostsSaved = async (req, res) => {
+    const userID = req.params.userID;
+
+    try {
+        const user = await UserModel.findById(userID);
+
+        const postSaved = user.postSaved.sort(
+            (a, b) => b.createdAt - a.createdAt
+        );
+
+        return res.status(200).json({
+            msg: "Get posts saved successfully",
+            postSaved,
+        });
+    } catch (error) {
+        console.error(`Error retrieving posts saved: ${error}`);
+        return res.status(500).json({
+            msg: `Error retrieving posts saved: ${error}`,
+        });
+    }
+};
+
 module.exports = {
     register,
     login,
@@ -334,5 +369,6 @@ module.exports = {
     deleteUser,
     deleteAllUsers,
     getPostsShared,
+    getPostsSaved,
     followUser,
 };

@@ -76,6 +76,7 @@ const Notification = ({ socket }) => {
                 className="position-absolute w-100 p-3 d-flex align-items-center justify-content-between fs-2 text-uppercase text-white border-bottom border-white"
                 style={{
                     background: "var(--color-primary)",
+                    zIndex: "1",
                 }}
             >
                 <Link
@@ -98,13 +99,14 @@ const Notification = ({ socket }) => {
                     <div
                         className="d-flex flex-column align-items-center"
                         style={{
-                            margin: "5.8rem 0 1rem",
+                            margin: "6rem 0 1rem",
                         }}
                     >
                         {notiList.map((noti) => (
                             <NotificationCard
                                 key={noti._id}
                                 sender={noti.sender}
+                                isRead={noti.isRead}
                                 type={noti.type}
                                 createdAt={noti.createdAt}
                             />

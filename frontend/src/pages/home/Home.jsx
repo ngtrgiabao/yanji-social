@@ -7,6 +7,7 @@ import HomeMiddle from "./HomeMiddle";
 import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllNotificationsByUser } from "../../redux/request/notificationRequest";
+import { NEW_MSG } from "../../constants/noti.type.constant";
 
 const Navigation = lazy(() => import("../../layout/navigation/Navigation"));
 
@@ -43,7 +44,7 @@ const Home = ({ socket }) => {
                 (data) => {
                     if (data) {
                         const isGotNotification = Object.values(data.data).some(
-                            (noti) => noti.isRead === false
+                            (noti) => !noti.isRead
                         );
 
                         setIsReadNotification(isGotNotification);

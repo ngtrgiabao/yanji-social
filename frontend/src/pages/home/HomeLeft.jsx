@@ -158,14 +158,14 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                 >
                     <span>
                         <UilChat className="sidebar-icon" />
-                        <small
+                        {/* <small
                             className="notification-count bg-danger"
                             style={{
                                 display: `${
                                     active === "MESSAGES" ? "none" : ""
                                 }`,
                             }}
-                        ></small>
+                        ></small> */}
                     </span>
                     <h3 className="ms-4">Messages</h3>
                 </Link>
@@ -176,7 +176,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
     const renderBookmarkBtn = () => {
         return (
             <Link
-                to="/"
+                to="/bookmarks"
                 className={`menu-item ${
                     active === "BOOKMARKS" ? "active" : ""
                 }`}
@@ -298,9 +298,9 @@ const HomeLeft = ({ socket, isReadNotification }) => {
         follow: useCallback(async (data) => {
             const { userRoute } = data;
 
-            if (userRoute === currentUser._id) {
-                alert("hello");
-            }
+            // if (userRoute === currentUser._id) {
+            //     alert("hello");
+            // }
         }, []),
     };
 

@@ -9,6 +9,10 @@ class UserService {
         return await api.get(`/api/v1/user/${userID}/shared`);
     }
 
+    async getPostsSaved(userID) {
+        return await api.get(`/api/v1/user/${userID}/saved`);
+    }
+
     async loginUser(data) {
         return await api.post("/api/v1/user/login", data);
     }

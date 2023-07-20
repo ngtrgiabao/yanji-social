@@ -14,6 +14,11 @@ router.get(
     UserMiddleware.validateUserById,
     UserController.getPostsShared
 );
+router.get(
+    "/:userID/saved",
+    UserMiddleware.validateUserById,
+    UserController.getPostsSaved
+);
 
 router.post(
     "/register",

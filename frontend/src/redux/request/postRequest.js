@@ -13,6 +13,11 @@ import {
     getPostSuccess,
     getPostFailed,
 } from "../postSlice";
+import {
+    updateUserFailed,
+    updateUserStart,
+    updateUserSuccess,
+} from "../userSlice";
 
 export const uploadPost = async (post, dispatch) => {
     dispatch(uploadPostStart());
@@ -126,3 +131,5 @@ export const commentPost = async (post, dispatch) => {
         dispatch(updatePostFailed());
     }
 };
+
+

@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { faComment } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as liked, faRepeat } from "@fortawesome/free-solid-svg-icons";
+import { faComment, faUser } from "@fortawesome/free-regular-svg-icons";
+import {
+    faHeart as liked,
+    faRepeat,
+    faEnvelope,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "../style/components/notificationCard.css";
@@ -11,20 +15,20 @@ import {
     COMMENT_POST,
     LIKE_POST,
     SHARE_POST,
+    NEW_FOLLOWER,
+    NEW_MSG,
 } from "../constants/noti.type.constant";
 
 import { getUserByID } from "../redux/request/userRequest";
-import { getNotificationByID } from "../redux/request/notificationRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
-import UserInfoPopup from "./UserInfoPopup";
 
-const NotificationCard = ({ sender, type, createdAt }) => {
+const NotificationCard = ({ sender, type, isRead, createdAt }) => {
     const [notiInfo, setNotiInfo] = useState({
         senderName: "",
         profilePicture: "",
     });
-    const [isActive, setIsActive] = useState(false);
     const dispatch = useDispatch();
+    const formatType = parseInt(type, 10);
     const formatTime = useTimeAgo;
 
     useEffect(() => {
@@ -48,17 +52,19 @@ const NotificationCard = ({ sender, type, createdAt }) => {
 
     return (
         <div
-            className="fs-4 animate__animated animate__fadeIn d-flex align-items-center border-bottom border-dark p-3 position-relative"
+            className={`fs-4 animate__animated animate__fadeIn d-flex align-items-center p-3 position-relative ${
+                !isRead && "bg-dark text-white"
+            }`}
             style={{
-                background: "var(--color-primary)",
                 color: "var(--color-dark)",
                 width: "45%",
                 minHeight: "5.5rem",
-                zIndex: "1",
+                borderBottom: "1px solid var(--color-dark)",
             }}
+            data-card
         >
             {notiInfo.senderName ? (
-                <div className="w-100">
+                <div className="w-100" data-content>
                     <div
                         className="d-flex align-items-center justify-content-between mb-4"
                         data-title
@@ -67,10 +73,12 @@ const NotificationCard = ({ sender, type, createdAt }) => {
                             style={{
                                 color: "var(--color-dark)",
                             }}
-                            className="d-flex align-items-center fw-bold w-100"
+                            className={`d-flex align-items-center fw-bold w-100 ${
+                                !isRead && "bg-dark text-white"
+                            }`}
                         >
                             {(() => {
-                                switch (parseInt(type, 10)) {
+                                switch (formatType) {
                                     case LIKE_POST:
                                         return <FontAwesomeIcon icon={liked} />;
                                     case COMMENT_POST:
@@ -79,7 +87,22 @@ const NotificationCard = ({ sender, type, createdAt }) => {
                                         );
                                     case SHARE_POST:
                                         return (
-                                            <FontAwesomeIcon icon={faRepeat} />
+                                            <FontAwesomeIcon
+                                                style={{
+                                                    transform: "rotate(90deg)",
+                                                }}
+                                                icon={faRepeat}
+                                            />
+                                        );
+                                    case NEW_FOLLOWER:
+                                        return (
+                                            <FontAwesomeIcon icon={faUser} />
+                                        );
+                                    case NEW_MSG:
+                                        return (
+                                            <FontAwesomeIcon
+                                                icon={faEnvelope}
+                                            />
                                         );
                                     default:
                                         return "";
@@ -100,20 +123,24 @@ const NotificationCard = ({ sender, type, createdAt }) => {
                     <div data-content>
                         <Link
                             to={"/user/" + sender}
-                            className="fw-bold me-1 sender-notification"
-                            onMouseOver={() => setIsActive(true)}
-                            onMouseLeave={() => setIsActive(false)}
+                            className={`fw-bold me-1 sender-notification ${
+                                !isRead && "bg-dark text-white"
+                            }`}
                         >
                             {notiInfo.senderName}
                         </Link>
                         {(() => {
-                            switch (parseInt(type, 10)) {
+                            switch (formatType) {
                                 case LIKE_POST:
                                     return "liked your post";
                                 case COMMENT_POST:
                                     return "commented on your post";
                                 case SHARE_POST:
                                     return "shared your post";
+                                case NEW_FOLLOWER:
+                                    return "followed you";
+                                case NEW_MSG:
+                                    return "sent you a message";
                                 default:
                                     return "";
                             }
@@ -123,8 +150,6 @@ const NotificationCard = ({ sender, type, createdAt }) => {
             ) : (
                 <>Loading...</>
             )}
-
-            {isActive && <UserInfoPopup userID={sender} />}
         </div>
     );
 };

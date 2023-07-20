@@ -1,4 +1,3 @@
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
@@ -8,6 +7,8 @@ import { useState, useEffect, useCallback } from "react";
 
 import { followUser, getUserByID } from "../../redux/request/userRequest";
 import { createRoom } from "../../redux/request/roomRequest";
+import { NEW_FOLLOWER } from "../../constants/noti.type.constant";
+import { pushNewNotification } from "../../redux/request/notificationRequest";
 
 //TODO CREATE USER WAITTING LIST
 
@@ -88,6 +89,20 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
             if (isFollowing) {
                 setIsApprover(false);
                 setIsFollow(true);
+
+                const notification = {
+                    sender: sender,
+                    receiver: userRoute,
+                    type: NEW_FOLLOWER,
+                };
+
+                pushNewNotification(notification, dispatch)
+                    .then((data) => {
+                        socket.emit("push-notification", data.data);
+                    })
+                    .catch((err) => {
+                        console.error("Failed to create new notification", err);
+                    });
             } else {
                 // Check is user who sent follow still follow ?
                 getUserByID(userRoute, dispatch).then((data) => {
@@ -107,7 +122,7 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
     };
 
     const handleSocket = {
-        follow: useCallback(async (data) => {
+        follow: useCallback((data) => {
             const { userRoute, sender } = data;
 
             if (userRoute === currentUser._id) {
