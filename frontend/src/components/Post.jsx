@@ -13,21 +13,34 @@ import {
     faHeart as likeDefault,
     faComment,
     faPenToSquare,
+    faBookmark,
 } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as liked, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import io from "socket.io-client";
+import { LIKE_POST, SHARE_POST } from "../constants/noti.type.constant";
 
 import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 
 import "../style/components/post.css";
 
-import { deletePost, likePost, sharePost } from "../redux/request/postRequest";
-import { getPostsShared, getUserByID } from "../redux/request/userRequest";
+import {
+    deletePost,
+    likePost,
+    sharePost,
+} from "../redux/request/postRequest";
+import {
+    getPostsShared,
+    getUserByID,
+    updateUser,
+} from "../redux/request/userRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
 import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "./ParagraphWithLink";
 import EditPopup from "./EditPopup";
+import { pushNewNotification } from "../redux/request/notificationRequest";
+
+// TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 
 const Post = ({
     image,
@@ -60,6 +73,7 @@ const Post = ({
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
+    // Update title to edited when post has been edited
     useEffect(() => {
         getPostsShared(currentUser._id, dispatch).then((data) => {
             const { postShared } = data;
@@ -91,7 +105,7 @@ const Post = ({
             .catch((err) => {
                 console.error("Failed", err);
             });
-    }, [userID]);
+    }, []);
 
     const handleSetting = (e) => {
         e.stopPropagation();
@@ -129,7 +143,29 @@ const Post = ({
             likePost(post, dispatch)
                 .then(async (data) => {
                     socket = io(SOCKET_URL);
+
                     await socket.emit("update-post", data.data);
+
+                    const { isLiked } = data;
+
+                    if (isLiked) {
+                        const notification = {
+                            sender: currentUser._id,
+                            receiver: user._id,
+                            type: LIKE_POST,
+                        };
+
+                        pushNewNotification(notification, dispatch)
+                            .then((data) => {
+                                socket.emit("push-notification", data.data);
+                            })
+                            .catch((err) => {
+                                console.error(
+                                    "Failed to create new notification",
+                                    err
+                                );
+                            });
+                    }
                 })
                 .catch((error) => {
                     console.error("Failed to like post", error);
@@ -140,61 +176,108 @@ const Post = ({
                 .then(async (data) => {
                     socket = io(SOCKET_URL);
                     await socket.emit("update-post", data.data);
+
+                    const { isShared } = data;
+
+                    if (isShared) {
+                        const notification = {
+                            sender: currentUser._id,
+                            receiver: user._id,
+                            type: SHARE_POST,
+                        };
+
+                        pushNewNotification(notification, dispatch)
+                            .then((data) => {
+                                socket.emit("push-notification", data.data);
+                            })
+                            .catch((err) => {
+                                console.error(
+                                    "Failed to create new notification",
+                                    err
+                                );
+                            });
+                    }
                 })
                 .catch((error) => {
                     console.error("Failed to share post", error);
                 });
         },
+        savePost: async (postID) => {
+            const updatedUser = {
+                userID: currentUser._id,
+                postSaved: { postID: postID },
+            };
+
+            updateUser(updatedUser, dispatch)
+                .then((data) => {
+                    console.log(data);
+                })
+                .catch((err) => {
+                    console.error("Failed to save", err);
+                });
+        },
         deletePost: async (postID) => {
-            try {
-                deletePost(postID, dispatch).then(async (data) => {
+            deletePost(postID, dispatch)
+                .then(async (data) => {
                     socket = io(SOCKET_URL);
                     await socket.emit("delete-post", data.data);
+                })
+                .catch((error) => {
+                    console.error("Failed to delete post", error);
                 });
-            } catch (error) {
-                console.error("Failed to delete post", error);
-            }
         },
     };
 
     const renderTitle = () => {
         return (
-            <div
-                className="user"
-                title={
-                    user._id === currentUser._id
-                        ? `Truy cập trang cá nhân`
-                        : `Truy cập trang cá nhân ${user.username}`
-                }
-            >
-                <Link
-                    to={`/user/${user._id}`}
-                    className="profile-pic bg-black text-white border"
-                    aria-label="Avatar user"
+            <div className="d-flex align-items-center justify-content-between w-100">
+                <div
+                    className="user"
+                    title={
+                        user._id === currentUser._id
+                            ? `Truy cập trang cá nhân`
+                            : `Truy cập trang cá nhân ${user.username}`
+                    }
                 >
-                    {user.profilePicture ? (
-                        <img
-                            loading="lazy"
-                            role="presentation"
-                            decoding="async"
-                            src={user.profilePicture || DEFAULT_AVATAR}
-                            alt="Avatar user"
-                            className="w-100"
-                        />
-                    ) : (
-                        user.username
-                    )}
-                </Link>
-                <Link to={`/user/${user._id}`} className="info">
-                    <div className="d-flex align-items-center fs-5">
-                        <div className="fw-bold">{user.username}</div>
-                        <span className="mx-2">●</span>
-                        <div>Upload {formatTime(createdAt) || "now"}</div>
-                    </div>
-                    <span>
-                        <>@{user.username}</>
-                    </span>
-                </Link>
+                    <Link
+                        to={`/user/${user._id}`}
+                        className="profile-pic bg-black text-white border"
+                        aria-label="Avatar user"
+                    >
+                        {user.profilePicture ? (
+                            <img
+                                loading="lazy"
+                                role="presentation"
+                                decoding="async"
+                                src={user.profilePicture || DEFAULT_AVATAR}
+                                alt="Avatar user"
+                                className="w-100"
+                            />
+                        ) : (
+                            user.username
+                        )}
+                    </Link>
+                    <Link to={`/user/${user._id}`} className="info">
+                        <div className="d-flex align-items-center fs-5">
+                            <div className="fw-bold">{user.username}</div>
+                            <span className="mx-2">●</span>
+                            <div>Upload {formatTime(createdAt) || "now"}</div>
+                        </div>
+                        <span>
+                            <>@{user.username}</>
+                        </span>
+                    </Link>
+                </div>
+
+                <FontAwesomeIcon
+                    icon={faBookmark}
+                    className="fs-4"
+                    title="Save this post"
+                    style={{
+                        cursor: "pointer",
+                    }}
+                    onClick={() => handlePost.savePost(postID)}
+                />
             </div>
         );
     };
@@ -339,11 +422,9 @@ const Post = ({
                         </span>
                     )}
                 </div>
-
                 <div className="caption fs-3 my-3">
                     <ParagraphWithLink text={desc} />
                 </div>
-
                 {image && (
                     <div className="photo">
                         <img
@@ -373,7 +454,6 @@ const Post = ({
                         </video>
                     </div>
                 )}
-
                 {renderActionBtn()}
             </div>
         );

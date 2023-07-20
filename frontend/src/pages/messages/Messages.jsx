@@ -21,7 +21,7 @@ function Messages({ socket }) {
                     <MessagesLeft avatarUser={KAYO_AVATAR} socket={socket} />
                 </Suspense>
 
-                <MessagesMiddle />
+                <MessagesMiddle socket={socket} />
                 <MessagesRight />
             </div>
         </>

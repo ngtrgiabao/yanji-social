@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     UilEstate,
@@ -23,8 +23,9 @@ import FontSizeTheme from "./customTheme/FontSizeTheme";
 import BackgroundTheme from "./customTheme/BackgroundTheme";
 import ColorTheme from "./customTheme/ColorTheme";
 import PostPopup from "../../components/PostPopup";
+import { io } from "socket.io-client";
 
-const HomeLeft = () => {
+const HomeLeft = ({ socket, isReadNotification }) => {
     const [active, setActive] = useState("HOME");
     const [avatar, setAvatar] = useState("");
     const [popup, setPopup] = useState(false);
@@ -34,6 +35,8 @@ const HomeLeft = () => {
         username: "",
     });
     const dispatch = useDispatch();
+
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {
@@ -123,16 +126,16 @@ const HomeLeft = () => {
             >
                 <span>
                     <UilBell className="sidebar-icon" />
-                    <small
-                        className="notification-count bg-danger"
-                        style={{
-                            display: `${
-                                active === "NOTIFICATION" ? "none" : ""
-                            }`,
-                        }}
-                    >
-                        9+
-                    </small>
+                    {isReadNotification && (
+                        <small
+                            className="notification-count bg-danger"
+                            style={{
+                                display: `${
+                                    active === "NOTIFICATION" ? "none" : ""
+                                }`,
+                            }}
+                        ></small>
+                    )}
                 </span>
                 <h3 className="ms-4">Notification</h3>
             </Link>
@@ -155,16 +158,14 @@ const HomeLeft = () => {
                 >
                     <span>
                         <UilChat className="sidebar-icon" />
-                        <small
+                        {/* <small
                             className="notification-count bg-danger"
                             style={{
                                 display: `${
                                     active === "MESSAGES" ? "none" : ""
                                 }`,
                             }}
-                        >
-                            6
-                        </small>
+                        ></small> */}
                     </span>
                     <h3 className="ms-4">Messages</h3>
                 </Link>
@@ -175,7 +176,7 @@ const HomeLeft = () => {
     const renderBookmarkBtn = () => {
         return (
             <Link
-                to="/"
+                to="/bookmarks"
                 className={`menu-item ${
                     active === "BOOKMARKS" ? "active" : ""
                 }`}
@@ -292,6 +293,26 @@ const HomeLeft = () => {
             )
         );
     };
+
+    const handleSocket = {
+        follow: useCallback(async (data) => {
+            const { userRoute } = data;
+
+            // if (userRoute === currentUser._id) {
+            //     alert("hello");
+            // }
+        }, []),
+    };
+
+    useEffect(() => {
+        socket = io(SOCKET_URL);
+
+        socket.on("followed", handleSocket.follow);
+
+        return () => {
+            socket.off("followed", handleSocket.follow);
+        };
+    }, [SOCKET_URL, handleSocket.follow]);
 
     return (
         <>

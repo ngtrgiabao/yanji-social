@@ -1,8 +1,6 @@
 const PostModel = require("../models/post.model");
 const UserModel = require("../models/user.model");
 
-//TODO ADD SHARE
-
 const uploadPost = async (req, res) => {
     try {
         const { userID, desc, img, video } = req.body;
@@ -190,6 +188,7 @@ const likePost = async (req, res) => {
             return res.status(200).json({
                 msg: "The post has been liked",
                 data: updatedPost,
+                isLiked: true,
             });
         } else {
             const updatedPost = await PostModel.findOneAndUpdate(
@@ -201,6 +200,7 @@ const likePost = async (req, res) => {
             return res.status(200).json({
                 msg: "The post has been disliked",
                 data: updatedPost,
+                isLiked: false,
             });
         }
     } catch (error) {
@@ -237,6 +237,7 @@ const sharePost = async (req, res) => {
             return res.status(200).json({
                 msg: "The post has been shared",
                 data: updatedPost,
+                isShared: true,
             });
         } else {
             // Post is already shared by the user, remove it from the shared posts
@@ -252,6 +253,7 @@ const sharePost = async (req, res) => {
             return res.status(200).json({
                 msg: "The post has been unshared",
                 data: updatedPost,
+                isShared: false,
             });
         }
     } catch (error) {

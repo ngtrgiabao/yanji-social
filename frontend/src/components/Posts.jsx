@@ -12,13 +12,14 @@ const Posts = ({ socket }) => {
     const dispatch = useDispatch();
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    socket = io(SOCKET_URL);
 
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
 
     useEffect(() => {
+        socket = io(SOCKET_URL);
+
         getAllPosts(dispatch)
             .then((data) => {
                 const { posts } = data;
@@ -34,9 +35,10 @@ const Posts = ({ socket }) => {
             (data) => {
                 const { _id } = data;
                 getPostByID(_id, dispatch).then((data) => {
+                    const originalPost = data.data;
                     setPosts((prevPosts) => {
                         const updatePost = prevPosts.map((p) =>
-                            p._id === data?.data._id ? data.data : p
+                            p._id === originalPost._id ? originalPost : p
                         );
 
                         return updatePost;
@@ -64,6 +66,8 @@ const Posts = ({ socket }) => {
     };
 
     useEffect(() => {
+        socket = io(SOCKET_URL);
+
         socket.on("updated-post", handelSocket.updatePost);
         socket.on("uploaded-post", handelSocket.uploadPost);
         socket.on("deleted-post", handelSocket.deletePost);
@@ -89,13 +93,13 @@ const Posts = ({ socket }) => {
                 image={post.img}
                 video={post.video}
                 userID={post.userID}
-                createdAt={post.createdAt}
-                updatedAt={post.updatedAt}
                 desc={post.desc}
                 likes={post.likes}
                 shares={post.shares}
                 comments={post.comments}
                 socket={socket}
+                createdAt={post.createdAt}
+                updatedAt={post.updatedAt}
             />
         ))
     );

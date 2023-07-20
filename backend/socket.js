@@ -97,6 +97,16 @@ io.on("connection", (socket) => {
             console.log(`Commented post ${postID} successfully`);
         });
 
+        // HANDLE NOTIFICATION
+        socket.on("push-notification", (data) => {
+            const { type } = data;
+
+            io.emit("pushed-notification", {
+                ...data,
+                type: parseInt(type, 10),
+            });
+        });
+
         socket.on("disconnect", () => {
             removeUser(socket.id);
             io.emit("get-users", users);

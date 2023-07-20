@@ -83,4 +83,5 @@
 /* PROFILE PIC */
 .story-item .profile-pic {
     border: 3px solid var(--color-primary);
+    object-fit: cover;
 }

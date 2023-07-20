@@ -15,7 +15,6 @@ const Comment = ({
     commentID,
     postID,
     authorPost,
-    comments,
     socket,
 }) => {
     const [user, setUser] = useState({
@@ -29,7 +28,6 @@ const Comment = ({
 
     const formatTime = useTimeAgo;
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    socket = io(SOCKET_URL);
 
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
@@ -62,6 +60,7 @@ const Comment = ({
             const updatePost = {
                 _id: postID,
             };
+            socket = io(SOCKET_URL);
 
             await socket.emit("update-post", updatePost);
 

@@ -1,0 +1,4 @@
+.sender-notification:hover {
+    color: unset;
+    text-decoration: underline;
+}

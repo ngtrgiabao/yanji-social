@@ -39,8 +39,10 @@ import PreviewImage from "../../components/PreviewImage";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import useDownloadImage from "../../hooks/useDownloadImage";
 import { getUserByID } from "../../redux/request/userRequest";
+import { NEW_MSG } from "../../constants/noti.type.constant";
+import { pushNewNotification } from "../../redux/request/notificationRequest";
 
-const MessagesMiddle = () => {
+const MessagesMiddle = ({ socket }) => {
     const [edit, setEdit] = useState(false);
     const [message, setMessage] = useState("");
     const [active, setActive] = useState("");
@@ -75,6 +77,7 @@ const MessagesMiddle = () => {
     const handleSocket = {
         serverResponse: useCallback(() => {
             console.log("Server connected");
+            console.clear();
         }, []),
 
         receivedMessage: useCallback(
@@ -140,6 +143,7 @@ const MessagesMiddle = () => {
             socket.off("disconnect", handleSocket.disconnect);
         };
     }, [
+        SOCKET_URL,
         handleSocket.serverResponse,
         handleSocket.receivedMessage,
         handleSocket.updatedMessage,
@@ -207,6 +211,25 @@ const MessagesMiddle = () => {
                                 newMessage
                             );
                             setMessage("");
+
+                            socket = io(SOCKET_URL);
+
+                            const notification = {
+                                sender: sender._id,
+                                receiver: friendID,
+                                type: NEW_MSG,
+                            };
+
+                            pushNewNotification(notification, dispatch)
+                                .then((data) => {
+                                    socket.emit("push-notification", data.data);
+                                })
+                                .catch((err) => {
+                                    console.error(
+                                        "Failed to create new notification",
+                                        err
+                                    );
+                                });
                         }
                     })
                     .catch((error) => {

@@ -20,6 +20,7 @@ import messageSlice from "./messageSlice";
 import userReducer from "./userSlice";
 import postSlice from "./postSlice";
 import commentSlice from "./commentSlice";
+import notificationSlice from "./notificationSlice";
 
 const persistConfig = {
     key: "root",
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     post: postSlice,
     comment: commentSlice,
+    notification: notificationSlice,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

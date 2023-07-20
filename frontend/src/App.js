@@ -14,6 +14,7 @@ const PersonalPage = lazy(() => import("./pages/personal/Personal"));
 const NotificationPage = lazy(() =>
     import("./pages/notification/Notification")
 );
+const BookmarkPage = lazy(() => import("./pages/bookmarks/Bookmarks"));
 
 const RegisterPage = lazy(() => import("./pages/form/RegisterPage"));
 const LoginPage = lazy(() => import("./pages/form/LoginPage"));
@@ -104,7 +105,15 @@ function App() {
                         path="/notification"
                         element={
                             <Suspense fallback={<LoadingPage />}>
-                                <NotificationPage />
+                                <NotificationPage socket={socket} />
+                            </Suspense>
+                        }
+                    />
+                    <Route
+                        path="/bookmarks"
+                        element={
+                            <Suspense fallback={<LoadingPage />}>
+                                <BookmarkPage socket={socket} />
                             </Suspense>
                         }
                     />

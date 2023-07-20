@@ -59,7 +59,7 @@ const PersonalBody = ({ user }) => {
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
     const socketRef = useRef(null);
 
-    const handelSocket = {
+    const handleSocket = {
         updatePost: useCallback(
             (data) => {
                 const { _id } = data;
@@ -91,19 +91,19 @@ const PersonalBody = ({ user }) => {
         socketRef.current = io(SOCKET_URL);
         const socket = socketRef.current;
 
-        socket.on("updated-post", handelSocket.updatePost);
-        socket.on("uploaded-post", handelSocket.uploadPost);
-        socket.on("deleted-post", handelSocket.deletePost);
+        socket.on("updated-post", handleSocket.updatePost);
+        socket.on("uploaded-post", handleSocket.uploadPost);
+        socket.on("deleted-post", handleSocket.deletePost);
 
         return () => {
-            socket.off("updated-post", handelSocket.updatePost);
-            socket.off("uploaded-post", handelSocket.uploadPost);
-            socket.off("deleted-post", handelSocket.deletePost);
+            socket.off("updated-post", handleSocket.updatePost);
+            socket.off("uploaded-post", handleSocket.uploadPost);
+            socket.off("deleted-post", handleSocket.deletePost);
         };
     }, [
-        handelSocket.updatePost,
-        handelSocket.uploadPost,
-        handelSocket.deletePost,
+        handleSocket.updatePost,
+        handleSocket.uploadPost,
+        handleSocket.deletePost,
         SOCKET_URL,
     ]);
 

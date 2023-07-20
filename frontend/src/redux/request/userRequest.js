@@ -35,6 +35,18 @@ export const getPostsShared = async (userID, dispatch) => {
     }
 };
 
+export const getPostsSaved = async (userID, dispatch) => {
+    dispatch(getUserStart(userID));
+
+    try {
+        const res = await userService.getPostsSaved(userID);
+        dispatch(getUserSuccess(res.data));
+        return res.data;
+    } catch (error) {
+        dispatch(getUserFailed());
+    }
+};
+
 export const updateUser = async (updatedUser, dispatch) => {
     dispatch(updateUserStart(updatedUser));
 

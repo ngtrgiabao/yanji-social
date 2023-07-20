@@ -3,11 +3,7 @@ import { UitEllipsisV } from "@iconscout/react-unicons-thinline";
 import {
     faCaretDown,
     faFileArrowDown,
-    faSearch,
-    faExclamationTriangle,
     faBookmark,
-    faClock,
-    faListUl,
     faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -57,45 +53,18 @@ const PersonalNavbarProfile = () => {
 
     const boxSettingProfileItems = [
         {
-            id: 1,
             icon: faFileArrowDown,
             title: "Export Data",
             handleClick: handleExportData,
         },
         {
-            id: 2,
-            icon: faSearch,
-            title: "Search",
-            handleClick: null,
-        },
-        {
-            id: 3,
-            icon: faExclamationTriangle,
-            title: "Account status",
-            handleClick: null,
-        },
-        {
-            id: 4,
             icon: faBookmark,
             title: "Saved",
             handleClick: null,
         },
         {
-            id: 5,
-            icon: faClock,
-            title: "Stories saved",
-            handleClick: null,
-        },
-        {
-            id: 6,
-            icon: faListUl,
-            title: "Dictionary",
-            handleClick: null,
-        },
-        {
-            id: 7,
             icon: faUserCircle,
-            title: "Setting profile and tag",
+            title: "Setting profile",
             handleClick: null,
         },
     ];
@@ -129,9 +98,9 @@ const PersonalNavbarProfile = () => {
                 {checked && (
                     <div className="box-setting-profile rounded-3">
                         <div className="p-3">
-                            {boxSettingProfileItems.map((item) => (
+                            {boxSettingProfileItems.map((item, idx) => (
                                 <div
-                                    key={item.id}
+                                    key={idx}
                                     className="box-setting-profile-item d-flex align-items-center rounded-3 p-2"
                                     onClick={() => item.handleClick()}
                                 >

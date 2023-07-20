@@ -11,7 +11,7 @@ const startServer = async () => {
         const SOCKET_PORT = process.env.SOCKET_PORT;
 
         socket.listen(SOCKET_PORT, () => {
-            console.log("Socket connected successfully");
+            console.log("Socket connected successfully", SOCKET_PORT);
         });
     } catch (error) {
         console.error("Cannot connect to db :<", error);
