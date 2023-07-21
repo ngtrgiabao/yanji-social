@@ -24,11 +24,7 @@ import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 
 import "../style/components/post.css";
 
-import {
-    deletePost,
-    likePost,
-    sharePost,
-} from "../redux/request/postRequest";
+import { deletePost, likePost, sharePost } from "../redux/request/postRequest";
 import {
     getPostsShared,
     getUserByID,
@@ -228,60 +224,6 @@ const Post = ({
         },
     };
 
-    const renderTitle = () => {
-        return (
-            <div className="d-flex align-items-center justify-content-between w-100">
-                <div
-                    className="user"
-                    title={
-                        user._id === currentUser._id
-                            ? `Truy cập trang cá nhân`
-                            : `Truy cập trang cá nhân ${user.username}`
-                    }
-                >
-                    <Link
-                        to={`/user/${user._id}`}
-                        className="profile-pic bg-black text-white border"
-                        aria-label="Avatar user"
-                    >
-                        {user.profilePicture ? (
-                            <img
-                                loading="lazy"
-                                role="presentation"
-                                decoding="async"
-                                src={user.profilePicture || DEFAULT_AVATAR}
-                                alt="Avatar user"
-                                className="w-100"
-                            />
-                        ) : (
-                            user.username
-                        )}
-                    </Link>
-                    <Link to={`/user/${user._id}`} className="info">
-                        <div className="d-flex align-items-center fs-5">
-                            <div className="fw-bold">{user.username}</div>
-                            <span className="mx-2">●</span>
-                            <div>Upload {formatTime(createdAt) || "now"}</div>
-                        </div>
-                        <span>
-                            <>@{user.username}</>
-                        </span>
-                    </Link>
-                </div>
-
-                <FontAwesomeIcon
-                    icon={faBookmark}
-                    className="fs-4"
-                    title="Save this post"
-                    style={{
-                        cursor: "pointer",
-                    }}
-                    onClick={() => handlePost.savePost(postID)}
-                />
-            </div>
-        );
-    };
-
     const renderEditPost = () => {
         return (
             <div className="edit-post" hidden={popup !== "SETTING"}>
@@ -331,6 +273,72 @@ const Post = ({
                         Report
                     </li>
                 </ul>
+            </div>
+        );
+    };
+
+    const renderTitle = () => {
+        return (
+            <div className="d-flex align-items-center justify-content-between w-100">
+                <div
+                    className="user"
+                    title={
+                        user._id === currentUser._id
+                            ? `Truy cập trang cá nhân`
+                            : `Truy cập trang cá nhân ${user.username}`
+                    }
+                >
+                    <Link
+                        to={`/user/${user._id}`}
+                        className="profile-pic bg-black text-white border"
+                        aria-label="Avatar user"
+                    >
+                        {user.profilePicture ? (
+                            <img
+                                loading="lazy"
+                                role="presentation"
+                                decoding="async"
+                                src={user.profilePicture || DEFAULT_AVATAR}
+                                alt="Avatar user"
+                                className="w-100"
+                            />
+                        ) : (
+                            user.username
+                        )}
+                    </Link>
+                    <Link to={`/user/${user._id}`} className="info">
+                        <div className="d-flex align-items-center fs-5">
+                            <div className="fw-bold">{user.username}</div>
+                            <span className="mx-2">●</span>
+                            <div>Upload {formatTime(createdAt) || "now"}</div>
+                        </div>
+                        <span>
+                            <>@{user.username}</>
+                        </span>
+                    </Link>
+                </div>
+                <div className="d-flex align-items-center">
+                    <FontAwesomeIcon
+                        icon={faBookmark}
+                        className="fs-4 me-2"
+                        title="Save this post"
+                        style={{
+                            cursor: "pointer",
+                        }}
+                        onClick={() => handlePost.savePost(postID)}
+                    />
+                    {user._id === currentUser._id && (
+                        <span className="post-settings" title="Setting post">
+                            <UilEllipsisH
+                                className="dots"
+                                onClick={(e) => {
+                                    handleSetting(e);
+                                }}
+                            />
+                            {renderEditPost()}
+                        </span>
+                    )}
+                </div>
             </div>
         );
     };
@@ -407,22 +415,13 @@ const Post = ({
     const renderPost = () => {
         return (
             <div className="post mb-4">
-                <div className="head">
-                    {renderTitle()}
-
-                    {user._id === currentUser._id && (
-                        <span className="post-settings" title="Setting post">
-                            <UilEllipsisH
-                                className="dots"
-                                onClick={(e) => {
-                                    handleSetting(e);
-                                }}
-                            />
-                            {renderEditPost()}
-                        </span>
-                    )}
-                </div>
-                <div className="caption fs-3 my-3">
+                <div className="head">{renderTitle()}</div>
+                <div
+                    className="caption fs-3 my-3 overflow-auto scrollbar"
+                    style={{
+                        maxHeight: "40rem",
+                    }}
+                >
                     <ParagraphWithLink text={desc} />
                 </div>
                 {image && (
