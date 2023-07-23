@@ -54,6 +54,8 @@ const Post = ({
     shares,
     comments,
     socket,
+    handleDeletePopup = () => {},
+    isDisableComment = false,
 }) => {
     const [popup, setPopup] = useState("");
     const [user, setUser] = useState({
@@ -149,7 +151,7 @@ const Post = ({
         return () => {
             isCancelled = true;
         };
-    }, [currentUser._id, dispatch]);
+    }, [currentUser._id, dispatch, postID]);
 
     const handleSetting = (e) => {
         e.stopPropagation();
@@ -192,7 +194,7 @@ const Post = ({
 
                     const { isLiked } = data;
 
-                    if (isLiked) {
+                    if (isLiked && user._id !== currentUser._id) {
                         const notification = {
                             sender: currentUser._id,
                             receiver: user._id,
@@ -269,6 +271,8 @@ const Post = ({
                 .catch((error) => {
                     console.error("Failed to delete post", error);
                 });
+
+            handleDeletePopup();
         },
     };
 
@@ -402,7 +406,7 @@ const Post = ({
                         data-share
                     >
                         <span>
-                            {shares.includes(currentUser._id) ? (
+                            {shares?.includes(currentUser._id) ? (
                                 <FontAwesomeIcon
                                     icon={faRepeat}
                                     style={{
@@ -414,14 +418,14 @@ const Post = ({
                             )}
                         </span>
                         <div className="ms-2">
-                            <b>{shares.length}</b>
+                            <b>{shares?.length}</b>
                         </div>
                     </span>
                     <span
                         className="d-flex justify-content-center align-items-center comment flex-fill p-1 post-action__btn rounded-2"
                         onClick={(e) => {
                             e.stopPropagation();
-                            handleDetailsPost(e);
+                            !isDisableComment && handleDetailsPost(e);
                         }}
                         title="Comment"
                         data-comment
@@ -430,7 +434,7 @@ const Post = ({
                             <FontAwesomeIcon icon={faComment} />
                         </span>
                         <div className="ms-2">
-                            <b>{comments.length}</b>
+                            <b>{comments?.length}</b>
                         </div>
                     </span>
                     <span
@@ -440,7 +444,7 @@ const Post = ({
                         data-like
                     >
                         <span>
-                            {likes.includes(currentUser._id) ? (
+                            {likes?.includes(currentUser._id) ? (
                                 <FontAwesomeIcon
                                     icon={liked}
                                     style={{
@@ -452,7 +456,7 @@ const Post = ({
                             )}
                         </span>
                         <div className="ms-2">
-                            <b>{likes.length}</b>
+                            <b>{likes?.length}</b>
                         </div>
                     </span>
                 </div>
@@ -467,7 +471,7 @@ const Post = ({
                 <div
                     className="caption fs-3 my-3 overflow-auto scrollbar"
                     style={{
-                        maxHeight: "40rem",
+                        maxHeight: "44rem",
                     }}
                 >
                     <ParagraphWithLink text={desc} />
@@ -511,7 +515,7 @@ const Post = ({
             popup === "DETAILS" && (
                 <DetailsPost
                     onPopup={handleDetailsPost}
-                    animateClass="animate__animated animate__fadeIn"
+                    extendClass="animate__animated animate__fadeIn"
                     children={renderPost()}
                     author={user}
                     postID={postID}
@@ -533,7 +537,7 @@ const Post = ({
                     content={desc}
                     socket={socket}
                     postID={postID}
-                    animateClass="animate__animated animate__fadeIn"
+                    extendClass="animate__animated animate__fadeIn"
                 />
             )
         );

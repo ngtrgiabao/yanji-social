@@ -287,8 +287,9 @@ const HomeLeft = ({ socket, isReadNotification }) => {
             currentUser?._id &&
             popup && (
                 <PostPopup
+                    socket={socket}
                     onPopup={handlePopup}
-                    animateClass="animate__animated animate__fadeIn"
+                    extendClass="animate__animated animate__fadeIn"
                 />
             )
         );

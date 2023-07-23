@@ -85,22 +85,24 @@ const Comments = ({ postID, author, socket }) => {
                             postID: postID,
                         });
 
-                        const notification = {
-                            sender: currentUser._id,
-                            receiver: author._id,
-                            type: COMMENT_POST,
-                        };
+                        if (author._id !== currentUser._id) {
+                            const notification = {
+                                sender: currentUser._id,
+                                receiver: author._id,
+                                type: COMMENT_POST,
+                            };
 
-                        pushNewNotification(notification, dispatch)
-                            .then((data) => {
-                                socket.emit("push-notification", data.data);
-                            })
-                            .catch((err) => {
-                                console.error(
-                                    "Failed to create new notification",
-                                    err
-                                );
-                            });
+                            pushNewNotification(notification, dispatch)
+                                .then((data) => {
+                                    socket.emit("push-notification", data.data);
+                                })
+                                .catch((err) => {
+                                    console.error(
+                                        "Failed to create new notification",
+                                        err
+                                    );
+                                });
+                        }
                     })
                     .catch((err) => {
                         console.error("Failed to comment", err);

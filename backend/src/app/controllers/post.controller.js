@@ -111,21 +111,12 @@ const deleteAllPostsByUser = async (req, res) => {
 
 const getPostByID = async (req, res) => {
     const postID = req.params.postID;
+    const post = await PostModel.findById(postID);
 
-    try {
-        const result = await PostModel.findById(postID);
-
-        return res.status(200).json({
-            msg: `Get post ${postID} successfully`,
-            data: result,
-        });
-    } catch (error) {
-        console.error(`Failed to get post ${postID}`);
-
-        return res.status(500).json({
-            msg: `Failed to get post ${postID}`,
-        });
-    }
+    return res.status(200).json({
+        msg: `Get post ${postID} successfully`,
+        data: post,
+    });
 };
 
 const updatePost = async (req, res) => {

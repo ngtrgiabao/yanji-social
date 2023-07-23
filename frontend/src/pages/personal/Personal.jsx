@@ -45,7 +45,7 @@ function Personal({ socket }) {
                 <hr className="my-5" />
 
                 <PersonalNavbarProfile />
-                <PersonalBody user={userRoutePage} />
+                <PersonalBody socket={socket} user={userRoutePage} />
             </div>
         </>
     ) : (

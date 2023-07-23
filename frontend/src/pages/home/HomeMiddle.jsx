@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
 
 import "../../style/pages/home/homeMiddle.css";
+import "../../style/animations/snackbar.css";
 
 import HomeStories from "./HomeStories";
 import PostPopup from "../../components/PostPopup";
@@ -18,7 +19,7 @@ const HomeMiddle = ({ socket }) => {
         profilePicture: "",
         username: "",
     });
-
+    const snackBar = useRef(null);
     const dispatch = useDispatch();
     // Get Data
     const [nextUrl, setNextUrl] = useState("");
@@ -58,80 +59,90 @@ const HomeMiddle = ({ socket }) => {
             currentUser?._id &&
             popup && (
                 <PostPopup
+                    socket={socket}
                     onPopup={handlePopup}
-                    animateClass="animate__animated animate__fadeIn"
+                    extendClass="animate__animated animate__fadeIn"
                 />
             )
         );
     };
 
+    const handleDeletePopup = () => {
+        if (snackBar.current) {
+            const sb = snackBar.current;
+            sb.className = "show";
+
+            setTimeout(() => {
+                sb.className = sb.className.replace("show", "");
+            }, 3000);
+        }
+    };
     return (
-        <>
-            <div className="middle animate__animated animate__fadeIn">
-                <HomeStories />
+        <div className="middle animate__animated animate__fadeIn position-relative">
+            <HomeStories />
 
-                {/* STATUS */}
-                <div
-                    action=""
-                    className="create-post d-flex align-items-center mb-4"
-                >
-                    <div className="create-post-wrapper d-flex align-items-center">
-                        <Link
-                            to={currentUser ? `/user/${user._id}` : "/"}
-                            className="profile-pic"
-                            aria-label="Avatar user"
-                        >
-                            <img
-                                loading="lazy"
-                                role="presentation"
-                                decoding="async"
-                                className="w-100"
-                                src={
-                                    currentUser
-                                        ? user.profilePicture || DEFAULT_AVATAR
-                                        : DEFAULT_AVATAR
-                                }
-                                alt="Avatar user"
-                            />
-                        </Link>
-
-                        <div
-                            className="border-0 ps-3 me-3 ms-3 caption fs-4"
-                            name="caption"
-                            onClick={handlePopup}
-                            id="caption"
-                        >
-                            What's in your mind,
-                            {user.username || " user"}?
-                        </div>
-                    </div>
-                    <div
-                        className="submit d-flex align-items-center"
-                        title="Đăng bài viết"
+            {/* STATUS */}
+            <div
+                action=""
+                className="create-post d-flex align-items-center mb-4"
+            >
+                <div className="create-post-wrapper d-flex align-items-center">
+                    <Link
+                        to={currentUser ? `/user/${user._id}` : "/"}
+                        className="profile-pic"
+                        aria-label="Avatar user"
                     >
-                        {currentUser ? (
-                            <button
-                                onClick={handlePopup}
-                                type="submit"
-                                className="btn btn-primary"
-                            >
-                                Post
-                            </button>
-                        ) : (
-                            <Link to="/login" className="btn btn-primary">
-                                Post
-                            </Link>
-                        )}
+                        <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
+                            className="w-100"
+                            src={
+                                currentUser
+                                    ? user.profilePicture || DEFAULT_AVATAR
+                                    : DEFAULT_AVATAR
+                            }
+                            alt="Avatar user"
+                        />
+                    </Link>
+
+                    <div
+                        className="border-0 ps-3 me-3 ms-3 caption fs-4"
+                        name="caption"
+                        onClick={handlePopup}
+                        id="caption"
+                    >
+                        What's in your mind,
+                        {user.username || " user"}?
                     </div>
-                    {renderPostPopup()}
                 </div>
-                {/* END STATUS */}
-
-                <div className="posts">
-                    <Posts socket={socket} />
+                <div
+                    className="submit d-flex align-items-center"
+                    title="Đăng bài viết"
+                >
+                    {currentUser ? (
+                        <button
+                            onClick={handlePopup}
+                            type="submit"
+                            className="btn btn-primary"
+                        >
+                            Post
+                        </button>
+                    ) : (
+                        <Link to="/login" className="btn btn-primary">
+                            Post
+                        </Link>
+                    )}
                 </div>
+                {renderPostPopup()}
+            </div>
+            {/* END STATUS */}
 
-                {/* <div className="w-100 my-5 d-flex justify-content-center">
+            <div className="posts">
+                <Posts handleDeletePopup={handleDeletePopup} socket={socket} />
+            </div>
+
+            {/* <div className="w-100 my-5 d-flex justify-content-center">
                     <button
                         role="button"
                         className="p-3 rounded btn-loadmore"
@@ -140,8 +151,11 @@ const HomeMiddle = ({ socket }) => {
                         {loading ? "loading..." : "Load more"}
                     </button>
                 </div> */}
+
+            <div data-deleted-popup ref={snackBar} id="snackbar">
+                Deleted post :D
             </div>
-        </>
+        </div>
     );
 };
 

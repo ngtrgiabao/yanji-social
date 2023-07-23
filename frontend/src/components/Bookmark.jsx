@@ -90,41 +90,49 @@ const Bookmark = ({ postID, createdAt, socket }) => {
                             >
                                 {post.author}
                             </Link>
-                            <p
-                                className="caption overflow-hidden fw-light fs-4"
-                                style={{
-                                    height: "20rem",
-                                }}
-                                data-content
-                            >
-                                {post.isExisting ? (
-                                    post.desc
-                                ) : (
-                                    <div className="fs-3 h-100 d-flex justify-content-center align-items-center">
-                                        <button
-                                            className="p-2 border-0 bg-danger text-white"
+
+                            {post.isExisting ? (
+                                <Link
+                                    to={`/post/${postID}`}
+                                    className="caption overflow-hidden fw-light fs-4 d-flex flex-column link-underline"
+                                    style={{
+                                        height: "20rem",
+                                        color: "unset"
+                                    }}
+                                    data-content
+                                >
+                                    {post.desc}
+                                    {post.img && (
+                                        <img
+                                            src={post.img}
+                                            alt="post_image"
+                                            className="w-100 mt-2"
                                             style={{
-                                                borderRadius: "0.5rem",
+                                                objectFit: "cover",
                                             }}
-                                            onClick={() => {
-                                                handleDeletePostSaved(postID);
-                                            }}
-                                        >
-                                            Delete this post ?
-                                        </button>
-                                    </div>
-                                )}
-                                {post.img && (
-                                    <img
-                                        src={post.img}
-                                        alt="post_image"
-                                        className="w-100 mt-2"
+                                        />
+                                    )}
+                                </Link>
+                            ) : (
+                                <div
+                                    className="fs-3 d-flex justify-content-center align-items-center"
+                                    style={{
+                                        height: "20rem",
+                                    }}
+                                >
+                                    <button
+                                        className="p-2 border-0 bg-danger text-white"
                                         style={{
-                                            objectFit: "cover",
+                                            borderRadius: "0.5rem",
                                         }}
-                                    />
-                                )}
-                            </p>
+                                        onClick={() => {
+                                            handleDeletePostSaved(postID);
+                                        }}
+                                    >
+                                        Delete this post ?
+                                    </button>
+                                </div>
+                            )}
                         </div>
                         <p data-time className="card-text">
                             <small className="text-body-secondary">

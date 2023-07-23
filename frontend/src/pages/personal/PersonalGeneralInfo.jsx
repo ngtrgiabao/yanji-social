@@ -32,7 +32,7 @@ const PersonalGeneralInfo = ({ userRoute, socket }) => {
                 setFollowers(followers.length);
                 setFollowings(followings.length);
             });
-    }, [userRoute._id]);
+    }, [userRoute._id, dispatch]);
 
     return (
         <div className="px-5 header-title">

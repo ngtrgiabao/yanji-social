@@ -18,7 +18,7 @@ import { uploadPost } from "../redux/request/postRequest";
 import useUploadImage from "../hooks/useUploadImage";
 import PreviewImage from "./PreviewImage";
 
-const PostPopup = ({ onPopup, animateClass }) => {
+const PostPopup = ({ onPopup, extendClass, socket }) => {
     const [imageUrl, setImageUrl] = useState(null);
     const [imageSrc, setImageSrc] = useState("");
     const [videoUrl, setVideoUrl] = useState(null);
@@ -61,7 +61,9 @@ const PostPopup = ({ onPopup, animateClass }) => {
         sym.forEach((el) => codeArray.push("0x" + el));
         let emoji = String.fromCodePoint(...codeArray);
 
-        setContent(content + emoji);
+        if (content.length < 5000) {
+            setContent(content + emoji);
+        }
     };
 
     const handleContent = (e) => {
@@ -69,10 +71,7 @@ const PostPopup = ({ onPopup, animateClass }) => {
     };
 
     const cloudStorage = useUploadImage;
-    const socketRef = useRef(null);
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    socketRef.current = io(SOCKET_URL);
-    const socket = socketRef.current;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -96,6 +95,8 @@ const PostPopup = ({ onPopup, animateClass }) => {
 
         uploadPost(newPost, dispatch)
             .then(async (data) => {
+                socket = io(SOCKET_URL);
+
                 await socket.emit("upload-post", data.data);
             })
             .catch((err) => console.error("Failed to upload post", err));
@@ -113,7 +114,7 @@ const PostPopup = ({ onPopup, animateClass }) => {
         <div
             className={
                 "d-flex justify-content-center align-items-center post-popup__container " +
-                animateClass
+                extendClass
             }
             onClick={onPopup}
         >

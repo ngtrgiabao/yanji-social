@@ -1,8 +1,9 @@
 const Post = require("../models/post.model");
 
 const validatePostID = async (req, res, next) => {
+    const postID = req.params.postID;
+
     try {
-        const postID = req.params.postID;
         const result = await Post.findById(postID);
 
         if (!result) {
