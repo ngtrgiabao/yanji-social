@@ -9,8 +9,6 @@ import { Link } from "react-router-dom";
 
 import NotificationCard from "../../components/NotificationCard";
 
-// TODO LOG ISREAD OF NOTIFICATION
-
 const Notification = ({ socket }) => {
     const [notiList, setNotiList] = useState([]);
     const currentUser = useSelector((state) => {
