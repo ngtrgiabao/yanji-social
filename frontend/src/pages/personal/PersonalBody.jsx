@@ -17,7 +17,7 @@ import { getPostsShared } from "../../redux/request/userRequest";
 
 //TODO FIX POST SHARED ALWAYS PIN
 
-const PersonalBody = ({ user }) => {
+const PersonalBody = ({ user, socket }) => {
     const [avatar, setAvatar] = useState("");
     const [popup, setPopup] = useState(false);
     const [posts, setPosts] = useState([]);
@@ -49,8 +49,9 @@ const PersonalBody = ({ user }) => {
         return (
             popup && (
                 <PostPopup
+                    socket={socket}
                     onPopup={handlePopup}
-                    animateClass="animate__animated animate__fadeIn"
+                    extendClass="animate__animated animate__fadeIn"
                 />
             )
         );
@@ -120,7 +121,7 @@ const PersonalBody = ({ user }) => {
             getPostsShared(user._id, dispatch).then((data) => {
                 data.postShared.map((p) =>
                     getPostByID(p.postID, dispatch).then((data) => {
-                        setPosts((prevPosts) => [data.data, ...prevPosts]);
+                        setPosts((prevPosts) => [data?.data, ...prevPosts]);
                     })
                 );
             });
@@ -166,20 +167,23 @@ const PersonalBody = ({ user }) => {
                     </div>
 
                     <div className="posts mt-4">
-                        {posts.map((post) => (
-                            <Post
-                                key={post._id}
-                                postID={post._id}
-                                image={post.img}
-                                video={post.video}
-                                userID={post.userID}
-                                createdAt={post.createdAt}
-                                desc={post.desc}
-                                likes={post.likes}
-                                shares={post.shares}
-                                comments={post.comments}
-                            />
-                        ))}
+                        {posts.map(
+                            (post) =>
+                                post && (
+                                    <Post
+                                        key={post._id}
+                                        postID={post._id}
+                                        image={post.img}
+                                        video={post.video}
+                                        userID={post.userID}
+                                        createdAt={post.createdAt}
+                                        desc={post.desc}
+                                        likes={post.likes}
+                                        shares={post.shares}
+                                        comments={post.comments}
+                                    />
+                                )
+                        )}
                     </div>
                 </div>
             </div>

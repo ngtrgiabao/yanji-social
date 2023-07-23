@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 import LoadingPage from "./pages/loading/LoadingPage";
 import NetworkError from "./pages/networkError/NetworkError";
 
-const _404 = lazy(() => import("./pages/notFound/NotFound"));
+const NotFound = lazy(() => import("./pages/notFound/NotFound"));
 const Homepage = lazy(() => import("./pages/home/Home"));
 const MessagesPage = lazy(() => import("./pages/messages/Messages"));
 const ExplorePage = lazy(() => import("./pages/explore/Explore"));
@@ -15,6 +15,7 @@ const NotificationPage = lazy(() =>
     import("./pages/notification/Notification")
 );
 const BookmarkPage = lazy(() => import("./pages/bookmarks/Bookmarks"));
+const PostPreview = lazy(() => import("./pages/postPreview/PostPreview"));
 
 const RegisterPage = lazy(() => import("./pages/form/RegisterPage"));
 const LoginPage = lazy(() => import("./pages/form/LoginPage"));
@@ -60,7 +61,7 @@ function App() {
                         path="*"
                         element={
                             <Suspense fallback={<LoadingPage />}>
-                                <_404 />
+                                <NotFound />
                             </Suspense>
                         }
                     />
@@ -93,7 +94,6 @@ function App() {
                         }
                     />
                     <Route
-                        // path={"/user" + `/${currentUser._id}`}
                         path={"/user/:userID"}
                         element={
                             <Suspense fallback={<LoadingPage />}>
@@ -117,7 +117,16 @@ function App() {
                             </Suspense>
                         }
                     />
+                    <Route
+                        path="/post/:postID"
+                        element={
+                            <Suspense fallback={<LoadingPage />}>
+                                <PostPreview socket={socket} />
+                            </Suspense>
+                        }
+                    />
 
+                    {/* Form */}
                     <Route
                         path="/register"
                         element={

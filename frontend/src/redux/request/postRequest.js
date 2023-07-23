@@ -13,11 +13,6 @@ import {
     getPostSuccess,
     getPostFailed,
 } from "../postSlice";
-import {
-    updateUserFailed,
-    updateUserStart,
-    updateUserSuccess,
-} from "../userSlice";
 
 export const uploadPost = async (post, dispatch) => {
     dispatch(uploadPostStart());
@@ -26,12 +21,13 @@ export const uploadPost = async (post, dispatch) => {
         dispatch(uploadPostSuccess(res.data));
         return res.data;
     } catch (error) {
+        console.log("first");
         dispatch(uploadPostFailed());
     }
 };
 
 export const getPostByID = async (postID, dispatch) => {
-    dispatch(getPostStart());
+    dispatch(getPostStart(postID));
     try {
         const res = await postService.getPostByID(postID);
         dispatch(getPostSuccess(res.data));
@@ -131,5 +127,3 @@ export const commentPost = async (post, dispatch) => {
         dispatch(updatePostFailed());
     }
 };
-
-

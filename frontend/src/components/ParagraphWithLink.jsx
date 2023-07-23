@@ -11,7 +11,7 @@ const ParagraphWithLink = ({ text }) => {
         WebkitBoxOrient: "vertical",
     };
 
-    return parts.map((part, index) => {
+    return parts?.map((part, index) => {
         if (part.match(URL_SPLIT_REGEX)) {
             if (part.match(YOUTUBE_REGEX)) {
                 const videoId = part.match(YOUTUBE_REGEX)[1];

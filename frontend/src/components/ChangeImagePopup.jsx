@@ -29,7 +29,6 @@ const ChangeImagePopup = ({
 
     const cloudStorage = useUploadImage;
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    socket = io(SOCKET_URL);
 
     const handleUploadAvatar = (e) => {
         const file = e.target.files[0];
@@ -77,7 +76,7 @@ const ChangeImagePopup = ({
                     coverPicture: coverPicture,
                     profilePicture: profilePicture,
                 };
-
+                socket = io(SOCKET_URL);
                 socket.emit("update-user", updatedUser);
 
                 setIsSuccess(true);

@@ -3,8 +3,8 @@ import React from "react";
 import Comments from "./Comments";
 
 const DetailsPost = ({
-    onPopup,
-    animateClass,
+    onPopup = () => {},
+    extendClass,
     children,
     author,
     postID,
@@ -15,7 +15,7 @@ const DetailsPost = ({
             onClick={(e) => onPopup(e)}
             className={
                 "d-flex justify-content-center align-items-center post-popup__container text-white " +
-                animateClass
+                extendClass
             }
         >
             <div
@@ -31,7 +31,7 @@ const DetailsPost = ({
                     Bài viết từ {author.username}
                 </p>
                 <div
-                    className="p-2 scrollbar w-100"
+                    className="p-2 scrollbar w-100 h-100"
                     style={{
                         overflowY: "scroll",
                         borderRadius: "1rem",

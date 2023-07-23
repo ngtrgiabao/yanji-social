@@ -16,7 +16,7 @@ import useUploadImage from "../hooks/useUploadImage";
 
 const EditPopup = ({
     onPopup,
-    animateClass,
+    extendClass,
     currentUser,
     defaultAvatar,
     imageSrc,
@@ -129,7 +129,7 @@ const EditPopup = ({
         <div
             className={
                 "d-flex justify-content-center align-items-center post-popup__container " +
-                animateClass
+                extendClass
             }
             onClick={onPopup}
         >
