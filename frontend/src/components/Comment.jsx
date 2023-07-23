@@ -42,11 +42,11 @@ const Comment = ({
         userCommented &&
             getUserByID(userCommented, dispatch)
                 .then((data) => {
-                    const userInfo = data?.user;
+                    const { _id, username, profilePicture } = data?.user || {};
                     setUser({
-                        _id: userInfo._id,
-                        username: userInfo.username,
-                        profilePicture: userInfo.profilePicture,
+                        _id: _id,
+                        username: username,
+                        profilePicture: profilePicture,
                     });
                 })
                 .catch((err) => {

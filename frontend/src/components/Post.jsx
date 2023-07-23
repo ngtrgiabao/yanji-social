@@ -13,12 +13,15 @@ import {
     faHeart as likeDefault,
     faComment,
     faPenToSquare,
-    faBookmark,
+    faBookmark as bookmarkDefault,
 } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as liked, faRepeat } from "@fortawesome/free-solid-svg-icons";
+import {
+    faHeart as liked,
+    faRepeat,
+    faBookmark as bookmarked,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import io from "socket.io-client";
-import { LIKE_POST, SHARE_POST } from "../constants/noti.type.constant";
 
 import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 
@@ -35,6 +38,7 @@ import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "./ParagraphWithLink";
 import EditPopup from "./EditPopup";
 import { pushNewNotification } from "../redux/request/notificationRequest";
+import { LIKE_POST, SHARE_POST } from "../constants/noti.type.constant";
 
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 
@@ -58,6 +62,7 @@ const Post = ({
         profilePicture: "",
     });
     const [postShared, setPostShared] = useState([]);
+    const [isSaved, setIsSaved] = useState(false);
     const videoRef = useRef(null);
 
     const dispatch = useDispatch();
@@ -71,11 +76,19 @@ const Post = ({
 
     // Update title to edited when post has been edited
     useEffect(() => {
+        let isCancelled = false;
+
         getPostsShared(currentUser._id, dispatch).then((data) => {
-            const { postShared } = data;
-            setPostShared(postShared.map((p) => p.postID));
+            if (!isCancelled) {
+                const { postShared } = data;
+                setPostShared(postShared.map((p) => p.postID));
+            }
         });
-    }, [currentUser]);
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [currentUser, dispatch]);
 
     useEffect(() => {
         const handleClickOutside = () => {
@@ -89,19 +102,54 @@ const Post = ({
     }, [popup]);
 
     useEffect(() => {
+        let isCancelled = false;
+
         getUserByID(userID, dispatch)
             .then((data) => {
-                const userInfo = data?.user;
-                setUser({
-                    _id: userInfo._id,
-                    username: userInfo.username,
-                    profilePicture: userInfo.profilePicture,
-                });
+                if (!isCancelled) {
+                    const { _id, username, profilePicture } = data?.user || {};
+
+                    setUser({
+                        _id: _id,
+                        username: username,
+                        profilePicture: profilePicture,
+                    });
+                }
             })
             .catch((err) => {
                 console.error("Failed", err);
             });
-    }, []);
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [userID, dispatch]);
+
+    useEffect(() => {
+        let isCancelled = false;
+
+        getUserByID(currentUser._id, dispatch)
+            .then((data) => {
+                if (!isCancelled) {
+                    const { postSaved } = data?.user || {};
+                    const isSavedPost = postSaved.some(
+                        (post) => post.postID === postID
+                    );
+
+                    setIsSaved(isSavedPost);
+                }
+            })
+            .catch((err) => {
+                console.error(
+                    `Failed to get post saved of user ${currentUser._id}`,
+                    err
+                );
+            });
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [currentUser._id, dispatch]);
 
     const handleSetting = (e) => {
         e.stopPropagation();
@@ -175,7 +223,7 @@ const Post = ({
 
                     const { isShared } = data;
 
-                    if (isShared) {
+                    if (isShared && user._id !== currentUser._id) {
                         const notification = {
                             sender: currentUser._id,
                             receiver: user._id,
@@ -205,8 +253,8 @@ const Post = ({
             };
 
             updateUser(updatedUser, dispatch)
-                .then((data) => {
-                    console.log(data);
+                .then(() => {
+                    setIsSaved((isSaved) => !isSaved);
                 })
                 .catch((err) => {
                     console.error("Failed to save", err);
@@ -319,7 +367,7 @@ const Post = ({
                 </div>
                 <div className="d-flex align-items-center">
                     <FontAwesomeIcon
-                        icon={faBookmark}
+                        icon={isSaved ? bookmarked : bookmarkDefault}
                         className="fs-4 me-2"
                         title="Save this post"
                         style={{
@@ -351,8 +399,8 @@ const Post = ({
                         className="d-flex justify-content-center align-items-center share flex-fill p-1 post-action__btn rounded-2"
                         onClick={() => handlePost.sharePost()}
                         title="Share"
+                        data-share
                     >
-                        {/* share */}
                         <span>
                             {shares.includes(currentUser._id) ? (
                                 <FontAwesomeIcon
@@ -376,8 +424,8 @@ const Post = ({
                             handleDetailsPost(e);
                         }}
                         title="Comment"
+                        data-comment
                     >
-                        {/* comment */}
                         <span>
                             <FontAwesomeIcon icon={faComment} />
                         </span>
@@ -389,8 +437,8 @@ const Post = ({
                         className="d-flex justify-content-center align-items-center heart flex-fill p-1 post-action__btn rounded-2 overflow-hidden"
                         onClick={() => handlePost.likePost()}
                         title="Like"
+                        data-like
                     >
-                        {/* like */}
                         <span>
                             {likes.includes(currentUser._id) ? (
                                 <FontAwesomeIcon

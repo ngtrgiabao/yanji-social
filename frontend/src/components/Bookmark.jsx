@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { io } from "socket.io-client";
 
 import Loading from "../pages/loading/LoadingPage";
 import { getPostByID } from "../redux/request/postRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
 import { getUserByID, updateUser } from "../redux/request/userRequest";
 
-const Bookmark = ({ postID, createdAt }) => {
+const Bookmark = ({ postID, createdAt, socket }) => {
     const dispatch = useDispatch();
     const [post, setPost] = useState({
         desc: "",
@@ -19,6 +20,7 @@ const Bookmark = ({ postID, createdAt }) => {
         isExisting: false,
     });
     const formatTime = useTimeAgo;
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
@@ -30,8 +32,10 @@ const Bookmark = ({ postID, createdAt }) => {
         };
 
         updateUser(updatedUser, dispatch)
-            .then((data) => {
-                console.log(data);
+            .then(() => {
+                socket = io(SOCKET_URL);
+
+                socket.emit("delete-saved", { postID: postID });
             })
             .catch((err) => {
                 console.error("Failed to save", err);
@@ -45,7 +49,6 @@ const Bookmark = ({ postID, createdAt }) => {
 
                 getUserByID(userID, dispatch).then((data) => {
                     const { username, _id } = data.user;
-
                     setPost({
                         desc: desc,
                         likes: likes.length,
@@ -67,7 +70,7 @@ const Bookmark = ({ postID, createdAt }) => {
     }, [postID, dispatch]);
 
     return (
-        <div className="card shadow-sm bg-body-tertiary text-black h-100">
+        <div className="card shadow-sm bg-body-tertiary text-black h-100 w-100">
             <div
                 className="card-body d-flex flex-column justify-content-between"
                 style={{
