@@ -107,6 +107,10 @@ io.on("connection", (socket) => {
             });
         });
 
+        socket.on("delete-saved", (data) => {
+            io.emit("deleted-saved", data);
+        });
+
         socket.on("disconnect", () => {
             removeUser(socket.id);
             io.emit("get-users", users);

@@ -200,7 +200,7 @@ const PostPopup = ({ onPopup, animateClass }) => {
                     </div>
                     <span
                         style={{ fontSize: "1.8rem" }}
-                        className="ms-3 position-relative"
+                        className="ms-3 position-relative text-white"
                     >
                         <FontAwesomeIcon
                             icon={faFaceSmile}

@@ -45,24 +45,18 @@ const Posts = ({ socket }) => {
                     });
                 });
             },
-            [posts]
+            [dispatch]
         ),
-        uploadPost: useCallback(
-            (data) => {
-                setPosts((prevPosts) => [data, ...prevPosts]);
-            },
-            [posts]
-        ),
-        deletePost: useCallback(
-            (data) => {
-                const { _id } = data;
-                setPosts((prevPosts) => {
-                    const updatedPosts = prevPosts.filter((p) => p._id !== _id);
-                    return updatedPosts;
-                });
-            },
-            [posts]
-        ),
+        uploadPost: useCallback((data) => {
+            setPosts((prevPosts) => [data, ...prevPosts]);
+        }, []),
+        deletePost: useCallback((data) => {
+            const { _id } = data;
+            setPosts((prevPosts) => {
+                const updatedPosts = prevPosts.filter((p) => p._id !== _id);
+                return updatedPosts;
+            });
+        }, []),
     };
 
     useEffect(() => {

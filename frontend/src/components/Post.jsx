@@ -13,22 +13,21 @@ import {
     faHeart as likeDefault,
     faComment,
     faPenToSquare,
-    faBookmark,
+    faBookmark as bookmarkDefault,
 } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as liked, faRepeat } from "@fortawesome/free-solid-svg-icons";
+import {
+    faHeart as liked,
+    faRepeat,
+    faBookmark as bookmarked,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import io from "socket.io-client";
-import { LIKE_POST, SHARE_POST } from "../constants/noti.type.constant";
 
 import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 
 import "../style/components/post.css";
 
-import {
-    deletePost,
-    likePost,
-    sharePost,
-} from "../redux/request/postRequest";
+import { deletePost, likePost, sharePost } from "../redux/request/postRequest";
 import {
     getPostsShared,
     getUserByID,
@@ -39,6 +38,7 @@ import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "./ParagraphWithLink";
 import EditPopup from "./EditPopup";
 import { pushNewNotification } from "../redux/request/notificationRequest";
+import { LIKE_POST, SHARE_POST } from "../constants/noti.type.constant";
 
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 
@@ -62,6 +62,7 @@ const Post = ({
         profilePicture: "",
     });
     const [postShared, setPostShared] = useState([]);
+    const [isSaved, setIsSaved] = useState(false);
     const videoRef = useRef(null);
 
     const dispatch = useDispatch();
@@ -75,11 +76,19 @@ const Post = ({
 
     // Update title to edited when post has been edited
     useEffect(() => {
+        let isCancelled = false;
+
         getPostsShared(currentUser._id, dispatch).then((data) => {
-            const { postShared } = data;
-            setPostShared(postShared.map((p) => p.postID));
+            if (!isCancelled) {
+                const { postShared } = data;
+                setPostShared(postShared.map((p) => p.postID));
+            }
         });
-    }, [currentUser]);
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [currentUser, dispatch]);
 
     useEffect(() => {
         const handleClickOutside = () => {
@@ -93,19 +102,54 @@ const Post = ({
     }, [popup]);
 
     useEffect(() => {
+        let isCancelled = false;
+
         getUserByID(userID, dispatch)
             .then((data) => {
-                const userInfo = data?.user;
-                setUser({
-                    _id: userInfo._id,
-                    username: userInfo.username,
-                    profilePicture: userInfo.profilePicture,
-                });
+                if (!isCancelled) {
+                    const { _id, username, profilePicture } = data?.user || {};
+
+                    setUser({
+                        _id: _id,
+                        username: username,
+                        profilePicture: profilePicture,
+                    });
+                }
             })
             .catch((err) => {
                 console.error("Failed", err);
             });
-    }, []);
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [userID, dispatch]);
+
+    useEffect(() => {
+        let isCancelled = false;
+
+        getUserByID(currentUser._id, dispatch)
+            .then((data) => {
+                if (!isCancelled) {
+                    const { postSaved } = data?.user || {};
+                    const isSavedPost = postSaved.some(
+                        (post) => post.postID === postID
+                    );
+
+                    setIsSaved(isSavedPost);
+                }
+            })
+            .catch((err) => {
+                console.error(
+                    `Failed to get post saved of user ${currentUser._id}`,
+                    err
+                );
+            });
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [currentUser._id, dispatch]);
 
     const handleSetting = (e) => {
         e.stopPropagation();
@@ -179,7 +223,7 @@ const Post = ({
 
                     const { isShared } = data;
 
-                    if (isShared) {
+                    if (isShared && user._id !== currentUser._id) {
                         const notification = {
                             sender: currentUser._id,
                             receiver: user._id,
@@ -209,8 +253,8 @@ const Post = ({
             };
 
             updateUser(updatedUser, dispatch)
-                .then((data) => {
-                    console.log(data);
+                .then(() => {
+                    setIsSaved((isSaved) => !isSaved);
                 })
                 .catch((err) => {
                     console.error("Failed to save", err);
@@ -226,60 +270,6 @@ const Post = ({
                     console.error("Failed to delete post", error);
                 });
         },
-    };
-
-    const renderTitle = () => {
-        return (
-            <div className="d-flex align-items-center justify-content-between w-100">
-                <div
-                    className="user"
-                    title={
-                        user._id === currentUser._id
-                            ? `Truy cập trang cá nhân`
-                            : `Truy cập trang cá nhân ${user.username}`
-                    }
-                >
-                    <Link
-                        to={`/user/${user._id}`}
-                        className="profile-pic bg-black text-white border"
-                        aria-label="Avatar user"
-                    >
-                        {user.profilePicture ? (
-                            <img
-                                loading="lazy"
-                                role="presentation"
-                                decoding="async"
-                                src={user.profilePicture || DEFAULT_AVATAR}
-                                alt="Avatar user"
-                                className="w-100"
-                            />
-                        ) : (
-                            user.username
-                        )}
-                    </Link>
-                    <Link to={`/user/${user._id}`} className="info">
-                        <div className="d-flex align-items-center fs-5">
-                            <div className="fw-bold">{user.username}</div>
-                            <span className="mx-2">●</span>
-                            <div>Upload {formatTime(createdAt) || "now"}</div>
-                        </div>
-                        <span>
-                            <>@{user.username}</>
-                        </span>
-                    </Link>
-                </div>
-
-                <FontAwesomeIcon
-                    icon={faBookmark}
-                    className="fs-4"
-                    title="Save this post"
-                    style={{
-                        cursor: "pointer",
-                    }}
-                    onClick={() => handlePost.savePost(postID)}
-                />
-            </div>
-        );
     };
 
     const renderEditPost = () => {
@@ -335,6 +325,72 @@ const Post = ({
         );
     };
 
+    const renderTitle = () => {
+        return (
+            <div className="d-flex align-items-center justify-content-between w-100">
+                <div
+                    className="user"
+                    title={
+                        user._id === currentUser._id
+                            ? `Truy cập trang cá nhân`
+                            : `Truy cập trang cá nhân ${user.username}`
+                    }
+                >
+                    <Link
+                        to={`/user/${user._id}`}
+                        className="profile-pic bg-black text-white border"
+                        aria-label="Avatar user"
+                    >
+                        {user.profilePicture ? (
+                            <img
+                                loading="lazy"
+                                role="presentation"
+                                decoding="async"
+                                src={user.profilePicture || DEFAULT_AVATAR}
+                                alt="Avatar user"
+                                className="w-100"
+                            />
+                        ) : (
+                            user.username
+                        )}
+                    </Link>
+                    <Link to={`/user/${user._id}`} className="info">
+                        <div className="d-flex align-items-center fs-5">
+                            <div className="fw-bold">{user.username}</div>
+                            <span className="mx-2">●</span>
+                            <div>Upload {formatTime(createdAt) || "now"}</div>
+                        </div>
+                        <span>
+                            <>@{user.username}</>
+                        </span>
+                    </Link>
+                </div>
+                <div className="d-flex align-items-center">
+                    <FontAwesomeIcon
+                        icon={isSaved ? bookmarked : bookmarkDefault}
+                        className="fs-4 me-2"
+                        title="Save this post"
+                        style={{
+                            cursor: "pointer",
+                        }}
+                        onClick={() => handlePost.savePost(postID)}
+                    />
+                    {user._id === currentUser._id && (
+                        <span className="post-settings" title="Setting post">
+                            <UilEllipsisH
+                                className="dots"
+                                onClick={(e) => {
+                                    handleSetting(e);
+                                }}
+                            />
+                            {renderEditPost()}
+                        </span>
+                    )}
+                </div>
+            </div>
+        );
+    };
+
     const renderActionBtn = () => {
         return (
             <div className="action-buttons d-flex justify-content-between align-items-center fs-3 border-top pt-3">
@@ -343,8 +399,8 @@ const Post = ({
                         className="d-flex justify-content-center align-items-center share flex-fill p-1 post-action__btn rounded-2"
                         onClick={() => handlePost.sharePost()}
                         title="Share"
+                        data-share
                     >
-                        {/* share */}
                         <span>
                             {shares.includes(currentUser._id) ? (
                                 <FontAwesomeIcon
@@ -368,8 +424,8 @@ const Post = ({
                             handleDetailsPost(e);
                         }}
                         title="Comment"
+                        data-comment
                     >
-                        {/* comment */}
                         <span>
                             <FontAwesomeIcon icon={faComment} />
                         </span>
@@ -381,8 +437,8 @@ const Post = ({
                         className="d-flex justify-content-center align-items-center heart flex-fill p-1 post-action__btn rounded-2 overflow-hidden"
                         onClick={() => handlePost.likePost()}
                         title="Like"
+                        data-like
                     >
-                        {/* like */}
                         <span>
                             {likes.includes(currentUser._id) ? (
                                 <FontAwesomeIcon
@@ -407,22 +463,13 @@ const Post = ({
     const renderPost = () => {
         return (
             <div className="post mb-4">
-                <div className="head">
-                    {renderTitle()}
-
-                    {user._id === currentUser._id && (
-                        <span className="post-settings" title="Setting post">
-                            <UilEllipsisH
-                                className="dots"
-                                onClick={(e) => {
-                                    handleSetting(e);
-                                }}
-                            />
-                            {renderEditPost()}
-                        </span>
-                    )}
-                </div>
-                <div className="caption fs-3 my-3">
+                <div className="head">{renderTitle()}</div>
+                <div
+                    className="caption fs-3 my-3 overflow-auto scrollbar"
+                    style={{
+                        maxHeight: "40rem",
+                    }}
+                >
                     <ParagraphWithLink text={desc} />
                 </div>
                 {image && (
