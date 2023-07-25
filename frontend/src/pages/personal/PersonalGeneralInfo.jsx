@@ -1,19 +1,22 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { UilCamera } from "@iconscout/react-unicons";
 import { useDispatch, useSelector } from "react-redux";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import PersonalAvatarFriends from "./PersonalAvatarFriends";
 
 import "../../style/pages/personal/personalGeneralInfo.css";
+import "../../style/animations/snackbar.css";
 
 import ChangeImagePopup from "../../components/ChangeImagePopup";
 import { getUserByID } from "../../redux/request/userRequest";
-import { io } from "socket.io-client";
 
 const PersonalGeneralInfo = ({ userRoute, socket }) => {
     const [openPopup, setOpenPopup] = useState(false);
     const [followers, setFollowers] = useState(0);
     const [followings, setFollowings] = useState(0);
+    const snackBar = useRef(null);
     const dispatch = useDispatch();
 
     const handlePopup = () => {
@@ -33,6 +36,18 @@ const PersonalGeneralInfo = ({ userRoute, socket }) => {
                 setFollowings(followings.length);
             });
     }, [userRoute._id, dispatch]);
+
+    const handleUpdatePopup = () => {
+        if (snackBar.current) {
+            const sb = snackBar.current;
+            sb.className = "show";
+
+            setTimeout(() => {
+                sb.className = sb.className.replace("show", "");
+                window.location.reload();
+            }, 3000);
+        }
+    };
 
     return (
         <div className="px-5 header-title">
@@ -71,7 +86,17 @@ const PersonalGeneralInfo = ({ userRoute, socket }) => {
                     className="w-100 ms-4 mt-5 d-flex justify-content-between"
                 >
                     <span>
-                        <p className="name">{userRoute?.username || "User"}</p>
+                        <div className="d-flex align-items-center">
+                            <span className="name">
+                                {userRoute?.username || "User"}
+                            </span>
+                            {userRoute?.isVerify && (
+                                <FontAwesomeIcon
+                                    className="ms-2 fs-3 bg-white rounded rounded-circle text-primary"
+                                    icon={faCircleCheck}
+                                />
+                            )}
+                        </div>
                         <div className="d-flex">
                             <div className="friends mb-4 me-3">
                                 {followers} Followers
@@ -99,8 +124,13 @@ const PersonalGeneralInfo = ({ userRoute, socket }) => {
                     onClose={() => setOpenPopup("")}
                     message="Update avatar successfully"
                     socket={socket}
+                    handleUpdatePopup={handleUpdatePopup}
                 />
             )}
+
+            <div ref={snackBar} id="snackbar">
+                Update avatar successfully
+            </div>
         </div>
     );
 };

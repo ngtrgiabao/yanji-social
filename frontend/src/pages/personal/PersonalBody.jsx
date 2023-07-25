@@ -153,6 +153,7 @@ const PersonalBody = ({ user, socket }) => {
                                     decoding="async"
                                     src={user.profilePicture}
                                     alt="Avatar user"
+                                    className="w-100"
                                 />
                             ) : (
                                 <>{user.username}</>

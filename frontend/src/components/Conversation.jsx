@@ -6,7 +6,6 @@ import { getUserByID } from "../redux/request/userRequest";
 const Conversation = ({
     conversation,
     currentUser,
-    avatarUser,
     onlineUsers,
     filterMessages,
 }) => {
@@ -50,7 +49,7 @@ const Conversation = ({
         return () => {
             isCancelled = true;
         };
-    }, [currentUser, conversation, dispatch]);
+    }, [currentUser, conversation, friendID, dispatch]);
 
     useEffect(() => {
         let isCancelled = false;
@@ -66,7 +65,7 @@ const Conversation = ({
         return () => {
             isCancelled = true;
         };
-    }, [friends, onlineUsers, isOnline]);
+    }, [friends, onlineUsers, isOnline, user?._id]);
 
     const renderAvatarUser = () => {
         return (
@@ -83,7 +82,7 @@ const Conversation = ({
                     decoding="async"
                     src={user?.profilePicture}
                     alt="Avatar user"
-                    className="rounded-circle"
+                    className="rounded-circle w-100"
                 />
             </span>
         );

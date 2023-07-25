@@ -11,6 +11,8 @@ import {
     UilPalette,
     UilSetting,
 } from "@iconscout/react-unicons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 
 import "../../style/pages/home/homeLeft.css";
 
@@ -23,7 +25,6 @@ import FontSizeTheme from "./customTheme/FontSizeTheme";
 import BackgroundTheme from "./customTheme/BackgroundTheme";
 import ColorTheme from "./customTheme/ColorTheme";
 import PostPopup from "../../components/PostPopup";
-import { io } from "socket.io-client";
 
 const HomeLeft = ({ socket, isReadNotification }) => {
     const [active, setActive] = useState("HOME");
@@ -33,6 +34,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
         _id: "",
         profilePicture: "",
         username: "",
+        isVerify: false,
     });
     const dispatch = useDispatch();
 
@@ -68,11 +70,12 @@ const HomeLeft = ({ socket, isReadNotification }) => {
     useEffect(() => {
         currentUser &&
             getUserByID(currentUser._id, dispatch).then((data) => {
-                const { _id, profilePicture, username } = data.user;
+                const { _id, profilePicture, username, isVerify } = data.user;
                 setUser({
                     _id: _id,
                     profilePicture: profilePicture,
                     username: username,
+                    isVerify: isVerify,
                 });
             });
     }, [currentUser, dispatch]);
@@ -295,26 +298,6 @@ const HomeLeft = ({ socket, isReadNotification }) => {
         );
     };
 
-    const handleSocket = {
-        follow: useCallback(async (data) => {
-            const { userRoute } = data;
-
-            // if (userRoute === currentUser._id) {
-            //     alert("hello");
-            // }
-        }, []),
-    };
-
-    useEffect(() => {
-        socket = io(SOCKET_URL);
-
-        socket.on("followed", handleSocket.follow);
-
-        return () => {
-            socket.off("followed", handleSocket.follow);
-        };
-    }, [SOCKET_URL, handleSocket.follow]);
-
     return (
         <>
             <div className="left animate__animated animate__bounceInLeft">
@@ -339,7 +322,18 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                     </div>
 
                     <div className="handle">
-                        <h4>{currentUser ? `${user.username}` : `user`}</h4>
+                        <h4>
+                            {currentUser ? `${user.username}` : `user`}
+                            {user.isVerify && (
+                                <FontAwesomeIcon
+                                    className="ms-2 bg-white rounded rounded-circle text-primary"
+                                    icon={faCircleCheck}
+                                    style={{
+                                        fontSize: "1.3rem",
+                                    }}
+                                />
+                            )}
+                        </h4>
                         <p className="text-muted m-0">
                             @{currentUser ? user.username : "user"}
                         </p>

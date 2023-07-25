@@ -20,17 +20,26 @@ import {
 
 import "../../style/pages/messages/messagesRight.css";
 
-import Photo from "../../assets/avatar/profile-pic.png";
-import { useSelector } from "react-redux";
+import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserByID } from "../../redux/request/userRequest";
+import { Link } from "react-router-dom";
 
 const MessagesRight = () => {
     const [active, setActive] = useState("");
     const [isChoose, setIsChoose] = useState(false);
     const [currentConversation, setCurrentConversation] = useState(null);
-    const [titleConversation, setTitleConversation] = useState(null);
+    const [friend, setFriend] = useState({
+        id: "",
+        username: "",
+        profilePicture: "",
+    });
 
     const currentRoom = useSelector((state) => {
         return state.room.room?.currentRoom;
+    });
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
     });
 
     useEffect(() => {
@@ -39,37 +48,47 @@ const MessagesRight = () => {
         if (currentRoom && !isCancelled) {
             const roomData = currentRoom.data;
 
-            if (roomData && roomData._id) {
-                const value = roomData._id;
+            if (roomData?._id) {
+                const { participants, _id } = roomData;
+                const friendID = participants.find(
+                    (id) => id !== currentUser._id
+                );
 
-                setCurrentConversation(value);
+                setFriend((prevFriend) => ({
+                    ...prevFriend,
+                    id: friendID,
+                }));
+
+                setCurrentConversation(_id);
             }
         }
 
         return () => {
             isCancelled = true;
         };
-    }, [currentRoom]);
+    }, [currentRoom, currentUser._id]);
 
-    const friendName = useSelector((state) => {
-        return state.user.user.currentUser?.user;
-    });
+    const dispatch = useDispatch();
 
     useEffect(() => {
         let isCancelled = false;
 
-        if (friendName && !isCancelled) {
-            if (friendName._id) {
-                const value = friendName.username;
+        if (friend.id && !isCancelled) {
+            getUserByID(friend.id, dispatch).then((data) => {
+                const { username, profilePicture } = data.user;
 
-                setTitleConversation(value);
-            }
+                setFriend((prevFriend) => ({
+                    ...prevFriend,
+                    username: username,
+                    profilePicture: profilePicture,
+                }));
+            });
         }
 
         return () => {
             isCancelled = true;
         };
-    }, [currentConversation]);
+    }, [currentConversation, dispatch, friend]);
 
     const handleChoose = (setting) => {
         setActive(setting);
@@ -78,16 +97,21 @@ const MessagesRight = () => {
 
     const renderAvatarUser = () => {
         return (
-            <div className="right-container-header d-flex flex-column align-items-center mb-4">
-                <img
-                    loading="lazy"
-                    role="presentation"
-                    decoding="async"
-                    src={Photo}
-                    alt="Avatar user"
-                    className="rounded-circle right-avatar-chat"
-                />
-                <p className="mt-2 mb-0 fs-4 fw-bold">{titleConversation}</p>
+            <div className="d-flex flex-column align-items-center mb-4">
+                <div className="right-container-header rounded rounded-circle overflow-hidden">
+                    <img
+                        loading="lazy"
+                        role="presentation"
+                        decoding="async"
+                        src={friend.profilePicture || DEFAULT_AVATAR}
+                        alt="Avatar user"
+                        className="w-100"
+                        style={{
+                            objectFit: "cover",
+                        }}
+                    />
+                </div>
+                <p className="mt-2 mb-0 fs-4 fw-bold">{friend.username}</p>
                 <span className="opacity-75">Online 3mins ago</span>
             </div>
         );
@@ -97,7 +121,10 @@ const MessagesRight = () => {
         return (
             <div className="right-container-body d-flex justify-content-between fs-5">
                 {/* PROFILE */}
-                <div className="d-flex flex-column align-items-center">
+                <Link
+                    to={`/user/${friend.id}`}
+                    className="d-flex flex-column align-items-center"
+                >
                     <span
                         className="p-3 rounded-circle text-center mb-2 icon"
                         style={{ width: "4rem", height: "4rem" }}
@@ -105,7 +132,7 @@ const MessagesRight = () => {
                         <FontAwesomeIcon icon={faUser} />
                     </span>
                     <span>Profile</span>
-                </div>
+                </Link>
                 {/* TURN OFF NOTIFICATION */}
                 <div className="d-flex flex-column align-items-center">
                     <span
@@ -270,7 +297,7 @@ const MessagesRight = () => {
             </div>
         );
     };
-    
+
     const renderSubSettingPrivateAndPrivacy = () => {
         return (
             isChoose &&

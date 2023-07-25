@@ -91,30 +91,24 @@ const MessagesMiddle = ({ socket }) => {
             },
             [currentConversation]
         ),
-        updatedMessage: useCallback(
-            (data) => {
-                const { msgID } = data;
+        updatedMessage: useCallback((data) => {
+            const { msgID } = data;
 
-                setMessageThread((prevMessageThread) => {
-                    const updatedThread = prevMessageThread.map((message) =>
-                        message._id === msgID ? data : message
-                    );
-                    return updatedThread;
-                });
-            },
-            [messageThread]
-        ),
-        deletedMesssage: useCallback(
-            (msgID) => {
-                setMessageThread((prevMessageThread) => {
-                    const updatedThread = prevMessageThread.filter(
-                        (message) => message._id !== msgID
-                    );
-                    return updatedThread;
-                });
-            },
-            [messageThread]
-        ),
+            setMessageThread((prevMessageThread) => {
+                const updatedThread = prevMessageThread.map((message) =>
+                    message._id === msgID ? data : message
+                );
+                return updatedThread;
+            });
+        }, []),
+        deletedMesssage: useCallback((msgID) => {
+            setMessageThread((prevMessageThread) => {
+                const updatedThread = prevMessageThread.filter(
+                    (message) => message._id !== msgID
+                );
+                return updatedThread;
+            });
+        }, []),
 
         disconnect: useCallback(() => {
             console.log("Server disconnected :<");
@@ -450,6 +444,7 @@ const MessagesMiddle = ({ socket }) => {
                                 decoding="async"
                                 src={friend.avatar}
                                 alt="Avatar user"
+                                className="w-100"
                             />
                         ) : (
                             <>{friend.name}</>
@@ -738,7 +733,7 @@ const MessagesMiddle = ({ socket }) => {
 
     return (
         <>
-            <div className="middle-msg-page relative">
+            <div className="middle-msg-page position-relative">
                 {/* <MagicBell
                     apiKey="84b8e554127e05465dcec54678d0f49859b4a548"
                     userEmail="mary@example.com"

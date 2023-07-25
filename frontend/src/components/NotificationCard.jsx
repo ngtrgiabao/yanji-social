@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { faComment, faUser } from "@fortawesome/free-regular-svg-icons";
 import {
     faHeart as liked,
@@ -28,8 +28,19 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
         profilePicture: "",
     });
     const dispatch = useDispatch();
-    const formatType = parseInt(type, 10);
+    const formatTypeNotification = parseInt(type, 10);
     const formatTime = useTimeAgo;
+    const navigate = useNavigate();
+
+    const handleDirectlyLink = (link) => {
+        navigate(link);
+    };
+
+    const handleNotificationClick = () => {
+        if (!isRead && formatTypeNotification === NEW_MSG) {
+            handleDirectlyLink("/messages");
+        }
+    };
 
     useEffect(() => {
         let isCancelled = false;
@@ -62,6 +73,7 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
                 borderBottom: "1px solid var(--color-dark)",
             }}
             data-card
+            onClick={() => handleNotificationClick()}
         >
             {notiInfo.senderName ? (
                 <div className="w-100" data-content>
@@ -78,7 +90,7 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
                             }`}
                         >
                             {(() => {
-                                switch (formatType) {
+                                switch (formatTypeNotification) {
                                     case LIKE_POST:
                                         return <FontAwesomeIcon icon={liked} />;
                                     case COMMENT_POST:
@@ -113,7 +125,14 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
                                     to={"/user/" + sender}
                                     className="profile-pic ms-3"
                                 >
-                                    <img src={notiInfo.profilePicture} alt="" />
+                                    <img
+                                        loading="lazy"
+                                        role="presentation"
+                                        decoding="async"
+                                        src={notiInfo.profilePicture}
+                                        alt="Avatar user"
+                                        className="w-100"
+                                    />
                                 </Link>
                                 <div>{formatTime(createdAt)}</div>
                             </div>
@@ -130,7 +149,7 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
                             {notiInfo.senderName}
                         </Link>
                         {(() => {
-                            switch (formatType) {
+                            switch (formatTypeNotification) {
                                 case LIKE_POST:
                                     return "liked your post";
                                 case COMMENT_POST:

@@ -97,6 +97,7 @@ const User = new Schema(
         postShared: [postShared],
         blackList: [blackList],
         postSaved: [postSaved],
+        isVerify: { type: Boolean, default: false },
     },
     { timestamps: true }
 );

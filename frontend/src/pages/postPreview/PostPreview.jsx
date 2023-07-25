@@ -86,13 +86,13 @@ const PostPreview = ({ socket }) => {
                     className="posts"
                     style={{
                         padding: "2rem",
+                        minHeight: "100vh",
                     }}
                 >
                     <DetailsPost
                         author={user}
                         postID={postRoute}
                         socket={socket}
-                        extendClass={"h-100"}
                         children={
                             <Post
                                 image={postRoutePage.img}

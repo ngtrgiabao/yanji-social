@@ -125,7 +125,7 @@ const Comments = ({ postID, author, socket }) => {
     return (
         <>
             <form
-                onSubmit={handleSubmit}
+                onSubmit={(e) => handleSubmit(e)}
                 className="d-flex align-items-center justify-content-between border-bottom pb-4 mb-4 w-100 rounded-0 p-0 overflowXHidden"
                 style={{
                     background: "unset",

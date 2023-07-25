@@ -69,6 +69,7 @@ ul {
 .link-underline:hover {
     text-decoration: underline;
     color: unset;
+    cursor: pointer;
 }
 
 .profile-pic {
@@ -84,6 +85,7 @@ ul {
     border-radius: 50%;
 
     overflow: hidden;
+    object-fit: cover;
 }
 
 .profile-pic img {

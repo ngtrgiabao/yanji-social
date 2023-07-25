@@ -7,7 +7,7 @@ import NOT_FOUND_BG from "../../assets/background/404.webp";
 
 const NotFound = () => {
     useEffect(() => {
-        // console.clear();
+        console.clear();
     }, []);
 
     return (

@@ -79,6 +79,7 @@ const updateUser = async (req, res, next) => {
             followings,
             friendRequests,
             postSaved,
+            isVerify,
         } = req.body;
         const user = await UserModel.findById(userID);
 
@@ -90,6 +91,7 @@ const updateUser = async (req, res, next) => {
         user.bio = bio || user.bio;
         user.firstName = firstName || user.firstName;
         user.lastName = lastName || user.lastName;
+        user.isVerify = isVerify || user.isVerify;
 
         // Update photos if they are new
         if (photos && photos.length > 0) {
