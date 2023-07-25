@@ -60,7 +60,7 @@ const HomeStories = () => {
 
     // const IMG_STORY_URL = "https://random.imagecdn.app/v1/image?";
 
-    const renderStory = () => {
+    const renderStories = () => {
         return storyData.map((item) => (
             <div
                 className="story-item story"
@@ -115,7 +115,7 @@ const HomeStories = () => {
                 <span className="create-post-icon">+</span>
             </div>
 
-            {renderStory()}
+            {renderStories()}
         </div>
     );
 };

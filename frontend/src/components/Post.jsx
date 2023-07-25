@@ -19,6 +19,7 @@ import {
     faHeart as liked,
     faRepeat,
     faBookmark as bookmarked,
+    faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import io from "socket.io-client";
@@ -39,6 +40,7 @@ import ParagraphWithLink from "./ParagraphWithLink";
 import EditPopup from "./EditPopup";
 import { pushNewNotification } from "../redux/request/notificationRequest";
 import { LIKE_POST, SHARE_POST } from "../constants/noti.type.constant";
+import ConfirmDialog from "./ConfirmDialog";
 
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 
@@ -62,12 +64,13 @@ const Post = ({
         _id: "",
         username: "",
         profilePicture: "",
+        isVerify: false,
     });
     const [postShared, setPostShared] = useState([]);
     const [isSaved, setIsSaved] = useState(false);
     const videoRef = useRef(null);
-
     const dispatch = useDispatch();
+    const [active, setActive] = useState("");
     const formatTime = useTimeAgo;
 
     const currentUser = useSelector((state) => {
@@ -109,12 +112,14 @@ const Post = ({
         getUserByID(userID, dispatch)
             .then((data) => {
                 if (!isCancelled) {
-                    const { _id, username, profilePicture } = data?.user || {};
+                    const { _id, username, profilePicture, isVerify } =
+                        data?.user || {};
 
                     setUser({
                         _id: _id,
                         username: username,
                         profilePicture: profilePicture,
+                        isVerify: isVerify,
                     });
                 }
             })
@@ -282,7 +287,7 @@ const Post = ({
                 <ul>
                     <li
                         className="delete-post"
-                        onClick={() => handlePost.deletePost(postID)}
+                        onClick={() => setActive("DELETE_POST")}
                     >
                         <span>
                             <UilTrash />
@@ -342,7 +347,7 @@ const Post = ({
                 >
                     <Link
                         to={`/user/${user._id}`}
-                        className="profile-pic bg-black text-white border"
+                        className="profile-pic bg-black text-white"
                         aria-label="Avatar user"
                     >
                         {user.profilePicture ? (
@@ -360,9 +365,21 @@ const Post = ({
                     </Link>
                     <Link to={`/user/${user._id}`} className="info">
                         <div className="d-flex align-items-center fs-5">
-                            <div className="fw-bold">{user.username}</div>
-                            <span className="mx-2">●</span>
-                            <div>Upload {formatTime(createdAt) || "now"}</div>
+                            <div className="fw-bold d-flex align-items-center">
+                                {user.username}
+                                {user.isVerify && (
+                                    <FontAwesomeIcon
+                                        className="ms-2 bg-white rounded rounded-circle text-primary"
+                                        icon={faCircleCheck}
+                                        style={{
+                                            fontSize: "1rem",
+                                        }}
+                                    />
+                                )}
+                            </div>
+                            <div className="ms-2 fw-light">
+                                {formatTime(createdAt) || "now"}
+                            </div>
                         </div>
                         <span>
                             <>@{user.username}</>
@@ -543,11 +560,25 @@ const Post = ({
         );
     };
 
+    const renderPopupConfirmDeletePost = () => {
+        return (
+            active === "DELETE_POST" && (
+                <ConfirmDialog
+                    title="Bạn muốn xóa bài viết này?"
+                    onClose={() => setActive("")}
+                    onConfirm={() => handlePost.deletePost(postID)}
+                    confirmButtonText="Delete"
+                />
+            )
+        );
+    };
+
     return (
         <>
             {renderPost()}
             {renderDetailsPost()}
             {renderEditPostPopup()}
+            {renderPopupConfirmDeletePost()}
         </>
     );
 };

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 
 import Loading from "../pages/loading/LoadingPage";
 import { getPostByID } from "../redux/request/postRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
 import { getUserByID, updateUser } from "../redux/request/userRequest";
+
+import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 
 const Bookmark = ({ postID, createdAt, socket }) => {
     const dispatch = useDispatch();
@@ -15,11 +17,20 @@ const Bookmark = ({ postID, createdAt, socket }) => {
         likes: 0,
         img: "",
         video: "",
-        author: "",
-        authorID: "",
         isExisting: false,
     });
+    const [author, setAuthor] = useState({
+        username: "",
+        avatar: "",
+        authorID: "",
+    });
     const formatTime = useTimeAgo;
+    const navigate = useNavigate();
+
+    const handleVisitLink = (link) => {
+        navigate(link);
+    };
+
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
@@ -48,22 +59,28 @@ const Bookmark = ({ postID, createdAt, socket }) => {
                 const { desc, likes, img, video, userID } = data.data;
 
                 getUserByID(userID, dispatch).then((data) => {
-                    const { username, _id } = data.user;
+                    const { username, _id, profilePicture } = data.user;
                     setPost({
                         desc: desc,
                         likes: likes.length,
                         img: img,
                         video: video,
-                        author: username,
-                        authorID: _id,
                         isExisting: true,
+                    });
+                    setAuthor({
+                        username: username,
+                        avatar: profilePicture,
+                        authorID: _id,
                     });
                 });
             } else {
                 setPost({
                     ...post,
-                    author: "This post has been deleted from author :<",
+                    author: "This post has been deleted :<",
                     authorID: "null",
+                });
+                setAuthor({
+                    avatar: DEFAULT_AVATAR,
                 });
             }
         });
@@ -77,69 +94,94 @@ const Bookmark = ({ postID, createdAt, socket }) => {
                     height: "28rem",
                 }}
             >
-                {post.authorID ? (
-                    <>
-                        <div>
-                            <Link
-                                to={`/user/${post.authorID}`}
-                                className="card-title fs-3 link-underline fw-bold"
+                {author.authorID ? (
+                    <div className="h-100 d-flex flex-column justify-content-between">
+                        <div
+                            onClick={() =>
+                                handleVisitLink(`/user/${author.authorID}`)
+                            }
+                            className="card-title fs-4 fw-bold d-flex align-items-center"
+                            style={{
+                                color: "var(--color-primary)",
+                                width: "max-content",
+                            }}
+                            data-title
+                        >
+                            <div
+                                className="profile-pic bg-black text-white me-2"
                                 style={{
-                                    color: "var(--color-primary)",
+                                    cursor: "pointer",
                                 }}
-                                data-title
                             >
-                                {post.author}
-                            </Link>
-
-                            {post.isExisting ? (
-                                <Link
-                                    to={`/post/${postID}`}
-                                    className="caption overflow-hidden fw-light fs-4 d-flex flex-column link-underline"
-                                    style={{
-                                        height: "20rem",
-                                        color: "unset"
-                                    }}
-                                    data-content
-                                >
-                                    {post.desc}
-                                    {post.img && (
-                                        <img
-                                            src={post.img}
-                                            alt="post_image"
-                                            className="w-100 mt-2"
-                                            style={{
-                                                objectFit: "cover",
-                                            }}
-                                        />
-                                    )}
-                                </Link>
-                            ) : (
-                                <div
-                                    className="fs-3 d-flex justify-content-center align-items-center"
-                                    style={{
-                                        height: "20rem",
-                                    }}
-                                >
-                                    <button
-                                        className="p-2 border-0 bg-danger text-white"
-                                        style={{
-                                            borderRadius: "0.5rem",
-                                        }}
-                                        onClick={() => {
-                                            handleDeletePostSaved(postID);
-                                        }}
-                                    >
-                                        Delete this post ?
-                                    </button>
-                                </div>
-                            )}
+                                {author.avatar ? (
+                                    <img
+                                        loading="lazy"
+                                        role="presentation"
+                                        decoding="async"
+                                        src={author.avatar || DEFAULT_AVATAR}
+                                        alt="Avatar user"
+                                        className="w-100"
+                                    />
+                                ) : (
+                                    author.username
+                                )}
+                            </div>
+                            <span className="link-underline ">
+                                {author.username}
+                            </span>
                         </div>
-                        <p data-time className="card-text">
+
+                        {post.isExisting ? (
+                            <div
+                                className="caption overflow-hidden fw-light fs-4 d-flex flex-column link-underline"
+                                style={{
+                                    height: "20rem",
+                                    color: "unset",
+                                }}
+                                onClick={() =>
+                                    handleVisitLink(`/post/${postID}`)
+                                }
+                                data-content
+                            >
+                                {post.desc}
+                                {post.img && (
+                                    <img
+                                        src={post.img}
+                                        alt="post_image"
+                                        className="w-100"
+                                        style={{
+                                            objectFit: "cover",
+                                        }}
+                                    />
+                                )}
+                            </div>
+                        ) : (
+                            <div
+                                className="fs-3 d-flex justify-content-center align-items-center"
+                                style={{
+                                    height: "20rem",
+                                }}
+                            >
+                                <button
+                                    className="p-2 border-0 bg-danger text-white"
+                                    style={{
+                                        borderRadius: "0.5rem",
+                                    }}
+                                    onClick={() => {
+                                        handleDeletePostSaved(postID);
+                                    }}
+                                >
+                                    Delete this post ?
+                                </button>
+                            </div>
+                        )}
+
+                        <p data-time className="card-text mt-3">
                             <small className="text-body-secondary">
                                 Saved {formatTime(createdAt)}
                             </small>
                         </p>
-                    </>
+                    </div>
                 ) : (
                     <Loading />
                 )}

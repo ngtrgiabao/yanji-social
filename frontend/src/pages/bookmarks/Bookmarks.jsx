@@ -66,7 +66,7 @@ const Bookmarks = ({ socket }) => {
                     className="d-grid gap-2 py-4"
                     style={{
                         gridTemplateColumns:
-                            "repeat(5, minmax(30rem, 1fr))",
+                            "repeat(4, minmax(30rem, 1fr))",
                         height: "max-content",
                     }}
                 >

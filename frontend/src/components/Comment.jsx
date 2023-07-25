@@ -85,6 +85,7 @@ const Comment = ({
                                 style={{
                                     objectFit: "cover",
                                 }}
+                                className="w-100"
                             />
                         ) : (
                             <>{user.username || "user"}</>

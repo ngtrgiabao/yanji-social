@@ -10,8 +10,6 @@ import { createRoom } from "../../redux/request/roomRequest";
 import { NEW_FOLLOWER } from "../../constants/noti.type.constant";
 import { pushNewNotification } from "../../redux/request/notificationRequest";
 
-//TODO CREATE USER WAITTING LIST
-
 const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
     const [isFollow, setIsFollow] = useState(false);
     const [isApprover, setIsApprover] = useState(false);

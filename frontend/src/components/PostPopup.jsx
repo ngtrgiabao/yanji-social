@@ -129,7 +129,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
                 {/* NAME */}
                 <div className="form__name d-flex justify-content-between">
                     <div className="d-flex">
-                        <span className="avatar d-flex justify-content-center align-items-center border">
+                        <span className="avatar d-flex justify-content-center align-items-center">
                             {currentUser.profilePicture ? (
                                 <img
                                     loading="lazy"

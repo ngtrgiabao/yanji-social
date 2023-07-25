@@ -77,6 +77,7 @@ const HomeMiddle = ({ socket }) => {
             }, 3000);
         }
     };
+
     return (
         <div className="middle animate__animated animate__fadeIn position-relative">
             <HomeStories />

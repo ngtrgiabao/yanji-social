@@ -19,6 +19,7 @@ const ChangeImagePopup = ({
     onClose,
     message,
     socket,
+    handleUpdatePopup,
 }) => {
     const [avatar, setAvatar] = useState("");
     const [previewImg, setPreviewImg] = useState("");
@@ -66,7 +67,6 @@ const ChangeImagePopup = ({
 
         updateUser(newUpdateUser, dispatch)
             .then((data) => {
-                alert(message);
                 setIsLoading(false);
 
                 const { _id, coverPicture, profilePicture } = data.data;
@@ -76,6 +76,7 @@ const ChangeImagePopup = ({
                     coverPicture: coverPicture,
                     profilePicture: profilePicture,
                 };
+
                 socket = io(SOCKET_URL);
                 socket.emit("update-user", updatedUser);
 
@@ -84,6 +85,8 @@ const ChangeImagePopup = ({
             .catch((err) => {
                 console.error("Failed to update avatar", err);
             });
+
+        handleUpdatePopup();
     };
 
     return (
@@ -125,7 +128,7 @@ const ChangeImagePopup = ({
                             </button>
                             <button
                                 className="p-2"
-                                onClick={handleSubmit}
+                                onClick={(e) => handleSubmit(e)}
                                 disabled={isLoading}
                             >
                                 {isLoading ? "Loading..." : "Save"}

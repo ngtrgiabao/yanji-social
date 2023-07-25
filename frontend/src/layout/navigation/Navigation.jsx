@@ -37,7 +37,7 @@ const Navigation = ({ title, link }) => {
                     profilePicture: profilePicture,
                 });
             });
-    }, [currentUser]);
+    }, [currentUser, dispatch]);
 
     const renderSwitchBtn = () => {
         return currentUser ? (
@@ -79,20 +79,22 @@ const Navigation = ({ title, link }) => {
 
                     <div className="d-flex justify-content-end align-items-center">
                         {renderSwitchBtn()}
-                        <Link
-                            aria-label="Avatar user"
-                            to={currentUser ? `/user/${user.userID}` : "/"}
-                            className="profile-pic ms-4 border border-2"
-                        >
-                            <img
-                                loading="lazy"
-                                role="presentation"
-                                decoding="async"
-                                className="w-100"
-                                src={user.profilePicture || DEFAULT_AVATAR}
-                                alt="Avatar user"
-                            />
-                        </Link>
+                        {currentUser && (
+                            <Link
+                                aria-label="Avatar user"
+                                to={currentUser ? `/user/${user.userID}` : "/"}
+                                className="profile-pic ms-4"
+                            >
+                                <img
+                                    loading="lazy"
+                                    role="presentation"
+                                    decoding="async"
+                                    className="w-100"
+                                    src={user.profilePicture || DEFAULT_AVATAR}
+                                    alt="Avatar user"
+                                />
+                            </Link>
+                        )}
                     </div>
                 </div>
             </nav>
