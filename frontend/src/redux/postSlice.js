@@ -39,6 +39,20 @@ const postSlice = createSlice({
             state.post.isFetching = false;
             state.post.error = true;
         },
+        //GET ALL POSTS
+        getAllPostsStart: (state) => {
+            state.message = {};
+            state.post.isFetching = true;
+        },
+        getAllPostsSuccess: (state, action) => {
+            state.post.isFetching = false;
+            state.post.currentPost = action.payload;
+            state.post.success = true;
+        },
+        getAllPostsFailed: (state) => {
+            state.post.isFetching = false;
+            state.post.error = true;
+        },
         // UPDATE POST
         updatePostStart: (state) => {
             state.post.isFetching = true;
@@ -80,6 +94,9 @@ export const {
     getPostStart,
     getPostSuccess,
     getPostFailed,
+    getAllPostsStart,
+    getAllPostsSuccess,
+    getAllPostsFailed,
 } = postSlice.actions;
 
 export default postSlice.reducer;

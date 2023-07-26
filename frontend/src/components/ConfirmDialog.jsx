@@ -10,7 +10,7 @@ const ConfirmDialog = ({
 }) => {
     return (
         <div
-            className="confirm-container d-flex justify-content-center align-items-center"
+            className="confirm-container h-100 d-flex justify-content-center align-items-center"
             onClick={onClose}
         >
             <div
