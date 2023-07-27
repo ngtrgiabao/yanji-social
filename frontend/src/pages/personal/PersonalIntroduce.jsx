@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
     UilGraduationCap,
     UilHeart,
@@ -5,13 +6,23 @@ import {
     UilLinkedin,
     UilGithubAlt,
 } from "@iconscout/react-unicons";
+import { useDispatch, useSelector } from "react-redux";
 
 import "../../style/pages/personal/personalIntroduce.css";
 
 import PersonalStories from "./PersonalStories";
 import PersonalGallery from "./PersonalGallery";
+import { getUserByID } from "../../redux/request/userRequest";
 
-const PersonalIntroduce = () => {
+const PersonalIntroduce = ({ onUpdateBioPopup }) => {
+    const dispatch = useDispatch();
+    const [user, setUser] = useState({
+        bio: "",
+    });
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
     const introduceInfo = [
         {
             id: 1,
@@ -68,34 +79,40 @@ const PersonalIntroduce = () => {
         ));
     };
 
+    useEffect(() => {
+        getUserByID(currentUser._id, dispatch).then((data) => {
+            const { bio } = data.user;
+
+            setUser({
+                bio: bio,
+            });
+        });
+    }, [currentUser._id, dispatch]);
+
     return (
-        <div>
+        <>
             <p className="fs-1 fw-bold">Introduce</p>
-            <div className="d-flex flex-column align-items-center fs-4">
-                <p className="inline-block">Frontend Developer</p>
-                <p className="inline-block">😁 Halo, Wie gehts 😁</p>
+
+            <div className="w-100">
+                <div className="d-flex flex-column align-items-center fs-4">
+                    <p className="inline-block text-break">{user.bio}</p>
+                </div>
+                <button className="my-4" onClick={() => onUpdateBioPopup()}>
+                    Edit Bio
+                </button>
             </div>
-            <button role="button" className="my-4">
-                Edit Slogan
-            </button>
 
             {renderIntroduceInfo()}
 
-            <button role="button" className="my-4">
-                Edit Details
-            </button>
-            <button role="button" className="mb-4">
-                Add Hobbies
-            </button>
+            <button className="my-4">Edit Details</button>
+            <button className="mb-4">Add Hobbies</button>
 
             <PersonalStories />
 
-            <button role="button" className="mt-5 mb-4">
-                Edit Stories
-            </button>
+            <button className="mt-5 mb-4">Edit Stories</button>
 
             <PersonalGallery />
-        </div>
+        </>
     );
 };
 

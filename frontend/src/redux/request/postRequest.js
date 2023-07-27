@@ -12,9 +12,6 @@ import {
     getPostStart,
     getPostSuccess,
     getPostFailed,
-    getAllPostsStart,
-    getAllPostsSuccess,
-    getAllPostsFailed,
 } from "../postSlice";
 
 export const uploadPost = async (post, dispatch) => {
@@ -41,24 +38,24 @@ export const getPostByID = async (postID, dispatch) => {
 };
 
 export const getAllPostsByUser = async (userID, dispatch) => {
-    dispatch(getAllPostsStart());
+    dispatch(getPostStart());
     try {
         const res = await postService.getAllPostByUserID(userID);
-        dispatch(getAllPostsSuccess(res.data));
+        dispatch(getPostSuccess(res.data));
         return res.data;
     } catch (error) {
-        dispatch(getAllPostsFailed());
+        dispatch(getPostFailed());
     }
 };
 
 export const getAllPosts = async (dispatch) => {
-    dispatch(getAllPostsStart());
+    dispatch(getPostStart());
     try {
         const res = await postService.getAllPosts();
-        dispatch(getAllPostsSuccess(res.data.posts));
+        dispatch(getPostSuccess(res.data.posts));
         return res.data;
     } catch (error) {
-        dispatch(getAllPostsFailed());
+        dispatch(getPostFailed());
     }
 };
 

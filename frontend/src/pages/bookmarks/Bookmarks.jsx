@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
+import "../../style/animations/snackbar.css";
 
 import { getPostsSaved } from "../../redux/request/userRequest";
 import Bookmark from "../../components/Bookmark";
@@ -40,6 +42,19 @@ const Bookmarks = ({ socket }) => {
         };
     }, [handleSocket.deleteSaved]);
 
+    const snackBar = useRef(null);
+
+    const handleDeletePopup = () => {
+        if (snackBar.current) {
+            const sb = snackBar.current;
+            sb.className = "show";
+
+            setTimeout(() => {
+                sb.className = sb.className.replace("show", "");
+            }, 3000);
+        }
+    };
+
     const renderBookmarksList = () => {
         return bookmarks.map((b) => (
             <Bookmark
@@ -47,6 +62,7 @@ const Bookmarks = ({ socket }) => {
                 postID={b.postID}
                 createdAt={b.createdAt}
                 socket={socket}
+                handleDeletePopup={handleDeletePopup}
             />
         ));
     };
@@ -65,8 +81,7 @@ const Bookmarks = ({ socket }) => {
                 <div
                     className="d-grid gap-2 py-4"
                     style={{
-                        gridTemplateColumns:
-                            "repeat(4, minmax(30rem, 1fr))",
+                        gridTemplateColumns: "repeat(4, minmax(30rem, 1fr))",
                         height: "max-content",
                     }}
                 >
@@ -82,6 +97,17 @@ const Bookmarks = ({ socket }) => {
                     You don't have saved anything ¯\_(ツ)_/¯
                 </div>
             )}
+
+            <div
+                ref={snackBar}
+                id="snackbar"
+                style={{
+                    backgroundColor: "var(--color-success)",
+                }}
+                className="fw-bold"
+            >
+                Deleted post successfully
+            </div>
         </div>
     );
 };

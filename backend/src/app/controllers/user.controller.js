@@ -88,10 +88,17 @@ const updateUser = async (req, res, next) => {
         user.email = email || user.email;
         user.profilePicture = profilePicture || user.profilePicture;
         user.coverPicture = coverPicture || user.coverPicture;
-        user.bio = bio || user.bio;
         user.firstName = firstName || user.firstName;
         user.lastName = lastName || user.lastName;
         user.isVerify = isVerify || user.isVerify;
+
+        if (bio?.length > 50) {
+            return res.status(500).json({
+                msg: `The bio cannot be longer than 50 characters`,
+            });
+        } else {
+            user.bio = bio || user.bio;
+        }
 
         // Update photos if they are new
         if (photos && photos.length > 0) {

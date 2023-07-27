@@ -117,7 +117,7 @@ main .container .left .profile {
     justify-content: center;
     align-items: center;
 
-    background-color: rgba(255, 255, 255, 0.5);
+    background: var(--bg-container-popup);
 
     width: 100vw;
     height: 100vh;
