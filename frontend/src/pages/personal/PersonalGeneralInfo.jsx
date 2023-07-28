@@ -12,7 +12,7 @@ import "../../style/animations/snackbar.css";
 import ChangeImagePopup from "../../components/ChangeImagePopup";
 import { getUserByID } from "../../redux/request/userRequest";
 
-const PersonalGeneralInfo = ({ userRoute, socket }) => {
+const PersonalGeneralInfo = ({ userInfo, socket }) => {
     const [openPopup, setOpenPopup] = useState(false);
     const [followers, setFollowers] = useState(0);
     const [followings, setFollowings] = useState(0);
@@ -28,14 +28,14 @@ const PersonalGeneralInfo = ({ userRoute, socket }) => {
     });
 
     useEffect(() => {
-        userRoute._id &&
-            getUserByID(userRoute._id, dispatch).then((data) => {
+        userInfo._id &&
+            getUserByID(userInfo._id, dispatch).then((data) => {
                 const { followers, followings } = data.user;
 
                 setFollowers(followers.length);
                 setFollowings(followings.length);
             });
-    }, [userRoute._id, dispatch]);
+    }, [userInfo._id, dispatch]);
 
     const handleUpdatePopup = () => {
         if (snackBar.current) {
@@ -55,26 +55,26 @@ const PersonalGeneralInfo = ({ userRoute, socket }) => {
                 <div
                     className="position-relative"
                     onClick={() =>
-                        userRoute._id === currentUser._id && handlePopup()
+                        userInfo._id === currentUser._id && handlePopup()
                     }
                 >
                     <div className="avatar d-flex justify-content-center align-items-center text-white">
-                        {userRoute.profilePicture ? (
+                        {userInfo.profilePicture ? (
                             <img
                                 loading="lazy"
                                 role="presentation"
                                 decoding="async"
-                                src={userRoute.profilePicture}
+                                src={userInfo.profilePicture}
                                 alt="Avatar user"
                                 className="w-100"
                             />
                         ) : (
                             <div className="fs-1 fw-bolder">
-                                {userRoute.username}
+                                {userInfo.username}
                             </div>
                         )}
                     </div>
-                    {userRoute._id === currentUser._id && (
+                    {userInfo._id === currentUser._id && (
                         <span className="position-absolute border border-primary rounded-circle p-2 edit-avatar">
                             <UilCamera />
                         </span>
@@ -88,9 +88,9 @@ const PersonalGeneralInfo = ({ userRoute, socket }) => {
                     <span>
                         <div className="d-flex align-items-center">
                             <span className="name">
-                                {userRoute?.username || "User"}
+                                {userInfo?.username || "User"}
                             </span>
-                            {userRoute?.isVerify && (
+                            {userInfo?.isVerify && (
                                 <FontAwesomeIcon
                                     className="ms-2 fs-3 bg-white rounded rounded-circle text-primary"
                                     icon={faCircleCheck}
@@ -109,7 +109,7 @@ const PersonalGeneralInfo = ({ userRoute, socket }) => {
 
                     <div className="profile-title d-flex align-items-center">
                         <PersonalAvatarFriends
-                            userRoutePage={userRoute}
+                            userInfo={userInfo}
                             socket={socket}
                         />
                     </div>
@@ -119,7 +119,7 @@ const PersonalGeneralInfo = ({ userRoute, socket }) => {
             {openPopup && (
                 <ChangeImagePopup
                     title="Cập nhật ảnh đại diện"
-                    imgSrc={userRoute.profilePicture}
+                    imgSrc={userInfo.profilePicture}
                     isAvatar={true}
                     onClose={() => setOpenPopup("")}
                     message="Update avatar successfully"

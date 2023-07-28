@@ -17,7 +17,12 @@ import { getPostsShared, getUserByID } from "../../redux/request/userRequest";
 
 //TODO FIX POST SHARED ALWAYS PIN
 
-const PersonalBody = ({ user, socket, onUpdateBioPopup }) => {
+const PersonalBody = ({
+    userInfo,
+    socket,
+    onUpdateBioPopup,
+    onUpdateIntroducePopup,
+}) => {
     const [popup, setPopup] = useState(false);
     const [posts, setPosts] = useState([]);
     const dispatch = useDispatch();
@@ -122,25 +127,30 @@ const PersonalBody = ({ user, socket, onUpdateBioPopup }) => {
     );
 
     useEffect(() => {
-        if (user._id) {
-            handleUser.getAllPosts(user._id);
+        if (userInfo._id) {
+            handleUser.getAllPosts(userInfo._id);
 
-            getUserByID(user._id, dispatch).then((data) => {
+            getUserByID(userInfo._id, dispatch).then((data) => {
                 const { postShared } = data.user;
 
                 if (postShared.length > 0) {
-                    handleUser.getPostsShared(user._id);
+                    handleUser.getPostsShared(userInfo._id);
                 }
             });
         }
-    }, [user._id, handleUser, dispatch]);
+    }, [userInfo._id, handleUser, dispatch]);
 
     return (
         <>
             <div className="row place-items-center gap-3">
                 <div className="col">
                     <div className="row p-3">
-                        <PersonalIntroduce onUpdateBioPopup={onUpdateBioPopup} />
+                        <PersonalIntroduce
+                            socket={socket}
+                            onUpdateBioPopup={onUpdateBioPopup}
+                            onUpdateIntroducePopup={onUpdateIntroducePopup}
+                            userInfo={userInfo}
+                        />
                     </div>
                     <div className="row">
                         <PersonalFriends />
@@ -154,24 +164,25 @@ const PersonalBody = ({ user, socket, onUpdateBioPopup }) => {
 
                     <div className="row d-flex border-bottom pb-4">
                         <div className="profile-pic p-0 rounded-circle overflow-hidden">
-                            {user.profilePicture ? (
+                            {userInfo.profilePicture ? (
                                 <img
                                     loading="lazy"
                                     role="presentation"
                                     decoding="async"
-                                    src={user.profilePicture}
+                                    src={userInfo.profilePicture}
                                     alt="Avatar user"
                                     className="w-100"
                                 />
                             ) : (
-                                <>{user.username}</>
+                                <>{userInfo.username}</>
                             )}
                         </div>
                         <button
                             className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted text-center"
                             onClick={handlePopup}
                         >
-                            What are you thinking, {user.username || "user"} ?
+                            What are you thinking, {userInfo.username || "user"}{" "}
+                            ?
                         </button>
                     </div>
 

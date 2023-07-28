@@ -95,6 +95,34 @@ const User = new Schema(
             type: Boolean,
             default: false,
         },
+        insta: {
+            type: String,
+            default: "",
+        },
+        linkedin: {
+            type: String,
+            default: "",
+        },
+        github: {
+            type: String,
+            default: "",
+        },
+        pinterest: {
+            type: String,
+            default: "",
+        },
+        youtube: {
+            type: String,
+            default: "",
+        },
+        twitter: {
+            type: String,
+            default: "",
+        },
+        twitch: {
+            type: String,
+            default: "",
+        },
         postShared: [postShared],
         blackList: [blackList],
         postSaved: [postSaved],
