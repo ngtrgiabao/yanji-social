@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useDispatch } from "react-redux";
 
 import "../../style/pages/personal/personalBody.css";
@@ -13,33 +13,22 @@ import {
     getPostByID,
 } from "../../redux/request/postRequest";
 import { io } from "socket.io-client";
-import { getPostsShared } from "../../redux/request/userRequest";
+import { getPostsShared, getUserByID } from "../../redux/request/userRequest";
 
 //TODO FIX POST SHARED ALWAYS PIN
 
-const PersonalBody = ({ user, socket }) => {
-    const [avatar, setAvatar] = useState("");
+const PersonalBody = ({
+    userInfo,
+    socket,
+    onUpdateBioPopup,
+    onUpdateIntroducePopup,
+}) => {
     const [popup, setPopup] = useState(false);
     const [posts, setPosts] = useState([]);
     const dispatch = useDispatch();
+    const socketRef = useRef(null);
 
-    // CLEANUP URL WHEN CHANGE IMG
-    useEffect(() => {
-        return () => {
-            avatar && URL.revokeObjectURL(avatar.preview);
-        };
-    }, [avatar]);
-
-    // SAVE IMG TO LOCAL
-    useEffect(() => {
-        avatar && window.localStorage.setItem("avatar", avatar);
-    }, [avatar]);
-
-    // GET IMG FROM LOCAL
-    useEffect(() => {
-        const data = window.localStorage.getItem("avatar");
-        setAvatar(data);
-    }, [avatar]);
+    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
     const handlePopup = () => {
         setPopup((popup) => !popup);
@@ -57,9 +46,6 @@ const PersonalBody = ({ user, socket }) => {
         );
     };
 
-    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-    const socketRef = useRef(null);
-
     const handleSocket = {
         updatePost: useCallback(
             (data) => {
@@ -67,7 +53,7 @@ const PersonalBody = ({ user, socket }) => {
                 getPostByID(_id, dispatch).then((data) => {
                     setPosts((prevPosts) => {
                         const updatePost = prevPosts.map((p) =>
-                            p._id === data?.data._id ? data.data : p
+                            p?._id === data?.data._id ? data.data : p
                         );
 
                         return updatePost;
@@ -108,36 +94,68 @@ const PersonalBody = ({ user, socket }) => {
         SOCKET_URL,
     ]);
 
-    useEffect(() => {
-        user._id &&
-            getAllPostsByUser(user._id, dispatch)
-                .then((data) => {
-                    setPosts(data.posts);
-                })
-                .catch((err) => {
-                    console.error("Failed to get post of user", err);
-                });
-        user._id &&
-            getPostsShared(user._id, dispatch).then((data) => {
-                data.postShared.map((p) =>
-                    getPostByID(p.postID, dispatch).then((data) => {
-                        setPosts((prevPosts) => [data?.data, ...prevPosts]);
+    const handleUser = useMemo(
+        () => ({
+            getAllPosts: (userID) => {
+                getAllPostsByUser(userID, dispatch)
+                    .then((data) => {
+                        setPosts(data.posts);
                     })
-                );
+                    .catch((err) => {
+                        console.error("Failed to get post of user", err);
+                    });
+            },
+            getPostsShared: (userID) => {
+                getPostsShared(userID, dispatch)
+                    .then((data) => {
+                        const { postShared } = data;
+                        postShared?.map((p) =>
+                            getPostByID(p.postID, dispatch).then((data) => {
+                                setPosts((prevPosts) => [
+                                    data?.data,
+                                    ...prevPosts,
+                                ]);
+                            })
+                        );
+                    })
+                    .catch((err) => {
+                        console.error("Failed to get post shared", err);
+                    });
+            },
+        }),
+        [dispatch]
+    );
+
+    useEffect(() => {
+        if (userInfo._id) {
+            handleUser.getAllPosts(userInfo._id);
+
+            getUserByID(userInfo._id, dispatch).then((data) => {
+                const { postShared } = data.user;
+
+                if (postShared.length > 0) {
+                    handleUser.getPostsShared(userInfo._id);
+                }
             });
-    }, [user, dispatch]);
+        }
+    }, [userInfo._id, handleUser, dispatch]);
 
     return (
         <>
             <div className="row place-items-center gap-3">
-                <div className="col p-4">
+                <div className="col">
                     <div className="row p-3">
-                        <PersonalIntroduce />
+                        <PersonalIntroduce
+                            socket={socket}
+                            onUpdateBioPopup={onUpdateBioPopup}
+                            onUpdateIntroducePopup={onUpdateIntroducePopup}
+                            userInfo={userInfo}
+                        />
                     </div>
-                    <div className="row p-3">
+                    <div className="row">
                         <PersonalFriends />
                     </div>
-                    <div className="row p-3">
+                    <div className="row">
                         <PersonalSocialLinks />
                     </div>
                 </div>
@@ -146,24 +164,25 @@ const PersonalBody = ({ user, socket }) => {
 
                     <div className="row d-flex border-bottom pb-4">
                         <div className="profile-pic p-0 rounded-circle overflow-hidden">
-                            {user.profilePicture ? (
+                            {userInfo.profilePicture ? (
                                 <img
                                     loading="lazy"
                                     role="presentation"
                                     decoding="async"
-                                    src={user.profilePicture}
+                                    src={userInfo.profilePicture}
                                     alt="Avatar user"
                                     className="w-100"
                                 />
                             ) : (
-                                <>{user.username}</>
+                                <>{userInfo.username}</>
                             )}
                         </div>
                         <button
                             className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted text-center"
                             onClick={handlePopup}
                         >
-                            What are you thinking, {user.username || "user"} ?
+                            What are you thinking, {userInfo.username || "user"}{" "}
+                            ?
                         </button>
                     </div>
 
@@ -188,7 +207,6 @@ const PersonalBody = ({ user, socket }) => {
                     </div>
                 </div>
             </div>
-
             {renderPostPopup()}
         </>
     );

@@ -66,6 +66,7 @@ const User = new Schema(
         bio: {
             type: String,
             default: "",
+            max: 50,
         },
         firstName: {
             type: String,
@@ -74,10 +75,6 @@ const User = new Schema(
         lastName: {
             type: String,
             default: "",
-        },
-        desc: {
-            type: String,
-            max: 50,
         },
         photos: [
             {
@@ -93,6 +90,38 @@ const User = new Schema(
         followings: {
             type: Array,
             default: [],
+        },
+        gender: {
+            type: Boolean,
+            default: false,
+        },
+        insta: {
+            type: String,
+            default: "",
+        },
+        linkedin: {
+            type: String,
+            default: "",
+        },
+        github: {
+            type: String,
+            default: "",
+        },
+        pinterest: {
+            type: String,
+            default: "",
+        },
+        youtube: {
+            type: String,
+            default: "",
+        },
+        twitter: {
+            type: String,
+            default: "",
+        },
+        twitch: {
+            type: String,
+            default: "",
         },
         postShared: [postShared],
         blackList: [blackList],

@@ -61,6 +61,17 @@ const getUser = async (req, res, next) => {
     });
 };
 
+const validateSocialLink = (link, fieldName) => {
+    if (link && link.length > 100) {
+        return {
+            isValid: false,
+            error: `Link for ${fieldName} cannot be longer than 100 characters`,
+        };
+    } else {
+        return { isValid: true, value: link };
+    }
+};
+
 const updateUser = async (req, res, next) => {
     const userID = req.params.userID;
     try {
@@ -80,6 +91,14 @@ const updateUser = async (req, res, next) => {
             friendRequests,
             postSaved,
             isVerify,
+            // Social links
+            insta,
+            linkdin,
+            github,
+            pinterest,
+            youtube,
+            twitter,
+            twitch,
         } = req.body;
         const user = await UserModel.findById(userID);
 
@@ -88,10 +107,36 @@ const updateUser = async (req, res, next) => {
         user.email = email || user.email;
         user.profilePicture = profilePicture || user.profilePicture;
         user.coverPicture = coverPicture || user.coverPicture;
-        user.bio = bio || user.bio;
         user.firstName = firstName || user.firstName;
         user.lastName = lastName || user.lastName;
         user.isVerify = isVerify || user.isVerify;
+
+        const socialLinks = {
+            insta: validateSocialLink(insta, "Instagram"),
+            linkdin: validateSocialLink(linkdin, "LinkedIn"),
+            github: validateSocialLink(github, "GitHub"),
+            pinterest: validateSocialLink(pinterest, "Pinterest"),
+            youtube: validateSocialLink(youtube, "YouTube"),
+            twitter: validateSocialLink(twitter, "Twitter"),
+            twitch: validateSocialLink(twitch, "Twitch"),
+        };
+
+        Object.keys(socialLinks).forEach((key) => {
+            const { isValid, value, error } = socialLinks[key];
+            if (!isValid) {
+                return res.status(500).json({ msg: error });
+            }
+
+            user[key] = value || user[key];
+        });
+
+        if (bio?.length > 50) {
+            return res.status(500).json({
+                msg: `The bio cannot be longer than 50 characters`,
+            });
+        } else {
+            user.bio = bio || user.bio;
+        }
 
         // Update photos if they are new
         if (photos && photos.length > 0) {

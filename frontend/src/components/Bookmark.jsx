@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
@@ -10,7 +10,12 @@ import { getUserByID, updateUser } from "../redux/request/userRequest";
 
 import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 
-const Bookmark = ({ postID, createdAt, socket }) => {
+const Bookmark = ({
+    postID,
+    createdAt,
+    socket,
+    handleDeletePopup = () => {},
+}) => {
     const dispatch = useDispatch();
     const [post, setPost] = useState({
         desc: "",
@@ -36,28 +41,23 @@ const Bookmark = ({ postID, createdAt, socket }) => {
         return state.auth.login.currentUser?.data;
     });
 
-    const handleDeletePostSaved = (postID) => {
-        const updatedUser = {
-            userID: currentUser._id,
-            postSaved: { postID: postID },
-        };
+    const handleUser = {
+        update: (updateData) => {
+            updateUser(updateData, dispatch)
+                .then(() => {
+                    socket = io(SOCKET_URL);
 
-        updateUser(updatedUser, dispatch)
-            .then(() => {
-                socket = io(SOCKET_URL);
-
-                socket.emit("delete-saved", { postID: postID });
-            })
-            .catch((err) => {
-                console.error("Failed to save", err);
-            });
+                    socket.emit("delete-saved", { postID: postID });
+                })
+                .catch((err) => {
+                    console.error("Failed to save", err);
+                });
+        },
     };
 
-    useEffect(() => {
-        getPostByID(postID, dispatch).then((data) => {
-            if (data) {
-                const { desc, likes, img, video, userID } = data.data;
-
+    const handlePost = useMemo(
+        () => ({
+            getAuthor: (userID, desc, likes, img, video) => {
                 getUserByID(userID, dispatch).then((data) => {
                     const { username, _id, profilePicture } = data.user;
                     setPost({
@@ -73,18 +73,35 @@ const Bookmark = ({ postID, createdAt, socket }) => {
                         authorID: _id,
                     });
                 });
+            },
+        }),
+        [dispatch]
+    );
+
+    const handleDeletePostSaved = (postID) => {
+        const updatedUser = {
+            userID: currentUser._id,
+            postSaved: { postID: postID },
+        };
+
+        handleUser.update(updatedUser);
+    };
+
+    useEffect(() => {
+        getPostByID(postID, dispatch).then((data) => {
+            if (data) {
+                const { desc, likes, img, video, userID } = data.data;
+
+                handlePost.getAuthor(userID, desc, likes, img, video);
             } else {
-                setPost({
-                    ...post,
-                    author: "This post has been deleted :<",
-                    authorID: "null",
-                });
                 setAuthor({
                     avatar: DEFAULT_AVATAR,
+                    authorID: "null",
+                    username: "This post has been deleted :<",
                 });
             }
         });
-    }, [postID, dispatch]);
+    }, [postID, dispatch, handlePost]);
 
     return (
         <div className="card shadow-sm bg-body-tertiary text-black h-100 w-100">
@@ -169,6 +186,7 @@ const Bookmark = ({ postID, createdAt, socket }) => {
                                     }}
                                     onClick={() => {
                                         handleDeletePostSaved(postID);
+                                        handleDeletePopup();
                                     }}
                                 >
                                     Delete this post ?

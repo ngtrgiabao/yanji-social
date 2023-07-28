@@ -43,6 +43,7 @@ import { LIKE_POST, SHARE_POST } from "../constants/noti.type.constant";
 import ConfirmDialog from "./ConfirmDialog";
 
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
+// TODO FIX POPUP WHEN DELETE POST NOT WORK CORRECTLY
 
 const Post = ({
     image,
@@ -481,9 +482,22 @@ const Post = ({
         );
     };
 
+    const renderPopupConfirmDeletePost = () => {
+        return (
+            active === "DELETE_POST" && (
+                <ConfirmDialog
+                    title="Bạn muốn xóa bài viết này?"
+                    onClose={() => setActive("")}
+                    onConfirm={() => handlePost.deletePost(postID)}
+                    confirmButtonText="Delete"
+                />
+            )
+        );
+    };
+
     const renderPost = () => {
         return (
-            <div className="post mb-4">
+            <div className="post mb-4 position-relative">
                 <div className="head">{renderTitle()}</div>
                 <div
                     className="caption fs-3 my-3 overflow-auto scrollbar"
@@ -523,6 +537,8 @@ const Post = ({
                     </div>
                 )}
                 {renderActionBtn()}
+
+                {renderPopupConfirmDeletePost()}
             </div>
         );
     };
@@ -560,25 +576,11 @@ const Post = ({
         );
     };
 
-    const renderPopupConfirmDeletePost = () => {
-        return (
-            active === "DELETE_POST" && (
-                <ConfirmDialog
-                    title="Bạn muốn xóa bài viết này?"
-                    onClose={() => setActive("")}
-                    onConfirm={() => handlePost.deletePost(postID)}
-                    confirmButtonText="Delete"
-                />
-            )
-        );
-    };
-
     return (
         <>
             {renderPost()}
             {renderDetailsPost()}
             {renderEditPostPopup()}
-            {renderPopupConfirmDeletePost()}
         </>
     );
 };

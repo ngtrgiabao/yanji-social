@@ -8,7 +8,7 @@ import DEFAULT_BG from "../../assets/background/default_bg_user.svg";
 
 import ChangeImagePopup from "../../components/ChangeImagePopup";
 
-const PersonalHeader = ({ user, socket }) => {
+const PersonalHeader = ({ userInfo, socket }) => {
     const [openPopup, setOpenPopup] = useState(false);
 
     const handlePopup = () => {
@@ -37,12 +37,12 @@ const PersonalHeader = ({ user, socket }) => {
         <div className="cover">
             <span className="position-relative">
                 <div className="cover-picture bg-black">
-                    {user.coverPicture ? (
+                    {userInfo.coverPicture ? (
                         <img
                             loading="lazy"
                             role="presentation"
                             decoding="async"
-                            src={user.coverPicture}
+                            src={userInfo.coverPicture}
                             alt="Background cover"
                         />
                     ) : (
@@ -56,7 +56,7 @@ const PersonalHeader = ({ user, socket }) => {
                     )}
                 </div>
 
-                {user._id === currentUser._id && (
+                {userInfo._id === currentUser._id && (
                     <div
                         className="edit-cover d-flex align-items-center"
                         onClick={handlePopup}
@@ -71,7 +71,7 @@ const PersonalHeader = ({ user, socket }) => {
                 {openPopup && (
                     <ChangeImagePopup
                         title="Cập nhật ảnh bìa"
-                        imgSrc={user.coverPicture}
+                        imgSrc={userInfo.coverPicture}
                         isCircle={false}
                         isCover={true}
                         onClose={() => setOpenPopup("")}

@@ -10,7 +10,7 @@ import { createRoom } from "../../redux/request/roomRequest";
 import { NEW_FOLLOWER } from "../../constants/noti.type.constant";
 import { pushNewNotification } from "../../redux/request/notificationRequest";
 
-const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
+const PersonalAvatarFriends = ({ userInfo, socket }) => {
     const [isFollow, setIsFollow] = useState(false);
     const [isApprover, setIsApprover] = useState(false);
     const dispatch = useDispatch();
@@ -23,22 +23,24 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
 
     const handleFollow = () => {
         const updatedUser = {
-            userID: userRoutePage._id,
+            userID: userInfo._id,
             newFollower: currentUser._id,
         };
 
         followUser(updatedUser, dispatch)
             .then((data) => {
-                const { userAccept, userRequest } = data.data;
+                if (data) {
+                    const { userAccept, userRequest } = data.data;
 
-                socket = io(SOCKET_URL);
+                    socket = io(SOCKET_URL);
 
-                socket.emit("follow", {
-                    // add author of current account to update friendRequests list
-                    sender: userRequest._id,
-                    // add user route page to checking is this user send request?
-                    userRoute: userAccept._id,
-                });
+                    socket.emit("follow", {
+                        // add author of current account to update friendRequests list
+                        sender: userRequest._id,
+                        // add user route page to checking is this user send request?
+                        userRoute: userAccept._id,
+                    });
+                }
             })
             .catch((err) => {
                 console.error("Failed to follow", err);
@@ -152,16 +154,16 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
                 const { followers, followings } = data.user;
 
                 const checkIsApprover = followers.some(
-                    (u) => u === userRoutePage._id
+                    (u) => u === userInfo._id
                 );
                 const checkIsFollowedBack = followings.some(
-                    (u) => u === userRoutePage._id
+                    (u) => u === userInfo._id
                 );
 
                 checkIsApprover && !checkIsFollowedBack && setIsApprover(true);
 
-                getUserByID(userRoutePage._id, dispatch).then(() => {
-                    const isFollowing = followings.includes(userRoutePage._id);
+                getUserByID(userInfo._id, dispatch).then(() => {
+                    const isFollowing = followings.includes(userInfo._id);
 
                     setIsFollow(isFollowing);
                 });
@@ -171,12 +173,12 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
         return () => {
             isCancelled = true;
         };
-    }, [currentUser._id, dispatch, userRoutePage._id]);
+    }, [currentUser._id, dispatch, userInfo._id]);
 
     const renderFollowBtn = () => {
-        const isCurrentUser = userRoutePage._id === currentUser._id;
+        const isCurrentUser = userInfo._id === currentUser._id;
 
-        let icon, label, handleClick;
+        let label, handleClick;
 
         // author of current account who can accept friend request
         if (isApprover) {
@@ -210,7 +212,7 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
     const createNewMsg = () => {
         const roomInfo = {
             sender: currentUser._id,
-            receiver: userRoutePage._id,
+            receiver: userInfo._id,
             name: "Hello",
         };
 
@@ -220,7 +222,7 @@ const PersonalAvatarFriends = ({ userRoutePage, socket }) => {
     return (
         <div className="w-100 d-flex justify-content-between align-items-center flex-wrap">
             <div className="d-flex align-items-center">
-                {userRoutePage._id !== currentUser._id && (
+                {userInfo._id !== currentUser._id && (
                     <Link
                         to="/messages"
                         className="rounded rounded-circle d-flex justify-content-center align-items-center me-3 msg-btn"
