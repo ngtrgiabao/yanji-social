@@ -160,8 +160,6 @@ const PersonalBody = ({
                     </div>
                 </div>
                 <div className="col-7">
-                    <p className="fs-1 fw-bold">Introduce</p>
-
                     <div className="row d-flex border-bottom pb-4">
                         <div className="profile-pic p-0 rounded-circle overflow-hidden">
                             {userInfo.profilePicture ? (

@@ -195,28 +195,31 @@ const PersonalIntroduce = ({
                 <div className="d-flex flex-column align-items-center fs-4">
                     <p className="inline-block text-break">{user.bio}</p>
                 </div>
-                <button
-                    className="mb-4"
-                    onClick={() =>
-                        currentUser._id === userInfo._id
-                            ? onUpdateBioPopup()
-                            : alert("You are not allowed")
-                    }
-                >
-                    {currentUser._id === userInfo._id ? "Edit Bio" : "See more"}
-                </button>
+                {currentUser._id === userInfo._id && (
+                    <button className="mb-4" onClick={() => onUpdateBioPopup()}>
+                        Edit bio
+                    </button>
+                )}
             </div>
 
-            {renderIntroduceInfo()}
+            <div className="border-bottom pb-2 mb-4">
+                {renderIntroduceInfo()}
+            </div>
 
-            <button className="my-4" onClick={() => onUpdateIntroducePopup()}>
-                Edit Details
-            </button>
-            <button className="mb-4">Add Hobbies</button>
+            {currentUser._id === userInfo._id && (
+                <button
+                    className="my-4"
+                    onClick={() => onUpdateIntroducePopup()}
+                >
+                    Edit Details
+                </button>
+            )}
 
             <PersonalStories />
 
-            <button className="mt-5 mb-4">Edit Stories</button>
+            {currentUser._id === userInfo._id && (
+                <button className="mt-5">Edit Stories</button>
+            )}
 
             <PersonalGallery />
         </>

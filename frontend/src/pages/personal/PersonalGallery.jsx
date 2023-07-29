@@ -27,7 +27,7 @@ const PersonalGallery = () => {
     }, []);
     return (
         <>
-            <div className="header d-flex justify-content-between">
+            <div className="header d-flex justify-content-between mt-5">
                 <span className="fw-bold fs-3">Images</span>
                 <a href="#" className="fs-3">
                     All images

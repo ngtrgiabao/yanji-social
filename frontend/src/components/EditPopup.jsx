@@ -11,7 +11,7 @@ import data from "@emoji-mart/data";
 import { io } from "socket.io-client";
 
 import PreviewImage from "./PreviewImage";
-import { updatePost } from "../redux/request/postRequest";
+import { deletePost, updatePost } from "../redux/request/postRequest";
 import useUploadImage from "../hooks/useUploadImage";
 
 const EditPopup = ({

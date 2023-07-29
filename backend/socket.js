@@ -83,13 +83,14 @@ io.on("connection", (socket) => {
             const { _id } = data;
             io.emit("uploaded-post", data);
 
-            console.log(data);
             console.log(`Uploaded post ${_id} successfully`);
         });
         socket.on("update-post", (data) => {
-            const { _id } = data;
-            io.emit("updated-post", data);
-            console.log(`Updated post ${_id} successfully`);
+            if (data) {
+                const { _id } = data;
+                io.emit("updated-post", data);
+                console.log(`Updated post ${_id} successfully`);
+            }
         });
         socket.on("comment-post", (data) => {
             const { postID, comments } = data;

@@ -272,7 +272,7 @@ const Post = ({
             deletePost(postID, dispatch)
                 .then(async (data) => {
                     socket = io(SOCKET_URL);
-                    await socket.emit("delete-post", data.data);
+                    await socket.emit("delete-post", data?.data);
                 })
                 .catch((error) => {
                     console.error("Failed to delete post", error);

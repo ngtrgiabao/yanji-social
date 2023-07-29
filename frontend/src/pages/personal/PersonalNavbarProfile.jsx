@@ -24,18 +24,14 @@ const menuItems = [
     },
     {
         id: 3,
-        title: "Friends",
-    },
-    {
-        id: 4,
         title: "Picture",
     },
     {
-        id: 5,
+        id: 4,
         title: "Video",
     },
     {
-        id: 6,
+        id: 5,
         title: "Checkin",
     },
 ];

@@ -95,7 +95,7 @@ function Personal({ socket }) {
             setIsLoading(true);
 
             if (bio !== userInfo.bio) {
-                const updatedUser = {
+                let updatedUser = {
                     userID: currentUser._id,
                     bio: userInfo.bio,
                     insta,
@@ -106,6 +106,20 @@ function Personal({ socket }) {
                     twitter,
                     twitch,
                 };
+
+                if (userInfo.bio.length === 0) {
+                    updatedUser = {
+                        userID: currentUser._id,
+                        bio: "",
+                        insta,
+                        linkedin,
+                        github,
+                        pinterest,
+                        youtube,
+                        twitter,
+                        twitch,
+                    };
+                }
 
                 updateUser(updatedUser, dispatch)
                     .then((data) => {
@@ -147,7 +161,7 @@ function Personal({ socket }) {
                 twitter !== userInfo.twitter ||
                 twitch !== userInfo.twitch
             ) {
-                const updatedUser = {
+                let updatedUser = {
                     userID: currentUser._id,
                     insta: userInfo.insta,
                     linkedin: userInfo.linkedin,
@@ -158,6 +172,20 @@ function Personal({ socket }) {
                     twitch: userInfo.twitch,
                     bio,
                 };
+
+                if (userInfo.insta.length === 0) {
+                    updatedUser = {
+                        userID: currentUser._id,
+                        insta: "",
+                        linkedin: userInfo.linkedin,
+                        github: userInfo.github,
+                        pinterest: userInfo.pinterest,
+                        youtube: userInfo.youtube,
+                        twitter: userInfo.twitter,
+                        twitch: userInfo.twitch,
+                        bio: userInfo.bio,
+                    };
+                }
 
                 updateUser(updatedUser, dispatch)
                     .then(() => {
