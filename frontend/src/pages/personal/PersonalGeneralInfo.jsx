@@ -55,7 +55,7 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
                 <div
                     className="position-relative"
                     onClick={() =>
-                        userInfo._id === currentUser._id && handlePopup()
+                        userInfo?._id === currentUser?._id && handlePopup()
                     }
                 >
                     <div className="avatar d-flex justify-content-center align-items-center text-white">
@@ -74,7 +74,7 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
                             </div>
                         )}
                     </div>
-                    {userInfo._id === currentUser._id && (
+                    {userInfo?._id === currentUser?._id && (
                         <span className="position-absolute border border-primary rounded-circle p-2 edit-avatar">
                             <UilCamera />
                         </span>

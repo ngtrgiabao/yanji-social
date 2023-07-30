@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "../../style/pages/personal/personalBody.css";
 
-import PersonalFriends from "./PersonalFriends";
 import PersonalIntroduce from "./PersonalIntroduce";
 import PersonalSocialLinks from "./PersonalSocialLinks";
 import PostPopup from "../../components/PostPopup";
@@ -140,6 +139,10 @@ const PersonalBody = ({
         }
     }, [userInfo._id, handleUser, dispatch]);
 
+    const currentUser = useSelector((state) => {
+        return state.auth.login.currentUser?.data;
+    });
+
     return (
         <>
             <div className="row place-items-center gap-3">
@@ -153,38 +156,40 @@ const PersonalBody = ({
                         />
                     </div>
                     <div className="row">
-                        <PersonalFriends />
-                    </div>
-                    <div className="row">
                         <PersonalSocialLinks />
                     </div>
                 </div>
                 <div className="col-7">
-                    <div className="row d-flex border-bottom pb-4">
-                        <div className="profile-pic p-0 rounded-circle overflow-hidden">
-                            {userInfo.profilePicture ? (
-                                <img
-                                    loading="lazy"
-                                    role="presentation"
-                                    decoding="async"
-                                    src={userInfo.profilePicture}
-                                    alt="Avatar user"
-                                    className="w-100"
-                                />
-                            ) : (
-                                <>{userInfo.username}</>
-                            )}
-                        </div>
-                        <button
-                            className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted text-center"
-                            onClick={handlePopup}
+                    {currentUser._id === userInfo._id && (
+                        <div
+                            className="row d-flex border-bottom pb-4 mb-4"
+                            data-uploadpost
                         >
-                            What are you thinking, {userInfo.username || "user"}{" "}
-                            ?
-                        </button>
-                    </div>
+                            <div className="profile-pic p-0 rounded-circle overflow-hidden">
+                                {userInfo.profilePicture ? (
+                                    <img
+                                        loading="lazy"
+                                        role="presentation"
+                                        decoding="async"
+                                        src={userInfo.profilePicture}
+                                        alt="Avatar user"
+                                        className="w-100"
+                                    />
+                                ) : (
+                                    <>{userInfo.username}</>
+                                )}
+                            </div>
+                            <button
+                                className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted text-center"
+                                onClick={handlePopup}
+                            >
+                                What are you thinking,{" "}
+                                {userInfo.username || "user"} ?
+                            </button>
+                        </div>
+                    )}
 
-                    <div className="posts mt-4">
+                    <div className="posts" data-posts>
                         {posts.map(
                             (post) =>
                                 post && (
@@ -205,6 +210,7 @@ const PersonalBody = ({
                     </div>
                 </div>
             </div>
+            
             {renderPostPopup()}
         </>
     );

@@ -23,8 +23,8 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
 
     const handleFollow = () => {
         const updatedUser = {
-            userID: userInfo._id,
-            newFollower: currentUser._id,
+            userID: userInfo?._id,
+            newFollower: currentUser?._id,
         };
 
         followUser(updatedUser, dispatch)
@@ -36,9 +36,9 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
 
                     socket.emit("follow", {
                         // add author of current account to update friendRequests list
-                        sender: userRequest._id,
+                        sender: userRequest?._id,
                         // add user route page to checking is this user send request?
-                        userRoute: userAccept._id,
+                        userRoute: userAccept?._id,
                     });
                 }
             })
@@ -125,11 +125,11 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
         follow: useCallback((data) => {
             const { userRoute, sender } = data;
 
-            if (userRoute === currentUser._id) {
+            if (userRoute === currentUser?._id) {
                 handleUserGotFollowed(sender, userRoute);
             }
 
-            if (sender === currentUser._id) {
+            if (sender === currentUser?._id) {
                 handleUserSendFollow(sender, userRoute);
             }
         }, []),
@@ -149,21 +149,21 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
     useEffect(() => {
         let isCancelled = false;
 
-        getUserByID(currentUser._id, dispatch).then((data) => {
-            if (!isCancelled) {
+        getUserByID(currentUser?._id, dispatch).then((data) => {
+            if (!isCancelled && data) {
                 const { followers, followings } = data.user;
 
                 const checkIsApprover = followers.some(
-                    (u) => u === userInfo._id
+                    (u) => u === userInfo?._id
                 );
                 const checkIsFollowedBack = followings.some(
-                    (u) => u === userInfo._id
+                    (u) => u === userInfo?._id
                 );
 
                 checkIsApprover && !checkIsFollowedBack && setIsApprover(true);
 
-                getUserByID(userInfo._id, dispatch).then(() => {
-                    const isFollowing = followings.includes(userInfo._id);
+                getUserByID(userInfo?._id, dispatch).then(() => {
+                    const isFollowing = followings.includes(userInfo?._id);
 
                     setIsFollow(isFollowing);
                 });
@@ -173,10 +173,10 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
         return () => {
             isCancelled = true;
         };
-    }, [currentUser._id, dispatch, userInfo._id]);
+    }, [currentUser?._id, dispatch, userInfo?._id]);
 
     const renderFollowBtn = () => {
-        const isCurrentUser = userInfo._id === currentUser._id;
+        const isCurrentUser = userInfo?._id === currentUser?._id;
 
         let label, handleClick;
 
@@ -211,8 +211,8 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
 
     const createNewMsg = () => {
         const roomInfo = {
-            sender: currentUser._id,
-            receiver: userInfo._id,
+            sender: currentUser?._id,
+            receiver: userInfo?._id,
             name: "Hello",
         };
 
@@ -222,7 +222,7 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
     return (
         <div className="w-100 d-flex justify-content-between align-items-center flex-wrap">
             <div className="d-flex align-items-center">
-                {userInfo._id !== currentUser._id && (
+                {userInfo?._id !== currentUser?._id && (
                     <Link
                         to="/messages"
                         className="rounded rounded-circle d-flex justify-content-center align-items-center me-3 msg-btn"

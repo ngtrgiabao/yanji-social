@@ -124,7 +124,7 @@ const PersonalNavbarProfile = () => {
 
     const csvData = [
         ["username", "password", "email"],
-        [currentUser.username, currentUser.password, currentUser.email],
+        [currentUser?.username, currentUser?.password, currentUser?.email],
     ];
 
     return (
@@ -153,7 +153,7 @@ const PersonalNavbarProfile = () => {
                             <CSVLink
                                 ref={exportData}
                                 data={csvData}
-                                filename={`${currentUser.username}-data.csv`}
+                                filename={`${currentUser?.username}-data.csv`}
                                 target="_blank"
                                 style={{ display: "none" }}
                             />

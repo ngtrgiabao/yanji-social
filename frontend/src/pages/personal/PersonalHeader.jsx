@@ -56,7 +56,7 @@ const PersonalHeader = ({ userInfo, socket }) => {
                     )}
                 </div>
 
-                {userInfo._id === currentUser._id && (
+                {userInfo?._id === currentUser?._id && (
                     <div
                         className="edit-cover d-flex align-items-center"
                         onClick={handlePopup}

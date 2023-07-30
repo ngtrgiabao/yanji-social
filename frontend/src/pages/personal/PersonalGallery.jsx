@@ -1,30 +1,26 @@
 import { useState, useEffect } from "react";
-
-import axios from "axios";
+import { useDispatch } from "react-redux";
 
 import "../../style/pages/personal/personalGallery.css";
 
 import PersonalGalleryCollection from "./PersonalGalleryCollection";
+import { fetchUserSpecificImageQuantity } from "../../redux/request/userRequest";
 
-const PersonalGallery = () => {
-    const [randomAvatarFriends, setRandomAvatarFriends] = useState([]);
+const PersonalGallery = ({ userInfo }) => {
+    const [galleryImages, setGalleryImages] = useState([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        const getFriendsAvatar = async () => {
-            const avatar = await axios.get(
-                "https://randomuser.me/api/?results=9&inc=picture"
-            );
-
-            avatar.data.results.forEach((friend) => {
-                setRandomAvatarFriends((friendAvatar) => [
-                    ...friendAvatar,
-                    friend.picture.large,
-                ]);
-            });
+        const user = {
+            userID: userInfo?._id,
+            limit: 9,
         };
 
-        getFriendsAvatar();
-    }, []);
+        fetchUserSpecificImageQuantity(user, dispatch).then((data) => {
+            data && setGalleryImages(data.data);
+        });
+    }, [userInfo?._id, dispatch]);
+
     return (
         <>
             <div className="header d-flex justify-content-between mt-5">
@@ -33,9 +29,7 @@ const PersonalGallery = () => {
                     All images
                 </a>
             </div>
-            <div>
-                <PersonalGalleryCollection photos={randomAvatarFriends} />
-            </div>
+            <PersonalGalleryCollection photos={galleryImages} />
         </>
     );
 };

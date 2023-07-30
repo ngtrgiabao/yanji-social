@@ -131,8 +131,8 @@ const PersonalIntroduce = ({
     ];
 
     useEffect(() => {
-        userInfo._id &&
-            getUserByID(userInfo._id, dispatch).then((data) => {
+        userInfo?._id &&
+            getUserByID(userInfo?._id, dispatch).then((data) => {
                 const {
                     bio,
                     insta,
@@ -155,7 +155,7 @@ const PersonalIntroduce = ({
                     twitch,
                 });
             });
-    }, [userInfo._id, dispatch]);
+    }, [userInfo?._id, dispatch]);
 
     const renderIntroduceInfo = () => {
         return introduceInfo.map(
@@ -195,7 +195,7 @@ const PersonalIntroduce = ({
                 <div className="d-flex flex-column align-items-center fs-4">
                     <p className="inline-block text-break">{user.bio}</p>
                 </div>
-                {currentUser._id === userInfo._id && (
+                {currentUser?._id === userInfo?._id && (
                     <button className="mb-4" onClick={() => onUpdateBioPopup()}>
                         Edit bio
                     </button>
@@ -206,7 +206,7 @@ const PersonalIntroduce = ({
                 {renderIntroduceInfo()}
             </div>
 
-            {currentUser._id === userInfo._id && (
+            {currentUser?._id === userInfo?._id && (
                 <button
                     className="my-4"
                     onClick={() => onUpdateIntroducePopup()}
@@ -217,11 +217,11 @@ const PersonalIntroduce = ({
 
             <PersonalStories />
 
-            {currentUser._id === userInfo._id && (
+            {currentUser?._id === userInfo?._id && (
                 <button className="mt-5">Edit Stories</button>
             )}
 
-            <PersonalGallery />
+            <PersonalGallery userInfo={userInfo} />
         </>
     );
 };

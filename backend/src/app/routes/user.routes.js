@@ -3,6 +3,7 @@ const router = express.Router();
 
 const UserMiddleware = require("../middleware/user.middleware");
 const UserController = require("../controllers/user.controller");
+const ImageController = require("../controllers/image.controller");
 
 router.get("/", (req, res) => {
     res.send({ msg: "Hello from user :D" });
@@ -18,6 +19,11 @@ router.get(
     "/:userID/saved",
     UserMiddleware.validateUserById,
     UserController.getPostsSaved
+);
+router.get(
+    "/:userID/quantity/image",
+    UserMiddleware.validateUserById,
+    ImageController.fetchUserSpecificImageQuantity
 );
 
 router.post(

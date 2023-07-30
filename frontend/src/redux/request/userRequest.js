@@ -70,3 +70,15 @@ export const followUser = async (updatedUser, dispatch) => {
         dispatch(updateUserFailed());
     }
 };
+
+export const fetchUserSpecificImageQuantity = async (userInfo, dispatch) => {
+    dispatch(getUserStart());
+
+    try {
+        const res = await userService.fetchUserSpecificImageQuantity(userInfo);
+        dispatch(getUserSuccess(res.data));
+        return res.data;
+    } catch (error) {
+        dispatch(getUserFailed());
+    }
+};

@@ -3,39 +3,34 @@
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(10rem, 1fr));
-    grid-template-rows: repeat(3, minmax(12rem, 1fr));
+    grid-template-rows: repeat(3, minmax(10rem, 1fr));
     gap: 1rem;
     place-items: center;
 
     margin-top: 1rem;
 }
 
+.gallery-grid .gallery-image {
+    background: var(--color-primary);
+    border-radius: var(--card-border-radius);
+
+    width: 14rem;
+    height: 14rem;
+
+    overflow: hidden;
+}
+
 .gallery-grid img {
     width: 100%;
     height: 100%;
 
-    transition: all 0.55s ease;
+    transition: all 1s ease;
 
     object-fit: cover;
-}
-
-.gallery-grid .gallery-image {
-    width: 5em;
-    height: 5em;
-
-    background: var(--color-primary);
-}
-
-.gallery-grid .gallery-image {
-    border-radius: var(--card-border-radius);
-
-    overflow: hidden;
 }
 
 .gallery-grid .gallery-image img:hover {
     cursor: pointer;
 
-    scale: 1.2;
-
-    opacity: 0.6;
+    scale: 1.1;
 }
