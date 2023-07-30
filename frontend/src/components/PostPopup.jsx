@@ -241,20 +241,32 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
                         >
                             <FontAwesomeIcon
                                 icon={faCircleXmark}
-                                className="bg-black rounded-circle"
+                                className="bg-black rounded-circle text-white"
                             />
                         </span>
                     </div>
                 )}
 
-                {videoSrc && <video src={videoSrc} controls></video>}
+                {videoSrc && (
+                    <div
+                        style={{
+                            height: "30rem",
+                        }}
+                        className="w-100"
+                    >
+                        <video
+                            src={videoSrc}
+                            className="w-100"
+                            controls
+                        ></video>
+                    </div>
+                )}
 
                 {!isLoading ? (
                     <input
                         type="submit"
                         className="form__post-btn p-2 w-100 border-0 rounded fs-5 fw-bold mt-4"
                         value="Post"
-                        disabled={!content}
                     />
                 ) : (
                     <div className="text-center bg-white text-black form__post-btn p-2 w-100 border-0 rounded fs-5 fw-bold mt-4">

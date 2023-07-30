@@ -2,16 +2,26 @@ import "../../style/pages/personal/personalGalleryCollection.css";
 
 const PersonalGalleryCollection = ({ photos }) => {
     const renderPhotos = () => {
-        return photos.map((photo, index) => {
+        return Array.from({ length: 9 }, (_, index) => {
+            const photo = photos[index];
+
             return (
-                <div key={index} className="gallery-image w-100 h-100">
-                    <img
-                        loading="lazy"
-                        role="presentation"
-                        decoding="async"
-                        src={photo}
-                        alt="avatar_user"
-                    />
+                <div
+                    key={index}
+                    className="gallery-image d-flex justify-content-center align-items-center"
+                    style={{
+                        background: "var(--light-dark)",
+                    }}
+                >
+                    {photo?.imageUrl ? (
+                        <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
+                            src={photo.imageUrl}
+                            alt="avatar_user"
+                        />
+                    ) : null}
                 </div>
             );
         });

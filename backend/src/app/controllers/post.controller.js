@@ -1,5 +1,7 @@
 const PostModel = require("../models/post.model");
 const UserModel = require("../models/user.model");
+const { deleteImageByID, uploadImageByUserID } = require("./image.controller");
+const { deleteVideoByID, uploadVideoByUserID } = require("./video.controller");
 
 const uploadPost = async (req, res) => {
     try {
@@ -10,6 +12,13 @@ const uploadPost = async (req, res) => {
             img,
             video,
         });
+
+        if (img) {
+            uploadImageByUserID(userID, img);
+        }
+        if (video) {
+            uploadVideoByUserID(userID, video);
+        }
 
         return res.status(200).json({
             msg: `Post upload successfully`,
@@ -28,6 +37,12 @@ const deletePost = async (req, res) => {
     const postID = req.params.postID;
 
     const result = await PostModel.findById(postID);
+    const image = result.img;
+
+    if (image) {
+        await deleteImageByID(image);
+    }
+
     await PostModel.findByIdAndDelete(postID);
 
     return res.status(200).json({

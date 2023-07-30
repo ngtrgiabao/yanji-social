@@ -16,7 +16,7 @@ const PersonalSocialLinks = () => {
         },
         {
             id: 4,
-            title: "Lựa chọn quảng cáo ●",
+            title: "Lựa chọn quảng cáo",
         },
         {
             id: 5,

@@ -24,18 +24,14 @@ const menuItems = [
     },
     {
         id: 3,
-        title: "Friends",
-    },
-    {
-        id: 4,
         title: "Picture",
     },
     {
-        id: 5,
+        id: 4,
         title: "Video",
     },
     {
-        id: 6,
+        id: 5,
         title: "Checkin",
     },
 ];
@@ -128,7 +124,7 @@ const PersonalNavbarProfile = () => {
 
     const csvData = [
         ["username", "password", "email"],
-        [currentUser.username, currentUser.password, currentUser.email],
+        [currentUser?.username, currentUser?.password, currentUser?.email],
     ];
 
     return (
@@ -157,7 +153,7 @@ const PersonalNavbarProfile = () => {
                             <CSVLink
                                 ref={exportData}
                                 data={csvData}
-                                filename={`${currentUser.username}-data.csv`}
+                                filename={`${currentUser?.username}-data.csv`}
                                 target="_blank"
                                 style={{ display: "none" }}
                             />

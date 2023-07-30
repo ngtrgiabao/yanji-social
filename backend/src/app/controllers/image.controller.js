@@ -101,7 +101,7 @@ const deleteAllImagesByUserID = async (req, res, next) => {
 };
 
 const deleteImageByID = async (mediaValue) => {
-    const pathWithoutExtension = mediaValue.split("/").pop().split(".")[0];
+    // const pathWithoutExtension = mediaValue.split("/").pop().split(".")[0];
     const startIndex = mediaValue.indexOf(process.env.CLOUD_UPLOAD_PRESET);
     const endIndex = mediaValue.lastIndexOf(".");
     const publicID = mediaValue.substring(startIndex, endIndex);
@@ -115,8 +115,25 @@ const deleteImageByID = async (mediaValue) => {
     cloudinary.uploader.destroy(publicID);
 
     await ImageModel.findOneAndDelete({
-        imageUrl: { $regex: pathWithoutExtension },
+        imageUrl: mediaValue,
     });
+};
+
+const fetchUserSpecificImageQuantity = async (req, res, next) => {
+    const userID = req.params.userID;
+    const limit = req.query.limit;
+
+    try {
+        const imageQuantity = await ImageModel.find({ userID }).limit(limit);
+        return res.status(200).json({
+            msg: `Successfully get image of user ${userID}`,
+            data: imageQuantity,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            msg: `Failed to get image of user ${userID}`,
+        });
+    }
 };
 
 module.exports = {
@@ -126,4 +143,5 @@ module.exports = {
     getImageByID,
     updateImageByUserID,
     uploadImageByUserID,
+    fetchUserSpecificImageQuantity,
 };

@@ -68,6 +68,10 @@ const validateSocialLink = (link, fieldName) => {
             error: `Link for ${fieldName} cannot be longer than 100 characters`,
         };
     } else {
+        if (link && link.length === 0) {
+            return { isValid: true, value: "" };
+        }
+
         return { isValid: true, value: link };
     }
 };
@@ -93,7 +97,7 @@ const updateUser = async (req, res, next) => {
             isVerify,
             // Social links
             insta,
-            linkdin,
+            linkedin,
             github,
             pinterest,
             youtube,
@@ -113,7 +117,7 @@ const updateUser = async (req, res, next) => {
 
         const socialLinks = {
             insta: validateSocialLink(insta, "Instagram"),
-            linkdin: validateSocialLink(linkdin, "LinkedIn"),
+            linkedin: validateSocialLink(linkedin, "LinkedIn"),
             github: validateSocialLink(github, "GitHub"),
             pinterest: validateSocialLink(pinterest, "Pinterest"),
             youtube: validateSocialLink(youtube, "YouTube"),
@@ -127,7 +131,12 @@ const updateUser = async (req, res, next) => {
                 return res.status(500).json({ msg: error });
             }
 
-            user[key] = value || user[key];
+            // if new username of social link is flank will set to empty string
+            if (value.length === 0) {
+                user[key] = "";
+            } else {
+                user[key] = value || user[key];
+            }
         });
 
         if (bio?.length > 50) {
@@ -135,7 +144,11 @@ const updateUser = async (req, res, next) => {
                 msg: `The bio cannot be longer than 50 characters`,
             });
         } else {
-            user.bio = bio || user.bio;
+            if (bio.length === 0) {
+                user.bio = "";
+            } else {
+                user.bio = bio || user.bio;
+            }
         }
 
         // Update photos if they are new

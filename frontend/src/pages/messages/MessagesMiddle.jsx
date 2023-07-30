@@ -158,7 +158,7 @@ const MessagesMiddle = ({ socket }) => {
                     avatar: friendInfo.profilePicture,
                 });
             });
-    }, [friendID]);
+    }, [friendID, dispatch]);
 
     // Loop each room
     useEffect(() => {
@@ -523,19 +523,6 @@ const MessagesMiddle = ({ socket }) => {
         );
     };
 
-    const renderPopupConfirmDeleteMsg = () => {
-        return (
-            active === "DELETE_MSG" && (
-                <ConfirmDialog
-                    title="Bạn muốn xóa tin nhắn này?"
-                    onClose={() => setActive("")}
-                    onConfirm={() => handleDeleteMsg(messageID)}
-                    confirmButtonText="Delete"
-                />
-            )
-        );
-    };
-
     const renderPopupConfirmUploadImg = () => {
         return (
             active === "UPLOAD_IMAGE" &&
@@ -731,6 +718,19 @@ const MessagesMiddle = ({ socket }) => {
         );
     };
 
+    const renderPopupConfirmDeleteMsg = () => {
+        return (
+            active === "DELETE_MSG" && (
+                <ConfirmDialog
+                    title="Bạn muốn xóa tin nhắn này?"
+                    onClose={() => setActive("")}
+                    onConfirm={() => handleDeleteMsg(messageID)}
+                    confirmButtonText="Delete"
+                />
+            )
+        );
+    };
+
     return (
         <>
             <div className="middle-msg-page position-relative">
@@ -742,7 +742,8 @@ const MessagesMiddle = ({ socket }) => {
                         <FloatingNotificationInbox height={500} {...props} />
                     )}
                 </MagicBell> */}
-                {renderConversation()} {renderPopupConfirmDeleteMsg()}
+                {renderPopupConfirmDeleteMsg()}
+                {renderConversation()}
                 {renderPopupConfirmUploadImg()}
                 {renderPreviewPopupImage()}
             </div>

@@ -84,8 +84,8 @@ const Post = ({
     useEffect(() => {
         let isCancelled = false;
 
-        getPostsShared(currentUser._id, dispatch).then((data) => {
-            if (!isCancelled) {
+        getPostsShared(currentUser?._id, dispatch).then((data) => {
+            if (!isCancelled && data) {
                 const { postShared } = data;
                 setPostShared(postShared.map((p) => p.postID));
             }
@@ -136,10 +136,10 @@ const Post = ({
     useEffect(() => {
         let isCancelled = false;
 
-        getUserByID(currentUser._id, dispatch)
+        getUserByID(currentUser?._id, dispatch)
             .then((data) => {
-                if (!isCancelled) {
-                    const { postSaved } = data?.user || {};
+                if (!isCancelled && data) {
+                    const { postSaved } = data.user || {};
                     const isSavedPost = postSaved.some(
                         (post) => post.postID === postID
                     );
@@ -149,7 +149,7 @@ const Post = ({
             })
             .catch((err) => {
                 console.error(
-                    `Failed to get post saved of user ${currentUser._id}`,
+                    `Failed to get post saved of user ${currentUser?._id}`,
                     err
                 );
             });
@@ -157,7 +157,7 @@ const Post = ({
         return () => {
             isCancelled = true;
         };
-    }, [currentUser._id, dispatch, postID]);
+    }, [currentUser?._id, dispatch, postID]);
 
     const handleSetting = (e) => {
         e.stopPropagation();
@@ -186,7 +186,7 @@ const Post = ({
     };
 
     const post = {
-        userID: currentUser._id,
+        userID: currentUser?._id,
         postID: postID,
     };
 
@@ -200,10 +200,10 @@ const Post = ({
 
                     const { isLiked } = data;
 
-                    if (isLiked && user._id !== currentUser._id) {
+                    if (isLiked && user?._id !== currentUser?._id) {
                         const notification = {
-                            sender: currentUser._id,
-                            receiver: user._id,
+                            sender: currentUser?._id,
+                            receiver: user?._id,
                             type: LIKE_POST,
                         };
 
@@ -231,10 +231,10 @@ const Post = ({
 
                     const { isShared } = data;
 
-                    if (isShared && user._id !== currentUser._id) {
+                    if (isShared && user?._id !== currentUser?._id) {
                         const notification = {
-                            sender: currentUser._id,
-                            receiver: user._id,
+                            sender: currentUser?._id,
+                            receiver: user?._id,
                             type: SHARE_POST,
                         };
 
@@ -256,7 +256,7 @@ const Post = ({
         },
         savePost: async (postID) => {
             const updatedUser = {
-                userID: currentUser._id,
+                userID: currentUser?._id,
                 postSaved: { postID: postID },
             };
 
@@ -272,7 +272,7 @@ const Post = ({
             deletePost(postID, dispatch)
                 .then(async (data) => {
                     socket = io(SOCKET_URL);
-                    await socket.emit("delete-post", data.data);
+                    await socket.emit("delete-post", data?.data);
                 })
                 .catch((error) => {
                     console.error("Failed to delete post", error);
@@ -341,13 +341,13 @@ const Post = ({
                 <div
                     className="user"
                     title={
-                        user._id === currentUser._id
+                        user?._id === currentUser?._id
                             ? `Truy cập trang cá nhân`
                             : `Truy cập trang cá nhân ${user.username}`
                     }
                 >
                     <Link
-                        to={`/user/${user._id}`}
+                        to={`/user/${user?._id}`}
                         className="profile-pic bg-black text-white"
                         aria-label="Avatar user"
                     >
@@ -364,7 +364,7 @@ const Post = ({
                             user.username
                         )}
                     </Link>
-                    <Link to={`/user/${user._id}`} className="info">
+                    <Link to={`/user/${user?._id}`} className="info">
                         <div className="d-flex align-items-center fs-5">
                             <div className="fw-bold d-flex align-items-center">
                                 {user.username}
@@ -397,7 +397,7 @@ const Post = ({
                         }}
                         onClick={() => handlePost.savePost(postID)}
                     />
-                    {user._id === currentUser._id && (
+                    {user?._id === currentUser?._id && (
                         <span className="post-settings" title="Setting post">
                             <UilEllipsisH
                                 className="dots"
@@ -424,7 +424,7 @@ const Post = ({
                         data-share
                     >
                         <span>
-                            {shares?.includes(currentUser._id) ? (
+                            {shares?.includes(currentUser?._id) ? (
                                 <FontAwesomeIcon
                                     icon={faRepeat}
                                     style={{
@@ -462,7 +462,7 @@ const Post = ({
                         data-like
                     >
                         <span>
-                            {likes?.includes(currentUser._id) ? (
+                            {likes?.includes(currentUser?._id) ? (
                                 <FontAwesomeIcon
                                     icon={liked}
                                     style={{
@@ -520,7 +520,12 @@ const Post = ({
                 )}
 
                 {video && (
-                    <div className="photo">
+                    <div
+                        className="photo"
+                        style={{
+                            height: "30rem",
+                        }}
+                    >
                         <video
                             preload="metadata"
                             className="w-100"

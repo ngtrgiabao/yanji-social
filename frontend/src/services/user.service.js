@@ -13,6 +13,12 @@ class UserService {
         return await api.get(`/api/v1/user/${userID}/saved`);
     }
 
+    async fetchUserSpecificImageQuantity(userInfo) {
+        return await api.get(
+            `/api/v1/user/${userInfo.userID}/quantity/image/?limit=${userInfo.limit}`
+        );
+    }
+
     async loginUser(data) {
         return await api.post("/api/v1/user/login", data);
     }
