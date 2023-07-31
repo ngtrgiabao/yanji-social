@@ -9,6 +9,7 @@ import Comment from "./Comment";
 import { getAllCommentsByPostID } from "../redux/request/commentRequest";
 import { pushNewNotification } from "../redux/request/notificationRequest";
 import { COMMENT_POST } from "../constants/noti.type.constant";
+import { getUserByID } from "../redux/request/userRequest";
 
 const Comments = ({ postID, author, socket }) => {
     const [content, setContent] = useState("");
@@ -122,6 +123,23 @@ const Comments = ({ postID, author, socket }) => {
         setContent(e.target.value);
     };
 
+    const [user, setUser] = useState({
+        profilePicture: "",
+        username: "",
+    });
+
+    useEffect(() => {
+        currentUser &&
+            getUserByID(currentUser._id, dispatch).then((data) => {
+                const { profilePicture, username } = data.user;
+
+                setUser({
+                    username: username,
+                    profilePicture: profilePicture,
+                });
+            });
+    }, [currentUser, dispatch]);
+
     return (
         <>
             <form
@@ -133,16 +151,16 @@ const Comments = ({ postID, author, socket }) => {
                 }}
             >
                 <div className="profile-pic">
-                    {currentUser.profilePicture ? (
+                    {user.profilePicture ? (
                         <img
-                            src={currentUser.profilePicture}
+                            src={user.profilePicture}
                             alt="avatar_user"
                             style={{
                                 objectFit: "cover",
                             }}
                         />
                     ) : (
-                        <>{currentUser.username || "user"}</>
+                        <>{user.username || currentUser.username}</>
                     )}
                 </div>
                 <div className="flex-fill mx-2">

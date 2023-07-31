@@ -5,21 +5,23 @@ import "../../style/pages/personal/personalGallery.css";
 
 import PersonalGalleryCollection from "./PersonalGalleryCollection";
 import { fetchUserSpecificImageQuantity } from "../../redux/request/userRequest";
+import { useParams } from "react-router-dom";
 
-const PersonalGallery = ({ userInfo }) => {
+const PersonalGallery = () => {
     const [galleryImages, setGalleryImages] = useState([]);
+    const { userID: userRoute } = useParams();
     const dispatch = useDispatch();
 
     useEffect(() => {
         const user = {
-            userID: userInfo?._id,
+            userID: userRoute,
             limit: 9,
         };
 
         fetchUserSpecificImageQuantity(user, dispatch).then((data) => {
             data && setGalleryImages(data.data);
         });
-    }, [userInfo?._id, dispatch]);
+    }, [userRoute, dispatch]);
 
     return (
         <>

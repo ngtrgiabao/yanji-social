@@ -20,18 +20,14 @@ const menuItems = [
     },
     {
         id: 2,
-        title: "Introduce",
-    },
-    {
-        id: 3,
         title: "Picture",
     },
     {
-        id: 4,
+        id: 3,
         title: "Video",
     },
     {
-        id: 5,
+        id: 4,
         title: "Checkin",
     },
 ];
@@ -139,7 +135,7 @@ const PersonalNavbarProfile = () => {
                             {menuItems.map((item) => (
                                 <li key={item.id} className="nav-item">
                                     <a
-                                        href="#"
+                                        href="/"
                                         className={`${
                                             item.id === 1 ? "active" : ""
                                         }`}
@@ -157,33 +153,6 @@ const PersonalNavbarProfile = () => {
                                 target="_blank"
                                 style={{ display: "none" }}
                             />
-
-                            <li className="nav-item dropdown">
-                                <a href="#" data-bs-toggle="dropdown">
-                                    More
-                                    <FontAwesomeIcon
-                                        icon={faCaretDown}
-                                        className="ms-2"
-                                    />
-                                </a>
-                                <ul className="dropdown-menu rounded-3">
-                                    <li>
-                                        <a className="dropdown-item" href="#">
-                                            Book
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="dropdown-item" href="#">
-                                            Sports
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="dropdown-item" href="#">
-                                            Movies
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
                         </ul>
                     </div>
                 </nav>

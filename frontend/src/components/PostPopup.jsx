@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,6 +17,7 @@ import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 import { uploadPost } from "../redux/request/postRequest";
 import useUploadImage from "../hooks/useUploadImage";
 import PreviewImage from "./PreviewImage";
+import { getUserByID } from "../redux/request/userRequest";
 
 const PostPopup = ({ onPopup, extendClass, socket }) => {
     const [imageUrl, setImageUrl] = useState(null);
@@ -26,6 +27,10 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
     const [content, setContent] = useState("");
     const [active, setActive] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [user, setUser] = useState({
+        profilePicture: "",
+        username: "",
+    });
     const uploadImg = useRef(null);
     const dispatch = useDispatch();
 
@@ -53,6 +58,18 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser.data;
     });
+
+    useEffect(() => {
+        currentUser &&
+            getUserByID(currentUser._id, dispatch).then((data) => {
+                const { username, profilePicture } = data.user;
+
+                setUser({
+                    username: username,
+                    profilePicture: profilePicture,
+                });
+            });
+    }, [dispatch, currentUser]);
 
     const handleSendEmoji = (e) => {
         const sym = e.unified.split("_");
@@ -130,24 +147,21 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
                 <div className="form__name d-flex justify-content-between">
                     <div className="d-flex">
                         <span className="avatar d-flex justify-content-center align-items-center">
-                            {currentUser.profilePicture ? (
+                            {user.profilePicture ? (
                                 <img
                                     loading="lazy"
                                     role="presentation"
                                     decoding="async"
-                                    src={
-                                        currentUser.profilePicture ||
-                                        DEFAULT_AVATAR
-                                    }
+                                    src={user.profilePicture || DEFAULT_AVATAR}
                                     alt="Avatar user"
                                 />
                             ) : (
-                                currentUser.username
+                                user.username || currentUser.username
                             )}
                         </span>
                         <div className="ms-3">
                             <span className="text-white text-bold fs-4">
-                                {currentUser.username}
+                                {user.username || currentUser.username}
                             </span>
                             <div className="form__status d-flex align-items-center mt-1 text-white fw-bold">
                                 Upload post
@@ -174,7 +188,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
                             height: "10em",
                         }}
                         onChange={handleContent}
-                        placeholder={`What's in your mind, ${currentUser.username}?`}
+                        placeholder={`What's in your mind, ${user.username}?`}
                         value={content}
                     ></textarea>
                 </div>

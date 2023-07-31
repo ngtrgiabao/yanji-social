@@ -186,7 +186,6 @@ hr {
 .create-post {
     width: 100%;
 
-    margin-top: 1rem;
     padding: 0.4rem var(--card-padding);
 
     background-color: var(--color-white);
