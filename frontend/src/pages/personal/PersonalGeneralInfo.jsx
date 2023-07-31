@@ -69,9 +69,7 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
                                 className="w-100"
                             />
                         ) : (
-                            <div className="fs-1 fw-bolder">
-                                {userInfo.username}
-                            </div>
+                            userInfo.username
                         )}
                     </div>
                     {userInfo?._id === currentUser?._id && (
@@ -128,7 +126,14 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
                 />
             )}
 
-            <div ref={snackBar} id="snackbar">
+            <div
+                ref={snackBar}
+                id="snackbar"
+                style={{
+                    backgroundColor: "var(--color-success)",
+                }}
+                className="fw-bold"
+            >
                 Update avatar successfully
             </div>
         </div>

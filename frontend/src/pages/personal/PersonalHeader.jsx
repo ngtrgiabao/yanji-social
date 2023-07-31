@@ -82,7 +82,14 @@ const PersonalHeader = ({ userInfo, socket }) => {
                 )}
             </span>
 
-            <div ref={snackBar} id="snackbar">
+            <div
+                ref={snackBar}
+                id="snackbar"
+                style={{
+                    backgroundColor: "var(--color-success)",
+                }}
+                className="fw-bold"
+            >
                 Update cover successfully
             </div>
         </div>

@@ -113,7 +113,7 @@ const PostPreview = ({ socket }) => {
                     />
                 </div>
 
-                <div data-deleted-popup id="snackbar" ref={snackBar}>
+                <div data-deleted-popup id="snackbar" ref={snackBar} className="fw-bold">
                     Deleted post :D
                 </div>
             </>

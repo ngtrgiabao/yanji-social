@@ -26,8 +26,8 @@ import NotFound from "../notFound/NotFound";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import SocialMediaInput from "../../components/SocialMediaInput ";
 
-function Personal({ socket }) {
-    const userRoute = useParams().userID;
+const Personal = ({ socket }) => {
+    const { userID: userRoute } = useParams();
     const [userInfo, setUserInfo] = useState({
         _id: "",
         username: "",
@@ -48,7 +48,6 @@ function Personal({ socket }) {
         postSaved: [],
         isVerify: false,
     });
-
     const [isValid, setIsValid] = useState(true);
     const [active, setActive] = useState("");
     const dispatch = useDispatch();
@@ -243,6 +242,16 @@ function Personal({ socket }) {
     };
 
     const renderContentUpdateIntroduce = () => {
+        const socialMediaFields = [
+            { icon: faLinkedin, label: "linkedin" },
+            { icon: faGithub, label: "github" },
+            { icon: faInstagram, label: "insta" },
+            { icon: faPinterest, label: "pinterest" },
+            { icon: faYoutube, label: "youtube" },
+            { icon: faTwitter, label: "twitter" },
+            { icon: faTwitch, label: "twitch" },
+        ];
+
         return (
             <div
                 className="text-white overflow-auto scrollbar pe-3"
@@ -251,54 +260,15 @@ function Personal({ socket }) {
                     maxHeight: "40rem",
                 }}
             >
-                <SocialMediaInput
-                    icon={
-                        <FontAwesomeIcon icon={faLinkedin} className="me-2" />
-                    }
-                    label="linkedin"
-                    value={userInfo.linkedin}
-                    onChange={handleInputChange}
-                />
-                <SocialMediaInput
-                    icon={<FontAwesomeIcon icon={faGithub} className="me-2" />}
-                    label="github"
-                    value={userInfo.github}
-                    onChange={handleInputChange}
-                />
-                <SocialMediaInput
-                    icon={
-                        <FontAwesomeIcon icon={faInstagram} className="me-2" />
-                    }
-                    label="insta"
-                    value={userInfo.insta}
-                    onChange={handleInputChange}
-                />
-                <SocialMediaInput
-                    icon={
-                        <FontAwesomeIcon icon={faPinterest} className="me-2" />
-                    }
-                    label="pinterest"
-                    value={userInfo.pinterest}
-                    onChange={handleInputChange}
-                />
-                <SocialMediaInput
-                    icon={<FontAwesomeIcon icon={faYoutube} className="me-2" />}
-                    label="youtube"
-                    value={userInfo.youtube}
-                    onChange={handleInputChange}
-                />
-                <SocialMediaInput
-                    icon={<FontAwesomeIcon icon={faTwitter} className="me-2" />}
-                    label="twitter"
-                    value={userInfo.twitter}
-                    onChange={handleInputChange}
-                />
-                <SocialMediaInput
-                    icon={<FontAwesomeIcon icon={faTwitch} className="me-2" />}
-                    label="twitch"
-                    value={userInfo.twitch}
-                    onChange={handleInputChange}
-                />
+                {socialMediaFields.map(({ icon, label }) => (
+                    <SocialMediaInput
+                        key={label}
+                        icon={<FontAwesomeIcon icon={icon} className="me-2" />}
+                        label={label}
+                        value={userInfo[label]}
+                        onChange={handleInputChange}
+                    />
+                ))}
             </div>
         );
     };
@@ -342,6 +312,6 @@ function Personal({ socket }) {
     ) : (
         <NotFound />
     );
-}
+};
 
 export default Personal;

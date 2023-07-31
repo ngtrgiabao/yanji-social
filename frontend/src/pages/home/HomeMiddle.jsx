@@ -7,7 +7,6 @@ import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
 import "../../style/pages/home/homeMiddle.css";
 import "../../style/animations/snackbar.css";
 
-import HomeStories from "./HomeStories";
 import PostPopup from "../../components/PostPopup";
 import Posts from "../../components/Posts";
 import { getUserByID } from "../../redux/request/userRequest";
@@ -80,8 +79,6 @@ const HomeMiddle = ({ socket }) => {
 
     return (
         <div className="middle animate__animated animate__fadeIn position-relative">
-            <HomeStories />
-
             {/* STATUS */}
             <div
                 action=""
@@ -153,7 +150,12 @@ const HomeMiddle = ({ socket }) => {
                     </button>
                 </div> */}
 
-            <div data-deleted-popup ref={snackBar} id="snackbar">
+            <div
+                data-deleted-popup
+                ref={snackBar}
+                id="snackbar"
+                className="fw-bold"
+            >
                 Deleted post :D
             </div>
         </div>

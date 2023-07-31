@@ -11,13 +11,12 @@ import {
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
+import { io } from "socket.io-client";
 
 import "../../style/pages/personal/personalIntroduce.css";
 
-import PersonalStories from "./PersonalStories";
 import PersonalGallery from "./PersonalGallery";
 import { getUserByID } from "../../redux/request/userRequest";
-import { io } from "socket.io-client";
 
 const PersonalIntroduce = ({
     onUpdateBioPopup,
@@ -215,13 +214,7 @@ const PersonalIntroduce = ({
                 </button>
             )}
 
-            <PersonalStories />
-
-            {currentUser?._id === userInfo?._id && (
-                <button className="mt-5">Edit Stories</button>
-            )}
-
-            <PersonalGallery userInfo={userInfo} />
+            <PersonalGallery />
         </>
     );
 };

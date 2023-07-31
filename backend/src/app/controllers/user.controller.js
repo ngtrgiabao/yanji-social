@@ -115,36 +115,46 @@ const updateUser = async (req, res, next) => {
         user.lastName = lastName || user.lastName;
         user.isVerify = isVerify || user.isVerify;
 
-        const socialLinks = {
-            insta: validateSocialLink(insta, "Instagram"),
-            linkedin: validateSocialLink(linkedin, "LinkedIn"),
-            github: validateSocialLink(github, "GitHub"),
-            pinterest: validateSocialLink(pinterest, "Pinterest"),
-            youtube: validateSocialLink(youtube, "YouTube"),
-            twitter: validateSocialLink(twitter, "Twitter"),
-            twitch: validateSocialLink(twitch, "Twitch"),
-        };
+        if (
+            insta ||
+            linkedin ||
+            github ||
+            pinterest ||
+            youtube ||
+            twitter ||
+            twitch
+        ) {
+            const socialLinks = {
+                insta: validateSocialLink(insta, "Instagram"),
+                linkedin: validateSocialLink(linkedin, "LinkedIn"),
+                github: validateSocialLink(github, "GitHub"),
+                pinterest: validateSocialLink(pinterest, "Pinterest"),
+                youtube: validateSocialLink(youtube, "YouTube"),
+                twitter: validateSocialLink(twitter, "Twitter"),
+                twitch: validateSocialLink(twitch, "Twitch"),
+            };
 
-        Object.keys(socialLinks).forEach((key) => {
-            const { isValid, value, error } = socialLinks[key];
-            if (!isValid) {
-                return res.status(500).json({ msg: error });
-            }
+            Object.keys(socialLinks).forEach((key) => {
+                const { isValid, value, error } = socialLinks[key];
+                if (!isValid) {
+                    return res.status(500).json({ msg: error });
+                }
 
-            // if new username of social link is flank will set to empty string
-            if (value.length === 0) {
-                user[key] = "";
-            } else {
-                user[key] = value || user[key];
-            }
-        });
+                // if new username of social link is flank will set to empty string
+                if (value.length === 0) {
+                    user[key] = "";
+                } else {
+                    user[key] = value || user[key];
+                }
+            });
+        }
 
         if (bio?.length > 50) {
             return res.status(500).json({
                 msg: `The bio cannot be longer than 50 characters`,
             });
         } else {
-            if (bio.length === 0) {
+            if (bio?.length === 0) {
                 user.bio = "";
             } else {
                 user.bio = bio || user.bio;
