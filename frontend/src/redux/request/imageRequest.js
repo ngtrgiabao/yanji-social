@@ -32,3 +32,16 @@ export const getImageByID = async (imageID, dispatch) => {
         dispatch(getImageFailed());
     }
 };
+
+export const getAllImagesByUser = async (userID, dispatch) => {
+    dispatch(getImageStart());
+
+    try {
+        const res = await imageService.getAllImagesByUserID(userID);
+
+        dispatch(getImageSuccess(res.data));
+        return res.data;
+    } catch (error) {
+        dispatch(getImageFailed());
+    }
+};

@@ -16,6 +16,7 @@ const onlineRoute = require("./src/app/routes/online.routes");
 const postRoute = require("./src/app/routes/post.routes");
 const roomRoute = require("./src/app/routes/room.routes");
 const userRoute = require("./src/app/routes/user.routes");
+const imgRoute = require("./src/app/routes/image.routes");
 
 const corsOptions = {
     origin: process.env.FRONTEND_URL,
@@ -39,6 +40,7 @@ app.use("/api/v1/online", onlineRoute);
 app.use("/api/v1/post", postRoute);
 app.use("/api/v1/room", roomRoute);
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/image", imgRoute);
 
 //Handle 404 response
 app.use((req, res, next) => {

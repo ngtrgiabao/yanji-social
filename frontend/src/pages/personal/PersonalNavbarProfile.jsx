@@ -9,33 +9,40 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CSVLink } from "react-csv";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import "../../style/pages/personal/personalNavbarProfile.css";
 
-const menuItems = [
-    {
-        id: 1,
-        title: "Post",
-    },
-    {
-        id: 2,
-        title: "Picture",
-    },
-    {
-        id: 3,
-        title: "Video",
-    },
-    {
-        id: 4,
-        title: "Checkin",
-    },
-];
-
 const PersonalNavbarProfile = () => {
+    const { userID: userRoute } = useParams();
+    const { photos: photosRoute } = useParams();
+
     const [checked, setChecked] = useState(false);
     const exportData = useRef(null);
     const navigate = useNavigate();
+
+    const menuItems = [
+        {
+            id: 1,
+            title: "Post",
+            link: `user/${userRoute}`,
+        },
+        {
+            id: 2,
+            title: "Photos",
+            link: `user/${userRoute}/photos`,
+        },
+        {
+            id: 3,
+            title: "Video",
+            link: "",
+        },
+        {
+            id: 4,
+            title: "Checkin",
+            link: "",
+        },
+    ];
 
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
@@ -134,14 +141,21 @@ const PersonalNavbarProfile = () => {
                         <ul className="navbar-nav d-flex align-items-center flex-row">
                             {menuItems.map((item) => (
                                 <li key={item.id} className="nav-item">
-                                    <a
-                                        href="/"
+                                    <Link
+                                        to={"/" + item.link}
                                         className={`${
-                                            item.id === 1 ? "active" : ""
+                                            (userRoute &&
+                                                !photosRoute &&
+                                                item.id === 1) ||
+                                            (userRoute &&
+                                                photosRoute &&
+                                                item.id === 2)
+                                                ? "active"
+                                                : ""
                                         }`}
                                     >
                                         {item.title}
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
 
