@@ -102,6 +102,14 @@ function App() {
                         }
                     />
                     <Route
+                        path={"/user/:userID/:photos"}
+                        element={
+                            <Suspense fallback={<LoadingPage />}>
+                                <PersonalPage socket={socket} />
+                            </Suspense>
+                        }
+                    />
+                    <Route
                         path="/notification"
                         element={
                             <Suspense fallback={<LoadingPage />}>

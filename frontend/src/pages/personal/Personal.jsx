@@ -25,9 +25,11 @@ import PersonalNavbarProfile from "./PersonalNavbarProfile";
 import NotFound from "../notFound/NotFound";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import SocialMediaInput from "../../components/SocialMediaInput ";
+import PhotosUser from "../../components/PhotosUser";
 
 const Personal = ({ socket }) => {
     const { userID: userRoute } = useParams();
+    const { photos: photosRoute } = useParams();
     const [userInfo, setUserInfo] = useState({
         _id: "",
         username: "",
@@ -298,12 +300,16 @@ const Personal = ({ socket }) => {
                 <hr className="my-5" />
 
                 <PersonalNavbarProfile />
-                <PersonalBody
-                    socket={socket}
-                    userInfo={userInfo}
-                    onUpdateBioPopup={onUpdateBioPopup}
-                    onUpdateIntroducePopup={onUpdateIntroducePopup}
-                />
+                {photosRoute ? (
+                    <PhotosUser />
+                ) : (
+                    <PersonalBody
+                        socket={socket}
+                        userInfo={userInfo}
+                        onUpdateBioPopup={onUpdateBioPopup}
+                        onUpdateIntroducePopup={onUpdateIntroducePopup}
+                    />
+                )}
             </div>
 
             {renderUpdateBioPopup()}
