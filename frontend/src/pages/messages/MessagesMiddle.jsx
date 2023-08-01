@@ -77,7 +77,7 @@ const MessagesMiddle = ({ socket }) => {
     const handleSocket = {
         serverResponse: useCallback(() => {
             console.log("Server connected");
-            console.clear();
+            // console.clear();
         }, []),
 
         receivedMessage: useCallback(

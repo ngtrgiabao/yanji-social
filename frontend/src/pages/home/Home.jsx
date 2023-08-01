@@ -25,10 +25,10 @@ const Home = ({ socket }) => {
 
                 if (
                     receiver !== sender &&
-                    receiver === currentUser._id &&
+                    receiver === currentUser?._id &&
                     type
                 ) {
-                    getAllNotificationsByUser(currentUser._id, dispatch).then(
+                    getAllNotificationsByUser(currentUser?._id, dispatch).then(
                         (data) => {
                             const notiList = data.data;
                             const isGotNotification = Object.values(
@@ -40,13 +40,13 @@ const Home = ({ socket }) => {
                     );
                 }
             },
-            [currentUser._id, dispatch]
+            [currentUser?._id, dispatch]
         ),
     };
 
     useEffect(() => {
         currentUser &&
-            getAllNotificationsByUser(currentUser._id, dispatch).then(
+            getAllNotificationsByUser(currentUser?._id, dispatch).then(
                 (data) => {
                     if (data) {
                         const isGotNotification = Object.values(data.data).some(

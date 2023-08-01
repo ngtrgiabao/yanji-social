@@ -273,6 +273,11 @@
     justify-content: center;
     align-items: center;
 
+    max-width: 45rem;
+    width: max-content;
+    max-height: 30rem;
+    height: max-content;
+
     padding: 1rem;
 }
 

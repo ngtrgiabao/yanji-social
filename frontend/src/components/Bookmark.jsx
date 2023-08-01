@@ -171,6 +171,7 @@ const Bookmark = ({
                                         }}
                                     />
                                 )}
+                                {post.video && <video src={post.video}></video>}
                             </div>
                         ) : (
                             <div
