@@ -4,31 +4,22 @@ import { io } from "socket.io-client";
 
 import "../style/components/post.css";
 
-import { getAllPosts, getPostByID } from "../redux/request/postRequest";
+import { getPostByID } from "../redux/request/postRequest";
 import Post from "./Post";
+import axios from "axios";
 
 const Posts = ({ socket, handleDeletePopup = () => {} }) => {
     const [posts, setPosts] = useState([]);
     const dispatch = useDispatch();
+    const loadingRef = useRef(null);
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(0);
 
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
-
-    useEffect(() => {
-        socket = io(SOCKET_URL);
-
-        getAllPosts(dispatch)
-            .then((data) => {
-                const { posts } = data;
-                setPosts(posts);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-    }, []);
 
     const handleSocket = {
         updatePost: useCallback(
@@ -79,25 +70,75 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
         socket,
     ]);
 
+    const fetchMorePosts = useCallback(async () => {
+        const res = await axios.get(
+            process.env.REACT_APP_SOCKET_URL +
+                `/api/v1/post/all-posts?limit=5&skip=${page * 5}`
+        );
+        const { posts } = res.data;
+
+        if (posts.length === 0) {
+            setHasMore(false);
+        } else {
+            setPosts((prevPost) => [...prevPost, ...posts]);
+            setPage((prevPage) => prevPage + 1);
+        }
+    }, [page]);
+
+    const onIntersection = useCallback(
+        (entries) => {
+            const firstEntry = entries[0];
+            if (firstEntry.isIntersecting && hasMore) {
+                fetchMorePosts();
+            }
+        },
+        [fetchMorePosts, hasMore]
+    );
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(onIntersection);
+
+        if (observer && loadingRef.current) {
+            observer.observe(loadingRef.current);
+        }
+
+        return () => {
+            if (observer) {
+                observer.disconnect();
+            }
+        };
+    }, [posts, onIntersection]);
+
     return (
-        currentUser &&
-        posts.map((post) => (
-            <Post
-                key={post._id}
-                postID={post._id}
-                image={post.img}
-                video={post.video}
-                userID={post.userID}
-                desc={post.desc}
-                likes={post.likes}
-                shares={post.shares}
-                comments={post.comments}
-                socket={socket}
-                createdAt={post.createdAt}
-                updatedAt={post.updatedAt}
-                handleDeletePopup={handleDeletePopup}
-            />
-        ))
+        <div className="posts">
+            {currentUser &&
+                posts.map((post) => (
+                    <Post
+                        key={post._id}
+                        postID={post._id}
+                        image={post.img}
+                        video={post.video}
+                        userID={post.userID}
+                        desc={post.desc}
+                        likes={post.likes}
+                        shares={post.shares}
+                        comments={post.comments}
+                        socket={socket}
+                        createdAt={post.createdAt}
+                        updatedAt={post.updatedAt}
+                        handleDeletePopup={handleDeletePopup}
+                    />
+                ))}
+
+            {hasMore && (
+                <div
+                    className="d-flex justify-content-center fs-3 fw-bold my-3"
+                    ref={loadingRef}
+                >
+                    Loading...
+                </div>
+            )}
+        </div>
     );
 };
 

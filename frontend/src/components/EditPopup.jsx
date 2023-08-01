@@ -187,6 +187,7 @@ const EditPopup = ({
                             overflowY: "auto",
                             width: "100%",
                             height: "10em",
+                            resize: "none",
                         }}
                         onChange={handleNewContent}
                         placeholder={`What's in your mind, ${currentUser.username}?`}

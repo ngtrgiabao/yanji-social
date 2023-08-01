@@ -76,7 +76,15 @@ const getAllPostsByUser = async (req, res) => {
 
 const getAllPosts = async (req, res) => {
     try {
-        const posts = await PostModel.find({}).sort({ createdAt: -1 });
+        const { limit, skip } = req.query;
+        const posts =
+            limit || skip
+                ? await PostModel.find({})
+                      .sort({ createdAt: -1 })
+                      .limit(limit)
+                      .skip(skip)
+                : await PostModel.find({}).sort({ createdAt: -1 });
+
         const countPosts = await PostModel.countDocuments();
 
         return res.status(200).json({

@@ -7,7 +7,7 @@ import ConfirmDialog from "./ConfirmDialog";
 import PreviewImage from "./PreviewImage";
 import useDownloadImage from "../hooks/useDownloadImage";
 
-const PhotosUser = () => {
+const PhotosUser = ({ userInfo }) => {
     const { userID: userRoute } = useParams();
 
     const dispatch = useDispatch();
@@ -56,30 +56,45 @@ const PhotosUser = () => {
                 height: "max-content",
             }}
         >
-            {gallery.map((i) => (
+            {gallery.length > 0 ? (
+                gallery.map((i) => (
+                    <div
+                        key={i._id}
+                        style={{
+                            height: "20rem",
+                        }}
+                        onClick={() => {
+                            setActive("PREVIEW_IMAGE");
+                            handlePreviewImage(i.imageUrl);
+                        }}
+                    >
+                        <img
+                            src={i.imageUrl}
+                            alt="user photos"
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
+                            className="w-100"
+                            style={{
+                                objectFit: "cover",
+                                cursor: "pointer",
+                            }}
+                        />
+                    </div>
+                ))
+            ) : (
                 <div
-                    key={i._id}
+                    className="w-100 d-flex justify-content-center align-items-center text-white"
                     style={{
-                        height: "20rem",
-                    }}
-                    onClick={() => {
-                        setActive("PREVIEW_IMAGE");
-                        handlePreviewImage(i.imageUrl);
+                        fontSize: "5rem",
+                        height: "50vh",
+                        borderRadius: "var(--card-border-radius)",
+                        background: "var(--bg-container-popup)",
                     }}
                 >
-                    <img
-                        src={i.imageUrl}
-                        alt="user photos"
-                        loading="lazy"
-                        role="presentation"
-                        decoding="async"
-                        className="w-100"
-                        style={{
-                            objectFit: "cover",
-                        }}
-                    />
+                    {userInfo.username} don't have any photos ¯\_(ツ)_/¯
                 </div>
-            ))}
+            )}
 
             {renderPreviewPopupImage()}
         </div>

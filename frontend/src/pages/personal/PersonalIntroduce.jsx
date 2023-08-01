@@ -8,7 +8,6 @@ import {
     faTwitter,
     faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
@@ -82,47 +81,42 @@ const PersonalIntroduce = ({
     const introduceInfo = [
         {
             id: 1,
-            link: "Độc thân",
-            icon: faHeart,
-        },
-        {
-            id: 2,
             link: user.insta,
             icon: faInstagram,
             href: "https://www.instagram.com/" + user.insta,
         },
         {
-            id: 3,
+            id: 2,
             link: user.linkedin,
             icon: faLinkedin,
             href: "https://www.linkedin.com/in/" + user.linkedin,
         },
         {
-            id: 4,
+            id: 3,
             link: user.github,
             icon: faGithub,
             href: "https://github.com/" + user.github,
         },
         {
-            id: 5,
+            id: 4,
             link: user.pinterest,
             icon: faPinterest,
             href: "https://www.pinterest.com/" + user.pinterest,
         },
         {
-            id: 6,
+            id: 5,
             link: user.youtube,
             icon: faYoutube,
             href: "https://www.youtube.com/channel/@" + user.youtube,
         },
         {
-            id: 7,
+            id: 6,
             link: user.twitter,
             icon: faTwitter,
             href: "https://twitter.com/" + user.twitter,
         },
         {
-            id: 8,
+            id: 7,
             link: user.twitch,
             icon: faTwitch,
             href: "https://www.twitch.tv/" + user.twitch,
