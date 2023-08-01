@@ -20,17 +20,6 @@ const HomeMiddle = ({ socket }) => {
     });
     const snackBar = useRef(null);
     const dispatch = useDispatch();
-    // Get Data
-    const [nextUrl, setNextUrl] = useState("");
-    const [loading, setLoading] = useState(true);
-
-    const loadMore = async () => {
-        setLoading(true);
-
-        setLoading(false);
-    };
-
-    // GET AVATAR USER FROM LOCAL
 
     const handlePopup = () => {
         setPopup((popup) => !popup);
@@ -136,19 +125,7 @@ const HomeMiddle = ({ socket }) => {
             </div>
             {/* END STATUS */}
 
-            <div className="posts">
-                <Posts handleDeletePopup={handleDeletePopup} socket={socket} />
-            </div>
-
-            {/* <div className="w-100 my-5 d-flex justify-content-center">
-                    <button
-                        role="button"
-                        className="p-3 rounded btn-loadmore"
-                        onClick={loadMore}
-                    >
-                        {loading ? "loading..." : "Load more"}
-                    </button>
-                </div> */}
+            <Posts handleDeletePopup={handleDeletePopup} socket={socket} />
 
             <div
                 data-deleted-popup

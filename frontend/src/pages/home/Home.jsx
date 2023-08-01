@@ -7,7 +7,6 @@ import HomeMiddle from "./HomeMiddle";
 import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllNotificationsByUser } from "../../redux/request/notificationRequest";
-import { NEW_MSG } from "../../constants/noti.type.constant";
 
 const Navigation = lazy(() => import("../../layout/navigation/Navigation"));
 
@@ -20,22 +19,29 @@ const Home = ({ socket }) => {
     const dispatch = useDispatch();
 
     const handleSocket = {
-        notification: useCallback((data) => {
-            const { receiver, sender, type } = data;
+        notification: useCallback(
+            (data) => {
+                const { receiver, sender, type } = data;
 
-            if (receiver !== sender && receiver === currentUser._id && type) {
-                getAllNotificationsByUser(currentUser._id, dispatch).then(
-                    (data) => {
-                        const notiList = data.data;
-                        const isGotNotification = Object.values(notiList).some(
-                            (noti) => noti.isRead === false
-                        );
+                if (
+                    receiver !== sender &&
+                    receiver === currentUser._id &&
+                    type
+                ) {
+                    getAllNotificationsByUser(currentUser._id, dispatch).then(
+                        (data) => {
+                            const notiList = data.data;
+                            const isGotNotification = Object.values(
+                                notiList
+                            ).some((noti) => noti.isRead === false);
 
-                        setIsReadNotification(isGotNotification);
-                    }
-                );
-            }
-        }, []),
+                            setIsReadNotification(isGotNotification);
+                        }
+                    );
+                }
+            },
+            [currentUser._id, dispatch]
+        ),
     };
 
     useEffect(() => {

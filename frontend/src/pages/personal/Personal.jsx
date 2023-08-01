@@ -300,8 +300,9 @@ const Personal = ({ socket }) => {
                 <hr className="my-5" />
 
                 <PersonalNavbarProfile />
+                
                 {photosRoute ? (
-                    <PhotosUser />
+                    <PhotosUser userInfo={userInfo}/>
                 ) : (
                     <PersonalBody
                         socket={socket}

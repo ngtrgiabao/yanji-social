@@ -69,7 +69,7 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
                                 className="w-100"
                             />
                         ) : (
-                            userInfo.username
+                            <div className="fs-2">{userInfo.username}</div>
                         )}
                     </div>
                     {userInfo?._id === currentUser?._id && (

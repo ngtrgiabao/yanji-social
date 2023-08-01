@@ -5,11 +5,12 @@ import "../../style/pages/personal/personalGallery.css";
 
 import PersonalGalleryCollection from "./PersonalGalleryCollection";
 import { fetchUserSpecificImageQuantity } from "../../redux/request/userRequest";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const PersonalGallery = () => {
-    const [galleryImages, setGalleryImages] = useState([]);
     const { userID: userRoute } = useParams();
+
+    const [galleryImages, setGalleryImages] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -27,9 +28,9 @@ const PersonalGallery = () => {
         <>
             <div className="header d-flex justify-content-between mt-5">
                 <span className="fw-bold fs-3">Images</span>
-                <a href="#" className="fs-3">
+                <Link to={`/user/${userRoute}/photos`} className="fs-3">
                     All images
-                </a>
+                </Link>
             </div>
             <PersonalGalleryCollection photos={galleryImages} />
         </>

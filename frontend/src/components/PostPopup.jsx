@@ -186,6 +186,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
                             overflowY: "auto",
                             width: "100%",
                             height: "10em",
+                            resize: "none",
                         }}
                         onChange={handleContent}
                         placeholder={`What's in your mind, ${user.username}?`}

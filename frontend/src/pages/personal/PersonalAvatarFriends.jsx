@@ -187,7 +187,7 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
         }
         // user who author of current account
         else if (isCurrentUser) {
-            label = "Add stories";
+            label = "Edit profile";
             handleClick = null;
         } else if (isFollow) {
             label = "Following";
