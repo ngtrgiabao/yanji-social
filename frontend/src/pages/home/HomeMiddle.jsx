@@ -31,7 +31,7 @@ const HomeMiddle = ({ socket }) => {
 
     useEffect(() => {
         currentUser &&
-            getUserByID(currentUser._id, dispatch).then((data) => {
+            getUserByID(currentUser?._id, dispatch).then((data) => {
                 const { _id, profilePicture, username } = data.user;
 
                 setUser({
@@ -75,7 +75,7 @@ const HomeMiddle = ({ socket }) => {
             >
                 <div className="create-post-wrapper d-flex align-items-center">
                     <Link
-                        to={currentUser ? `/user/${user._id}` : "/"}
+                        to={currentUser ? `/user/${user?._id}` : "/"}
                         className="profile-pic"
                         aria-label="Avatar user"
                     >

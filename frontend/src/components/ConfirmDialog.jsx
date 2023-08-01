@@ -1,4 +1,5 @@
 import "../style/pages/messages/messagesMiddle.css";
+import "../style/pages/home/homeLeft.css";
 
 const ConfirmDialog = ({
     title = "Title",
@@ -10,8 +11,11 @@ const ConfirmDialog = ({
 }) => {
     return (
         <div
-            className="customize-theme position-fixed confirm-container h-100 d-flex justify-content-center align-items-center"
+            className="customize-theme top-0 position-fixed w-100 h-100 d-flex justify-content-center align-items-center"
             onClick={onClose}
+            style={{
+                left: 0,
+            }}
         >
             <div
                 id="confirm"
