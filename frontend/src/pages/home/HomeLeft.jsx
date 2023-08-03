@@ -157,7 +157,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                         setActive("MESSAGES");
                     }}
                     id="message-notification"
-                    title="Gửi tin nhắn"
+                    title="Tin nhắn"
                 >
                     <span>
                         <UilChat className="sidebar-icon" />
@@ -199,19 +199,19 @@ const HomeLeft = ({ socket, isReadNotification }) => {
     const renderAnalyticsBtn = () => {
         return (
             <Link
-                to="/"
+                to="/finance"
                 className={`menu-item ${
                     active === "ANALYTICS" ? "active" : ""
                 }`}
                 onClick={() => {
                     setActive("ANALYTICS");
                 }}
-                title="Phân tích dữ liệu cá nhân"
+                title="Finance"
             >
                 <span>
                     <UilAnalysis className="sidebar-icon" />
                 </span>
-                <h3 className="ms-4">Analytics</h3>
+                <h3 className="ms-4">Finance</h3>
             </Link>
         );
     };

@@ -82,7 +82,7 @@ const Notification = ({ socket }) => {
                     className="fs-5 text-white text-decoration-underline"
                     onClick={() => markSeenNoti()}
                 >
-                    back to home
+                    Back to home
                 </Link>
                 <span className="fw-bold">notification</span>
             </div>

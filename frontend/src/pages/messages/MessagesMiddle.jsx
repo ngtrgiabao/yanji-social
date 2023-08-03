@@ -18,6 +18,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+import { Link } from "react-router-dom";
 // import MagicBell, {
 //     FloatingNotificationInbox,
 // } from "@magicbell/magicbell-react";
@@ -435,7 +436,10 @@ const MessagesMiddle = ({ socket }) => {
     const renderTitleConversation = () => {
         return (
             <div className="middle-container-header d-flex align-items-center justify-content-between py-3 px-4 pb-3">
-                <div className="d-flex align-items-center">
+                <Link
+                    to={`/user/${friendID}`}
+                    className="d-flex align-items-center"
+                >
                     <div className="profile-pic">
                         {friend.avatar ? (
                             <img
@@ -451,7 +455,7 @@ const MessagesMiddle = ({ socket }) => {
                         )}
                     </div>
                     <span className="ms-2 fs-4 fw-bold">{friend.name}</span>
-                </div>
+                </Link>
                 <div className="d-flex fs-4">
                     <span
                         aria-label="Gọi điện"
