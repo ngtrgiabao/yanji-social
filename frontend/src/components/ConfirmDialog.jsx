@@ -27,9 +27,13 @@ const ConfirmDialog = ({
                         {title}
                     </span>
                 )}
-                <div className="confirm-container__dialog-review-image">
-                    {children}
-                </div>
+
+                {children && (
+                    <div className="confirm-container__dialog-review-image">
+                        {children}
+                    </div>
+                )}
+
                 <div className="confirm-container__dialog-footer fs-5 d-flex justify-content-end mt-2">
                     <span
                         onClick={onClose}

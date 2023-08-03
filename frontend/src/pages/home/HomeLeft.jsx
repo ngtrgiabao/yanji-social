@@ -38,8 +38,6 @@ const HomeLeft = ({ socket, isReadNotification }) => {
     });
     const dispatch = useDispatch();
 
-    const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-
     // CLEANUP URL WHEN CHANGE IMG
     useEffect(() => {
         return () => {
@@ -96,23 +94,23 @@ const HomeLeft = ({ socket, isReadNotification }) => {
         );
     };
 
-    const renderExploreBtn = () => {
-        return (
-            <Link
-                to="/explore"
-                className={`menu-item ${active === "EXPLORE" ? "active" : ""}`}
-                onClick={() => {
-                    setActive("EXPLORE");
-                }}
-                title="Khám phá"
-            >
-                <span>
-                    <UilCompass className="sidebar-icon" />
-                </span>
-                <h3 className="ms-4">Explore</h3>
-            </Link>
-        );
-    };
+    // const renderExploreBtn = () => {
+    //     return (
+    //         <Link
+    //             to="/explore"
+    //             className={`menu-item ${active === "EXPLORE" ? "active" : ""}`}
+    //             onClick={() => {
+    //                 setActive("EXPLORE");
+    //             }}
+    //             title="Khám phá"
+    //         >
+    //             <span>
+    //                 <UilCompass className="sidebar-icon" />
+    //             </span>
+    //             <h3 className="ms-4">Explore</h3>
+    //         </Link>
+    //     );
+    // };
 
     const renderNotificationBtn = () => {
         return (
@@ -342,7 +340,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
 
                 <div className="sidebar mt-3">
                     {renderHomeBtn()}
-                    {renderExploreBtn()}
+                    {/* {renderExploreBtn()} */}
                     {renderNotificationBtn()}
                     {renderMessageBtn()}
                     {renderBookmarkBtn()}
