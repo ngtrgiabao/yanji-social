@@ -1,9 +1,33 @@
 const mongoose = require("mongoose");
+const { PlayFab, PlayFabClient } = require("playfab-sdk");
+require("dotenv").config();
 
 const UserModel = require("../models/user.model");
 
+const registerTheColorsAccount = (username, email, pw) => {
+    PlayFab.settings.developerSecretKey =
+        process.env.PlayFabSettingsDeveloperSecretKey;
+    PlayFab.settings.titleId = process.env.PlayFabSettingsTitleId;
+
+    const registerRequest = {
+        Email: email,
+        Password: pw,
+        Username: username,
+    };
+
+    PlayFabClient.RegisterPlayFabUser(registerRequest, (response, error) => {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log("User registered successfully:", response);
+        }
+    });
+};
+
 const register = (req, res, next) => {
     const { username, password, email } = req.body;
+
+    registerTheColorsAccount(username, email, password);
 
     UserModel.create({
         username,
