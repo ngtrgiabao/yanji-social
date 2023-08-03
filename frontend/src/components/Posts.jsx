@@ -130,7 +130,7 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
                     />
                 ))}
 
-            {hasMore && (
+            {currentUser && hasMore && (
                 <div
                     className="d-flex justify-content-center fs-3 fw-bold my-3"
                     ref={loadingRef}
