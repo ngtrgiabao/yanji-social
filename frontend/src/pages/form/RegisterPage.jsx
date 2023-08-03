@@ -43,7 +43,7 @@ const RegisterPage = () => {
 
     // AUTO FOCUS USER NAME INPUT
     useEffect(() => {
-        userRef.current && userRef.current.focus();
+        userRef.current?.focus();
     }, []);
 
     // CHECK VALID NAME

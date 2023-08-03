@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     UilEstate,
@@ -11,6 +11,7 @@ import {
     UilPalette,
     UilSetting,
 } from "@iconscout/react-unicons";
+import { faVideo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 
@@ -111,6 +112,31 @@ const HomeLeft = ({ socket, isReadNotification }) => {
     //         </Link>
     //     );
     // };
+
+    const renderMeetingBtn = () => {
+        return (
+            <a
+                href="https://meet-with-us.netlify.app/"
+                className={`menu-item ${active === "MEETING" ? "active" : ""}`}
+                onClick={() => {
+                    setActive("MEETING");
+                }}
+                title="Meeting"
+            >
+                <span>
+                    <FontAwesomeIcon
+                        icon={faVideo}
+                        style={{
+                            marginLeft: "2rem",
+                            color: "#9e98b3",
+                        }}
+                        className="fs-2"
+                    />
+                </span>
+                <h3 className="ms-4">Meeting</h3>
+            </a>
+        );
+    };
 
     const renderNotificationBtn = () => {
         return (
@@ -345,6 +371,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                     {renderMessageBtn()}
                     {renderBookmarkBtn()}
                     {renderAnalyticsBtn()}
+                    {renderMeetingBtn()}
                     {renderThemeBtn()}
                     {renderSettingBtn()}
                 </div>
