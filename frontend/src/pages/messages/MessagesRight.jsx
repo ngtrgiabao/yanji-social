@@ -77,11 +77,10 @@ const MessagesRight = () => {
             getUserByID(friend.id, dispatch).then((data) => {
                 const { username, profilePicture } = data.user;
 
-                setFriend((prevFriend) => ({
-                    ...prevFriend,
+                setFriend({
                     username: username,
                     profilePicture: profilePicture,
-                }));
+                });
             });
         }
 
@@ -98,18 +97,27 @@ const MessagesRight = () => {
     const renderAvatarUser = () => {
         return (
             <div className="d-flex flex-column align-items-center mb-4">
-                <div className="right-container-header rounded rounded-circle overflow-hidden">
-                    <img
-                        loading="lazy"
-                        role="presentation"
-                        decoding="async"
-                        src={friend.profilePicture || DEFAULT_AVATAR}
-                        alt="Avatar user"
-                        className="w-100"
-                        style={{
-                            objectFit: "cover",
-                        }}
-                    />
+                <div
+                    className="right-container-header rounded rounded-circle overflow-hidden d-flex justify-content-center align-items-center fs-3 fw-bold"
+                    style={{
+                        background: "var(--color-primary)",
+                    }}
+                >
+                    {friend.profilePicture ? (
+                        <img
+                            loading="lazy"
+                            role="presentation"
+                            decoding="async"
+                            src={friend.profilePicture}
+                            alt="Avatar user"
+                            className="w-100"
+                            style={{
+                                objectFit: "cover",
+                            }}
+                        />
+                    ) : (
+                        <>{friend.username}</>
+                    )}
                 </div>
                 <p className="mt-2 mb-0 fs-4 fw-bold">{friend.username}</p>
                 <span className="opacity-75">Online 3mins ago</span>
