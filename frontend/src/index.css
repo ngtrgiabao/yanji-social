@@ -116,6 +116,53 @@ ul {
     cursor: pointer;
 }
 
+/* CREATE POST */
+
+.create-post {
+    width: 100%;
+
+    padding: 0.4rem var(--card-padding);
+
+    background-color: var(--color-white);
+
+    border-radius: var(--border-radius);
+}
+
+.create-post-wrapper {
+    width: 100%;
+}
+
+.create-post-wrapper input[type="text"] {
+    width: 90%;
+    height: 5rem;
+
+    font-size: 1.4rem;
+    color: var(--color-dark);
+
+    justify-self: start;
+
+    background-color: transparent;
+}
+
+.create-post-wrapper input:-webkit-autofill,
+.create-post-wrapper input:-webkit-autofill:hover,
+.create-post-wrapper input:-webkit-autofill:focus,
+.create-post-wrapper input:-webkit-autofill:active {
+    -webkit-text-fill-color: #fff !important;
+
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.sidebar-icon {
+    color: var(--color-primary);
+}
+
+.create-post-icons span {
+    padding: 1rem;
+
+    cursor: pointer;
+}
+
 /* CUSTOME SCROLLBAR */
 
 /* For Chrome, Safari and Opera */

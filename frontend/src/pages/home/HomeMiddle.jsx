@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
+import DEFAULT_AVATAR from "../../assets/logo/yanji-social.svg";
 
 import "../../style/pages/home/homeMiddle.css";
 import "../../style/animations/snackbar.css";
 
 import PostPopup from "../../components/PostPopup";
-import Posts from "../../components/Posts";
 import { getUserByID } from "../../redux/request/userRequest";
+import Loading from "../../pages/loading/LoadingPage";
+
+const Posts = lazy(() => import("../../components/Posts"));
 
 const HomeMiddle = ({ socket }) => {
     const [popup, setPopup] = useState(false);
@@ -66,6 +68,21 @@ const HomeMiddle = ({ socket }) => {
         }
     };
 
+    const renderUserAvatar = () => {
+        if (user.profilePicture) {
+            return (
+                <img
+                    loading="lazy"
+                    className="w-100"
+                    src={user.profilePicture}
+                    alt="Avatar user"
+                />
+            );
+        } else {
+            return <>{user.username}</>;
+        }
+    };
+
     return (
         <div className="middle animate__animated animate__fadeIn position-relative">
             {/* STATUS */}
@@ -73,24 +90,24 @@ const HomeMiddle = ({ socket }) => {
                 action=""
                 className="create-post d-flex align-items-center mb-4"
             >
-                <div className="create-post-wrapper d-flex align-items-center">
+                <div className="create-post-wrapper w-100 d-flex align-items-center">
                     <Link
                         to={currentUser ? `/user/${user?._id}` : "/"}
-                        className="profile-pic"
+                        className="profile-pic text-white"
                         aria-label="Avatar user"
                     >
-                        <img
-                            loading="lazy"
-                            role="presentation"
-                            decoding="async"
-                            className="w-100"
-                            src={
-                                currentUser
-                                    ? user.profilePicture || DEFAULT_AVATAR
-                                    : DEFAULT_AVATAR
-                            }
-                            alt="Avatar user"
-                        />
+                        {currentUser ? (
+                            renderUserAvatar()
+                        ) : (
+                            <img
+                                loading="lazy"
+                                role="presentation"
+                                decoding="async"
+                                className="w-100"
+                                src={DEFAULT_AVATAR}
+                                alt="Avatar user"
+                            />
+                        )}
                     </Link>
 
                     <div
@@ -125,7 +142,9 @@ const HomeMiddle = ({ socket }) => {
             </div>
             {/* END STATUS */}
 
-            <Posts handleDeletePopup={handleDeletePopup} socket={socket} />
+            <Suspense fallback={<Loading />}>
+                <Posts handleDeletePopup={handleDeletePopup} socket={socket} />
+            </Suspense>
 
             <div
                 data-deleted-popup

@@ -100,8 +100,12 @@ const ChangeImagePopup = ({
                                 <FontAwesomeIcon icon={faCircleXmark} />
                             </span>
                         </div>
+
                         <div className="change-img__popup-content my-4 d-flex justify-content-center align-items-center flex-column">
-                            <div className={`${isCircle ? "circle" : ""}`}>
+                            <div
+                                className={`${isCircle ? "circle" : "w-75"}`}
+                                data-image
+                            >
                                 <PreviewImage imgSrc={previewImg || imgSrc} />
                             </div>
                             <div
@@ -112,6 +116,7 @@ const ChangeImagePopup = ({
                                 style={{
                                     cursor: "pointer",
                                 }}
+                                data-choose-image
                             >
                                 Tải ảnh lên
                             </div>
@@ -122,6 +127,7 @@ const ChangeImagePopup = ({
                                 onChange={(e) => handleUploadAvatar(e)}
                             />
                         </div>
+
                         <div className="change-img__popup-footer fs-4 w-100 d-flex justify-content-end">
                             <button className="p-2" onClick={onClose}>
                                 Cancel

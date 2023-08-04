@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -9,8 +9,10 @@ import { loginUser } from "../../redux/request/authRequest";
 import "../../style/pages/form/registerPage.css";
 
 function LoginPage() {
+    const pwd = useRef(null);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [isError, setIsError] = useState(false);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -22,40 +24,80 @@ function LoginPage() {
             password: password,
         };
 
-        loginUser(newUser, dispatch, navigate);
+        loginUser(newUser, dispatch, navigate).then((data) => {
+            if (!data) {
+                setIsError(true);
+            }
+        });
     };
 
     const renderUsernameInput = () => {
         return (
             <div className="login-form__input">
-                <label htmlFor="">Username</label>
+                <label htmlFor="username">Username</label>
                 <input
                     type="text"
                     placeholder="username"
                     onChange={(e) => setUsername(e.target.value)}
                     className="border border-dark"
+                    id="username"
                 />
             </div>
         );
     };
 
+    const showPwd = () => {
+        if (pwd.current) {
+            if (pwd.current.type === "password") {
+                pwd.current.type = "text";
+            } else {
+                pwd.current.type = "password";
+            }
+        }
+    };
+
     const renderPwdInput = () => {
         return (
-            <div className="login-form__input">
-                <label htmlFor="">Password</label>
-                <input
-                    type="password"
-                    placeholder="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="border border-dark"
-                />
+            <div className="d-flex flex-column">
+                <div className="login-form__input">
+                    <label htmlFor="pwd">Password</label>
+                    <input
+                        type="password"
+                        placeholder="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="border border-dark"
+                        ref={pwd}
+                        id="pwd"
+                    />
+                </div>
+                <div className="d-flex align-items-center">
+                    <input
+                        id="show-pwd"
+                        type="checkbox"
+                        onClick={showPwd}
+                        className="me-2"
+                    />
+                    <label htmlFor="show-pwd">Show Password</label>
+                </div>
+
+                {isError && (
+                    <p
+                        className={
+                            isError
+                                ? "instructions p-2 bg-danger animate__animated animate__bounceIn"
+                                : "offscreen"
+                        }
+                    >
+                        Invalid username or password. Please check again
+                    </p>
+                )}
             </div>
         );
     };
 
     const renderSubmitBtn = () => {
         return (
-            <button role="button" type="submit">
+            <button type="submit" disabled={!username || !password}>
                 Sign in
             </button>
         );
@@ -73,7 +115,6 @@ function LoginPage() {
                             {renderUsernameInput()}
                             {renderPwdInput()}
                             {renderSubmitBtn()}
-
                             <div className="register-form__footer d-flex flex-column align-items-start">
                                 <Link to="/">Forgot your password?</Link>
                                 <span className="fs-6">

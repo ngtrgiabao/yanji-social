@@ -1,4 +1,4 @@
-import DEFAULT_BG from "../assets/background/default_bg_user.svg";
+import LOGO from "../assets/logo/yanji-social.svg";
 
 const PreviewImage = ({ imgSrc, width, heigth }) => {
     return imgSrc ? (
@@ -17,7 +17,7 @@ const PreviewImage = ({ imgSrc, width, heigth }) => {
         />
     ) : (
         <img
-            src={DEFAULT_BG}
+            src={LOGO}
             loading="lazy"
             role="presentation"
             decoding="async"

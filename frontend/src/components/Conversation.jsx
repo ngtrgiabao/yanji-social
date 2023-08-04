@@ -70,20 +70,25 @@ const Conversation = ({
     const renderAvatarUser = () => {
         return (
             <span
-                className={
-                    isOnline && user
-                        ? "avatar-user online-status"
-                        : "avatar-user"
-                }
+                className={`avatar-user d-flex justify-content-center align-items-center ${
+                    isOnline && user ? "online-status" : ""
+                }`}
+                style={{
+                    background: "var(--color-primary)",
+                }}
             >
-                <img
-                    loading="lazy"
-                    role="presentation"
-                    decoding="async"
-                    src={user?.profilePicture}
-                    alt="Avatar user"
-                    className="rounded-circle w-100"
-                />
+                {user?.profilePicture ? (
+                    <img
+                        loading="lazy"
+                        role="presentation"
+                        decoding="async"
+                        src={user.profilePicture}
+                        alt="Avatar user"
+                        className="rounded-circle w-100"
+                    />
+                ) : (
+                    <>{user?.username || "user"}</>
+                )}
             </span>
         );
     };

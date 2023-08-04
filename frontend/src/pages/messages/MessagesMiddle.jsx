@@ -1,6 +1,13 @@
 import io from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState, useCallback } from "react";
+import {
+    useEffect,
+    useRef,
+    useState,
+    useCallback,
+    lazy,
+    Suspense,
+} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
     faVideo,
@@ -33,7 +40,7 @@ import {
     getMessageByID,
     markMessageSeen,
 } from "../../redux/request/messageRequest";
-import Message from "../../components/Message";
+// import Message from "../../components/Message";
 import { useTimeAgo } from "../../hooks/useTimeAgo";
 import useUploadImage from "../../hooks/useUploadImage";
 import PreviewImage from "../../components/PreviewImage";
@@ -42,6 +49,9 @@ import useDownloadImage from "../../hooks/useDownloadImage";
 import { getUserByID } from "../../redux/request/userRequest";
 import { NEW_MSG } from "../../constants/noti.type.constant";
 import { pushNewNotification } from "../../redux/request/notificationRequest";
+import Loading from "../../pages/loading/LoadingPage";
+
+const Message = lazy(() => import("../../components/Message"));
 
 const MessagesMiddle = ({ socket }) => {
     const [edit, setEdit] = useState(false);
@@ -190,10 +200,14 @@ const MessagesMiddle = ({ socket }) => {
         submit: (e) => {
             e.preventDefault();
 
-            if (currentConversation) {
+            const trimmedMsg = message.trim();
+
+            setMessage("");
+
+            if (currentConversation && trimmedMsg.length > 0) {
                 const newMessage = {
                     sender: sender._id,
-                    message: message,
+                    message: trimmedMsg,
                     time: time,
                     roomId: currentConversation,
                 };
@@ -438,7 +452,7 @@ const MessagesMiddle = ({ socket }) => {
             <div className="middle-container-header d-flex align-items-center justify-content-between py-3 px-4 pb-3">
                 <Link
                     to={`/user/${friendID}`}
-                    className="d-flex align-items-center"
+                    className="d-flex align-items-center link-underline"
                 >
                     <div className="profile-pic">
                         {friend.avatar ? (
@@ -484,19 +498,20 @@ const MessagesMiddle = ({ socket }) => {
     };
 
     const renderMessages = () => {
-        return messageThread.map((message, idx) => (
-            <Message
-                key={idx}
-                media={message.media}
-                sender={message.sender}
-                loadingMsg={loadingMsg}
-                content={message.message}
-                createdAt={message.createdAt}
-                updatedAt={message.updatedAt}
-                onUpdateMsg={() => handleMsg.updateMsg(message._id)}
-                onDeleteMsg={() => handleMsg.deleteMsg(message._id)}
-                onPreviewImage={() => handlePreviewImage(message.media)}
-            />
+        return messageThread.map((message, _) => (
+            <Suspense fallback={<Loading />} key={message._id}>
+                <Message
+                    media={message.media}
+                    sender={message.sender}
+                    loadingMsg={loadingMsg}
+                    content={message.message}
+                    createdAt={message.createdAt}
+                    updatedAt={message.updatedAt}
+                    onUpdateMsg={() => handleMsg.updateMsg(message._id)}
+                    onDeleteMsg={() => handleMsg.deleteMsg(message._id)}
+                    onPreviewImage={() => handlePreviewImage(message.media)}
+                />
+            </Suspense>
         ));
     };
 
@@ -656,7 +671,10 @@ const MessagesMiddle = ({ socket }) => {
                     {renderEmojiPicker()}
                 </div>
 
-                <div className="user-input-chat position-relative mx-3">
+                <div
+                    className="user-input-chat position-relative mx-3"
+                    data-input
+                >
                     {edit && renderLabelEditMessage()}
                     <input
                         type="text"

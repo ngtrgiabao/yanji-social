@@ -35,32 +35,27 @@ const validateRegisterUser = async (req, res, next) => {
 const validateLoginUser = async (req, res, next) => {
     const { username, password } = req.body;
 
-    // Check if all required fields are present
-    if (!username || !password) {
-        console.error(`Please provide your username and password`, error);
-        return res
-            .status(404)
-            .json({ message: "Please provide your username and password" });
-    }
-
-    // Check if the username and password match a user in the database
-    await User.findOne({ username: username, password: password })
-        .then((user) => {
-            if (!user) {
-                console.error(`Invalid username or password`, error);
-                return res
-                    .status(401)
-                    .json({ message: "Invalid username or password" });
-            }
-            req.user = user; // Attach the user object to the request for later use
-            next(); // Proceed to authentication if all checks pass
-        })
-        .catch((error) => {
-            console.error("An error occur while validating user login:", error);
-            return res.status(500).json({
-                message: "An error occur while validating user login",
-            });
+    try {
+        const user = await User.findOne({
+            username: username,
+            password: password,
         });
+
+        if (!user) {
+            console.error(`Invalid username or password`);
+            return res
+                .status(401)
+                .json({ message: "Invalid username or password" });
+        }
+
+        req.user = user; // Attach the user object to the request for later use
+        next(); // Proceed to authentication if all checks pass
+    } catch (error) {
+        console.error("An error occurred while validating user login:", error);
+        return res.status(500).json({
+            message: "An error occurred while validating user login",
+        });
+    }
 };
 
 // Middleware to validate and retrieve user account by ID

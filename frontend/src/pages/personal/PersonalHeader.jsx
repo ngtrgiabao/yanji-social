@@ -35,7 +35,7 @@ const PersonalHeader = ({ userInfo, socket }) => {
 
     return (
         <div className="cover">
-            <span className="position-relative">
+            <span className="position-relative w-100 h-100">
                 <div className="cover-picture bg-black">
                     {userInfo.coverPicture ? (
                         <img
