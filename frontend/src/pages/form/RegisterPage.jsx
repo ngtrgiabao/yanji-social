@@ -187,7 +187,7 @@ const RegisterPage = () => {
                         id="emailnote"
                         className={
                             emailFocus && email && !validEmail
-                                ? "instruction animate__animated animate__bounceIn"
+                                ? "instructions animate__animated animate__bounceIn"
                                 : "offscreen"
                         }
                     >

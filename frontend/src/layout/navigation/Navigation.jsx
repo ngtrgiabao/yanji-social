@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import "../../style/layouts/navigation.css";
 
-import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
+import LOGO from "../../assets/logo/yanji-social.svg";
 
 import { logout } from "../../redux/request/authRequest";
 import { useEffect, useState } from "react";
@@ -64,7 +64,15 @@ const Navigation = ({ title, link }) => {
         <>
             <nav className="py-3 header-navbar">
                 <div className="container d-flex align-items-center h-100">
-                    <Link to="/" className="logo mb-0">
+                    <Link
+                        to="/"
+                        className="logo mb-0 d-flex align-items-center"
+                    >
+                        <img
+                            src={LOGO}
+                            alt=""
+                            className="profile-pic me-3 border border-2 border-white"
+                        />
                         Yanji Social
                     </Link>
 
@@ -83,16 +91,20 @@ const Navigation = ({ title, link }) => {
                             <Link
                                 aria-label="Avatar user"
                                 to={currentUser ? `/user/${user.userID}` : "/"}
-                                className="profile-pic ms-4"
+                                className="profile-pic ms-4 border border-2 border-white text-white"
                             >
-                                <img
-                                    loading="lazy"
-                                    role="presentation"
-                                    decoding="async"
-                                    className="w-100"
-                                    src={user.profilePicture || DEFAULT_AVATAR}
-                                    alt="Avatar user"
-                                />
+                                {user.profilePicture ? (
+                                    <img
+                                        loading="lazy"
+                                        role="presentation"
+                                        decoding="async"
+                                        className="w-100"
+                                        src={user.profilePicture}
+                                        alt="Avatar user"
+                                    />
+                                ) : (
+                                    <>{currentUser.username}</>
+                                )}
                             </Link>
                         )}
                     </div>

@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     UilEstate,
-    UilCompass,
     UilBell,
     UilChat,
     UilBookmark,
@@ -17,7 +16,7 @@ import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 
 import "../../style/pages/home/homeLeft.css";
 
-import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
+import DEFAULT_AVATAR from "../../assets/logo/yanji-social.svg";
 
 import { getUserByID } from "../../redux/request/userRequest";
 
@@ -94,24 +93,6 @@ const HomeLeft = ({ socket, isReadNotification }) => {
             </Link>
         );
     };
-
-    // const renderExploreBtn = () => {
-    //     return (
-    //         <Link
-    //             to="/explore"
-    //             className={`menu-item ${active === "EXPLORE" ? "active" : ""}`}
-    //             onClick={() => {
-    //                 setActive("EXPLORE");
-    //             }}
-    //             title="Khám phá"
-    //         >
-    //             <span>
-    //                 <UilCompass className="sidebar-icon" />
-    //             </span>
-    //             <h3 className="ms-4">Explore</h3>
-    //         </Link>
-    //     );
-    // };
 
     const renderMeetingBtn = () => {
         return (
@@ -366,7 +347,6 @@ const HomeLeft = ({ socket, isReadNotification }) => {
 
                 <div className="sidebar mt-3">
                     {renderHomeBtn()}
-                    {/* {renderExploreBtn()} */}
                     {renderNotificationBtn()}
                     {renderMessageBtn()}
                     {renderBookmarkBtn()}

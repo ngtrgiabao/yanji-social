@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 
@@ -8,9 +8,10 @@ import {
     getRoomsByUserID,
     getCurrentRoom,
 } from "../../redux/request/roomRequest";
-import Conversation from "../../components/Conversation";
 import { getUserByID } from "../../redux/request/userRequest";
-// import ChatOnline from "../../../../components/ChatOnline";
+import Loading from "../../pages/loading/LoadingPage";
+
+const Conversation = lazy(() => import("../../components/Conversation"));
 
 const MessagesLeft = ({ avatarUser, socket = {} }) => {
     const [rooms, setRooms] = useState([]);
@@ -110,13 +111,15 @@ const MessagesLeft = ({ avatarUser, socket = {} }) => {
                 }}
                 className="messages-wrapper__room-list"
             >
-                <Conversation
-                    onlineUsers={onlineUsers}
-                    conversation={r}
-                    currentUser={currentUser._id}
-                    avatarUser={avatarUser}
-                    filterMessages={filterMessages}
-                />
+                <Suspense fallback={<Loading />}>
+                    <Conversation
+                        onlineUsers={onlineUsers}
+                        conversation={r}
+                        currentUser={currentUser._id}
+                        avatarUser={avatarUser}
+                        filterMessages={filterMessages}
+                    />
+                </Suspense>
             </div>
         ));
     };
@@ -139,10 +142,6 @@ const MessagesLeft = ({ avatarUser, socket = {} }) => {
 
                         <div className="messages-wrapper scrollbar">
                             {renderRooms()}
-                            {/* <ChatOnline
-                                onlineUsers={onlineUsers}
-                                currentUser={currentUser._id}
-                            /> */}
                         </div>
                     </div>
                 </div>

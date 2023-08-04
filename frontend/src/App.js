@@ -71,6 +71,7 @@ function App() {
                         element={
                             <Suspense fallback={<LoadingPage />}>
                                 <Homepage socket={socket} />
+                                {/* <LoadingPage /> */}
                             </Suspense>
                         }
                     />
