@@ -84,6 +84,7 @@ const Bookmarks = ({ socket }) => {
                         gridTemplateColumns: "repeat(4, minmax(30rem, 1fr))",
                         height: "max-content",
                     }}
+                    data-posts-saved-wrap
                 >
                     {renderBookmarksList()}
                 </div>

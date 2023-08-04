@@ -46,6 +46,7 @@ const Navigation = ({ title, link }) => {
                 className="btn btn-danger d-flex align-items-center justify-content-center gap-4"
                 htmlFor="#logout"
                 onClick={handleLogout}
+                data-logout-btn
             >
                 Logout
             </Link>
@@ -73,7 +74,7 @@ const Navigation = ({ title, link }) => {
                             alt=""
                             className="profile-pic me-3 border border-2 border-white"
                         />
-                        Yanji Social
+                        <span>Yanji Social</span>
                     </Link>
 
                     <div className="search-bar d-flex align-items-center">

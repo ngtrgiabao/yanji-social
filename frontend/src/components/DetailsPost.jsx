@@ -26,6 +26,7 @@ const DetailsPost = ({
                     background: "var(--color-primary-light)",
                     color: "var(--color-dark)",
                 }}
+                data-detail-post
             >
                 <p className="fs-3 fw-bold mb-1 text-white">
                     Bài viết từ {author.username}

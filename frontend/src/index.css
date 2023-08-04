@@ -1,3 +1,7 @@
+@import "./style/responsive/small-laptop/small-laptop.css";
+@import "./style/responsive/big-tablet/big-tablet.css";
+@import "./style/responsive/mobile/mobile.css";
+
 *,
 *::before,
 *::after {

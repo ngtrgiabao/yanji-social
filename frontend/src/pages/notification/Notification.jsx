@@ -99,6 +99,7 @@ const Notification = ({ socket }) => {
                         style={{
                             margin: "6rem 0 1rem",
                         }}
+                        data-notifications
                     >
                         {notiList.map((noti) => (
                             <NotificationCard
