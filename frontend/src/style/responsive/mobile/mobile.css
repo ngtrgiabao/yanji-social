@@ -1,3 +1,6 @@
+@import "./home.css";
+@import "./layout/navbar.css";
+
 @media screen and (max-width: 360px) {
     .navbar {
         width: 130%;

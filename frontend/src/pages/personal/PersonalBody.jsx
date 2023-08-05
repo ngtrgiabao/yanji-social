@@ -159,7 +159,7 @@ const PersonalBody = ({
                         <PersonalSocialLinks />
                     </div>
                 </div>
-                <div className="col-7">
+                <div className="col-7" data-posts>
                     {currentUser._id === userInfo._id && (
                         <div
                             className="row d-flex border-bottom pb-4 mb-4"
@@ -210,7 +210,7 @@ const PersonalBody = ({
                     </div>
                 </div>
             </div>
-            
+
             {renderPostPopup()}
         </>
     );

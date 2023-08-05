@@ -93,7 +93,10 @@ const ChangeImagePopup = ({
         !isSuccess && (
             <>
                 <div className="change-img__popup d-flex justify-content-center align-items-center animate__animated animate__fadeIn">
-                    <div className="change-img__popup-container d-flex justify-content-center align-items-center flex-column p-4 mt-5">
+                    <div
+                        className="change-img__popup-container d-flex justify-content-center align-items-center flex-column p-4 mt-5"
+                        data-change-image-popup
+                    >
                         <div className="change-img__popup-title fs-1 d-flex justify-content-between w-100">
                             {title}
                             <span onClick={onClose}>

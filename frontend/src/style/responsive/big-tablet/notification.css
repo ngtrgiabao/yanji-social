@@ -1,0 +1,5 @@
+@media screen and (max-width: 992px) {
+    div[data-card] {
+        width: 90% !important;
+    }
+}
