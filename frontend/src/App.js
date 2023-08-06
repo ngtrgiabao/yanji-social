@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
 import LoadingPage from "./pages/loading/LoadingPage";
+import YanjiSocialLoadingPage from "./pages/loading/YanjiSocialLoadingPage";
 import NetworkError from "./pages/networkError/NetworkError";
 
 const NotFound = lazy(() => import("./pages/notFound/NotFound"));
@@ -69,9 +70,8 @@ function App() {
                     <Route
                         path="/"
                         element={
-                            <Suspense fallback={<LoadingPage />}>
+                            <Suspense fallback={<YanjiSocialLoadingPage />}>
                                 <Homepage socket={socket} />
-                                {/* <LoadingPage /> */}
                             </Suspense>
                         }
                     />

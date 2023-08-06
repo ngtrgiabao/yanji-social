@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { UitEllipsisV } from "@iconscout/react-unicons-thinline";
 import {
-    faCaretDown,
     faFileArrowDown,
     faBookmark,
     faUserCircle,

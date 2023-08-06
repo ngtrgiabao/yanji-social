@@ -21,10 +21,9 @@ import DEFAULT_AVATAR from "../../assets/logo/yanji-social.svg";
 import { getUserByID } from "../../redux/request/userRequest";
 
 // SETTINGS
-import FontSizeTheme from "./customTheme/FontSizeTheme";
-import BackgroundTheme from "./customTheme/BackgroundTheme";
-import ColorTheme from "./customTheme/ColorTheme";
 import PostPopup from "../../components/PostPopup";
+import CustomTheme from "../../components/CustomTheme";
+import Setting from "../../components/Setting";
 
 const HomeLeft = ({ socket, isReadNotification }) => {
     const [active, setActive] = useState("HOME");
@@ -263,25 +262,23 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                 hidden={active !== "THEME"}
                 onClick={() => setActive("")}
             >
-                <div
-                    className="card animate__animated animate__fadeInLeft"
-                    onClick={(e) => {
-                        if (e.currentTarget.classList.contains("card")) {
-                            e.stopPropagation();
-                        }
-                    }}
-                >
-                    <h2>Customize your view</h2>
-                    <p className="text-muted">
-                        Manage your font size, color, and background.
-                    </p>
+                <CustomTheme />
+            </div>
+        );
+    };
 
-                    <>
-                        <FontSizeTheme />
-                        <ColorTheme />
-                        <BackgroundTheme />
-                    </>
-                </div>
+    const handleClostPopup = () => {
+        setActive("");
+    };
+
+    const renderSettingPopup = () => {
+        return (
+            <div
+                className="customize-theme"
+                hidden={active !== "SETTINGS"}
+                onClick={() => setActive("")}
+            >
+                <Setting close={handleClostPopup} />
             </div>
         );
     };
@@ -368,6 +365,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
 
             {renderCustomThemePopup()}
             {renderPostPopup()}
+            {renderSettingPopup()}
         </>
     );
 };

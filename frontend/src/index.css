@@ -72,6 +72,20 @@ ul {
     list-style: none;
 }
 
+.custom-btn:hover {
+    background: rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+}
+
+input {
+    border: 1px solid;
+}
+
+input:focus,
+textarea:focus {
+    border: 1px solid var(--color-primary);
+}
+
 .link-underline:hover {
     text-decoration: underline;
     color: unset;
