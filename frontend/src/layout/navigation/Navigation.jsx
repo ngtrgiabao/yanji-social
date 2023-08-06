@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UilSearch } from "@iconscout/react-unicons";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 import "../../style/layouts/navigation.css";
 
@@ -12,11 +13,11 @@ import { useEffect, useState } from "react";
 import { getUserByID } from "../../redux/request/userRequest";
 
 const Navigation = ({ title, link }) => {
+    const [users, setUsers] = useState([]);
     const [user, setUser] = useState({
         userID: "",
         profilePicture: "",
     });
-
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
@@ -61,6 +62,23 @@ const Navigation = ({ title, link }) => {
         );
     };
 
+    const searchUser = async (e) => {
+        const value = e.target.value;
+
+        const data = await axios.get(
+            process.env.REACT_APP_SOCKET_URL +
+                `/api/v1/user/all-users/?username=${value.toLowerCase()}`
+        );
+
+        const userList = data.data.users;
+
+        if (userList.length > 0) {
+            setUsers(userList);
+        } else {
+            setUsers([]);
+        }
+    };
+
     return (
         <>
             <nav className="py-3 header-navbar">
@@ -77,13 +95,48 @@ const Navigation = ({ title, link }) => {
                         <span>Yanji Social</span>
                     </Link>
 
-                    <div className="search-bar d-flex align-items-center">
+                    <div className="search-bar d-flex align-items-center position-relative">
                         <UilSearch />
                         <Form.Control
                             className="ms-4"
                             type="search"
                             placeholder="Search for creators, ideas and projects"
+                            onChange={(e) => searchUser(e)}
                         />
+
+                        <div
+                            className="position-absolute w-100 text-white overflow-auto"
+                            style={{
+                                left: "0",
+                                top: "110%",
+                                maxHeight: "30rem",
+                            }}
+                        >
+                            {users.map((u) => (
+                                <Link
+                                    to={`/user/${u._id}`}
+                                    className="d-flex align-items-center p-3 fs-5 text-white"
+                                    style={{
+                                        background:
+                                            "var(--color-primary-light)",
+                                    }}
+                                    key={u._id}
+                                >
+                                    <div className="profile-pic d-flex justify-content-center align-items-center me-3">
+                                        {u.profilePicture ? (
+                                            <img
+                                                src={u.profilePicture}
+                                                alt=""
+                                                className="w-100"
+                                            />
+                                        ) : (
+                                            <>{u.username}</>
+                                        )}
+                                    </div>
+                                    {u.username}
+                                </Link>
+                            ))}
+                        </div>
                     </div>
 
                     <div className="d-flex justify-content-end align-items-center">
