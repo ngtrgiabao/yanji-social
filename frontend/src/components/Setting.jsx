@@ -31,7 +31,7 @@ const Setting = ({ close }) => {
                             style={{
                                 borderRadius: "1rem",
                             }}
-                            defaultValue={currentUser.firstName}
+                            defaultValue={currentUser?.firstName}
                             placeholder="Your firstname"
                         />
                     </div>
@@ -46,7 +46,7 @@ const Setting = ({ close }) => {
                             style={{
                                 borderRadius: "1rem",
                             }}
-                            defaultValue={currentUser.lastName}
+                            defaultValue={currentUser?.lastName}
                             placeholder="Your lastname"
                         />
                     </div>
@@ -64,12 +64,12 @@ const Setting = ({ close }) => {
                             height: "7rem",
                             resize: "none",
                         }}
-                        defaultValue={currentUser.bio}
+                        defaultValue={currentUser?.bio}
                     ></textarea>
                 </div>
                 <div className="mt-2 d-flex flex-column align-items-start">
                     <label htmlFor="nickname" className="fw-light mb-2">
-                        Nickname ( @{currentUser.username} )
+                        Nickname ( @{currentUser?.username} )
                     </label>
                     <input
                         type="text"
@@ -78,7 +78,7 @@ const Setting = ({ close }) => {
                         style={{
                             borderRadius: "1rem",
                         }}
-                        defaultValue={currentUser.username}
+                        defaultValue={currentUser?.username}
                     />
                 </div>
             </div>
@@ -100,7 +100,7 @@ const Setting = ({ close }) => {
                         style={{
                             borderRadius: "1rem",
                         }}
-                        defaultValue={currentUser.email}
+                        defaultValue={currentUser?.email}
                     />
                 </div>
 
@@ -115,7 +115,7 @@ const Setting = ({ close }) => {
                         style={{
                             borderRadius: "0.5rem",
                         }}
-                        defaultValue={currentUser.password}
+                        defaultValue={currentUser?.password}
                     />
                     <div
                         className="mt-2 custom-btn d-flex align-items-center justify-content-center text-white p-2 px-3"
