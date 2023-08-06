@@ -2,7 +2,7 @@ import "../../../style/pages/home/customTheme/color.css";
 
 import { useTheme } from "../../../hooks/useTheme";
 
-function ColorTheme() {
+const ColorTheme = () => {
     const { setTextColors } = useTheme();
     const textColorTheme = localStorage.getItem("text_color");
 
@@ -59,6 +59,6 @@ function ColorTheme() {
             {renderColorThemeMenu()}
         </div>
     );
-}
+};
 
 export default ColorTheme;

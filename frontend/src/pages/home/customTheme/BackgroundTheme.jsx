@@ -2,7 +2,7 @@ import "../../../style/pages/home/customTheme/background.css";
 
 import { useTheme } from "../../../hooks/useTheme";
 
-function BackgroundTheme() {
+const BackgroundTheme = () => {
     const { setBgColors } = useTheme();
     const bgTheme = localStorage.getItem("background_theme");
 
@@ -47,6 +47,6 @@ function BackgroundTheme() {
             </div>
         </div>
     );
-}
+};
 
 export default BackgroundTheme;
