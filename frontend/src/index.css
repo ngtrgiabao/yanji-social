@@ -73,7 +73,7 @@ ul {
 }
 
 .custom-btn:hover {
-    background: rgba(0, 0, 0, 0.06);
+    background: var(--extra-light-dark);
     cursor: pointer;
 }
 

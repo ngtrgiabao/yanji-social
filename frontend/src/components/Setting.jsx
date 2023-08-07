@@ -9,6 +9,8 @@ import { CSVLink } from "react-csv";
 import { logout } from "../redux/request/authRequest";
 import { getUserByID, updateUser } from "../redux/request/userRequest";
 
+// TODO CHANGE BG DANGER OF POPUP WHEN UPDATE USER FAILED
+
 const Setting = ({ close }) => {
     const [active, setActive] = useState("PUBLIC");
     const exportData = useRef(null);
@@ -38,14 +40,14 @@ const Setting = ({ close }) => {
     };
 
     useEffect(() => {
-        getUserByID(currentUser._id, dispatch).then((data) => {
+        getUserByID(currentUser?._id, dispatch).then((data) => {
             setUserInfo(data.user);
         });
-    }, [currentUser._id, dispatch]);
+    }, [currentUser?._id, dispatch]);
 
     useEffect(() => {
         userInfo &&
-            getUserByID(currentUser._id, dispatch).then((data) => {
+            getUserByID(currentUser?._id, dispatch).then((data) => {
                 const { username, firstName, lastName, email, password, bio } =
                     data.user;
                 if (
@@ -59,12 +61,12 @@ const Setting = ({ close }) => {
                     setIsChange(true);
                 }
             });
-    }, [userInfo, currentUser._id, dispatch]);
+    }, [userInfo, currentUser?._id, dispatch]);
 
     const snackBar = useRef(null);
 
     const handleUpdateUser = () => {
-        getUserByID(currentUser._id, dispatch).then((data) => {
+        getUserByID(currentUser?._id, dispatch).then((data) => {
             const { username, firstName, lastName, email, password, bio } =
                 data.user;
 
@@ -77,7 +79,7 @@ const Setting = ({ close }) => {
                 bio !== userInfo.bio
             ) {
                 let updatedUser = {
-                    userID: currentUser._id,
+                    userID: currentUser?._id,
                     username: userInfo.username,
                     firstName: userInfo.firstName,
                     lastName: userInfo.lastName,

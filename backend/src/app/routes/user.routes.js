@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 
 const UserMiddleware = require("../middleware/user.middleware");
+
 const UserController = require("../controllers/user.controller");
 const ImageController = require("../controllers/image.controller");
+const AudioController = require("../controllers/audio.controller");
 
 router.get("/", (req, res) => {
     res.send({ msg: "Hello from user :D" });
@@ -24,6 +26,11 @@ router.get(
     "/:userID/quantity/image",
     UserMiddleware.validateUserById,
     ImageController.fetchUserSpecificImageQuantity
+);
+router.get(
+    "/:userID/quantity/audio",
+    UserMiddleware.validateUserById,
+    AudioController.fetchUserSpecificAudioQuantity
 );
 
 router.post(

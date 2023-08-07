@@ -6,11 +6,10 @@ import {
     UilBell,
     UilChat,
     UilBookmark,
-    UilAnalysis,
     UilPalette,
     UilSetting,
 } from "@iconscout/react-unicons";
-import { faVideo } from "@fortawesome/free-solid-svg-icons";
+import { faVideo, faHeadphones } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 
@@ -88,7 +87,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                 <span>
                     <UilEstate className="sidebar-icon" />
                 </span>
-                <h3 className="ms-4">Home</h3>
+                <h3 className="ms-3">Home</h3>
             </Link>
         );
     };
@@ -144,7 +143,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                         ></small>
                     )}
                 </span>
-                <h3 className="ms-4">Notification</h3>
+                <h3 className="ms-3">Notification</h3>
             </Link>
         );
     };
@@ -171,7 +170,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                             }}
                         ></small> */}
                 </span>
-                <h3 className="ms-4">Messages</h3>
+                <h3 className="ms-3">Messages</h3>
             </Link>
         );
     };
@@ -191,27 +190,32 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                 <span>
                     <UilBookmark className="sidebar-icon" />
                 </span>
-                <h3 className="ms-4">Bookmarks</h3>
+                <h3 className="ms-3">Bookmarks</h3>
             </Link>
         );
     };
 
-    const renderFinanceBtn = () => {
+    const renderMusicBtn = () => {
         return (
             <Link
-                to="/finance"
-                className={`menu-item ${
-                    active === "ANALYTICS" ? "active" : ""
-                }`}
+                to={"/music/" + currentUser?._id}
+                className={`menu-item ${active === "SOUND" ? "active" : ""}`}
                 onClick={() => {
-                    setActive("ANALYTICS");
+                    setActive("SOUND");
                 }}
-                title="Finance"
+                title="Music"
             >
                 <span>
-                    <UilAnalysis className="sidebar-icon" />
+                    <FontAwesomeIcon
+                        icon={faHeadphones}
+                        style={{
+                            marginLeft: "2rem",
+                            color: "#9e98b3",
+                        }}
+                        className="fs-2"
+                    />
                 </span>
-                <h3 className="ms-4">Finance</h3>
+                <h3 className="ms-4">Music</h3>
             </Link>
         );
     };
@@ -343,7 +347,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                     {currentUser && renderNotificationBtn()}
                     {currentUser && renderMessageBtn()}
                     {currentUser && renderBookmarkBtn()}
-                    {currentUser && renderFinanceBtn()}
+                    {currentUser && renderMusicBtn()}
                     {renderMeetingBtn()}
                     {renderThemeBtn()}
                     {currentUser && renderSettingBtn()}

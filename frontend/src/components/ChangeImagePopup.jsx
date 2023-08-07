@@ -128,6 +128,7 @@ const ChangeImagePopup = ({
                                 ref={avatarImg}
                                 style={{ display: "none" }}
                                 onChange={(e) => handleUploadAvatar(e)}
+                                accept=".jpg, .jpeg, .webp, .png"
                             />
                         </div>
 

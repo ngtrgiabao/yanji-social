@@ -101,7 +101,6 @@ const deleteAllVideosByUserID = async (req, res, next) => {
 };
 
 const deleteVideoByID = async (mediaValue) => {
-    const pathWithoutExtension = mediaValue.split("/").pop().split(".")[0];
     const startIndex = mediaValue.indexOf(process.env.CLOUD_UPLOAD_PRESET);
     const endIndex = mediaValue.lastIndexOf(".");
     const publicID = mediaValue.substring(startIndex, endIndex);
@@ -115,7 +114,7 @@ const deleteVideoByID = async (mediaValue) => {
     cloudinary.uploader.destroy(publicID);
 
     await VideoModel.findOneAndDelete({
-        videoUrl: { $regex: pathWithoutExtension },
+        videoUrl: { $regex: mediaValue },
     });
 };
 

@@ -208,6 +208,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
                             style={{ display: "none" }}
                             ref={uploadImg}
                             onChange={(e) => handleImageUpload(e)}
+                            accept=".jpg, .jpeg, .webp, .png"
                         />
 
                         <span>

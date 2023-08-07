@@ -38,9 +38,13 @@ const deletePost = async (req, res) => {
 
     const result = await PostModel.findById(postID);
     const image = result.img;
+    const video = result.video;
 
     if (image) {
         await deleteImageByID(image);
+    }
+    if (video) {
+        await deleteVideoByID(video);
     }
 
     await PostModel.findByIdAndDelete(postID);
