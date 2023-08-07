@@ -20,6 +20,7 @@
     --white: aliceblue;
     --black: #000;
     --light-dark: rgba(0, 0, 0, 0.43);
+    --extra-light-dark: rgba(0, 0, 0, 0.06);
     --bg-container-popup: rgba(0, 0, 0, 0.29);
     --bg-popup: rgba(0, 0, 0, 0.744);
 

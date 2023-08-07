@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
     faCircleXmark,
@@ -11,7 +11,7 @@ import data from "@emoji-mart/data";
 import { io } from "socket.io-client";
 
 import PreviewImage from "./PreviewImage";
-import { deletePost, updatePost } from "../redux/request/postRequest";
+import { updatePost } from "../redux/request/postRequest";
 import useUploadImage from "../hooks/useUploadImage";
 
 const EditPopup = ({
@@ -58,18 +58,18 @@ const EditPopup = ({
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
-        const imgUrl = URL.createObjectURL(file);
+        const fileUrl = URL.createObjectURL(file);
 
         if (file.type === "video/mp4") {
             // For upload cloud
             setNewVideoUrl(file);
             // For preview image
-            setNewVideoSrc(imgUrl);
+            setNewVideoSrc(fileUrl);
         } else {
             // For upload cloud
             setNewImageUrl(file);
             // For preview image
-            setNewImageSrc(imgUrl);
+            setNewImageSrc(fileUrl);
         }
     };
 
@@ -209,6 +209,7 @@ const EditPopup = ({
                             style={{ display: "none" }}
                             ref={uploadImg}
                             onChange={(e) => handleImageUpload(e)}
+                            accept=".jpg, .jpeg, .webp, .png"
                         />
 
                         <span>
