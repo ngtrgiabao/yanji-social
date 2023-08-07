@@ -151,21 +151,18 @@ const HomeLeft = ({ socket, isReadNotification }) => {
 
     const renderMessageBtn = () => {
         return (
-            currentUser?._id && (
-                <Link
-                    to="/messages"
-                    className={`menu-item ${
-                        active === "MESSAGES" ? "active" : ""
-                    }`}
-                    onClick={() => {
-                        setActive("MESSAGES");
-                    }}
-                    id="message-notification"
-                    title="Tin nhắn"
-                >
-                    <span>
-                        <UilChat className="sidebar-icon" />
-                        {/* <small
+            <Link
+                to="/messages"
+                className={`menu-item ${active === "MESSAGES" ? "active" : ""}`}
+                onClick={() => {
+                    setActive("MESSAGES");
+                }}
+                id="message-notification"
+                title="Tin nhắn"
+            >
+                <span>
+                    <UilChat className="sidebar-icon" />
+                    {/* <small
                             className="notification-count bg-danger"
                             style={{
                                 display: `${
@@ -173,10 +170,9 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                                 }`,
                             }}
                         ></small> */}
-                    </span>
-                    <h3 className="ms-4">Messages</h3>
-                </Link>
-            )
+                </span>
+                <h3 className="ms-4">Messages</h3>
+            </Link>
         );
     };
 
@@ -200,7 +196,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
         );
     };
 
-    const renderAnalyticsBtn = () => {
+    const renderFinanceBtn = () => {
         return (
             <Link
                 to="/finance"
@@ -344,13 +340,13 @@ const HomeLeft = ({ socket, isReadNotification }) => {
 
                 <div className="sidebar mt-3">
                     {renderHomeBtn()}
-                    {renderNotificationBtn()}
-                    {renderMessageBtn()}
-                    {renderBookmarkBtn()}
-                    {renderAnalyticsBtn()}
+                    {currentUser && renderNotificationBtn()}
+                    {currentUser && renderMessageBtn()}
+                    {currentUser && renderBookmarkBtn()}
+                    {currentUser && renderFinanceBtn()}
                     {renderMeetingBtn()}
                     {renderThemeBtn()}
-                    {renderSettingBtn()}
+                    {currentUser && renderSettingBtn()}
                 </div>
                 {/* END OF SIDEBAR */}
 
