@@ -1,3 +1,7 @@
+## 🍍 Logo
+<img src="https://github.com/ngtrgiabao/yanji-social/assets/95952006/6c1efcec-17cd-469f-aa45-495d0bb70a90" width="64px" height="64px" alt="logo"/>
+
+
 #### BACKEND .env
 
 <!-- ----- BACKEND .env ----- -->
