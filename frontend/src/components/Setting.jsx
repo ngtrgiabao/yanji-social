@@ -1,15 +1,109 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { UilSetting } from "@iconscout/react-unicons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { CSVLink } from "react-csv";
+
+import { logout } from "../redux/request/authRequest";
+import { getUserByID, updateUser } from "../redux/request/userRequest";
 
 const Setting = ({ close }) => {
     const [active, setActive] = useState("PUBLIC");
+    const exportData = useRef(null);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [userInfo, setUserInfo] = useState({
+        username: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        bio: "",
+    });
+    const [isChange, setIsChange] = useState(false);
 
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
+
+    const csvData = [
+        ["username", "password", "email"],
+        [currentUser?.username, currentUser?.password, currentUser?.email],
+    ];
+
+    const handleExportData = () => {
+        exportData.current.link.click();
+    };
+
+    useEffect(() => {
+        getUserByID(currentUser._id, dispatch).then((data) => {
+            setUserInfo(data.user);
+        });
+    }, [currentUser._id, dispatch]);
+
+    useEffect(() => {
+        userInfo &&
+            getUserByID(currentUser._id, dispatch).then((data) => {
+                const { username, firstName, lastName, email, password, bio } =
+                    data.user;
+                if (
+                    username !== userInfo.username ||
+                    firstName !== userInfo.firstName ||
+                    lastName !== userInfo.lastName ||
+                    email !== userInfo.email ||
+                    password !== userInfo.password ||
+                    bio !== userInfo.bio
+                ) {
+                    setIsChange(true);
+                }
+            });
+    }, [userInfo, currentUser._id, dispatch]);
+
+    const snackBar = useRef(null);
+
+    const handleUpdateUser = () => {
+        getUserByID(currentUser._id, dispatch).then((data) => {
+            const { username, firstName, lastName, email, password, bio } =
+                data.user;
+
+            if (
+                username !== userInfo.username ||
+                firstName !== userInfo.firstName ||
+                lastName !== userInfo.lastName ||
+                email !== userInfo.email ||
+                password !== userInfo.password ||
+                bio !== userInfo.bio
+            ) {
+                let updatedUser = {
+                    userID: currentUser._id,
+                    username: userInfo.username,
+                    firstName: userInfo.firstName,
+                    lastName: userInfo.lastName,
+                    email: userInfo.email,
+                    password: userInfo.password,
+                    bio: userInfo.bio,
+                };
+
+                updateUser(updatedUser, dispatch)
+                    .then(() => {
+                        if (snackBar.current) {
+                            const sb = snackBar.current;
+                            sb.className = "show";
+
+                            setTimeout(() => {
+                                sb.className = sb.className.replace("show", "");
+                            }, 3000);
+                        }
+                    })
+                    .catch((err) => {
+                        console.error("Failed to update");
+                        setIsChange(false);
+                    });
+            }
+        });
+    };
 
     const renderPublicInfoContent = () => {
         return (
@@ -31,8 +125,15 @@ const Setting = ({ close }) => {
                             style={{
                                 borderRadius: "1rem",
                             }}
-                            defaultValue={currentUser?.firstName}
+                            defaultValue={userInfo?.firstName}
                             placeholder="Your firstname"
+                            onChange={(e) =>
+                                setUserInfo((prevUser) => ({
+                                    ...prevUser,
+                                    firstName: e.target.value,
+                                }))
+                            }
+                            maxLength={100}
                         />
                     </div>
                     <div className="d-flex flex-column align-items-start">
@@ -46,8 +147,15 @@ const Setting = ({ close }) => {
                             style={{
                                 borderRadius: "1rem",
                             }}
-                            defaultValue={currentUser?.lastName}
+                            defaultValue={userInfo?.lastName}
                             placeholder="Your lastname"
+                            onChange={(e) =>
+                                setUserInfo((prevUser) => ({
+                                    ...prevUser,
+                                    lastName: e.target.value,
+                                }))
+                            }
+                            maxLength={100}
                         />
                     </div>
                 </div>
@@ -64,12 +172,18 @@ const Setting = ({ close }) => {
                             height: "7rem",
                             resize: "none",
                         }}
-                        defaultValue={currentUser?.bio}
+                        defaultValue={userInfo?.bio}
+                        onChange={(e) =>
+                            setUserInfo((prevUser) => ({
+                                ...prevUser,
+                                bio: e.target.value,
+                            }))
+                        }
                     ></textarea>
                 </div>
                 <div className="mt-2 d-flex flex-column align-items-start">
                     <label htmlFor="nickname" className="fw-light mb-2">
-                        Nickname ( @{currentUser?.username} )
+                        Nickname ( @{userInfo?.username} )
                     </label>
                     <input
                         type="text"
@@ -78,16 +192,35 @@ const Setting = ({ close }) => {
                         style={{
                             borderRadius: "1rem",
                         }}
-                        defaultValue={currentUser?.username}
+                        defaultValue={userInfo?.username}
+                        onChange={(e) =>
+                            setUserInfo((prevUser) => ({
+                                ...prevUser,
+                                username: e.target.value,
+                            }))
+                        }
+                        maxLength={20}
                     />
                 </div>
             </div>
         );
     };
 
+    const pwd = useRef(null);
+
+    const showPwd = () => {
+        if (pwd.current) {
+            if (pwd.current.type === "password") {
+                pwd.current.type = "text";
+            } else {
+                pwd.current.type = "password";
+            }
+        }
+    };
+
     const renderManagerAccountContent = () => {
         return (
-            <div>
+            <>
                 <div className="d-flex flex-column align-items-start mb-4">
                     <label className="mb-2" htmlFor="email">
                         Email * private
@@ -100,7 +233,13 @@ const Setting = ({ close }) => {
                         style={{
                             borderRadius: "1rem",
                         }}
-                        defaultValue={currentUser?.email}
+                        defaultValue={userInfo?.email}
+                        onChange={(e) =>
+                            setUserInfo((prevUser) => ({
+                                ...prevUser,
+                                email: e.target.value,
+                            }))
+                        }
                     />
                 </div>
 
@@ -115,10 +254,37 @@ const Setting = ({ close }) => {
                         style={{
                             borderRadius: "0.5rem",
                         }}
-                        defaultValue={currentUser?.password}
+                        defaultValue={userInfo?.password}
+                        ref={pwd}
+                        onChange={(e) =>
+                            setUserInfo((prevUser) => ({
+                                ...prevUser,
+                                password: e.target.value,
+                            }))
+                        }
+                        maxLength={100}
                     />
+                    <div className="d-flex align-items-center mt-2 mb-3">
+                        <input
+                            id="show-pwd"
+                            type="checkbox"
+                            onClick={showPwd}
+                            className="me-2"
+                            style={{
+                                cursor: "pointer",
+                            }}
+                        />
+                        <label
+                            htmlFor="show-pwd"
+                            style={{
+                                cursor: "pointer",
+                            }}
+                        >
+                            Show Password
+                        </label>
+                    </div>
                     <div
-                        className="mt-2 custom-btn d-flex align-items-center justify-content-center text-white p-2 px-3"
+                        className="custom-btn d-flex align-items-center justify-content-center text-white p-2 px-3"
                         style={{
                             background: "var(--color-primary)",
                             borderRadius: "0.8rem",
@@ -127,7 +293,7 @@ const Setting = ({ close }) => {
                         Change password
                     </div>
                 </div>
-            </div>
+            </>
         );
     };
 
@@ -150,6 +316,7 @@ const Setting = ({ close }) => {
                         background: "var(--color-primary)",
                         borderRadius: "0.5rem",
                     }}
+                    onClick={() => handleExportData()}
                 >
                     Download your data
                 </div>
@@ -157,16 +324,22 @@ const Setting = ({ close }) => {
         );
     };
 
+    const handleLogout = () => {
+        logout(dispatch, navigate);
+        close();
+    };
+
     const renderLogoutContent = () => {
         return (
             <div className="d-flex flex-column align-items-center">
                 <h2 className="fw-bold">Logout now ?</h2>
                 <div
-                    className="mt-4 bg-danger p-3 px-4 text-white"
+                    className="mt-4 bg-danger p-3 px-4 text-white custom-btn"
                     style={{
                         width: "max-content",
                         borderRadius: "0.5rem",
                     }}
+                    onClick={() => handleLogout()}
                 >
                     Logout
                 </div>
@@ -175,108 +348,158 @@ const Setting = ({ close }) => {
     };
 
     return (
-        <div
-            className="card animate__animated animate__fadeInLeft d-grid w-50"
-            onClick={(e) => {
-                if (e.currentTarget.classList.contains("card")) {
-                    e.stopPropagation();
-                }
-            }}
-        >
-            <div className="mb-4 d-flex align-items-center justify-content-between">
-                <div className="fs-3 text-uppercase d-flex">
-                    <UilSetting /> <span className="ms-2">Setting</span>
-                </div>
+        <>
+            <div
+                className="card animate__animated animate__fadeInLeft d-grid w-50"
+                onClick={(e) => {
+                    if (e.currentTarget.classList.contains("card")) {
+                        e.stopPropagation();
+                    }
+                }}
+            >
                 <div
-                    className="p-2 px-3 custom-btn text-danger"
-                    style={{
-                        cursor: "pointer",
-                    }}
-                    onClick={() => close()}
+                    className="mb-4 d-flex align-items-center justify-content-between"
+                    data-setting
                 >
-                    <FontAwesomeIcon icon={faXmark} />
-                </div>
-            </div>
-            <div className="row h-100">
-                <div
-                    className="col"
-                    style={{
-                        borderRight: "1px solid",
-                    }}
-                >
-                    <div
-                        className="d-flex align-items-center p-3 custom-btn"
-                        style={{
-                            height: "5rem",
-                            borderRadius: "0.5rem",
-                            background:
-                                active === "PUBLIC" && "var(--color-primary)",
-                        }}
-                        onClick={() => setActive("PUBLIC")}
-                    >
-                        Public information
+                    <div className="fs-3 text-uppercase d-flex">
+                        <UilSetting /> <span className="ms-2">Setting</span>
                     </div>
                     <div
-                        className="d-flex align-items-center p-3 custom-btn"
+                        className="p-2 px-3 custom-btn text-danger"
                         style={{
-                            height: "5rem",
-                            borderRadius: "0.5rem",
-                            background:
-                                active === "MANAGER" && "var(--color-primary)",
+                            cursor: "pointer",
                         }}
-                        onClick={() => setActive("MANAGER")}
+                        onClick={() => close()}
                     >
-                        Manager account
-                    </div>
-                    <div
-                        className="d-flex align-items-center p-3 custom-btn"
-                        style={{
-                            height: "5rem",
-                            borderRadius: "0.5rem",
-                            background:
-                                active === "TERMS" && "var(--color-primary)",
-                        }}
-                        onClick={() => setActive("TERMS")}
-                    >
-                        Security and Data
-                    </div>
-                    <div
-                        className="d-flex align-items-center p-3 custom-btn"
-                        style={{
-                            height: "5rem",
-                            borderRadius: "0.5rem",
-                            background:
-                                active === "LOGOUT" && "var(--color-primary)",
-                        }}
-                        onClick={() => setActive("LOGOUT")}
-                    >
-                        Logout
+                        <FontAwesomeIcon icon={faXmark} />
                     </div>
                 </div>
-                <div
-                    className="col-8 ms-5"
-                    style={{
-                        height: "25rem",
-                        overflowY: "auto",
-                    }}
-                >
-                    {active === "PUBLIC" && renderPublicInfoContent()}
-                    {active === "MANAGER" && renderManagerAccountContent()}
-                    {active === "TERMS" && renderSecureContent()}
-                    {active === "LOGOUT" && renderLogoutContent()}
+                <div className="row h-100">
+                    <div
+                        className="col"
+                        style={{
+                            borderRight: "1px solid",
+                        }}
+                        data-public-info
+                    >
+                        <div
+                            className="d-flex align-items-center p-3 custom-btn"
+                            style={{
+                                height: "5rem",
+                                borderRadius: "0.5rem",
+                                background:
+                                    active === "PUBLIC" &&
+                                    "var(--color-primary)",
+                                color: active === "PUBLIC" && "white",
+                            }}
+                            onClick={() => setActive("PUBLIC")}
+                        >
+                            Public information
+                        </div>
+                        <div
+                            className="d-flex align-items-center p-3 custom-btn"
+                            style={{
+                                height: "5rem",
+                                borderRadius: "0.5rem",
+                                background:
+                                    active === "MANAGER" &&
+                                    "var(--color-primary)",
+                                color: active === "MANAGER" && "white",
+                            }}
+                            onClick={() => setActive("MANAGER")}
+                            data-manager-account
+                        >
+                            Manager account
+                        </div>
+                        <div
+                            className="d-flex align-items-center p-3 custom-btn"
+                            style={{
+                                height: "5rem",
+                                borderRadius: "0.5rem",
+                                background:
+                                    active === "TERMS" &&
+                                    "var(--color-primary)",
+                                color: active === "TERMS" && "white",
+                            }}
+                            onClick={() => setActive("TERMS")}
+                            data-secure
+                        >
+                            Security and Data
+                        </div>
+                        <div
+                            className="d-flex align-items-center p-3 custom-btn"
+                            style={{
+                                height: "5rem",
+                                borderRadius: "0.5rem",
+                                background:
+                                    active === "LOGOUT" &&
+                                    "var(--color-primary)",
+                                color: active === "LOGOUT" && "white",
+                            }}
+                            onClick={() => setActive("LOGOUT")}
+                            data-logout
+                        >
+                            Logout
+                        </div>
+                    </div>
+                    <div
+                        className="col-8 ms-5"
+                        style={{
+                            height: "25rem",
+                            overflowY: "auto",
+                        }}
+                    >
+                        {active === "PUBLIC" && renderPublicInfoContent()}
+                        {active === "MANAGER" && renderManagerAccountContent()}
+                        {active === "TERMS" && renderSecureContent()}
+                        {active === "LOGOUT" && renderLogoutContent()}
+                    </div>
                 </div>
+
+                <div className="d-flex justify-content-end me-5">
+                    <span
+                        className="me-3 p-2 custom-btn text-danger"
+                        onClick={() => close()}
+                    >
+                        Cancel
+                    </span>
+                    <span
+                        className="p-2 custom-btn"
+                        style={{
+                            background: isChange && "var(--color-primary)",
+                            color: isChange && "white",
+                            borderRadius: "0.5rem",
+                        }}
+                        onClick={() => isChange && handleUpdateUser()}
+                    >
+                        Save change
+                    </span>
+                </div>
+
+                {/* Export user data */}
+                <CSVLink
+                    ref={exportData}
+                    data={csvData}
+                    filename={`${currentUser?.username}-data.csv`}
+                    target="_blank"
+                    style={{ display: "none" }}
+                />
             </div>
 
-            <div className="d-flex justify-content-end me-5">
-                <span
-                    className="me-3 p-2 custom-btn text-danger"
-                    onClick={() => close()}
-                >
-                    Cancel
-                </span>
-                <span className="p-2 custom-btn">Save change</span>
+            <div
+                ref={snackBar}
+                id="snackbar"
+                style={{
+                    backgroundColor: isChange
+                        ? "var(--color-success)"
+                        : "var(--color-danger)",
+                }}
+                className="fw-bold"
+            >
+                Update {userInfo?.username}{" "}
+                {isChange ? "successfully" : "Failed :<"}
             </div>
-        </div>
+        </>
     );
 };
 

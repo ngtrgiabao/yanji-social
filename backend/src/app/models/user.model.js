@@ -50,6 +50,7 @@ const User = new Schema(
         password: {
             type: String,
             required: true,
+            max: 100,
         },
         email: {
             type: String,
@@ -71,10 +72,12 @@ const User = new Schema(
         firstName: {
             type: String,
             default: "",
+            max: 100,
         },
         lastName: {
             type: String,
             default: "",
+            max: 100,
         },
         photos: [
             {

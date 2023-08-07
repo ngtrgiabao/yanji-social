@@ -117,7 +117,7 @@ const HomeMiddle = ({ socket }) => {
                         id="caption"
                     >
                         What's in your mind,
-                        {user.username || " user"}?
+                        {currentUser?.username || " user"}?
                     </div>
                 </div>
                 <div
