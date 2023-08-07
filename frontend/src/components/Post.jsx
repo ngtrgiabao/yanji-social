@@ -514,7 +514,11 @@ const Post = ({
                             role="presentation"
                             decoding="async"
                             src={image}
-                            alt="Photo of post"
+                            alt="Media of post"
+                            className="w-100 h-100"
+                            style={{
+                                objectFit: "cover",
+                            }}
                         />
                     </div>
                 )}
