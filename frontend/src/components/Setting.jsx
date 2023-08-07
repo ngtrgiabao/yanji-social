@@ -369,7 +369,10 @@ const Setting = ({ close }) => {
                         style={{
                             cursor: "pointer",
                         }}
-                        onClick={() => close()}
+                        onClick={() => {
+                            close();
+                            setActive("PUBLIC");
+                        }}
                     >
                         <FontAwesomeIcon icon={faXmark} />
                     </div>
@@ -459,7 +462,10 @@ const Setting = ({ close }) => {
                 <div className="d-flex justify-content-end me-5">
                     <span
                         className="me-3 p-2 custom-btn text-danger"
-                        onClick={() => close()}
+                        onClick={() => {
+                            close();
+                            setActive("PUBLIC");
+                        }}
                     >
                         Cancel
                     </span>
