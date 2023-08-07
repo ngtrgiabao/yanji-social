@@ -38,6 +38,8 @@
     overflow: hidden;
 
     margin: 1rem 0;
+
+    max-height: 90rem;
 }
 
 .post .post-settings {
