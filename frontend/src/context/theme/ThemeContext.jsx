@@ -7,9 +7,9 @@ const ThemeContext = createContext({
 });
 
 const ThemeProvider = ({ children }) => {
-    const [bg, setBg] = useState("");
-    const [textColor, setTextColor] = useState("");
-    const [fontSize, setFontSize] = useState("");
+    const [bg, setBg] = useState("bg-1");
+    const [textColor, setTextColor] = useState("color-1");
+    const [fontSize, setFontSize] = useState("fs-1");
 
     const root = document.documentElement;
 

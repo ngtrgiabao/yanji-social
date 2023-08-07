@@ -9,6 +9,7 @@ import { followUser, getUserByID } from "../../redux/request/userRequest";
 import { createRoom } from "../../redux/request/roomRequest";
 import { NEW_FOLLOWER } from "../../constants/noti.type.constant";
 import { pushNewNotification } from "../../redux/request/notificationRequest";
+import Setting from "../../components/Setting";
 
 const PersonalAvatarFriends = ({ userInfo, socket }) => {
     const [isFollow, setIsFollow] = useState(false);
@@ -175,6 +176,8 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
         };
     }, [currentUser?._id, dispatch, userInfo?._id]);
 
+    const [active, setActive] = useState("");
+
     const renderFollowBtn = () => {
         const isCurrentUser = userInfo?._id === currentUser?._id;
 
@@ -188,7 +191,7 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
         // user who author of current account
         else if (isCurrentUser) {
             label = "Edit profile";
-            handleClick = null;
+            handleClick = () => setActive("SETTINGS");
         } else if (isFollow) {
             label = "Following";
             handleClick = handleFollow;
@@ -219,6 +222,21 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
         createRoom(dispatch, roomInfo);
     };
 
+    const handleClostPopup = () => {
+        setActive("");
+    };
+    const renderSettingPopup = () => {
+        return (
+            <div
+                className="customize-theme"
+                hidden={active !== "SETTINGS"}
+                onClick={() => setActive("")}
+            >
+                <Setting close={handleClostPopup} />
+            </div>
+        );
+    };
+
     return (
         <div className="w-100 d-flex justify-content-between align-items-center flex-wrap">
             <div className="d-flex align-items-center">
@@ -234,6 +252,8 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
                 )}
                 {renderFollowBtn()}
             </div>
+
+            {renderSettingPopup()}
         </div>
     );
 };
