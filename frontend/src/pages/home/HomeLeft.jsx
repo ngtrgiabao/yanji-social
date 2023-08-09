@@ -109,7 +109,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                             marginLeft: "2rem",
                             color: "#9e98b3",
                         }}
-                        className="fs-2"
+                        className="fs-2 sidebar-icon"
                     />
                 </span>
                 <h3 className="ms-4">Meeting</h3>
@@ -212,7 +212,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                             marginLeft: "2rem",
                             color: "#9e98b3",
                         }}
-                        className="fs-2"
+                        className="fs-2 sidebar-icon"
                     />
                 </span>
                 <h3 className="ms-4">Music</h3>

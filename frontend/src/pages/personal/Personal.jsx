@@ -30,6 +30,7 @@ import PhotosUser from "../../components/PhotosUser";
 const Personal = ({ socket }) => {
     const { userID: userRoute } = useParams();
     const { photos: photosRoute } = useParams();
+
     const [userInfo, setUserInfo] = useState({
         _id: "",
         username: "",
@@ -225,7 +226,7 @@ const Personal = ({ socket }) => {
                                     bio: e.target.value,
                                 }))
                             }
-                            className="text-white border-white bg-transparent p-2 scrollbar"
+                            className="text-white border-white bg-transparent p-2"
                             spellCheck="false"
                             maxLength={50}
                         />
@@ -256,7 +257,7 @@ const Personal = ({ socket }) => {
 
         return (
             <div
-                className="text-white overflow-auto scrollbar pe-3"
+                className="text-white overflow-auto pe-3"
                 style={{
                     width: "40rem",
                     maxHeight: "40rem",
@@ -300,9 +301,9 @@ const Personal = ({ socket }) => {
                 <hr className="my-5" />
 
                 <PersonalNavbarProfile />
-                
+
                 {photosRoute ? (
-                    <PhotosUser userInfo={userInfo}/>
+                    <PhotosUser userInfo={userInfo} />
                 ) : (
                     <PersonalBody
                         socket={socket}

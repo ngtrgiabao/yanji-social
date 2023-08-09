@@ -41,6 +41,11 @@ const PersonalNavbarProfile = () => {
             title: "Checkin",
             link: "",
         },
+        {
+            id: 5,
+            title: "Music",
+            link: `music/${userRoute}`,
+        },
     ];
 
     const currentUser = useSelector((state) => {

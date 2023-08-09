@@ -154,17 +154,24 @@ const Music = ({ socket }) => {
                     </div>
 
                     <div
-                        className={`mt-5 p-5 ${
+                        className={`mt-5 p-4 ${
                             allAudios.length === 0 &&
                             "d-flex justify-content-center align-items-center"
-                        }`}
+                        }  border border-1 border-white`}
                         style={{
                             height: "80vh",
                             borderRadius: "var(--card-border-radius)",
-                            background: "var( --extra-light-dark)",
+                            background: "var(--extra-light-dark)",
                         }}
                     >
-                        <div className="h-100">
+                        <div
+                            className="h-100 d-grid gap-2"
+                            style={{
+                                gridTemplateColumns:
+                                    "repeat(auto-fit, minmax(30rem, 1fr)",
+                                overflow: "hidden auto",
+                            }}
+                        >
                             {active === "ALL" && (
                                 <>
                                     {allAudios.length > 0 ? (

@@ -225,7 +225,7 @@ const Setting = ({ close }) => {
             <>
                 <div className="d-flex flex-column align-items-start mb-4">
                     <label className="mb-2" htmlFor="email">
-                        Email * private
+                        Email (private)
                     </label>
                     <input
                         type="email"
@@ -363,7 +363,7 @@ const Setting = ({ close }) => {
                     className="mb-4 d-flex align-items-center justify-content-between"
                     data-setting
                 >
-                    <div className="fs-3 text-uppercase d-flex">
+                    <div className="fs-3 text-uppercase d-flex align-items-center">
                         <UilSetting /> <span className="ms-2">Setting</span>
                     </div>
                     <div

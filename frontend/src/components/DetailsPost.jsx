@@ -32,7 +32,7 @@ const DetailsPost = ({
                     Bài viết từ {author.username}
                 </p>
                 <div
-                    className="p-2 scrollbar w-100 h-100"
+                    className="p-2 w-100 h-100"
                     style={{
                         overflowY: "scroll",
                         borderRadius: "1rem",
