@@ -105,7 +105,7 @@ function LoginPage() {
 
     return (
         <>
-            <Navigation title="Register" link="/register" />
+            <Navigation title="Register" link="/register" isSearch={false} />
 
             <div className="form-background animate__animated animate__fadeIn">
                 <form id="login-form" onSubmit={handleLogin}>

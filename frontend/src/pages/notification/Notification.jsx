@@ -87,7 +87,7 @@ const Notification = ({ socket }) => {
                 <span className="fw-bold">notification</span>
             </div>
             <div
-                className="h-100 overflow-auto scrollbar"
+                className="h-100 overflow-auto"
                 style={{
                     maxHeight: "100vh",
                     background: "var(--color-white)",

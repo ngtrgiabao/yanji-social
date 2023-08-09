@@ -517,7 +517,7 @@ const MessagesMiddle = ({ socket }) => {
 
     const renderBodyConversation = () => {
         return (
-            <div className="middle-container-body scrollbar px-4 py-4 fs-3">
+            <div className="middle-container-body  px-4 py-4 fs-3">
                 {renderMessages()}
                 <div ref={scrollRef} />
             </div>

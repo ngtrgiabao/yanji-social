@@ -500,7 +500,7 @@ const Post = ({
             <div className="post mb-4 position-relative">
                 <div className="head">{renderTitle()}</div>
                 <div
-                    className="caption fs-3 my-3 overflow-auto scrollbar"
+                    className="caption fs-3 my-3 overflow-auto"
                     style={{
                         maxHeight: "44rem",
                     }}

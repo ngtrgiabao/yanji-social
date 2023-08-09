@@ -351,7 +351,7 @@ const MessagesRight = () => {
     return (
         currentConversation && (
             <div className="right-msg-page p-4">
-                <div className="right-container scrollbar d-flex flex-column align-items-center">
+                <div className="right-container d-flex flex-column align-items-center">
                     {renderAvatarUser()}
                     {renderActionUser()}
                     <div className="right-container-footer mt-4 d-flex flex-column justify-content-center ps-0">

@@ -365,7 +365,7 @@ const RegisterPage = () => {
 
     return (
         <>
-            <Navigation title="Login" link="/login" />
+            <Navigation title="Login" link="/login" isSearch={false} />
 
             <div className="form-background animate__animated animate__fadeIn">
                 <form

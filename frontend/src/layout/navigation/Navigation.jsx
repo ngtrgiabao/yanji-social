@@ -12,7 +12,7 @@ import { logout } from "../../redux/request/authRequest";
 import { useEffect, useState } from "react";
 import { getUserByID } from "../../redux/request/userRequest";
 
-const Navigation = ({ title, link }) => {
+const Navigation = ({ title, link, isSearch = true }) => {
     const [users, setUsers] = useState([]);
     const [user, setUser] = useState({
         userID: "",
@@ -95,49 +95,51 @@ const Navigation = ({ title, link }) => {
                         <span>Yanji Social</span>
                     </Link>
 
-                    <div className="search-bar d-flex align-items-center position-relative">
-                        <UilSearch />
-                        <Form.Control
-                            className="ms-4"
-                            type="search"
-                            placeholder="Search for creators, ideas and projects"
-                            onChange={(e) => searchUser(e)}
-                        />
+                    {isSearch && (
+                        <div className="search-bar d-flex align-items-center position-relative">
+                            <UilSearch />
+                            <Form.Control
+                                className="ms-4"
+                                type="search"
+                                placeholder="Search for creators, ideas and projects"
+                                onChange={(e) => searchUser(e)}
+                            />
 
-                        <div
-                            className="position-absolute w-100 text-white overflow-auto"
-                            style={{
-                                left: "0",
-                                top: "110%",
-                                maxHeight: "30rem",
-                            }}
-                        >
-                            {users.map((u) => (
-                                <Link
-                                    to={`/user/${u._id}`}
-                                    className="d-flex align-items-center p-3 fs-5 text-white"
-                                    style={{
-                                        background:
-                                            "var(--color-primary-light)",
-                                    }}
-                                    key={u._id}
-                                >
-                                    <div className="profile-pic d-flex justify-content-center align-items-center me-3">
-                                        {u.profilePicture ? (
-                                            <img
-                                                src={u.profilePicture}
-                                                alt=""
-                                                className="w-100"
-                                            />
-                                        ) : (
-                                            <>{u.username}</>
-                                        )}
-                                    </div>
-                                    {u.username}
-                                </Link>
-                            ))}
+                            <div
+                                className="position-absolute w-100 text-white overflow-auto"
+                                style={{
+                                    left: "0",
+                                    top: "110%",
+                                    maxHeight: "30rem",
+                                }}
+                            >
+                                {users.map((u) => (
+                                    <Link
+                                        to={`/user/${u._id}`}
+                                        className="d-flex align-items-center p-3 fs-5 text-white"
+                                        style={{
+                                            background:
+                                                "var(--color-primary-light)",
+                                        }}
+                                        key={u._id}
+                                    >
+                                        <div className="profile-pic d-flex justify-content-center align-items-center me-3">
+                                            {u.profilePicture ? (
+                                                <img
+                                                    src={u.profilePicture}
+                                                    alt=""
+                                                    className="w-100"
+                                                />
+                                            ) : (
+                                                <>{u.username}</>
+                                            )}
+                                        </div>
+                                        {u.username}
+                                    </Link>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
 
                     <div className="d-flex justify-content-end align-items-center">
                         {renderSwitchBtn()}

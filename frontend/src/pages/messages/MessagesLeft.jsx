@@ -140,7 +140,7 @@ const MessagesLeft = ({ avatarUser, socket = {} }) => {
                             onChange={handleFilterMessages}
                         />
 
-                        <div className="messages-wrapper scrollbar">
+                        <div className="messages-wrapperr">
                             {renderRooms()}
                         </div>
                     </div>

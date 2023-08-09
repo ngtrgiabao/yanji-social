@@ -138,7 +138,7 @@ const EditPopup = ({
                 onClick={(e) => {
                     e.stopPropagation();
                 }}
-                className="scrollbar overflow-hidden"
+                className="overflow-hidden"
                 style={textOverflow}
             >
                 {/* NAME */}
@@ -180,7 +180,7 @@ const EditPopup = ({
                 {/* INPUT FORM */}
                 <div className="form__input">
                     <textarea
-                        className="input scrollbar overflowXHidden"
+                        className="input overflowXHidden"
                         maxLength="5000"
                         style={{
                             overflowY: "auto",

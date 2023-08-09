@@ -141,7 +141,6 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
                 onClick={(e) => {
                     e.stopPropagation();
                 }}
-                className="scrollbar"
             >
                 {/* NAME */}
                 <div className="form__name d-flex justify-content-between">
@@ -180,7 +179,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
                 <div className="form__input">
                     <textarea
                         id="post-input"
-                        className="input scrollbar overflowXHidden"
+                        className="input overflowXHidden"
                         maxLength="5000"
                         style={{
                             overflowY: "auto",
