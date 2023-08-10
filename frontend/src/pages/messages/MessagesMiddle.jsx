@@ -161,14 +161,22 @@ const MessagesMiddle = ({ socket }) => {
     });
 
     useEffect(() => {
+        let isCancelled = false;
+
         friendID &&
             getUserByID(friendID, dispatch).then((data) => {
-                const friendInfo = data.user;
-                setFriend({
-                    name: friendInfo.username,
-                    avatar: friendInfo.profilePicture,
-                });
+                if (data && !isCancelled) {
+                    const friendInfo = data.user;
+                    setFriend({
+                        name: friendInfo.username,
+                        avatar: friendInfo.profilePicture,
+                    });
+                }
             });
+
+        return () => {
+            isCancelled = true;
+        };
     }, [friendID, dispatch]);
 
     // Loop each room
@@ -213,11 +221,11 @@ const MessagesMiddle = ({ socket }) => {
                 };
 
                 sendMessage(newMessage, dispatch)
-                    .then(async () => {
+                    .then(async (data) => {
                         if (message) {
                             await socketRef.current.emit(
                                 "send-message",
-                                newMessage
+                                data.data
                             );
                             setMessage("");
 
@@ -360,9 +368,9 @@ const MessagesMiddle = ({ socket }) => {
 
         if (message && !edit) {
             handleMsg.submit(e);
+        } else {
+            handleEditMsg();
         }
-
-        handleEditMsg();
     };
 
     // Get msg thread by room ID
@@ -499,19 +507,18 @@ const MessagesMiddle = ({ socket }) => {
 
     const renderMessages = () => {
         return messageThread.map((message, _) => (
-            <Suspense fallback={<Loading />} key={message._id}>
-                <Message
-                    media={message.media}
-                    sender={message.sender}
-                    loadingMsg={loadingMsg}
-                    content={message.message}
-                    createdAt={message.createdAt}
-                    updatedAt={message.updatedAt}
-                    onUpdateMsg={() => handleMsg.updateMsg(message._id)}
-                    onDeleteMsg={() => handleMsg.deleteMsg(message._id)}
-                    onPreviewImage={() => handlePreviewImage(message.media)}
-                />
-            </Suspense>
+            <Message
+                key={message._id}
+                media={message.media}
+                sender={message.sender}
+                loadingMsg={loadingMsg}
+                content={message.message}
+                createdAt={message.createdAt}
+                updatedAt={message.updatedAt}
+                onUpdateMsg={() => handleMsg.updateMsg(message._id)}
+                onDeleteMsg={() => handleMsg.deleteMsg(message._id)}
+                onPreviewImage={() => handlePreviewImage(message.media)}
+            />
         ));
     };
 
@@ -618,7 +625,7 @@ const MessagesMiddle = ({ socket }) => {
     const renderFooterConversation = () => {
         return (
             <form
-                onSubmit={handleSubmit}
+                onSubmit={(e) => handleSubmit(e)}
                 className="middle-container-footer px-3 d-flex justify-content-between align-items-center"
             >
                 <div className="d-flex justify-content-between position-relative">

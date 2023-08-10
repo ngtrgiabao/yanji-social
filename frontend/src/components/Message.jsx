@@ -60,22 +60,16 @@ const Message = ({
                     <FontAwesomeIcon icon={faTrash} />
                 </span>
                 <div className="middle-container-body__right-message-content ms-2">
-                    {loadingMsg ? (
-                        "Loading message..."
+                    {media ? (
+                        <img
+                            src={media}
+                            alt="image_uploaded"
+                            onClick={onPreviewImage}
+                        />
                     ) : (
-                        <>
-                            {media ? (
-                                <img
-                                    src={media}
-                                    alt="image_uploaded"
-                                    onClick={onPreviewImage}
-                                />
-                            ) : (
-                                <div className="middle-container-body__right-message-content-text">
-                                    {content}
-                                </div>
-                            )}
-                        </>
+                        <div className="middle-container-body__right-message-content-text">
+                            {content}
+                        </div>
                     )}
                 </div>
             </div>

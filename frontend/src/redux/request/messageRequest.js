@@ -19,6 +19,7 @@ export const sendMessage = async (message, dispatch) => {
     try {
         const res = await messageService.sendMessage(message);
         dispatch(sendMessageSuccess(res.data));
+        return res.data;
     } catch (error) {
         dispatch(sendMessageFailed());
     }
