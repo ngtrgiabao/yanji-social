@@ -41,24 +41,34 @@ const Setting = ({ close }) => {
 
     useEffect(() => {
         getUserByID(currentUser?._id, dispatch).then((data) => {
-            setUserInfo(data.user);
+            if (data) {
+                setUserInfo(data.user);
+            }
         });
     }, [currentUser?._id, dispatch]);
 
     useEffect(() => {
         userInfo &&
             getUserByID(currentUser?._id, dispatch).then((data) => {
-                const { username, firstName, lastName, email, password, bio } =
-                    data.user;
-                if (
-                    username !== userInfo.username ||
-                    firstName !== userInfo.firstName ||
-                    lastName !== userInfo.lastName ||
-                    email !== userInfo.email ||
-                    password !== userInfo.password ||
-                    bio !== userInfo.bio
-                ) {
-                    setIsChange(true);
+                if (data) {
+                    const {
+                        username,
+                        firstName,
+                        lastName,
+                        email,
+                        password,
+                        bio,
+                    } = data.user;
+                    if (
+                        username !== userInfo.username ||
+                        firstName !== userInfo.firstName ||
+                        lastName !== userInfo.lastName ||
+                        email !== userInfo.email ||
+                        password !== userInfo.password ||
+                        bio !== userInfo.bio
+                    ) {
+                        setIsChange(true);
+                    }
                 }
             });
     }, [userInfo, currentUser?._id, dispatch]);
@@ -67,42 +77,47 @@ const Setting = ({ close }) => {
 
     const handleUpdateUser = () => {
         getUserByID(currentUser?._id, dispatch).then((data) => {
-            const { username, firstName, lastName, email, password, bio } =
-                data.user;
+            if (data) {
+                const { username, firstName, lastName, email, password, bio } =
+                    data.user;
 
-            if (
-                username !== userInfo.username ||
-                firstName !== userInfo.firstName ||
-                lastName !== userInfo.lastName ||
-                email !== userInfo.email ||
-                password !== userInfo.password ||
-                bio !== userInfo.bio
-            ) {
-                let updatedUser = {
-                    userID: currentUser?._id,
-                    username: userInfo.username,
-                    firstName: userInfo.firstName,
-                    lastName: userInfo.lastName,
-                    email: userInfo.email,
-                    password: userInfo.password,
-                    bio: userInfo.bio,
-                };
+                if (
+                    username !== userInfo.username ||
+                    firstName !== userInfo.firstName ||
+                    lastName !== userInfo.lastName ||
+                    email !== userInfo.email ||
+                    password !== userInfo.password ||
+                    bio !== userInfo.bio
+                ) {
+                    let updatedUser = {
+                        userID: currentUser?._id,
+                        username: userInfo.username,
+                        firstName: userInfo.firstName,
+                        lastName: userInfo.lastName,
+                        email: userInfo.email,
+                        password: userInfo.password,
+                        bio: userInfo.bio,
+                    };
 
-                updateUser(updatedUser, dispatch)
-                    .then(() => {
-                        if (snackBar.current) {
-                            const sb = snackBar.current;
-                            sb.className = "show";
+                    updateUser(updatedUser, dispatch)
+                        .then(() => {
+                            if (snackBar.current) {
+                                const sb = snackBar.current;
+                                sb.className = "show";
 
-                            setTimeout(() => {
-                                sb.className = sb.className.replace("show", "");
-                            }, 3000);
-                        }
-                    })
-                    .catch((err) => {
-                        console.error("Failed to update");
-                        setIsChange(false);
-                    });
+                                setTimeout(() => {
+                                    sb.className = sb.className.replace(
+                                        "show",
+                                        ""
+                                    );
+                                }, 3000);
+                            }
+                        })
+                        .catch((err) => {
+                            console.error("Failed to update");
+                            setIsChange(false);
+                        });
+                }
             }
         });
     };

@@ -32,11 +32,13 @@ const Navigation = ({ title, link, isSearch = true }) => {
     useEffect(() => {
         currentUser &&
             getUserByID(currentUser._id, dispatch).then((data) => {
-                const { _id, profilePicture } = data.user;
-                setUser({
-                    userID: _id,
-                    profilePicture: profilePicture,
-                });
+                if (data) {
+                    const { _id, profilePicture } = data.user;
+                    setUser({
+                        userID: _id,
+                        profilePicture: profilePicture,
+                    });
+                }
             });
     }, [currentUser, dispatch]);
 
