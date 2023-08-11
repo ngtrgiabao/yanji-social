@@ -12,6 +12,7 @@ import { pushNewNotification } from "../../redux/request/notificationRequest";
 import Setting from "../../components/Setting";
 
 const PersonalAvatarFriends = ({ userInfo, socket }) => {
+    const [active, setActive] = useState("");
     const [isFollow, setIsFollow] = useState(false);
     const [isApprover, setIsApprover] = useState(false);
     const dispatch = useDispatch();
@@ -123,17 +124,20 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
     };
 
     const handleSocket = {
-        follow: useCallback((data) => {
-            const { userRoute, sender } = data;
+        follow: useCallback(
+            (data) => {
+                const { userRoute, sender } = data;
 
-            if (userRoute === currentUser?._id) {
-                handleUserGotFollowed(sender, userRoute);
-            }
+                if (userRoute === currentUser?._id) {
+                    handleUserGotFollowed(sender, userRoute);
+                }
 
-            if (sender === currentUser?._id) {
-                handleUserSendFollow(sender, userRoute);
-            }
-        }, []),
+                if (sender === currentUser?._id) {
+                    handleUserSendFollow(sender, userRoute);
+                }
+            },
+            [currentUser?._id]
+        ),
     };
 
     useEffect(() => {
@@ -175,8 +179,6 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
             isCancelled = true;
         };
     }, [currentUser?._id, dispatch, userInfo?._id]);
-
-    const [active, setActive] = useState("");
 
     const renderFollowBtn = () => {
         const isCurrentUser = userInfo?._id === currentUser?._id;

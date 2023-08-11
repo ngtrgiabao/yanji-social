@@ -1,13 +1,6 @@
 import io from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    useEffect,
-    useRef,
-    useState,
-    useCallback,
-    lazy,
-    Suspense,
-} from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
     faVideo,
@@ -40,7 +33,8 @@ import {
     getMessageByID,
     markMessageSeen,
 } from "../../redux/request/messageRequest";
-// import Message from "../../components/Message";
+
+import Message from "../../components/Message";
 import { useTimeAgo } from "../../hooks/useTimeAgo";
 import useUploadImage from "../../hooks/useUploadImage";
 import PreviewImage from "../../components/PreviewImage";
@@ -49,9 +43,7 @@ import useDownloadImage from "../../hooks/useDownloadImage";
 import { getUserByID } from "../../redux/request/userRequest";
 import { NEW_MSG } from "../../constants/noti.type.constant";
 import { pushNewNotification } from "../../redux/request/notificationRequest";
-import Loading from "../../pages/loading/LoadingPage";
-
-const Message = lazy(() => import("../../components/Message"));
+import CallVideo from "../../components/CallVideo";
 
 const MessagesMiddle = ({ socket }) => {
     const [edit, setEdit] = useState(false);
@@ -457,7 +449,7 @@ const MessagesMiddle = ({ socket }) => {
 
     const renderTitleConversation = () => {
         return (
-            <div className="middle-container-header d-flex align-items-center justify-content-between py-3 px-4 pb-3">
+            <div className="middle-container-header d-flex align-items-center justify-content-between py-3 px-4 pb-3 position-relative">
                 <Link
                     to={`/user/${friendID}`}
                     className="d-flex align-items-center link-underline"
@@ -501,30 +493,36 @@ const MessagesMiddle = ({ socket }) => {
                         <FontAwesomeIcon icon={faCircleInfo} />
                     </span>
                 </div>
+
+                <CallVideo />
             </div>
         );
     };
 
     const renderMessages = () => {
-        return messageThread.map((message, _) => (
-            <Message
-                key={message._id}
-                media={message.media}
-                sender={message.sender}
-                loadingMsg={loadingMsg}
-                content={message.message}
-                createdAt={message.createdAt}
-                updatedAt={message.updatedAt}
-                onUpdateMsg={() => handleMsg.updateMsg(message._id)}
-                onDeleteMsg={() => handleMsg.deleteMsg(message._id)}
-                onPreviewImage={() => handlePreviewImage(message.media)}
-            />
-        ));
+        return messageThread.length === 0 ? (
+            <div className="text-center fs-2">Loading...</div>
+        ) : (
+            messageThread.map((message, _) => (
+                <Message
+                    key={message._id}
+                    media={message.media}
+                    sender={message.sender}
+                    loadingMsg={loadingMsg}
+                    content={message.message}
+                    createdAt={message.createdAt}
+                    updatedAt={message.updatedAt}
+                    onUpdateMsg={() => handleMsg.updateMsg(message._id)}
+                    onDeleteMsg={() => handleMsg.deleteMsg(message._id)}
+                    onPreviewImage={() => handlePreviewImage(message.media)}
+                />
+            ))
+        );
     };
 
     const renderBodyConversation = () => {
         return (
-            <div className="middle-container-body  px-4 py-4 fs-3">
+            <div className="middle-container-body px-4 py-4 fs-3">
                 {renderMessages()}
                 <div ref={scrollRef} />
             </div>

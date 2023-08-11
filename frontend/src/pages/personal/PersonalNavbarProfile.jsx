@@ -38,11 +38,6 @@ const PersonalNavbarProfile = () => {
         },
         {
             id: 4,
-            title: "Checkin",
-            link: "",
-        },
-        {
-            id: 5,
             title: "Music",
             link: `music/${userRoute}`,
         },

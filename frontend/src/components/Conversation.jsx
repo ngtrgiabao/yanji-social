@@ -70,7 +70,7 @@ const Conversation = ({
     const renderAvatarUser = () => {
         return (
             <span
-                className={`avatar-user d-flex justify-content-center align-items-center ${
+                className={`avatar-user d-flex justify-content-center align-items-center text-white ${
                     isOnline && user ? "online-status" : ""
                 }`}
                 style={{
@@ -124,8 +124,10 @@ const Conversation = ({
             <div
                 className={`message-item py-3 px-2 ${
                     showItem ? "d-flex flex-column" : "d-none"
-                }`}
-                style={{ borderRadius: "1rem" }}
+                } mb-2`}
+                style={{
+                    borderRadius: "1rem",
+                }}
             >
                 {renderMessageBlock()}
             </div>

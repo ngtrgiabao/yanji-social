@@ -130,17 +130,17 @@ const MessagesLeft = ({ avatarUser, socket = {} }) => {
 
     return (
         <>
-            <div className="left-msg-page">
+            <div className="left-msg-page overflow-hidden">
                 <div className="left-container">
                     <div className="left-container-main">
                         <input
                             type="text"
-                            placeholder="Searching someone?"
+                            placeholder="Finding someone?"
                             className="fs-3 rounded border-0 mb-4"
                             onChange={handleFilterMessages}
                         />
 
-                        <div className="messages-wrapperr">
+                        <div className="messages-wrapperr overflow-auto h-100">
                             {renderRooms()}
                         </div>
                     </div>

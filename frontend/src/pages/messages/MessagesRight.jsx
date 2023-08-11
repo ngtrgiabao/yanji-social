@@ -20,7 +20,6 @@ import {
 
 import "../../style/pages/messages/messagesRight.css";
 
-import DEFAULT_AVATAR from "../../assets/background/default_bg_user.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserByID } from "../../redux/request/userRequest";
 import { Link } from "react-router-dom";
@@ -34,10 +33,12 @@ const MessagesRight = () => {
         username: "",
         profilePicture: "",
     });
+    const dispatch = useDispatch();
 
     const currentRoom = useSelector((state) => {
         return state.room.room?.currentRoom;
     });
+
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
@@ -54,10 +55,15 @@ const MessagesRight = () => {
                     (id) => id !== currentUser._id
                 );
 
-                setFriend((prevFriend) => ({
-                    ...prevFriend,
-                    id: friendID,
-                }));
+                getUserByID(friendID, dispatch).then((data) => {
+                    const { username, profilePicture, _id } = data.user;
+
+                    setFriend({
+                        id: _id,
+                        username: username,
+                        profilePicture: profilePicture,
+                    });
+                });
 
                 setCurrentConversation(_id);
             }
@@ -66,28 +72,7 @@ const MessagesRight = () => {
         return () => {
             isCancelled = true;
         };
-    }, [currentRoom, currentUser._id]);
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        let isCancelled = false;
-
-        if (friend.id && !isCancelled) {
-            getUserByID(friend.id, dispatch).then((data) => {
-                const { username, profilePicture } = data.user;
-
-                setFriend({
-                    username: username,
-                    profilePicture: profilePicture,
-                });
-            });
-        }
-
-        return () => {
-            isCancelled = true;
-        };
-    }, [currentConversation, dispatch, friend]);
+    }, [currentRoom, currentUser._id, dispatch]);
 
     const handleChoose = (setting) => {
         setActive(setting);
@@ -127,7 +112,7 @@ const MessagesRight = () => {
 
     const renderActionUser = () => {
         return (
-            <div className="right-container-body d-flex justify-content-between fs-5">
+            <div className="right-container-body d-flex justify-content-between fs-5 w-50 ms-3">
                 {/* PROFILE */}
                 <Link
                     to={`/user/${friend.id}`}
@@ -147,19 +132,9 @@ const MessagesRight = () => {
                         className="p-3 rounded-circle text-center mb-2 icon"
                         style={{ width: "4rem", height: "4rem" }}
                     >
-                        <FontAwesomeIcon icon={faBellSlash} />
+                        <FontAwesomeIcon icon={faCommentSlash} />
                     </span>
-                    <span>Turn off notification</span>
-                </div>
-                {/* SEARCH */}
-                <div className="d-flex flex-column align-items-center">
-                    <span
-                        className="p-3 rounded-circle text-center mb-2 icon"
-                        style={{ width: "4rem", height: "4rem" }}
-                    >
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
-                    </span>
-                    <span>Search</span>
+                    <span>Delete chat</span>
                 </div>
             </div>
         );
@@ -354,20 +329,6 @@ const MessagesRight = () => {
                 <div className="right-container d-flex flex-column align-items-center">
                     {renderAvatarUser()}
                     {renderActionUser()}
-                    <div className="right-container-footer mt-4 d-flex flex-column justify-content-center ps-0">
-                        <>
-                            {renderSettingChat()}
-                            {renderSubSettingChat()}
-                        </>
-                        <>
-                            {renderViewFile()}
-                            {renderSubViewFile()}
-                        </>
-                        <>
-                            {renderSettingPrivateAndPrivacy()}
-                            {renderSubSettingPrivateAndPrivacy()}
-                        </>
-                    </div>
                 </div>
             </div>
         )
