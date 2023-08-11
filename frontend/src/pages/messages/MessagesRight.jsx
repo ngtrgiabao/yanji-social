@@ -1,22 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faUser,
-    faBellSlash,
-    faBell,
-} from "@fortawesome/free-regular-svg-icons";
-import {
-    faMagnifyingGlass,
-    faCaretDown,
-    faFont,
-    faPhotoFilm,
-    faFile,
-    faLink,
-    faCommentSlash,
-    faUserXmark,
-    faTriangleExclamation,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 
 import "../../style/pages/messages/messagesRight.css";
 
@@ -25,8 +10,6 @@ import { getUserByID } from "../../redux/request/userRequest";
 import { Link } from "react-router-dom";
 
 const MessagesRight = () => {
-    const [active, setActive] = useState("");
-    const [isChoose, setIsChoose] = useState(false);
     const [currentConversation, setCurrentConversation] = useState(null);
     const [friend, setFriend] = useState({
         id: "",
@@ -74,11 +57,6 @@ const MessagesRight = () => {
         };
     }, [currentRoom, currentUser._id, dispatch]);
 
-    const handleChoose = (setting) => {
-        setActive(setting);
-        setIsChoose((isChoose) => !isChoose);
-    };
-
     const renderAvatarUser = () => {
         return (
             <div className="d-flex flex-column align-items-center mb-4">
@@ -105,221 +83,34 @@ const MessagesRight = () => {
                     )}
                 </div>
                 <p className="mt-2 mb-0 fs-4 fw-bold">{friend.username}</p>
-                <span className="opacity-75">Online 3mins ago</span>
             </div>
         );
     };
 
     const renderActionUser = () => {
         return (
-            <div className="right-container-body d-flex justify-content-between fs-5 w-50 ms-3">
-                {/* PROFILE */}
+            <div
+                className="right-container-body fs-5 ms-3"
+                style={{
+                    width: "max-content",
+                }}
+            >
                 <Link
                     to={`/user/${friend.id}`}
                     className="d-flex flex-column align-items-center"
+                    data-profile
                 >
                     <span
-                        className="p-3 rounded-circle text-center mb-2 icon"
-                        style={{ width: "4rem", height: "4rem" }}
+                        className="p-3 text-center icon"
+                        style={{
+                            borderRadius: "0.5rem",
+                        }}
                     >
-                        <FontAwesomeIcon icon={faUser} />
+                        <FontAwesomeIcon icon={faUser} className="me-3" />
+                        <span>Visit Profile</span>
                     </span>
-                    <span>Profile</span>
                 </Link>
-                {/* TURN OFF NOTIFICATION */}
-                <div className="d-flex flex-column align-items-center">
-                    <span
-                        className="p-3 rounded-circle text-center mb-2 icon"
-                        style={{ width: "4rem", height: "4rem" }}
-                    >
-                        <FontAwesomeIcon icon={faCommentSlash} />
-                    </span>
-                    <span>Delete chat</span>
-                </div>
             </div>
-        );
-    };
-
-    const renderSettingChat = () => {
-        return (
-            <div
-                className="d-flex justify-content-between fs-4 mb-0 p-3 drop-menu"
-                onClick={() => {
-                    handleChoose("SETTING-CHAT");
-                }}
-            >
-                <p className="mb-0">Setting this chat</p>
-                <span>
-                    <FontAwesomeIcon
-                        icon={faCaretDown}
-                        style={{
-                            transform: `${
-                                active === "SETTING-CHAT" && isChoose
-                                    ? "rotate(180deg)"
-                                    : "rotate(0deg)"
-                            }`,
-                        }}
-                    />
-                </span>
-            </div>
-        );
-    };
-
-    const renderSubSettingChat = () => {
-        return (
-            isChoose &&
-            active === "SETTING-CHAT" && (
-                <ul className="ps-0 fs-4 ms-4">
-                    <li className="drop-menu-item p-3">
-                        <div>
-                            <span className="icon">😃</span>
-                            <span>Change emotion</span>
-                        </div>
-                    </li>
-                    <li className="drop-menu-item p-3">
-                        <div>
-                            <span className="icon">
-                                <FontAwesomeIcon icon={faFont} />
-                            </span>
-                            <span>Change nickname</span>
-                        </div>
-                    </li>
-                    <li className="drop-menu-item p-3">
-                        <div>
-                            <span className="icon">
-                                <FontAwesomeIcon icon={faMagnifyingGlass} />
-                            </span>
-                            <span>Search in chat</span>
-                        </div>
-                    </li>
-                </ul>
-            )
-        );
-    };
-
-    const renderViewFile = () => {
-        return (
-            <div
-                className="d-flex justify-content-between fs-4 mb-0 p-3 drop-menu"
-                onClick={() => {
-                    handleChoose("SETTING-FILE");
-                }}
-            >
-                <p className="mb-0">Videos, files and links</p>
-                <span>
-                    <FontAwesomeIcon
-                        icon={faCaretDown}
-                        style={{
-                            transform: `${
-                                active === "SETTING-FILE" && isChoose
-                                    ? "rotate(180deg)"
-                                    : "rotate(0deg)"
-                            }`,
-                        }}
-                    />
-                </span>
-            </div>
-        );
-    };
-
-    const renderSubViewFile = () => {
-        return (
-            isChoose &&
-            active === "SETTING-FILE" && (
-                <ul className="ps-0 fs-4 ms-3">
-                    <li className="drop-menu-item p-3">
-                        <div>
-                            <span className="icon">
-                                <FontAwesomeIcon icon={faPhotoFilm} />
-                            </span>
-                            <span>Media</span>
-                        </div>
-                    </li>
-                    <li className="drop-menu-item p-3">
-                        <div>
-                            <span className="icon">
-                                <FontAwesomeIcon icon={faFile} />
-                            </span>
-                            <span>File</span>
-                        </div>
-                    </li>
-                    <li className="drop-menu-item p-3">
-                        <div>
-                            <span className="icon">
-                                <FontAwesomeIcon icon={faLink} />
-                            </span>
-                            <span>Links</span>
-                        </div>
-                    </li>
-                </ul>
-            )
-        );
-    };
-
-    const renderSettingPrivateAndPrivacy = () => {
-        return (
-            <div
-                className="d-flex justify-content-between fs-4 mb-0 p-3 drop-menu"
-                onClick={() => {
-                    handleChoose("SETTING-PRIVATE");
-                }}
-            >
-                <p className="mb-0">Private and support</p>
-                <span>
-                    <FontAwesomeIcon
-                        icon={faCaretDown}
-                        style={{
-                            transform: `${
-                                active === "SETTING-PRIVATE" && isChoose
-                                    ? "rotate(180deg)"
-                                    : "rotate(0deg)"
-                            }`,
-                        }}
-                    />
-                </span>
-            </div>
-        );
-    };
-
-    const renderSubSettingPrivateAndPrivacy = () => {
-        return (
-            isChoose &&
-            active === "SETTING-PRIVATE" && (
-                <ul className="ps-0 fs-4 ms-3">
-                    <li className="drop-menu-item p-3">
-                        <div>
-                            <span className="icon">
-                                <FontAwesomeIcon icon={faBell} />
-                            </span>
-                            <span>Turn off notification</span>
-                        </div>
-                    </li>
-                    <li className="drop-menu-item p-3">
-                        <div>
-                            <span className="icon">
-                                <FontAwesomeIcon icon={faCommentSlash} />
-                            </span>
-                            <span>Delete chat</span>
-                        </div>
-                    </li>
-                    <li className="drop-menu-item p-3">
-                        <div>
-                            <span className="icon">
-                                <FontAwesomeIcon icon={faUserXmark} />
-                            </span>
-                            <span>Block user</span>
-                        </div>
-                    </li>
-                    <li className="drop-menu-item p-3">
-                        <div>
-                            <span className="icon">
-                                <FontAwesomeIcon icon={faTriangleExclamation} />
-                            </span>
-                            <span>Report</span>
-                        </div>
-                    </li>
-                </ul>
-            )
         );
     };
 

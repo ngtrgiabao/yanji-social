@@ -11,7 +11,7 @@ const ConfirmDialog = ({
 }) => {
     return (
         <div
-            className="customize-theme top-0 position-fixed w-100 h-100 d-flex justify-content-center align-items-center"
+            className="customize-theme top-0 position-fixed w-100 h-100 d-flex justify-content-center align-items-center "
             onClick={onClose}
             style={{
                 left: 0,
@@ -19,7 +19,7 @@ const ConfirmDialog = ({
         >
             <div
                 id="confirm"
-                className="confirm-container__dialog p-4"
+                className="confirm-container__dialog p-4 card animate__animated animate__fadeInLeft"
                 onClick={(e) => e.stopPropagation()}
             >
                 {title && (

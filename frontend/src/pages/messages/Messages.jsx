@@ -22,7 +22,7 @@ function Messages({ socket }) {
                 </Suspense>
 
                 <MessagesMiddle socket={socket} />
-                <MessagesRight />
+                <MessagesRight socket={socket} />
             </div>
         </>
     );

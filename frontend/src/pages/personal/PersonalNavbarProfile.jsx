@@ -12,6 +12,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import "../../style/pages/personal/personalNavbarProfile.css";
 
+import Setting from "../../components/Setting";
+
 const PersonalNavbarProfile = () => {
     const { userID: userRoute } = useParams();
     const { photos: photosRoute } = useParams();
@@ -33,11 +35,6 @@ const PersonalNavbarProfile = () => {
         },
         {
             id: 3,
-            title: "Video",
-            link: "",
-        },
-        {
-            id: 4,
             title: "Music",
             link: `music/${userRoute}`,
         },
@@ -55,6 +52,8 @@ const PersonalNavbarProfile = () => {
         navigate("/bookmarks");
     };
 
+    const [active, setActive] = useState("");
+
     const boxSettingProfileItems = [
         {
             icon: faFileArrowDown,
@@ -69,9 +68,24 @@ const PersonalNavbarProfile = () => {
         {
             icon: faUserCircle,
             title: "Setting profile",
-            handleClick: null,
+            handleClick: () => setActive("SETTINGS"),
         },
     ];
+
+    const handleClostPopup = () => {
+        setActive("");
+    };
+    const renderSettingPopup = () => {
+        return (
+            <div
+                className="customize-theme"
+                hidden={active !== "SETTINGS"}
+                onClick={() => setActive("")}
+            >
+                <Setting close={handleClostPopup} />
+            </div>
+        );
+    };
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -130,48 +144,44 @@ const PersonalNavbarProfile = () => {
     ];
 
     return (
-        <>
-            <div className="d-flex align-items-center justify-content-between mb-4">
-                <nav className="navbar menu-list navbar-expand-lg ">
-                    <div
-                        className="d-flex flex-row navbar-collapse"
-                        id="main_nav"
-                    >
-                        <ul className="navbar-nav d-flex align-items-center flex-row">
-                            {menuItems.map((item) => (
-                                <li key={item.id} className="nav-item">
-                                    <Link
-                                        to={"/" + item.link}
-                                        className={`${
-                                            (userRoute &&
-                                                !photosRoute &&
-                                                item.id === 1) ||
-                                            (userRoute &&
-                                                photosRoute &&
-                                                item.id === 2)
-                                                ? "active"
-                                                : ""
-                                        }`}
-                                    >
-                                        {item.title}
-                                    </Link>
-                                </li>
-                            ))}
+        <div className="d-flex align-items-center justify-content-between mb-4 position-relative">
+            <nav className="navbar menu-list navbar-expand-lg ">
+                <div className="d-flex flex-row navbar-collapse" id="main_nav">
+                    <ul className="navbar-nav d-flex align-items-center flex-row">
+                        {menuItems.map((item) => (
+                            <li key={item.id} className="nav-item">
+                                <Link
+                                    to={"/" + item.link}
+                                    className={`${
+                                        (userRoute &&
+                                            !photosRoute &&
+                                            item.id === 1) ||
+                                        (userRoute &&
+                                            photosRoute &&
+                                            item.id === 2)
+                                            ? "active"
+                                            : ""
+                                    }`}
+                                >
+                                    {item.title}
+                                </Link>
+                            </li>
+                        ))}
 
-                            {/* Export user data */}
-                            <CSVLink
-                                ref={exportData}
-                                data={csvData}
-                                filename={`${currentUser?.username}-data.csv`}
-                                target="_blank"
-                                style={{ display: "none" }}
-                            />
-                        </ul>
-                    </div>
-                </nav>
-                {renderSettingProfile()}
-            </div>
-        </>
+                        {/* Export user data */}
+                        <CSVLink
+                            ref={exportData}
+                            data={csvData}
+                            filename={`${currentUser?.username}-data.csv`}
+                            target="_blank"
+                            style={{ display: "none" }}
+                        />
+                    </ul>
+                </div>
+            </nav>
+            {renderSettingProfile()}
+            {renderSettingPopup()}
+        </div>
     );
 };
 

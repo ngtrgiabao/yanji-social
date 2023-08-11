@@ -506,6 +506,7 @@ const MessagesMiddle = ({ socket }) => {
             messageThread.map((message, _) => (
                 <Message
                     key={message._id}
+                    id={message._id}
                     media={message.media}
                     sender={message.sender}
                     loadingMsg={loadingMsg}
