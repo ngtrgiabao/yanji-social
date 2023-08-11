@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
     getAllNotificationsByUser,
     markSeenNotification,
@@ -8,12 +8,14 @@ import { io } from "socket.io-client";
 import { Link } from "react-router-dom";
 
 import NotificationCard from "../../components/NotificationCard";
+import axios from "axios";
 
 const Notification = ({ socket }) => {
     const [notiList, setNotiList] = useState([]);
     const currentUser = useSelector((state) => {
         return state.auth.login.currentUser?.data;
     });
+    const [isEmpty, setIsEmpty] = useState(false);
     const dispatch = useDispatch();
     const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
@@ -33,23 +35,6 @@ const Notification = ({ socket }) => {
         };
     }, [handleSocket.getNewNotification]);
 
-    useEffect(() => {
-        let isCancelled = false;
-
-        getAllNotificationsByUser(currentUser._id, dispatch).then((data) => {
-            if (!isCancelled) {
-                const originalNotiList = data.data;
-                const sortLatestNoti = [...originalNotiList].reverse();
-
-                setNotiList(sortLatestNoti);
-            }
-        });
-
-        return () => {
-            isCancelled = true;
-        };
-    }, [currentUser._id, dispatch]);
-
     const markSeenNoti = () => {
         notiList.forEach((noti) => {
             const updateNoti = {
@@ -62,6 +47,61 @@ const Notification = ({ socket }) => {
             });
         });
     };
+
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(0);
+
+    const fetchMoreNoti = useCallback(async () => {
+        getAllNotificationsByUser(currentUser._id, dispatch).then(
+            async (data) => {
+                if (data.data.length > 0) {
+                    const res = await axios.get(
+                        process.env.REACT_APP_SOCKET_URL +
+                            `/api/v1/notification/all/user/${
+                                currentUser._id
+                            }/?limit=5&skip=${page * 5}`
+                    );
+
+                    const { data } = res.data;
+
+                    if (data.length === 0) {
+                        setHasMore(false);
+                    } else {
+                        setNotiList((prevNoti) => [...prevNoti, ...data]);
+                        setPage((prevPage) => prevPage + 1);
+                    }
+                } else {
+                    setIsEmpty(true);
+                }
+            }
+        );
+    }, [currentUser._id, page, dispatch]);
+
+    const onIntersection = useCallback(
+        (entries) => {
+            const firstEntry = entries[0];
+            if (firstEntry.isIntersecting && hasMore) {
+                fetchMoreNoti();
+            }
+        },
+        [fetchMoreNoti, hasMore]
+    );
+
+    const loadingRef = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(onIntersection);
+
+        if (observer && loadingRef.current) {
+            observer.observe(loadingRef.current);
+        }
+
+        return () => {
+            if (observer) {
+                observer.disconnect();
+            }
+        };
+    }, [notiList, onIntersection]);
 
     return (
         <div
@@ -93,7 +133,11 @@ const Notification = ({ socket }) => {
                     background: "var(--color-white)",
                 }}
             >
-                {notiList.length > 0 ? (
+                {isEmpty ? (
+                    <div className="fw-bold fs-2 h-100 d-flex justify-content-center align-items-center">
+                        You don't have any notification ¯\_(ツ)_/¯
+                    </div>
+                ) : (
                     <div
                         className="d-flex flex-column align-items-center"
                         style={{
@@ -101,19 +145,25 @@ const Notification = ({ socket }) => {
                         }}
                         data-notifications
                     >
-                        {notiList.map((noti) => (
-                            <NotificationCard
-                                key={noti._id}
-                                sender={noti.sender}
-                                isRead={noti.isRead}
-                                type={noti.type}
-                                createdAt={noti.createdAt}
-                            />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="fw-bold fs-2 h-100 d-flex justify-content-center align-items-center">
-                        You don't have any notification ¯\_(ツ)_/¯
+                        <>
+                            {notiList.map((noti) => (
+                                <NotificationCard
+                                    key={noti._id}
+                                    sender={noti.sender}
+                                    isRead={noti.isRead}
+                                    type={noti.type}
+                                    createdAt={noti.createdAt}
+                                />
+                            ))}
+                            {currentUser && hasMore && (
+                                <div
+                                    className="d-flex justify-content-center fs-3 fw-bold my-3"
+                                    ref={loadingRef}
+                                >
+                                    Loading...
+                                </div>
+                            )}
+                        </>
                     </div>
                 )}
             </div>

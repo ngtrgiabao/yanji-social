@@ -114,7 +114,7 @@ const Setting = ({ close }) => {
                             }
                         })
                         .catch((err) => {
-                            console.error("Failed to update");
+                            console.error("Failed to update", err);
                             setIsChange(false);
                         });
                 }
@@ -140,7 +140,7 @@ const Setting = ({ close }) => {
                             id="firstname"
                             className="p-2 px-3"
                             style={{
-                                borderRadius: "1rem",
+                                borderRadius: "0.5rem",
                             }}
                             defaultValue={userInfo?.firstName}
                             placeholder="Your firstname"
@@ -162,7 +162,7 @@ const Setting = ({ close }) => {
                             id="lastname"
                             className="p-2 px-3"
                             style={{
-                                borderRadius: "1rem",
+                                borderRadius: "0.5rem",
                             }}
                             defaultValue={userInfo?.lastName}
                             placeholder="Your lastname"
@@ -185,7 +185,7 @@ const Setting = ({ close }) => {
                         id="bio"
                         className="w-100 p-2 px-3"
                         style={{
-                            borderRadius: "1rem",
+                            borderRadius: "0.5rem",
                             height: "7rem",
                             resize: "none",
                         }}
@@ -207,7 +207,7 @@ const Setting = ({ close }) => {
                         id="nickname"
                         className="w-100 p-2 px-3"
                         style={{
-                            borderRadius: "1rem",
+                            borderRadius: "0.5rem",
                         }}
                         defaultValue={userInfo?.username}
                         onChange={(e) =>
@@ -248,7 +248,7 @@ const Setting = ({ close }) => {
                         id="email"
                         className="p-2 px-3 w-100"
                         style={{
-                            borderRadius: "1rem",
+                            borderRadius: "0.5rem",
                         }}
                         defaultValue={userInfo?.email}
                         onChange={(e) =>
@@ -299,15 +299,6 @@ const Setting = ({ close }) => {
                         >
                             Show Password
                         </label>
-                    </div>
-                    <div
-                        className="custom-btn d-flex align-items-center justify-content-center text-white p-2 px-3"
-                        style={{
-                            background: "var(--color-primary)",
-                            borderRadius: "0.8rem",
-                        }}
-                    >
-                        Change password
                     </div>
                 </div>
             </>
@@ -394,6 +385,7 @@ const Setting = ({ close }) => {
                         <FontAwesomeIcon icon={faXmark} />
                     </div>
                 </div>
+
                 <div className="row h-100">
                     <div
                         className="col"
@@ -476,7 +468,7 @@ const Setting = ({ close }) => {
                     </div>
                 </div>
 
-                <div className="d-flex justify-content-end me-5">
+                <div className="d-flex justify-content-end">
                     <span
                         className="me-3 p-2 custom-btn text-danger"
                         onClick={() => {
@@ -486,8 +478,8 @@ const Setting = ({ close }) => {
                     >
                         Cancel
                     </span>
-                    <span
-                        className="p-2 custom-btn"
+                    <button
+                        className="p-2"
                         style={{
                             background: isChange && "var(--color-primary)",
                             color: isChange && "white",
@@ -496,7 +488,7 @@ const Setting = ({ close }) => {
                         onClick={() => isChange && handleUpdateUser()}
                     >
                         Save change
-                    </span>
+                    </button>
                 </div>
 
                 {/* Export user data */}

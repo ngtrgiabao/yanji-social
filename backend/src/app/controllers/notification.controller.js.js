@@ -24,9 +24,18 @@ const createNewNoti = async (req, res) => {
 
 const getAllNotisByUser = async (req, res) => {
     const userID = req.params.userID;
+    const { limit, skip } = req.query;
 
     try {
-        const notiList = await NotificationModel.find({ receiver: userID });
+        const notiList =
+            limit || skip
+                ? await NotificationModel.find({ receiver: userID })
+                      .sort({ createdAt: -1 })
+                      .limit(limit)
+                      .skip(skip)
+                : await NotificationModel.find({ receiver: userID }).sort({
+                      createdAt: -1,
+                  });
 
         return res.status(200).json({
             msg: `Get all notis of user ${userID} successfully`,

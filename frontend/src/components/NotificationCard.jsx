@@ -65,110 +65,101 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
         <div
             className={`fs-4 animate__animated animate__fadeIn d-flex align-items-center p-3 position-relative ${
                 !isRead && "bg-dark text-white"
-            }`}
+            } my-2`}
             style={{
                 color: "var(--color-dark)",
                 width: "45%",
                 minHeight: "5.5rem",
-                borderBottom: "1px solid var(--color-dark)",
+                border: "1px solid",
+                borderRadius: "0.5rem",
             }}
-            data-card
             onClick={() => handleNotificationClick()}
+            data-card
         >
-            {notiInfo.senderName ? (
-                <div className="w-100" data-content>
+            <div className="w-100" data-content>
+                <div
+                    className="d-flex align-items-center justify-content-between mb-4"
+                    data-title
+                >
                     <div
-                        className="d-flex align-items-center justify-content-between mb-4"
-                        data-title
+                        style={{
+                            color: "var(--color-dark)",
+                        }}
+                        className={`d-flex align-items-center fw-bold w-100 ${
+                            !isRead && "bg-dark text-white"
+                        }`}
                     >
-                        <div
-                            style={{
-                                color: "var(--color-dark)",
-                            }}
-                            className={`d-flex align-items-center fw-bold w-100 ${
-                                !isRead && "bg-dark text-white"
-                            }`}
-                        >
-                            {(() => {
-                                switch (formatTypeNotification) {
-                                    case LIKE_POST:
-                                        return <FontAwesomeIcon icon={liked} />;
-                                    case COMMENT_POST:
-                                        return (
-                                            <FontAwesomeIcon icon={faComment} />
-                                        );
-                                    case SHARE_POST:
-                                        return (
-                                            <FontAwesomeIcon
-                                                style={{
-                                                    transform: "rotate(90deg)",
-                                                }}
-                                                icon={faRepeat}
-                                            />
-                                        );
-                                    case NEW_FOLLOWER:
-                                        return (
-                                            <FontAwesomeIcon icon={faUser} />
-                                        );
-                                    case NEW_MSG:
-                                        return (
-                                            <FontAwesomeIcon
-                                                icon={faEnvelope}
-                                            />
-                                        );
-                                    default:
-                                        return "";
-                                }
-                            })()}
-                            <div className="d-flex align-items-center justify-content-between w-100">
-                                <Link
-                                    to={"/user/" + sender}
-                                    className="profile-pic ms-3"
-                                >
-                                    <img
-                                        loading="lazy"
-                                        role="presentation"
-                                        decoding="async"
-                                        src={notiInfo.profilePicture}
-                                        alt="Avatar user"
-                                        className="w-100"
-                                    />
-                                </Link>
-                                <div>{formatTime(createdAt)}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div data-content>
-                        <Link
-                            to={"/user/" + sender}
-                            className={`fw-bold me-1 sender-notification ${
-                                !isRead && "bg-dark text-white"
-                            }`}
-                        >
-                            {notiInfo.senderName}
-                        </Link>
                         {(() => {
                             switch (formatTypeNotification) {
                                 case LIKE_POST:
-                                    return "liked your post";
+                                    return <FontAwesomeIcon icon={liked} />;
                                 case COMMENT_POST:
-                                    return "commented on your post";
+                                    return <FontAwesomeIcon icon={faComment} />;
                                 case SHARE_POST:
-                                    return "shared your post";
+                                    return (
+                                        <FontAwesomeIcon
+                                            style={{
+                                                transform: "rotate(90deg)",
+                                            }}
+                                            icon={faRepeat}
+                                        />
+                                    );
                                 case NEW_FOLLOWER:
-                                    return "followed you";
+                                    return <FontAwesomeIcon icon={faUser} />;
                                 case NEW_MSG:
-                                    return "sent you a message";
+                                    return (
+                                        <FontAwesomeIcon icon={faEnvelope} />
+                                    );
                                 default:
                                     return "";
                             }
                         })()}
+                        <div className="d-flex align-items-center justify-content-between w-100">
+                            <Link
+                                to={"/user/" + sender}
+                                className="profile-pic ms-3"
+                            >
+                                <img
+                                    loading="lazy"
+                                    role="presentation"
+                                    decoding="async"
+                                    src={notiInfo.profilePicture}
+                                    alt="Avatar user"
+                                    className="w-100"
+                                />
+                            </Link>
+                            <div>{formatTime(createdAt)}</div>
+                        </div>
                     </div>
                 </div>
-            ) : (
-                <>Loading...</>
-            )}
+
+                <div data-content>
+                    <Link
+                        to={"/user/" + sender}
+                        className={`fw-bold me-1 sender-notification ${
+                            !isRead && "bg-dark text-white"
+                        }`}
+                    >
+                        {notiInfo.senderName}
+                    </Link>
+                    {(() => {
+                        switch (formatTypeNotification) {
+                            case LIKE_POST:
+                                return "liked your post";
+                            case COMMENT_POST:
+                                return "commented on your post";
+                            case SHARE_POST:
+                                return "shared your post";
+                            case NEW_FOLLOWER:
+                                return "followed you";
+                            case NEW_MSG:
+                                return "sent you a message";
+                            default:
+                                return "";
+                        }
+                    })()}
+                </div>
+            </div>
         </div>
     );
 };
