@@ -13,6 +13,7 @@ import {
 import { useTimeAgo } from "../hooks/useTimeAgo";
 
 const Message = ({
+    id,
     sender,
     onUpdateMsg,
     onDeleteMsg,
@@ -33,6 +34,7 @@ const Message = ({
         <div
             className="middle-container-body__right-text mb-3 fs-4 animate__animated animate__slideInRight d-flex align-items-end flex-column"
             data-title="current_user"
+            data-id={id}
         >
             <div className="d-flex align-items-center justify-content-end w-100">
                 <span
@@ -92,6 +94,7 @@ const Message = ({
         <div
             className="middle-container-body__left-text mb-3 fs-4 animate__animated animate__slideInLeft d-flex flex-column"
             data-title="friend"
+            data-id={`${id}`}
         >
             <div className="d-flex justify-content-start align-items-center w-100">
                 <span className="middle-container-body__left-message-content me-2 overflow-hidden">

@@ -57,30 +57,33 @@ const MessagesLeft = ({ avatarUser, socket = {} }) => {
     }, [friendID, dispatch]);
 
     const handleSocket = {
-        getUsersOnline: useCallback((userList) => {
-            const users = Object.values(userList);
+        getUsersOnline: useCallback(
+            (userList) => {
+                const users = Object.values(userList);
 
-            // Get friends of currentUser to compare user of socket to set online users
-            getUserByID(currentUser._id, dispatch)
-                .then((data) => {
-                    const { followers, followings } = data.user;
+                // Get friends of currentUser to compare user of socket to set online users
+                getUserByID(currentUser._id, dispatch)
+                    .then((data) => {
+                        const { followers, followings } = data.user;
 
-                    if (followers.length > 0) {
-                        const value = followers.filter((f) =>
-                            users.some((u) => u.userID === f)
-                        );
-                        setOnlineUsers(value);
-                    } else if (followings.length > 0) {
-                        const value = followings.filter((f) =>
-                            users.some((u) => u.userID === f)
-                        );
-                        setOnlineUsers(value);
-                    }
-                })
-                .catch((err) => {
-                    console.error("Failed to get user online", err);
-                });
-        }, []),
+                        if (followers.length > 0) {
+                            const value = followers.filter((f) =>
+                                users.some((u) => u.userID === f)
+                            );
+                            setOnlineUsers(value);
+                        } else if (followings.length > 0) {
+                            const value = followings.filter((f) =>
+                                users.some((u) => u.userID === f)
+                            );
+                            setOnlineUsers(value);
+                        }
+                    })
+                    .catch((err) => {
+                        console.error("Failed to get user online", err);
+                    });
+            },
+            [currentUser._id, dispatch]
+        ),
     };
 
     useEffect(() => {

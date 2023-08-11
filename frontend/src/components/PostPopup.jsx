@@ -2,11 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faCircleXmark,
-    faFaceSmile,
-} from "@fortawesome/free-regular-svg-icons";
-import { faLock, faImage } from "@fortawesome/free-solid-svg-icons";
+import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
+import { faLock, faImage, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 
@@ -171,7 +168,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
                         className="fs-1 form__title-icon px-2"
                         onClick={onPopup}
                     >
-                        <FontAwesomeIcon icon={faCircleXmark} />
+                        <FontAwesomeIcon icon={faXmark} />
                     </span>
                 </div>
 
@@ -255,7 +252,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
                             onClick={handleDeleteImage}
                         >
                             <FontAwesomeIcon
-                                icon={faCircleXmark}
+                                icon={faXmark}
                                 className="bg-black rounded-circle text-white"
                             />
                         </span>
