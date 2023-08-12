@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
-import "../../style/pages/form/registerPage.css";
+import "./style/registerPage.css";
 
 import Navigation from "../../layout/navigation/Navigation";
 import { registerUser } from "../../redux/request/authRequest";

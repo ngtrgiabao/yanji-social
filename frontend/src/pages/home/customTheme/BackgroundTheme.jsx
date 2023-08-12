@@ -1,4 +1,4 @@
-import "../../../style/pages/home/customTheme/background.css";
+import "./style/background.css";
 
 import { useTheme } from "../../../hooks/useTheme";
 

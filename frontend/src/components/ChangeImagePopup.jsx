@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { io } from "socket.io-client";
 
-import "../style/components/changeImagePopup.css";
+import "./style/changeImagePopup.css";
 
 import PreviewImage from "./PreviewImage";
 import { updateUser } from "../redux/request/userRequest";

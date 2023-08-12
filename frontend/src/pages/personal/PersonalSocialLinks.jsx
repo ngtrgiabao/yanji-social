@@ -1,5 +1,3 @@
-import "../../style/pages/personal/personalSocialLinks.css";
-
 const PersonalSocialLinks = () => {
     const socialLinks = [
         {

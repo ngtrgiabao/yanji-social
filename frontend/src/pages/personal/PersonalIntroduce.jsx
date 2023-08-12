@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
-import "../../style/pages/personal/personalIntroduce.css";
+import "./style/personalIntroduce.css";
 
 import PersonalGallery from "./PersonalGallery";
 import { getUserByID } from "../../redux/request/userRequest";

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import DEFAULT_AVATAR from "../../assets/logo/yanji-social.svg";
 
-import "../../style/pages/home/homeMiddle.css";
+import "./style/homeMiddle.css";
 import "../../style/animations/snackbar.css";
 
 import PostPopup from "../../components/PostPopup";

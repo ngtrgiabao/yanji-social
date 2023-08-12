@@ -1,5 +1,5 @@
-import "../style/pages/messages/messagesMiddle.css";
-import "../style/pages/home/homeLeft.css";
+import "../pages/messages/style/messagesMiddle.css";
+import "../pages/home/style/homeLeft.css";
 
 const ConfirmDialog = ({
     title = "Title",

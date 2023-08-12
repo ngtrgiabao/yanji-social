@@ -1,12 +1,18 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import { faBookmark as bookmarked } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Loading from "../pages/loading/LoadingPage";
 import { getPostByID } from "../redux/request/postRequest";
 import { useTimeAgo } from "../hooks/useTimeAgo";
-import { getUserByID, updateUser } from "../redux/request/userRequest";
+import {
+    getPostsSaved,
+    getUserByID,
+    updateUser,
+} from "../redux/request/userRequest";
 
 import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 
@@ -114,10 +120,7 @@ const Bookmark = ({
                 {author.authorID ? (
                     <div className="h-100 d-flex flex-column justify-content-between">
                         <div
-                            onClick={() =>
-                                handleVisitLink(`/user/${author.authorID}`)
-                            }
-                            className="card-title fs-4 fw-bold d-flex align-items-center"
+                            className="card-title fs-4 fw-bold d-flex align-items-center justify-content-between w-100"
                             style={{
                                 color: "var(--color-primary)",
                                 width: "max-content",
@@ -125,27 +128,46 @@ const Bookmark = ({
                             data-title
                         >
                             <div
-                                className="profile-pic bg-black text-white me-2"
+                                className="d-flex align-items-center"
+                                onClick={() =>
+                                    handleVisitLink(`/user/${author.authorID}`)
+                                }
+                            >
+                                <div
+                                    className="profile-pic bg-black text-white me-2"
+                                    style={{
+                                        cursor: "pointer",
+                                    }}
+                                >
+                                    {author.avatar ? (
+                                        <img
+                                            loading="lazy"
+                                            role="presentation"
+                                            decoding="async"
+                                            src={
+                                                author.avatar || DEFAULT_AVATAR
+                                            }
+                                            alt="Avatar user"
+                                            className="w-100"
+                                        />
+                                    ) : (
+                                        author.username
+                                    )}
+                                </div>
+                                <span className="link-underline ">
+                                    {author.username}
+                                </span>
+                            </div>
+
+                            <FontAwesomeIcon
+                                icon={bookmarked}
+                                className="fs-4 me-2"
+                                title="Save this post"
                                 style={{
                                     cursor: "pointer",
                                 }}
-                            >
-                                {author.avatar ? (
-                                    <img
-                                        loading="lazy"
-                                        role="presentation"
-                                        decoding="async"
-                                        src={author.avatar || DEFAULT_AVATAR}
-                                        alt="Avatar user"
-                                        className="w-100"
-                                    />
-                                ) : (
-                                    author.username
-                                )}
-                            </div>
-                            <span className="link-underline ">
-                                {author.username}
-                            </span>
+                                onClick={() => handleDeletePostSaved(postID)}
+                            />
                         </div>
 
                         {post.isExisting ? (

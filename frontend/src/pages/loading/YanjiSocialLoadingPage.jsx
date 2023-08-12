@@ -1,4 +1,4 @@
-import "../../style/pages/loading/loading.css";
+import "./style/loading.css";
 
 import LOGO from "../../assets/logo/yanji-social.svg";
 

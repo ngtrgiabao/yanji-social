@@ -37,11 +37,12 @@ const Conversation = ({
         };
     }, [currentUser, dispatch]);
 
+    // Get info friend
     useEffect(() => {
         let isCancelled = false;
 
         getUserByID(friendID, dispatch).then((data) => {
-            if (!isCancelled) {
+            if (!isCancelled && data) {
                 setUser(data.user);
             }
         });
@@ -51,6 +52,7 @@ const Conversation = ({
         };
     }, [currentUser, conversation, friendID, dispatch]);
 
+    // Loop to set online symbol
     useEffect(() => {
         let isCancelled = false;
 

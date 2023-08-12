@@ -7,7 +7,7 @@ import LoadingPage from "./pages/loading/LoadingPage";
 import YanjiSocialLoadingPage from "./pages/loading/YanjiSocialLoadingPage";
 import NetworkError from "./pages/networkError/NetworkError";
 
-const NotFound = lazy(() => import("./pages/notFound/NotFound"));
+const _404 = lazy(() => import("./pages/_404/_404"));
 const Homepage = lazy(() => import("./pages/home/Home"));
 const MessagesPage = lazy(() => import("./pages/messages/Messages"));
 const ExplorePage = lazy(() => import("./pages/explore/Explore"));
@@ -62,7 +62,9 @@ function App() {
                         path="*"
                         element={
                             <Suspense fallback={<LoadingPage />}>
-                                <NotFound />
+                                {/* eslint-disable-next-line
+                                react/jsx-pascal-case */}
+                                <_404 />
                             </Suspense>
                         }
                     />
@@ -125,7 +127,7 @@ function App() {
                                 <BookmarkPage socket={socket} />
                             </Suspense>
                         }
-                    />                    
+                    />
                     <Route
                         path="/post/:postID"
                         element={

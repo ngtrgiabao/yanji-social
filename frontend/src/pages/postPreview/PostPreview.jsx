@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getPostByID } from "../../redux/request/postRequest";
 import { useDispatch } from "react-redux";
 
-import NotFound from "../notFound/NotFound";
+import _404 from "../_404/_404";
 import Post from "../../components/Post";
 import { io } from "socket.io-client";
 import DetailsPost from "../../components/DetailsPost";
@@ -119,7 +119,8 @@ const PostPreview = ({ socket }) => {
             </>
         )
     ) : (
-        <NotFound />
+        // eslint-disable-next-line react/jsx-pascal-case
+        <_404 />
     );
 };
 

@@ -1,14 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-    UilEllipsisH,
-    UilTrash,
-    UilTimesSquare,
-    UilLinkAlt,
-    UilUserTimes,
-    UilExclamationTriangle,
-} from "@iconscout/react-unicons";
+import { UilEllipsisH, UilTrash } from "@iconscout/react-unicons";
 import {
     faHeart as likeDefault,
     faComment,
@@ -26,7 +19,7 @@ import io from "socket.io-client";
 
 import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 
-import "../style/components/post.css";
+import "./style/post.css";
 
 import { deletePost, likePost, sharePost } from "../redux/request/postRequest";
 import {
@@ -305,30 +298,6 @@ const Post = ({
                             <FontAwesomeIcon icon={faPenToSquare} />
                         </span>
                         Edit this post
-                    </li>
-                    <li>
-                        <span>
-                            <UilLinkAlt />
-                        </span>
-                        Copy link of this post
-                    </li>
-                    <li>
-                        <span>
-                            <UilTimesSquare />
-                        </span>
-                        Hide this post
-                    </li>
-                    <li>
-                        <span>
-                            <UilUserTimes />
-                        </span>
-                        Unfollow
-                    </li>
-                    <li>
-                        <span>
-                            <UilExclamationTriangle />
-                        </span>
-                        Report
                     </li>
                 </ul>
             </div>

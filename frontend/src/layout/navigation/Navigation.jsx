@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 
-import "../../style/layouts/navigation.css";
+import "./style/navigation.css";
 
 import LOGO from "../../assets/logo/yanji-social.svg";
 

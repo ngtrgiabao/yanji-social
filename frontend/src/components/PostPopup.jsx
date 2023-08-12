@@ -7,7 +7,7 @@ import { faLock, faImage, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 
-import "../style/components/postPopup.css";
+import "./style/postPopup.css";
 
 import DEFAULT_AVATAR from "../assets/background/default_bg_user.svg";
 

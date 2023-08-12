@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { UilCamera } from "@iconscout/react-unicons";
 import { useSelector } from "react-redux";
 
-import "../../style/pages/personal/personalHeader.css";
+import "./style/personalHeader.css";
 
 import DEFAULT_BG from "../../assets/background/default_bg_user.svg";
 

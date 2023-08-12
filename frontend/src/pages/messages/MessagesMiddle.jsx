@@ -23,7 +23,7 @@ import { Link } from "react-router-dom";
 //     FloatingNotificationInbox,
 // } from "@magicbell/magicbell-react";
 
-import "../../style/pages/messages/messagesMiddle.css";
+import "./style/messagesMiddle.css";
 
 import {
     sendMessage,
@@ -43,7 +43,6 @@ import useDownloadImage from "../../hooks/useDownloadImage";
 import { getUserByID } from "../../redux/request/userRequest";
 import { NEW_MSG } from "../../constants/noti.type.constant";
 import { pushNewNotification } from "../../redux/request/notificationRequest";
-import CallVideo from "../../components/CallVideo";
 
 const MessagesMiddle = ({ socket }) => {
     const [edit, setEdit] = useState(false);
@@ -493,8 +492,6 @@ const MessagesMiddle = ({ socket }) => {
                         <FontAwesomeIcon icon={faCircleInfo} />
                     </span>
                 </div>
-
-                <CallVideo />
             </div>
         );
     };
