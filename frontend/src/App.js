@@ -16,8 +16,6 @@ const NotificationPage = lazy(() =>
     import("./pages/notification/Notification")
 );
 const BookmarkPage = lazy(() => import("./pages/bookmarks/Bookmarks"));
-const FinancePage = lazy(() => import("./pages/finance/Finance"));
-const MusicPage = lazy(() => import("./pages/music/Music"));
 const PostPreview = lazy(() => import("./pages/postPreview/PostPreview"));
 
 const RegisterPage = lazy(() => import("./pages/form/RegisterPage"));
@@ -127,15 +125,7 @@ function App() {
                                 <BookmarkPage socket={socket} />
                             </Suspense>
                         }
-                    />
-                    <Route
-                        path="/music/:userID"
-                        element={
-                            <Suspense fallback={<LoadingPage />}>
-                                <MusicPage socket={socket} />
-                            </Suspense>
-                        }
-                    />
+                    />                    
                     <Route
                         path="/post/:postID"
                         element={
