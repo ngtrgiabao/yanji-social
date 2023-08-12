@@ -9,7 +9,7 @@ import {
     UilPalette,
     UilSetting,
 } from "@iconscout/react-unicons";
-import { faVideo, faHeadphones } from "@fortawesome/free-solid-svg-icons";
+import { faVideo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 
@@ -195,31 +195,6 @@ const HomeLeft = ({ socket, isReadNotification }) => {
         );
     };
 
-    const renderMusicBtn = () => {
-        return (
-            <Link
-                to={"/music/" + currentUser?._id}
-                className={`menu-item ${active === "SOUND" ? "active" : ""}`}
-                onClick={() => {
-                    setActive("SOUND");
-                }}
-                title="Music"
-            >
-                <span>
-                    <FontAwesomeIcon
-                        icon={faHeadphones}
-                        style={{
-                            marginLeft: "2rem",
-                            color: "#9e98b3",
-                        }}
-                        className="fs-2 sidebar-icon"
-                    />
-                </span>
-                <h3 className="ms-4">Music</h3>
-            </Link>
-        );
-    };
-
     const renderThemeBtn = () => {
         return (
             <div
@@ -347,7 +322,6 @@ const HomeLeft = ({ socket, isReadNotification }) => {
                     {currentUser && renderNotificationBtn()}
                     {currentUser && renderMessageBtn()}
                     {currentUser && renderBookmarkBtn()}
-                    {currentUser && renderMusicBtn()}
                     {renderMeetingBtn()}
                     {renderThemeBtn()}
                     {currentUser && renderSettingBtn()}

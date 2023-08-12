@@ -33,11 +33,6 @@ const PersonalNavbarProfile = () => {
             title: "Photos",
             link: `user/${userRoute}/photos`,
         },
-        {
-            id: 3,
-            title: "Music",
-            link: `music/${userRoute}`,
-        },
     ];
 
     const currentUser = useSelector((state) => {
