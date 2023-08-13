@@ -10,7 +10,7 @@ import { CSVLink } from "react-csv";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import "../../style/pages/personal/personalNavbarProfile.css";
+import "./style/personalNavbarProfile.css";
 
 import Setting from "../../components/Setting";
 

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import PersonalAvatarFriends from "./PersonalAvatarFriends";
 
-import "../../style/pages/personal/personalGeneralInfo.css";
+import "./style/personalGeneralInfo.css";
 import "../../style/animations/snackbar.css";
 
 import ChangeImagePopup from "../../components/ChangeImagePopup";

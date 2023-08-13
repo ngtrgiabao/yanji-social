@@ -13,7 +13,7 @@ import { faVideo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 
-import "../../style/pages/home/homeLeft.css";
+import "./style/homeLeft.css";
 
 import DEFAULT_AVATAR from "../../assets/logo/yanji-social.svg";
 

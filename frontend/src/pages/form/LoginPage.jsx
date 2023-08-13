@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Navigation from "../../layout/navigation/Navigation";
 import { loginUser } from "../../redux/request/authRequest";
 
-import "../../style/pages/form/registerPage.css";
+import "./style/registerPage.css";
 
 function LoginPage() {
     const pwd = useRef(null);

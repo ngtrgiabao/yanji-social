@@ -1,4 +1,4 @@
-import "../../../style/pages/home/customTheme/color.css";
+import "./style/color.css";
 
 import { useTheme } from "../../../hooks/useTheme";
 

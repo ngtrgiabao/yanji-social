@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import "../../style/pages/personal/personalBody.css";
+import "./style/personalBody.css";
 
 import PersonalIntroduce from "./PersonalIntroduce";
 import PersonalSocialLinks from "./PersonalSocialLinks";

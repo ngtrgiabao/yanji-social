@@ -2,7 +2,7 @@ import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 
-import "../../style/pages/messages/messagesLeft.css";
+import "./style/messagesLeft.css";
 
 import {
     getRoomsByUserID,

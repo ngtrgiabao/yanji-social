@@ -1,6 +1,6 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 
-import "../../style/pages/home/home.css";
+import "./style/home.css";
 
 import HomeLeft from "./HomeLeft";
 import HomeMiddle from "./HomeMiddle";

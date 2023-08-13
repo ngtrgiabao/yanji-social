@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 
-import "../../style/pages/messages/messages.css";
+import "./style/messages.css";
 
 import KAYO_AVATAR from "../../assets/avatar/kayo.jpg";
 

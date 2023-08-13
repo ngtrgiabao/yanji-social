@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "../style/components/notificationCard.css";
+import "./style/notificationCard.css";
 
 import {
     COMMENT_POST,

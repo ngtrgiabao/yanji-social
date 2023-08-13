@@ -13,7 +13,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "../../style/pages/personal/personal.css";
+import "./style/personal.css";
 
 import { getUserByID, updateUser } from "../../redux/request/userRequest";
 
@@ -22,7 +22,7 @@ import PersonalBody from "./PersonalBody";
 import PersonalGeneralInfo from "./PersonalGeneralInfo";
 import PersonalHeader from "./PersonalHeader";
 import PersonalNavbarProfile from "./PersonalNavbarProfile";
-import NotFound from "../notFound/NotFound";
+import _404 from "../_404/_404";
 import ConfirmDialog from "../../components/ConfirmDialog";
 import SocialMediaInput from "../../components/SocialMediaInput ";
 import PhotosUser from "../../components/PhotosUser";
@@ -318,7 +318,8 @@ const Personal = ({ socket }) => {
             {renderUpdateIntroducePopup()}
         </div>
     ) : (
-        <NotFound />
+        // eslint-disable-next-line react/jsx-pascal-case
+        <_404 />
     );
 };
 

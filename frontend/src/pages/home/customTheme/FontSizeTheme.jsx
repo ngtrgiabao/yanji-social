@@ -1,4 +1,4 @@
-import "../../../style/pages/home/customTheme/fontSize.css";
+import "./style/fontSize.css";
 
 import { useTheme } from "../../../hooks/useTheme";
 

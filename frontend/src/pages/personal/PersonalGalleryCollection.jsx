@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 
-import "../../style/pages/personal/personalGalleryCollection.css";
+import "./style/personalGalleryCollection.css";
 
 const PersonalGalleryCollection = ({ photos }) => {
     const { userID: userRoute } = useParams();

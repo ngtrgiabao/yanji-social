@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import "../../style/pages/personal/personalGallery.css";
+import "./style/personalGallery.css";
 
 import PersonalGalleryCollection from "./PersonalGalleryCollection";
 import { fetchUserSpecificImageQuantity } from "../../redux/request/userRequest";

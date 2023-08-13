@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 
-import "../../style/pages/messages/messagesRight.css";
+import "./style/messagesRight.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getUserByID } from "../../redux/request/userRequest";
