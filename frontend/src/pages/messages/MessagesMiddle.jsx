@@ -497,25 +497,21 @@ const MessagesMiddle = ({ socket }) => {
     };
 
     const renderMessages = () => {
-        return messageThread.length === 0 ? (
-            <div className="text-center fs-2">Loading...</div>
-        ) : (
-            messageThread.map((message, _) => (
-                <Message
-                    key={message._id}
-                    id={message._id}
-                    media={message.media}
-                    sender={message.sender}
-                    loadingMsg={loadingMsg}
-                    content={message.message}
-                    createdAt={message.createdAt}
-                    updatedAt={message.updatedAt}
-                    onUpdateMsg={() => handleMsg.updateMsg(message._id)}
-                    onDeleteMsg={() => handleMsg.deleteMsg(message._id)}
-                    onPreviewImage={() => handlePreviewImage(message.media)}
-                />
-            ))
-        );
+        return messageThread.map((message, _) => (
+            <Message
+                key={message._id}
+                id={message._id}
+                media={message.media}
+                sender={message.sender}
+                loadingMsg={loadingMsg}
+                content={message.message}
+                createdAt={message.createdAt}
+                updatedAt={message.updatedAt}
+                onUpdateMsg={() => handleMsg.updateMsg(message._id)}
+                onDeleteMsg={() => handleMsg.deleteMsg(message._id)}
+                onPreviewImage={() => handlePreviewImage(message.media)}
+            />
+        ));
     };
 
     const renderBodyConversation = () => {
