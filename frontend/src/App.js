@@ -2,6 +2,9 @@ import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
+import { isMobile, isTablet } from "react-device-detect";
+
+import NOT_AVAILABLE from "./assets/background/not-available.png";
 
 import LoadingPage from "./pages/loading/LoadingPage";
 import YanjiSocialLoadingPage from "./pages/loading/YanjiSocialLoadingPage";
@@ -55,118 +58,148 @@ function App() {
     }, [isNetworkWorking]);
 
     return (
-        <div className="App">
-            {isNetworkWorking ? (
-                <Routes>
-                    <Route
-                        path="*"
-                        element={
-                            <Suspense fallback={<LoadingPage />}>
-                                {/* eslint-disable-next-line
-                                react/jsx-pascal-case */}
-                                <_404 />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="/"
-                        element={
-                            <Suspense fallback={<YanjiSocialLoadingPage />}>
-                                <Homepage socket={socket} />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="/messages"
-                        element={
-                            <Suspense fallback={<LoadingPage />}>
-                                {currentUser ? (
-                                    <MessagesPage socket={socket} />
-                                ) : (
-                                    <RegisterPage />
-                                )}
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="/explore"
-                        element={
-                            <Suspense fallback={<LoadingPage />}>
-                                <ExplorePage />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path={"/user/:userID"}
-                        element={
-                            <Suspense fallback={<LoadingPage />}>
-                                <PersonalPage socket={socket} />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path={"/user/:userID/:photos"}
-                        element={
-                            <Suspense fallback={<LoadingPage />}>
-                                <PersonalPage socket={socket} />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="/notification"
-                        element={
-                            <Suspense fallback={<LoadingPage />}>
-                                <NotificationPage socket={socket} />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="/bookmarks"
-                        element={
-                            <Suspense fallback={<LoadingPage />}>
-                                <BookmarkPage socket={socket} />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="/post/:postID"
-                        element={
-                            <Suspense fallback={<LoadingPage />}>
-                                <PostPreview socket={socket} />
-                            </Suspense>
-                        }
-                    />
-
-                    {/* Form */}
-                    <Route
-                        path="/register"
-                        element={
-                            <Suspense fallback={<LoadingPage />}>
-                                <RegisterPage />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="/login"
-                        element={
-                            <Suspense fallback={<LoadingPage />}>
-                                <LoginPage />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="/logout"
-                        element={
-                            <Suspense fallback={<LoadingPage />}>
-                                <LoginPage />
-                            </Suspense>
-                        }
-                    />
-                </Routes>
+        <>
+            {isMobile || isTablet ? (
+                <div
+                    className="text-white bg-center bg-cover d-flex justify-content-center align-items-center text-center"
+                    style={{
+                        background: `url(${NOT_AVAILABLE}) no-repeat center`,
+                        height: "100vh",
+                        scale: "1.2"
+                    }}
+                >
+                    <div
+                        className="bg-black w-fit p-5 fs-6"
+                        style={{
+                            borderRadius: "1rem",
+                        }}
+                    >
+                        <p className="fw-bold">
+                            Meet With Us is not available on mobile or tablet
+                            now 🫠
+                        </p>
+                        <p className="mt-2 font-thin">
+                            We will update in another version soon
+                        </p>
+                    </div>
+                </div>
             ) : (
-                <NetworkError />
+                <div className="App">
+                    {isNetworkWorking ? (
+                        <Routes>
+                            <Route
+                                path="*"
+                                element={
+                                    <Suspense fallback={<LoadingPage />}>
+                                        {/* eslint-disable-next-line
+                                react/jsx-pascal-case */}
+                                        <_404 />
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path="/"
+                                element={
+                                    <Suspense
+                                        fallback={<YanjiSocialLoadingPage />}
+                                    >
+                                        <Homepage socket={socket} />
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path="/messages"
+                                element={
+                                    <Suspense fallback={<LoadingPage />}>
+                                        {currentUser ? (
+                                            <MessagesPage socket={socket} />
+                                        ) : (
+                                            <RegisterPage />
+                                        )}
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path="/explore"
+                                element={
+                                    <Suspense fallback={<LoadingPage />}>
+                                        <ExplorePage />
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path={"/user/:userID"}
+                                element={
+                                    <Suspense fallback={<LoadingPage />}>
+                                        <PersonalPage socket={socket} />
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path={"/user/:userID/:photos"}
+                                element={
+                                    <Suspense fallback={<LoadingPage />}>
+                                        <PersonalPage socket={socket} />
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path="/notification"
+                                element={
+                                    <Suspense fallback={<LoadingPage />}>
+                                        <NotificationPage socket={socket} />
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path="/bookmarks"
+                                element={
+                                    <Suspense fallback={<LoadingPage />}>
+                                        <BookmarkPage socket={socket} />
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path="/post/:postID"
+                                element={
+                                    <Suspense fallback={<LoadingPage />}>
+                                        <PostPreview socket={socket} />
+                                    </Suspense>
+                                }
+                            />
+
+                            {/* Form */}
+                            <Route
+                                path="/register"
+                                element={
+                                    <Suspense fallback={<LoadingPage />}>
+                                        <RegisterPage />
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path="/login"
+                                element={
+                                    <Suspense fallback={<LoadingPage />}>
+                                        <LoginPage />
+                                    </Suspense>
+                                }
+                            />
+                            <Route
+                                path="/logout"
+                                element={
+                                    <Suspense fallback={<LoadingPage />}>
+                                        <LoginPage />
+                                    </Suspense>
+                                }
+                            />
+                        </Routes>
+                    ) : (
+                        <NetworkError />
+                    )}
+                </div>
             )}
-        </div>
+        </>
     );
 }
 
