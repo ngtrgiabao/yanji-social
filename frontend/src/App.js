@@ -75,7 +75,7 @@ function App() {
                         }}
                     >
                         <p className="fw-bold">
-                            Meet With Us is not available on mobile or tablet
+                            Yanji Social is not available on mobile or tablet
                             now 🫠
                         </p>
                         <p className="mt-2 font-thin">
