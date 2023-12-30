@@ -4,14 +4,14 @@ import storage from "redux-persist/lib/storage";
 
 //persist help not logout user when reload
 import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
 } from "redux-persist";
 
 import authReducer from "./authSlice";
@@ -23,37 +23,30 @@ import commentSlice from "./commentSlice";
 import notificationSlice from "./notificationSlice";
 
 const persistConfig = {
-    key: "root",
-    version: 1,
-    storage,
+  key: "root",
+  version: 1,
+  storage,
 };
 
 const rootReducer = combineReducers({
-    auth: authReducer,
-    room: roomSlice,
-    message: messageSlice,
-    user: userReducer,
-    post: postSlice,
-    comment: commentSlice,
-    notification: notificationSlice,
+  auth: authReducer,
+  room: roomSlice,
+  message: messageSlice,
+  user: userReducer,
+  post: postSlice,
+  comment: commentSlice,
+  notification: notificationSlice,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: [
-                    FLUSH,
-                    REHYDRATE,
-                    PAUSE,
-                    PERSIST,
-                    PURGE,
-                    REGISTER,
-                ],
-            },
-        }),
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
 export let persistor = persistStore(store);

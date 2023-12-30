@@ -2,7 +2,7 @@ const User = require("../models/user.model");
 
 // Middleware to validate user data before account creation
 const validateRegisterUser = async (req, res, next) => {
-    const { username, password, email } = req.body;
+    const { username, password, email } = req.body;    
 
     // Check if all required fields are present
     if (!username || !password || !email) {

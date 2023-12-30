@@ -1,28 +1,28 @@
 @media screen and (max-width: 360px) {
-    .header-navbar {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+  .header-navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .header-navbar .logo {
-        display: none !important;
-    }
+  .header-navbar .logo {
+    display: none !important;
+  }
 
-    .header-navbar span {
-        display: none;
-    }
+  .header-navbar span {
+    display: none;
+  }
 
-    .header-navbar .container {
-        width: 100%;
-        margin: 0;
-    }
+  .header-navbar .container {
+    width: 100%;
+    margin: 0;
+  }
 
-    .header-navbar .search-bar {
-        flex: 1;
-    }
+  .header-navbar .search-bar {
+    flex: 1;
+  }
 
-    a[data-logout-btn] {
-        display: none !important;
-    }
+  a[data-logout-btn] {
+    display: none !important;
+  }
 }

@@ -1,9 +1,9 @@
 @media screen and (max-width: 360px) {
-    main .middle {
-        margin-top: 6rem !important;
-    }
+  main .middle {
+    margin-top: 6rem !important;
+  }
 
-    div[name="caption"] {
-        font-size: 1rem !important;
-    }
+  div[name="caption"] {
+    font-size: 1rem !important;
+  }
 }

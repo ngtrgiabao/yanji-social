@@ -1,9 +1,9 @@
 @media screen and (max-width: 992px) {
-    .messages {
-        grid-template-columns: unset !important;
-    }
+  .messages {
+    grid-template-columns: unset !important;
+  }
 
-    .right-msg-page {
-        display: none;
-    }
+  .right-msg-page {
+    display: none;
+  }
 }

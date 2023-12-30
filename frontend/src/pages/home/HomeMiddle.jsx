@@ -2,160 +2,149 @@ import { Link } from "react-router-dom";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import DEFAULT_AVATAR from "../../assets/logo/yanji-social.svg";
+import { LOGO_YANJI_SOCIAL } from "../../assets";
 
 import "./style/homeMiddle.css";
 import "../../style/animations/snackbar.css";
 
 import PostPopup from "../../components/PostPopup";
 import { getUserByID } from "../../redux/request/userRequest";
-import Loading from "../../pages/loading/LoadingPage";
+import { LoadingPage } from "../../pages";
 
 const Posts = lazy(() => import("../../components/Posts"));
 
 const HomeMiddle = ({ socket }) => {
-    const [popup, setPopup] = useState(false);
-    const [user, setUser] = useState({
-        _id: "",
-        profilePicture: "",
-        username: "",
-    });
-    const snackBar = useRef(null);
-    const dispatch = useDispatch();
+  const [popup, setPopup] = useState(false);
+  const [user, setUser] = useState({
+    _id: "",
+    profilePicture: "",
+    username: "",
+  });
+  const snackBar = useRef(null);
+  const dispatch = useDispatch();
 
-    const handlePopup = () => {
-        setPopup((popup) => !popup);
-    };
+  const handlePopup = () => {
+    setPopup((popup) => !popup);
+  };
 
-    const currentUser = useSelector((state) => {
-        return state.auth.login.currentUser?.data;
-    });
+  const currentUser = useSelector((state) => {
+    return state.auth.login.currentUser?.data;
+  });
 
-    useEffect(() => {
-        currentUser &&
-            getUserByID(currentUser?._id, dispatch).then((data) => {
-                const { _id, profilePicture, username } = data.user;
+  useEffect(() => {
+    currentUser &&
+      getUserByID(currentUser?._id, dispatch).then((data) => {
+        const { _id, profilePicture, username } = data.user;
 
-                setUser({
-                    _id,
-                    profilePicture,
-                    username,
-                });
-            });
-    }, [currentUser, dispatch]);
+        setUser({
+          _id,
+          profilePicture,
+          username,
+        });
+      });
+  }, [currentUser, dispatch]);
 
-    const renderPostPopup = () => {
-        return (
-            currentUser?._id &&
-            popup && (
-                <PostPopup
-                    socket={socket}
-                    onPopup={handlePopup}
-                    extendClass="animate__animated animate__fadeIn"
-                />
-            )
-        );
-    };
-
-    const handleDeletePopup = () => {
-        if (snackBar.current) {
-            const sb = snackBar.current;
-            sb.className = "show";
-
-            setTimeout(() => {
-                sb.className = sb.className.replace("show", "");
-            }, 3000);
-        }
-    };
-
-    const renderUserAvatar = () => {
-        if (user.profilePicture) {
-            return (
-                <img
-                    loading="lazy"
-                    className="w-100"
-                    src={user.profilePicture}
-                    alt="Avatar user"
-                />
-            );
-        } else {
-            return <>{user.username}</>;
-        }
-    };
-
+  const renderPostPopup = () => {
     return (
-        <div className="middle animate__animated animate__fadeIn position-relative">
-            {/* STATUS */}
-            <div
-                action=""
-                className="create-post d-flex align-items-center mb-4"
-            >
-                <div className="create-post-wrapper w-100 d-flex align-items-center">
-                    <Link
-                        to={currentUser ? `/user/${user?._id}` : "/"}
-                        className="profile-pic text-white"
-                        aria-label="Avatar user"
-                    >
-                        {currentUser ? (
-                            renderUserAvatar()
-                        ) : (
-                            <img
-                                loading="lazy"
-                                role="presentation"
-                                decoding="async"
-                                className="w-100"
-                                src={DEFAULT_AVATAR}
-                                alt="Avatar user"
-                            />
-                        )}
-                    </Link>
-
-                    <div
-                        className="border-0 ps-3 me-3 ms-3 caption fs-4"
-                        name="caption"
-                        onClick={handlePopup}
-                        id="caption"
-                    >
-                        What's in your mind,
-                        {currentUser?.username || " user"}?
-                    </div>
-                </div>
-                <div
-                    className="submit d-flex align-items-center"
-                    title="Đăng bài viết"
-                >
-                    {currentUser ? (
-                        <button
-                            onClick={handlePopup}
-                            type="submit"
-                            className="btn btn-primary"
-                        >
-                            Post
-                        </button>
-                    ) : (
-                        <Link to="/login" className="btn btn-primary">
-                            Post
-                        </Link>
-                    )}
-                </div>
-                {renderPostPopup()}
-            </div>
-            {/* END STATUS */}
-
-            <Suspense fallback={<Loading />}>
-                <Posts handleDeletePopup={handleDeletePopup} socket={socket} />
-            </Suspense>
-
-            <div
-                data-deleted-popup
-                ref={snackBar}
-                id="snackbar"
-                className="fw-bold"
-            >
-                Deleted post :D
-            </div>
-        </div>
+      currentUser?._id &&
+      popup && (
+        <PostPopup
+          socket={socket}
+          onPopup={handlePopup}
+          extendClass="animate__animated animate__fadeIn"
+        />
+      )
     );
+  };
+
+  const handleDeletePopup = () => {
+    if (snackBar.current) {
+      const sb = snackBar.current;
+      sb.className = "show";
+
+      setTimeout(() => {
+        sb.className = sb.className.replace("show", "");
+      }, 3000);
+    }
+  };
+
+  const renderUserAvatar = () => {
+    if (user.profilePicture) {
+      return (
+        <img
+          loading="lazy"
+          className="w-100"
+          src={user.profilePicture}
+          alt="Avatar user"
+        />
+      );
+    } else {
+      return <>{user.username}</>;
+    }
+  };
+
+  return (
+    <div className="middle animate__animated animate__fadeIn position-relative">
+      {/* STATUS */}
+      <div action="" className="create-post d-flex align-items-center mb-4">
+        <div className="create-post-wrapper w-100 d-flex align-items-center">
+          <Link
+            to={currentUser ? `/user/${user?._id}` : "/"}
+            className="profile-pic text-white"
+            aria-label="Avatar user"
+          >
+            {currentUser ? (
+              renderUserAvatar()
+            ) : (
+              <img
+                loading="lazy"
+                role="presentation"
+                decoding="async"
+                className="w-100"
+                src={LOGO_YANJI_SOCIAL}
+                alt="Avatar user"
+              />
+            )}
+          </Link>
+
+          <div
+            className="border-0 ps-3 me-3 ms-3 caption fs-4"
+            name="caption"
+            onClick={handlePopup}
+            id="caption"
+          >
+            What's in your mind,
+            {currentUser?.username || " user"}?
+          </div>
+        </div>
+        <div className="submit d-flex align-items-center" title="Đăng bài viết">
+          {currentUser ? (
+            <button
+              onClick={handlePopup}
+              type="submit"
+              className="btn btn-primary"
+            >
+              Post
+            </button>
+          ) : (
+            <Link to="/login" className="btn btn-primary">
+              Post
+            </Link>
+          )}
+        </div>
+        {renderPostPopup()}
+      </div>
+      {/* END STATUS */}
+
+      <Suspense fallback={<LoadingPage />}>
+        <Posts handleDeletePopup={handleDeletePopup} socket={socket} />
+      </Suspense>
+
+      <div data-deleted-popup ref={snackBar} id="snackbar" className="fw-bold">
+        Deleted post :D
+      </div>
+    </div>
+  );
 };
 
 export default HomeMiddle;

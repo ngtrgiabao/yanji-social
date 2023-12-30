@@ -1,17 +1,17 @@
 @media screen and (max-width: 992px) {
-    div[data-posts] {
-        width: 100%;
-    }
+  div[data-posts] {
+    width: 100%;
+  }
 
-    div[data-detail-post] {
-        width: 75% !important;
-    }
+  div[data-detail-post] {
+    width: 75% !important;
+  }
 
-    div[data-change-image-popup] {
-        width: 60%;
-    }
+  div[data-change-image-popup] {
+    width: 60%;
+  }
 
-    div[data-posts-saved-wrap] {
-        grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)) !important;
-    }
+  div[data-posts-saved-wrap] {
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)) !important;
+  }
 }

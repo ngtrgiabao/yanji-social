@@ -1,45 +1,45 @@
 :root {
-    --primary-color-hue: 252;
-    --dark-color-lightness: 17%;
-    --light-color-lightness: 95%;
-    --white-color-lightness: 100%;
+  --primary-color-hue: 252;
+  --dark-color-lightness: 17%;
+  --light-color-lightness: 95%;
+  --white-color-lightness: 100%;
 
-    --color-white: hsl(252, 30%, var(--white-color-lightness));
-    --color-light: hsl(252, 30%, var(--light-color-lightness));
-    --color-gray: hsl(var(--primary-color-hue), 15%, 65%);
-    --color-primary: hsl(var(--primary-color-hue), 75%, 60%);
-    --color-primary-light: hsl(var(--primary-color-hue), 45%, 30%);
-    --color-secondary: hsl(252, 100%, 90%);
-    --color-success: hsl(120, 95%, 65%);
-    --color-danger: hsl(0, 95%, 65%);
-    --color-dark: hsl(252, 30%, var(--dark-color-lightness));
-    --color-black: hsl(252, 30%, 10%);
-    --color-border: rgba(204, 204, 204, 0.337);
-    --color-blue: #1d9bf0;
-    --color-author: tomato;
-    --white: aliceblue;
-    --black: #000;
-    --light-dark: rgba(0, 0, 0, 0.43);
-    --extra-light-dark: rgba(0, 0, 0, 0.06);
-    --bg-container-popup: rgba(0, 0, 0, 0.29);
-    --bg-popup: rgba(0, 0, 0, 0.744);
+  --color-white: hsl(252, 30%, var(--white-color-lightness));
+  --color-light: hsl(252, 30%, var(--light-color-lightness));
+  --color-gray: hsl(var(--primary-color-hue), 15%, 65%);
+  --color-primary: hsl(var(--primary-color-hue), 75%, 60%);
+  --color-primary-light: hsl(var(--primary-color-hue), 45%, 30%);
+  --color-secondary: hsl(252, 100%, 90%);
+  --color-success: hsl(120, 95%, 65%);
+  --color-danger: hsl(0, 95%, 65%);
+  --color-dark: hsl(252, 30%, var(--dark-color-lightness));
+  --color-black: hsl(252, 30%, 10%);
+  --color-border: rgba(204, 204, 204, 0.337);
+  --color-blue: #1d9bf0;
+  --color-author: tomato;
+  --white: aliceblue;
+  --black: #000;
+  --light-dark: rgba(0, 0, 0, 0.43);
+  --extra-light-dark: rgba(0, 0, 0, 0.06);
+  --bg-container-popup: rgba(0, 0, 0, 0.29);
+  --bg-popup: rgba(0, 0, 0, 0.744);
 
-    --border-radius: 2rem;
-    --card-border-radius: 1rem;
-    --card-border-radius-l: 2rem;
-    --btn-padding: 0.6rem 2rem;
-    --search-padding: 0.6rem 1.5rem;
-    --card-padding: 1rem;
+  --border-radius: 2rem;
+  --card-border-radius: 1rem;
+  --card-border-radius-l: 2rem;
+  --btn-padding: 0.6rem 2rem;
+  --search-padding: 0.6rem 1.5rem;
+  --card-padding: 1rem;
 
-    --color-bg-hover: rgba(147, 144, 144, 0.144);
+  --color-bg-hover: rgba(147, 144, 144, 0.144);
 
-    --border-color: rgb(67, 23, 239);
+  --border-color: rgb(67, 23, 239);
 
-    --sticky-top-left: 10%;
-    --sticky-top-right: 10%;
+  --sticky-top-left: 10%;
+  --sticky-top-right: 10%;
 
-    --hue: 223;
-    --bg: hsl(var(--hue), 90%, 95%);
-    --fg: hsl(var(--hue), 90%, 5%);
-    --trans-dur: 0.3s;
+  --hue: 223;
+  --bg: hsl(var(--hue), 90%, 95%);
+  --fg: hsl(var(--hue), 90%, 5%);
+  --trans-dur: 0.3s;
 }

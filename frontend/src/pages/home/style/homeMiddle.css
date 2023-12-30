@@ -2,12 +2,12 @@
 @import url("../../../style/animations/index.css");
 
 .middle {
-    grid-column-start: 2;
-    grid-column-end: 4;
+  grid-column-start: 2;
+  grid-column-end: 4;
 }
 
 img {
-    display: block;
+  display: block;
 
-    object-fit: cover;
+  object-fit: cover;
 }

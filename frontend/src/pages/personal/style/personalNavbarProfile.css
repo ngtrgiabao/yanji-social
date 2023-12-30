@@ -2,123 +2,123 @@
 
 /* MENU LIST */
 .menu-list {
-    margin: 0;
+  margin: 0;
 
-    font-size: 1.8rem;
+  font-size: 1.8rem;
 
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .nav-item a {
-    margin: 0 1rem;
+  margin: 0 1rem;
 
-    position: relative;
+  position: relative;
 }
 
 .nav-item:not(:last-child) a::after {
-    content: "";
+  content: "";
 
-    width: 0;
-    height: 2px;
+  width: 0;
+  height: 2px;
 
-    background-color: var(--color-primary);
+  background-color: var(--color-primary);
 
-    left: 0;
-    bottom: -1rem;
-    position: absolute;
+  left: 0;
+  bottom: -1rem;
+  position: absolute;
 }
 
 .nav-item a:hover {
-    color: unset;
+  color: unset;
 }
 
 .nav-item a:hover::after {
-    width: 100%;
+  width: 100%;
 }
 
 /* DROPDOWN MENU */
 .dropdown-menu {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .dropdown-menu a {
-    margin: 0;
+  margin: 0;
 
-    padding: 1.4rem;
+  padding: 1.4rem;
 
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .navbar .nav-item:hover .dropdown-menu {
-    display: block;
+  display: block;
 }
 
 .navbar .nav-item .dropdown-menu {
-    margin-top: 0;
+  margin-top: 0;
 
-    padding: 0;
+  padding: 0;
 
-    position: absolute !important;
+  position: absolute !important;
 }
 
 /* SETTING PERSONAL PAGE */
 .btn-dots {
-    background-color: var(--color-primary);
+  background-color: var(--color-primary);
 
-    position: relative;
+  position: relative;
 }
 
 .btn-dots:hover {
-    opacity: 1;
+  opacity: 1;
 
-    background-color: var(--color-primary-light);
+  background-color: var(--color-primary-light);
 }
 
 .dots {
-    transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 
 .box-setting-profile {
-    content: "";
+  content: "";
 
-    z-index: 1;
+  z-index: 1;
 
-    width: 30em;
+  width: 30em;
 
-    top: 5em;
-    right: -12em;
-    position: absolute;
+  top: 5em;
+  right: -12em;
+  position: absolute;
 
-    border: 2px solid var(--white);
+  border: 2px solid var(--white);
 
-    background-color: var(--color-primary);
-    color: var(--white);
+  background-color: var(--color-primary);
+  color: var(--white);
 }
 
 .box-setting-profile-item:hover {
-    background-color: rgba(0, 0, 0, 0.216);
+  background-color: rgba(0, 0, 0, 0.216);
 }
 
 .box-setting-profile:after {
-    content: "";
+  content: "";
 
-    width: 1em;
-    height: 1em;
+  width: 1em;
+  height: 1em;
 
-    top: -0.6em;
-    right: 13.8em;
-    position: absolute;
+  top: -0.6em;
+  right: 13.8em;
+  position: absolute;
 
-    transform: rotate(45deg);
+  transform: rotate(45deg);
 
-    background-color: var(--color-primary);
+  background-color: var(--color-primary);
 
-    border-top: 1px solid var(--color-white);
-    border-left: 1px solid var(--color-white);
+  border-top: 1px solid var(--color-white);
+  border-left: 1px solid var(--color-white);
 }
 
 .active {
-    color: var(--color-primary);
+  color: var(--color-primary);
 }

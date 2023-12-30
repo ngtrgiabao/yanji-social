@@ -1,177 +1,177 @@
 import { createContext, useEffect, useMemo, useState } from "react";
 
 const ThemeContext = createContext({
-    setBgColors: () => {},
-    setTextColors: () => {},
-    setFontSizes: () => {},
+  setBgColors: () => {},
+  setTextColors: () => {},
+  setFontSizes: () => {},
 });
 
 const ThemeProvider = ({ children }) => {
-    const [bg, setBg] = useState("bg-1");
-    const [textColor, setTextColor] = useState("color-1");
-    const [fontSize, setFontSize] = useState("fs-1");
+  const [bg, setBg] = useState("bg-1");
+  const [textColor, setTextColor] = useState("color-1");
+  const [fontSize, setFontSize] = useState("fs-1");
 
-    const root = document.documentElement;
+  const root = document.documentElement;
 
-    useEffect(() => {
-        // Retrieve the saved theme from local storage
-        const savedBgTheme = localStorage.getItem("background_theme");
-        const saveTextColor = localStorage.getItem("text_color");
-        const saveFontSize = localStorage.getItem("font_size");
+  useEffect(() => {
+    // Retrieve the saved theme from local storage
+    const savedBgTheme = localStorage.getItem("background_theme");
+    const saveTextColor = localStorage.getItem("text_color");
+    const saveFontSize = localStorage.getItem("font_size");
 
-        if (savedBgTheme) {
-            setBg(savedBgTheme);
-        }
+    if (savedBgTheme) {
+      setBg(savedBgTheme);
+    }
 
-        if (saveTextColor) {
-            setTextColor(saveTextColor);
-        }
+    if (saveTextColor) {
+      setTextColor(saveTextColor);
+    }
 
-        if (saveFontSize) {
-            setFontSize(saveFontSize);
-        }
-    }, []);
+    if (saveFontSize) {
+      setFontSize(saveFontSize);
+    }
+  }, []);
 
-    // Set Background theme
-    useEffect(() => {
-        switch (bg) {
-            case "bg-1":
-                root.style.setProperty("--dark-color-lightness", "17%");
-                root.style.setProperty("--light-color-lightness", "95%");
-                root.style.setProperty("--white-color-lightness", "100%");
-                break;
+  // Set Background theme
+  useEffect(() => {
+    switch (bg) {
+      case "bg-1":
+        root.style.setProperty("--dark-color-lightness", "17%");
+        root.style.setProperty("--light-color-lightness", "95%");
+        root.style.setProperty("--white-color-lightness", "100%");
+        break;
 
-            case "bg-2":
-                root.style.setProperty("--dark-color-lightness", "95%");
-                root.style.setProperty("--light-color-lightness", "20%");
-                root.style.setProperty("--white-color-lightness", "15%");
-                break;
+      case "bg-2":
+        root.style.setProperty("--dark-color-lightness", "95%");
+        root.style.setProperty("--light-color-lightness", "20%");
+        root.style.setProperty("--white-color-lightness", "15%");
+        break;
 
-            case "bg-3":
-                root.style.setProperty("--dark-color-lightness", "95%");
-                root.style.setProperty("--light-color-lightness", "10%");
-                root.style.setProperty("--white-color-lightness", "0%");
-                break;
-        }
+      case "bg-3":
+        root.style.setProperty("--dark-color-lightness", "95%");
+        root.style.setProperty("--light-color-lightness", "10%");
+        root.style.setProperty("--white-color-lightness", "0%");
+        break;
+    }
 
-        // Save the current theme to local storage
-        localStorage.setItem("background_theme", bg);
-    }, [bg]);
+    // Save the current theme to local storage
+    localStorage.setItem("background_theme", bg);
+  }, [bg]);
 
-    // Set Text color
-    useEffect(() => {
-        switch (textColor) {
-            case "color-1":
-                root.style.setProperty("--primary-color-hue", "252");
-                break;
-            case "color-2":
-                root.style.setProperty("--primary-color-hue", "52");
-                break;
-            case "color-3":
-                root.style.setProperty("--primary-color-hue", "352");
-                break;
-            case "color-4":
-                root.style.setProperty("--primary-color-hue", "202");
-                break;
-            case "color-5":
-                root.style.setProperty("--primary-color-hue", "152");
-                break;
-        }
+  // Set Text color
+  useEffect(() => {
+    switch (textColor) {
+      case "color-1":
+        root.style.setProperty("--primary-color-hue", "252");
+        break;
+      case "color-2":
+        root.style.setProperty("--primary-color-hue", "52");
+        break;
+      case "color-3":
+        root.style.setProperty("--primary-color-hue", "352");
+        break;
+      case "color-4":
+        root.style.setProperty("--primary-color-hue", "202");
+        break;
+      case "color-5":
+        root.style.setProperty("--primary-color-hue", "152");
+        break;
+    }
 
-        // Save the current theme to local storage
-        localStorage.setItem("text_color", textColor);
-    }, [textColor]);
+    // Save the current theme to local storage
+    localStorage.setItem("text_color", textColor);
+  }, [textColor]);
 
-    // Set Font size
-    useEffect(() => {
-        switch (fontSize) {
-            case "fs-1":
-                root.style.setProperty("--sticky-top-left", "8rem");
-                root.style.setProperty("--sticky-top-right", "8rem");
-                root.style.fontSize = "10px";
+  // Set Font size
+  useEffect(() => {
+    switch (fontSize) {
+      case "fs-1":
+        root.style.setProperty("--sticky-top-left", "8rem");
+        root.style.setProperty("--sticky-top-right", "8rem");
+        root.style.fontSize = "10px";
 
-                break;
+        break;
 
-            case "fs-2":
-                root.style.setProperty("--sticky-top-left", "8.4rem");
-                root.style.setProperty("--sticky-top-right", "8.4rem");
-                root.style.fontSize = "11.5px";
+      case "fs-2":
+        root.style.setProperty("--sticky-top-left", "8.4rem");
+        root.style.setProperty("--sticky-top-right", "8.4rem");
+        root.style.fontSize = "11.5px";
 
-                break;
+        break;
 
-            case "fs-3":
-                root.style.setProperty("--sticky-top-left", "8rem");
-                root.style.setProperty("--sticky-top-right", "8rem");
-                root.style.fontSize = "16px";
+      case "fs-3":
+        root.style.setProperty("--sticky-top-left", "8rem");
+        root.style.setProperty("--sticky-top-right", "8rem");
+        root.style.fontSize = "16px";
 
-                break;
+        break;
 
-            case "fs-4":
-                root.style.setProperty("--sticky-top-left", "8rem");
-                root.style.setProperty("--sticky-top-right", "8rem");
-                root.style.fontSize = "19px";
+      case "fs-4":
+        root.style.setProperty("--sticky-top-left", "8rem");
+        root.style.setProperty("--sticky-top-right", "8rem");
+        root.style.fontSize = "19px";
 
-                break;
+        break;
 
-            case "fs-5":
-                root.style.setProperty("--sticky-top-left", "8rem");
-                root.style.setProperty("--sticky-top-right", "8rem");
-                root.style.fontSize = "22px";
-                break;
-        }
+      case "fs-5":
+        root.style.setProperty("--sticky-top-left", "8rem");
+        root.style.setProperty("--sticky-top-right", "8rem");
+        root.style.fontSize = "22px";
+        break;
+    }
 
-        // Save the current theme to local storage
-        localStorage.setItem("font_size", fontSize);
-    }, [fontSize]);
+    // Save the current theme to local storage
+    localStorage.setItem("font_size", fontSize);
+  }, [fontSize]);
 
-    const setBgColors = (newBg) => {
-        if (newBg === "bg-1") {
-            setBg("bg-1");
-        } else if (newBg === "bg-2") {
-            setBg("bg-2");
-        } else if (newBg === "bg-3") {
-            setBg("bg-3");
-        }
-    };
+  const setBgColors = (newBg) => {
+    if (newBg === "bg-1") {
+      setBg("bg-1");
+    } else if (newBg === "bg-2") {
+      setBg("bg-2");
+    } else if (newBg === "bg-3") {
+      setBg("bg-3");
+    }
+  };
 
-    const setTextColors = (newTextColor) => {
-        if (newTextColor === "color-1") {
-            setTextColor("color-1");
-        } else if (newTextColor === "color-2") {
-            setTextColor("color-2");
-        } else if (newTextColor === "color-3") {
-            setTextColor("color-3");
-        } else if (newTextColor === "color-4") {
-            setTextColor("color-4");
-        } else if (newTextColor === "color-5") {
-            setTextColor("color-5");
-        }
-    };
+  const setTextColors = (newTextColor) => {
+    if (newTextColor === "color-1") {
+      setTextColor("color-1");
+    } else if (newTextColor === "color-2") {
+      setTextColor("color-2");
+    } else if (newTextColor === "color-3") {
+      setTextColor("color-3");
+    } else if (newTextColor === "color-4") {
+      setTextColor("color-4");
+    } else if (newTextColor === "color-5") {
+      setTextColor("color-5");
+    }
+  };
 
-    const setFontSizes = (newFontSize) => {
-        if (newFontSize === "fs-1") {
-            setFontSize("fs-1");
-        } else if (newFontSize === "fs-2") {
-            setFontSize("fs-2");
-        } else if (newFontSize === "fs-3") {
-            setFontSize("fs-3");
-        } else if (newFontSize === "fs-4") {
-            setFontSize("fs-4");
-        } else if (newFontSize === "fs-5") {
-            setFontSize("fs-5");
-        }
-    };
+  const setFontSizes = (newFontSize) => {
+    if (newFontSize === "fs-1") {
+      setFontSize("fs-1");
+    } else if (newFontSize === "fs-2") {
+      setFontSize("fs-2");
+    } else if (newFontSize === "fs-3") {
+      setFontSize("fs-3");
+    } else if (newFontSize === "fs-4") {
+      setFontSize("fs-4");
+    } else if (newFontSize === "fs-5") {
+      setFontSize("fs-5");
+    }
+  };
 
-    const contextValue = useMemo(
-        () => ({ setBgColors, setTextColors, setFontSizes }),
-        [setBgColors, setTextColors, setFontSizes]
-    );
+  const contextValue = useMemo(
+    () => ({ setBgColors, setTextColors, setFontSizes }),
+    [setBgColors, setTextColors, setFontSizes],
+  );
 
-    return (
-        <ThemeContext.Provider value={contextValue}>
-            {children}
-        </ThemeContext.Provider>
-    );
+  return (
+    <ThemeContext.Provider value={contextValue}>
+      {children}
+    </ThemeContext.Provider>
+  );
 };
 
 export { ThemeContext, ThemeProvider };

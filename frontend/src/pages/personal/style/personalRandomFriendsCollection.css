@@ -1,21 +1,21 @@
 .friends-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(10rem, 1fr));
-    grid-template-rows: repeat(3, minmax(12rem, 1fr));
-    place-items: center;
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(10rem, 1fr));
+  grid-template-rows: repeat(3, minmax(12rem, 1fr));
+  place-items: center;
+  gap: 1rem;
 
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 .friends-grid img {
-    transition: all 0.45s ease;
+  transition: all 0.45s ease;
 
-    object-fit: cover;
+  object-fit: cover;
 }
 
 .friends-grid img:hover {
-    cursor: pointer;
+  cursor: pointer;
 
-    opacity: 0.6;
+  opacity: 0.6;
 }

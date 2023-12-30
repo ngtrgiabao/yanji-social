@@ -1,48 +1,48 @@
 @media screen and (max-width: 1200px) {
-    .container {
-        width: 96%;
-    }
+  .container {
+    width: 96%;
+  }
 
-    main .container {
-        gap: 1rem;
-        grid-template-columns: 5rem auto 30vw;
-    }
+  main .container {
+    gap: 1rem;
+    grid-template-columns: 5rem auto 30vw;
+  }
 
-    .left {
-        width: 5rem;
+  .left {
+    width: 5rem;
 
-        /* z-index: 5; */
-    }
+    /* z-index: 5; */
+  }
 
-    main .container .left .profile {
-        display: none !important;
-    }
+  main .container .left .profile {
+    display: none !important;
+  }
 
-    .sidebar h3 {
-        display: none !important;
-    }
+  .sidebar h3 {
+    display: none !important;
+  }
 
-    .left .btn {
-        display: none;
-    }
+  .left .btn {
+    display: none;
+  }
 
-    .customize-theme .card {
-        width: 92vw !important;
-    }
+  .customize-theme .card {
+    width: 92vw !important;
+  }
 
-    /* =========================== notification POPUP =========================== */
-    .left .sidebar .notification-count {
-        right: 0.2rem !important;
-        position: absolute;
-    }
+  /* =========================== notification POPUP =========================== */
+  .left .sidebar .notification-count {
+    right: 0.2rem !important;
+    position: absolute;
+  }
 
-    .left .notification-popup {
-        top: -2px !important;
-        left: -640% !important;
-        position: absolute;
+  .left .notification-popup {
+    top: -2px !important;
+    left: -640% !important;
+    position: absolute;
 
-        width: 30rem !important;
-        
-        box-shadow: 7px 8px 7px rgba(0, 0, 0, 0.084) !important;
-    }
+    width: 30rem !important;
+
+    box-shadow: 7px 8px 7px rgba(0, 0, 0, 0.084) !important;
+  }
 }
