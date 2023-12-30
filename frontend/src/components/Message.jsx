@@ -10,7 +10,7 @@ import {
   faPenToSquare,
 } from "@fortawesome/free-regular-svg-icons";
 
-import { useTimeAgo } from "../hooks/useTimeAgo";
+import { useTimeAgo } from "../hooks";
 
 const Message = ({
   id,

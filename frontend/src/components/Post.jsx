@@ -27,7 +27,7 @@ import {
   getUserByID,
   updateUser,
 } from "../redux/request/userRequest";
-import { useTimeAgo } from "../hooks/useTimeAgo";
+import { useTimeAgo } from "../hooks";
 import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "./ParagraphWithLink";
 import EditPopup from "./EditPopup";

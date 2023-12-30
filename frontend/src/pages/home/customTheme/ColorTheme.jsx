@@ -1,6 +1,6 @@
 import "./style/color.css";
 
-import { useTheme } from "../../../hooks/useTheme";
+import { useTheme } from "../../../hooks";
 
 const ColorTheme = () => {
   const { setTextColors } = useTheme();

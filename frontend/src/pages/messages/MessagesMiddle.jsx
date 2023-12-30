@@ -35,10 +35,8 @@ import {
 } from "../../redux/request/messageRequest";
 
 import { Message } from "../../components";
-import { useTimeAgo } from "../../hooks/useTimeAgo";
-import useUploadImage from "../../hooks/useUploadImage";
+import { useTimeAgo, useUploadImage, useDownloadImage } from "../../hooks";
 import { ConfirmDialog, PreviewImage } from "../../components";
-import useDownloadImage from "../../hooks/useDownloadImage";
 import { getUserByID } from "../../redux/request/userRequest";
 import { NEW_MSG } from "../../business/noti.type";
 import { pushNewNotification } from "../../redux/request/notificationRequest";
@@ -436,7 +434,7 @@ const MessagesMiddle = ({ socket }) => {
           to={`/user/${friendID}`}
           className="d-flex align-items-center link-underline"
         >
-          <div className="profile-pic">
+          <div className="profile-pic text-white">
             {friend.avatar ? (
               <img
                 loading="lazy"

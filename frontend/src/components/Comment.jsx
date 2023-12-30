@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 
 import { getUserByID } from "../redux/request/userRequest";
 import { deleteComment } from "../redux/request/commentRequest";
-import { useTimeAgo } from "../hooks/useTimeAgo";
+import { useTimeAgo } from "../hooks";
 
 const Comment = ({
   userCommented,

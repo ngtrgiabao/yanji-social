@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export const useTimeAgo = (timestamp) => {
+const useTimeAgo = (timestamp) => {
   if (!timestamp) return timestamp;
 
   const currentTime = moment();
@@ -8,3 +8,5 @@ export const useTimeAgo = (timestamp) => {
 
   return prevTime.fromNow(currentTime) + " ago";
 };
+
+export default useTimeAgo

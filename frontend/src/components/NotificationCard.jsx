@@ -18,9 +18,10 @@ import {
   NEW_FOLLOWER,
   NEW_MSG,
 } from "../business/noti.type";
+import {LOGO_YANJI_SOCIAL} from "../assets"
 
 import { getUserByID } from "../redux/request/userRequest";
-import { useTimeAgo } from "../hooks/useTimeAgo";
+import { useTimeAgo } from "../hooks";
 
 const NotificationCard = ({ sender, type, isRead, createdAt }) => {
   const [notiInfo, setNotiInfo] = useState({
@@ -118,7 +119,7 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
                   loading="lazy"
                   role="presentation"
                   decoding="async"
-                  src={notiInfo.profilePicture}
+                  src={notiInfo.profilePicture ? notiInfo.profilePicture : LOGO_YANJI_SOCIAL }
                   alt="Avatar user"
                   className="w-100"
                 />

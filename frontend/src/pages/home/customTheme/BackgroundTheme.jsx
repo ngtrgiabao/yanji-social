@@ -1,6 +1,6 @@
 import "./style/background.css";
 
-import { useTheme } from "../../../hooks/useTheme";
+import { useTheme } from "../../../hooks";
 
 const BackgroundTheme = () => {
   const { setBgColors } = useTheme();

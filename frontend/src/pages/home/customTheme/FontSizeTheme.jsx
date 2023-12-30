@@ -1,6 +1,6 @@
 import "./style/fontSize.css";
 
-import { useTheme } from "../../../hooks/useTheme";
+import { useTheme } from "../../../hooks";
 
 const FontSizeTheme = () => {
   const { setFontSizes } = useTheme();

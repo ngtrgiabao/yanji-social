@@ -12,7 +12,7 @@ import "./style/postPopup.css";
 import { BG_DEFAULT_WALLPAPER_USER } from "../assets";
 
 import { uploadPost } from "../redux/request/postRequest";
-import useUploadImage from "../hooks/useUploadImage";
+import {useUploadImage} from "../hooks";
 import PreviewImage from "./PreviewImage";
 import { getUserByID } from "../redux/request/userRequest";
 
