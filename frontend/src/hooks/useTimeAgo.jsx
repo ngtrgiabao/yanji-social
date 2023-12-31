@@ -9,4 +9,4 @@ const useTimeAgo = (timestamp) => {
   return prevTime.fromNow(currentTime) + " ago";
 };
 
-export default useTimeAgo
+export default useTimeAgo;
