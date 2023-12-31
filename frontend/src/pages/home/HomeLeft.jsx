@@ -75,154 +75,6 @@ const HomeLeft = ({ socket, isReadNotification }) => {
       });
   }, [currentUser, dispatch]);
 
-  const renderHomeBtn = () => {
-    return (
-      <Link
-        to="/"
-        className={`menu-item ${active === "HOME" ? "active" : ""}`}
-        onClick={() => setActive("HOME")}
-        title="Truy cập trang chủ"
-      >
-        <span>
-          <UilEstate className="sidebar-icon" />
-        </span>
-        <h3 className="ms-3">Home</h3>
-      </Link>
-    );
-  };
-
-  const renderMeetingBtn = () => {
-    return (
-      <a
-        href="https://meet-with-us.netlify.app/"
-        className={`menu-item ${active === "MEETING" ? "active" : ""}`}
-        onClick={() => {
-          setActive("MEETING");
-        }}
-        title="Meeting"
-      >
-        <span>
-          <FontAwesomeIcon
-            icon={faVideo}
-            style={{
-              marginLeft: "2rem",
-              color: "#9e98b3",
-            }}
-            className="fs-2 sidebar-icon"
-          />
-        </span>
-        <h3 className="ms-4">Meeting</h3>
-      </a>
-    );
-  };
-
-  const renderNotificationBtn = () => {
-    return (
-      <Link
-        to="/notification"
-        className={`menu-item ${active === "NOTIFICATION" ? "active" : ""}`}
-        onClick={() => {
-          setActive("NOTIFICATION");
-        }}
-        id="notification"
-        title="Thông báo"
-      >
-        <span>
-          <UilBell className="sidebar-icon" />
-          {isReadNotification && (
-            <small
-              className="notification-count bg-danger"
-              style={{
-                display: `${active === "NOTIFICATION" ? "none" : ""}`,
-              }}
-            ></small>
-          )}
-        </span>
-        <h3 className="ms-3">Notification</h3>
-      </Link>
-    );
-  };
-
-  const renderMessageBtn = () => {
-    return (
-      <Link
-        to="/messages"
-        className={`menu-item ${active === "MESSAGES" ? "active" : ""}`}
-        onClick={() => {
-          setActive("MESSAGES");
-        }}
-        id="message-notification"
-        title="Tin nhắn"
-      >
-        <span>
-          <UilChat className="sidebar-icon" />
-          {/* <small
-                            className="notification-count bg-danger"
-                            style={{
-                                display: `${
-                                    active === "MESSAGES" ? "none" : ""
-                                }`,
-                            }}
-                        ></small> */}
-        </span>
-        <h3 className="ms-3">Messages</h3>
-      </Link>
-    );
-  };
-
-  const renderBookmarkBtn = () => {
-    return (
-      <Link
-        to="/bookmarks"
-        className={`menu-item ${active === "BOOKMARKS" ? "active" : ""}`}
-        onClick={() => {
-          setActive("BOOKMARKS");
-        }}
-        title="Bài viết đã lưu"
-      >
-        <span>
-          <UilBookmark className="sidebar-icon" />
-        </span>
-        <h3 className="ms-3">Bookmarks</h3>
-      </Link>
-    );
-  };
-
-  const renderThemeBtn = () => {
-    return (
-      <div
-        className={`menu-item ${active === "THEME" ? "active" : ""}`}
-        id="theme"
-        onClick={() => {
-          setActive("THEME");
-        }}
-        title="Đổi giao diện"
-      >
-        <span>
-          <UilPalette className="sidebar-icon" />
-        </span>
-        <h3 className="ms-4">Theme</h3>
-      </div>
-    );
-  };
-
-  const renderSettingBtn = () => {
-    return (
-      <div
-        className={`menu-item ${active === "SETTINGS" ? "active" : ""}`}
-        onClick={() => {
-          setActive("SETTINGS");
-        }}
-        title="Cài đặt"
-      >
-        <span>
-          <UilSetting className="sidebar-icon" />
-        </span>
-        <h3 className="ms-4">Settings</h3>
-      </div>
-    );
-  };
-
   const renderCustomThemePopup = () => {
     return (
       <div
@@ -238,7 +90,6 @@ const HomeLeft = ({ socket, isReadNotification }) => {
   const handleClosePopup = () => {
     setActive("");
   };
-
   const renderSettingPopup = () => {
     return (
       <div
@@ -309,29 +160,80 @@ const HomeLeft = ({ socket, isReadNotification }) => {
             </p>
           </div>
         </Link>
-
+        
+        {/* SIDEBAR */}
         <div className="sidebar mt-3">
-          {renderHomeBtn()}
+          <Button
+            path="/"
+            label="Home"
+            icon={<UilEstate className="sidebar-icon" />}
+            name={"HOME"}
+            active={active}
+            setActive={setActive}
+          />
+
           {currentUser && (
             <>
-              {renderNotificationBtn()}
-              {renderMessageBtn()}
-              {renderBookmarkBtn()}
+              <Button
+                path="/notification"
+                label="Notification"
+                icon={<UilBell className="sidebar-icon" />}
+                name={"NOTIFICATION"}
+                isReadNotification={isReadNotification}
+                active={active}
+                setActive={setActive}
+              />
+              <Button
+                path="/messages"
+                label="Messages"
+                icon={<UilChat className="sidebar-icon" />}
+                name={"MESSAGES"}
+                active={active}
+                setActive={setActive}
+              />
+              <Button
+                path="/bookmarks"
+                label="Bookmarks"
+                icon={<UilBookmark className="sidebar-icon" />}
+                name={"BOOKMARKS"}
+                active={active}
+                setActive={setActive}
+              />
             </>
           )}
-          {renderMeetingBtn()}
-          {renderThemeBtn()}
-          {currentUser && renderSettingBtn()}
-          {/* {currentUser && (
+          <Button
+            label="Meeting"
+            path="https://meet-with-us.netlify.app/"
+            icon={
+              <FontAwesomeIcon
+                icon={faVideo}
+                style={{
+                  marginLeft: "2rem",
+                  color: "#9e98b3",
+                }}
+                className="fs-2 sidebar-icon"
+              />
+            }
+            name={"MEETING"}
+            active={active}
+            setActive={setActive}
+          />
+          <Button
+            label="Theme"
+            icon={<UilPalette className="sidebar-icon" />}
+            name={"THEME"}
+            active={active}
+            setActive={setActive}
+          />
+          {currentUser && (
             <Button
               label="Settings"
               icon={<UilSetting className="sidebar-icon" />}
-              key="SETTINGS"
+              name={"SETTINGS"}
               active={active}
-              currentUser={currentUser}
               setActive={setActive}
             />
-          )} */}
+          )}
         </div>
         {/* END OF SIDEBAR */}
 
