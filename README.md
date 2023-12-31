@@ -6,14 +6,14 @@
 
 # Overview
 
-![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/b4830770-6894-4308-a25e-04b06fbc868c)
-![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/114a7763-84bf-4f08-a893-e7661af7c06c)
-![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/1d33e99b-a817-4624-8d2a-27f38ee94dc7)
-![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/3773824c-196e-4096-bb7a-50053447c02b)
-![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/87378a65-4cbd-46fd-b59e-a1a08def1bcd)
-![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/e25f6884-db7f-4fd4-8372-4a4b36c8283c)
-![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/b3982371-7b45-4d41-9784-131775f888a6)
-![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/725e3f26-ff57-49d6-b2e4-05888f62bea1)
+![image](frontend/src/assets/screenshots/image-1.png)
+![image](frontend/src/assets/screenshots/image-2.png)
+![image](frontend/src/assets/screenshots/image-3.png)
+![image](frontend/src/assets/screenshots/image-4.png)
+![image](frontend/src/assets/screenshots/image-5.png)
+![image](frontend/src/assets/screenshots/image-6.png)
+![image](frontend/src/assets/screenshots/image-7.png)
+![image](frontend/src/assets/screenshots/image-8.png)
 
 ## 🌳Frontend
 The frontend structure is organized into various components and pages, promoting modularity and maintainability. Notable folders include:
