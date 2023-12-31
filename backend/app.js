@@ -7,7 +7,7 @@ const app = express();
 
 const ApiError = require("./api.error");
 
-const blockListRoute = require("./src/app/routes/block.list.routes");
+const blockListRoute = require("./src/app/routes/block-list.routes");
 const commentRoute = require("./src/app/routes/comment.routes");
 const contactRoute = require("./src/app/routes/contact.routes");
 const msgRoute = require("./src/app/routes/message.routes");

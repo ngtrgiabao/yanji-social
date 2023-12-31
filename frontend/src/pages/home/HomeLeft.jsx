@@ -21,6 +21,7 @@ import { getUserByID } from "../../redux/request/userRequest";
 
 // SETTINGS
 import { CustomTheme, PostPopup, Setting } from "../../components";
+import Button from "../../components/Button";
 
 const HomeLeft = ({ socket, isReadNotification }) => {
   const [active, setActive] = useState("HOME");
@@ -234,7 +235,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
     );
   };
 
-  const handleClostPopup = () => {
+  const handleClosePopup = () => {
     setActive("");
   };
 
@@ -245,7 +246,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
         hidden={active !== "SETTINGS"}
         onClick={() => setActive("")}
       >
-        <Setting close={handleClostPopup} />
+        <Setting close={handleClosePopup} />
       </div>
     );
   };
@@ -311,12 +312,26 @@ const HomeLeft = ({ socket, isReadNotification }) => {
 
         <div className="sidebar mt-3">
           {renderHomeBtn()}
-          {currentUser && renderNotificationBtn()}
-          {currentUser && renderMessageBtn()}
-          {currentUser && renderBookmarkBtn()}
+          {currentUser && (
+            <>
+              {renderNotificationBtn()}
+              {renderMessageBtn()}
+              {renderBookmarkBtn()}
+            </>
+          )}
           {renderMeetingBtn()}
           {renderThemeBtn()}
           {currentUser && renderSettingBtn()}
+          {/* {currentUser && (
+            <Button
+              label="Settings"
+              icon={<UilSetting className="sidebar-icon" />}
+              key="SETTINGS"
+              active={active}
+              currentUser={currentUser}
+              setActive={setActive}
+            />
+          )} */}
         </div>
         {/* END OF SIDEBAR */}
 
