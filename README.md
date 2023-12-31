@@ -14,6 +14,7 @@
 ![image](frontend/src/assets/screenshots/image-6.png)
 ![image](frontend/src/assets/screenshots/image-7.png)
 ![image](frontend/src/assets/screenshots/image-8.png)
+![image](frontend/src/assets/screenshots/image-9.png)
 
 ## 🌳Frontend
 The frontend structure is organized into various components and pages, promoting modularity and maintainability. Notable folders include:
