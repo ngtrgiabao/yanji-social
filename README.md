@@ -6,16 +6,16 @@
 
 # Overview
 
-![Alt text](image-1.png)
-![Alt text](image-2.png)
-![Alt text](image-3.png)
-![Alt text](image-5.png)
-![Alt text](image-6.png)
-![Alt text](image-7.png)
-![Alt text](image-8.png)
-![Alt text](image-9.png)
+![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/b4830770-6894-4308-a25e-04b06fbc868c)
+![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/114a7763-84bf-4f08-a893-e7661af7c06c)
+![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/1d33e99b-a817-4624-8d2a-27f38ee94dc7)
+![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/3773824c-196e-4096-bb7a-50053447c02b)
+![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/87378a65-4cbd-46fd-b59e-a1a08def1bcd)
+![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/e25f6884-db7f-4fd4-8372-4a4b36c8283c)
+![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/b3982371-7b45-4d41-9784-131775f888a6)
+![image](https://github.com/ngtrgiabao/yanji-social/assets/95952006/725e3f26-ff57-49d6-b2e4-05888f62bea1)
 
-#### 🌳Frontend
+## 🌳Frontend
 The frontend structure is organized into various components and pages, promoting modularity and maintainability. Notable folders include:
 
 ```
@@ -81,7 +81,7 @@ services: Backend services.
 - style: Contains animations, constants, and responsive design for various devices.
 - utils: Utility functions.
 
-#### 🌳Backend
+## 🌳Backend
 The backend is structured with the following key components:
 ```
 └───app
@@ -100,7 +100,7 @@ The backend is structured with the following key components:
   - routes: Application routes.
   - utils: Utility functions.
 
-##### [ 🥰 ] To run the app, you need to have config below
+### [ 🥰 ] To run the app, you need to have config below
 
 ## BACKEND .env
 
