@@ -55,7 +55,7 @@ const Post = ({
   shares,
   comments,
   socket,
-  handleDeletePopup = () => { },
+  handleDeletePopup = () => {},
   isDisableComment = false,
 }) => {
   const [popup, setPopup] = useState("");
@@ -212,7 +212,7 @@ const Post = ({
       .catch((error) => {
         console.error("Failed to like post", error);
       });
-  }
+  };
 
   const handleSharePost = () => {
     sharePost(post, dispatch)
@@ -241,7 +241,7 @@ const Post = ({
       .catch((error) => {
         console.error("Failed to share post", error);
       });
-  }
+  };
 
   const handleSavePost = (postID) => {
     const updatedUser = {
@@ -256,7 +256,7 @@ const Post = ({
       .catch((err) => {
         console.error("Failed to save", err);
       });
-  }
+  };
 
   const handleDeletePost = (postID) => {
     deletePost(postID, dispatch)
@@ -269,7 +269,7 @@ const Post = ({
       });
 
     handleDeletePopup();
-  }
+  };
 
   const handlePost = {
     likePost: handleLikePost,

@@ -1,4 +1,9 @@
-const Photo = ({ imageSrc = "", label = "", videoSrc = "", isVideo = false }) => {
+const Photo = ({
+  imageSrc = "",
+  label = "",
+  videoSrc = "",
+  isVideo = false,
+}) => {
   return (
     <>
       {isVideo ? (
