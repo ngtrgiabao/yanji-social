@@ -2,9 +2,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
-import "./style/post.css";
+import "../style/post.css";
 
-import { getPostByID } from "../redux/request/postRequest";
+import { getPostByID } from "../../redux/request/postRequest";
 import Post from "./Post";
 import axios from "axios";
 

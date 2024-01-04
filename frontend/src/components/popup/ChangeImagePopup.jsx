@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { io } from "socket.io-client";
 
-import "./style/changeImagePopup.css";
+import "../style/changeImagePopup.css";
 
-import PreviewImage from "./PreviewImage";
-import { updateUser } from "../redux/request/userRequest";
-import { useUploadImage } from "../hooks";
+import PreviewImage from "../preview/PreviewImage";
+import { updateUser } from "../../redux/request/userRequest";
+import { useUploadImage } from "../../hooks";
 
 const ChangeImagePopup = ({
   title = "Title",

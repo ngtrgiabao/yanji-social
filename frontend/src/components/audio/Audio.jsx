@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import axios from "axios";
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import WaveSurfer from "wavesurfer.js";
 
-import "../style/animations/spin.css";
+import "../../style/animations/spin.css";
 
-import { getUserByID } from "../redux/request/userRequest";
+import { getUserByID } from "../../redux/request/userRequest";
 
 const Audio = ({ audioUrl, cover, author, name }) => {
   const [isPlaying, setIsPlaying] = useState(false);

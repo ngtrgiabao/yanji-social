@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { getAllImagesByUser } from "../redux/request/imageRequest";
+import { getAllImagesByUser } from "../../redux/request/imageRequest";
 import { useDispatch } from "react-redux";
-import ConfirmDialog from "./ConfirmDialog";
-import PreviewImage from "./PreviewImage";
-import { useDownloadImage } from "../hooks";
+import ConfirmDialog from "../dialog/ConfirmDialog";
+import PreviewImage from "../preview/PreviewImage";
+import { useDownloadImage } from "../../hooks";
 
 const PhotosUser = ({ userInfo }) => {
   const { userID: userRoute } = useParams();

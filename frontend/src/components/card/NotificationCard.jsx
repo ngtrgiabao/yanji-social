@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "./style/notificationCard.css";
+import "../style/notificationCard.css";
 
 import {
   COMMENT_POST,
@@ -17,11 +17,11 @@ import {
   SHARE_POST,
   NEW_FOLLOWER,
   NEW_MSG,
-} from "../business/noti.type";
-import { LOGO_YANJI_SOCIAL } from "../assets";
+} from "../../business/noti.type";
+import { LOGO_YANJI_SOCIAL } from "../../assets";
 
-import { getUserByID } from "../redux/request/userRequest";
-import { useTimeAgo } from "../hooks";
+import { getUserByID } from "../../redux/request/userRequest";
+import { useTimeAgo } from "../../hooks";
 
 const NotificationCard = ({ sender, type, isRead, createdAt }) => {
   const [notiInfo, setNotiInfo] = useState({

@@ -17,23 +17,27 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import io from "socket.io-client";
 
-import { BG_DEFAULT_WALLPAPER_USER } from "../assets";
+import { BG_DEFAULT_WALLPAPER_USER } from "../../assets";
 
-import "./style/post.css";
+import "../style/post.css";
 
-import { deletePost, likePost, sharePost } from "../redux/request/postRequest";
+import {
+  deletePost,
+  likePost,
+  sharePost,
+} from "../../redux/request/postRequest";
 import {
   getPostsShared,
   getUserByID,
   updateUser,
-} from "../redux/request/userRequest";
-import { useTimeAgo } from "../hooks";
+} from "../../redux/request/userRequest";
+import { useTimeAgo } from "../../hooks";
 import DetailsPost from "./DetailsPost";
-import ParagraphWithLink from "./ParagraphWithLink";
-import EditPopup from "./EditPopup";
-import { pushNewNotification } from "../redux/request/notificationRequest";
-import { LIKE_POST, SHARE_POST } from "../business/noti.type";
-import ConfirmDialog from "./ConfirmDialog";
+import ParagraphWithLink from "../paragraph/ParagraphWithLink";
+import EditPopup from "../popup/EditPopup";
+import { pushNewNotification } from "../../redux/request/notificationRequest";
+import { LIKE_POST, SHARE_POST } from "../../business/noti.type";
+import ConfirmDialog from "../dialog/ConfirmDialog";
 
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 // TODO FIX POPUP WHEN DELETE POST NOT WORK CORRECTLY

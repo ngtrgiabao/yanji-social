@@ -1,4 +1,4 @@
-import { LOGO_YANJI_SOCIAL } from "../assets";
+import { LOGO_YANJI_SOCIAL } from "../../assets";
 
 const PreviewImage = ({ imgSrc, width, heigth }) => {
   return imgSrc ? (

@@ -4,9 +4,9 @@ import { UilTrash } from "@iconscout/react-unicons";
 import { Link } from "react-router-dom";
 import { io } from "socket.io-client";
 
-import { getUserByID } from "../redux/request/userRequest";
-import { deleteComment } from "../redux/request/commentRequest";
-import { useTimeAgo } from "../hooks";
+import { getUserByID } from "../../redux/request/userRequest";
+import { deleteComment } from "../../redux/request/commentRequest";
+import { useTimeAgo } from "../../hooks";
 
 const Comment = ({
   userCommented,

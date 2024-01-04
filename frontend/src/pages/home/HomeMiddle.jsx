@@ -7,11 +7,11 @@ import { LOGO_YANJI_SOCIAL } from "../../assets";
 import "./style/homeMiddle.css";
 import "../../style/animations/snackbar.css";
 
-import PostPopup from "../../components/PostPopup";
+import PostPopup from "../../components/popup/PostPopup";
 import { getUserByID } from "../../redux/request/userRequest";
 import { LoadingPage } from "../../pages";
 
-const Posts = lazy(() => import("../../components/Posts"));
+const Posts = lazy(() => import("../../components/post/Posts"));
 
 const HomeMiddle = ({ socket }) => {
   const [popup, setPopup] = useState(false);

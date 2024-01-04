@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { getUserByID } from "../redux/request/userRequest";
-import FollowerCard from "./FollowerCard";
+import { getUserByID } from "../../redux/request/userRequest";
+import FollowerCard from "../card/FollowerCard";
 
 const FollowerList = ({ close, userInfo }) => {
   const [active, setActive] = useState("FOLLOWERS");

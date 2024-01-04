@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { getUserByID } from "../redux/request/userRequest";
+import { getUserByID } from "../../redux/request/userRequest";
 
 const UserInfoPopup = ({ userID }) => {
   const userInfo = useState({

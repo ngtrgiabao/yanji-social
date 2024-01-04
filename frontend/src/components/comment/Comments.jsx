@@ -4,12 +4,12 @@ import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { io } from "socket.io-client";
 
-import { commentPost } from "../redux/request/postRequest";
+import { commentPost } from "../../redux/request/postRequest";
 import Comment from "./Comment";
-import { getAllCommentsByPostID } from "../redux/request/commentRequest";
-import { pushNewNotification } from "../redux/request/notificationRequest";
-import { COMMENT_POST } from "../business/noti.type";
-import { getUserByID } from "../redux/request/userRequest";
+import { getAllCommentsByPostID } from "../../redux/request/commentRequest";
+import { pushNewNotification } from "../../redux/request/notificationRequest";
+import { COMMENT_POST } from "../../business/noti.type";
+import { getUserByID } from "../../redux/request/userRequest";
 
 const Comments = ({ postID, author, socket }) => {
   const [content, setContent] = useState("");

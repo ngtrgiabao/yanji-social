@@ -11,7 +11,9 @@ import {
 import { getUserByID } from "../../redux/request/userRequest";
 import { LoadingPage } from "../../pages";
 
-const Conversation = lazy(() => import("../../components/Conversation"));
+const Conversation = lazy(
+  () => import("../../components/conversation/Conversation"),
+);
 
 const MessagesLeft = ({ avatarUser, socket = {} }) => {
   const [rooms, setRooms] = useState([]);

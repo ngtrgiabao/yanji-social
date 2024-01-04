@@ -5,15 +5,15 @@ import { io } from "socket.io-client";
 import { faBookmark as bookmarked } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { LoadingPage } from "../pages";
-import { getPostByID } from "../redux/request/postRequest";
-import { useTimeAgo } from "../hooks";
+import { LoadingPage } from "../../pages";
+import { getPostByID } from "../../redux/request/postRequest";
+import { useTimeAgo } from "../../hooks";
 import {
   getPostsSaved,
   getUserByID,
   updateUser,
-} from "../redux/request/userRequest";
-import { BG_DEFAULT_WALLPAPER_USER } from "../assets";
+} from "../../redux/request/userRequest";
+import { BG_DEFAULT_WALLPAPER_USER } from "../../assets";
 
 const Bookmark = ({
   postID,
