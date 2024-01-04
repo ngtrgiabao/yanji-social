@@ -6,15 +6,8 @@ import {
   faVideo,
   faPhone,
   faCircleInfo,
-  faImage,
-  faX,
   faCircleCheck as seenIcon,
-  faPaperclip,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  faPaperPlane,
-  // faCircleCheck as unseenIcon,
-} from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
 // import MagicBell, {
 //     FloatingNotificationInbox,
