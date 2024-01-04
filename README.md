@@ -1,8 +1,14 @@
 # Yanji Social
 
+<img src="https://img.shields.io/github/stars/ngtrgiabao/yanji-social"/> <img src="https://img.shields.io/github/issues/ngtrgiabao/yanji-social"/> ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ngtrgiabao/yanji-social) <img src="https://img.shields.io/github/license/ngtrgiabao/yanji-social"/>
+
+## Many thanks to our contributors
+<p>
+<a href="https://github.com/ngtrgiabao/yanji-social/graphs/contributors"><img src="https://contrib.rocks/image?repo=ngtrgiabao/yanji-social" width="50px" height="50px" alt="contributors"/></a>
+</p>
+
 ### 🍍 Logo
 <img src="https://github.com/ngtrgiabao/yanji-social/assets/95952006/6c1efcec-17cd-469f-aa45-495d0bb70a90" width="50px" height="50px" alt="logo"/>
-
 
 # Overview
 
@@ -14,6 +20,7 @@
 ![image](frontend/src/assets/screenshots/image-6.png)
 ![image](frontend/src/assets/screenshots/image-7.png)
 ![image](frontend/src/assets/screenshots/image-8.png)
+![image](frontend/src/assets/screenshots/image-9.png)
 
 ## 🌳Frontend
 The frontend structure is organized into various components and pages, promoting modularity and maintainability. Notable folders include:
