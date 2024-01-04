@@ -2,8 +2,27 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
 require("dotenv").config();
 const app = express();
+
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "API Yanji Social Swagger",
+            version: "1.0.0",
+        },
+        servers: [
+            {
+                url: `/api/v1/`,
+            }
+        ]
+    },
+    apis: ["./src/app/routes/swagger-routes/*.js"],
+}
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
 const ApiError = require("./api.error");
 
@@ -43,6 +62,7 @@ app.use("/api/v1/room", roomRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/image", imgRoute);
 app.use("/api/v1/audio", audioRoute);
+app.use("/api/v1/swagger", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 //Handle 404 response
 app.use((req, res, next) => {

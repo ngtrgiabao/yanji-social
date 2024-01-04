@@ -12,7 +12,10 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "nodemon": "^2.0.20"
+        "cross-env": "^7.0.3",
+        "nodemon": "^2.0.20",
+        "swagger-jsdoc": "^6.2.8",
+        "swagger-ui-express": "^5.0.0"
     },
     "dependencies": {
         "body-parser": "^1.20.1",

@@ -180,7 +180,7 @@ const updateUser = async (req, res, next) => {
                 }
 
                 // if new username of social link is flank will set to empty string
-                if (value.length === 0) {
+                if (value?.length === 0) {
                     user[key] = "";
                 } else {
                     user[key] = value || user[key];
