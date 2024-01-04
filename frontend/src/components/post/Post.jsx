@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { UilEllipsisH, UilTrash } from "@iconscout/react-unicons";
@@ -38,6 +38,7 @@ import EditPopup from "../popup/EditPopup";
 import { pushNewNotification } from "../../redux/request/notificationRequest";
 import { LIKE_POST, SHARE_POST } from "../../business/noti.type";
 import ConfirmDialog from "../dialog/ConfirmDialog";
+import Photo from "../media/Photo";
 
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 // TODO FIX POPUP WHEN DELETE POST NOT WORK CORRECTLY
@@ -54,7 +55,7 @@ const Post = ({
   shares,
   comments,
   socket,
-  handleDeletePopup = () => {},
+  handleDeletePopup = () => { },
   isDisableComment = false,
 }) => {
   const [popup, setPopup] = useState("");
@@ -64,9 +65,8 @@ const Post = ({
     profilePicture: "",
     isVerify: false,
   });
-  const [postShared, setPostShared] = useState([]);
+  // const [postShared, setPostShared] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
-  const videoRef = useRef(null);
   const dispatch = useDispatch();
   const [active, setActive] = useState("");
   const formatTime = useTimeAgo;
@@ -78,20 +78,20 @@ const Post = ({
   const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
   // Update title to edited when post has been edited
-  useEffect(() => {
-    let isCancelled = false;
+  // useEffect(() => {
+  //   let isCancelled = false;
 
-    getPostsShared(currentUser?._id, dispatch).then((data) => {
-      if (!isCancelled && data) {
-        const { postShared } = data;
-        setPostShared(postShared.map((p) => p.postID));
-      }
-    });
+  //   getPostsShared(currentUser?._id, dispatch).then((data) => {
+  //     if (!isCancelled && data) {
+  //       const { postShared } = data;
+  //       setPostShared(postShared.map((p) => p.postID));
+  //     }
+  //   });
 
-    return () => {
-      isCancelled = true;
-    };
-  }, [currentUser, dispatch]);
+  //   return () => {
+  //     isCancelled = true;
+  //   };
+  // }, [currentUser, dispatch]);
 
   useEffect(() => {
     const handleClickOutside = () => {
@@ -184,90 +184,98 @@ const Post = ({
     postID: postID,
   };
 
+  const handleLikePost = () => {
+    likePost(post, dispatch)
+      .then(async (data) => {
+        socket = io(SOCKET_URL);
+
+        await socket.emit("update-post", data.data);
+
+        const { isLiked } = data;
+
+        if (isLiked && user?._id !== currentUser?._id) {
+          const notification = {
+            sender: currentUser?._id,
+            receiver: user?._id,
+            type: LIKE_POST,
+          };
+
+          pushNewNotification(notification, dispatch)
+            .then((data) => {
+              socket.emit("push-notification", data.data);
+            })
+            .catch((err) => {
+              console.error("Failed to create new notification", err);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to like post", error);
+      });
+  }
+
+  const handleSharePost = () => {
+    sharePost(post, dispatch)
+      .then(async (data) => {
+        socket = io(SOCKET_URL);
+        await socket.emit("update-post", data.data);
+
+        const { isShared } = data;
+
+        if (isShared && user?._id !== currentUser?._id) {
+          const notification = {
+            sender: currentUser?._id,
+            receiver: user?._id,
+            type: SHARE_POST,
+          };
+
+          pushNewNotification(notification, dispatch)
+            .then((data) => {
+              socket.emit("push-notification", data.data);
+            })
+            .catch((err) => {
+              console.error("Failed to create new notification", err);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to share post", error);
+      });
+  }
+
+  const handleSavePost = (postID) => {
+    const updatedUser = {
+      userID: currentUser?._id,
+      postSaved: { postID: postID },
+    };
+
+    updateUser(updatedUser, dispatch)
+      .then(() => {
+        setIsSaved((isSaved) => !isSaved);
+      })
+      .catch((err) => {
+        console.error("Failed to save", err);
+      });
+  }
+
+  const handleDeletePost = (postID) => {
+    deletePost(postID, dispatch)
+      .then(async (data) => {
+        socket = io(SOCKET_URL);
+        await socket.emit("delete-post", data?.data);
+      })
+      .catch((error) => {
+        console.error("Failed to delete post", error);
+      });
+
+    handleDeletePopup();
+  }
+
   const handlePost = {
-    likePost: () => {
-      likePost(post, dispatch)
-        .then(async (data) => {
-          socket = io(SOCKET_URL);
-
-          await socket.emit("update-post", data.data);
-
-          const { isLiked } = data;
-
-          if (isLiked && user?._id !== currentUser?._id) {
-            const notification = {
-              sender: currentUser?._id,
-              receiver: user?._id,
-              type: LIKE_POST,
-            };
-
-            pushNewNotification(notification, dispatch)
-              .then((data) => {
-                socket.emit("push-notification", data.data);
-              })
-              .catch((err) => {
-                console.error("Failed to create new notification", err);
-              });
-          }
-        })
-        .catch((error) => {
-          console.error("Failed to like post", error);
-        });
-    },
-    sharePost: async () => {
-      sharePost(post, dispatch)
-        .then(async (data) => {
-          socket = io(SOCKET_URL);
-          await socket.emit("update-post", data.data);
-
-          const { isShared } = data;
-
-          if (isShared && user?._id !== currentUser?._id) {
-            const notification = {
-              sender: currentUser?._id,
-              receiver: user?._id,
-              type: SHARE_POST,
-            };
-
-            pushNewNotification(notification, dispatch)
-              .then((data) => {
-                socket.emit("push-notification", data.data);
-              })
-              .catch((err) => {
-                console.error("Failed to create new notification", err);
-              });
-          }
-        })
-        .catch((error) => {
-          console.error("Failed to share post", error);
-        });
-    },
-    savePost: async (postID) => {
-      const updatedUser = {
-        userID: currentUser?._id,
-        postSaved: { postID: postID },
-      };
-
-      updateUser(updatedUser, dispatch)
-        .then(() => {
-          setIsSaved((isSaved) => !isSaved);
-        })
-        .catch((err) => {
-          console.error("Failed to save", err);
-        });
-    },
-    deletePost: async (postID) => {
-      deletePost(postID, dispatch)
-        .then(async (data) => {
-          socket = io(SOCKET_URL);
-          await socket.emit("delete-post", data?.data);
-        })
-        .catch((error) => {
-          console.error("Failed to delete post", error);
-        });
-
-      handleDeletePopup();
-    },
+    likePost: handleLikePost,
+    sharePost: handleSharePost,
+    savePost: (postID) => handleSavePost(postID),
+    deletePost: (postID) => handleDeletePost(postID),
   };
 
   const renderEditPost = () => {
@@ -356,7 +364,7 @@ const Post = ({
             style={{
               cursor: "pointer",
             }}
-            onClick={() => handlePost.savePost(postID)}
+            onClick={() => handlePost["savePost"](postID)}
           />
           {user?._id === currentUser?._id && (
             <span className="post-settings" title="Setting post">
@@ -378,9 +386,10 @@ const Post = ({
     return (
       <div className="action-buttons d-flex justify-content-between align-items-center fs-3 border-top pt-3">
         <div className="interaction-buttons d-flex justify-content-between w-100 align-items-center gap-4">
+          {/* share */}
           <span
             className="d-flex justify-content-center align-items-center share flex-fill p-1 post-action__btn rounded-2"
-            onClick={() => handlePost.sharePost()}
+            onClick={() => handlePost["sharePost"]}
             title="Share"
             data-share
           >
@@ -400,6 +409,8 @@ const Post = ({
               <b>{shares?.length}</b>
             </div>
           </span>
+
+          {/* comment */}
           <span
             className="d-flex justify-content-center align-items-center comment flex-fill p-1 post-action__btn rounded-2"
             onClick={(e) => {
@@ -416,9 +427,11 @@ const Post = ({
               <b>{comments?.length}</b>
             </div>
           </span>
+
+          {/* like */}
           <span
             className="d-flex justify-content-center align-items-center heart flex-fill p-1 post-action__btn rounded-2 overflow-hidden"
-            onClick={() => handlePost.likePost()}
+            onClick={() => handlePost["likePost"]}
             title="Like"
             data-like
           >
@@ -449,7 +462,7 @@ const Post = ({
         <ConfirmDialog
           title="Bạn muốn xóa bài viết này?"
           onClose={() => setActive("")}
-          onConfirm={() => handlePost.deletePost(postID)}
+          onConfirm={() => handlePost["deletePost"](postID)}
           confirmButtonText="Delete"
         />
       )
@@ -468,44 +481,8 @@ const Post = ({
         >
           <ParagraphWithLink text={desc} />
         </div>
-        {image && (
-          <div className="photo">
-            <img
-              loading="lazy"
-              role="presentation"
-              decoding="async"
-              src={image}
-              alt="Media of post"
-              className="w-100 h-100"
-              style={{
-                objectFit: "cover",
-              }}
-            />
-          </div>
-        )}
-
-        {video && (
-          <div
-            className="photo"
-            style={{
-              height: "30rem",
-            }}
-          >
-            <video
-              preload="metadata"
-              className="w-100"
-              ref={videoRef}
-              controls
-              draggable="false"
-              muted
-              autoPlay
-              loop
-            >
-              <source src={video} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        )}
+        {image && <Photo imageSrc={image} label="Media of post" />}
+        {video && <Photo videoSrc={video} isVideo={true} />}
         {renderActionBtn()}
 
         {renderPopupConfirmDeletePost()}

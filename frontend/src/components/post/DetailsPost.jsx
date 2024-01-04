@@ -1,5 +1,3 @@
-import React from "react";
-
 import Comments from "../comment/Comments";
 
 const DetailsPost = ({

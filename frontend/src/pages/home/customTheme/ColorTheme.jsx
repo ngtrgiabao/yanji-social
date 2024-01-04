@@ -1,6 +1,7 @@
 import "./style/color.css";
 
 import { useTheme } from "../../../hooks";
+import { ChooseColorBtn } from "../../../components";
 
 const ColorTheme = () => {
   const { setTextColors } = useTheme();
@@ -14,36 +15,11 @@ const ColorTheme = () => {
   const renderColorThemeMenu = () => {
     return (
       <div className="choose-color d-flex justify-content-between align-items-center">
-        <span
-          className={
-            "color-1" + (textColorTheme === "color-1" ? " active" : "")
-          }
-          onClick={() => handleTextColorChange("color-1")}
-        ></span>
-        <span
-          className={
-            "color-2" + (textColorTheme === "color-2" ? " active" : "")
-          }
-          onClick={() => handleTextColorChange("color-2")}
-        ></span>
-        <span
-          className={
-            "color-3" + (textColorTheme === "color-3" ? " active" : "")
-          }
-          onClick={() => handleTextColorChange("color-3")}
-        ></span>
-        <span
-          className={
-            "color-4" + (textColorTheme === "color-4" ? " active" : "")
-          }
-          onClick={() => handleTextColorChange("color-4")}
-        ></span>
-        <span
-          className={
-            "color-5" + (textColorTheme === "color-5" ? " active" : "")
-          }
-          onClick={() => handleTextColorChange("color-5")}
-        ></span>
+        <ChooseColorBtn colorName="color-1" textColorTheme={textColorTheme} onTextColorChange={handleTextColorChange} />
+        <ChooseColorBtn colorName="color-2" textColorTheme={textColorTheme} onTextColorChange={handleTextColorChange} />
+        <ChooseColorBtn colorName="color-3" textColorTheme={textColorTheme} onTextColorChange={handleTextColorChange} />
+        <ChooseColorBtn colorName="color-4" textColorTheme={textColorTheme} onTextColorChange={handleTextColorChange} />
+        <ChooseColorBtn colorName="color-5" textColorTheme={textColorTheme} onTextColorChange={handleTextColorChange} />
       </div>
     );
   };
