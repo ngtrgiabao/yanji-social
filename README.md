@@ -107,7 +107,7 @@ The backend is structured with the following key components:
 
 <!-- ----- BACKEND .env ----- -->
 ```
-SOCKET_PORT=8000
+SOCKET_PORT=9000
 FRONTEND_URL="your_frontend_url"
 MONGODB_URI="mongodb_remote_link"
 CLOUD_STORAGE_NAME=""
