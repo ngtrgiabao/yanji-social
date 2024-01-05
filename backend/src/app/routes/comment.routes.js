@@ -3,6 +3,9 @@ const router = express.Router();
 
 const CommentController = require("../controllers/comment.controller");
 
+router.get("/", (req, res) => {
+  res.send({ msg: "Hello from comment :D" });
+});
 router.get("/all-comments", CommentController.getAllComments);
 router.get("/all-comments/post/:postID", CommentController.getCommentsByPostId);
 router.get("/all-comments/user/:userID", CommentController.getCommentsByUserId);

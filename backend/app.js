@@ -20,7 +20,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ["./src/app/routes/swagger-routes/*.js"],
+  apis: ["./src/app/routes/swagger-routes/*.yaml"],
 };
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
@@ -31,7 +31,6 @@ const commentRoute = require("./src/app/routes/comment.routes");
 const contactRoute = require("./src/app/routes/contact.routes");
 const msgRoute = require("./src/app/routes/message.routes");
 const notificationRoute = require("./src/app/routes/notification.routes");
-const onlineRoute = require("./src/app/routes/online.routes");
 const postRoute = require("./src/app/routes/post.routes");
 const roomRoute = require("./src/app/routes/room.routes");
 const userRoute = require("./src/app/routes/user.routes");
@@ -56,7 +55,6 @@ app.use("/api/v1/comment", commentRoute);
 app.use("/api/v1/contact", contactRoute);
 app.use("/api/v1/message", msgRoute);
 app.use("/api/v1/notification", notificationRoute);
-app.use("/api/v1/online", onlineRoute);
 app.use("/api/v1/post", postRoute);
 app.use("/api/v1/room", roomRoute);
 app.use("/api/v1/user", userRoute);

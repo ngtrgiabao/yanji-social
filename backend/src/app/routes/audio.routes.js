@@ -8,7 +8,7 @@ const AudioController = require("../controllers/audio.controller");
 
 router.get("/", (req, res) => {
   res.send({
-    msg: "Hello from audio",
+    msg: "Hello from audio :D",
   });
 });
 router.get(

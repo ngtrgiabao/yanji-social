@@ -1,0 +1,30 @@
+paths:
+  /notification/all/user/{userID}:
+    get:
+      description: Returns all notifications for a specific user
+      tags:
+        - Notification
+      parameters:
+        - name: userID
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit of notifications
+          example: 5
+          required: true
+          schema:
+            type: number
+        - name: skip
+          in: query
+          description: Skip of notifications
+          example: 5
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Successful response with notification data

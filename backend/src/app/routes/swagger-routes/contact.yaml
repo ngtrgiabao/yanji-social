@@ -1,0 +1,8 @@
+paths:
+  /contact:
+    get:
+      tags:
+        - Contact
+      responses:
+        '200':
+          description: Hello from contact :D

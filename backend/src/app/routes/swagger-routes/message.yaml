@@ -1,0 +1,8 @@
+paths:
+  /message:
+    get:
+      tags:
+        - Message
+      responses:
+        '200':
+          description: Hello from message :D

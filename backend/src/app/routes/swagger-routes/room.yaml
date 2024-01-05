@@ -1,0 +1,9 @@
+paths:
+  /room:
+    get:
+      description: Returns the homepage
+      tags:
+        - Room
+      responses:
+        '200':
+          description: Hello from room :D

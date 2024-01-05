@@ -1,0 +1,8 @@
+paths:
+  /comment:
+    get:
+      tags:
+        - Comment
+      responses:
+        '200':
+          description: Hello from comment :D

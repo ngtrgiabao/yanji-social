@@ -1,0 +1,8 @@
+paths:
+  /audio:
+    get:
+      tags:
+        - Audio
+      responses:
+        '200':
+          description: Hello from audio :D

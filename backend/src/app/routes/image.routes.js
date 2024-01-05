@@ -7,7 +7,7 @@ const ImageController = require("../controllers/image.controller");
 
 router.get("/", (req, res) => {
   res.send({
-    msg: "Hello from image",
+    msg: "Hello from image :D",
   });
 });
 router.get(

@@ -1,0 +1,8 @@
+paths:
+  /image:
+    get:
+      tags:
+        - Image
+      responses:
+        '200':
+          description: Hello from image :D
