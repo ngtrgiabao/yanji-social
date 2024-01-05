@@ -182,7 +182,7 @@ components:
         receiver:
           type: string
         type:
-          type: string
+          type: number
         isRead:
           type: boolean
         createdAt:

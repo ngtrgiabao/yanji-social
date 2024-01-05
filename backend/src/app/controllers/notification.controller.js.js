@@ -10,13 +10,13 @@ const createNewNoti = async (req, res) => {
     });
 
     return res.status(200).json({
-      msg: `New noti created successfully`,
+      msg: `New notification created successfully`,
       data: newNoti,
     });
   } catch (error) {
-    console.error("Failed to create new noti", error);
+    console.error("Failed to create new notification", error);
     return res.status(500).json({
-      msg: "Failed to create new noti",
+      msg: "Failed to create new notification",
       error,
     });
   }
@@ -42,9 +42,9 @@ const getAllNotisByUser = async (req, res) => {
       data: notiList,
     });
   } catch (error) {
-    console.error(`Failed to get all notis of user ${userID}`, error);
+    console.error(`Failed to get all notifications of user ${userID}`, error);
     return res.status(500).json({
-      msg: `Failed to get all notis of user ${userID}`,
+      msg: `Failed to get all notifications of user ${userID}`,
       error,
     });
   }
@@ -61,9 +61,9 @@ const getNotiByID = async (req, res) => {
       data: notiList,
     });
   } catch (error) {
-    console.error(`Failed to get noti`, error);
+    console.error(`Failed to get notification`, error);
     return res.status(500).json({
-      msg: `Failed to get noti`,
+      msg: `Failed to get notification`,
       error,
     });
   }
@@ -85,9 +85,9 @@ const markSeen = async (req, res) => {
       data: updatedNoti,
     });
   } catch (error) {
-    console.error("Failed to mark seen noti", error);
+    console.error("Failed to mark seen notification", error);
     return res.status(500).json({
-      msg: "Failed to mark seen noti",
+      msg: "Failed to mark seen notification",
       error,
     });
   }
@@ -103,9 +103,9 @@ const deleteNoti = async (req, res) => {
       msg: `Noti deleted successfully`,
     });
   } catch (error) {
-    console.error("Failed to delete noti", error);
+    console.error("Failed to delete notification", error);
     return res.status(500).json({
-      msg: `Failed to delete noti`,
+      msg: `Failed to delete notification`,
     });
   }
 };

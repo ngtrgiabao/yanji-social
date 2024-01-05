@@ -50,11 +50,11 @@ const getAllMessages = async (req, res, next) => {
   try {
     const roomId = req.params.roomID;
     const messages = await MessageModel.find({
-      roomId,
+      roomId: roomId,
     });
     return res.status(200).json({
       msg: "Get all messages successfully",
-      messages,
+      messages: messages,
     });
   } catch (error) {
     const userID = UserModel.findById(req.params.userID);

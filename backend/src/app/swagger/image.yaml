@@ -6,3 +6,15 @@ paths:
       responses:
         '200':
           description: Hello from image :D
+  /image/all-images/{userID}:
+    description: Get all images of a user
+    get:
+      tags:
+        - Image
+      parameters:
+        - name: userID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Get all images of a user successfully

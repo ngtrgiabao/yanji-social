@@ -23,8 +23,7 @@ router.get(
 );
 
 router.post(
-  "/send-message/:userID",
-  UserMiddleware.validateUserById,
+  "/send-message",
   MessageController.sendMessage,
 );
 

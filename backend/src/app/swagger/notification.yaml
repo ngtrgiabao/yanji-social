@@ -39,7 +39,7 @@ paths:
             type: number
       responses:
         '200':
-          description: Successful response with notification data
+          description: Get all notifications successfully
   /notification/new:
     post:
       description: Create new notification
@@ -57,6 +57,24 @@ paths:
                 receiver:
                   type: string
                 type:
+                  type: number
+      responses:
+        '200':
+          description: Create new notification successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/##/models/Notification"
+              example:
+                msg: "New noti created successfully"
+                data:
+                  sender: "64925d0a9f940ad13dc3d926"
+                  receiver: "64daf202df8b91bc0b1203d0"
+                  type: 9
+                  isRead: false
+                  _id: "65981924ffceff88b81ae4ad"
+                  createdAt: "2024-01-05T14:58:44.442Z"
+                  updatedAt: "2024-01-05T14:58:44.442Z"
   /notification/mark-seen/{notiID}:
       put:
         description: Mark seen notification
@@ -78,3 +96,15 @@ paths:
         responses:
           '200':
             description: Mark seen notification successfully
+  /notification/delete/{notiID}:
+      delete:
+        description: Delete notification
+        tags:
+          - Notification
+        parameters:
+          - name: notiID
+            in: path
+            required: true
+        responses:
+          '200':
+            description: Delete notification successfully
