@@ -27,9 +27,11 @@ const postSchema = new mongoose.Schema(
     },
     img: {
       type: String,
+      default: null,
     },
     video: {
       type: String,
+      default: null,
     },
     likes: {
       type: Array,

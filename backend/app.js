@@ -20,7 +20,7 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ["./src/app/routes/swagger-routes/*.yaml"],
+  apis: ["./src/app/swagger/*.yaml"],
 };
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 

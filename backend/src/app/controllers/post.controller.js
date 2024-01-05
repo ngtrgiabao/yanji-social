@@ -60,14 +60,14 @@ const getAllPostsByUser = async (req, res) => {
 
   try {
     const posts = await PostModel.find({
-      userID,
+      userID: userID,
     }).sort({ createdAt: -1 });
     const countPosts = await PostModel.countDocuments();
 
     return res.status(200).json({
       msg: `Get all posts successfully of user: ${userID}`,
       length: countPosts,
-      posts,
+      posts: posts,
     });
   } catch (error) {
     console.error(`Error retrieving posts of user ${userID}: ${error}`);

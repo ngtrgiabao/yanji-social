@@ -33,14 +33,14 @@ router.post(
   RoomController.joinRoom,
 );
 
-router.put(
-  "/add-participant/:roomID/user/:userID",
-  RoomMiddleware.validateRoomID,
-  RoomMiddleware.validateJoinedRoom,
-  RoomMiddleware.validateIsParticipant,
-  UserMiddleware.validateUserById,
-  RoomController.addParticipant,
-);
+// router.put(
+//   "/add-participant/:roomID/user/:userID",
+//   RoomMiddleware.validateRoomID,
+//   RoomMiddleware.validateJoinedRoom,
+//   RoomMiddleware.validateIsParticipant,
+//   UserMiddleware.validateUserById,
+//   RoomController.addParticipant,
+// );
 
 router.delete(
   "/:roomID/remove-user/:userID",

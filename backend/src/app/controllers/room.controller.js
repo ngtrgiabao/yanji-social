@@ -189,12 +189,12 @@ const removeParticipant = async (req, res, next) => {
   const participantID = req.params.userID;
   const room = await RoomModel.findById(roomID);
 
-  if (room.isAdmin !== true) {
-    console.error("You don't have permission to remove participant");
-    return res.status(403).json({
-      message: "You don't have permission to remove participant",
-    });
-  }
+  // if (room.isAdmin !== true) {
+  //   console.error("You don't have permission to remove participant");
+  //   return res.status(403).json({
+  //     message: "You don't have permission to remove participant",
+  //   });
+  // }
 
   try {
     await RoomModel.findByIdAndUpdate(
@@ -209,7 +209,7 @@ const removeParticipant = async (req, res, next) => {
   } catch (error) {
     console.error("Failed to remove participant:", error);
     return res.status(500).json({
-      msg: "Failed to remove participant",
+      msg: "Failed to remove participant successfully",
     });
   }
 };

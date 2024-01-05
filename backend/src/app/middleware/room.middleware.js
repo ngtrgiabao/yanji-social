@@ -8,7 +8,7 @@ const validateRoomID = async (req, res, next) => {
     if (!room) {
       console.error("Room not found!");
       return res.status(404).json({
-        msg: "Room not foun!d",
+        msg: "Room not found!",
       });
     }
 
@@ -44,7 +44,7 @@ const validateNameOfRoom = async (req, res, next) => {
 const validateParticipantID = async (req, res, next) => {
   try {
     const participantID = req.params.userID;
-    const participant = await Room.findById({
+    const participant = await Room.find({
       participants: participantID,
     });
 
@@ -65,9 +65,10 @@ const validateParticipantID = async (req, res, next) => {
 };
 
 const validateJoinedRoom = async (req, res, next) => {
+  const participantID = req.params.userID;
+
   try {
-    const participantID = req.params.userID;
-    const rooms = await Room.findById({
+    const rooms = await Room.find({
       participants: participantID,
     });
 
@@ -82,7 +83,7 @@ const validateJoinedRoom = async (req, res, next) => {
   } catch (error) {
     console.error("Failed to get rooms of participant:", error);
     return res.status(500).json({
-      msg: "Failed to get rooms of participant:",
+      msg: `Failed to get rooms of participant: ${participantID}`,
     });
   }
 };
