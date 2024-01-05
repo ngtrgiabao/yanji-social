@@ -136,3 +136,61 @@ paths:
       responses:
         '200':
           description: Logged in user
+  /user/update/{userID}:
+    put:
+      description: Update a user
+      tags:
+        - User
+      parameters:
+        - name: userID
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/##/models/UserModel'
+              example:
+                firstName: "yanji"
+                lastName: "social"
+                username: "ys222"
+                email: "example@gmail.com"
+                password: "password"
+                isVerify: false
+                insta: "link insta"
+                twitter: "link twitter"
+                facebook: "link facebook:"
+                linkedin: "link linkedin"
+                github: "link github"
+  /user/delete/{userID}:
+    delete:
+      description: Delete a user
+      tags:
+        - User
+      parameters:
+        - name: userID
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User deleted successfully          
+

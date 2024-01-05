@@ -111,3 +111,46 @@ components:
         updatedAt:
           type: string
           format: date
+
+    Post:
+      type: object
+      required:
+        - userID
+        - desc
+        - img
+        - likes
+        - comments
+        - shares
+        - video
+        - isEdited
+      properties:
+        id:
+          type: string
+        userID:
+          type: string
+        desc:
+          type: string
+        img:
+          type: string
+        likes:
+          type: array
+          items:
+            type: string
+        comments:
+          type: array
+          items:
+            type: string
+        shares:
+          type: array
+          items:
+            type: string
+        video:
+          type: string
+        isEdited:
+          type: boolean
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
