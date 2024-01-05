@@ -8,20 +8,20 @@ require("dotenv").config();
 const app = express();
 
 const swaggerOptions = {
-    definition: {
-        openapi: "3.0.0",
-        info: {
-            title: "API Yanji Social Swagger",
-            version: "1.0.0",
-        },
-        servers: [
-            {
-                url: `/api/v1/`,
-            }
-        ]
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "API Yanji Social Swagger",
+      version: "1.0.0",
     },
-    apis: ["./src/app/routes/swagger-routes/*.js"],
-}
+    servers: [
+      {
+        url: `/api/v1/`,
+      },
+    ],
+  },
+  apis: ["./src/app/routes/swagger-routes/*.js"],
+};
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
 const ApiError = require("./api.error");
@@ -39,9 +39,9 @@ const imgRoute = require("./src/app/routes/image.routes");
 const audioRoute = require("./src/app/routes/audio.routes");
 
 const corsOptions = {
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-    optionSuccessStatus: 200,
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+  optionSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
@@ -66,13 +66,13 @@ app.use("/api/v1/swagger", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 //Handle 404 response
 app.use((req, res, next) => {
-    return next(new ApiError(404, "Resource not found"));
+  return next(new ApiError(404, "Resource not found"));
 });
 
 app.use((err, req, res, next) => {
-    return res.status(err.statusCode || 500).json({
-        msg: err.message || "Internal server Error",
-    });
+  return res.status(err.statusCode || 500).json({
+    msg: err.message || "Internal server Error",
+  });
 });
 
 module.exports = app;

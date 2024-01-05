@@ -1,39 +1,39 @@
 const UserMiddleware = require("../../middleware/user.middleware");
 
 const UserController = require("../../controllers/user.controller");
-  
-  /**
-   * @swagger
-   * /user:
-   *   get:
-   *     tags: ["User"]
-   *     responses:
-   *       200:
-   *         description: Hello from user :D
-   */
-app.get('/', (req, res) => {
+
+/**
+ * @swagger
+ * /user:
+ *   get:
+ *     tags: ["User"]
+ *     responses:
+ *       200:
+ *         description: Hello from user :D
+ */
+app.get("/", (req, res) => {
   res.send({ msg: "Hello from user :D" });
 });
 
 /**
-   * @swagger
-   * /user/all-users:
-   *   get:
-   *     description: Get all users
-   *     tags: ["User"]
-   *     parameters:
+ * @swagger
+ * /user/all-users:
+ *   get:
+ *     description: Get all users
+ *     tags: ["User"]
+ *     parameters:
  *       - name: username
  *         in: query
  *         description: Username to filter users
  *         required: true
  *         schema:
  *           type: string
-   *     responses:
-   *       200:
-   *         description: List of users
-   */
+ *     responses:
+ *       200:
+ *         description: List of users
+ */
 
-app.get('/user/:userID', UserController.getAllUsers);
+app.get("/user/:userID", UserController.getAllUsers);
 
 /**
  * @swagger
@@ -52,7 +52,7 @@ app.get('/user/:userID', UserController.getAllUsers);
  *       200:
  *         description: Details of the user
  */
-app.get('/user/:userID', UserController.getUserByID);
+app.get("/user/:userID", UserController.getUserByID);
 
 /**
  * @swagger
@@ -71,8 +71,11 @@ app.get('/user/:userID', UserController.getUserByID);
  *       200:
  *         description: Posts shared by the user
  */
-app.get('/user/:userID/shared', UserMiddleware.validateUserById,
-    UserController.getPostsShared);
+app.get(
+  "/user/:userID/shared",
+  UserMiddleware.validateUserById,
+  UserController.getPostsShared,
+);
 
 /**
  * @swagger
@@ -91,8 +94,11 @@ app.get('/user/:userID/shared', UserMiddleware.validateUserById,
  *       200:
  *         description: Posts saved by the user
  */
-app.get('/user/:userID/saved', UserMiddleware.validateUserById,
-    UserController.getPostsSaved);
+app.get(
+  "/user/:userID/saved",
+  UserMiddleware.validateUserById,
+  UserController.getPostsSaved,
+);
 
 /**
  * @swagger
@@ -111,8 +117,11 @@ app.get('/user/:userID/saved', UserMiddleware.validateUserById,
  *       200:
  *         description: Quantity of images uploaded by the user
  */
-app.get('/user/:userID/quantity/image', UserMiddleware.validateUserById,
-    UserController.fetchUserSpecificImageQuantity);
+app.get(
+  "/user/:userID/quantity/image",
+  UserMiddleware.validateUserById,
+  UserController.fetchUserSpecificImageQuantity,
+);
 
 /**
  * @swagger
@@ -131,8 +140,11 @@ app.get('/user/:userID/quantity/image', UserMiddleware.validateUserById,
  *       200:
  *         description: Quantity of audios uploaded by the user
  */
-app.get('/user/:userID/quantity/audio', UserMiddleware.validateUserById,
-    UserController.fetchUserSpecificAudioQuantity);
+app.get(
+  "/user/:userID/quantity/audio",
+  UserMiddleware.validateUserById,
+  UserController.fetchUserSpecificAudioQuantity,
+);
 
 /**
  * @swagger
@@ -147,9 +159,9 @@ app.get('/user/:userID/quantity/audio', UserMiddleware.validateUserById,
  *           schema:
  *             type: object
  *             properties:
- *               username: 
+ *               username:
  *                type: string
- *               password: 
+ *               password:
  *                type: string
  *               email:
  *                type: string
@@ -157,8 +169,11 @@ app.get('/user/:userID/quantity/audio', UserMiddleware.validateUserById,
  *       200:
  *         description: Registered user
  */
-app.post('/user/register', UserMiddleware.validateUserById,
-    UserController.register);
+app.post(
+  "/user/register",
+  UserMiddleware.validateUserById,
+  UserController.register,
+);
 
 /**
  * @swagger
@@ -173,13 +188,12 @@ app.post('/user/register', UserMiddleware.validateUserById,
  *           schema:
  *             type: object
  *             properties:
- *               username: 
+ *               username:
  *                type: string
- *               password: 
+ *               password:
  *                type: string
  *     responses:
  *       200:
  *         description: Logged in user
  */
-app.post('/user/login', UserMiddleware.validateUserById,
-    UserController.login);
+app.post("/user/login", UserMiddleware.validateUserById, UserController.login);
