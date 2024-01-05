@@ -55,7 +55,7 @@ const Post = ({
   shares,
   comments,
   socket,
-  handleDeletePopup = () => {},
+  handleDeletePopup = () => { },
   isDisableComment = false,
 }) => {
   const [popup, setPopup] = useState("");
@@ -389,7 +389,7 @@ const Post = ({
           {/* share */}
           <span
             className="d-flex justify-content-center align-items-center share flex-fill p-1 post-action__btn rounded-2"
-            onClick={() => handlePost["sharePost"]}
+            onClick={() => handlePost["sharePost"]()}
             title="Share"
             data-share
           >
@@ -431,7 +431,7 @@ const Post = ({
           {/* like */}
           <span
             className="d-flex justify-content-center align-items-center heart flex-fill p-1 post-action__btn rounded-2 overflow-hidden"
-            onClick={() => handlePost["likePost"]}
+            onClick={() => handlePost["likePost"]()}
             title="Like"
             data-like
           >

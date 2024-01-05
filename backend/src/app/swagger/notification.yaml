@@ -1,4 +1,16 @@
 paths:
+  /notification/{notiID}:
+      get:
+        description: Get notification by ID
+        tags:
+          - Notification
+        parameters:
+          - name: notiID
+            in: path
+            required: true
+        responses:
+          '200':
+            description: Get notification by ID successfully
   /notification/all/user/{userID}:
     get:
       description: Returns all notifications for a specific user
@@ -28,3 +40,41 @@ paths:
       responses:
         '200':
           description: Successful response with notification data
+  /notification/new:
+    post:
+      description: Create new notification
+      tags:
+        - Notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sender:
+                  type: string
+                receiver:
+                  type: string
+                type:
+  /notification/mark-seen/{notiID}:
+      put:
+        description: Mark seen notification
+        tags:
+          - Notification
+        parameters:
+          - name: notiID
+            in: path
+            required: true
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isRead:
+                    type: boolean
+        responses:
+          '200':
+            description: Mark seen notification successfully
