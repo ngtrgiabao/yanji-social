@@ -35,6 +35,6 @@ const audioSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const videoModel = mongoose.model("audio", audioSchema);
+const audioModel = mongoose.model("audio", audioSchema);
 
-module.exports = videoModel;
+module.exports = audioModel;

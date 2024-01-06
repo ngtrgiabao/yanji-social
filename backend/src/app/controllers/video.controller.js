@@ -2,6 +2,7 @@ const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
 const VideoModel = require("../models/video.model");
+const { deleteOnCloudiary } = require("../utils/delete.cloudiary");
 
 const getAllVideosByUserID = async (req, res, next) => {
   const userID = req.params.userID;
@@ -99,17 +100,7 @@ const deleteAllVideosByUserID = async (req, res, next) => {
 };
 
 const deleteVideoByID = async (mediaValue) => {
-  const startIndex = mediaValue.indexOf(process.env.CLOUD_UPLOAD_PRESET);
-  const endIndex = mediaValue.lastIndexOf(".");
-  const publicID = mediaValue.substring(startIndex, endIndex);
-
-  cloudinary.config({
-    cloud_name: process.env.CLOUD_STORAGE_NAME,
-    api_key: process.env.CLOUD_STORAGE_API_KEY,
-    api_secret: process.env.CLOUD_SECRET_KEY,
-  });
-
-  cloudinary.uploader.destroy(publicID);
+  deleteOnCloudiary(mediaValue, false);
 
   await VideoModel.findOneAndDelete({
     videoUrl: { $regex: mediaValue },

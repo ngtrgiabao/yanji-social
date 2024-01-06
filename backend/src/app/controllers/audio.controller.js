@@ -1,7 +1,13 @@
-const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
 const AudioModel = require("../models/audio.model");
+const User = require("../models/user.model");
+const { deleteOnCloudiary } = require("../utils/delete.cloudiary");
+
+const isValidUser = async (userID) => {
+      const validUser = await User.findById(userID);
+      return validUser;
+}
 
 const getAllAudiosByUserID = async (req, res, next) => {
   const userID = req.params.userID;
@@ -43,46 +49,49 @@ const getAudioByID = async (req, res, next) => {
 };
 
 const uploadAudioByUserID = async (req, res, next) => {
-  try {
     const { audioUrl, userID, cover, name } = req.body;
 
-    const newAudio = await AudioModel.create({
-      userID,
-      audioUrl,
-      cover,
-      name,
-    });
+    isValidUser(userID).then(async (validUser) => {
+      if(!validUser)
+        return res.status(401).json({ message: "Invalid user ID" });
 
-    return res.status(200).json({
+      const newAudio = await AudioModel.create({
+        userID,
+        audioUrl,
+        cover,
+        name,
+      });
+
+      return res.status(200).json({
       msg: "Upload new audio successfully",
       data: newAudio,
     });
-  } catch (error) {
-    return res.status(500).json({
-      msg: "Failed to upload new audio",
-      error,
-    });
-  }
+    }).catch(error => {
+        return res.status(500).json({
+          msg: "Failed to upload new audio",
+          error,
+        });
+    })    
 };
 
 const updateAudioByUserID = async (req, res, next) => {
   const audioID = req.params.audioID;
-  const userID = req.params.userID;
 
   try {
-    const { newAudio } = req.body;
-    const AudioModel = await AudioModel.findById({ audioID, userID });
+    const { audioUrl, cover } = req.body;
+    const result = await AudioModel.findById(audioID);
 
-    AudioModel.cover = newAudio || AudioModel.cover;
+    AudioModel.cover = cover || AudioModel.cover;
+    AudioModel.audioUrl = audioUrl || AudioModel.audioUrl;
 
-    const updatedAudio = await AudioModel.save();
+    const updatedAudio = await result.save();
 
     return res.status(200).json({
       msg: `Updates audio successfully`,
       data: updatedAudio,
     });
   } catch (error) {
-    console.error(`Failed to update audio ${audioID}`);
+    console.error(`Failed to update audio ${audioID}`, error);
 
     return res.status(500).json({
       msg: `Failed to update audio`,
@@ -108,22 +117,25 @@ const deleteAllAudiosByUserID = async (req, res, next) => {
   }
 };
 
-const deleteAudioByID = async (mediaValue) => {
-  const startIndex = mediaValue.indexOf(process.env.CLOUD_UPLOAD_PRESET);
-  const endIndex = mediaValue.lastIndexOf(".");
-  const publicID = mediaValue.substring(startIndex, endIndex);
+const deleteAudioByID = async (req, res, next) => {
+  const audioID = req.params.audioID;
 
-  cloudinary.config({
-    cloud_name: process.env.CLOUD_STORAGE_NAME,
-    api_key: process.env.CLOUD_STORAGE_API_KEY,
-    api_secret: process.env.CLOUD_SECRET_KEY,
-  });
+  try {
+    // const result = await AudioModel.findByIdAndDelete(audioID);
+    const result = await AudioModel.findByIdAndDelete(audioID);
+    
+    deleteOnCloudiary(result.audioUrl, true)
 
-  cloudinary.uploader.destroy(publicID);
-
-  await AudioModel.findOneAndDelete({
-    audioUrl: mediaValue,
-  });
+    return res.status(200).json({
+      msg: `Delete audio ${audioID} successfully`,
+      data: result,
+    })
+  } catch (error) {
+    console.error(`Failed to delete audio ${audioID}`);
+    return res.status(500).json({
+      msg: `Failed to delete audio ${audioID}`,
+    })
+  }
 };
 
 const fetchUserSpecificAudioQuantity = async (req, res, next) => {

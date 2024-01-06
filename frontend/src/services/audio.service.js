@@ -10,7 +10,7 @@ class AudioService {
   }
 
   async uploadAudioByUserID(audio) {
-    return await api.post(`/api/v1/audio/upload/${audio.userID}`, audio);
+    return await api.post(`/api/v1/audio/upload`, audio);
   }
 
   async updateAudioByUserID(updateAudio) {

@@ -23,8 +23,7 @@ router.get(
 );
 
 router.post(
-  "/upload/:userID",
-  UserMiddleware.validateUserById,
+  "/upload",
   AudioController.uploadAudioByUserID,
 );
 
