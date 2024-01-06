@@ -1,0 +1,155 @@
+paths:
+  /room:
+    get:
+      description: Returns the homepage
+      tags:
+        - Room
+      responses:
+        '200':
+          description: Hello from room :D
+  /room/all-rooms:
+    get:
+      description: Returns all rooms
+      tags:
+        - Room
+      responses:
+        '200':
+          description: Returns all rooms
+  /room/{roomID}:
+    get:
+      description: Return room by id
+      tags:
+        - Room
+      parameters:
+        - name: roomID
+          in: path
+          required: true
+          description: ID of the room
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Return room by id
+  /room/all-rooms/user/{userID}:
+    get:
+      description: Returns all rooms by user
+      tags:
+        - Room
+      parameters:
+        - name: userID
+          in: path
+          required: true
+          description: ID of the user
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns all rooms by user
+  /room/create-room:
+      post:
+        description: Create room
+        tags:
+          - Room
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  sender:
+                    type: string
+                  receiver:
+                    type: string
+        responses:
+          '200':
+            description: Room created successfully
+            content:
+              application/json:
+                schema: 
+                  $ref: '#/##/models/ChatRoom'
+                example:
+                  id: 1
+                  name: My Room
+                  participants: [
+                    "senderID",
+                    "receiverID"
+                  ]
+                  settings:
+                    notifications: true
+                    sound: true
+                    theme: light
+                    private: false
+                  isAdmin: false
+                  createdAt: 2024-01-05T10:21:13.131Z,
+                  updatedAt: 2024-01-05T10:29:18.978Z,
+  /room/join-room/{roomID}/user/{userID}:
+      post:
+        description: Join room
+        tags:
+          - Room
+        parameters:
+          - name: roomID
+            in: path
+            required: true
+            description: ID of the room
+          - name: userID
+            in: path
+            required: true
+            description: ID of the user
+        responses:
+          '200':
+            description: Joined room successfully
+            content:
+              application/json:
+                schema: 
+                  $ref: '#/##/models/ChatRoom'
+                example:
+                  roomAfterJoined:
+                    id: 1,
+                    settings:
+                        sound: true,
+                        theme: light,
+                        private: false,
+                        notifications: true
+                    _id: 6597d819c065bcb1b3b6209d,
+                    name: a,
+                    participants: 
+                        null,
+                        null,
+                        645c670088c103688d95dcc2
+                    isAdmin: false,
+                    createdAt: 2024-01-05T10:21:13.131Z,
+                    updatedAt: 2024-01-05T10:29:18.978Z,
+  /room/{roomID}/remove-user/{userID}:
+      delete:
+        description: Delete participant from room
+        tags:
+          - Room
+        parameters:
+          - name: roomID
+            in: path
+            required: true
+            description: ID of the room
+          - name: userID
+            in: path
+            required: true
+            description: ID of the user
+        responses:
+          '200':
+            description: Deleted participant from room successfully
+  /room/delete/{roomID}:
+      delete:
+        description: Delete room
+        tags:
+          - Room
+        parameters:
+          - name: roomID
+            in: path
+            required: true
+            description: ID of the room
+        responses:
+          '200':
+            description: Deleted room successfully
