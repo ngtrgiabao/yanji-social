@@ -17,11 +17,31 @@ const FontSizeTheme = () => {
       <div>
         <h6>Aa</h6>
         <div className="choose-size d-flex justify-content-between align-items-center">
-          <ChooseFontSizeBtn fontSizeName="fs-1" fontSize={fontSize} onFontSizeChange={handleFontSizeChange} />
-          <ChooseFontSizeBtn fontSizeName="fs-2" fontSize={fontSize} onFontSizeChange={handleFontSizeChange} />
-          <ChooseFontSizeBtn fontSizeName="fs-3" fontSize={fontSize} onFontSizeChange={handleFontSizeChange} />
-          <ChooseFontSizeBtn fontSizeName="fs-4" fontSize={fontSize} onFontSizeChange={handleFontSizeChange} />
-          <ChooseFontSizeBtn fontSizeName="fs-5" fontSize={fontSize} onFontSizeChange={handleFontSizeChange} />
+          <ChooseFontSizeBtn
+            fontSizeName="fs-1"
+            fontSize={fontSize}
+            onFontSizeChange={handleFontSizeChange}
+          />
+          <ChooseFontSizeBtn
+            fontSizeName="fs-2"
+            fontSize={fontSize}
+            onFontSizeChange={handleFontSizeChange}
+          />
+          <ChooseFontSizeBtn
+            fontSizeName="fs-3"
+            fontSize={fontSize}
+            onFontSizeChange={handleFontSizeChange}
+          />
+          <ChooseFontSizeBtn
+            fontSizeName="fs-4"
+            fontSize={fontSize}
+            onFontSizeChange={handleFontSizeChange}
+          />
+          <ChooseFontSizeBtn
+            fontSizeName="fs-5"
+            fontSize={fontSize}
+            onFontSizeChange={handleFontSizeChange}
+          />
         </div>
         <h3>Aa</h3>
       </div>

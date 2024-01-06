@@ -8,54 +8,54 @@ const ImageController = require("../controllers/image.controller");
 const AudioController = require("../controllers/audio.controller");
 
 router.get("/", (req, res) => {
-    res.send({ msg: "Hello from user :D" });
+  res.send({ msg: "Hello from user :D" });
 });
 router.get("/all-users", UserController.getAllUsers);
 router.get("/:userID", UserMiddleware.validateUserById, UserController.getUser);
 router.get(
-    "/:userID/shared",
-    UserMiddleware.validateUserById,
-    UserController.getPostsShared
+  "/:userID/shared",
+  UserMiddleware.validateUserById,
+  UserController.getPostsShared,
 );
 router.get(
-    "/:userID/saved",
-    UserMiddleware.validateUserById,
-    UserController.getPostsSaved
+  "/:userID/saved",
+  UserMiddleware.validateUserById,
+  UserController.getPostsSaved,
 );
 router.get(
-    "/:userID/quantity/image",
-    UserMiddleware.validateUserById,
-    ImageController.fetchUserSpecificImageQuantity
+  "/:userID/quantity/image",
+  UserMiddleware.validateUserById,
+  ImageController.fetchUserSpecificImageQuantity,
 );
 router.get(
-    "/:userID/quantity/audio",
-    UserMiddleware.validateUserById,
-    AudioController.fetchUserSpecificAudioQuantity
+  "/:userID/quantity/audio",
+  UserMiddleware.validateUserById,
+  AudioController.fetchUserSpecificAudioQuantity,
 );
 
 router.post(
-    "/register",
-    UserMiddleware.validateRegisterUser,
-    UserController.register
+  "/register",
+  UserMiddleware.validateRegisterUser,
+  UserController.register,
 );
 router.post("/login", UserMiddleware.validateLoginUser, UserController.login);
 
 router.put(
-    "/update/:userID",
-    UserMiddleware.validateUserById,
-    UserController.updateUser
+  "/update/:userID",
+  UserMiddleware.validateUserById,
+  UserController.updateUser,
 );
 router.put(
-    "/:userID/follow",
-    UserMiddleware.validateUserById,
-    UserController.followUser
+  "/:userID/follow",
+  UserMiddleware.validateUserById,
+  UserController.followUser,
 );
 
 router.delete("/delete-all", UserController.deleteAllUsers);
 router.delete(
-    "/delete/:userID",
-    UserMiddleware.validateUserById,
-    UserController.deleteUser
+  "/delete/:userID",
+  UserMiddleware.validateUserById,
+  UserController.deleteUser,
 );
 
 module.exports = router;

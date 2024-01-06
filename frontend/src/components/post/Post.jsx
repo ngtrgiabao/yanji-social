@@ -212,7 +212,7 @@ const Post = ({
       .catch((error) => {
         console.error("Failed to like post", error);
       });
-  }
+  };
 
   const handleSharePost = () => {
     sharePost(post, dispatch)
@@ -241,7 +241,7 @@ const Post = ({
       .catch((error) => {
         console.error("Failed to share post", error);
       });
-  }
+  };
 
   const handleSavePost = (postID) => {
     const updatedUser = {
@@ -256,7 +256,7 @@ const Post = ({
       .catch((err) => {
         console.error("Failed to save", err);
       });
-  }
+  };
 
   const handleDeletePost = (postID) => {
     deletePost(postID, dispatch)
@@ -269,7 +269,7 @@ const Post = ({
       });
 
     handleDeletePopup();
-  }
+  };
 
   const handlePost = {
     likePost: handleLikePost,
@@ -389,7 +389,7 @@ const Post = ({
           {/* share */}
           <span
             className="d-flex justify-content-center align-items-center share flex-fill p-1 post-action__btn rounded-2"
-            onClick={() => handlePost["sharePost"]}
+            onClick={() => handlePost["sharePost"]()}
             title="Share"
             data-share
           >
@@ -431,7 +431,7 @@ const Post = ({
           {/* like */}
           <span
             className="d-flex justify-content-center align-items-center heart flex-fill p-1 post-action__btn rounded-2 overflow-hidden"
-            onClick={() => handlePost["likePost"]}
+            onClick={() => handlePost["likePost"]()}
             title="Like"
             data-like
           >

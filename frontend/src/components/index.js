@@ -26,6 +26,8 @@ export { default as SocialMediaInput } from "./input/SocialMediaInput ";
 export { default as UserInfoPopup } from "./popup/UserInfoPopup";
 export { default as YoutubeEmbed } from "./embed/YoutubeEmbed";
 export { default as Photo } from "./media/Photo";
-export {default as ChooseColorBtn } from "./button/ChooseColorBtn"
-export {default as ChooseFontSizeBtn} from "./button/ChooseFontSizeBtn"
-export {default as ChooseBgBtn} from "./button/ChooseBgBtn"
+export { default as ChooseColorBtn } from "./button/ChooseColorBtn";
+export { default as ChooseFontSizeBtn } from "./button/ChooseFontSizeBtn";
+export { default as ChooseBgBtn } from "./button/ChooseBgBtn";
+export { default as EmojiPicker } from "./emoji-picker/EmojiPicker";
+export { default as Avatar } from "./avatar/Avatar";

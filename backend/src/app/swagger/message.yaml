@@ -1,0 +1,136 @@
+paths:
+  /message:
+    get:
+      tags:
+        - Message
+      responses:
+        '200':
+          description: Hello from message :D
+  /message/get-message/{msgID}:
+    get:
+      description: Get a message
+      tags:
+        - Message
+      parameters:
+        - name: msgID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Get message successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/##/models/Message'
+                example:
+                  msg: "Get message successfully"
+                  data:
+                    message: "string"
+  /message/all-messages/room/{roomID}:
+    get:
+      description: Returns all messagea from a room
+      tags:
+        - Message
+      parameters:
+        - name: roomID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Get all messagea successfully
+  /message/send-message:
+    post:
+      description: Send a message
+      tags:
+        - Message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                roomId:
+                  type: string
+                sender:
+                  type: string
+                media:
+                  type: string
+                file:
+                  type: string
+      responses:
+        '200':
+          description: Send message successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/##/models/Message'
+                example:
+                  msg: "User: 644b3bb612cff854060609dd send message success"
+                  data:
+                    message: "string"
+                    roomId: "64afabf642463bae8205c34a"
+                    media: "string"
+                    file: "string"
+                    sender: "644b3bb612cff854060609dd"
+                    isRead: false
+                    isEdited: false
+                    isDeleted: false
+                    _id: "659821e7d63693309c373ea4"
+                    createdAt: "2024-01-05T15:36:07.783Z"
+                    updatedAt: "2024-01-05T15:36:07.783Z"
+                    __v: 0
+  /message/update-message/{msgID}:
+    put:
+      description: Updated a message
+      tags:
+        - Message
+      parameters:
+        - name: msgID
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+      responses:
+        '200':
+          description: Updated message successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/##/models/Message'
+                example:
+                  msg: "User: 644b3bb612cff854060609dd send message success"
+                  data:
+                    message: "string"
+                    roomId: "64afabf642463bae8205c34a"
+                    media: "string"
+                    file: "string"
+                    sender: "644b3bb612cff854060609dd"
+                    isRead: false
+                    isEdited: false
+                    isDeleted: false
+                    _id: "659821e7d63693309c373ea4"
+                    createdAt: "2024-01-05T15:36:07.783Z"
+                    updatedAt: "2024-01-05T15:36:07.783Z"
+                    __v: 0
+  /message/delete-message/{msgID}:
+    delete:
+      description: Deleted a message
+      tags:
+        - Message
+      parameters:
+        - name: msgID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Deleted message successfully

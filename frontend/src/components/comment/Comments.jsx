@@ -155,6 +155,7 @@ const Comments = ({ postID, author, socket }) => {
               style={{
                 objectFit: "cover",
               }}
+              className="w-100"
             />
           ) : (
             <>{user.username || currentUser.username}</>

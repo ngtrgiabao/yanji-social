@@ -1,0 +1,8 @@
+paths:
+  /block-list:
+    get:
+      tags:
+        - Block list
+      responses:
+        '200':
+          description: Hello from block list :D
