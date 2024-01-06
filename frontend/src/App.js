@@ -186,6 +186,14 @@ function App() {
                   </Suspense>
                 }
               />
+              <Route
+                path="/admin"
+                element={
+                  <Suspense fallback={<LoadingPage />}>
+                    <LoginPage />
+                  </Suspense>
+                }
+              />
             </Routes>
           ) : (
             <NetworkError />

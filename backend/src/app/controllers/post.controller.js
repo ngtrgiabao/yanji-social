@@ -3,6 +3,7 @@ const UserModel = require("../models/user.model");
 const { deleteImageByID, uploadImageByUserID } = require("./image.controller");
 const { deleteVideoByID, uploadVideoByUserID } = require("./video.controller");
 
+
 const uploadPost = async (req, res) => {
     try {
         const { userID, desc, img, video } = req.body;
@@ -11,6 +12,7 @@ const uploadPost = async (req, res) => {
             desc,
             img,
             video,
+           pinned: pinned || false, //Add
         });
 
         if (img) {
@@ -61,7 +63,7 @@ const getAllPostsByUser = async (req, res) => {
     try {
         const posts = await PostModel.find({
             userID,
-        }).sort({ createdAt: -1 });
+        }).sort({createdAt: -1 }); //Add pinned -1
         const countPosts = await PostModel.countDocuments();
 
         return res.status(200).json({
@@ -84,10 +86,10 @@ const getAllPosts = async (req, res) => {
         const posts =
             limit || skip
                 ? await PostModel.find({})
-                      .sort({ createdAt: -1 })
+                      .sort({createdAt: -1 }) //Add pinned -1
                       .limit(limit)
                       .skip(skip)
-                : await PostModel.find({}).sort({ createdAt: -1 });
+                : await PostModel.find({}).sort({createdAt: -1 });
 
         const countPosts = await PostModel.countDocuments();
 
