@@ -13,6 +13,7 @@ import {
   faRepeat,
   faBookmark as bookmarked,
   faCircleCheck,
+  faLink,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import io from "socket.io-client";
@@ -39,6 +40,7 @@ import { pushNewNotification } from "../../redux/request/notificationRequest";
 import { LIKE_POST, SHARE_POST } from "../../business/noti.type";
 import ConfirmDialog from "../dialog/ConfirmDialog";
 import Photo from "../media/Photo";
+import useCopyUrl from "../../hooks/useCopyUrl";
 
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 // TODO FIX POPUP WHEN DELETE POST NOT WORK CORRECTLY
@@ -55,7 +57,7 @@ const Post = ({
   shares,
   comments,
   socket,
-  handleDeletePopup = () => {},
+  handleDeletePopup = () => { },
   isDisableComment = false,
 }) => {
   const [popup, setPopup] = useState("");
@@ -299,6 +301,17 @@ const Post = ({
             </span>
             Edit this post
           </li>
+          <li
+            onClick={(e) => {
+              e.stopPropagation();
+              useCopyUrl("http://localhost:3000/post/" + postID);
+            }}
+          >
+            <span className="fs-2">
+              <FontAwesomeIcon icon={faLink} />
+            </span>
+            Copy url
+          </li>
         </ul>
       </div>
     );
@@ -352,7 +365,7 @@ const Post = ({
               </div>
             </div>
             <span>
-              <>@{user.username}</>
+              <>@{user?.username || "loading..."}</>
             </span>
           </Link>
         </div>
@@ -389,7 +402,7 @@ const Post = ({
           {/* share */}
           <span
             className="d-flex justify-content-center align-items-center share flex-fill p-1 post-action__btn rounded-2"
-            onClick={() => handlePost["sharePost"]}
+            onClick={() => handlePost["sharePost"]()}
             title="Share"
             data-share
           >
@@ -431,7 +444,7 @@ const Post = ({
           {/* like */}
           <span
             className="d-flex justify-content-center align-items-center heart flex-fill p-1 post-action__btn rounded-2 overflow-hidden"
-            onClick={() => handlePost["likePost"]}
+            onClick={() => handlePost["likePost"]()}
             title="Like"
             data-like
           >
