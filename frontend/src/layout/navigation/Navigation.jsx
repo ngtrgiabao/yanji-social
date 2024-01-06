@@ -14,10 +14,10 @@ import { getUserByID } from "../../redux/request/userRequest";
 
 const Navigation = ({ title, link, isSearch = true }) => {
   const [users, setUsers] = useState([]);
-  const [user, setUser] = useState({
-    userID: "",
-    profilePicture: "",
-  });
+  // const [user, setUser] = useState({
+  //   userID: "",
+  //   profilePicture: "",
+  // });
   const currentUser = useSelector((state) => {
     return state.auth.login.currentUser?.data;
   });
@@ -29,18 +29,18 @@ const Navigation = ({ title, link, isSearch = true }) => {
     logout(dispatch, navigate);
   };
 
-  useEffect(() => {
-    currentUser &&
-      getUserByID(currentUser._id, dispatch).then((data) => {
-        if (data) {
-          const { _id, profilePicture } = data.user;
-          setUser({
-            userID: _id,
-            profilePicture: profilePicture,
-          });
-        }
-      });
-  }, [currentUser, dispatch]);
+  // useEffect(() => {
+  //   currentUser &&
+  //     getUserByID(currentUser._id, dispatch).then((data) => {
+  //       if (data) {
+  //         const { _id, profilePicture } = data.user;
+  //         setUser({
+  //           userID: _id,
+  //           profilePicture: profilePicture,
+  //         });
+  //       }
+  //     });
+  // }, [currentUser, dispatch]);
 
   const renderSwitchBtn = () => {
     return currentUser ? (
@@ -140,20 +140,20 @@ const Navigation = ({ title, link, isSearch = true }) => {
             {currentUser && (
               <Link
                 aria-label="Avatar user"
-                to={currentUser ? `/user/${user.userID}` : "/"}
+                to={currentUser ? `/user/${currentUser?._id}` : "/"}
                 className="profile-pic ms-4 border border-2 border-white text-white"
               >
-                {user.profilePicture ? (
+                {currentUser?.profilePicture ? (
                   <img
                     loading="lazy"
                     role="presentation"
                     decoding="async"
                     className="w-100"
-                    src={user.profilePicture}
+                    src={currentUser?.profilePicture}
                     alt="Avatar user"
                   />
                 ) : (
-                  <>{currentUser.username}</>
+                  <>{currentUser?.username}</>
                 )}
               </Link>
             )}

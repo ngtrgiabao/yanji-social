@@ -18,6 +18,8 @@ const Home = ({ socket }) => {
   const [isReadNotification, setIsReadNotification] = useState(false);
   const dispatch = useDispatch();
 
+  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+
   const handleSocket = {
     notification: useCallback(
       (data) => {
@@ -50,8 +52,6 @@ const Home = ({ socket }) => {
         }
       });
   }, [currentUser, dispatch]);
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
   useEffect(() => {
     socket = io(SOCKET_URL);

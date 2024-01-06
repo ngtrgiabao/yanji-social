@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
@@ -7,7 +8,6 @@ import "./style/messagesRight.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getUserByID } from "../../redux/request/userRequest";
-import { Link } from "react-router-dom";
 
 const MessagesRight = () => {
   const [currentConversation, setCurrentConversation] = useState(null);
@@ -59,7 +59,7 @@ const MessagesRight = () => {
     return (
       <div className="d-flex flex-column align-items-center mb-4">
         <div
-          className="right-container-header rounded rounded-circle overflow-hidden d-flex justify-content-center align-items-center fs-3 fw-bold"
+          className="right-container-header rounded rounded-circle overflow-hidden d-flex justify-content-center align-items-center fs-3 fw-bold text-white"
           style={{
             background: "var(--color-primary)",
           }}

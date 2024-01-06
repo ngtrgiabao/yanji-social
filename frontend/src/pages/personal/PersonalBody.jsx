@@ -66,7 +66,7 @@ const PersonalBody = ({
     deletePost: useCallback((data) => {
       const { _id } = data;
       setPosts((prevPosts) => {
-        const updatedPosts = prevPosts.filter((p) => p._id !== _id);
+        const updatedPosts = prevPosts.filter((p) => p?._id !== _id);
         return updatedPosts;
       });
     }, []),
