@@ -1,0 +1,110 @@
+paths:
+  /notification/{notiID}:
+      get:
+        description: Get notification by ID
+        tags:
+          - Notification
+        parameters:
+          - name: notiID
+            in: path
+            required: true
+        responses:
+          '200':
+            description: Get notification by ID successfully
+  /notification/all/user/{userID}:
+    get:
+      description: Returns all notifications for a specific user
+      tags:
+        - Notification
+      parameters:
+        - name: userID
+          in: path
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit of notifications
+          example: 5
+          required: true
+          schema:
+            type: number
+        - name: skip
+          in: query
+          description: Skip of notifications
+          example: 5
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Get all notifications successfully
+  /notification/new:
+    post:
+      description: Create new notification
+      tags:
+        - Notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sender:
+                  type: string
+                receiver:
+                  type: string
+                type:
+                  type: number
+      responses:
+        '200':
+          description: Create new notification successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/##/models/Notification"
+              example:
+                msg: "New noti created successfully"
+                data:
+                  sender: "64925d0a9f940ad13dc3d926"
+                  receiver: "64daf202df8b91bc0b1203d0"
+                  type: 9
+                  isRead: false
+                  _id: "65981924ffceff88b81ae4ad"
+                  createdAt: "2024-01-05T14:58:44.442Z"
+                  updatedAt: "2024-01-05T14:58:44.442Z"
+  /notification/mark-seen/{notiID}:
+      put:
+        description: Mark seen notification
+        tags:
+          - Notification
+        parameters:
+          - name: notiID
+            in: path
+            required: true
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isRead:
+                    type: boolean
+        responses:
+          '200':
+            description: Mark seen notification successfully
+  /notification/delete/{notiID}:
+      delete:
+        description: Delete notification
+        tags:
+          - Notification
+        parameters:
+          - name: notiID
+            in: path
+            required: true
+        responses:
+          '200':
+            description: Delete notification successfully

@@ -1,4 +1,4 @@
-import Navigation from "../../layout/navigation/Navigation";
+import Navigation from "../../shared/layout/navigation/Navigation";
 
 function Explore() {
   return (

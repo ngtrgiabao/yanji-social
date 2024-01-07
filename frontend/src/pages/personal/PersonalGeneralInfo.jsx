@@ -50,7 +50,7 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
     }
   };
 
-  const handleClostPopup = () => {
+  const handleClosePopup = () => {
     setActive("");
   };
 
@@ -61,7 +61,7 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
         hidden={active !== "FOLLOWER_LIST"}
         onClick={() => setActive("")}
       >
-        <FollowerList userInfo={userInfo} close={handleClostPopup} />
+        <FollowerList userInfo={userInfo} close={handleClosePopup} />
       </div>
     );
   };
@@ -101,7 +101,9 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
           >
             <span>
               <div className="d-flex align-items-center">
-                <span className="name">{userInfo?.username || "User"}</span>
+                <span className="name">
+                  {userInfo?.username || "loading..."}
+                </span>
                 {userInfo?.isVerify && (
                   <FontAwesomeIcon
                     className="ms-2 fs-3 bg-white rounded rounded-circle text-primary"

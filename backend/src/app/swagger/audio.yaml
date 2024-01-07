@@ -1,0 +1,96 @@
+paths:
+  /audio:
+    get:
+      tags:
+        - Audio
+      responses:
+        '200':
+          description: Hello from audio :D
+  /audio/all-audios/{userID}:
+    get:
+      tags:
+        - Audio
+      parameters:
+        - name: userID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Successfully
+  /audio/{audioID}:
+    get:
+      tags:
+        - Audio
+      parameters:
+        - name: audioID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Successfully
+  /audio/upload:
+    post:
+      tags:
+        - Audio      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                audioUrl:
+                  type: string
+                userID:
+                  type: string
+                cover:
+                  type: string
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Successfully
+  /audio/update/{audioID}:
+    put:
+      tags:
+        - Audio
+      parameters:
+        - name: audioID
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: 
+                audioUrl:
+                  type: string
+                cover:
+                  type: string
+      responses:
+        '200':
+          description: Successfully
+  /audio/delete/{audioID}:
+    delete:
+      tags:
+        - Audio
+      parameters:
+        - name: audioID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Successfully
+  /audio/delete/all-audios/{userID}:
+    delete:
+      tags:
+        - Audio
+      parameters:
+        - name: userID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Successfully

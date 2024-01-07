@@ -70,8 +70,7 @@
   .middle-container-body__left-message-content {
   /* width: max-content; */
   max-width: 50%;
-  background: red;
-
+  overflow: hidden;
   border-radius: var(--card-border-radius);
 }
 
@@ -120,8 +119,16 @@
   .middle-container-body
   .middle-container-body__right-text
   .middle-container-body__right-message-content {
-  background: var(--color-primary);
+  border: 1px solid var(--border-color);
+}
+
+.middle-container
+  .middle-container-body
+  .middle-container-body__right-text
+  .middle-container-body__right-message-content
+  .middle-container-body__right-message-content-text {
   color: var(--white);
+  background: var(--color-primary);
 }
 
 .middle-container

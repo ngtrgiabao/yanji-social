@@ -1,6 +1,7 @@
 import "./style/fontSize.css";
 
-import { useTheme } from "../../../hooks";
+import { useTheme } from "../../../shared/hooks";
+import { ChooseFontSizeBtn } from "../../../components";
 
 const FontSizeTheme = () => {
   const { setFontSizes } = useTheme();
@@ -16,26 +17,31 @@ const FontSizeTheme = () => {
       <div>
         <h6>Aa</h6>
         <div className="choose-size d-flex justify-content-between align-items-center">
-          <span
-            className={"fs-1" + (fontSize === "fs-1" ? " active" : "")}
-            onClick={() => handleFontSizeChange("fs-1")}
-          ></span>
-          <span
-            className={"fs-2" + (fontSize === "fs-2" ? " active" : "")}
-            onClick={() => handleFontSizeChange("fs-2")}
-          ></span>
-          <span
-            className={"fs-3" + (fontSize === "fs-3" ? " active" : "")}
-            onClick={() => handleFontSizeChange("fs-3")}
-          ></span>
-          <span
-            className={"fs-4" + (fontSize === "fs-4" ? " active" : "")}
-            onClick={() => handleFontSizeChange("fs-4")}
-          ></span>
-          <span
-            className={"fs-5" + (fontSize === "fs-5" ? " active" : "")}
-            onClick={() => handleFontSizeChange("fs-5")}
-          ></span>
+          <ChooseFontSizeBtn
+            fontSizeName="fs-1"
+            fontSize={fontSize}
+            onFontSizeChange={handleFontSizeChange}
+          />
+          <ChooseFontSizeBtn
+            fontSizeName="fs-2"
+            fontSize={fontSize}
+            onFontSizeChange={handleFontSizeChange}
+          />
+          <ChooseFontSizeBtn
+            fontSizeName="fs-3"
+            fontSize={fontSize}
+            onFontSizeChange={handleFontSizeChange}
+          />
+          <ChooseFontSizeBtn
+            fontSizeName="fs-4"
+            fontSize={fontSize}
+            onFontSizeChange={handleFontSizeChange}
+          />
+          <ChooseFontSizeBtn
+            fontSizeName="fs-5"
+            fontSize={fontSize}
+            onFontSizeChange={handleFontSizeChange}
+          />
         </div>
         <h3>Aa</h3>
       </div>

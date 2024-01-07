@@ -21,7 +21,7 @@ import { getUserByID } from "../../redux/request/userRequest";
 
 // SETTINGS
 import { CustomTheme, PostPopup, Setting } from "../../components";
-import Button from "../../components/Button";
+import { Button } from "../../components";
 
 const HomeLeft = ({ socket, isReadNotification }) => {
   const [active, setActive] = useState("HOME");
@@ -160,7 +160,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
             </p>
           </div>
         </Link>
-        
+
         {/* SIDEBAR */}
         <div className="sidebar mt-3">
           <Button

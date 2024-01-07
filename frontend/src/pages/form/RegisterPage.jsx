@@ -6,7 +6,7 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
 import "./style/registerPage.css";
 
-import Navigation from "../../layout/navigation/Navigation";
+import Navigation from "../../shared/layout/navigation/Navigation";
 import { registerUser } from "../../redux/request/authRequest";
 
 import { USER_REGEX, PSW_REGEX, EMAIL_REGEX } from "../../utils/regex";

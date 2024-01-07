@@ -6,22 +6,9 @@ import {
   faVideo,
   faPhone,
   faCircleInfo,
-  faImage,
-  faFaceLaughBeam,
-  faX,
   faCircleCheck as seenIcon,
-  faPaperclip,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  faPaperPlane,
-  faCircleCheck as unseenIcon,
-} from "@fortawesome/free-regular-svg-icons";
-import Picker from "@emoji-mart/react";
-import data from "@emoji-mart/data";
 import { Link } from "react-router-dom";
-// import MagicBell, {
-//     FloatingNotificationInbox,
-// } from "@magicbell/magicbell-react";
 
 import "./style/messagesMiddle.css";
 
@@ -34,12 +21,13 @@ import {
   markMessageSeen,
 } from "../../redux/request/messageRequest";
 
-import { Message } from "../../components";
-import { useTimeAgo, useUploadImage, useDownloadImage } from "../../hooks";
+import { Avatar, EmojiPicker, Message } from "../../components";
+import { useUploadImage, useDownloadImage } from "../../shared/hooks";
 import { ConfirmDialog, PreviewImage } from "../../components";
 import { getUserByID } from "../../redux/request/userRequest";
 import { NEW_MSG } from "../../business/noti.type";
 import { pushNewNotification } from "../../redux/request/notificationRequest";
+import MessageFooter from "./MessageFooter";
 
 const MessagesMiddle = ({ socket }) => {
   const [edit, setEdit] = useState(false);
@@ -59,7 +47,6 @@ const MessagesMiddle = ({ socket }) => {
   const downloadImage = useDownloadImage(imgSrc);
   const dispatch = useDispatch();
 
-  const formatTime = useTimeAgo;
   const cloudStorage = useUploadImage;
 
   const socketRef = useRef(null);
@@ -88,11 +75,11 @@ const MessagesMiddle = ({ socket }) => {
       [currentConversation],
     ),
     updatedMessage: useCallback((data) => {
-      const { msgID } = data;
+      const { _id } = data;
 
       setMessageThread((prevMessageThread) => {
         const updatedThread = prevMessageThread.map((message) =>
-          message._id === msgID ? data : message,
+          message._id === _id ? data : message,
         );
         return updatedThread;
       });
@@ -171,7 +158,7 @@ const MessagesMiddle = ({ socket }) => {
     if (currentRoom && !isCancelled) {
       const roomData = currentRoom.data;
 
-      // This conditional will filter one room in list of rooms
+      // filter one room in list of rooms
       if (roomData?._id) {
         const value = roomData._id;
         setFriendID(roomData.participants.filter((p) => p !== sender._id));
@@ -184,125 +171,141 @@ const MessagesMiddle = ({ socket }) => {
     };
   }, [currentRoom]);
 
+  const handleChangeInputMsg = (e) => {
+    setMessage(e.target.value);
+  };
+
+  const handleSubmitSendMessage = (e) => {
+    e.preventDefault();
+
+    const trimmedMsg = message.trim();
+
+    setMessage("");
+
+    if (currentConversation && trimmedMsg.length > 0) {
+      const newMessage = {
+        sender: sender._id,
+        message: trimmedMsg,
+        time: time,
+        roomId: currentConversation,
+      };
+
+      sendMessage(newMessage, dispatch)
+        .then(async (data) => {
+          if (message) {
+            await socketRef.current.emit("send-message", data.data);
+            setMessage("");
+
+            socket = io(SOCKET_URL);
+
+            const notification = {
+              sender: sender._id,
+              receiver: friendID,
+              type: NEW_MSG,
+            };
+
+            pushNewNotification(notification, dispatch)
+              .then((data) => {
+                socket.emit("push-notification", data.data);
+              })
+              .catch((err) => {
+                console.error("Failed to create new notification", err);
+              });
+          }
+        })
+        .catch((error) => {
+          alert("Failed to send message");
+          console.error("Failed to send message", error);
+        });
+    }
+  };
+
+  const handleUpdateMessage = async (msgID) => {
+    setMessageID(msgID);
+
+    await getMessageByID(msgID, dispatch).then((data) => {
+      setMessage(data?.data.message);
+      setOldMessage(data?.data.message);
+    });
+
+    setEdit(true);
+  };
+
+  const handleDeleteMessage = async (msgID) => {
+    setMessageID(msgID);
+
+    setActive("DELETE_MSG");
+  };
+
+  const handleMarkMessageSeen = async (data) => {
+    const friendMsg = data.messages.filter((m) => m.sender !== sender._id);
+    const messageKeys = Object.keys(friendMsg);
+    const latestMessageKey = messageKeys[messageKeys.length - 1];
+    if (latestMessageKey) {
+      const latestMessage = friendMsg[latestMessageKey];
+      const markMsg = {
+        ...latestMessage,
+        msgID: latestMessage._id,
+        isRead: true,
+      };
+      await markMessageSeen(markMsg, dispatch);
+    }
+  };
+
+  const handleSendEmoji = (e) => {
+    const sym = e.unified.split("_");
+    const codeArray = [];
+
+    sym.forEach((el) => codeArray.push("0x" + el));
+    let emoji = String.fromCodePoint(...codeArray);
+
+    setMessage(message + emoji);
+  };
+
+  const handlePreviewImageBeforeUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = reader.result;
+        setBase64Image(base64);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSendLike = (emoji) => {
+    if (currentConversation) {
+      const newMessage = {
+        sender: sender._id,
+        message: emoji,
+        time: time,
+        roomId: currentConversation,
+      };
+
+      sendMessage(newMessage, dispatch)
+        .then(async () => {
+          if (message) {
+            await socketRef.current.emit("send-message", newMessage);
+            setMessage("");
+          }
+        })
+        .catch((error) => {
+          alert("Failed to send message");
+          console.error("Failed to send message", error);
+        });
+    }
+  };
+
   const handleMsg = {
-    changeInputMsg: (e) => {
-      setMessage(e.target.value);
-    },
-    submit: (e) => {
-      e.preventDefault();
-
-      const trimmedMsg = message.trim();
-
-      setMessage("");
-
-      if (currentConversation && trimmedMsg.length > 0) {
-        const newMessage = {
-          sender: sender._id,
-          message: trimmedMsg,
-          time: time,
-          roomId: currentConversation,
-        };
-
-        sendMessage(newMessage, dispatch)
-          .then(async (data) => {
-            if (message) {
-              await socketRef.current.emit("send-message", data.data);
-              setMessage("");
-
-              socket = io(SOCKET_URL);
-
-              const notification = {
-                sender: sender._id,
-                receiver: friendID,
-                type: NEW_MSG,
-              };
-
-              pushNewNotification(notification, dispatch)
-                .then((data) => {
-                  socket.emit("push-notification", data.data);
-                })
-                .catch((err) => {
-                  console.error("Failed to create new notification", err);
-                });
-            }
-          })
-          .catch((error) => {
-            alert("Failed to send message");
-            console.error("Failed to send message", error);
-          });
-      }
-    },
-    updateMsg: async (msgID) => {
-      setMessageID(msgID);
-
-      await getMessageByID(msgID, dispatch).then((data) => {
-        setMessage(data?.data.message);
-        setOldMessage(data?.data.message);
-      });
-
-      setEdit(true);
-    },
-    deleteMsg: async (msgID) => {
-      setMessageID(msgID);
-
-      setActive("DELETE_MSG");
-    },
-    markMsgSeen: async (data) => {
-      const friendMsg = data.messages.filter((m) => m.sender !== sender._id);
-      const messageKeys = Object.keys(friendMsg);
-      const latestMessageKey = messageKeys[messageKeys.length - 1];
-      if (latestMessageKey) {
-        const latestMessage = friendMsg[latestMessageKey];
-        const markMsg = {
-          ...latestMessage,
-          msgID: latestMessage._id,
-          isRead: true,
-        };
-        await markMessageSeen(markMsg, dispatch);
-      }
-    },
-    sendEmoji: (e) => {
-      const sym = e.unified.split("_");
-      const codeArray = [];
-
-      sym.forEach((el) => codeArray.push("0x" + el));
-      let emoji = String.fromCodePoint(...codeArray);
-
-      setMessage(message + emoji);
-    },
-    reviewImageBeforeUpload: (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const base64 = reader.result;
-          setBase64Image(base64);
-        };
-        reader.readAsDataURL(file);
-      }
-    },
-    sendLike: (emoji) => {
-      if (currentConversation) {
-        const newMessage = {
-          sender: sender._id,
-          message: emoji,
-          time: time,
-          roomId: currentConversation,
-        };
-
-        sendMessage(newMessage, dispatch)
-          .then(async () => {
-            if (message) {
-              await socketRef.current.emit("send-message", newMessage);
-              setMessage("");
-            }
-          })
-          .catch((error) => {
-            alert("Failed to send message");
-            console.error("Failed to send message", error);
-          });
-      }
-    },
+    changeInputMsg: (e) => handleChangeInputMsg(e),
+    submit: (e) => handleSubmitSendMessage(e),
+    updateMsg: (msgID) => handleUpdateMessage(msgID),
+    deleteMsg: (msgID) => handleDeleteMessage(msgID),
+    markMsgSeen: (data) => handleMarkMessageSeen(data),
+    sendEmoji: (e) => handleSendEmoji(e),
+    previewImageBeforeUpload: (e) => handlePreviewImageBeforeUpload(e),
+    sendLike: (emoji) => handleSendLike(emoji),
   };
 
   const handleDeleteMsg = async (msgID) => {
@@ -319,15 +322,14 @@ const MessagesMiddle = ({ socket }) => {
         setActive("");
         setEdit(false);
       } else {
-        const updateMsg = {
+        const updatedMsg = {
           msgID: messageID,
           message: message,
           sender: sender._id,
         };
 
-        updateMessage(updateMsg, dispatch).then(async () => {
-          await socketRef.current.emit("update-message", updateMsg);
-
+        updateMessage(updatedMsg, dispatch).then(async (data) => {
+          await socketRef.current.emit("update-message", data.data);
           setEdit(false);
           setMessage("");
         });
@@ -339,7 +341,7 @@ const MessagesMiddle = ({ socket }) => {
     e.preventDefault();
 
     if (message && !edit) {
-      handleMsg.submit(e);
+      handleMsg["submit"](e);
     } else {
       handleEditMsg();
     }
@@ -400,8 +402,8 @@ const MessagesMiddle = ({ socket }) => {
       };
 
       sendMessage(newMessage, dispatch)
-        .then(async () => {
-          await socketRef.current.emit("send-message", newMessage);
+        .then(async (data) => {
+          await socketRef.current.emit("send-message", data.data);
         })
         .catch((error) => {
           alert("Failed to send message");
@@ -436,14 +438,7 @@ const MessagesMiddle = ({ socket }) => {
         >
           <div className="profile-pic text-white">
             {friend.avatar ? (
-              <img
-                loading="lazy"
-                role="presentation"
-                decoding="async"
-                src={friend.avatar}
-                alt="Avatar user"
-                className="w-100"
-              />
+              <Avatar imageSrc={friend.avatar} label="Avatar user" />
             ) : (
               <>{friend.name}</>
             )}
@@ -451,20 +446,22 @@ const MessagesMiddle = ({ socket }) => {
           <span className="ms-2 fs-4 fw-bold">{friend.name}</span>
         </Link>
         <div className="d-flex fs-4">
-          <span
+          <Link
+            to={`https://meet-with-us.netlify.app/`}
             aria-label="Gọi điện"
             role="button"
             className="icon d-flex justify-content-center align-items-center rounded-circle"
           >
             <FontAwesomeIcon icon={faPhone} />
-          </span>
-          <span
+          </Link>
+          <Link
+            to={`https://meet-with-us.netlify.app/`}
             aria-label="Gọi video"
             role="button"
             className="icon d-flex justify-content-center align-items-center rounded-circle mx-4"
           >
             <FontAwesomeIcon icon={faVideo} />
-          </span>
+          </Link>
           <span
             aria-label="Xem thêm thông tin"
             role="button"
@@ -488,8 +485,8 @@ const MessagesMiddle = ({ socket }) => {
         content={message.message}
         createdAt={message.createdAt}
         updatedAt={message.updatedAt}
-        onUpdateMsg={() => handleMsg.updateMsg(message._id)}
-        onDeleteMsg={() => handleMsg.deleteMsg(message._id)}
+        onUpdateMsg={() => handleMsg["updateMsg"](message._id)}
+        onDeleteMsg={() => handleMsg["deleteMsg"](message._id)}
         onPreviewImage={() => handlePreviewImage(message.media)}
       />
     ));
@@ -501,24 +498,6 @@ const MessagesMiddle = ({ socket }) => {
         {renderMessages()}
         <div ref={scrollRef} />
       </div>
-    );
-  };
-
-  const renderLabelEditMessage = () => {
-    return (
-      <span
-        className="position-absolute bottom-100 bg-warning text-black h-100 p-3"
-        style={{
-          left: 10,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "max-content",
-          fontWeight: "bolder",
-        }}
-      >
-        Chỉnh sửa tin nhắn
-      </span>
     );
   };
 
@@ -552,152 +531,24 @@ const MessagesMiddle = ({ socket }) => {
     );
   };
 
-  const renderEmojiPicker = () => {
-    return (
-      <>
-        <div
-          className="position-absolute"
-          style={{
-            bottom: "120%",
-          }}
-          hidden={active !== "EMOJI"}
-        >
-          <Picker
-            data={data}
-            emojiSize={22}
-            emojiButtonSize={29}
-            maxFrequentRows={0}
-            onEmojiSelect={(e) => handleMsg.sendEmoji(e)}
-            locale="vi"
-            perLine={8}
-            previewPosition="none"
-          />
-        </div>
-        <span
-          className="icon fs-3 border-0"
-          aria-label="Chọn emoji"
-          role="button"
-          style={{
-            width: "2em",
-            height: "2em",
-            borderRadius: "0.5rem",
-            padding: "0.8rem",
-          }}
-          onClick={() => {
-            active !== "EMOJI" ? setActive("EMOJI") : setActive("");
-          }}
-        >
-          <FontAwesomeIcon icon={faFaceLaughBeam} />
-        </span>
-      </>
-    );
-  };
-
   const renderFooterConversation = () => {
     return (
-      <form
-        onSubmit={(e) => handleSubmit(e)}
-        className="middle-container-footer px-3 d-flex justify-content-between align-items-center"
-      >
-        <div className="d-flex justify-content-between position-relative">
-          <span
-            className="icon fs-3 border-0"
-            aria-label="Đính kèm tệp tin"
-            role="button"
-            style={{
-              width: "2em",
-              height: "2em",
-              borderRadius: "0.5rem",
-              padding: "0.8rem",
-            }}
-          >
-            <FontAwesomeIcon icon={faPaperclip} />
-          </span>
-
-          <span
-            className="icon fs-3 mx-3 border-0"
-            aria-label="Đính kèm file"
-            role="button"
-            style={{
-              width: "2em",
-              height: "2em",
-              borderRadius: "0.5rem",
-              padding: "0.8rem",
-            }}
-            onClick={() => {
-              handleUploadImage();
-              setActive("UPLOAD_IMAGE");
-            }}
-          >
-            <FontAwesomeIcon icon={faImage} />
-          </span>
-
-          <input
-            type="file"
-            name=""
-            id=""
-            ref={uploadImgRef}
-            hidden={true}
-            accept=".png, .jpg, .jpeg"
-            onChange={(e) => {
-              setImageSelected(e.target.files[0]);
-              handleMsg.reviewImageBeforeUpload(e);
-            }}
-          />
-
-          {/* Emoji picker */}
-          {renderEmojiPicker()}
-        </div>
-
-        <div className="user-input-chat position-relative mx-3" data-input>
-          {edit && renderLabelEditMessage()}
-          <input
-            type="text"
-            className="rounded py-2 px-3 fs-4"
-            placeholder="Text your message here..."
-            maxLength="3500"
-            style={{
-              border: "1px solid var(--color-primary)",
-            }}
-            value={message}
-            onChange={(e) => handleMsg.changeInputMsg(e)}
-            autoFocus
-          />
-        </div>
-
-        {edit ? (
-          <span
-            className="icon fs-3 d-flex justify-content-center border-0 align-items-center bg-danger"
-            style={{
-              width: "2em",
-              height: "2em",
-              borderRadius: "0.5rem",
-              padding: "0.8rem",
-            }}
-            aria-label="Hủy chỉnh sửa"
-            role="button"
-            onClick={() => handleCancelEditMsg()}
-          >
-            <FontAwesomeIcon icon={faX} />
-          </span>
-        ) : (
-          <span
-            className="icon fs-3 d-flex justify-content-center border-0 align-items-center"
-            style={{
-              width: "2em",
-              height: "2em",
-              borderRadius: "0.5rem",
-              padding: "0.8rem",
-            }}
-            aria-label="Gửi tin nhắn"
-            role="button"
-            type="submit"
-            onClick={handleSubmit}
-          >
-            <FontAwesomeIcon icon={faPaperPlane} />
-          </span>
-        )}
-      </form>
+      <MessageFooter
+        isEdit={edit}
+        messageContent={message}
+        activeState={active}
+        uploadImgRef={uploadImgRef}
+        onSubmit={handleSubmit}
+        onUploadImage={handleUploadImage}
+        onActive={setActive}
+        onImageSelected={setImageSelected}
+        onPreviewImageBeforeUpload={(e) =>
+          handleMsg["previewImageBeforeUpload"](e)
+        }
+        onSendEmoji={handleMsg["sendEmoji"]}
+        onChangeInputMsg={handleMsg["changeInputMsg"]}
+        onCancelEditMsg={handleCancelEditMsg}
+      />
     );
   };
 
@@ -731,14 +582,6 @@ const MessagesMiddle = ({ socket }) => {
   return (
     <>
       <div className="middle-msg-page position-relative">
-        {/* <MagicBell
-                    apiKey="84b8e554127e05465dcec54678d0f49859b4a548"
-                    userEmail="mary@example.com"
-                >
-                    {(props) => (
-                        <FloatingNotificationInbox height={500} {...props} />
-                    )}
-                </MagicBell> */}
         {renderPopupConfirmDeleteMsg()}
         {renderConversation()}
         {renderPopupConfirmUploadImg()}
