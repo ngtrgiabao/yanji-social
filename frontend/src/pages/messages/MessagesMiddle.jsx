@@ -9,9 +9,6 @@ import {
   faCircleCheck as seenIcon,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-// import MagicBell, {
-//     FloatingNotificationInbox,
-// } from "@magicbell/magicbell-react";
 
 import "./style/messagesMiddle.css";
 
@@ -450,20 +447,22 @@ const MessagesMiddle = ({ socket }) => {
           <span className="ms-2 fs-4 fw-bold">{friend.name}</span>
         </Link>
         <div className="d-flex fs-4">
-          <span
+          <Link
+            to={`https://meet-with-us.netlify.app/`}
             aria-label="Gọi điện"
             role="button"
             className="icon d-flex justify-content-center align-items-center rounded-circle"
           >
             <FontAwesomeIcon icon={faPhone} />
-          </span>
-          <span
+          </Link>
+          <Link
+            to={`https://meet-with-us.netlify.app/`}
             aria-label="Gọi video"
             role="button"
             className="icon d-flex justify-content-center align-items-center rounded-circle mx-4"
           >
             <FontAwesomeIcon icon={faVideo} />
-          </span>
+          </Link>
           <span
             aria-label="Xem thêm thông tin"
             role="button"
@@ -500,24 +499,6 @@ const MessagesMiddle = ({ socket }) => {
         {renderMessages()}
         <div ref={scrollRef} />
       </div>
-    );
-  };
-
-  const renderLabelEditMessage = () => {
-    return (
-      <span
-        className="position-absolute bottom-100 bg-warning text-black h-100 p-3"
-        style={{
-          left: 10,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "max-content",
-          fontWeight: "bolder",
-        }}
-      >
-        Chỉnh sửa tin nhắn
-      </span>
     );
   };
 
@@ -606,15 +587,6 @@ const MessagesMiddle = ({ socket }) => {
         {renderConversation()}
         {renderPopupConfirmUploadImg()}
         {renderPreviewPopupImage()}
-        {/* <MagicBell
-                apiKey="84b8e554127e05465dcec54678d0f49859b4a548"
-                userEmail="mary@example.com"
-            >
-                {(props) => (
-                    <FloatingNotificationInbox height={500} {...props} />
-                )}
-            </MagicBell> 
-        */}
       </div>
     </>
   );
