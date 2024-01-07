@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const FollowerCard = ({ userID, username, profilePicture, close }) => {
   return (
     <Link
-      to={`/user/${userID}`}
+      to={userID ? `/user/${userID}` : "/404"}
       className="p-2 d-flex align-items-center my-2"
       style={{
         border: "1px solid",
