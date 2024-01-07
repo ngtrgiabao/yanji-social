@@ -169,7 +169,7 @@ const Comments = ({ postID, author, socket }) => {
             value={content}
             onChange={handleContent}
             style={{
-              borderRadius: "2rem",
+              borderRadius: "0.5rem",
             }}
             maxLength={200}
           />

@@ -31,3 +31,4 @@ export { default as ChooseFontSizeBtn } from "./button/ChooseFontSizeBtn";
 export { default as ChooseBgBtn } from "./button/ChooseBgBtn";
 export { default as EmojiPicker } from "./emoji-picker/EmojiPicker";
 export { default as Avatar } from "./avatar/Avatar";
+export { default as ToastAlert } from "./toast/ToastAlert";

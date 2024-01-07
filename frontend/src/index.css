@@ -72,11 +72,6 @@ ul {
   list-style: none;
 }
 
-.custom-btn:hover {
-  background: var(--extra-light-dark);
-  cursor: pointer;
-}
-
 input {
   border: 1px solid;
 }
@@ -179,6 +174,10 @@ textarea:focus {
   padding: 1rem;
 
   cursor: pointer;
+}
+
+.hover-bg:hover {
+  background-color: var(--color-light);
 }
 
 /* CUSTOME SCROLLBAR */

@@ -1,0 +1,60 @@
+@import "../../../style/animations/slideRight.css";
+
+.success {
+  background: var(--color-success);
+}
+
+.infor {
+  background: var(--color-info);
+}
+
+.danger {
+  background: var(--color-danger);
+}
+
+.warn {
+  background: var(--color-warn);
+}
+
+.button-right {
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.notification {
+  box-shadow: 0 0 10px #999;
+  animation: slideRight 0.7s;
+
+  opacity: 0.9;
+}
+
+.notification:hover {
+  box-shadow: 0 0 12px white;
+  opacity: 1;
+}
+
+.toast-content {
+  width: 365px;
+  height: max-content;
+
+  padding: 10px 15px 5px 10px;
+}
+
+.notification-container button {
+  float: right;
+
+  background: none;
+  color: white;
+  opacity: 0.8;
+}
+
+.title {
+  width: 300px;
+  height: 18px;
+
+  text-align: left;
+}
+
+.description {
+  text-align: left;
+}

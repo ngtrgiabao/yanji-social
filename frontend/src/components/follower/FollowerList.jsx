@@ -24,7 +24,7 @@ const FollowerList = ({ close, userInfo }) => {
         );
 
         const followingsPromises = followings.map((userID) =>
-          getUserByID(userID, dispatch).then((data) => data.user),
+          getUserByID(userID, dispatch).then((data) => data?.user),
         );
 
         const fetchedFollowers = await Promise.all(followersPromises);
@@ -49,10 +49,8 @@ const FollowerList = ({ close, userInfo }) => {
     >
       <div className="d-flex justify-content-end mb-2">
         <div
-          className="p-2 px-3 custom-btn text-danger"
-          style={{
-            cursor: "pointer",
-          }}
+          role="button"
+          className="p-2 px-3 text-danger"
           onClick={() => {
             close();
             setActive("FOLLOWERS");
@@ -65,7 +63,8 @@ const FollowerList = ({ close, userInfo }) => {
       <div className="mb-4 d-grid w-100" data-list>
         <div className="row gap-2 w-100 d-flex m-0">
           <div
-            className="col custom-btn p-3"
+            role="button"
+            className="col p-3"
             style={{
               border: "1px solid var(--color-primary)",
               background: active === "FOLLOWERS" && "var(--color-primary)",
@@ -76,7 +75,8 @@ const FollowerList = ({ close, userInfo }) => {
             Followers
           </div>
           <div
-            className="col custom-btn p-3"
+            role="button"
+            className="col p-3"
             style={{
               border: "1px solid var(--color-primary)",
               background: active === "FOLLOWINGS" && "var(--color-primary)",
@@ -93,20 +93,22 @@ const FollowerList = ({ close, userInfo }) => {
         {active === "FOLLOWERS" &&
           followers.map((user) => (
             <FollowerCard
-              key={user._id}
-              userID={user._id}
-              username={user.username}
-              profilePicture={user.profilePicture}
+              key={user?._id}
+              userID={user?._id}
+              username={user?.username}
+              profilePicture={user?.profilePicture}
+              close={close}
             />
           ))}
 
         {active === "FOLLOWINGS" &&
           followings.map((user) => (
             <FollowerCard
-              key={user._id}
-              userID={user._id}
-              username={user.username}
-              profilePicture={user.profilePicture}
+              key={user?._id}
+              userID={user?._id}
+              username={user?.username}
+              profilePicture={user?.profilePicture}
+              close={close}
             />
           ))}
       </div>

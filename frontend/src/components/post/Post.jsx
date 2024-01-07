@@ -57,7 +57,8 @@ const Post = ({
   shares,
   comments,
   socket,
-  handleDeletePopup = () => { },
+  handleDeletePopup = () => {},
+  onToast,
   isDisableComment = false,
 }) => {
   const [popup, setPopup] = useState("");
@@ -210,6 +211,10 @@ const Post = ({
               console.error("Failed to create new notification", err);
             });
         }
+
+        if (isLiked) {
+          onToast(true);
+        }
       })
       .catch((error) => {
         console.error("Failed to like post", error);
@@ -349,7 +354,7 @@ const Post = ({
           <Link to={`/user/${user?._id}`} className="info">
             <div className="d-flex align-items-center fs-5">
               <div className="fw-bold d-flex align-items-center">
-                {user.username}
+                {user.username || "loading..."}
                 {user.isVerify && (
                   <FontAwesomeIcon
                     className="ms-2 bg-white rounded rounded-circle text-primary"
@@ -372,7 +377,7 @@ const Post = ({
         <div className="d-flex align-items-center">
           <FontAwesomeIcon
             icon={isSaved ? bookmarked : bookmarkDefault}
-            className="fs-4 me-2"
+            className="fs-4 me-3"
             title="Save this post"
             style={{
               cursor: "pointer",
@@ -382,7 +387,11 @@ const Post = ({
           {user?._id === currentUser?._id && (
             <span className="post-settings" title="Setting post">
               <UilEllipsisH
-                className="dots"
+                role="button"
+                className="hover-bg"
+                style={{
+                  transform: "rotate(90deg)",
+                }}
                 onClick={(e) => {
                   handleSetting(e);
                 }}

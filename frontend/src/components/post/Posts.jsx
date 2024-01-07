@@ -7,6 +7,8 @@ import "../style/post.css";
 import { getPostByID } from "../../redux/request/postRequest";
 import Post from "./Post";
 import axios from "axios";
+import ToastAlert from "../toast/ToastAlert";
+import { ToastEnum } from "../../type/enums";
 
 const Posts = ({ socket, handleDeletePopup = () => {} }) => {
   const [posts, setPosts] = useState([]);
@@ -14,12 +16,34 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
   const loadingRef = useRef(null);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
+  const [listToast, setListToast] = useState([]);
+
+  const [isToast, setIsToast] = useState(false);
 
   const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
   const currentUser = useSelector((state) => {
     return state.auth.login.currentUser?.data;
   });
+
+  const showToast = (status, title, desc) => {
+    const toastProps = {
+      id: listToast.length + 1,
+      title: title,
+      desc: desc,
+      status: status,
+    };
+
+    setListToast([...listToast, toastProps]);
+  };
+
+  const handleToast = (type) => {
+    setIsToast(type);
+
+    if (type) {
+      showToast(ToastEnum.SUCCESS, "Success", "liked post");
+    }
+  };
 
   const handleSocket = {
     updatePost: useCallback(
@@ -85,6 +109,7 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
     }
   }, [page]);
 
+  // Auto load more post
   const onIntersection = useCallback(
     (entries) => {
       const firstEntry = entries[0];
@@ -124,11 +149,16 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
             shares={post.shares}
             comments={post.comments}
             socket={socket}
+            handleDeletePopup={handleDeletePopup}
+            onToast={(type) => handleToast(type)}
             createdAt={post.createdAt}
             updatedAt={post.updatedAt}
-            handleDeletePopup={handleDeletePopup}
           />
         ))}
+
+      {isToast && (
+        <ToastAlert toastList={listToast} onChangeList={setListToast} />
+      )}
 
       {currentUser && hasMore && (
         <div

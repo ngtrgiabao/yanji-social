@@ -14,7 +14,7 @@ const Button = ({
       {path ? (
         <Link
           to={path}
-          className={`menu-item ${active === name ? "active" : ""}`}
+          className={`menu-item hover-bg ${active === name ? "active" : ""}`}
           onClick={() => setActive(name)}
           title={label}
         >
@@ -33,7 +33,7 @@ const Button = ({
         </Link>
       ) : (
         <div
-          className={`menu-item ${active === name ? "active" : ""}`}
+          className={`menu-item hover-bg ${active === name ? "active" : ""}`}
           onClick={() => setActive(name)}
           title={label}
         >

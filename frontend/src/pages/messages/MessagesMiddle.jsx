@@ -176,7 +176,7 @@ const MessagesMiddle = ({ socket }) => {
 
   const handleChangeInputMsg = (e) => {
     setMessage(e.target.value);
-  }
+  };
 
   const handleSubmitSendMessage = (e) => {
     e.preventDefault();
@@ -221,7 +221,7 @@ const MessagesMiddle = ({ socket }) => {
           console.error("Failed to send message", error);
         });
     }
-  }
+  };
 
   const handleUpdateMessage = async (msgID) => {
     setMessageID(msgID);
@@ -232,13 +232,13 @@ const MessagesMiddle = ({ socket }) => {
     });
 
     setEdit(true);
-  }
+  };
 
   const handleDeleteMessage = async (msgID) => {
     setMessageID(msgID);
 
     setActive("DELETE_MSG");
-  }
+  };
 
   const handleMarkMessageSeen = async (data) => {
     const friendMsg = data.messages.filter((m) => m.sender !== sender._id);
@@ -253,7 +253,7 @@ const MessagesMiddle = ({ socket }) => {
       };
       await markMessageSeen(markMsg, dispatch);
     }
-  }
+  };
 
   const handleSendEmoji = (e) => {
     const sym = e.unified.split("_");
@@ -263,7 +263,7 @@ const MessagesMiddle = ({ socket }) => {
     let emoji = String.fromCodePoint(...codeArray);
 
     setMessage(message + emoji);
-  }
+  };
 
   const handlePreviewImageBeforeUpload = (e) => {
     const file = e.target.files[0];
@@ -275,7 +275,7 @@ const MessagesMiddle = ({ socket }) => {
       };
       reader.readAsDataURL(file);
     }
-  }
+  };
 
   const handleSendLike = (emoji) => {
     if (currentConversation) {
@@ -298,7 +298,7 @@ const MessagesMiddle = ({ socket }) => {
           console.error("Failed to send message", error);
         });
     }
-  }
+  };
 
   const handleMsg = {
     changeInputMsg: (e) => handleChangeInputMsg(e),
@@ -562,7 +562,9 @@ const MessagesMiddle = ({ socket }) => {
         onUploadImage={handleUploadImage}
         onActive={setActive}
         onImageSelected={setImageSelected}
-        onPreviewImageBeforeUpload={(e) => handleMsg["previewImageBeforeUpload"](e)}
+        onPreviewImageBeforeUpload={(e) =>
+          handleMsg["previewImageBeforeUpload"](e)
+        }
         onSendEmoji={handleMsg["sendEmoji"]}
         onChangeInputMsg={handleMsg["changeInputMsg"]}
         onCancelEditMsg={handleCancelEditMsg}

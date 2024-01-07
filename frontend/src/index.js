@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import "./index.css";
 import App from "./App";
 import { ThemeProvider } from "./context/theme/ThemeContext";
+import { ToastAlert } from "./components";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

@@ -10,8 +10,12 @@
   --color-primary: hsl(var(--primary-color-hue), 75%, 60%);
   --color-primary-light: hsl(var(--primary-color-hue), 45%, 30%);
   --color-secondary: hsl(252, 100%, 90%);
+
   --color-success: hsl(120, 95%, 65%);
   --color-danger: hsl(0, 95%, 65%);
+  --color-warn: hsl(64.482, 58.7%, 73.9%);
+  --color-info: hsl(234, 100%, 59%);
+
   --color-dark: hsl(252, 30%, var(--dark-color-lightness));
   --color-black: hsl(252, 30%, 10%);
   --color-border: rgba(204, 204, 204, 0.337);

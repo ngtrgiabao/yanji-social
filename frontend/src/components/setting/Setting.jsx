@@ -308,7 +308,8 @@ const Setting = ({ close }) => {
           </p>
         </>
         <div
-          className="p-3 custom-btn text-white"
+          role="button"
+          className="p-3 text-white hover-bg"
           style={{
             background: "var(--color-primary)",
             borderRadius: "0.5rem",
@@ -331,7 +332,8 @@ const Setting = ({ close }) => {
       <div className="d-flex flex-column align-items-center">
         <h2 className="fw-bold">Logout now ?</h2>
         <div
-          className="mt-4 bg-danger p-3 px-4 text-white custom-btn"
+          role="button"
+          className="mt-4 bg-danger p-3 px-4 text-white hover-bg"
           style={{
             width: "max-content",
             borderRadius: "0.5rem",
@@ -362,10 +364,8 @@ const Setting = ({ close }) => {
             <UilSetting /> <span className="ms-2">Setting</span>
           </div>
           <div
-            className="p-2 px-3 custom-btn text-danger"
-            style={{
-              cursor: "pointer",
-            }}
+            role="button"
+            className="p-2 px-3 hover-bg text-danger"
             onClick={() => {
               close();
               setActive("PUBLIC");
@@ -384,7 +384,8 @@ const Setting = ({ close }) => {
             data-public-info
           >
             <div
-              className="d-flex align-items-center p-3 custom-btn"
+              role="button"
+              className="d-flex align-items-center p-3 hover-bg"
               style={{
                 height: "5rem",
                 borderRadius: "0.5rem",
@@ -396,7 +397,8 @@ const Setting = ({ close }) => {
               Public information
             </div>
             <div
-              className="d-flex align-items-center p-3 custom-btn"
+              role="button"
+              className="d-flex align-items-center p-3 hover-bg"
               style={{
                 height: "5rem",
                 borderRadius: "0.5rem",
@@ -409,7 +411,8 @@ const Setting = ({ close }) => {
               Manager account
             </div>
             <div
-              className="d-flex align-items-center p-3 custom-btn"
+              role="button"
+              className="d-flex align-items-center p-3 hover-bg"
               style={{
                 height: "5rem",
                 borderRadius: "0.5rem",
@@ -422,7 +425,8 @@ const Setting = ({ close }) => {
               Security and Data
             </div>
             <div
-              className="d-flex align-items-center p-3 custom-btn"
+              role="button"
+              className="d-flex align-items-center p-3 hover-bg"
               style={{
                 height: "5rem",
                 borderRadius: "0.5rem",
@@ -451,7 +455,8 @@ const Setting = ({ close }) => {
 
         <div className="d-flex justify-content-end">
           <span
-            className="me-3 p-2 custom-btn text-danger"
+            role="button"
+            className="me-3 p-2 text-danger"
             onClick={() => {
               close();
               setActive("PUBLIC");
@@ -460,7 +465,7 @@ const Setting = ({ close }) => {
             Cancel
           </span>
           <button
-            className="p-2"
+            className="p-2 border-0"
             style={{
               background: isChange && "var(--color-primary)",
               color: isChange && "white",
