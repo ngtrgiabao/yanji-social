@@ -258,13 +258,19 @@ const EditPopup = ({
         {!isLoading ? (
           <input
             type="submit"
-            className="form__post-btn p-2 w-100 border-0 rounded fs-5 fw-bold mt-4"
+            className="w-100 py-3 border-0 rounded fs-4 fw-bold mt-4"
             value="Update post"
           />
         ) : (
-          <div className="text-center bg-white text-black form__post-btn p-2 w-100 border-0 rounded fs-5 fw-bold mt-4">
+          <button
+            className="text-center bg-white text-black py-3 w-100 border-0 rounded fs-5 fw-bold mt-4"
+            disabled
+            style={{
+              cursor: "not-allowed",
+            }}
+          >
             Updating post...
-          </div>
+          </button>
         )}
       </form>
     </div>
