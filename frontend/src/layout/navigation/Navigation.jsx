@@ -102,7 +102,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
                 type="search"
                 placeholder="Search for creators, ideas and projects"
                 style={{
-                  boxShadow: "none"
+                  boxShadow: "none",
                 }}
                 onChange={(e) => searchUser(e)}
               />

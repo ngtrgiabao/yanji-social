@@ -6,7 +6,14 @@ import { isMobile, isTablet } from "react-device-detect";
 
 import { BG_NOT_AVAILABLE } from "./assets";
 
-import { LoadingPage, YanjiSocialLoadingPage, NetworkError } from "./pages";
+import {
+  LoadingPage,
+  YanjiSocialLoadingPage,
+  NetworkError,
+  TermAndService,
+  CookiePolicy,
+  PrivacyPolicy,
+} from "./pages";
 
 const _404 = lazy(() => import("./pages/_404/_404"));
 const Homepage = lazy(() => import("./pages/home/Home"));
@@ -157,6 +164,32 @@ function App() {
                 element={
                   <Suspense fallback={<LoadingPage />}>
                     <PostPreview socket={socket} />
+                  </Suspense>
+                }
+              />
+
+              {/* term */}
+              <Route
+                path="/term-and-service"
+                element={
+                  <Suspense fallback={<LoadingPage />}>
+                    <TermAndService />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/cookie-policy"
+                element={
+                  <Suspense fallback={<LoadingPage />}>
+                    <CookiePolicy />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/privacy-policy"
+                element={
+                  <Suspense fallback={<LoadingPage />}>
+                    <PrivacyPolicy />
                   </Suspense>
                 }
               />
