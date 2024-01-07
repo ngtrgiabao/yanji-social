@@ -193,7 +193,7 @@ const MessagesMiddle = ({ socket }) => {
       sendMessage(newMessage, dispatch)
         .then(async (data) => {
           if (message) {
-            await socketRef.current.emit("send-message", data.data);
+            await socketRef.current.emit("send-message", data?.data);
             setMessage("");
 
             socket = io(SOCKET_URL);
@@ -206,7 +206,7 @@ const MessagesMiddle = ({ socket }) => {
 
             pushNewNotification(notification, dispatch)
               .then((data) => {
-                socket.emit("push-notification", data.data);
+                socket.emit("push-notification", data?.data);
               })
               .catch((err) => {
                 console.error("Failed to create new notification", err);
@@ -329,7 +329,7 @@ const MessagesMiddle = ({ socket }) => {
         };
 
         updateMessage(updatedMsg, dispatch).then(async (data) => {
-          await socketRef.current.emit("update-message", data.data);
+          await socketRef.current.emit("update-message", data?.data);
           setEdit(false);
           setMessage("");
         });
@@ -403,7 +403,7 @@ const MessagesMiddle = ({ socket }) => {
 
       sendMessage(newMessage, dispatch)
         .then(async (data) => {
-          await socketRef.current.emit("send-message", data.data);
+          await socketRef.current.emit("send-message", data?.data);
         })
         .catch((error) => {
           alert("Failed to send message");
