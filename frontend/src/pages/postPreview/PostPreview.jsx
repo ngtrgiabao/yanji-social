@@ -92,6 +92,7 @@ const PostPreview = ({ socket }) => {
             author={user}
             postID={postRoute}
             socket={socket}
+            extendClass="bg-white"
             children={
               <Post
                 image={postRoutePage.img}

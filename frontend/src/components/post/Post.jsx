@@ -498,7 +498,7 @@ const Post = ({
         >
           <ParagraphWithLink text={desc} />
         </div>
-        {image && <Photo imageSrc={image} label="Media of post" />}
+        {image && <Photo postID={postID} imageSrc={image} label="Media of post" />}
         {video && <Photo videoSrc={video} isVideo={true} />}
         {renderActionBtn()}
 

@@ -1,8 +1,11 @@
+import { Link } from "react-router-dom";
+
 const Photo = ({
   imageSrc = "",
   label = "",
   videoSrc = "",
   isVideo = false,
+  postID = ""
 }) => {
   return (
     <>
@@ -27,7 +30,7 @@ const Photo = ({
           </video>
         </div>
       ) : (
-        <div className="photo">
+        <Link to={`/post/${postID}`} className="photo">
           <img
             loading="lazy"
             role="presentation"
@@ -39,7 +42,7 @@ const Photo = ({
               objectFit: "cover",
             }}
           />
-        </div>
+        </Link>
       )}
     </>
   );
