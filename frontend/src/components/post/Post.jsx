@@ -58,7 +58,6 @@ const Post = ({
   comments,
   socket,
   handleDeletePopup = () => {},
-  onToast,
   isDisableComment = false,
 }) => {
   const [popup, setPopup] = useState("");
@@ -210,10 +209,6 @@ const Post = ({
             .catch((err) => {
               console.error("Failed to create new notification", err);
             });
-        }
-
-        if (isLiked) {
-          onToast(true);
         }
       })
       .catch((error) => {
