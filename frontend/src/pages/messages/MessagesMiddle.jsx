@@ -158,7 +158,7 @@ const MessagesMiddle = ({ socket }) => {
     if (currentRoom && !isCancelled) {
       const roomData = currentRoom.data;
 
-      // This conditional will filter one room in list of rooms
+      // filter one room in list of rooms
       if (roomData?._id) {
         const value = roomData._id;
         setFriendID(roomData.participants.filter((p) => p !== sender._id));

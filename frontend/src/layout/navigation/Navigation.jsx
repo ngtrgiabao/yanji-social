@@ -95,12 +95,15 @@ const Navigation = ({ title, link, isSearch = true }) => {
           </Link>
 
           {isSearch && (
-            <div className="search-bar d-flex align-items-center position-relative">
+            <div className="search-bar d-flex align-items-center position-relative ">
               <UilSearch />
               <Form.Control
                 className="ms-4"
                 type="search"
                 placeholder="Search for creators, ideas and projects"
+                style={{
+                  boxShadow: "none"
+                }}
                 onChange={(e) => searchUser(e)}
               />
 
