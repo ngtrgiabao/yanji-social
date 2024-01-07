@@ -330,7 +330,6 @@ const MessagesMiddle = ({ socket }) => {
 
         updateMessage(updatedMsg, dispatch).then(async (data) => {
           await socketRef.current.emit("update-message", data.data);
-          console.log(data.data);
           setEdit(false);
           setMessage("");
         });
