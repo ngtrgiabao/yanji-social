@@ -402,8 +402,8 @@ const MessagesMiddle = ({ socket }) => {
       };
 
       sendMessage(newMessage, dispatch)
-        .then(async () => {
-          await socketRef.current.emit("send-message", newMessage);
+        .then(async (data) => {
+          await socketRef.current.emit("send-message", data.data);
         })
         .catch((error) => {
           alert("Failed to send message");
