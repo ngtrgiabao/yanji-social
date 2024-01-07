@@ -6,18 +6,14 @@ import axios from "axios";
 
 import "./style/navigation.css";
 
-import { LOGO_YANJI_SOCIAL } from "../../assets";
+import { LOGO_YANJI_SOCIAL } from "../../../assets";
 
-import { logout } from "../../redux/request/authRequest";
-import { useEffect, useState } from "react";
-import { getUserByID } from "../../redux/request/userRequest";
+import { logout } from "../../../redux/request/authRequest";
+import { useState } from "react";
 
 const Navigation = ({ title, link, isSearch = true }) => {
   const [users, setUsers] = useState([]);
-  // const [user, setUser] = useState({
-  //   userID: "",
-  //   profilePicture: "",
-  // });
+
   const currentUser = useSelector((state) => {
     return state.auth.login.currentUser?.data;
   });
@@ -28,19 +24,6 @@ const Navigation = ({ title, link, isSearch = true }) => {
   const handleLogout = () => {
     logout(dispatch, navigate);
   };
-
-  // useEffect(() => {
-  //   currentUser &&
-  //     getUserByID(currentUser._id, dispatch).then((data) => {
-  //       if (data) {
-  //         const { _id, profilePicture } = data.user;
-  //         setUser({
-  //           userID: _id,
-  //           profilePicture: profilePicture,
-  //         });
-  //       }
-  //     });
-  // }, [currentUser, dispatch]);
 
   const renderSwitchBtn = () => {
     return currentUser ? (

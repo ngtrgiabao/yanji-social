@@ -9,7 +9,7 @@ import { io } from "socket.io-client";
 
 import PreviewImage from "../preview/PreviewImage";
 import { updatePost } from "../../redux/request/postRequest";
-import { useUploadImage } from "../../hooks";
+import { useUploadImage } from "../../shared/hooks";
 
 const EditPopup = ({
   onPopup,

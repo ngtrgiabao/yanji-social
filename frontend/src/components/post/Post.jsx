@@ -32,7 +32,7 @@ import {
   getUserByID,
   updateUser,
 } from "../../redux/request/userRequest";
-import { useTimeAgo } from "../../hooks";
+import { useTimeAgo, useCopyUrl } from "../../shared/hooks";
 import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "../paragraph/ParagraphWithLink";
 import EditPopup from "../popup/EditPopup";
@@ -40,7 +40,6 @@ import { pushNewNotification } from "../../redux/request/notificationRequest";
 import { LIKE_POST, SHARE_POST } from "../../business/noti.type";
 import ConfirmDialog from "../dialog/ConfirmDialog";
 import Photo from "../media/Photo";
-import useCopyUrl from "../../hooks/useCopyUrl";
 
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 // TODO FIX POPUP WHEN DELETE POST NOT WORK CORRECTLY
@@ -498,7 +497,9 @@ const Post = ({
         >
           <ParagraphWithLink text={desc} />
         </div>
-        {image && <Photo postID={postID} imageSrc={image} label="Media of post" />}
+        {image && (
+          <Photo postID={postID} imageSrc={image} label="Media of post" />
+        )}
         {video && <Photo videoSrc={video} isVideo={true} />}
         {renderActionBtn()}
 

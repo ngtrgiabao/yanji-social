@@ -4,7 +4,7 @@ import "./style/messages.css";
 
 import { AVA_KAYO } from "../../assets";
 
-import Navigation from "../../layout/navigation/Navigation";
+import Navigation from "../../shared/layout/navigation/Navigation";
 
 import MessagesMiddle from "./MessagesMiddle";
 import MessagesRight from "./MessagesRight";

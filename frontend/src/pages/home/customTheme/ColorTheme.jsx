@@ -1,6 +1,6 @@
 import "./style/color.css";
 
-import { useTheme } from "../../../hooks";
+import { useTheme } from "../../../shared/hooks";
 import { ChooseColorBtn } from "../../../components";
 
 const ColorTheme = () => {

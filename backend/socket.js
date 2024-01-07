@@ -46,10 +46,10 @@ io.on("connection", (socket) => {
       console.log(`User ${sender} have sent message at ${time}`);
     });
     socket.on("update-message", (data) => {
-      const { msgID } = data;
+      const { _id } = data;
 
-      io.emit("updated-message", data);
-      console.log(`Update message ${msgID} successfully`);
+      io.emit("updated-message", { ...data });
+      console.log(`Update message ${_id} successfully`);
     });
     socket.on("delete-message", (msgID) => {
       io.emit("deleted-message", msgID);

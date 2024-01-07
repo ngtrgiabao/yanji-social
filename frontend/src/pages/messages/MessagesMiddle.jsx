@@ -22,7 +22,7 @@ import {
 } from "../../redux/request/messageRequest";
 
 import { Avatar, EmojiPicker, Message } from "../../components";
-import { useUploadImage, useDownloadImage } from "../../hooks";
+import { useUploadImage, useDownloadImage } from "../../shared/hooks";
 import { ConfirmDialog, PreviewImage } from "../../components";
 import { getUserByID } from "../../redux/request/userRequest";
 import { NEW_MSG } from "../../business/noti.type";
@@ -75,11 +75,11 @@ const MessagesMiddle = ({ socket }) => {
       [currentConversation],
     ),
     updatedMessage: useCallback((data) => {
-      const { msgID } = data;
+      const { _id } = data;
 
       setMessageThread((prevMessageThread) => {
         const updatedThread = prevMessageThread.map((message) =>
-          message._id === msgID ? data : message,
+          message._id === _id ? data : message,
         );
         return updatedThread;
       });
@@ -322,15 +322,15 @@ const MessagesMiddle = ({ socket }) => {
         setActive("");
         setEdit(false);
       } else {
-        const updateMsg = {
+        const updatedMsg = {
           msgID: messageID,
           message: message,
           sender: sender._id,
         };
 
-        updateMessage(updateMsg, dispatch).then(async () => {
-          await socketRef.current.emit("update-message", updateMsg);
-
+        updateMessage(updatedMsg, dispatch).then(async (data) => {
+          await socketRef.current.emit("update-message", data.data);
+          console.log(data.data);
           setEdit(false);
           setMessage("");
         });

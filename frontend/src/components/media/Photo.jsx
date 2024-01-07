@@ -5,7 +5,7 @@ const Photo = ({
   label = "",
   videoSrc = "",
   isVideo = false,
-  postID = ""
+  postID = "",
 }) => {
   return (
     <>

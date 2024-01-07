@@ -1,6 +1,6 @@
 import "./style/fontSize.css";
 
-import { useTheme } from "../../../hooks";
+import { useTheme } from "../../../shared/hooks";
 import { ChooseFontSizeBtn } from "../../../components";
 
 const FontSizeTheme = () => {

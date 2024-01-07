@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { lazy, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
+import axios from "axios";
 
 import "../style/post.css";
 
 import { getPostByID } from "../../redux/request/postRequest";
-import Post from "./Post";
-import axios from "axios";
+const Post = lazy(() => import("./Post"));
 
 const Posts = ({ socket, handleDeletePopup = () => {} }) => {
   const [posts, setPosts] = useState([]);
@@ -70,7 +70,7 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
     socket,
   ]);
 
-  const fetchMorePosts = useCallback(async () => {
+  const fetchPosts = async () => {
     const res = await axios.get(
       process.env.REACT_APP_SOCKET_URL +
         `/api/v1/post/all-posts?limit=5&skip=${page * 5}`,
@@ -83,6 +83,10 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
       setPosts((prevPost) => [...prevPost, ...posts]);
       setPage((prevPage) => prevPage + 1);
     }
+  };
+
+  const fetchMorePosts = useCallback(() => {
+    fetchPosts();
   }, [page]);
 
   // Auto load more post

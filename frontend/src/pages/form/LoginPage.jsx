@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { Link, useNavigate } from "react-router-dom";
 
-import Navigation from "../../layout/navigation/Navigation";
+import Navigation from "../../shared/layout/navigation/Navigation";
 import { loginUser } from "../../redux/request/authRequest";
 
 import "./style/registerPage.css";

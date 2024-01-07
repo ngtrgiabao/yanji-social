@@ -21,7 +21,7 @@ import {
 import { LOGO_YANJI_SOCIAL } from "../../assets";
 
 import { getUserByID } from "../../redux/request/userRequest";
-import { useTimeAgo } from "../../hooks";
+import { useTimeAgo } from "../../shared/hooks";
 
 const NotificationCard = ({ sender, type, isRead, createdAt }) => {
   const [notiInfo, setNotiInfo] = useState({
