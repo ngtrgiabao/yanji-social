@@ -4,6 +4,7 @@ const { PlayFab, PlayFabClient } = require("playfab-sdk");
 require("dotenv").config();
 
 const UserModel = require("../models/user.model");
+const generateOTP = require("../utils/generateOTP");
 
 const registerTheColorsAccount = (username, email, pw) => {
   PlayFab.settings.developerSecretKey =
@@ -20,31 +21,73 @@ const registerTheColorsAccount = (username, email, pw) => {
     if (error) {
       console.log(error);
     } else {
-      console.log("User registered successfully:", response);
+      // console.log("User registered successfully:", response);
     }
   });
 };
 
+const verify = async (email) => {
+  try {
+    let transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: process.env.USER_GMAIL,
+        pass: process.env.PWD_GMAIL
+      },
+    })
+
+    const otpCode = generateOTP();
+
+    // const emailContent = `
+    //   <h1>Thank you for your Register</h1>
+    //   <p>To complete your registration, please use the following OTP code:</p>
+      
+    //   <div style="background-color: #4285f4; color: #ffffff; font-size: 24px; padding: 10px; display: inline-block;">
+    //     ${otpCode}
+    //   </div>
+      
+    //   <p>This code will expire in a short period, so please use it promptly.</p>
+    //   <p>Thank you for your register at Yanji Social 🥰 !</p>
+    // `;
+
+    // let info = await transporter.sendMail({
+    //   from: '"Yanji Social" "yanjisocial@gmail.com"',
+    //   to: email,
+    //   subject: '[Yanji Social] Verify OTP Code',
+    //   text: 'Hello',
+    //   html: emailContent, //mail body
+    // })
+    return { otpCode };
+  } catch (error) {
+    console.log("Failed to sent gmail", error)
+  }
+}
+
 const register = (req, res, next) => {
   const { username, password, email } = req.body;
 
-  registerTheColorsAccount(username, email, password);
-
-  UserModel.create({
-    username,
-    password,
-    email,
-  })
-    .then((data) => {
-      return res.status(200).json({
-        msg: "Successfully created user",
-        data,
-      });
+  // registerTheColorsAccount(username, email, password);
+  verify(email).then(code => {
+    return res.status(200).json({
+      otpCode: code.otpCode
     })
-    .catch((error) => {
-      console.error(`Failed to create user ${username}`, error);
-      return res.status(500).json({ msg: "Failed to create user" });
-    });
+    // UserModel.create({
+    //   username,
+    //   password,
+    //   email,
+    // })
+    //   .then((data) => {
+    //     return res.status(200).json({
+    //       msg: "Successfully created user",
+    //       data: data,
+    //       otpCode: code.otpCode
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error(`Failed to create user ${username}`, error);
+    //     return res.status(500).json({ msg: "Failed to create user" });
+    //   });
+  })
 };
 
 const login = (req, res, next) => {
@@ -133,6 +176,7 @@ const updateUser = async (req, res, next) => {
       friendRequests,
       postSaved,
       isVerify,
+      isVerifyEmail,
       // Social links
       insta,
       linkedin,
@@ -152,6 +196,7 @@ const updateUser = async (req, res, next) => {
     user.firstName = firstName || user.firstName;
     user.lastName = lastName || user.lastName;
     user.isVerify = isVerify || user.isVerify;
+    user.isVerifyEmail = isVerifyEmail || user.isVerifyEmail;
 
     if (
       insta ||
@@ -461,32 +506,6 @@ const getPostsSaved = async (req, res) => {
   }
 };
 
-const resetPassword = async (req, res, next) => {
-  try {
-    let transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: process.env.USER_GMAIL,
-        pass: process.env.PWD_GMAIL
-      },
-    })
-
-    let info = await transporter.sendMail({
-      from: '"Yanji Social" "yanjisocial@gmail.com"',
-      to: req.body.email,
-      subject: 'Yanji Social',
-      text: 'Hello',
-      html: '<h1>Hello, Yanji</h1>' //mail body
-    })
-
-    console.log("gmail sent successfully")
-
-    return res.status(200).json({ msg: `Gmail sent successfully, please check your email ${req.body.email}`});
-  } catch (error) {
-    console.log("Failed to sent gmail", error)
-  }
-}
-
 module.exports = {
   register,
   login,
@@ -498,5 +517,4 @@ module.exports = {
   getPostsShared,
   getPostsSaved,
   followUser,
-  resetPassword
 };

@@ -1,21 +1,29 @@
-import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link, useNavigate } from "react-router-dom";
 
 import Navigation from "../../shared/layout/navigation/Navigation";
 import { loginUser } from "../../redux/request/authRequest";
+import { CAPTCHA_SITE_KEY } from "../../business/key";
+import {
+  updateUser,
+} from "../../redux/request/userRequest";
 
 import "./style/registerPage.css";
-import { CAPTCHA_SITE_KEY } from "../../business/key";
 
 function LoginPage() {
   const pwd = useRef(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const [isVerifyCaptcha, setIsVerifyCaptcha] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [msgError, setMsgError] = useState("");
 
+  const currentUser = useSelector((state) => {
+    return state.auth.login.currentUser?.data;
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,6 +37,10 @@ function LoginPage() {
     loginUser(newUser, dispatch, navigate).then((data) => {
       if (!data) {
         setIsError(true);
+        setMsgError("Invalid username or password. Please check again")
+      } else if (data && data?.data.isVerifyEmail === false) {
+        setIsError(true);
+        setMsgError("Please verify your email to login");
       }
     });
   };
@@ -90,33 +102,42 @@ function LoginPage() {
                 : "offscreen"
             }
           >
-            Invalid username or password. Please check again
+            {msgError}
           </p>
         )}
       </div>
     );
   };
 
-  function onChange(value) {
-    console.log("Captcha value:", value);
-  }
-
   const renderCaptcha = () => {
     return (
       <ReCAPTCHA
         sitekey={CAPTCHA_SITE_KEY}
-        onChange={onChange}
         onClick={() => setIsVerifyCaptcha(true)}
         style={{
           width: "100%",
         }}
       />
     );
+  };
+
+  const update = () => {
+    if (currentUser) {
+      const updatedUser = {
+        userID: currentUser._id,
+        isVerifyEmail: true,
+      };
+
+      updateUser(updatedUser, dispatch);
+    }
   }
 
   const renderSubmitBtn = () => {
     return (
-      <button type="submit" disabled={!username || !password || !isVerifyCaptcha}>
+      <button
+        type="submit"
+        disabled={!username || !password}
+      >
         Sign in
       </button>
     );

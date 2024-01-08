@@ -257,6 +257,7 @@ components:
         - youtube
         - twitch
         - isVerify
+        - isVerifyEmail
       properties:
         id:
           type: string
@@ -303,6 +304,8 @@ components:
         twitch:
           type: string
         isVerify:
+          type: boolean
+        isVerifyEmail:
           type: boolean
         createdAt:
           type: string

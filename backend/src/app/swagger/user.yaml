@@ -190,6 +190,7 @@ paths:
                 email: "example@gmail.com"
                 password: "password"
                 isVerify: false
+                isVerifyEmail: false
                 insta: "link insta"
                 twitter: "link twitter"
                 facebook: "link facebook:"

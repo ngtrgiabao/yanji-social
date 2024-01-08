@@ -16,7 +16,10 @@ export const loginUser = async (user, dispatch, navigate) => {
   try {
     const res = await userService.loginUser(user);
     dispatch(loginSuccess(res.data));
-    navigate("/");
+    if (res.data?.data.isVerifyEmail) {
+      navigate("/");
+    }
+    return res.data;
   } catch (error) {
     dispatch(loginFailed());
   }
@@ -27,6 +30,7 @@ export const registerUser = async (user, dispatch, navigate) => {
   try {
     const res = await userService.createUser(user);
     dispatch(registerSuccess(res.data));
+    return res.data;
   } catch (err) {
     dispatch(registerFailed());
   }
