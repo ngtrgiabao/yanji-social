@@ -107,6 +107,9 @@ function LoginPage() {
         sitekey={CAPTCHA_SITE_KEY}
         onChange={onChange}
         onClick={() => setIsVerifyCaptcha(true)}
+        style={{
+          width: "100%",
+        }}
       />
     );
   }
