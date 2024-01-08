@@ -136,6 +136,23 @@ paths:
       responses:
         '200':
           description: Logged in user
+  /user/reset-password:
+    post:
+      description: Reset password
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Successfully   
   /user/update/{userID}:
     put:
       description: Update a user

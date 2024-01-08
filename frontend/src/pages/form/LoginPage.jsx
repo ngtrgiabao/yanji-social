@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-
+import ReCAPTCHA from "react-google-recaptcha";
 import { Link, useNavigate } from "react-router-dom";
 
 import Navigation from "../../shared/layout/navigation/Navigation";
 import { loginUser } from "../../redux/request/authRequest";
 
 import "./style/registerPage.css";
+import { CAPTCHA_SITE_KEY } from "../../business/key";
 
 function LoginPage() {
   const pwd = useRef(null);
@@ -95,6 +96,19 @@ function LoginPage() {
     );
   };
 
+  function onChange(value) {
+    console.log("Captcha value:", value);
+  }
+
+  const renderCaptcha = () => {
+    return (
+      <ReCAPTCHA
+        sitekey={CAPTCHA_SITE_KEY}
+        onChange={onChange}
+      />
+    );
+  }
+
   const renderSubmitBtn = () => {
     return (
       <button type="submit" disabled={!username || !password}>
@@ -114,6 +128,7 @@ function LoginPage() {
             <div className="login-form__container-body">
               {renderUsernameInput()}
               {renderPwdInput()}
+              {renderCaptcha()}
               {renderSubmitBtn()}
               <div className="register-form__footer d-flex flex-column align-items-start">
                 <Link to="/">Forgot your password?</Link>

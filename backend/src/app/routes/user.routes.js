@@ -39,6 +39,7 @@ router.post(
   UserController.register,
 );
 router.post("/login", UserMiddleware.validateLoginUser, UserController.login);
+router.post("/reset-password", UserController.resetPassword);
 
 router.put(
   "/update/:userID",

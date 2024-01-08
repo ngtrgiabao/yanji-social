@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
 const { PlayFab, PlayFabClient } = require("playfab-sdk");
 require("dotenv").config();
 
@@ -460,6 +461,32 @@ const getPostsSaved = async (req, res) => {
   }
 };
 
+const resetPassword = async (req, res, next) => {
+  try {
+    let transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: process.env.USER_GMAIL,
+        pass: process.env.PWD_GMAIL
+      },
+    })
+
+    let info = await transporter.sendMail({
+      from: '"Yanji Social" "yanjisocial@gmail.com"',
+      to: req.body.email,
+      subject: 'Yanji Social',
+      text: 'Hello',
+      html: '<h1>Hello, Yanji</h1>' //mail body
+    })
+
+    console.log("gmail sent successfully")
+
+    return res.status(200).json({ msg: `Gmail sent successfully, please check your email ${req.body.email}`});
+  } catch (error) {
+    console.log("Failed to sent gmail", error)
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -471,4 +498,5 @@ module.exports = {
   getPostsShared,
   getPostsSaved,
   followUser,
+  resetPassword
 };
