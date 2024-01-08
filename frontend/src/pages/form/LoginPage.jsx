@@ -13,6 +13,7 @@ function LoginPage() {
   const pwd = useRef(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isVerifyCaptcha, setIsVerifyCaptcha] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const dispatch = useDispatch();
@@ -105,13 +106,14 @@ function LoginPage() {
       <ReCAPTCHA
         sitekey={CAPTCHA_SITE_KEY}
         onChange={onChange}
+        onClick={() => setIsVerifyCaptcha(true)}
       />
     );
   }
 
   const renderSubmitBtn = () => {
     return (
-      <button type="submit" disabled={!username || !password}>
+      <button type="submit" disabled={!username || !password || !isVerifyCaptcha}>
         Sign in
       </button>
     );
