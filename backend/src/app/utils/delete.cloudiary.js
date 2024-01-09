@@ -2,7 +2,7 @@ const cloudinary = require("cloudinary").v2;
 
 const deleteOnCloudiary = async (mediaValue, isAudio) => {
   let startIndex = mediaValue.indexOf(process.env.CLOUD_UPLOAD_PRESET);
-  if(isAudio) {
+  if (isAudio) {
     startIndex = mediaValue.indexOf(process.env.CLOUD_UPLOAD_PRESET_AUDIO);
   }
   const endIndex = mediaValue.lastIndexOf(".");
@@ -15,6 +15,6 @@ const deleteOnCloudiary = async (mediaValue, isAudio) => {
   });
 
   await cloudinary.uploader.destroy(publicID);
-}
+};
 
-module.exports = { deleteOnCloudiary }
+module.exports = { deleteOnCloudiary };

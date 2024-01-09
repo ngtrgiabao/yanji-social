@@ -129,7 +129,7 @@ const User = new Schema(
     postShared: [postShared],
     blackList: [blackList],
     postSaved: [postSaved],
-    isVerifyEmail: {type: Boolean, default: false},
+    isVerifyEmail: { type: Boolean, default: false },
     isVerify: { type: Boolean, default: false },
   },
   { timestamps: true },

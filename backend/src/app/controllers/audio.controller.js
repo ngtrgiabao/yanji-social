@@ -5,9 +5,9 @@ const User = require("../models/user.model");
 const { deleteOnCloudiary } = require("../utils/delete.cloudiary");
 
 const isValidUser = async (userID) => {
-      const validUser = await User.findById(userID);
-      return validUser;
-}
+  const validUser = await User.findById(userID);
+  return validUser;
+};
 
 const getAllAudiosByUserID = async (req, res, next) => {
   const userID = req.params.userID;
@@ -49,10 +49,11 @@ const getAudioByID = async (req, res, next) => {
 };
 
 const uploadAudioByUserID = async (req, res, next) => {
-    const { audioUrl, userID, cover, name } = req.body;
+  const { audioUrl, userID, cover, name } = req.body;
 
-    isValidUser(userID).then(async (validUser) => {
-      if(!validUser)
+  isValidUser(userID)
+    .then(async (validUser) => {
+      if (!validUser)
         return res.status(401).json({ message: "Invalid user ID" });
 
       const newAudio = await AudioModel.create({
@@ -63,15 +64,16 @@ const uploadAudioByUserID = async (req, res, next) => {
       });
 
       return res.status(200).json({
-      msg: "Upload new audio successfully",
-      data: newAudio,
+        msg: "Upload new audio successfully",
+        data: newAudio,
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        msg: "Failed to upload new audio",
+        error,
+      });
     });
-    }).catch(error => {
-        return res.status(500).json({
-          msg: "Failed to upload new audio",
-          error,
-        });
-    })    
 };
 
 const updateAudioByUserID = async (req, res, next) => {
@@ -123,18 +125,18 @@ const deleteAudioByID = async (req, res, next) => {
   try {
     // const result = await AudioModel.findByIdAndDelete(audioID);
     const result = await AudioModel.findByIdAndDelete(audioID);
-    
-    deleteOnCloudiary(result.audioUrl, true)
+
+    deleteOnCloudiary(result.audioUrl, true);
 
     return res.status(200).json({
       msg: `Delete audio ${audioID} successfully`,
       data: result,
-    })
+    });
   } catch (error) {
     console.error(`Failed to delete audio ${audioID}`);
     return res.status(500).json({
       msg: `Failed to delete audio ${audioID}`,
-    })
+    });
   }
 };
 

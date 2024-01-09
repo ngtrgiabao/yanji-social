@@ -90,12 +90,13 @@ const RegisterPage = () => {
       password: pwd,
       email: email,
     };
-    setIsEnterOTP(true)
+    setIsEnterOTP(true);
 
     registerUser(newUser, dispatch, navigate)
       .then((data) => {
-        setVerifyCode(data?.otpCode)
-        setUserID(data?.data._id)
+        setVerifyCode(data?.otpCode);
+        alert(`Your OTP code is: ${data?.otpCode}`);
+        setUserID(data?.data?._id);
       })
       .catch((err) => {
         if (!err?.response) {
@@ -310,7 +311,12 @@ const RegisterPage = () => {
           {errMsg}
         </p>
         {isEnterOTP ? (
-          <OTPInput otp={otp} onChangeOtp={setOtp} verifyCode={verifyCode} userID={userID} />
+          <OTPInput
+            otp={otp}
+            onChangeOtp={setOtp}
+            verifyCode={verifyCode}
+            userID={userID}
+          />
         ) : (
           <div className="register-form__container">
             <span className="register-form__title">Register</span>

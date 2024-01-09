@@ -1,6 +1,7 @@
 import { useState } from "react";
 import OtpInput from "react-otp-input";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { updateUser } from "../../redux/request/userRequest";
 
@@ -10,6 +11,7 @@ const OTPInput = ({ otp, onChangeOtp = () => { }, verifyCode, userID }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const InputStyle = {
     width: "6rem",
@@ -30,19 +32,21 @@ const OTPInput = ({ otp, onChangeOtp = () => { }, verifyCode, userID }) => {
 
   const handleSubmit = () => {
     if (verifyCode === otp) {
-      setIsErr(false)
-      setIsLoading(true)
+      setIsErr(false);
+      setIsLoading(true);
 
       updateUser({ userID, isVerifyEmail: true }, dispatch).then(() => {
         setIsLoading(false);
-        navigate("/")
-      })
+        alert("Success");
+        navigate("/login");
+      });
 
+      setIsLoading(false);
     } else {
-      setErrMsg("Invalid OTP Code")
-      setIsErr(true)
+      setErrMsg("Invalid OTP Code");
+      setIsErr(true);
     }
-  }
+  };
 
   return (
     <div className="d-flex flex-column align-items-center">

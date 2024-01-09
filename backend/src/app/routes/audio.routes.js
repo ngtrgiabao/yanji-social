@@ -22,10 +22,7 @@ router.get(
   AudioController.getAudioByID,
 );
 
-router.post(
-  "/upload",
-  AudioController.uploadAudioByUserID,
-);
+router.post("/upload", AudioController.uploadAudioByUserID);
 
 router.put(
   "/update/:audioID",

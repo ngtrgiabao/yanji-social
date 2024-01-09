@@ -6,9 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Navigation from "../../shared/layout/navigation/Navigation";
 import { loginUser } from "../../redux/request/authRequest";
 import { CAPTCHA_SITE_KEY } from "../../business/key";
-import {
-  updateUser,
-} from "../../redux/request/userRequest";
+import { updateUser } from "../../redux/request/userRequest";
 
 import "./style/registerPage.css";
 
@@ -37,7 +35,7 @@ function LoginPage() {
     loginUser(newUser, dispatch, navigate).then((data) => {
       if (!data) {
         setIsError(true);
-        setMsgError("Invalid username or password. Please check again")
+        setMsgError("Invalid username or password. Please check again");
       } else if (data && data?.data.isVerifyEmail === false) {
         setIsError(true);
         setMsgError("Please verify your email to login");
@@ -130,14 +128,11 @@ function LoginPage() {
 
       updateUser(updatedUser, dispatch);
     }
-  }
+  };
 
   const renderSubmitBtn = () => {
     return (
-      <button
-        type="submit"
-        disabled={!username || !password}
-      >
+      <button type="submit" disabled={!username || !password}>
         Sign in
       </button>
     );
