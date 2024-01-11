@@ -1,27 +1,31 @@
 const AudioModel = require("../models/audio.model");
 
-const validateAudioID = async (req, res, next) => {
-  const audioID = req.params.audioID;
+class AudioMiddleware {
+  validateAudioID = async (req, res, next) => {
+    const audioID = req.params.audioID;
 
-  try {
-    const result = await AudioModel.findById(audioID);
+    try {
+      const result = await AudioModel.findById(audioID);
 
-    if (!result) {
-      console.error(`Audio ID not found!, please check your audio ID`);
+      if (!result) {
+        console.error(`Audio ID not found!, please check your audio ID`);
 
-      return res.status(404).json({
-        msg: "Audio ID not found, please check your audio ID",
+        return res.status(404).json({
+          msg: "Audio ID not found, please check your audio ID",
+        });
+      }
+
+      next();
+    } catch (error) {
+      console.error("Failed to validate audio ID", error);
+
+      return res.status(500).json({
+        msg: `An error occured while validate audio ID`,
       });
     }
+  };
+}
 
-    next();
-  } catch (error) {
-    console.error("Failed to validate audio ID", error);
+const audioMiddleware = new AudioMiddleware();
 
-    return res.status(500).json({
-      msg: `An error occured while validate audio ID`,
-    });
-  }
-};
-
-module.exports = { validateAudioID };
+module.exports = { audioMiddleware };

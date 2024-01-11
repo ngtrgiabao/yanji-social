@@ -35,7 +35,12 @@ const OTPInput = ({ otp, onChangeOtp = () => { }, verifyCode, userID }) => {
       setIsErr(false);
       setIsLoading(true);
 
-      updateUser({ userID, isVerifyEmail: true }, dispatch).then(() => {
+      const updatedUser = {
+        userID,
+        isVerifyEmail: true,
+      };
+
+      updateUser(updatedUser, dispatch).then(() => {
         setIsLoading(false);
         alert("Success");
         navigate("/login");

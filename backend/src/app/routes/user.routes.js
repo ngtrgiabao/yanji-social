@@ -1,61 +1,61 @@
 const express = require("express");
 const router = express.Router();
 
-const UserMiddleware = require("../middleware/user.middleware");
+const { userMiddleware } = require("../middleware/user.middleware");
 
-const UserController = require("../controllers/user.controller");
-const ImageController = require("../controllers/image.controller");
-const AudioController = require("../controllers/audio.controller");
+const { userController } = require("../controllers/user.controller");
+const { imageController } = require("../controllers/image.controller");
+const { audioController } = require("../controllers/audio.controller");
 
 router.get("/", (req, res) => {
   res.send({ msg: "Hello from user :D" });
 });
-router.get("/all-users", UserController.getAllUsers);
-router.get("/:userID", UserMiddleware.validateUserById, UserController.getUser);
+router.get("/all-users", userController.getAllUsers);
+router.get("/:userID", userMiddleware.validateUserById, userController.getUser);
 router.get(
   "/:userID/shared",
-  UserMiddleware.validateUserById,
-  UserController.getPostsShared,
+  userMiddleware.validateUserById,
+  userController.getPostsShared,
 );
 router.get(
   "/:userID/saved",
-  UserMiddleware.validateUserById,
-  UserController.getPostsSaved,
+  userMiddleware.validateUserById,
+  userController.getPostsSaved,
 );
 router.get(
   "/:userID/quantity/image",
-  UserMiddleware.validateUserById,
-  ImageController.fetchUserSpecificImageQuantity,
+  userMiddleware.validateUserById,
+  imageController.fetchUserSpecificImageQuantity,
 );
 router.get(
   "/:userID/quantity/audio",
-  UserMiddleware.validateUserById,
-  AudioController.fetchUserSpecificAudioQuantity,
+  userMiddleware.validateUserById,
+  audioController.fetchUserSpecificAudioQuantity,
 );
 
 router.post(
   "/register",
-  UserMiddleware.validateRegisterUser,
-  UserController.register,
+  userMiddleware.validateRegisterUser,
+  userController.register,
 );
-router.post("/login", UserMiddleware.validateLoginUser, UserController.login);
+router.post("/login", userMiddleware.validateLoginUser, userController.login);
 
 router.put(
   "/update/:userID",
-  UserMiddleware.validateUserById,
-  UserController.updateUser,
+  userMiddleware.validateUserById,
+  userController.updateUser,
 );
 router.put(
   "/:userID/follow",
-  UserMiddleware.validateUserById,
-  UserController.followUser,
+  userMiddleware.validateUserById,
+  userController.followUser,
 );
 
-router.delete("/delete-all", UserController.deleteAllUsers);
+router.delete("/delete-all", userController.deleteAllUsers);
 router.delete(
   "/delete/:userID",
-  UserMiddleware.validateUserById,
-  UserController.deleteUser,
+  userMiddleware.validateUserById,
+  userController.deleteUser,
 );
 
 module.exports = router;

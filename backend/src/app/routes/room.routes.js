@@ -2,35 +2,35 @@ const express = require("express");
 const router = express.Router();
 
 const RoomMiddleware = require("../middleware/room.middleware");
-const UserMiddleware = require("../middleware/user.middleware");
-const RoomController = require("../controllers/room.controller");
+const { userMiddleware } = require("../middleware/user.middleware");
+const { roomController } = require("../controllers/room.controller");
 
 router.get("/", (req, res) => {
   res.send({ msg: "Hello from room :D" });
 });
-router.get("/all-rooms", RoomController.getAllRooms);
+router.get("/all-rooms", roomController.getAllRooms);
 router.get(
   "/all-rooms/user/:userID",
-  UserMiddleware.validateUserById,
-  RoomController.getRoomsByParticipant,
+  userMiddleware.validateUserById,
+  roomController.getRoomsByParticipant,
 );
 router.get(
   "/:roomID",
   RoomMiddleware.validateRoomID,
-  RoomController.getRoomByID,
+  roomController.getRoomByID,
 );
 
 router.post(
   "/create-room",
   RoomMiddleware.validateNameOfRoom,
-  RoomController.createRoom,
+  roomController.createRoom,
 );
 router.post(
   "/join-room/:roomID/user/:userID",
   RoomMiddleware.validateRoomID,
   RoomMiddleware.validateIsParticipant,
-  UserMiddleware.validateUserById,
-  RoomController.joinRoom,
+  userMiddleware.validateUserById,
+  roomController.joinRoom,
 );
 
 // router.put(
@@ -38,8 +38,8 @@ router.post(
 //   RoomMiddleware.validateRoomID,
 //   RoomMiddleware.validateJoinedRoom,
 //   RoomMiddleware.validateIsParticipant,
-//   UserMiddleware.validateUserById,
-//   RoomController.addParticipant,
+//   userMiddleware.validateUserById,
+//   roomController.addParticipant,
 // );
 
 router.delete(
@@ -47,14 +47,14 @@ router.delete(
   RoomMiddleware.validateRoomID,
   RoomMiddleware.validateJoinedRoom,
   RoomMiddleware.validateParticipantID,
-  UserMiddleware.validateUserById,
-  RoomController.removeParticipant,
+  userMiddleware.validateUserById,
+  roomController.removeParticipant,
 );
 router.delete(
   "/delete/:roomID",
   RoomMiddleware.validateRoomID,
-  RoomController.deleteRoom,
+  roomController.deleteRoom,
 );
-router.delete("/delete-all", RoomController.deleteAllRooms);
+router.delete("/delete-all", roomController.deleteAllRooms);
 
 module.exports = router;
