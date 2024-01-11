@@ -11,7 +11,10 @@ import {
   getPostByID,
 } from "../../../redux/request/postRequest";
 import { io } from "socket.io-client";
-import { getPostsShared, getUserByID } from "../../../redux/request/userRequest";
+import {
+  getPostsShared,
+  getUserByID,
+} from "../../../redux/request/userRequest";
 
 //TODO FIX POST SHARED ALWAYS PIN
 

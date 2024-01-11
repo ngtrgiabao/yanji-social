@@ -18,7 +18,12 @@ import "./styles/personal.css";
 import { getUserByID, updateUser } from "../../redux/request/userRequest";
 
 import Navigation from "../../shared/layout/navigation/Navigation";
-import {PersonalBody, PersonalGeneralInfo, PersonalHeader, PersonalNavbarProfile} from "./components"
+import {
+  PersonalBody,
+  PersonalGeneralInfo,
+  PersonalHeader,
+  PersonalNavbarProfile,
+} from "./components";
 import _404 from "../_404/_404";
 import { ConfirmDialog, SocialMediaInput, PhotosUser } from "../../components";
 

@@ -2,7 +2,7 @@ import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 
 import "./styles/home.css";
 
-import {HomeLeft, HomeMiddle} from "./components";
+import { HomeLeft, HomeMiddle } from "./components";
 import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllNotificationsByUser } from "../../redux/request/notificationRequest";

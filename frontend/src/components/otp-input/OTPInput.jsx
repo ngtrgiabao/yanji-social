@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 
 import { updateUser } from "../../redux/request/userRequest";
 
-const OTPInput = ({ otp, onChangeOtp = () => { }, verifyCode, userID }) => {
+const OTPInput = ({ otp, onChangeOtp = () => {}, verifyCode, userID }) => {
   const [errMsg, setErrMsg] = useState("");
   const [isErr, setIsErr] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

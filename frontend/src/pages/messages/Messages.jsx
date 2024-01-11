@@ -6,7 +6,7 @@ import { AVA_KAYO } from "../../assets";
 
 import Navigation from "../../shared/layout/navigation/Navigation";
 
-import {MessageMiddle, MessageRight} from "./components";
+import { MessageMiddle, MessageRight } from "./components";
 import LoadingPage from "../loading/LoadingPage";
 
 const MessagesLeft = lazy(() => import("./components/MessagesLeft"));
