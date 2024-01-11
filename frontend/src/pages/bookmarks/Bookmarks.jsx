@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import "../../style/animations/snackbar.css";
+import "../../styles/animations/snackbar.css";
 
 import { getPostsSaved } from "../../redux/request/userRequest";
 import { Bookmark } from "../../components";
