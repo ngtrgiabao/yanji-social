@@ -24,7 +24,7 @@ class UserService {
   }
 
   async createUser(data) {
-    return await api.post("/api/v1/user/register", data).data;
+    return await api.post("/api/v1/user/register", data);
   }
 
   async getUser(userID) {

@@ -22,10 +22,7 @@ router.get(
   MessageController.getMessageByID,
 );
 
-router.post(
-  "/send-message",
-  MessageController.sendMessage,
-);
+router.post("/send-message", MessageController.sendMessage);
 
 router.put(
   "/update-message/:msgID",

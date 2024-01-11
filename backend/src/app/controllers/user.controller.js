@@ -3,6 +3,7 @@ const { PlayFab, PlayFabClient } = require("playfab-sdk");
 require("dotenv").config();
 
 const UserModel = require("../models/user.model");
+const verifyOTP = require("../utils/sendOtp");
 
 const registerTheColorsAccount = (username, email, pw) => {
   PlayFab.settings.developerSecretKey =
@@ -19,7 +20,7 @@ const registerTheColorsAccount = (username, email, pw) => {
     if (error) {
       console.log(error);
     } else {
-      console.log("User registered successfully:", response);
+      // console.log("User registered successfully:", response);
     }
   });
 };
@@ -27,23 +28,25 @@ const registerTheColorsAccount = (username, email, pw) => {
 const register = (req, res, next) => {
   const { username, password, email } = req.body;
 
-  registerTheColorsAccount(username, email, password);
-
-  UserModel.create({
-    username,
-    password,
-    email,
-  })
-    .then((data) => {
-      return res.status(200).json({
-        msg: "Successfully created user",
-        data,
-      });
+  // registerTheColorsAccount(username, email, password);
+  verifyOTP.withEmail(email).then((code) => {
+    UserModel.create({
+      username,
+      password,
+      email,
     })
-    .catch((error) => {
-      console.error(`Failed to create user ${username}`, error);
-      return res.status(500).json({ msg: "Failed to create user" });
-    });
+      .then((data) => {
+        return res.status(200).json({
+          msg: "Successfully created user",
+          data: data,
+          otpCode: code.otpCode,
+        });
+      })
+      .catch((error) => {
+        console.error(`Failed to create user ${username}`, error);
+        return res.status(500).json({ msg: "Failed to create user" });
+      });
+  });
 };
 
 const login = (req, res, next) => {
@@ -132,6 +135,7 @@ const updateUser = async (req, res, next) => {
       friendRequests,
       postSaved,
       isVerify,
+      isVerifyEmail,
       // Social links
       insta,
       linkedin,
@@ -151,6 +155,7 @@ const updateUser = async (req, res, next) => {
     user.firstName = firstName || user.firstName;
     user.lastName = lastName || user.lastName;
     user.isVerify = isVerify || user.isVerify;
+    user.isVerifyEmail = isVerifyEmail || user.isVerifyEmail;
 
     if (
       insta ||
