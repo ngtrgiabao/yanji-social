@@ -4,8 +4,6 @@ import { useSelector } from "react-redux";
 
 import "../styles/personalHeader.css";
 
-import { BG_DEFAULT_WALLPAPER_USER } from "../../../assets";
-
 import { ChangeImagePopup } from "../../../components";
 
 const PersonalHeader = ({ userInfo, socket }) => {

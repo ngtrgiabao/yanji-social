@@ -8,7 +8,6 @@ import {
   faTwitter,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
@@ -16,6 +15,7 @@ import "../styles/personalIntroduce.css";
 
 import PersonalGallery from "./PersonalGallery";
 import { getUserByID } from "../../../redux/request/userRequest";
+import { SocialBio } from "../../../components";
 
 const PersonalIntroduce = ({
   onUpdateBioPopup,
@@ -24,7 +24,7 @@ const PersonalIntroduce = ({
   userInfo,
 }) => {
   const dispatch = useDispatch();
-  const [user, setUser] = useState({
+  const [socialBio, setSocialBio] = useState({
     bio: userInfo.bio,
     insta: userInfo.insta,
     linkedin: userInfo.linkedin,
@@ -43,27 +43,9 @@ const PersonalIntroduce = ({
 
   const handleSocket = {
     updateUser: useCallback((data) => {
-      const {
-        bio,
-        insta,
-        linkedin,
-        github,
-        pinterest,
-        youtube,
-        twitter,
-        twitch,
-      } = data;
-
-      setUser((prevUser) => ({
+      setSocialBio((prevUser) => ({
         ...prevUser,
-        bio,
-        insta,
-        linkedin,
-        github,
-        pinterest,
-        youtube,
-        twitter,
-        twitch,
+        ...data,
       }));
     }, []),
   };
@@ -81,71 +63,53 @@ const PersonalIntroduce = ({
   const introduceInfo = [
     {
       id: 1,
-      link: user?.insta,
+      username: socialBio?.insta,
       icon: faInstagram,
-      href: "https://www.instagram.com/" + user?.insta,
+      href: "https://www.instagram.com/" + socialBio?.insta,
     },
     {
       id: 2,
-      link: user?.linkedin,
+      username: socialBio?.linkedin,
       icon: faLinkedin,
-      href: "https://www.linkedin.com/in/" + user?.linkedin,
+      href: "https://www.linkedin.com/in/" + socialBio?.linkedin,
     },
     {
       id: 3,
-      link: user?.github,
+      username: socialBio?.github,
       icon: faGithub,
-      href: "https://github.com/" + user?.github,
+      href: "https://github.com/" + socialBio?.github,
     },
     {
       id: 4,
-      link: user?.pinterest,
+      username: socialBio?.pinterest,
       icon: faPinterest,
-      href: "https://www.pinterest.com/" + user?.pinterest,
+      href: "https://www.pinterest.com/" + socialBio?.pinterest,
     },
     {
       id: 5,
-      link: user?.youtube,
+      username: socialBio?.youtube,
       icon: faYoutube,
-      href: "https://www.youtube.com/channel/@" + user?.youtube,
+      href: "https://www.youtube.com/channel/@" + socialBio?.youtube,
     },
     {
       id: 6,
-      link: user?.twitter,
+      username: socialBio?.twitter,
       icon: faTwitter,
-      href: "https://twitter.com/" + user?.twitter,
+      href: "https://twitter.com/" + socialBio?.twitter,
     },
     {
       id: 7,
-      link: user?.twitch,
+      username: socialBio?.twitch,
       icon: faTwitch,
-      href: "https://www.twitch.tv/" + user?.twitch,
+      href: "https://www.twitch.tv/" + socialBio?.twitch,
     },
   ];
 
   useEffect(() => {
     userInfo?._id &&
       getUserByID(userInfo?._id, dispatch).then((data) => {
-        const {
-          bio,
-          insta,
-          linkedin,
-          github,
-          pinterest,
-          youtube,
-          twitter,
-          twitch,
-        } = data.user;
-
-        setUser({
-          bio,
-          insta,
-          linkedin,
-          github,
-          pinterest,
-          youtube,
-          twitter,
-          twitch,
+        setSocialBio({
+          ...data?.user,
         });
       });
   }, [userInfo?._id, dispatch]);
@@ -153,24 +117,13 @@ const PersonalIntroduce = ({
   const renderIntroduceInfo = () => {
     return introduceInfo.map(
       (item) =>
-        item.link && (
-          <div key={item.id} className="d-flex align-items-center my-3 fs-3">
-            <FontAwesomeIcon icon={item.icon} />
-            <p className="ms-3 m-0">
-              {item.href ? (
-                <a
-                  className={`m-0 link ${
-                    item.href || item.link ? "link__color" : ""
-                  }`}
-                  href={item.href || "#"}
-                >
-                  {item.link}
-                </a>
-              ) : (
-                <span className={`m-0 link`}>{item.link}</span>
-              )}
-            </p>
-          </div>
+        item.username && (
+          <SocialBio
+            key={item.id}
+            icon={item.icon}
+            link={item.href}
+            username={item.username}
+          />
         ),
     );
   };
@@ -181,7 +134,7 @@ const PersonalIntroduce = ({
 
       <div className="w-100">
         <div className="d-flex flex-column align-items-center fs-4">
-          <p className="inline-block text-break">{user?.bio}</p>
+          <p className="inline-block text-break">{socialBio?.bio}</p>
         </div>
         {currentUser?._id === userInfo?._id && (
           <button className="mb-4" onClick={() => onUpdateBioPopup()}>

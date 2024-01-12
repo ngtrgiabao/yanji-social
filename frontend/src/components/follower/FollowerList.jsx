@@ -20,7 +20,7 @@ const FollowerList = ({ close, userInfo }) => {
         const { followers, followings } = userData.user;
 
         const followersPromises = followers.map((userID) =>
-          getUserByID(userID, dispatch).then((data) => data.user),
+          getUserByID(userID, dispatch).then((data) => data?.user),
         );
 
         const followingsPromises = followings.map((userID) =>

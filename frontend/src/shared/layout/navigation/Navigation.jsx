@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UilSearch } from "@iconscout/react-unicons";
 import Form from "react-bootstrap/Form";
@@ -9,17 +10,33 @@ import "./style/navigation.css";
 import { LOGO_YANJI_SOCIAL } from "../../../assets";
 
 import { logout } from "../../../redux/request/authRequest";
-import { useState } from "react";
+import { NavBtn } from "../../../components";
+import { getUserByID } from "../../../redux/request/userRequest";
 
 const Navigation = ({ title, link, isSearch = true }) => {
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({});
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const currentUser = useSelector((state) => {
     return state.auth.login.currentUser?.data;
   });
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (currentUser && !user._id) {
+      getUserByID(currentUser._id, dispatch)
+        .then((data) => {
+          setUser({
+            ...data.user,
+          });
+        })
+        .catch((error) => {
+          console.error("Failed to fetch user:", error);
+        });
+    }
+  }, [currentUser, user._id, dispatch]);
 
   const handleLogout = () => {
     logout(dispatch, navigate);
@@ -27,23 +44,21 @@ const Navigation = ({ title, link, isSearch = true }) => {
 
   const renderSwitchBtn = () => {
     return currentUser ? (
-      <Link
-        to="/logout"
+      <NavBtn
+        title="Logout"
         className="btn btn-danger d-flex align-items-center justify-content-center gap-4"
-        htmlFor="#logout"
+        lable="#logout"
         onClick={handleLogout}
-        data-logout-btn
-      >
-        Logout
-      </Link>
+        dataAriaLabel="logout-btn"
+        link="/logout"
+      />
     ) : (
-      <Link
-        to={link}
+      <NavBtn
+        title={title}
+        link={link}
         className="nav__btn d-flex align-items-center justify-content-center gap-4"
-        htmlFor="#create-post"
-      >
-        {title}
-      </Link>
+        lable="#create-post"
+      />
     );
   };
 
@@ -55,7 +70,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
         `/api/v1/user/all-users/?username=${value.toLowerCase()}`,
     );
 
-    const userList = data.data.users;
+    const userList = data.data?.users;
 
     if (userList.length > 0) {
       setUsers(userList);
@@ -109,7 +124,11 @@ const Navigation = ({ title, link, isSearch = true }) => {
                   >
                     <div className="profile-pic d-flex justify-content-center align-items-center me-3">
                       {u.profilePicture ? (
-                        <img src={u.profilePicture} alt="" className="w-100" />
+                        <img
+                          src={u.profilePicture}
+                          alt="avatar user"
+                          className="w-100"
+                        />
                       ) : (
                         <>{u.username}</>
                       )}
@@ -126,20 +145,20 @@ const Navigation = ({ title, link, isSearch = true }) => {
             {currentUser && (
               <Link
                 aria-label="Avatar user"
-                to={currentUser ? `/user/${currentUser?._id}` : "/"}
+                to={currentUser ? `/user/${user?._id}` : "/"}
                 className="profile-pic ms-4 border border-2 border-white text-white"
               >
-                {currentUser?.profilePicture ? (
+                {user?.profilePicture ? (
                   <img
                     loading="lazy"
                     role="presentation"
                     decoding="async"
                     className="w-100"
-                    src={currentUser?.profilePicture}
+                    src={user?.profilePicture}
                     alt="Avatar user"
                   />
                 ) : (
-                  <>{currentUser?.username}</>
+                  <>{user?.username}</>
                 )}
               </Link>
             )}

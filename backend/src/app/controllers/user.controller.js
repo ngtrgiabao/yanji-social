@@ -5,6 +5,7 @@ require("dotenv").config();
 const UserModel = require("../models/user.model");
 const verifyOTP = require("../utils/sendOtp");
 const { userService } = require("../services/user.service");
+const hashedUtil = require("../utils/hashed.util");
 
 class UserController {
   registerTheColorsAccount = (username, email, pw) => {
@@ -159,7 +160,7 @@ class UserController {
       const user = await UserModel.findById(userID);
 
       user.username = username || user.username;
-      user.password = password || user.password;
+      user.password = password && await hashedUtil.saltHash(password) || user.password;
       user.email = email || user.email;
       user.profilePicture = profilePicture || user.profilePicture;
       user.coverPicture = coverPicture || user.coverPicture;

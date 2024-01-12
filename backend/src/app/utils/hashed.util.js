@@ -1,7 +1,7 @@
 const { genSalt, hash } = require("bcrypt");
 
 class HashedUtil {
-  async saltHash(password) {
+  saltHash = async (password) => {
     const salt = await genSalt();
     const hashedPassword = await hash(password, salt);
     return hashedPassword;
