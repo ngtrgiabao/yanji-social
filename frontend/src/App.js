@@ -185,14 +185,7 @@ function App() {
                     <LoginPage />
                   </Suspense>
                 }
-              />
-              <Route
-                path="/admin"
-                element={
-                  <Suspense fallback={<LoadingPage />}>
-                    <LoginPage />
-                  </Suspense>
-                }
+                
               />
             </Routes>
           ) : (

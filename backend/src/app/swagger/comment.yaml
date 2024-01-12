@@ -1,0 +1,73 @@
+paths:
+  /comment:
+    get:
+      tags:
+        - Comment
+      responses:
+        '200':
+          description: Hello from comment :D
+  /comment/all-comments:
+    description: Get all comments
+    get:
+      tags:
+        - Comment
+      responses:
+        '200':
+          description: Get all comments successfully
+  /comment/get-comment/{commentID}:
+    description: Get comment by id
+    get:
+      tags:
+        - Comment
+      parameters:
+        - name: commentID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Get comment successfully
+  /comment/all-comments/post/{postID}:
+    description: Get all comments by post
+    get:
+      tags:
+        - Comment
+      parameters:
+        - name: postID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Get all comments successfully
+  /comment/update-comment/{commentID}:
+    description: Update comment
+    put:
+      tags:
+        - Comment
+      parameters:
+        - name: commentID
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+      responses:
+        '200':
+          description: Update comment successfully
+  /comment/delete-comment/{commentID}:
+    description: Delete comment
+    delete:
+      tags:
+        - Comment
+      parameters:
+        - name: commentID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Delete comment successfully

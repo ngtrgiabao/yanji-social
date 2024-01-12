@@ -6,14 +6,14 @@ const UserMiddleware = require("../middleware/user.middleware");
 const ImageController = require("../controllers/image.controller");
 
 router.get("/", (req, res) => {
-    res.send({
-        msg: "Hello from image",
-    });
+  res.send({
+    msg: "Hello from image :D",
+  });
 });
 router.get(
-    "/all-images/:userID",
-    UserMiddleware.validateUserById,
-    ImageController.getAllImagesByUserID
+  "/all-images/:userID",
+  UserMiddleware.validateUserById,
+  ImageController.getAllImagesByUserID,
 );
 router.get("/image/:imgID", ImageController.getImageByID);
 

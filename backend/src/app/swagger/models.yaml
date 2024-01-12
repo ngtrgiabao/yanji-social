@@ -1,0 +1,334 @@
+components:
+  schemas:
+    Audio:
+      type: object
+      required:
+        - userID
+        - audioUrl
+        - cover
+        - name
+        - playTime
+      properties:
+        id:
+          type: string
+        userID:
+          type: string
+        audioUrl:
+          type: string
+        cover:
+          type: string
+        name:
+          type: string
+        playTime:
+          type: string
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+
+    Block List:
+      type: object
+      required:
+        - userID
+        - blockedUserId
+      properties:
+        id:
+          type: string
+        userID:
+          type: string
+        blockedUserId:
+          type: string
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+
+    ChatRoom:
+      type: object
+      required:
+        - name
+        - participants
+        - settings
+        - isAdmin
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        participants:
+          type: array
+          items:
+            type: string
+        settings:
+          type: object
+          properties:
+            notifications:
+              type: boolean
+            sound:
+              type: boolean
+            theme:
+              type: string
+            private:
+              type: boolean
+        isAdmin:
+          type: boolean
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+
+    Contact:
+      type: object
+      required:
+        - user
+        - contactName
+        - profilePicture
+        - status
+        - additionalInfo
+      properties:
+        id:
+          type: string
+        user:
+          type: 
+        contactName:
+          type: string
+        profilePicture:
+          type: string
+        status:
+          type: string
+        additionalInfo:
+          type: string
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+
+    Image:
+      type: object
+      required:
+        - userID
+        - imageUrl
+      properties:
+        id:
+          type: string
+        userID:
+          type: string
+        imageUrl:
+          type: string
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+
+    Message:
+      type: object
+      required:
+        - message
+        - roomId
+        - media
+        - file
+        - sender
+        - isRead
+        - isEdited
+        - isDeleted
+      properties:
+        id:
+          type: string
+        message:
+          type: string
+        roomId:
+          type: string
+        media:
+          type: string
+        file:
+          type: string
+        sender:
+          type: string
+        isRead:
+          type: boolean
+        isEdited:
+          type: boolean
+        isDeleted:
+          type: boolean
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+
+    Notification:
+      type: object
+      required:
+        - sender
+        - receiver
+        - type
+        - isRead
+      properties:
+        id:
+          type: string
+        sender:
+          type: string
+        receiver:
+          type: string
+        type:
+          type: number
+        isRead:
+          type: boolean
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+
+    Post:
+      type: object
+      required:
+        - userID
+        - desc
+        - img
+        - likes
+        - comments
+        - shares
+        - video
+        - isEdited
+      properties:
+        id:
+          type: string
+        userID:
+          type: string
+        desc:
+          type: string
+        img:
+          type: string
+        likes:
+          type: array
+          items:
+            type: string
+        comments:
+          type: array
+          items:
+            type: string
+        shares:
+          type: array
+          items:
+            type: string
+        video:
+          type: string
+        isEdited:
+          type: boolean
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+
+    User:
+      type: object
+      required:
+        - username
+        - password
+        - email
+        - profilePicture
+        - coverPicture
+        - bio
+        - firstName
+        - lastName
+        - photos
+        - followers
+        - followings
+        - gender
+        - insta
+        - twitter
+        - linkedin
+        - github
+        - youtube
+        - twitch
+        - isVerify
+        - pinned
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        profilePicture:
+          type: string
+        coverPicture:
+          type: string
+        bio:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        photos:
+          type: array
+          items:
+            type: string
+        followers:
+          type: array
+          items:
+            type: string
+        followings:
+          type: array
+          items:
+            type: string
+        gender:
+          type: boolean
+        insta:
+          type: string
+        twitter:
+          type: string
+        linkedin:
+          type: string
+        github:
+          type: string
+        youtube:
+          type: string
+        twitch:
+          type: string
+        isVerify:
+          type: boolean
+        pinned:
+          type: boolean
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+
+    Video:
+      type: object
+      required:
+        - userID
+        - videoUrl
+      properties:
+        id:
+          type: string
+        userID:
+          type: string
+        videoUrl:
+          type: string
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date

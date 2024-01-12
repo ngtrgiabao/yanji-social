@@ -1,0 +1,259 @@
+paths:
+  /post:
+    get:
+      description: Returns the homepage
+      tags:
+        - Post
+      responses:
+        '200':
+          description: Hello from post :D
+  /post/all-posts:
+    get:
+      description: Returns all posts
+      tags:
+        - Post
+      responses:
+        '200':
+          description: Get all posts successfully
+  /post/get-post/{postID}:
+    get:
+      description: Returns all posts
+      tags:
+        - Post
+      parameters:
+        - name: postID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Get all posts successfully
+  /post/all-posts/author/{userID}:
+    get:
+      description: Get all posts by author
+      tags:
+        - Post
+      parameters:
+        - name: userID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Get all posts by author successfully
+  /post/upload-post/{userID}:
+    post:
+      description: Upload post
+      tags:
+        - Post
+      parameters:
+        - name: userID
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userID:
+                  type: string
+                desc:
+                  type: string
+                img: 
+                  type: string
+                video:
+                  type: string
+      responses:
+        '200':
+          description: Uploaded post successfully
+          content:
+            application/json:
+              schema: 
+                $ref: '#/##/models/Post'
+              example:
+                msg: Post upload successfully
+                userID: 64925d0a9f940ad13dc3d926
+                desc: string
+                img: string
+                video: string
+                likes: []
+                shares: []
+                isEdited: false
+                _id: 6597e0f931370786ca928c9d
+                comments: []
+                createdAt: 2024-01-05T10:59:05.244Z
+                updatedAt: 2024-01-05T10:59:05.244Z
+  /post/update-post/{postID}:
+    put:
+      description: Update post
+      tags:
+        - Post
+      parameters:
+        - name: postID
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                desc:
+                  type: string
+                img: 
+                  type: string
+                video:
+                  type: string
+      responses:
+        '200':
+          description: Updated post successfully
+          content:
+            application/json:
+              schema: 
+                $ref: '#/##/models/Post'
+              example:
+                msg: Post updated successfully
+                userID: 64925d0a9f940ad13dc3d926
+                desc: string
+                img: string
+                video: string
+                likes: []
+                shares: []
+                isEdited: false
+                _id: 6597e0f931370786ca928c9d
+                comments: []
+                createdAt: 2024-01-05T10:59:05.244Z
+                updatedAt: 2024-01-05T10:59:05.244Z
+  /post/{postID}/like:
+    put:
+      description: Like post
+      tags:
+        - Post
+      parameters:
+        - name: postID
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userID:
+                  type: string
+      responses:
+        '200':
+          description: Liked post successfully
+          content:
+            application/json:
+              schema: 
+                $ref: '#/##/models/Post'
+              example:
+                msg: Post updated successfully
+                userID: 64925d0a9f940ad13dc3d926
+                desc: string
+                img: string
+                video: string
+                likes: []
+                shares: []
+                isEdited: false
+                _id: 6597e0f931370786ca928c9d
+                comments: []
+                createdAt: 2024-01-05T10:59:05.244Z
+                updatedAt: 2024-01-05T10:59:05.244Z
+  /post/{postID}/share:
+    put:
+      description: Share post
+      tags:
+        - Post
+      parameters:
+        - name: postID
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userID:
+                  type: string
+      responses:
+        '200':
+          description: Shared post successfully
+          content:
+            application/json:
+              schema: 
+                $ref: '#/##/models/Post'
+              example:
+                msg: Post updated successfully
+                userID: 64925d0a9f940ad13dc3d926
+                desc: string
+                img: string
+                video: string
+                likes: []
+                shares: []
+                isEdited: false
+                _id: 6597e0f931370786ca928c9d
+                comments: []
+                createdAt: 2024-01-05T10:59:05.244Z
+                updatedAt: 2024-01-05T10:59:05.244Z
+  /post/{postID}/comment:
+    put:
+      description: Comment post
+      tags:
+        - Post
+      parameters:
+        - name: postID
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userID:
+                  type: string
+                content:
+                  type: string
+      responses:
+        '200':
+          description: Commented post successfully
+          content:
+            application/json:
+              schema: 
+                $ref: '#/##/models/Post'
+              example:
+                msg: Post updated successfully
+                userID: 64925d0a9f940ad13dc3d926
+                desc: string
+                img: string
+                video: string
+                likes: []
+                shares: []
+                isEdited: false
+                _id: 6597e0f931370786ca928c9d
+                comments:
+                  - userID: "644b39bb69629477b5b3ed2c"
+                    content: "helllllllllllooooooooooooooooo"
+                    createdAt: "2024-01-05T11:10:59.699Z"
+                    updatedAt: "2024-01-05T11:10:59.699Z"
+                createdAt: 2024-01-05T10:59:05.244Z
+                updatedAt: 2024-01-05T10:59:05.244Z
+  /post/delete-post/{postID}:
+    delete:
+      description: Delete post
+      tags:
+        - Post
+      parameters:
+        - name: postID
+          in: path
+          required: true
+      responses:
+        '200':
+          description: Deleted post successfully
