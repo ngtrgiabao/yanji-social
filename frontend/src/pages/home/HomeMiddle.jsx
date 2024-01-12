@@ -34,7 +34,7 @@ const HomeMiddle = ({ socket }) => {
   useEffect(() => {
     currentUser &&
       getUserByID(currentUser?._id, dispatch).then((data) => {
-        const { _id, profilePicture, username } = data.user;
+        const { _id, profilePicture, username } = data?.user;
 
         setUser({
           _id,

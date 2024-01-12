@@ -65,7 +65,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
   useEffect(() => {
     currentUser &&
       getUserByID(currentUser._id, dispatch).then((data) => {
-        const { _id, profilePicture, username, isVerify } = data.user;
+        const { _id, profilePicture, username, isVerify } = data?.user;
         setUser({
           _id: _id,
           profilePicture: profilePicture,
