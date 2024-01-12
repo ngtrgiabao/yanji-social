@@ -178,13 +178,13 @@ class UserController {
         twitch
       ) {
         const socialLinks = {
-          insta: validateSocialLink(insta, "Instagram"),
-          linkedin: validateSocialLink(linkedin, "LinkedIn"),
-          github: validateSocialLink(github, "GitHub"),
-          pinterest: validateSocialLink(pinterest, "Pinterest"),
-          youtube: validateSocialLink(youtube, "YouTube"),
-          twitter: validateSocialLink(twitter, "Twitter"),
-          twitch: validateSocialLink(twitch, "Twitch"),
+          insta: this.validateSocialLink(insta, "Instagram"),
+          linkedin: this.validateSocialLink(linkedin, "LinkedIn"),
+          github: this.validateSocialLink(github, "GitHub"),
+          pinterest: this.validateSocialLink(pinterest, "Pinterest"),
+          youtube: this.validateSocialLink(youtube, "YouTube"),
+          twitter: this.validateSocialLink(twitter, "Twitter"),
+          twitch: this.validateSocialLink(twitch, "Twitch"),
         };
 
         Object.keys(socialLinks).forEach((key) => {
