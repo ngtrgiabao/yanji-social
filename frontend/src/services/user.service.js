@@ -31,10 +31,10 @@ class UserService {
     return await api.get(`/api/v1/user/${userID}`);
   }
 
-  async updateUser(updateUser) {
+  async updateUser(updatedUser) {
     return await api.put(
-      `/api/v1/user/update/${updateUser.userID}`,
-      updateUser,
+      `/api/v1/user/update/${updatedUser.userID}`,
+      updatedUser,
     );
   }
 

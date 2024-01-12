@@ -32,3 +32,8 @@ export { default as EmojiPicker } from "./emoji-picker/EmojiPicker";
 export { default as Avatar } from "./avatar/Avatar";
 export { default as SocialLink } from "./social-link/SocialLink";
 export { default as OTPInput } from "./otp-input/OTPInput";
+export { default as BackgroundTheme } from "./custom-theme/BackgroundTheme";
+export { default as ColorTheme } from "./custom-theme/ColorTheme";
+export { default as FontSizeTheme } from "./custom-theme/FontSizeTheme";
+export { default as SocialBio } from "./social-bio/SocialBio";
+export { default as NavBtn } from "./button/NavBtn";

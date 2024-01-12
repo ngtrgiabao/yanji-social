@@ -1,6 +1,6 @@
-@import "./style/responsive/small-laptop/small-laptop.css";
-@import "./style/responsive/big-tablet/big-tablet.css";
-@import "./style/responsive/mobile/mobile.css";
+@import "./styles/responsive/small-laptop/small-laptop.css";
+@import "./styles/responsive/big-tablet/big-tablet.css";
+@import "./styles/responsive/mobile/mobile.css";
 
 *,
 *::before,
