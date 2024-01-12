@@ -1,11 +1,11 @@
 const { compare, genSalt, hash } = require("bcrypt");
 
 const UserModel = require("../models/user.model");
+const hashedUtil = require("../utils/hashed.util");
 
 class UserService {
   createUser = async (username, password, email, otpCode) => {
-    const salt = await genSalt();
-    const hashedPassword = await hash(password, salt);
+    const hashedPassword = await hashedUtil.saltHash(password);
 
     const user = UserModel.create({
       username,

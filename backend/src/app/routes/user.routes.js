@@ -10,7 +10,7 @@ const { audioController } = require("../controllers/audio.controller");
 router.get("/", (req, res) => {
   res.send({ msg: "Hello from user :D" });
 });
-router.get("/all-users", userController.getAllUsers);
+router.get("/all-users", userController.getAllUsersByUsername);
 router.get("/:userID", userMiddleware.validateUserById, userController.getUser);
 router.get(
   "/:userID/shared",

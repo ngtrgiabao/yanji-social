@@ -73,7 +73,7 @@ class UserController {
     });
   };
 
-  getAllUsers = async (req, res, next) => {
+  getAllUsersByUsername = async (req, res, next) => {
     try {
       const { username } = req.query;
       // Split the username into an array of words
