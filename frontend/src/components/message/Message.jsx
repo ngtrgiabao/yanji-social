@@ -5,12 +5,9 @@ import {
   faCircleCheck as seenIcon,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  faCircleCheck as unseenIcon,
-  faPenToSquare,
-} from "@fortawesome/free-regular-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
-import { useTimeAgo } from "../../hooks";
+import { useTimeAgo } from "../../shared/hooks";
 
 const Message = ({
   id,
@@ -32,6 +29,7 @@ const Message = ({
 
   return sender === currentUser._id ? (
     <div
+      key={id}
       className="middle-container-body__right-text mb-3 fs-4 animate__animated animate__slideInRight d-flex align-items-end flex-column"
       data-title="current_user"
       data-id={id}
@@ -74,14 +72,6 @@ const Message = ({
       <div className="middle-container-body__right-time">
         {formatTime(createdAt) || "now"}
         {createdAt !== updatedAt && <> - edited {formatTime(updatedAt)}</>}
-        {/* {message.isRead ? (
-                            <FontAwesomeIcon className="ms-1" icon={seenIcon} />
-                        ) : (
-                            <FontAwesomeIcon
-                                className="ms-1"
-                                icon={unseenIcon}
-                            />
-                        )} */}
       </div>
     </div>
   ) : (
@@ -89,6 +79,7 @@ const Message = ({
       className="middle-container-body__left-text mb-3 fs-4 animate__animated animate__slideInLeft d-flex flex-column"
       data-title="friend"
       data-id={`${id}`}
+      key={id}
     >
       <div className="d-flex justify-content-start align-items-center w-100">
         <span className="middle-container-body__left-message-content me-2 overflow-hidden">

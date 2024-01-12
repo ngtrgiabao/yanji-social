@@ -13,6 +13,7 @@ import {
   faRepeat,
   faBookmark as bookmarked,
   faCircleCheck,
+  faLink,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import io from "socket.io-client";
@@ -31,7 +32,7 @@ import {
   getUserByID,
   updateUser,
 } from "../../redux/request/userRequest";
-import { useTimeAgo } from "../../hooks";
+import { useTimeAgo, useCopyUrl } from "../../shared/hooks";
 import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "../paragraph/ParagraphWithLink";
 import EditPopup from "../popup/EditPopup";
@@ -55,7 +56,7 @@ const Post = ({
   shares,
   comments,
   socket,
-  handleDeletePopup = () => { },
+  handleDeletePopup = () => {},
   isDisableComment = false,
 }) => {
   const [popup, setPopup] = useState("");
@@ -299,6 +300,17 @@ const Post = ({
             </span>
             Edit this post
           </li>
+          <li
+            onClick={(e) => {
+              e.stopPropagation();
+              useCopyUrl("http://localhost:3000/post/" + postID);
+            }}
+          >
+            <span className="fs-2">
+              <FontAwesomeIcon icon={faLink} />
+            </span>
+            Copy url
+          </li>
         </ul>
       </div>
     );
@@ -336,7 +348,7 @@ const Post = ({
           <Link to={`/user/${user?._id}`} className="info">
             <div className="d-flex align-items-center fs-5">
               <div className="fw-bold d-flex align-items-center">
-                {user.username}
+                {user.username || "loading..."}
                 {user.isVerify && (
                   <FontAwesomeIcon
                     className="ms-2 bg-white rounded rounded-circle text-primary"
@@ -352,14 +364,14 @@ const Post = ({
               </div>
             </div>
             <span>
-              <>@{user.username}</>
+              <>@{user?.username || "loading..."}</>
             </span>
           </Link>
         </div>
         <div className="d-flex align-items-center">
           <FontAwesomeIcon
             icon={isSaved ? bookmarked : bookmarkDefault}
-            className="fs-4 me-2"
+            className="fs-4 me-3"
             title="Save this post"
             style={{
               cursor: "pointer",
@@ -369,7 +381,11 @@ const Post = ({
           {user?._id === currentUser?._id && (
             <span className="post-settings" title="Setting post">
               <UilEllipsisH
-                className="dots"
+                role="button"
+                className="hover-bg"
+                style={{
+                  transform: "rotate(90deg)",
+                }}
                 onClick={(e) => {
                   handleSetting(e);
                 }}
@@ -481,7 +497,9 @@ const Post = ({
         >
           <ParagraphWithLink text={desc} />
         </div>
-        {image && <Photo imageSrc={image} label="Media of post" />}
+        {image && (
+          <Photo postID={postID} imageSrc={image} label="Media of post" />
+        )}
         {video && <Photo videoSrc={video} isVideo={true} />}
         {renderActionBtn()}
 

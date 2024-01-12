@@ -2,14 +2,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
-import { faLock, faImage, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faImage, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { io } from "socket.io-client";
 
 import PreviewImage from "../preview/PreviewImage";
 import { updatePost } from "../../redux/request/postRequest";
-import { useUploadImage } from "../../hooks";
+import { useUploadImage } from "../../shared/hooks";
 
 const EditPopup = ({
   onPopup,
@@ -258,13 +258,19 @@ const EditPopup = ({
         {!isLoading ? (
           <input
             type="submit"
-            className="form__post-btn p-2 w-100 border-0 rounded fs-5 fw-bold mt-4"
+            className="w-100 py-3 border-0 rounded fs-4 fw-bold mt-4"
             value="Update post"
           />
         ) : (
-          <div className="text-center bg-white text-black form__post-btn p-2 w-100 border-0 rounded fs-5 fw-bold mt-4">
+          <button
+            className="text-center bg-white text-black py-3 w-100 border-0 rounded fs-5 fw-bold mt-4"
+            disabled
+            style={{
+              cursor: "not-allowed",
+            }}
+          >
             Updating post...
-          </div>
+          </button>
         )}
       </form>
     </div>

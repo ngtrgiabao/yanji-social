@@ -164,12 +164,12 @@ const Comments = ({ postID, author, socket }) => {
         <div className="flex-fill mx-2">
           <input
             type="text"
-            className="fs-3 p-2 px-4 w-100 border-0"
+            className="fs-3 ms-2 p-2 px-4 w-100 border-0"
             placeholder="Đăng bình luận của bạn"
             value={content}
             onChange={handleContent}
             style={{
-              borderRadius: "2rem",
+              borderRadius: "0.5rem",
             }}
             maxLength={200}
           />

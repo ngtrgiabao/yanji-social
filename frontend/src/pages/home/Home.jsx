@@ -8,7 +8,9 @@ import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllNotificationsByUser } from "../../redux/request/notificationRequest";
 
-const Navigation = lazy(() => import("../../layout/navigation/Navigation"));
+const Navigation = lazy(
+  () => import("../../shared/layout/navigation/Navigation"),
+);
 
 const Home = ({ socket }) => {
   const currentUser = useSelector((state) => {

@@ -113,8 +113,7 @@ const HomeMiddle = ({ socket }) => {
             onClick={handlePopup}
             id="caption"
           >
-            What's in your mind,
-            {currentUser?.username || " user"}?
+            What's in your mind, {currentUser?.username || " user"}?
           </div>
         </div>
         <div className="submit d-flex align-items-center" title="Đăng bài viết">

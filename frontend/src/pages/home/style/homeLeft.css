@@ -40,10 +40,6 @@ main .container .left .profile {
   position: relative;
 }
 
-.left .sidebar .menu-item:hover {
-  background-color: var(--color-light);
-}
-
 .left .sidebar .sidebar-icon {
   margin-left: 2rem;
 

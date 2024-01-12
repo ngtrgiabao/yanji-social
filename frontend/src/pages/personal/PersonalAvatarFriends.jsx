@@ -220,7 +220,7 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
     createRoom(dispatch, roomInfo);
   };
 
-  const handleClostPopup = () => {
+  const handleClosePopup = () => {
     setActive("");
   };
   const renderSettingPopup = () => {
@@ -230,7 +230,7 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
         hidden={active !== "SETTINGS"}
         onClick={() => setActive("")}
       >
-        <Setting close={handleClostPopup} />
+        <Setting close={handleClosePopup} />
       </div>
     );
   };

@@ -257,7 +257,7 @@ components:
         - youtube
         - twitch
         - isVerify
-        - pinned
+        - isVerifyEmail
       properties:
         id:
           type: string
@@ -305,7 +305,7 @@ components:
           type: string
         isVerify:
           type: boolean
-        pinned:
+        isVerifyEmail:
           type: boolean
         createdAt:
           type: string

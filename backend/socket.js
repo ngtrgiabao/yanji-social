@@ -39,22 +39,22 @@ io.on("connection", (socket) => {
       io.emit("followed", data);
     });
 
-    // HANDLE MESSAGE OF USER
-    socket.on("send-message", (data) => {
-      const { sender, time } = data;
-      io.emit("receive-message", data);
-      console.log(`User ${sender} have sent message at ${time}`);
-    });
-    socket.on("update-message", (data) => {
-      const { msgID } = data;
+        // HANDLE MESSAGE OF USER
+        socket.on("send-message", (data) => {
+            const { sender, time } = data;
+            io.emit("receive-message", data);
+            console.log(`User ${sender} have sent message at ${time}`);
+        });
+        socket.on("update-message", (data) => {
+            const { msgID } = data;
 
-      io.emit("updated-message", data);
-      console.log(`Update message ${msgID} successfully`);
-    });
-    socket.on("delete-message", (msgID) => {
-      io.emit("deleted-message", msgID);
-      console.log(`Deleted message ${msgID} successfully`);
-    });
+            io.emit("updated-message", data);
+            console.log(`Update message ${msgID} successfully`);
+        });
+        socket.on("delete-message", (msgID) => {
+            io.emit("deleted-message", msgID);
+            console.log(`Deleted message ${msgID} successfully`);
+        });
 
     // HANDLE USER ONLINE
     socket.on("add-user", (data) => {

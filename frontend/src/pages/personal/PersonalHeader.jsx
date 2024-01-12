@@ -36,7 +36,7 @@ const PersonalHeader = ({ userInfo, socket }) => {
   return (
     <div className="cover">
       <span className="position-relative w-100 h-100">
-        <div className="cover-picture bg-black">
+        <div className="cover-picture bg-black text-white d-flex justify-content-center align-items-center">
           {userInfo.coverPicture ? (
             <img
               loading="lazy"
@@ -46,13 +46,7 @@ const PersonalHeader = ({ userInfo, socket }) => {
               alt="Background cover"
             />
           ) : (
-            <img
-              src={BG_DEFAULT_WALLPAPER_USER}
-              alt=""
-              style={{
-                objectFit: "cover",
-              }}
-            />
+            <span className="fs-4">Empty wallpaper</span>
           )}
         </div>
 

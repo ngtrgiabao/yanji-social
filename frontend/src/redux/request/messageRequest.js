@@ -64,6 +64,7 @@ export const updateMessage = async (msgID, dispatch) => {
   try {
     const res = await messageService.updateMessage(msgID);
     dispatch(updateMessageSuccess(res.data));
+    return res.data;
   } catch (error) {
     dispatch(updateMessageFailed());
   }

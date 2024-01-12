@@ -48,3 +48,8 @@ export { default as PersonalSocialLinks } from "./personal/PersonalSocialLinks";
 
 //postpreview
 export { default as PostPreview } from "./postPreview/PostPreview";
+
+// term
+export { default as TermAndService } from "./term/TermAndService";
+export { default as CookiePolicy } from "./term/CookiePolicy";
+export { default as PrivacyPolicy } from "./term/PrivacyPolicy";

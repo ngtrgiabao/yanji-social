@@ -17,7 +17,7 @@ import "./style/personal.css";
 
 import { getUserByID, updateUser } from "../../redux/request/userRequest";
 
-import Navigation from "../../layout/navigation/Navigation";
+import Navigation from "../../shared/layout/navigation/Navigation";
 import PersonalBody from "./PersonalBody";
 import PersonalGeneralInfo from "./PersonalGeneralInfo";
 import PersonalHeader from "./PersonalHeader";

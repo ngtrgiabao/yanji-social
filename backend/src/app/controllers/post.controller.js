@@ -11,7 +11,6 @@ const uploadPost = async (req, res) => {
       desc,
       img,
       video,
-      pinned: pinned || false, //Add
     });
 
     if (img) {

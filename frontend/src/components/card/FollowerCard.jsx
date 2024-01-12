@@ -1,17 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const FollowerCard = ({ userID, username, profilePicture, close }) => {
   return (
     <Link
-      to={`/user/${userID}`}
-      className="p-2 d-flex align-items-center custom-btn my-2"
+      to={userID ? `/user/${userID}` : "/404"}
+      className="p-2 d-flex align-items-center my-2"
       style={{
         border: "1px solid",
         borderRadius: "0.5rem",
         color: "unset",
       }}
-      onClick={() => close()}
+      onClick={close}
     >
       <div className="profile-pic me-3 fs-5 text-white">
         {profilePicture ? (

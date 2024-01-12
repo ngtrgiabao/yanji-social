@@ -8,7 +8,7 @@ import "../style/changeImagePopup.css";
 
 import PreviewImage from "../preview/PreviewImage";
 import { updateUser } from "../../redux/request/userRequest";
-import { useUploadImage } from "../../hooks";
+import { useUploadImage } from "../../shared/hooks";
 
 const ChangeImagePopup = ({
   title = "Title",

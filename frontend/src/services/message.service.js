@@ -10,10 +10,7 @@ class MessageService {
   }
 
   async sendMessage(message) {
-    return await api.post(
-      `/api/v1/message/send-message`,
-      message,
-    );
+    return await api.post(`/api/v1/message/send-message`, message);
   }
 
   async updateMessage(updateMessage) {

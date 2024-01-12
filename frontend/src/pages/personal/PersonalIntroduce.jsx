@@ -81,45 +81,45 @@ const PersonalIntroduce = ({
   const introduceInfo = [
     {
       id: 1,
-      link: user.insta,
+      link: user?.insta,
       icon: faInstagram,
-      href: "https://www.instagram.com/" + user.insta,
+      href: "https://www.instagram.com/" + user?.insta,
     },
     {
       id: 2,
-      link: user.linkedin,
+      link: user?.linkedin,
       icon: faLinkedin,
-      href: "https://www.linkedin.com/in/" + user.linkedin,
+      href: "https://www.linkedin.com/in/" + user?.linkedin,
     },
     {
       id: 3,
-      link: user.github,
+      link: user?.github,
       icon: faGithub,
-      href: "https://github.com/" + user.github,
+      href: "https://github.com/" + user?.github,
     },
     {
       id: 4,
-      link: user.pinterest,
+      link: user?.pinterest,
       icon: faPinterest,
-      href: "https://www.pinterest.com/" + user.pinterest,
+      href: "https://www.pinterest.com/" + user?.pinterest,
     },
     {
       id: 5,
-      link: user.youtube,
+      link: user?.youtube,
       icon: faYoutube,
-      href: "https://www.youtube.com/channel/@" + user.youtube,
+      href: "https://www.youtube.com/channel/@" + user?.youtube,
     },
     {
       id: 6,
-      link: user.twitter,
+      link: user?.twitter,
       icon: faTwitter,
-      href: "https://twitter.com/" + user.twitter,
+      href: "https://twitter.com/" + user?.twitter,
     },
     {
       id: 7,
-      link: user.twitch,
+      link: user?.twitch,
       icon: faTwitch,
-      href: "https://www.twitch.tv/" + user.twitch,
+      href: "https://www.twitch.tv/" + user?.twitch,
     },
   ];
 
@@ -181,7 +181,7 @@ const PersonalIntroduce = ({
 
       <div className="w-100">
         <div className="d-flex flex-column align-items-center fs-4">
-          <p className="inline-block text-break">{user.bio}</p>
+          <p className="inline-block text-break">{user?.bio}</p>
         </div>
         {currentUser?._id === userInfo?._id && (
           <button className="mb-4" onClick={() => onUpdateBioPopup()}>
