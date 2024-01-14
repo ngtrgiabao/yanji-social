@@ -1,10 +1,8 @@
-import { useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import { UilCamera } from "@iconscout/react-unicons";
 import { useSelector } from "react-redux";
 
 import "./style/personalHeader.css";
-
-import { BG_DEFAULT_WALLPAPER_USER } from "../../assets";
 
 import { ChangeImagePopup } from "../../components";
 
@@ -34,8 +32,8 @@ const PersonalHeader = ({ userInfo, socket }) => {
   };
 
   return (
-    <div className="cover">
-      <span className="position-relative w-100 h-100">
+    <div className="cover position-relative">
+      <span className="bg-primary w-100 h-100">
         <div className="cover-picture bg-black text-white d-flex justify-content-center align-items-center">
           {userInfo.coverPicture ? (
             <img
@@ -54,6 +52,7 @@ const PersonalHeader = ({ userInfo, socket }) => {
           <div
             className="edit-cover d-flex align-items-center"
             onClick={handlePopup}
+            title={"Edit Cover"}
           >
             <span className="me-3">
               <UilCamera />

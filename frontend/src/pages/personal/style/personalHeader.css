@@ -1,4 +1,4 @@
-@import "../../../style//constants/constant.css";
+@import "../../../style/constants/constant.css";
 
 /* BANNER PROFILE */
 
@@ -30,7 +30,7 @@
   background: #fff;
 
   bottom: 5%;
-  right: 2%;
+  right: 3%;
 
   cursor: pointer;
 
