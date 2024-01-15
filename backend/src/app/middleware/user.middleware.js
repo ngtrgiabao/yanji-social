@@ -38,9 +38,7 @@ class UserMiddleware {
     const { username, password } = req.body;
 
     try {
-      const user = await userService.findUserByUsername(
-        username,
-      );
+      const user = await userService.findUserByUsername(username);
       const isValidPassword = await userService.checkPassword(user, password);
 
       if (!isValidPassword) {
