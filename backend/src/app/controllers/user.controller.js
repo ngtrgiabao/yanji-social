@@ -72,6 +72,23 @@ class UserController {
     });
   };
 
+  getByUsername = async (req, res, next) => {
+    const { username } = req.params;
+    const user = await userService.findUserByUsername(username);
+
+    if (user) {
+      return res.status(200).json({
+        msg: "Username already exists",
+        isExist: true,
+      });
+    }
+
+    return res.status(200).json({
+      msg: "Username available",
+      isExist: false,
+    });
+  }
+
   getAllUsersByUsername = async (req, res, next) => {
     try {
       const { username } = req.query;

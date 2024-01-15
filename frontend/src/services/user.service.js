@@ -5,6 +5,10 @@ class UserService {
     return await api.get("/api/v1/all-users").data;
   }
 
+  async getByUsername(username) {
+    return await api.get(`/api/v1/user/username/${username}`);
+  }
+
   async getPostsShared(userID) {
     return await api.get(`/api/v1/user/${userID}/shared`);
   }

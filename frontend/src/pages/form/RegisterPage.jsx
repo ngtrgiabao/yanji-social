@@ -8,7 +8,7 @@ import "./style/registerPage.css";
 
 import Navigation from "../../shared/layout/navigation/Navigation";
 import { registerUser } from "../../redux/request/authRequest";
-
+import {checkIsUserExists} from "../../redux/request/userRequest";
 import { USER_REGEX, PSW_REGEX, EMAIL_REGEX } from "../../utils/regex";
 import { OTPInput } from "../../components";
 
@@ -41,7 +41,7 @@ const RegisterPage = () => {
   const [matchFocus, setMatchFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [isUserExists, setIsUserExists] = useState(false);
 
   // AUTO FOCUS USER NAME INPUT
   useEffect(() => {
@@ -108,6 +108,18 @@ const RegisterPage = () => {
       });
   };
 
+  const handleCheckUsername = () => {
+    checkIsUserExists(username, dispatch).then(data => {
+      const {isExist} = data;
+      if(isExist) {
+        setErrMsg("This username already exist")
+        setIsUserExists(true);
+      } else {
+        setIsUserExists(false);
+      }
+    })
+  };
+
   const renderUsernameInput = () => {
     return (
       <div className="register-form__input">
@@ -132,6 +144,7 @@ const RegisterPage = () => {
             onBlur={() => setUserFocus(false)}
             autoComplete="off"
             value={username}
+            onBlurCapture={handleCheckUsername}
             className="border border-dark"
           />
           <p
@@ -142,13 +155,14 @@ const RegisterPage = () => {
                 : "offscreen"
             }
           >
-            <FontAwesomeIcon icon={faCircleInfo} />
-            4 to 24 characters. <br />
-            Must begin with a letter. <br />
-            Letters, numbers, underscores, hyphens allowed.
+            <span>
+              <FontAwesomeIcon icon={faCircleInfo} />
+                4 to 24 characters. <br />
+                Must begin with a letter. <br />
+                Letters, numbers, underscores, hyphens allowed.
+            </span>
           </p>
         </div>
-        <span></span>
       </div>
     );
   };
@@ -264,7 +278,7 @@ const RegisterPage = () => {
             placeholder="password"
             onChange={(e) => setMatchPwd(e.target.value)}
             aria-label={validMatch ? "false" : "true"}
-            aira-describedby="confirmnote"
+            aria-describedby="confirmnote"
             onFocus={() => setMatchFocus(true)}
             onBlur={() => setMatchFocus(false)}
             className="border border-dark"
@@ -292,7 +306,7 @@ const RegisterPage = () => {
         role="button"
         type="submit"
         disabled={
-          !validName || !validEmail || !validPwd || !validMatch ? true : false
+          !validName || !validEmail || !validPwd || !validMatch || isUserExists
         }
       >
         Register
