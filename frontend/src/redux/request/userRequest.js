@@ -65,10 +65,10 @@ export const checkIsUserExists = async (username, dispatch) => {
     const res = await userService.getByUsername(username);
     dispatch(getUserSuccess(res.data));
     return res.data;
-  } catch(error) {
+  } catch (error) {
     dispatch(getUserFailed());
   }
-}
+};
 
 export const followUser = async (updatedUser, dispatch) => {
   dispatch(updateUserStart(updatedUser));

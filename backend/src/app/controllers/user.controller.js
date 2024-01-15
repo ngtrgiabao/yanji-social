@@ -87,7 +87,7 @@ class UserController {
       msg: "Username available",
       isExist: false,
     });
-  }
+  };
 
   getAllUsersByUsername = async (req, res, next) => {
     try {

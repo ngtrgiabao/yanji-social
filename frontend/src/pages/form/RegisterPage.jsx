@@ -8,7 +8,7 @@ import "./style/registerPage.css";
 
 import Navigation from "../../shared/layout/navigation/Navigation";
 import { registerUser } from "../../redux/request/authRequest";
-import {checkIsUserExists} from "../../redux/request/userRequest";
+import { checkIsUserExists } from "../../redux/request/userRequest";
 import { USER_REGEX, PSW_REGEX, EMAIL_REGEX } from "../../utils/regex";
 import { OTPInput } from "../../components";
 
@@ -109,15 +109,15 @@ const RegisterPage = () => {
   };
 
   const handleCheckUsername = () => {
-    checkIsUserExists(username, dispatch).then(data => {
-      const {isExist} = data;
-      if(isExist) {
-        setErrMsg("This username already exist")
+    checkIsUserExists(username, dispatch).then((data) => {
+      const { isExist } = data;
+      if (isExist) {
+        setErrMsg("This username already exist");
         setIsUserExists(true);
       } else {
         setIsUserExists(false);
       }
-    })
+    });
   };
 
   const renderUsernameInput = () => {
@@ -157,9 +157,9 @@ const RegisterPage = () => {
           >
             <span>
               <FontAwesomeIcon icon={faCircleInfo} />
-                4 to 24 characters. <br />
-                Must begin with a letter. <br />
-                Letters, numbers, underscores, hyphens allowed.
+              4 to 24 characters. <br />
+              Must begin with a letter. <br />
+              Letters, numbers, underscores, hyphens allowed.
             </span>
           </p>
         </div>
