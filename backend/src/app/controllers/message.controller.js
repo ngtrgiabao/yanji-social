@@ -1,6 +1,6 @@
 const MessageModel = require("../models/message.model");
 const UserModel = require("../models/user.model");
-const {imageController} = require("./image.controller");
+const { imageController } = require("./image.controller");
 
 class MessageController {
   sendMessage = async (req, res) => {

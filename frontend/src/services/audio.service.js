@@ -14,10 +14,7 @@ class AudioService {
   }
 
   async updateAudioByUserID(updateAudio) {
-    return await api.put(
-      `/audio/update/${updateAudio.audioID}`,
-      updateAudio,
-    );
+    return await api.put(`/audio/update/${updateAudio.audioID}`, updateAudio);
   }
 
   async deleteAllAudiosByUserID(userID) {

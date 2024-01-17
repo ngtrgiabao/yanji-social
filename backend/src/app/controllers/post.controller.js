@@ -1,6 +1,6 @@
 const PostModel = require("../models/post.model");
 const UserModel = require("../models/user.model");
-const { imageController }  = require("./image.controller")
+const { imageController } = require("./image.controller");
 const { videoController } = require("./video.controller");
 
 class PostController {

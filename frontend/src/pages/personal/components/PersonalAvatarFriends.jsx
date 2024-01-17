@@ -4,7 +4,7 @@ import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect, useCallback } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { followUser, getUserByID } from "../../../redux/request/userRequest";
 import { createRoom } from "../../../redux/request/roomRequest";
@@ -26,34 +26,33 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
   });
 
   const handleFollow = () => {
-    if(currentUser) {
+    if (currentUser) {
       const updatedUser = {
         userID: userInfo?._id,
         newFollower: currentUser?._id,
       };
 
       followUser(updatedUser, dispatch)
-          .then((data) => {
-            if (data) {
-              const { userAccept, userRequest } = data.data;
+        .then((data) => {
+          if (data) {
+            const { userAccept, userRequest } = data.data;
 
-              socket = io(SOCKET_URL);
+            socket = io(SOCKET_URL);
 
-              socket.emit("follow", {
-                // add author of current account to update friendRequests list
-                sender: userRequest?._id,
-                // add user route page to checking is this user send request?
-                userRoute: userAccept?._id,
-              });
-            }
-          })
-          .catch((err) => {
-            console.error("Failed to follow", err);
-          });
+            socket.emit("follow", {
+              // add author of current account to update friendRequests list
+              sender: userRequest?._id,
+              // add user route page to checking is this user send request?
+              userRoute: userAccept?._id,
+            });
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to follow", err);
+        });
     } else {
-      navigate("/login")
+      navigate("/login");
     }
-
   };
 
   const handleUserGotFollowed = (sender, userRoute) => {

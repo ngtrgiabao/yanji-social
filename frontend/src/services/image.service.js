@@ -14,10 +14,7 @@ class ImageService {
   }
 
   async updateImageByUserID(updateImage) {
-    return await api.put(
-      `/image/update/${updateImage.imgID}`,
-      updateImage,
-    );
+    return await api.put(`/image/update/${updateImage.imgID}`, updateImage);
   }
 
   async deleteAllImagesByUserID(userID) {

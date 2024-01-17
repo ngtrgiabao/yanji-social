@@ -109,7 +109,7 @@ const RegisterPage = () => {
   };
 
   const handleCheckUsername = () => {
-    if(username) {
+    if (username) {
       checkIsUserExists(username, dispatch).then((data) => {
         const { isExist } = data;
         if (isExist) {

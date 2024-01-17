@@ -83,17 +83,13 @@ const Message = ({
     >
       <div className="d-flex justify-content-start align-items-center w-100">
         <span className="middle-container-body__left-message-content me-2 overflow-hidden">
-              {media ? (
-                <img
-                  src={media}
-                  alt="image_uploaded"
-                  onClick={onPreviewImage}
-                />
-              ) : (
-                <div className="middle-container-body__left-message-content-text">
-                  {content}
-                </div>
-              )}
+          {media ? (
+            <img src={media} alt="image_uploaded" onClick={onPreviewImage} />
+          ) : (
+            <div className="middle-container-body__left-message-content-text">
+              {content}
+            </div>
+          )}
         </span>
       </div>
       <div className="middle-container-body__left-time">

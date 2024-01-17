@@ -18,10 +18,7 @@ class PostService {
   }
 
   async updatePost(updatePost) {
-    return await api.put(
-      `/post/update-post/${updatePost.postID}`,
-      updatePost,
-    );
+    return await api.put(`/post/update-post/${updatePost.postID}`, updatePost);
   }
 
   async likePost(post) {

@@ -36,17 +36,11 @@ class UserService {
   }
 
   async updateUser(updatedUser) {
-    return await api.put(
-      `/user/update/${updatedUser.userID}`,
-      updatedUser,
-    );
+    return await api.put(`/user/update/${updatedUser.userID}`, updatedUser);
   }
 
   async followUser(updatedUser) {
-    return await api.put(
-      `/user/${updatedUser.userID}/follow`,
-      updatedUser,
-    );
+    return await api.put(`/user/${updatedUser.userID}/follow`, updatedUser);
   }
 
   async deleteAllUsers() {
