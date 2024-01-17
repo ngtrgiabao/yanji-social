@@ -1,9 +1,10 @@
 import { createContext, useEffect, useMemo, useState } from "react";
+import { TextColorMap, ThemeMap, FontSizeMap } from "../../shared/constants/theme";
 
 const ThemeContext = createContext({
-  setBgColors: () => {},
-  setTextColors: () => {},
-  setFontSizes: () => {},
+  setBgColors: () => { },
+  setTextColors: () => { },
+  setFontSizes: () => { },
 });
 
 const ThemeProvider = ({ children }) => {
@@ -34,53 +35,27 @@ const ThemeProvider = ({ children }) => {
 
   // Set Background theme
   useEffect(() => {
-    switch (bg) {
-      case "bg-1":
-        root.style.setProperty("--dark-color-lightness", "17%");
-        root.style.setProperty("--light-color-lightness", "95%");
-        root.style.setProperty("--white-color-lightness", "100%");
-        break;
+    const themeProperties = ThemeMap[bg];
 
-      case "bg-2":
-        root.style.setProperty("--dark-color-lightness", "95%");
-        root.style.setProperty("--light-color-lightness", "20%");
-        root.style.setProperty("--white-color-lightness", "15%");
-        break;
+    Object.entries(themeProperties).forEach(([property, value]) => {
+      root.style.setProperty(property, value);
+    });
 
-      case "bg-3":
-        root.style.setProperty("--dark-color-lightness", "95%");
-        root.style.setProperty("--light-color-lightness", "10%");
-        root.style.setProperty("--white-color-lightness", "0%");
-        break;
-    }
-
-    // Save the current theme to local storage
     localStorage.setItem("background_theme", bg);
   }, [bg]);
 
   // Set Text color
   useEffect(() => {
-    switch (textColor) {
-      case "color-1":
-        root.style.setProperty("--primary-color-hue", "252");
-        break;
-      case "color-2":
-        root.style.setProperty("--primary-color-hue", "52");
-        break;
-      case "color-3":
-        root.style.setProperty("--primary-color-hue", "352");
-        break;
-      case "color-4":
-        root.style.setProperty("--primary-color-hue", "202");
-        break;
-      case "color-5":
-        root.style.setProperty("--primary-color-hue", "152");
-        break;
-    }
+    const textColorProperties = TextColorMap[textColor];
 
-    // Save the current theme to local storage
+    Object.entries(textColorProperties).forEach(([property, value]) => {
+      root.style.setProperty(property, value);
+    });
+
     localStorage.setItem("text_color", textColor);
   }, [textColor]);
+
+  //TODO optimize fontsize
 
   // Set Font size
   useEffect(() => {
