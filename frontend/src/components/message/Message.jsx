@@ -83,10 +83,6 @@ const Message = ({
     >
       <div className="d-flex justify-content-start align-items-center w-100">
         <span className="middle-container-body__left-message-content me-2 overflow-hidden">
-          {loadingMsg ? (
-            "Loading message..."
-          ) : (
-            <>
               {media ? (
                 <img
                   src={media}
@@ -98,8 +94,6 @@ const Message = ({
                   {content}
                 </div>
               )}
-            </>
-          )}
         </span>
       </div>
       <div className="middle-container-body__left-time">

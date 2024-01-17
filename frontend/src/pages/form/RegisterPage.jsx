@@ -109,15 +109,17 @@ const RegisterPage = () => {
   };
 
   const handleCheckUsername = () => {
-    checkIsUserExists(username, dispatch).then((data) => {
-      const { isExist } = data;
-      if (isExist) {
-        setErrMsg("This username already exist");
-        setIsUserExists(true);
-      } else {
-        setIsUserExists(false);
-      }
-    });
+    if(username) {
+      checkIsUserExists(username, dispatch).then((data) => {
+        const { isExist } = data;
+        if (isExist) {
+          setErrMsg("This username already exist");
+          setIsUserExists(true);
+        } else {
+          setIsUserExists(false);
+        }
+      });
+    }
   };
 
   const renderUsernameInput = () => {

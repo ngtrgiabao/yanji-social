@@ -159,7 +159,7 @@ const PersonalBody = ({
           </div>
         </div>
         <div className="col-7" data-posts>
-          {currentUser._id === userInfo._id && (
+          {currentUser?._id === userInfo?._id && (
             <div className="row d-flex border-bottom pb-4 mb-4" data-uploadpost>
               <div className="profile-pic p-0 rounded-circle overflow-hidden text-white">
                 {userInfo.profilePicture ? (
