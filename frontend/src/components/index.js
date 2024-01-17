@@ -30,8 +30,5 @@ export { default as ChooseFontSizeBtn } from "./button/ChooseFontSizeBtn";
 export { default as ChooseBgBtn } from "./button/ChooseBgBtn";
 export { default as EmojiPicker } from "./emoji-picker/EmojiPicker";
 export { default as Avatar } from "./avatar/Avatar";
-<<<<<<< HEAD
-=======
 export { default as SocialLink } from "./social-link/SocialLink";
 export { default as OTPInput } from "./otp-input/OTPInput";
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
