@@ -20,7 +20,7 @@ import { getUserByID } from "../../../redux/request/userRequest";
 import { LOGO_YANJI_SOCIAL } from "../../../assets";
 
 // SETTINGS
-import {Avatar, CustomTheme, PostPopup, Setting} from "../../../components";
+import { Avatar, CustomTheme, PostPopup, Setting } from "../../../components";
 import { Button } from "../../../components";
 
 const HomeLeft = ({ socket, isReadNotification }) => {
@@ -140,7 +140,10 @@ const HomeLeft = ({ socket, isReadNotification }) => {
             {/*  alt="Avatar user"*/}
             {/*  className="w-100"*/}
             {/*/>*/}
-            <Avatar imageSrc={currentUser ? user.profilePicture : LOGO_YANJI_SOCIAL} label={user.username}/>
+            <Avatar
+              imageSrc={currentUser ? user.profilePicture : LOGO_YANJI_SOCIAL}
+              label={user.username}
+            />
           </div>
 
           <div className="handle">

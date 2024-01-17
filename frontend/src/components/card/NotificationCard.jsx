@@ -116,7 +116,10 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
             })()}
             <div className="d-flex align-items-center justify-content-between w-100">
               <Link to={"/user/" + sender} className="profile-pic ms-3">
-                <Avatar imageSrc={notiInfo.profilePicture} label={notiInfo.senderName} />
+                <Avatar
+                  imageSrc={notiInfo.profilePicture}
+                  label={notiInfo.senderName}
+                />
               </Link>
               <div>{formatTime(createdAt)}</div>
             </div>

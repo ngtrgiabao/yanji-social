@@ -436,10 +436,12 @@ const MessageMiddle = ({ socket }) => {
           to={`/user/${friendID}`}
           className="d-flex align-items-center link-underline"
         >
-          <span style={{
-            width: "4rem",
-            height: "4rem",
-          }}>
+          <span
+            style={{
+              width: "4rem",
+              height: "4rem",
+            }}
+          >
             <Avatar imageSrc={friend.avatar} label={friend.name} />
           </span>
           <span className="ms-2 fs-4 fw-bold">{friend.name}</span>
