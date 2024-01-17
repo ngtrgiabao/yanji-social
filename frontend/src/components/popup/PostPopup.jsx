@@ -111,7 +111,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
       .then(async (data) => {
         socket = io(SOCKET_URL);
 
-        await socket.emit("upload-post", data.data);
+        await socket.emit("upload-post", data?.data);
       })
       .catch((err) => console.error("Failed to upload post", err));
 

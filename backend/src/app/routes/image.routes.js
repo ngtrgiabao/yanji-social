@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const UserMiddleware = require("../middleware/user.middleware");
+const { userMiddleware } = require("../middleware/user.middleware");
 
-const ImageController = require("../controllers/image.controller");
+const { imageController } = require("../controllers/image.controller");
 
 router.get("/", (req, res) => {
   res.send({
@@ -12,9 +12,9 @@ router.get("/", (req, res) => {
 });
 router.get(
   "/all-images/:userID",
-  UserMiddleware.validateUserById,
-  ImageController.getAllImagesByUserID,
+  userMiddleware.validateUserById,
+  imageController.getAllImagesByUserID,
 );
-router.get("/image/:imgID", ImageController.getImageByID);
+router.get("/image/:imgID", imageController.getImageByID);
 
 module.exports = router;
