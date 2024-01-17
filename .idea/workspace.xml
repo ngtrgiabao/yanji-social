@@ -8,28 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3a9ba755-12b1-4b75-88f2-f90d0c1bf338" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/app/config/swagger.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/app/routes/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/message.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/message.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/post.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/post.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/video.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/video.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/app/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/services/user.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/message/Message.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/message/Message.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/form/RegisterPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/form/RegisterPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalAvatarFriends.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalAvatarFriends.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalBody.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalBody.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalSocialLinks.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalSocialLinks.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/api.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/api.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/audio.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/audio.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/comment.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/comment.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/image.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/image.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/message.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/message.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/notification.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/notification.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/post.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/post.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/room.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/room.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/user.service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,24 +42,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feat/encrypt-data",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/VSCODE-PROJECT/yanji-social",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/encrypt-data&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/VSCODE-PROJECT/yanji-social&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
