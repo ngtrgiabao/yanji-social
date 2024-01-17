@@ -1,6 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
-import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect, useCallback } from "react";
@@ -11,8 +8,9 @@ import { createRoom } from "../../../redux/request/roomRequest";
 import { NEW_FOLLOWER } from "../../../business/noti.type";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import { Setting } from "../../../components";
+import { PersonalSendMsgBtn } from "./index";
 
-const PersonalAvatarFriends = ({ userInfo, socket }) => {
+const PersonalFollow = ({ userInfo, socket }) => {
   const [active, setActive] = useState("");
   const [isFollow, setIsFollow] = useState(false);
   const [isApprover, setIsApprover] = useState(false);
@@ -229,6 +227,7 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
   const handleClosePopup = () => {
     setActive("");
   };
+
   const renderSettingPopup = () => {
     return (
       <div
@@ -245,14 +244,7 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
     <div className="w-100 d-flex justify-content-between align-items-center flex-wrap">
       <div className="d-flex align-items-center">
         {userInfo?._id !== currentUser?._id && (
-          <Link
-            to="/messages"
-            className="rounded rounded-circle d-flex justify-content-center align-items-center me-3 msg-btn"
-            title="Message"
-            onClick={createNewMsg}
-          >
-            <FontAwesomeIcon icon={faEnvelope} className="fs-3" />
-          </Link>
+          <PersonalSendMsgBtn onClick={createNewMsg} />
         )}
         {renderFollowBtn()}
       </div>
@@ -262,4 +254,4 @@ const PersonalAvatarFriends = ({ userInfo, socket }) => {
   );
 };
 
-export default PersonalAvatarFriends;
+export default PersonalFollow;

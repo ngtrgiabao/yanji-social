@@ -108,7 +108,7 @@ function App() {
                 }
               />
               <Route
-                path="/messages"
+                path={currentUser ? "/messages" : "*"}
                 element={
                   <Suspense fallback={<LoadingPage />}>
                     {currentUser ? (
@@ -120,7 +120,7 @@ function App() {
                 }
               />
               <Route
-                path="/explore"
+                path={currentUser ? "/explore" : "*"}
                 element={
                   <Suspense fallback={<LoadingPage />}>
                     <ExplorePage />
@@ -144,7 +144,7 @@ function App() {
                 }
               />
               <Route
-                path="/notification"
+                path={currentUser ? "/notification" : "*"}
                 element={
                   <Suspense fallback={<LoadingPage />}>
                     <NotificationPage socket={socket} />
@@ -152,7 +152,7 @@ function App() {
                 }
               />
               <Route
-                path="/bookmarks"
+                path={currentUser ? "/bookmarks" : "*"}
                 element={
                   <Suspense fallback={<LoadingPage />}>
                     <BookmarkPage socket={socket} />
@@ -212,7 +212,7 @@ function App() {
                 }
               />
               <Route
-                path="/logout"
+                path={currentUser ? "/logout" : "/login"}
                 element={
                   <Suspense fallback={<LoadingPage />}>
                     <LoginPage />

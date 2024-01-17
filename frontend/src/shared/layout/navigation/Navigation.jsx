@@ -10,7 +10,7 @@ import "./style/navigation.css";
 import { LOGO_YANJI_SOCIAL } from "../../../assets";
 
 import { logout } from "../../../redux/request/authRequest";
-import { NavBtn } from "../../../components";
+import {Avatar, NavBtn} from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
 
 const Navigation = ({ title, link, isSearch = true }) => {
@@ -123,15 +123,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
                     key={u._id}
                   >
                     <div className="profile-pic d-flex justify-content-center align-items-center me-3">
-                      {u.profilePicture ? (
-                        <img
-                          src={u.profilePicture}
-                          alt="avatar user"
-                          className="w-100"
-                        />
-                      ) : (
-                        <>{u.username}</>
-                      )}
+                      <Avatar imageSrc={u.profilePicture} label={u.username}/>
                     </div>
                     {u.username}
                   </Link>
@@ -148,18 +140,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
                 to={currentUser ? `/user/${user?._id}` : "/"}
                 className="profile-pic ms-4 border border-2 border-white text-white"
               >
-                {user?.profilePicture ? (
-                  <img
-                    loading="lazy"
-                    role="presentation"
-                    decoding="async"
-                    className="w-100"
-                    src={user?.profilePicture}
-                    alt="Avatar user"
-                  />
-                ) : (
-                  <>{user?.username}</>
-                )}
+                <Avatar imageSrc={user?.profilePicture} label={user?.username}/>
               </Link>
             )}
           </div>

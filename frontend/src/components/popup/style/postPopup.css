@@ -1,5 +1,5 @@
-@import "../../styles/constants/constant.css";
-@import "../../index.css";
+@import "../../../styles/constants/constant.css";
+@import "../../../index.css";
 
 .post-popup__container {
   width: 100vw;

@@ -20,18 +20,14 @@ import io from "socket.io-client";
 
 import { BG_DEFAULT_WALLPAPER_USER } from "../../assets";
 
-import "../style/post.css";
+import "./style/post.css";
 
 import {
   deletePost,
   likePost,
   sharePost,
 } from "../../redux/request/postRequest";
-import {
-  getPostsShared,
-  getUserByID,
-  updateUser,
-} from "../../redux/request/userRequest";
+import { getUserByID, updateUser } from "../../redux/request/userRequest";
 import { useTimeAgo, useCopyUrl } from "../../shared/hooks";
 import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "../paragraph/ParagraphWithLink";
@@ -40,6 +36,7 @@ import { pushNewNotification } from "../../redux/request/notificationRequest";
 import { LIKE_POST, SHARE_POST } from "../../business/noti.type";
 import ConfirmDialog from "../dialog/ConfirmDialog";
 import Photo from "../media/Photo";
+import Avatar from "../avatar/Avatar";
 
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 // TODO FIX POPUP WHEN DELETE POST NOT WORK CORRECTLY
@@ -77,22 +74,6 @@ const Post = ({
   });
 
   const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-
-  // Update title to edited when post has been edited
-  // useEffect(() => {
-  //   let isCancelled = false;
-
-  //   getPostsShared(currentUser?._id, dispatch).then((data) => {
-  //     if (!isCancelled && data) {
-  //       const { postShared } = data;
-  //       setPostShared(postShared.map((p) => p.postID));
-  //     }
-  //   });
-
-  //   return () => {
-  //     isCancelled = true;
-  //   };
-  // }, [currentUser, dispatch]);
 
   useEffect(() => {
     const handleClickOutside = () => {
@@ -283,27 +264,38 @@ const Post = ({
     return (
       <div className="edit-post" hidden={popup !== "SETTING"}>
         <ul>
-          <li className="delete-post" onClick={() => setActive("DELETE_POST")}>
-            <span>
-              <UilTrash />
-            </span>
-            Delete this post
-          </li>
-          <li
-            onClick={(e) => {
-              e.stopPropagation();
-              handleEditPost();
-            }}
-          >
-            <span className="fs-2">
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </span>
-            Edit this post
-          </li>
+          {currentUser?._id === user?._id && (
+            <>
+              <li
+                className="delete-post"
+                onClick={() => setActive("DELETE_POST")}
+              >
+                <span>
+                  <UilTrash />
+                </span>
+                Delete this post
+              </li>
+              <li
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEditPost();
+                }}
+              >
+                <span className="fs-2">
+                  <FontAwesomeIcon icon={faPenToSquare} />
+                </span>
+                Edit this post
+              </li>
+            </>
+          )}
           <li
             onClick={(e) => {
               e.stopPropagation();
               useCopyUrl("http://localhost:3000/post/" + postID);
+            }}
+            style={{
+              borderRadius:
+                currentUser?._id === userID ? "" : "var(--card-border-radius)",
             }}
           >
             <span className="fs-2">
@@ -329,21 +321,10 @@ const Post = ({
         >
           <Link
             to={`/user/${user?._id}`}
-            className="profile-pic bg-black text-white"
+            className="profile-pic bg-black text-white fs-5"
             aria-label="Avatar user"
           >
-            {user.profilePicture ? (
-              <img
-                loading="lazy"
-                role="presentation"
-                decoding="async"
-                src={user.profilePicture || BG_DEFAULT_WALLPAPER_USER}
-                alt="Avatar user"
-                className="w-100"
-              />
-            ) : (
-              user.username
-            )}
+            <Avatar imageSrc={user.profilePicture} label={user.username}/>
           </Link>
           <Link to={`/user/${user?._id}`} className="info">
             <div className="d-flex align-items-center fs-5">
@@ -378,21 +359,19 @@ const Post = ({
             }}
             onClick={() => handlePost["savePost"](postID)}
           />
-          {user?._id === currentUser?._id && (
-            <span className="post-settings" title="Setting post">
-              <UilEllipsisH
-                role="button"
-                className="hover-bg"
-                style={{
-                  transform: "rotate(90deg)",
-                }}
-                onClick={(e) => {
-                  handleSetting(e);
-                }}
-              />
-              {renderEditPost()}
-            </span>
-          )}
+          <span className="post-settings" title="Setting post">
+            <UilEllipsisH
+              role="button"
+              className="hover-bg"
+              style={{
+                transform: "rotate(90deg)",
+              }}
+              onClick={(e) => {
+                handleSetting(e);
+              }}
+            />
+            {renderEditPost()}
+          </span>
         </div>
       </div>
     );
