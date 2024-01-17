@@ -1,6 +1,6 @@
 const MessageModel = require("../models/message.model");
 const UserModel = require("../models/user.model");
-const { deleteImageByID, uploadImageByUserID } = require("./image.controller");
+const { imageController } = require("./image.controller");
 
 class MessageController {
   sendMessage = async (req, res) => {
@@ -15,7 +15,7 @@ class MessageController {
       });
 
       if (media) {
-        uploadImageByUserID(sender, media);
+        imageController.uploadImageByUserID(sender, media);
       }
 
       return res.status(200).json({
@@ -37,7 +37,7 @@ class MessageController {
     const message = await MessageModel.findById(msgID);
     const mediaValue = message.media;
     if (mediaValue) {
-      await deleteImageByID(mediaValue);
+      await imageController.deleteImageByID(mediaValue);
     }
 
     await MessageModel.findByIdAndDelete(msgID);

@@ -1,4 +1,3 @@
-const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
 const VideoModel = require("../models/video.model");

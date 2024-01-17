@@ -4,7 +4,7 @@ const UserModel = require("../models/user.model");
 const hashedUtil = require("../utils/hashed.util");
 
 class UserService {
-  createUser = async (username, password, email, otpCode) => {
+  createUser = async (username, password, email) => {
     const hashedPassword = await hashedUtil.saltHash(password);
 
     const user = UserModel.create({

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Navigation from "../../shared/layout/navigation/Navigation";
 import { loginUser } from "../../redux/request/authRequest";
 import { CAPTCHA_SITE_KEY } from "../../business/key";
-import { updateUser } from "../../redux/request/userRequest";
 
 import "./style/registerPage.css";
 
@@ -117,17 +116,6 @@ function LoginPage() {
         }}
       />
     );
-  };
-
-  const update = () => {
-    if (currentUser) {
-      const updatedUser = {
-        userID: currentUser._id,
-        isVerifyEmail: true,
-      };
-
-      updateUser(updatedUser, dispatch);
-    }
   };
 
   const renderSubmitBtn = () => {
