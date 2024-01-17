@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
     // HANDLE MESSAGE OF USER
     socket.on("send-message", (data) => {
       const { sender, time } = data;
-      io.emit("receive-message", {...data});
+      io.emit("receive-message", { ...data });
       console.log(`User ${sender} have sent message at ${time}`);
     });
     socket.on("update-message", (data) => {

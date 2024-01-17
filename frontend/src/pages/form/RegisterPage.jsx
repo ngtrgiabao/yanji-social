@@ -8,10 +8,16 @@ import "./style/registerPage.css";
 
 import Navigation from "../../shared/layout/navigation/Navigation";
 import { registerUser } from "../../redux/request/authRequest";
-
+import { checkIsUserExists } from "../../redux/request/userRequest";
 import { USER_REGEX, PSW_REGEX, EMAIL_REGEX } from "../../utils/regex";
+import { OTPInput } from "../../components";
 
 const RegisterPage = () => {
+  const [otp, setOtp] = useState("");
+  const [verifyCode, setVerifyCode] = useState("");
+  const [isEnterOTP, setIsEnterOTP] = useState(false);
+  const [userID, setUserID] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -35,7 +41,7 @@ const RegisterPage = () => {
   const [matchFocus, setMatchFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [isUserExists, setIsUserExists] = useState(false);
 
   // AUTO FOCUS USER NAME INPUT
   useEffect(() => {
@@ -84,10 +90,13 @@ const RegisterPage = () => {
       password: pwd,
       email: email,
     };
+    setIsEnterOTP(true);
 
     registerUser(newUser, dispatch, navigate)
-      .then(() => {
-        setSuccess(true);
+      .then((data) => {
+        setVerifyCode(data?.otpCode);
+        alert(`Your OTP code is: ${data?.otpCode}`);
+        setUserID(data?.data?._id);
       })
       .catch((err) => {
         if (!err?.response) {
@@ -97,6 +106,20 @@ const RegisterPage = () => {
         }
         errRef.current.focus();
       });
+  };
+
+  const handleCheckUsername = () => {
+    if (username) {
+      checkIsUserExists(username, dispatch).then((data) => {
+        const { isExist } = data;
+        if (isExist) {
+          setErrMsg("This username already exist");
+          setIsUserExists(true);
+        } else {
+          setIsUserExists(false);
+        }
+      });
+    }
   };
 
   const renderUsernameInput = () => {
@@ -123,6 +146,7 @@ const RegisterPage = () => {
             onBlur={() => setUserFocus(false)}
             autoComplete="off"
             value={username}
+            onBlurCapture={handleCheckUsername}
             className="border border-dark"
           />
           <p
@@ -133,13 +157,14 @@ const RegisterPage = () => {
                 : "offscreen"
             }
           >
-            <FontAwesomeIcon icon={faCircleInfo} />
-            4 to 24 characters. <br />
-            Must begin with a letter. <br />
-            Letters, numbers, underscores, hyphens allowed.
+            <span>
+              <FontAwesomeIcon icon={faCircleInfo} />
+              4 to 24 characters. <br />
+              Must begin with a letter. <br />
+              Letters, numbers, underscores, hyphens allowed.
+            </span>
           </p>
         </div>
-        <span></span>
       </div>
     );
   };
@@ -255,7 +280,7 @@ const RegisterPage = () => {
             placeholder="password"
             onChange={(e) => setMatchPwd(e.target.value)}
             aria-label={validMatch ? "false" : "true"}
-            aira-describedby="confirmnote"
+            aria-describedby="confirmnote"
             onFocus={() => setMatchFocus(true)}
             onBlur={() => setMatchFocus(false)}
             className="border border-dark"
@@ -283,25 +308,11 @@ const RegisterPage = () => {
         role="button"
         type="submit"
         disabled={
-          !validName || !validEmail || !validPwd || !validMatch ? true : false
+          !validName || !validEmail || !validPwd || !validMatch || isUserExists
         }
       >
         Register
       </button>
-    );
-  };
-
-  const renderSuccessMsg = () => {
-    return (
-      <section>
-        <h1>REGISTER SUCCESS 😃🎉🎉</h1>
-        <p>
-          You can login now [<strong>{username}</strong>] 😎
-        </p>
-        <u>
-          <Link to="/login">Login now</Link>
-        </u>
-      </section>
     );
   };
 
@@ -315,24 +326,33 @@ const RegisterPage = () => {
         >
           {errMsg}
         </p>
-        <div className="register-form__container">
-          <span className="register-form__title">Register</span>
+        {isEnterOTP ? (
+          <OTPInput
+            otp={otp}
+            onChangeOtp={setOtp}
+            verifyCode={verifyCode}
+            userID={userID}
+          />
+        ) : (
+          <div className="register-form__container">
+            <span className="register-form__title">Register</span>
 
-          <div className="register-form__container-body">
-            {renderUsernameInput()}
-            {renderEmailInput()}
-            {renderPwdInput()}
-            {renderRePwdInput()}
-            {renderSubmitBtn()}
+            <div className="register-form__container-body">
+              {renderUsernameInput()}
+              {renderEmailInput()}
+              {renderPwdInput()}
+              {renderRePwdInput()}
+              {renderSubmitBtn()}
 
-            <div className="register-form__footer">
-              <span className="me-3">Already have account?</span>
-              <Link to="/login" className="fs-4">
-                Login now
-              </Link>
+              <div className="register-form__footer">
+                <span className="me-3">Already have account?</span>
+                <Link to="/login" className="fs-4">
+                  Login now
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </>
     );
   };
@@ -347,10 +367,9 @@ const RegisterPage = () => {
           onSubmit={handleSubmit}
           style={{
             display: "flex",
-            justifyContent: `${success ? "center" : "space-between"}`,
           }}
         >
-          {success ? renderSuccessMsg() : renderForm()}
+          {renderForm()}
         </form>
       </div>
     </>

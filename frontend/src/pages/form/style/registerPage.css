@@ -1,4 +1,4 @@
-@import url("../../../style/constants/constant.css");
+@import url("../../../styles/constants/constant.css");
 
 .form-background {
   display: flex;
@@ -27,7 +27,7 @@
 
   background-color: var(--color-white);
 
-  padding: 1.2em;
+  padding: 1.4em;
 }
 
 #register-form > section,

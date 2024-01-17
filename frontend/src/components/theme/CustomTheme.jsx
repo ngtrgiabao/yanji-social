@@ -1,4 +1,4 @@
-import { FontSizeTheme, ColorTheme, BackgroundTheme } from "../../pages";
+import { FontSizeTheme, ColorTheme, BackgroundTheme } from "../../components";
 
 const CustomTheme = () => {
   return (

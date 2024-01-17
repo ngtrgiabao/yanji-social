@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const UserMiddleware = require("../middleware/user.middleware");
-const AudioMiddleware = require("../middleware/audio.middleware");
+const { userMiddleware } = require("../middleware/user.middleware");
+const { audioMiddleware } = require("../middleware/audio.middleware");
 
-const AudioController = require("../controllers/audio.controller");
+const { audioController } = require("../controllers/audio.controller");
 
 router.get("/", (req, res) => {
   res.send({
@@ -13,35 +13,32 @@ router.get("/", (req, res) => {
 });
 router.get(
   "/all-audios/:userID",
-  UserMiddleware.validateUserById,
-  AudioController.getAllAudiosByUserID,
+  userMiddleware.validateUserById,
+  audioController.getAllAudiosByUserID,
 );
 router.get(
   "/:audioID",
-  AudioMiddleware.validateAudioID,
-  AudioController.getAudioByID,
+  audioMiddleware.validateAudioID,
+  audioController.getAudioByID,
 );
 
-router.post(
-  "/upload",
-  AudioController.uploadAudioByUserID,
-);
+router.post("/upload", audioController.uploadAudioByUserID);
 
 router.put(
   "/update/:audioID",
-  AudioMiddleware.validateAudioID,
-  AudioController.updateAudioByUserID,
+  audioMiddleware.validateAudioID,
+  audioController.updateAudioByUserID,
 );
 
 router.delete(
   "/delete/all-audios/:userID",
-  UserMiddleware.validateUserById,
-  AudioController.deleteAllAudiosByUserID,
+  userMiddleware.validateUserById,
+  audioController.deleteAllAudiosByUserID,
 );
 router.delete(
   "/delete/:audioID",
-  AudioMiddleware.validateAudioID,
-  AudioController.deleteAudioByID,
+  audioMiddleware.validateAudioID,
+  audioController.deleteAudioByID,
 );
 
 module.exports = router;

@@ -1,33 +1,35 @@
 const express = require("express");
 const router = express.Router();
 
-const NotiController = require("../controllers/notification.controller.js");
+const {
+  notificationController,
+} = require("../controllers/notification.controller.js");
 const NotiMiddleware = require("../middleware/notification.middleware.js");
-const UserMiddleware = require("../middleware/user.middleware.js");
+const { userMiddleware } = require("../middleware/user.middleware.js");
 
 router.get(
   "/all/user/:userID",
-  UserMiddleware.validateUserById,
-  NotiController.getAllNotisByUser,
+  userMiddleware.validateUserById,
+  notificationController.getAllNotisByUser,
 );
 router.get(
   "/:notiID",
   NotiMiddleware.validateNotiID,
-  NotiController.getNotiByID,
+  notificationController.getNotiByID,
 );
 
-router.post("/new", NotiController.createNewNoti);
+router.post("/new", notificationController.createNewNoti);
 
 router.put(
   "/mark-seen/:notiID",
   NotiMiddleware.validateNotiID,
-  NotiController.markSeen,
+  notificationController.markSeen,
 );
 
 router.delete(
   "/delete/:notiID",
   NotiMiddleware.validateNotiID,
-  NotiController.deleteNoti,
+  notificationController.deleteNoti,
 );
 
 module.exports = router;

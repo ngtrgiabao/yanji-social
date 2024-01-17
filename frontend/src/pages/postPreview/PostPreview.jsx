@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 import { DetailsPost, Post } from "../../components";
 import { getUserByID } from "../../redux/request/userRequest";
 
-import "../../style/animations/snackbar.css";
+import "../../styles/animations/snackbar.css";
 
 const PostPreview = ({ socket }) => {
   const postRoute = useParams().postID;
