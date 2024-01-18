@@ -16,6 +16,7 @@ import "../styles/personalIntroduce.css";
 import PersonalGallery from "./PersonalGallery";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { SocialBio } from "../../../components";
+import SocketEvent from "../../../constants/socket-event";
 
 const PersonalIntroduce = ({
   onUpdateBioPopup,
@@ -53,10 +54,10 @@ const PersonalIntroduce = ({
   useEffect(() => {
     socket = io(SOCKET_URL);
 
-    socket.on("updated-user", handleSocket.updateUser);
+    socket.on(SocketEvent["UPDATED_USER"], handleSocket.updateUser);
 
     return () => {
-      socket.off("updated-user", handleSocket.updateUser);
+      socket.off(SocketEvent["UPDATED_USER"], handleSocket.updateUser);
     };
   }, [handleSocket.updateUser]);
 

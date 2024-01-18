@@ -41,6 +41,8 @@ import Avatar from "../avatar/Avatar";
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 // TODO FIX POPUP WHEN DELETE POST NOT WORK CORRECTLY
 
+const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+
 const Post = ({
   image,
   video,
@@ -72,8 +74,6 @@ const Post = ({
   const currentUser = useSelector((state) => {
     return state.auth.login.currentUser?.data;
   });
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
   useEffect(() => {
     const handleClickOutside = () => {

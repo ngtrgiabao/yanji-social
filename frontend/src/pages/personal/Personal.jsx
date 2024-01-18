@@ -27,11 +27,13 @@ import {
 import _404 from "../_404/_404";
 import { ConfirmDialog, SocialMediaInput, PhotosUser } from "../../components";
 
+const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+
 const Personal = ({ socket }) => {
   const { userID: userRoute } = useParams();
   const { photos: photosRoute } = useParams();
 
-  const [userInfo, setUserInfo] = useState({
+  const userInfoDefaultValues = {
     _id: "",
     username: "",
     profilePicture: "",
@@ -50,13 +52,13 @@ const Personal = ({ socket }) => {
     blackList: [],
     postSaved: [],
     isVerify: false,
-  });
+  }
+
+  const [userInfo, setUserInfo] = useState(userInfoDefaultValues);
   const [isValid, setIsValid] = useState(true);
   const [active, setActive] = useState("");
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
   useEffect(() => {
     getUserByID(userRoute, dispatch)

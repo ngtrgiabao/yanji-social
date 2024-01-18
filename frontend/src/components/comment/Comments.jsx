@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,6 +10,7 @@ import { getAllCommentsByPostID } from "../../redux/request/commentRequest";
 import { pushNewNotification } from "../../redux/request/notificationRequest";
 import { COMMENT_POST } from "../../business/noti.type";
 import { getUserByID } from "../../redux/request/userRequest";
+import SocketEvent from "../../constants/socket-event";
 
 const Comments = ({ postID, author, socket }) => {
   const [content, setContent] = useState("");
@@ -39,7 +40,7 @@ const Comments = ({ postID, author, socket }) => {
     fetchComments();
     socket = io(SOCKET_URL);
 
-    socket.on("updated-post", (data) => {
+    socket.on(SocketEvent["UPDATED_POST"], (data) => {
       const { _id } = data;
       if (_id === postID) {
         fetchComments();
@@ -50,10 +51,10 @@ const Comments = ({ postID, author, socket }) => {
   useEffect(() => {
     socket = io(SOCKET_URL);
 
-    socket.on("commented-post", handleSocket.commentPost);
+    socket.on(SocketEvent["COMMENTED_POST"], handleSocket.commentPost);
 
     return () => {
-      socket.off("commented-post", handleSocket.commentPost);
+      socket.off(SocketEvent["COMMENTED_POST"], handleSocket.commentPost);
     };
   }, [handleSocket.commentPost]);
 
@@ -80,8 +81,8 @@ const Comments = ({ postID, author, socket }) => {
 
             socket = io(SOCKET_URL);
 
-            await socket.emit("update-post", updatePost);
-            await socket.emit("comment-post", {
+            await socket.emit(SocketEvent["UPDATE_POST"], updatePost);
+            await socket.emit(SocketEvent["COMMENT_POST"], {
               comments: comments,
               postID: postID,
             });
@@ -95,7 +96,7 @@ const Comments = ({ postID, author, socket }) => {
 
               pushNewNotification(notification, dispatch)
                 .then((data) => {
-                  socket.emit("push-notification", data.data);
+                  socket.emit(SocketEvent["PUSH_NOTIFICATION"], data.data);
                 })
                 .catch((err) => {
                   console.error("Failed to create new notification", err);

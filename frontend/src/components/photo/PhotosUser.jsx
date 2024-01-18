@@ -84,7 +84,7 @@ const PhotosUser = ({ userInfo }) => {
         ))
       ) : (
         <div
-          className="w-100 d-flex justify-content-center align-items-center text-white"
+          className="w-100 d-flex justify-content-center align-items-center text-white opacity-50"
           style={{
             fontSize: "5rem",
             height: "50vh",

@@ -15,6 +15,7 @@ import {
   getPostsShared,
   getUserByID,
 } from "../../../redux/request/userRequest";
+import SocketEvent from "../../../constants/socket-event";
 
 //TODO FIX POST SHARED ALWAYS PIN
 
@@ -79,14 +80,14 @@ const PersonalBody = ({
     socketRef.current = io(SOCKET_URL);
     const socket = socketRef.current;
 
-    socket.on("updated-post", handleSocket.updatePost);
-    socket.on("uploaded-post", handleSocket.uploadPost);
-    socket.on("deleted-post", handleSocket.deletePost);
+    socket.on(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
+    socket.on(SocketEvent["UPLOADED_POST"], handleSocket.uploadPost);
+    socket.on(SocketEvent["DELETED_POST"], handleSocket.deletePost);
 
     return () => {
-      socket.off("updated-post", handleSocket.updatePost);
-      socket.off("uploaded-post", handleSocket.uploadPost);
-      socket.off("deleted-post", handleSocket.deletePost);
+      socket.off(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
+      socket.off(SocketEvent["UPLOADED_POST"], handleSocket.uploadPost);
+      socket.off(SocketEvent["DELETED_POST"], handleSocket.deletePost);
     };
   }, [
     handleSocket.updatePost,

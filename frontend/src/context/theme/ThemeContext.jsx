@@ -3,7 +3,7 @@ import {
   TextColorMap,
   ThemeMap,
   FontSizeMap,
-} from "../../shared/constants/theme";
+} from "../../constants/theme";
 
 const ThemeContext = createContext({
   setBgColors: () => {},

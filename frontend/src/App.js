@@ -28,13 +28,13 @@ const PostPreview = lazy(() => import("./pages/postPreview/PostPreview"));
 
 const RegisterPage = lazy(() => import("./pages/form/RegisterPage"));
 const LoginPage = lazy(() => import("./pages/form/LoginPage"));
+const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
 function App() {
   const currentUser = useSelector((state) => {
     return state.auth.login.currentUser?.data._id;
   });
 
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
   const socketRef = useRef(null);
   const socket = socketRef.current;
 

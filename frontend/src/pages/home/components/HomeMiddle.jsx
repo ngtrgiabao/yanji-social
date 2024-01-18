@@ -13,12 +13,14 @@ import { LoadingPage } from "../../../pages";
 const Posts = lazy(() => import("../../../components/post/Posts"));
 
 const HomeMiddle = ({ socket }) => {
-  const [popup, setPopup] = useState(false);
-  const [user, setUser] = useState({
+  const userDefaultValues = {
     _id: "",
     profilePicture: "",
     username: "",
-  });
+  }
+
+  const [popup, setPopup] = useState(false);
+  const [user, setUser] = useState(userDefaultValues);
   const snackBar = useRef(null);
   const dispatch = useDispatch();
 
@@ -85,7 +87,7 @@ const HomeMiddle = ({ socket }) => {
   return (
     <div className="middle animate__animated animate__fadeIn position-relative">
       {/* STATUS */}
-      <div action="" className="create-post d-flex align-items-center mb-4">
+      <div className="create-post d-flex align-items-center mb-4">
         <div className="create-post-wrapper w-100 d-flex align-items-center">
           <Link
             to={currentUser ? `/user/${user?._id}` : "/"}
@@ -138,7 +140,7 @@ const HomeMiddle = ({ socket }) => {
         <Posts handleDeletePopup={handleDeletePopup} socket={socket} />
       </Suspense>
 
-      <div data-deleted-popup ref={snackBar} id="snackbar" className="fw-bold">
+      <div ref={snackBar} id="snackbar" className="fw-bold">
         Deleted post :D
       </div>
     </div>

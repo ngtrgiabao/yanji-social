@@ -10,6 +10,7 @@ import {
 } from "../../../redux/request/roomRequest";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { LoadingPage } from "../..";
+import SocketEvent from "../../../constants/socket-event";
 
 const Conversation = lazy(
   () => import("../../../components/conversation/Conversation"),
@@ -91,14 +92,14 @@ const MessageLeft = ({ socket = {} }) => {
   useEffect(() => {
     socket = io(SOCKET_URL);
 
-    socket.emit("add-user", {
+    socket.emit(SocketEvent["ADD_USER"], {
       user: currentUser._id,
     });
 
-    socket.on("get-users", handleSocket.getUsersOnline);
+    socket.on(SocketEvent["GET_USERS"], handleSocket.getUsersOnline);
 
     return () => {
-      socket.off("get-users", handleSocket.getUsersOnline);
+      socket.off(SocketEvent["GET_USERS"], handleSocket.getUsersOnline);
     };
   }, [handleSocket.getUsersOnline, currentUser._id]);
 

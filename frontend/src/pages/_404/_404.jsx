@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import "./style/_404.css";
@@ -6,10 +6,6 @@ import "./style/_404.css";
 import { BG_NOT_FOUND } from "../../assets/";
 
 const _404 = () => {
-  useEffect(() => {
-    // console.clear();
-  }, []);
-
   return (
     <div
       id="not-found"

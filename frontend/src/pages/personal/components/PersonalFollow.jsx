@@ -9,6 +9,7 @@ import { NEW_FOLLOWER } from "../../../business/noti.type";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import { Setting } from "../../../components";
 import { PersonalSendMsgBtn } from "./index";
+import SocketEvent from "../../../constants/socket-event";
 
 const PersonalFollow = ({ userInfo, socket }) => {
   const [active, setActive] = useState("");
@@ -147,10 +148,10 @@ const PersonalFollow = ({ userInfo, socket }) => {
   useEffect(() => {
     socket = io(SOCKET_URL);
 
-    socket.on("followed", handleSocket.follow);
+    socket.on(SocketEvent["FOLLOWED"], handleSocket.follow);
 
     return () => {
-      socket.off("followed", handleSocket.follow);
+      socket.off(SocketEvent["FOLLOWED"], handleSocket.follow);
     };
   }, [SOCKET_URL, handleSocket.follow]);
 

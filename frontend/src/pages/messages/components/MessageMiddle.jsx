@@ -28,6 +28,7 @@ import { getUserByID } from "../../../redux/request/userRequest";
 import { NEW_MSG } from "../../../business/noti.type";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import MessageFooter from "./MessageFooter";
+import SocketEvent from "../../../constants/socket-event";
 
 const MessageMiddle = ({ socket }) => {
   const [edit, setEdit] = useState(false);
@@ -63,7 +64,6 @@ const MessageMiddle = ({ socket }) => {
   const handleSocket = {
     serverResponse: useCallback(() => {
       console.log("Server connected");
-      // console.clear();
     }, []),
 
     receivedMessage: useCallback(
@@ -106,18 +106,18 @@ const MessageMiddle = ({ socket }) => {
       msg: "Hello from client 😀",
     });
 
-    socket.on("server", handleSocket.serverResponse);
-    socket.on("receive-message", handleSocket.receivedMessage);
-    socket.on("updated-message", handleSocket.updatedMessage);
-    socket.on("deleted-message", handleSocket.deletedMesssage);
-    socket.on("disconnect", handleSocket.disconnect);
+    socket.on(SocketEvent["SERVER"], handleSocket.serverResponse);
+    socket.on(SocketEvent["RECEIVE_MESSAGE"], handleSocket.receivedMessage);
+    socket.on(SocketEvent["UPDATED_MESSAGE"], handleSocket.updatedMessage);
+    socket.on(SocketEvent["DELETED_MESSAGE"], handleSocket.deletedMesssage);
+    socket.on(SocketEvent["DISCONNECT"], handleSocket.disconnect);
 
     return () => {
-      socket.off("server", handleSocket.serverResponse);
-      socket.off("receive-message", handleSocket.receivedMessage);
-      socket.off("updated-message", handleSocket.updatedMessage);
-      socket.off("deleted-message", handleSocket.deletedMesssage);
-      socket.off("disconnect", handleSocket.disconnect);
+      socket.off(SocketEvent["SERVER"], handleSocket.serverResponse);
+      socket.off(SocketEvent["RECEIVE_MESSAGE"], handleSocket.receivedMessage);
+      socket.off(SocketEvent["UPDATED_MESSAGE"], handleSocket.updatedMessage);
+      socket.off(SocketEvent["DELETED_MESSAGE"], handleSocket.deletedMesssage);
+      socket.off(SocketEvent["DISCONNECT"], handleSocket.disconnect);
     };
   }, [
     SOCKET_URL,

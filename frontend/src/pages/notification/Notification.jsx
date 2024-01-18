@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  getAllNotificationsByUser,
-  markSeenNotification,
-} from "../../redux/request/notificationRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import {
+  getAllNotificationsByUser,
+  markSeenNotification,
+} from "../../redux/request/notificationRequest";
 import { NotificationCard } from "../../components";
+import SocketEvent from "../../constants/socket-event";
 
 const Notification = ({ socket }) => {
   const [notiList, setNotiList] = useState([]);
@@ -28,10 +29,10 @@ const Notification = ({ socket }) => {
   useEffect(() => {
     socket = io(SOCKET_URL);
 
-    socket.on("pushed-notification", handleSocket.getNewNotification);
+    socket.on(SocketEvent["PUSHED_NOTIFICATION"], handleSocket.getNewNotification);
 
     return () => {
-      socket.off("pushed-notification", handleSocket.getNewNotification);
+      socket.off(SocketEvent["PUSHED_NOTIFICATION"], handleSocket.getNewNotification);
     };
   }, [handleSocket.getNewNotification]);
 

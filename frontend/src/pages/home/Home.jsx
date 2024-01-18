@@ -6,10 +6,13 @@ import { HomeLeft, HomeMiddle } from "./components";
 import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllNotificationsByUser } from "../../redux/request/notificationRequest";
+import SocketEvent from "../../constants/socket-event";
 
 const Navigation = lazy(
   () => import("../../shared/layout/navigation/Navigation"),
 );
+
+const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
 const Home = ({ socket }) => {
   const currentUser = useSelector((state) => {
@@ -18,8 +21,6 @@ const Home = ({ socket }) => {
 
   const [isReadNotification, setIsReadNotification] = useState(false);
   const dispatch = useDispatch();
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
   const handleSocket = {
     notification: useCallback(
@@ -57,10 +58,10 @@ const Home = ({ socket }) => {
   useEffect(() => {
     socket = io(SOCKET_URL);
 
-    socket.on("pushed-notification", handleSocket.notification);
+    socket.on(SocketEvent["PUSHED_NOTIFICATION"], handleSocket.notification);
 
     return () => {
-      socket.off("pushed-notification", handleSocket.notification);
+      socket.off(SocketEvent["PUSHED_NOTIFICATION"], handleSocket.notification);
     };
   }, [handleSocket.notification]);
 
