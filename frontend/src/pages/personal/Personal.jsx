@@ -52,7 +52,7 @@ const Personal = ({ socket }) => {
     blackList: [],
     postSaved: [],
     isVerify: false,
-  }
+  };
 
   const [userInfo, setUserInfo] = useState(userInfoDefaultValues);
   const [isValid, setIsValid] = useState(true);

@@ -17,7 +17,7 @@ const HomeMiddle = ({ socket }) => {
     _id: "",
     profilePicture: "",
     username: "",
-  }
+  };
 
   const [popup, setPopup] = useState(false);
   const [user, setUser] = useState(userDefaultValues);

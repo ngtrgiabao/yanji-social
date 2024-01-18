@@ -29,10 +29,16 @@ const Notification = ({ socket }) => {
   useEffect(() => {
     socket = io(SOCKET_URL);
 
-    socket.on(SocketEvent["PUSHED_NOTIFICATION"], handleSocket.getNewNotification);
+    socket.on(
+      SocketEvent["PUSHED_NOTIFICATION"],
+      handleSocket.getNewNotification,
+    );
 
     return () => {
-      socket.off(SocketEvent["PUSHED_NOTIFICATION"], handleSocket.getNewNotification);
+      socket.off(
+        SocketEvent["PUSHED_NOTIFICATION"],
+        handleSocket.getNewNotification,
+      );
     };
   }, [handleSocket.getNewNotification]);
 

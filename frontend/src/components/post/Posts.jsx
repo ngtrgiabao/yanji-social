@@ -2,7 +2,7 @@ import React, { lazy, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "./style/post.css";
 
@@ -118,44 +118,55 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
 
   const requiredBannerStyle = {
     height: "30rem",
-    marginTop: "0"
-  }
+    marginTop: "0",
+  };
 
   const requiredBanner = (
-      <>
-        <div className={"post d-flex flex-column justify-content-center align-items-center"} style={requiredBannerStyle}>
-          <span
-              className="fs-1 fw-bold overflow-auto opacity-25"
-          >
-            You need to login for view posts ¯\_(ツ)_/¯
-          </span>
-          <Link to="/login" className={"fs-3 fw-bold"} style={{
-            color: "var(--color-primary)"
-          }}> Login now </Link>
-        </div>
-      </>
-  )
+    <>
+      <div
+        className={
+          "post d-flex flex-column justify-content-center align-items-center"
+        }
+        style={requiredBannerStyle}
+      >
+        <span className="fs-1 fw-bold overflow-auto opacity-25">
+          You need to login for view posts ¯\_(ツ)_/¯
+        </span>
+        <Link
+          to="/login"
+          className={"fs-3 fw-bold"}
+          style={{
+            color: "var(--color-primary)",
+          }}
+        >
+          {" "}
+          Login now{" "}
+        </Link>
+      </div>
+    </>
+  );
 
   return (
-      <div className="posts">
-        {currentUser ?
-            posts.map((post) => (
-                <Post
-                    key={post._id}
-                    postID={post._id}
-                    image={post.img}
-            video={post.video}
-            userID={post.userID}
-            desc={post.desc}
-            likes={post.likes}
-            shares={post.shares}
-            comments={post.comments}
-            socket={socket}
-            handleDeletePopup={handleDeletePopup}
-            createdAt={post.createdAt}
-            updatedAt={post.updatedAt}
-          />
-        )) : requiredBanner}
+    <div className="posts">
+      {currentUser
+        ? posts.map((post) => (
+            <Post
+              key={post._id}
+              postID={post._id}
+              image={post.img}
+              video={post.video}
+              userID={post.userID}
+              desc={post.desc}
+              likes={post.likes}
+              shares={post.shares}
+              comments={post.comments}
+              socket={socket}
+              handleDeletePopup={handleDeletePopup}
+              createdAt={post.createdAt}
+              updatedAt={post.updatedAt}
+            />
+          ))
+        : requiredBanner}
 
       {currentUser && hasMore && (
         <div
