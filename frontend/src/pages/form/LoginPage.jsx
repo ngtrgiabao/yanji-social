@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -18,9 +18,6 @@ function LoginPage() {
   const [isError, setIsError] = useState(false);
   const [msgError, setMsgError] = useState("");
 
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

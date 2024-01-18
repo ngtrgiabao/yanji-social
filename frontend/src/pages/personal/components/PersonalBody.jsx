@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import "../styles/personalBody.css";
 
@@ -15,6 +15,9 @@ import {
   getPostsShared,
   getUserByID,
 } from "../../../redux/request/userRequest";
+import SocketEvent from "../../../constants/socket-event";
+import Global from "../../../constants/global";
+import { useCurrentUser } from "../../../shared/hooks";
 
 //TODO FIX POST SHARED ALWAYS PIN
 
@@ -28,8 +31,7 @@ const PersonalBody = ({
   const [posts, setPosts] = useState([]);
   const dispatch = useDispatch();
   const socketRef = useRef(null);
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+  const currentUser = useCurrentUser();
 
   const handlePopup = () => {
     setPopup((popup) => !popup);
@@ -76,23 +78,23 @@ const PersonalBody = ({
   };
 
   useEffect(() => {
-    socketRef.current = io(SOCKET_URL);
+    socketRef.current = io(Global.SOCKET_URL);
     const socket = socketRef.current;
 
-    socket.on("updated-post", handleSocket.updatePost);
-    socket.on("uploaded-post", handleSocket.uploadPost);
-    socket.on("deleted-post", handleSocket.deletePost);
+    socket.on(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
+    socket.on(SocketEvent["UPLOADED_POST"], handleSocket.uploadPost);
+    socket.on(SocketEvent["DELETED_POST"], handleSocket.deletePost);
 
     return () => {
-      socket.off("updated-post", handleSocket.updatePost);
-      socket.off("uploaded-post", handleSocket.uploadPost);
-      socket.off("deleted-post", handleSocket.deletePost);
+      socket.off(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
+      socket.off(SocketEvent["UPLOADED_POST"], handleSocket.uploadPost);
+      socket.off(SocketEvent["DELETED_POST"], handleSocket.deletePost);
     };
   }, [
     handleSocket.updatePost,
     handleSocket.uploadPost,
     handleSocket.deletePost,
-    SOCKET_URL,
+    Global.SOCKET_URL,
   ]);
 
   const handleUser = useMemo(
@@ -137,10 +139,6 @@ const PersonalBody = ({
       });
     }
   }, [userInfo._id, handleUser, dispatch]);
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { io } from "socket.io-client";
@@ -8,7 +8,8 @@ import "./style/changeImagePopup.css";
 
 import PreviewImage from "../preview/PreviewImage";
 import { updateUser } from "../../redux/request/userRequest";
-import { useUploadImage } from "../../shared/hooks";
+import { useCurrentUser, useUploadImage } from "../../shared/hooks";
+import Global from "../../constants/global";
 
 const ChangeImagePopup = ({
   title = "Title",
@@ -29,7 +30,6 @@ const ChangeImagePopup = ({
   const dispatch = useDispatch();
 
   const cloudStorage = useUploadImage;
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
   const handleUploadAvatar = (e) => {
     const file = e.target.files[0];
@@ -40,9 +40,7 @@ const ChangeImagePopup = ({
     setAvatar(file);
   };
 
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
+  const currentUser = useCurrentUser();
 
   const handleSubmit = async (e) => {
     setIsLoading(true);
@@ -77,7 +75,7 @@ const ChangeImagePopup = ({
           profilePicture: profilePicture,
         };
 
-        socket = io(SOCKET_URL);
+        socket = io(Global.SOCKET_URL);
         socket.emit("update-user", updatedUser);
 
         setIsSuccess(true);

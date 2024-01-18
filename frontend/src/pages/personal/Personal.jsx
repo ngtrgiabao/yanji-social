@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import {
@@ -27,11 +27,14 @@ import {
 import _404 from "../_404/_404";
 import { ConfirmDialog, SocialMediaInput, PhotosUser } from "../../components";
 
+import Global from "../../constants/global";
+import { useCurrentUser } from "../../shared/hooks";
+
 const Personal = ({ socket }) => {
   const { userID: userRoute } = useParams();
   const { photos: photosRoute } = useParams();
 
-  const [userInfo, setUserInfo] = useState({
+  const userInfoDefaultValues = {
     _id: "",
     username: "",
     profilePicture: "",
@@ -50,13 +53,14 @@ const Personal = ({ socket }) => {
     blackList: [],
     postSaved: [],
     isVerify: false,
-  });
+  };
+
+  const [userInfo, setUserInfo] = useState(userInfoDefaultValues);
   const [isValid, setIsValid] = useState(true);
   const [active, setActive] = useState("");
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+  const currentUser = useCurrentUser();
 
   useEffect(() => {
     getUserByID(userRoute, dispatch)
@@ -69,10 +73,6 @@ const Personal = ({ socket }) => {
         console.error("User is not valid", err);
       });
   }, [userRoute, dispatch]);
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
 
   const onUpdateBioPopup = () => {
     setActive("UPDATE_BIO");
@@ -125,7 +125,7 @@ const Personal = ({ socket }) => {
 
         updateUser(updatedUser, dispatch)
           .then((data) => {
-            socket = io(SOCKET_URL);
+            socket = io(Global.SOCKET_URL);
             socket.emit("update-user", updatedUser);
           })
           .catch((err) => {
@@ -191,7 +191,7 @@ const Personal = ({ socket }) => {
 
         updateUser(updatedUser, dispatch)
           .then(() => {
-            socket = io(SOCKET_URL);
+            socket = io(Global.SOCKET_URL);
             socket.emit("update-user", updatedUser);
           })
           .catch((err) => {

@@ -1,11 +1,16 @@
-import { lazy, useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { lazy, useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import "./style/post.css";
 
+import SocketEvent from "../../constants/socket-event";
 import { getPostByID } from "../../redux/request/postRequest";
+import Global from "../../constants/global";
+import { useCurrentUser } from "../../shared/hooks";
+
 const Post = lazy(() => import("./Post"));
 
 const Posts = ({ socket, handleDeletePopup = () => {} }) => {
@@ -14,12 +19,7 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
   const loadingRef = useRef(null);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
+  const currentUser = useCurrentUser();
 
   const handleSocket = {
     updatePost: useCallback(
@@ -52,16 +52,16 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
   };
 
   useEffect(() => {
-    socket = io(SOCKET_URL);
+    socket = io(Global.SOCKET_URL);
 
-    socket.on("updated-post", handleSocket.updatePost);
-    socket.on("uploaded-post", handleSocket.uploadPost);
-    socket.on("deleted-post", handleSocket.deletePost);
+    socket.on(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
+    socket.on(SocketEvent["UPLOADED_POST"], handleSocket.uploadPost);
+    socket.on(SocketEvent["DELETED_POST"], handleSocket.deletePost);
 
     return () => {
-      socket.off("updated-post", handleSocket.updatePost);
-      socket.off("uploaded-post", handleSocket.uploadPost);
-      socket.off("deleted-post", handleSocket.deletePost);
+      socket.off(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
+      socket.off(SocketEvent["UPLOADED_POST"], handleSocket.uploadPost);
+      socket.off(SocketEvent["DELETED_POST"], handleSocket.deletePost);
     };
   }, [
     handleSocket.updatePost,
@@ -72,8 +72,7 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
 
   const fetchPosts = async () => {
     const res = await axios.get(
-      process.env.REACT_APP_SOCKET_URL +
-        `/api/v1/post/all-posts?limit=5&skip=${page * 5}`,
+      Global.SOCKET_URL + `/api/v1/post/all-posts?limit=5&skip=${page * 5}`,
     );
     const { posts } = res.data;
 
@@ -114,26 +113,57 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
     };
   }, [posts, onIntersection]);
 
+  const requiredBannerStyle = {
+    height: "30rem",
+    marginTop: "0",
+  };
+
+  const requiredBanner = (
+    <>
+      <div
+        className={
+          "post d-flex flex-column justify-content-center align-items-center"
+        }
+        style={requiredBannerStyle}
+      >
+        <span className="fs-1 fw-bold overflow-auto opacity-25">
+          You need to login for view posts ¯\_(ツ)_/¯
+        </span>
+        <Link
+          to="/login"
+          className={"fs-3 fw-bold"}
+          style={{
+            color: "var(--color-primary)",
+          }}
+        >
+          {" "}
+          Login now{" "}
+        </Link>
+      </div>
+    </>
+  );
+
   return (
     <div className="posts">
-      {currentUser &&
-        posts.map((post) => (
-          <Post
-            key={post._id}
-            postID={post._id}
-            image={post.img}
-            video={post.video}
-            userID={post.userID}
-            desc={post.desc}
-            likes={post.likes}
-            shares={post.shares}
-            comments={post.comments}
-            socket={socket}
-            handleDeletePopup={handleDeletePopup}
-            createdAt={post.createdAt}
-            updatedAt={post.updatedAt}
-          />
-        ))}
+      {currentUser
+        ? posts.map((post) => (
+            <Post
+              key={post._id}
+              postID={post._id}
+              image={post.img}
+              video={post.video}
+              userID={post.userID}
+              desc={post.desc}
+              likes={post.likes}
+              shares={post.shares}
+              comments={post.comments}
+              socket={socket}
+              handleDeletePopup={handleDeletePopup}
+              createdAt={post.createdAt}
+              updatedAt={post.updatedAt}
+            />
+          ))
+        : requiredBanner}
 
       {currentUser && hasMore && (
         <div

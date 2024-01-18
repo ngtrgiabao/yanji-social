@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { UilTrash } from "@iconscout/react-unicons";
 import { Link } from "react-router-dom";
 import { io } from "socket.io-client";
 
 import { getUserByID } from "../../redux/request/userRequest";
 import { deleteComment } from "../../redux/request/commentRequest";
-import { useTimeAgo } from "../../shared/hooks";
+import { useCurrentUser, useTimeAgo } from "../../shared/hooks";
+import Global from "../../constants/global";
 
 const Comment = ({
   userCommented,
@@ -27,11 +28,8 @@ const Comment = ({
   const dispatch = useDispatch();
 
   const formatTime = useTimeAgo;
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
+  const currentUser = useCurrentUser();
 
   const handleComment = () => {
     setIsActive((isActive) => !isActive);
@@ -60,7 +58,7 @@ const Comment = ({
       const updatePost = {
         _id: postID,
       };
-      socket = io(SOCKET_URL);
+      socket = io(Global.SOCKET_URL);
 
       await socket.emit("update-post", updatePost);
 

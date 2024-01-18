@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleCheck as seenIcon,
@@ -7,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
-import { useTimeAgo } from "../../shared/hooks";
+import { useCurrentUser, useTimeAgo } from "../../shared/hooks";
 
 const Message = ({
   id,
@@ -23,9 +22,7 @@ const Message = ({
 }) => {
   const formatTime = useTimeAgo;
 
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
+  const currentUser = useCurrentUser();
 
   return sender === currentUser._id ? (
     <div

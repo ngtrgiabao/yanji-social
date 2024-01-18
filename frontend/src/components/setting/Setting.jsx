@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { UilSetting } from "@iconscout/react-unicons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CSVLink } from "react-csv";
 
 import { logout } from "../../redux/request/authRequest";
 import { getUserByID, updateUser } from "../../redux/request/userRequest";
+import { useCurrentUser } from "../../shared/hooks";
 
 // TODO CHANGE BG DANGER OF POPUP WHEN UPDATE USER FAILED
 
@@ -25,10 +26,7 @@ const Setting = ({ close }) => {
     bio: "",
   });
   const [isChange, setIsChange] = useState(false);
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
+  const currentUser = useCurrentUser();
 
   const csvData = [
     ["username", "password", "email"],
