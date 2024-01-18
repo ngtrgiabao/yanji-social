@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYZE_INJECTED_CODE" value="false" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3a9ba755-12b1-4b75-88f2-f90d0c1bf338" name="Changes" comment="">
+<<<<<<< HEAD
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/app/services/user.service.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/app/utils/generateOTP.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/app/utils/hashed.util.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/app/utils/sendOtp.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/business/key.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/button/NavBtn.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/otp-input/OTPInput.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/social-bio/SocialBio.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/bookmarks/components/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/explore/components/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/form/components/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/home/components/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/loading/components/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/messages/components/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/networkError/components/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/notification/components/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/postPreview/components/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/term/components/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/generateOTP.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/socket.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/socket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/audio.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/audio.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/comment.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/comment.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/image.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/image.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/message.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/message.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/notification.controller.js.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/notification.controller.js.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/post.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/post.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/room.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/room.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/user.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/video.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/video.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/middleware/audio.middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/middleware/audio.middleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/middleware/user.middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/middleware/user.middleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/models/user.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/models/user.model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/routes/audio.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/routes/audio.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/routes/comment.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/routes/comment.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/routes/image.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/routes/image.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/routes/message.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/routes/message.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/routes/notification.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/routes/notification.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/routes/post.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/routes/post.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/routes/room.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/routes/room.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/routes/user.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/routes/user.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/swagger/models.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/swagger/models.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/swagger/user.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/swagger/user.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/utils/delete.cloudiary.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/utils/delete.cloudiary.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/comment/Comments.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/comment/Comments.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dialog/ConfirmDialog.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dialog/ConfirmDialog.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/follower/FollowerList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/follower/FollowerList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/popup/PostPopup.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/popup/PostPopup.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/style/changeImagePopup.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/style/changeImagePopup.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/style/post.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/style/post.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/style/postPopup.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/style/postPopup.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/theme/CustomTheme.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/theme/CustomTheme.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/bookmarks/Bookmarks.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/bookmarks/Bookmarks.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/form/LoginPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/form/LoginPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/form/RegisterPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/form/RegisterPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/form/style/registerPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/form/style/registerPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/home/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/home/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/home/HomeLeft.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/home/components/HomeLeft.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/home/HomeMiddle.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/home/components/HomeMiddle.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/home/customTheme/BackgroundTheme.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/custom-theme/BackgroundTheme.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/home/customTheme/ColorTheme.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/custom-theme/ColorTheme.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/home/customTheme/FontSizeTheme.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/custom-theme/FontSizeTheme.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/home/customTheme/style/background.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/custom-theme/style/background.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/home/customTheme/style/color.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/custom-theme/style/color.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/home/customTheme/style/fontSize.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/custom-theme/style/fontSize.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/home/style/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/home/styles/home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/home/style/homeLeft.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/home/styles/homeLeft.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/home/style/homeMiddle.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/home/styles/homeMiddle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/loading/style/loading.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/loading/style/loading.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/messages/MessageFooter.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/messages/components/MessageFooter.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/messages/Messages.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/messages/Messages.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/messages/MessagesLeft.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/messages/components/MessagesLeft.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/messages/MessagesMiddle.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/messages/components/MessageMiddle.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/messages/MessagesRight.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/messages/components/MessageRight.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/messages/style/messages.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/messages/styles/messages.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/messages/style/messagesLeft.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/messages/styles/messageLeft.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/messages/style/messagesMiddle.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/messages/styles/messageMiddle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/messages/style/messagesRight.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/messages/styles/messageRight.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/Personal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/Personal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/PersonalAvatarFriends.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalAvatarFriends.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/PersonalBody.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalBody.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/PersonalGallery.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalGallery.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/PersonalGalleryCollection.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalGalleryCollection.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/PersonalGeneralInfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalGeneralInfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/PersonalHeader.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/PersonalIntroduce.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalIntroduce.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/PersonalNavbarProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalNavbarProfile.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/PersonalSocialLinks.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalSocialLinks.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalHeader.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalHeader.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/style/personal.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/styles/personal.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/style/personalBody.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/styles/personalBody.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/style/personalGallery.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/styles/personalGallery.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/style/personalGalleryCollection.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/styles/personalGalleryCollection.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/style/personalGeneralInfo.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/styles/personalGeneralInfo.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/style/personalHeader.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/style/personalIntroduce.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/styles/personalIntroduce.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/style/personalNavbarProfile.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/styles/personalNavbarProfile.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/style/personalRandomFriendsCollection.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/styles/personalRandomFriendsCollection.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/style/personalStories.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/styles/personalStories.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/styles/personalHeader.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/styles/personalHeader.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/postPreview/PostPreview.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/postPreview/PostPreview.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/authSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/authSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/request/authRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/request/authRequest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/user.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/shared/layout/navigation/Navigation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/shared/layout/navigation/Navigation.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/shared/layout/navigation/style/navigation.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/shared/layout/navigation/style/navigation.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/animations/fadeIn.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/animations/fadeIn.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/animations/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/animations/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/animations/slideRight.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/animations/slideRight.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/animations/snackbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/animations/snackbar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/animations/spin.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/animations/spin.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/constants/constant.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/constants/constant.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/responsive/big-tablet/big-tablet.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/responsive/big-tablet/big-tablet.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/responsive/big-tablet/messages.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/responsive/big-tablet/messages.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/responsive/big-tablet/notification.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/responsive/big-tablet/notification.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/responsive/big-tablet/personal.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/responsive/big-tablet/personal.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/responsive/mobile/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/responsive/mobile/home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/responsive/mobile/layout/navbar.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/responsive/mobile/layout/navbar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/responsive/mobile/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/responsive/mobile/mobile.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style/responsive/small-laptop/small-laptop.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/responsive/small-laptop/small-laptop.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
+=======
+      <change afterPath="$PROJECT_DIR$/backend/src/app/config/swagger.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/app/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/message.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/message.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/post.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/post.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/controllers/video.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/controllers/video.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app/services/user.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/message/Message.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/message/Message.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/form/RegisterPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/form/RegisterPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalAvatarFriends.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalAvatarFriends.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalBody.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalBody.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalSocialLinks.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/personal/components/PersonalSocialLinks.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/api.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/api.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/audio.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/audio.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/comment.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/comment.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/image.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/image.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/message.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/message.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/notification.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/notification.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/post.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/post.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/room.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/room.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/user.service.js" afterDir="false" />
+>>>>>>> b519d42dd6b68f4bdf2815c2cbd808b542a39639
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2ax1XPkMhHZyjFvnJAe6ZvDIjHV" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+<<<<<<< HEAD
+    "git-widget-placeholder": "Merging test",
+=======
+    "git-widget-placeholder": "feat/encrypt-data",
+    "ignore.virus.scanning.warn.message": "true",
+>>>>>>> b519d42dd6b68f4bdf2815c2cbd808b542a39639
+    "last_opened_file_path": "D:/VSCODE-PROJECT/yanji-social",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
+        <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
+        <entry key="com.intellij.reactbuddy.storybook" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3a9ba755-12b1-4b75-88f2-f90d0c1bf338" name="Changes" comment="" />
+      <created>1705245455163</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1705245455163</updated>
+      <workItem from="1705245456234" duration="1671000" />
+      <workItem from="1705247143926" duration="8000" />
+      <workItem from="1705296381663" duration="65000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

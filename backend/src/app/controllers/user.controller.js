@@ -50,9 +50,7 @@ class UserController {
 
   login = async (req, res, next) => {
     const { username, password } = req.body;
-    const user = await userService.findUserByUsername(
-      username,
-    );
+    const user = await userService.findUserByUsername(username);
 
     if (!user) {
       return res.status(401).json({
@@ -71,6 +69,23 @@ class UserController {
     return res.status(200).json({
       msg: "Login success",
       data: user,
+    });
+  };
+
+  getByUsername = async (req, res, next) => {
+    const { username } = req.params;
+    const user = await userService.findUserByUsername(username);
+
+    if (user) {
+      return res.status(200).json({
+        msg: "Username already exists",
+        isExist: true,
+      });
+    }
+
+    return res.status(200).json({
+      msg: "Username available",
+      isExist: false,
     });
   };
 
@@ -160,7 +175,8 @@ class UserController {
       const user = await UserModel.findById(userID);
 
       user.username = username || user.username;
-      user.password = password && await hashedUtil.saltHash(password) || user.password;
+      user.password =
+        (password && (await hashedUtil.saltHash(password))) || user.password;
       user.email = email || user.email;
       user.profilePicture = profilePicture || user.profilePicture;
       user.coverPicture = coverPicture || user.coverPicture;

@@ -5,9 +5,9 @@ class HashedUtil {
     const salt = await genSalt();
     const hashedPassword = await hash(password, salt);
     return hashedPassword;
-  }
+  };
 }
 
 const hashedUtil = new HashedUtil();
 
-module.exports = hashedUtil
+module.exports = hashedUtil;
