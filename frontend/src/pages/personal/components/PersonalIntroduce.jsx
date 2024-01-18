@@ -18,7 +18,7 @@ import { getUserByID } from "../../../redux/request/userRequest";
 import { SocialBio } from "../../../components";
 import SocketEvent from "../../../constants/socket-event";
 import Global from "../../../constants/global";
-import {useCurrentUser} from "../../../shared/hooks";
+import { useCurrentUser } from "../../../shared/hooks";
 
 const PersonalIntroduce = ({
   onUpdateBioPopup,
@@ -37,7 +37,7 @@ const PersonalIntroduce = ({
     twitter: userInfo.twitter,
     twitch: userInfo.twitch,
   });
-  const currentUser =useCurrentUser();
+  const currentUser = useCurrentUser();
 
   const handleSocket = {
     updateUser: useCallback((data) => {

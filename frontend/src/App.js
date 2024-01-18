@@ -4,8 +4,8 @@ import { io } from "socket.io-client";
 import { isMobile, isTablet } from "react-device-detect";
 
 import { BG_NOT_AVAILABLE } from "./assets";
-import Global from "./constants/global"
-import {useCurrentUser} from "./shared/hooks";
+import Global from "./constants/global";
+import { useCurrentUser } from "./shared/hooks";
 
 import {
   LoadingPage,

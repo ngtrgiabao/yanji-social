@@ -9,7 +9,7 @@ import "./style/post.css";
 import SocketEvent from "../../constants/socket-event";
 import { getPostByID } from "../../redux/request/postRequest";
 import Global from "../../constants/global";
-import {useCurrentUser} from "../../shared/hooks";
+import { useCurrentUser } from "../../shared/hooks";
 
 const Post = lazy(() => import("./Post"));
 
@@ -19,7 +19,7 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
   const loadingRef = useRef(null);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
-  const currentUser = useCurrentUser()
+  const currentUser = useCurrentUser();
 
   const handleSocket = {
     updatePost: useCallback(
@@ -72,8 +72,7 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
 
   const fetchPosts = async () => {
     const res = await axios.get(
-      Global.SOCKET_URL +
-        `/api/v1/post/all-posts?limit=5&skip=${page * 5}`,
+      Global.SOCKET_URL + `/api/v1/post/all-posts?limit=5&skip=${page * 5}`,
     );
     const { posts } = res.data;
 

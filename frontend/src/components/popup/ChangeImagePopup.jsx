@@ -8,7 +8,7 @@ import "./style/changeImagePopup.css";
 
 import PreviewImage from "../preview/PreviewImage";
 import { updateUser } from "../../redux/request/userRequest";
-import {useCurrentUser, useUploadImage} from "../../shared/hooks";
+import { useCurrentUser, useUploadImage } from "../../shared/hooks";
 import Global from "../../constants/global";
 
 const ChangeImagePopup = ({
@@ -40,7 +40,7 @@ const ChangeImagePopup = ({
     setAvatar(file);
   };
 
-  const currentUser = useCurrentUser()
+  const currentUser = useCurrentUser();
 
   const handleSubmit = async (e) => {
     setIsLoading(true);

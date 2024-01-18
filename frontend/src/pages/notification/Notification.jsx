@@ -15,7 +15,7 @@ import { useCurrentUser } from "../../shared/hooks";
 
 const Notification = ({ socket }) => {
   const [notiList, setNotiList] = useState([]);
-  const currentUser = useCurrentUser()
+  const currentUser = useCurrentUser();
   const [isEmpty, setIsEmpty] = useState(false);
   const dispatch = useDispatch();
 

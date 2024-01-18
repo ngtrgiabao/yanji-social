@@ -12,7 +12,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import "../styles/personalNavbarProfile.css";
 
 import { Setting } from "../../../components";
-import {useCurrentUser} from "../../../shared/hooks";
+import { useCurrentUser } from "../../../shared/hooks";
 
 const PersonalNavbarProfile = () => {
   const { userID: userRoute } = useParams();

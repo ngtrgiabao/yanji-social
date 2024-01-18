@@ -28,7 +28,7 @@ import {
   sharePost,
 } from "../../redux/request/postRequest";
 import { getUserByID, updateUser } from "../../redux/request/userRequest";
-import {useTimeAgo, useCopyUrl, useCurrentUser} from "../../shared/hooks";
+import { useTimeAgo, useCopyUrl, useCurrentUser } from "../../shared/hooks";
 import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "../paragraph/ParagraphWithLink";
 import EditPopup from "../popup/EditPopup";

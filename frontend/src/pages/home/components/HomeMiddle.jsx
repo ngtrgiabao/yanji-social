@@ -10,7 +10,7 @@ import "../../../styles/animations/snackbar.css";
 import PostPopup from "../../../components/popup/PostPopup";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { LoadingPage } from "../../../pages";
-import {useCurrentUser} from "../../../shared/hooks";
+import { useCurrentUser } from "../../../shared/hooks";
 const Posts = lazy(() => import("../../../components/post/Posts"));
 
 const HomeMiddle = ({ socket }) => {

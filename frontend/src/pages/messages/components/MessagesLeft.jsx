@@ -1,5 +1,5 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import io from "socket.io-client";
 
 import "../styles/messageLeft.css";
@@ -12,7 +12,7 @@ import { getUserByID } from "../../../redux/request/userRequest";
 import { LoadingPage } from "../..";
 import SocketEvent from "../../../constants/socket-event";
 import Global from "../../../constants/global";
-import {useCurrentUser} from "../../../shared/hooks";
+import { useCurrentUser } from "../../../shared/hooks";
 
 const Conversation = lazy(
   () => import("../../../components/conversation/Conversation"),
@@ -25,7 +25,7 @@ const MessageLeft = ({ socket = {} }) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [filterMessages, setFilterMessages] = useState("");
   const dispatch = useDispatch();
-  const currentUser = useCurrentUser()
+  const currentUser = useCurrentUser();
 
   useEffect(() => {
     let isCancelled = false;

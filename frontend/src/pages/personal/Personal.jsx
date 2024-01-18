@@ -28,7 +28,7 @@ import _404 from "../_404/_404";
 import { ConfirmDialog, SocialMediaInput, PhotosUser } from "../../components";
 
 import Global from "../../constants/global";
-import {useCurrentUser} from "../../shared/hooks";
+import { useCurrentUser } from "../../shared/hooks";
 
 const Personal = ({ socket }) => {
   const { userID: userRoute } = useParams();
@@ -59,7 +59,7 @@ const Personal = ({ socket }) => {
   const [isValid, setIsValid] = useState(true);
   const [active, setActive] = useState("");
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const currentUser = useCurrentUser();
 
   useEffect(() => {

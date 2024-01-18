@@ -11,7 +11,7 @@ import { Setting } from "../../../components";
 import { PersonalSendMsgBtn } from "./index";
 import SocketEvent from "../../../constants/socket-event";
 import Global from "../../../constants/global";
-import {useCurrentUser} from "../../../shared/hooks";
+import { useCurrentUser } from "../../../shared/hooks";
 
 const PersonalFollow = ({ userInfo, socket }) => {
   const [active, setActive] = useState("");
@@ -20,7 +20,6 @@ const PersonalFollow = ({ userInfo, socket }) => {
   const dispatch = useDispatch();
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
-
 
   const handleFollow = () => {
     if (currentUser) {

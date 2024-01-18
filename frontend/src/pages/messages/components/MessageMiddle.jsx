@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {useEffect, useRef, useState, useCallback, lazy} from "react";
+import { useEffect, useRef, useState, useCallback, lazy } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   faVideo,
@@ -34,12 +34,11 @@ const Avatar = lazy(() => import("../../../components/avatar/Avatar"));
 const Message = lazy(() => import("../../../components/message/Message"));
 
 const friendDefaultValues = {
-  name: "", avatar: ""
-}
+  name: "",
+  avatar: "",
+};
 
 const MessageMiddle = ({ socket }) => {
-
-
   const [edit, setEdit] = useState(false);
   const [message, setMessage] = useState("");
   const [active, setActive] = useState("");

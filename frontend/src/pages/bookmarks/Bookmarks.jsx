@@ -9,7 +9,7 @@ import { Bookmark } from "../../components";
 import { io } from "socket.io-client";
 import SocketEvent from "../../constants/socket-event";
 import Global from "../../constants/global";
-import {useCurrentUser} from "../../shared/hooks";
+import { useCurrentUser } from "../../shared/hooks";
 
 const Bookmarks = ({ socket }) => {
   const currentUser = useCurrentUser();

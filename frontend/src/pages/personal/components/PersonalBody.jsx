@@ -17,7 +17,7 @@ import {
 } from "../../../redux/request/userRequest";
 import SocketEvent from "../../../constants/socket-event";
 import Global from "../../../constants/global";
-import {useCurrentUser} from "../../../shared/hooks";
+import { useCurrentUser } from "../../../shared/hooks";
 
 //TODO FIX POST SHARED ALWAYS PIN
 

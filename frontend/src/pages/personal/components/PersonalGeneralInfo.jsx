@@ -11,7 +11,7 @@ import "../../../styles/animations/snackbar.css";
 
 import { ChangeImagePopup, FollowerList } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
-import {useCurrentUser} from "../../../shared/hooks";
+import { useCurrentUser } from "../../../shared/hooks";
 
 const PersonalGeneralInfo = ({ userInfo, socket }) => {
   const [active, setActive] = useState("");
@@ -20,7 +20,7 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
   const [followings, setFollowings] = useState(0);
   const snackBar = useRef(null);
   const dispatch = useDispatch();
-  const currentUser =useCurrentUser();
+  const currentUser = useCurrentUser();
 
   const handlePopup = () => {
     setOpenPopup((openPopup) => !openPopup);

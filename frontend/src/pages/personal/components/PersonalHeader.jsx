@@ -4,7 +4,7 @@ import { UilCamera } from "@iconscout/react-unicons";
 import "../styles/personalHeader.css";
 
 import { ChangeImagePopup } from "../../../components";
-import {useCurrentUser} from "../../../shared/hooks";
+import { useCurrentUser } from "../../../shared/hooks";
 
 const PersonalHeader = ({ userInfo, socket }) => {
   const [openPopup, setOpenPopup] = useState(false);

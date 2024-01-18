@@ -9,7 +9,7 @@ import "../styles/messageRight.css";
 import { useDispatch } from "react-redux";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { Avatar } from "../../../components";
-import {useCurrentUser} from "../../../shared/hooks";
+import { useCurrentUser } from "../../../shared/hooks";
 
 const MessageRight = () => {
   const [currentConversation, setCurrentConversation] = useState(null);

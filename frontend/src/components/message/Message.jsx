@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
-import {useCurrentUser, useTimeAgo} from "../../shared/hooks";
+import { useCurrentUser, useTimeAgo } from "../../shared/hooks";
 
 const Message = ({
   id,
@@ -22,7 +22,7 @@ const Message = ({
 }) => {
   const formatTime = useTimeAgo;
 
-  const currentUser = useCurrentUser()
+  const currentUser = useCurrentUser();
 
   return sender === currentUser._id ? (
     <div

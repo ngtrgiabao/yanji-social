@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   UilEstate,
   UilBell,
@@ -22,7 +22,7 @@ import { LOGO_YANJI_SOCIAL } from "../../../assets";
 // SETTINGS
 import { Avatar, CustomTheme, PostPopup, Setting } from "../../../components";
 import { Button } from "../../../components";
-import {useCurrentUser} from "../../../shared/hooks";
+import { useCurrentUser } from "../../../shared/hooks";
 
 const HomeLeft = ({ socket, isReadNotification }) => {
   const [active, setActive] = useState("HOME");

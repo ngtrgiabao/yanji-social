@@ -13,7 +13,7 @@ import { logout } from "../../../redux/request/authRequest";
 import { Avatar, NavBtn } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
 import Global from "../../../constants/global";
-import {useCurrentUser} from "../../hooks";
+import { useCurrentUser } from "../../hooks";
 
 const Navigation = ({ title, link, isSearch = true }) => {
   const [users, setUsers] = useState([]);
