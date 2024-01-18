@@ -22,11 +22,7 @@ import {
 } from "../../redux/request/messageRequest";
 
 import { Avatar, EmojiPicker, Message } from "../../components";
-<<<<<<< HEAD
-import { useUploadImage, useDownloadImage } from "../../hooks";
-=======
 import { useUploadImage, useDownloadImage } from "../../shared/hooks";
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
 import { ConfirmDialog, PreviewImage } from "../../components";
 import { getUserByID } from "../../redux/request/userRequest";
 import { NEW_MSG } from "../../business/noti.type";
@@ -177,11 +173,7 @@ const MessagesMiddle = ({ socket }) => {
 
   const handleChangeInputMsg = (e) => {
     setMessage(e.target.value);
-<<<<<<< HEAD
-  }
-=======
   };
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
 
   const handleSubmitSendMessage = (e) => {
     e.preventDefault();
@@ -201,11 +193,7 @@ const MessagesMiddle = ({ socket }) => {
       sendMessage(newMessage, dispatch)
         .then(async (data) => {
           if (message) {
-<<<<<<< HEAD
-            await socketRef.current.emit("send-message", data.data);
-=======
             await socketRef.current.emit("send-message", data?.data);
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
             setMessage("");
 
             socket = io(SOCKET_URL);
@@ -218,11 +206,7 @@ const MessagesMiddle = ({ socket }) => {
 
             pushNewNotification(notification, dispatch)
               .then((data) => {
-<<<<<<< HEAD
-                socket.emit("push-notification", data.data);
-=======
                 socket.emit("push-notification", data?.data);
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
               })
               .catch((err) => {
                 console.error("Failed to create new notification", err);
@@ -234,11 +218,7 @@ const MessagesMiddle = ({ socket }) => {
           console.error("Failed to send message", error);
         });
     }
-<<<<<<< HEAD
-  }
-=======
   };
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
 
   const handleUpdateMessage = async (msgID) => {
     setMessageID(msgID);
@@ -249,21 +229,13 @@ const MessagesMiddle = ({ socket }) => {
     });
 
     setEdit(true);
-<<<<<<< HEAD
-  }
-=======
   };
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
 
   const handleDeleteMessage = async (msgID) => {
     setMessageID(msgID);
 
     setActive("DELETE_MSG");
-<<<<<<< HEAD
-  }
-=======
   };
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
 
   const handleMarkMessageSeen = async (data) => {
     const friendMsg = data.messages.filter((m) => m.sender !== sender._id);
@@ -278,11 +250,7 @@ const MessagesMiddle = ({ socket }) => {
       };
       await markMessageSeen(markMsg, dispatch);
     }
-<<<<<<< HEAD
-  }
-=======
   };
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
 
   const handleSendEmoji = (e) => {
     const sym = e.unified.split("_");
@@ -292,11 +260,7 @@ const MessagesMiddle = ({ socket }) => {
     let emoji = String.fromCodePoint(...codeArray);
 
     setMessage(message + emoji);
-<<<<<<< HEAD
-  }
-=======
   };
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
 
   const handlePreviewImageBeforeUpload = (e) => {
     const file = e.target.files[0];
@@ -308,11 +272,7 @@ const MessagesMiddle = ({ socket }) => {
       };
       reader.readAsDataURL(file);
     }
-<<<<<<< HEAD
-  }
-=======
   };
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
 
   const handleSendLike = (emoji) => {
     if (currentConversation) {
@@ -335,11 +295,7 @@ const MessagesMiddle = ({ socket }) => {
           console.error("Failed to send message", error);
         });
     }
-<<<<<<< HEAD
-  }
-=======
   };
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
 
   const handleMsg = {
     changeInputMsg: (e) => handleChangeInputMsg(e),
@@ -586,13 +542,9 @@ const MessagesMiddle = ({ socket }) => {
         onUploadImage={handleUploadImage}
         onActive={setActive}
         onImageSelected={setImageSelected}
-<<<<<<< HEAD
-        onPreviewImageBeforeUpload={(e) => handleMsg["previewImageBeforeUpload"](e)}
-=======
         onPreviewImageBeforeUpload={(e) =>
           handleMsg["previewImageBeforeUpload"](e)
         }
->>>>>>> a7c95aba415cffdf374adcc468d9cedea795dc65
         onSendEmoji={handleMsg["sendEmoji"]}
         onChangeInputMsg={handleMsg["changeInputMsg"]}
         onCancelEditMsg={handleCancelEditMsg}
