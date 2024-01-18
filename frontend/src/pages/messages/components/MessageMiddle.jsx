@@ -21,7 +21,7 @@ import {
   markMessageSeen,
 } from "../../../redux/request/messageRequest";
 
-import { useUploadImage, useDownloadImage } from "../../../shared/hooks";
+import {useUploadImage, useDownloadImage, useCurrentRoom} from "../../../shared/hooks";
 import { ConfirmDialog, PreviewImage } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { NEW_MSG } from "../../../business/noti.type";
@@ -55,6 +55,7 @@ const MessageMiddle = ({ socket }) => {
   const uploadImgRef = useRef(null);
   const downloadImage = useDownloadImage(imgSrc);
   const dispatch = useDispatch();
+  const currentRoom = useCurrentRoom();
 
   const cloudStorage = useUploadImage;
 
@@ -134,10 +135,6 @@ const MessageMiddle = ({ socket }) => {
     handleSocket.deletedMesssage,
     handleSocket.disconnect,
   ]);
-
-  const currentRoom = useSelector((state) => {
-    return state.room.room?.currentRoom;
-  });
 
   useEffect(() => {
     let isCancelled = false;

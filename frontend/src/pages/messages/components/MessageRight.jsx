@@ -9,7 +9,7 @@ import "../styles/messageRight.css";
 import { useDispatch } from "react-redux";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { Avatar } from "../../../components";
-import { useCurrentUser } from "../../../shared/hooks";
+import {useCurrentRoom, useCurrentUser} from "../../../shared/hooks";
 
 const MessageRight = () => {
   const [currentConversation, setCurrentConversation] = useState(null);
@@ -20,10 +20,7 @@ const MessageRight = () => {
   });
   const dispatch = useDispatch();
   const currentUser = useCurrentUser();
-
-  const currentRoom = useSelector((state) => {
-    return state.room.room?.currentRoom;
-  });
+  const currentRoom = useCurrentRoom();
 
   useEffect(() => {
     let isCancelled = false;
