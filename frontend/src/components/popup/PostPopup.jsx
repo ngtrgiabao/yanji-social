@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
@@ -12,9 +12,10 @@ import "./style/postPopup.css";
 import { BG_DEFAULT_WALLPAPER_USER } from "../../assets";
 
 import { uploadPost } from "../../redux/request/postRequest";
-import { useUploadImage } from "../../shared/hooks";
+import {useCurrentUser, useUploadImage} from "../../shared/hooks";
 import PreviewImage from "../preview/PreviewImage";
 import { getUserByID } from "../../redux/request/userRequest";
+import Global from "../../constants/global";
 
 const PostPopup = ({ onPopup, extendClass, socket }) => {
   const [imageUrl, setImageUrl] = useState(null);
@@ -52,9 +53,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
     uploadImg.current.click();
   };
 
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser.data;
-  });
+  const currentUser = useCurrentUser()
 
   useEffect(() => {
     currentUser &&
@@ -85,7 +84,6 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
   };
 
   const cloudStorage = useUploadImage;
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,7 +107,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
 
     uploadPost(newPost, dispatch)
       .then(async (data) => {
-        socket = io(SOCKET_URL);
+        socket = io(Global.SOCKET_URL);
 
         await socket.emit("upload-post", data?.data);
       })

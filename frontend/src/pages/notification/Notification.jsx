@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -10,15 +10,14 @@ import {
 } from "../../redux/request/notificationRequest";
 import { NotificationCard } from "../../components";
 import SocketEvent from "../../constants/socket-event";
+import Global from "../../constants/global";
+import { useCurrentUser } from "../../shared/hooks";
 
 const Notification = ({ socket }) => {
   const [notiList, setNotiList] = useState([]);
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
+  const currentUser = useCurrentUser()
   const [isEmpty, setIsEmpty] = useState(false);
   const dispatch = useDispatch();
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
   const handleSocket = {
     getNewNotification: useCallback((data) => {
@@ -27,7 +26,7 @@ const Notification = ({ socket }) => {
   };
 
   useEffect(() => {
-    socket = io(SOCKET_URL);
+    socket = io(Global.SOCKET_URL);
 
     socket.on(
       SocketEvent["PUSHED_NOTIFICATION"],
@@ -62,7 +61,7 @@ const Notification = ({ socket }) => {
     getAllNotificationsByUser(currentUser._id, dispatch).then(async (data) => {
       if (data.data.length > 0) {
         const res = await axios.get(
-          process.env.REACT_APP_SOCKET_URL +
+          Global.SOCKET_URL +
             `/api/v1/notification/all/user/${currentUser._id}/?limit=5&skip=${
               page * 5
             }`,

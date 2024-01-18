@@ -8,6 +8,7 @@ import _404 from "../_404/_404";
 import { DetailsPost, Post } from "../../components";
 import { getUserByID } from "../../redux/request/userRequest";
 import SocketEvent from "../../constants/socket-event";
+import Global from "../../constants/global";
 
 import "../../styles/animations/snackbar.css";
 
@@ -47,8 +48,6 @@ const PostPreview = ({ socket }) => {
     });
   }, [postRoutePage.userID, dispatch]);
 
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-
   const handleSocket = {
     updatePost: useCallback(() => {
       getPostByID(postRoutePage._id, dispatch).then((data) => {
@@ -58,7 +57,7 @@ const PostPreview = ({ socket }) => {
   };
 
   useEffect(() => {
-    socket = io(SOCKET_URL);
+    socket = io(Global.SOCKET_URL);
 
     socket.on(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
 

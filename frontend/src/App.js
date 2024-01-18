@@ -1,10 +1,11 @@
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { isMobile, isTablet } from "react-device-detect";
 
 import { BG_NOT_AVAILABLE } from "./assets";
+import Global from "./constants/global"
+import {useCurrentUser} from "./shared/hooks";
 
 import {
   LoadingPage,
@@ -28,19 +29,15 @@ const PostPreview = lazy(() => import("./pages/postPreview/PostPreview"));
 
 const RegisterPage = lazy(() => import("./pages/form/RegisterPage"));
 const LoginPage = lazy(() => import("./pages/form/LoginPage"));
-const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
 function App() {
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data._id;
-  });
-
+  const currentUser = useCurrentUser();
   const socketRef = useRef(null);
   const socket = socketRef.current;
 
   useEffect(() => {
-    socketRef.current = io(SOCKET_URL);
-  }, [SOCKET_URL]);
+    socketRef.current = io(Global.SOCKET_URL);
+  }, [Global.SOCKET_URL]);
 
   const [isNetworkWorking, setIsNetworkWorking] = useState(navigator.onLine);
 

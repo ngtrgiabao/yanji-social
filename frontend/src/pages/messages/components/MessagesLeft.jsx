@@ -1,5 +1,5 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import io from "socket.io-client";
 
 import "../styles/messageLeft.css";
@@ -11,6 +11,8 @@ import {
 import { getUserByID } from "../../../redux/request/userRequest";
 import { LoadingPage } from "../..";
 import SocketEvent from "../../../constants/socket-event";
+import Global from "../../../constants/global";
+import {useCurrentUser} from "../../../shared/hooks";
 
 const Conversation = lazy(
   () => import("../../../components/conversation/Conversation"),
@@ -23,12 +25,7 @@ const MessageLeft = ({ socket = {} }) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [filterMessages, setFilterMessages] = useState("");
   const dispatch = useDispatch();
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
+  const currentUser = useCurrentUser()
 
   useEffect(() => {
     let isCancelled = false;
@@ -90,7 +87,7 @@ const MessageLeft = ({ socket = {} }) => {
   };
 
   useEffect(() => {
-    socket = io(SOCKET_URL);
+    socket = io(Global.SOCKET_URL);
 
     socket.emit(SocketEvent["ADD_USER"], {
       user: currentUser._id,

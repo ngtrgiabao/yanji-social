@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import {
   UilEstate,
   UilBell,
@@ -22,6 +22,7 @@ import { LOGO_YANJI_SOCIAL } from "../../../assets";
 // SETTINGS
 import { Avatar, CustomTheme, PostPopup, Setting } from "../../../components";
 import { Button } from "../../../components";
+import {useCurrentUser} from "../../../shared/hooks";
 
 const HomeLeft = ({ socket, isReadNotification }) => {
   const [active, setActive] = useState("HOME");
@@ -34,6 +35,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
     isVerify: false,
   });
   const dispatch = useDispatch();
+  const currentUser = useCurrentUser();
 
   // CLEANUP URL WHEN CHANGE IMG
   useEffect(() => {
@@ -52,15 +54,6 @@ const HomeLeft = ({ socket, isReadNotification }) => {
     const data = window.localStorage.getItem("avatar");
     setAvatar(data);
   }, [avatar]);
-
-  /*
-    1. It’s using the useSelector hook to get the currentUser from the Redux store.
-    2. It’s using the optional chaining operator to check if the currentUser is not null.
-    3. It’s returning the currentUser.
-    */
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
 
   useEffect(() => {
     currentUser &&

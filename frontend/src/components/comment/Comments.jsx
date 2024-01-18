@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { io } from "socket.io-client";
@@ -11,13 +11,14 @@ import { pushNewNotification } from "../../redux/request/notificationRequest";
 import { COMMENT_POST } from "../../business/noti.type";
 import { getUserByID } from "../../redux/request/userRequest";
 import SocketEvent from "../../constants/socket-event";
+import Global from "../../constants/global";
+import {useCurrentUser} from "../../shared/hooks";
 
 const Comments = ({ postID, author, socket }) => {
   const [content, setContent] = useState("");
   const [comments, setComments] = useState([]);
   const dispatch = useDispatch();
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+  const currentUser = useCurrentUser();
 
   const handleSocket = {
     commentPost: useCallback(
@@ -38,7 +39,7 @@ const Comments = ({ postID, author, socket }) => {
 
   useEffect(() => {
     fetchComments();
-    socket = io(SOCKET_URL);
+    socket = io(Global.SOCKET_URL);
 
     socket.on(SocketEvent["UPDATED_POST"], (data) => {
       const { _id } = data;
@@ -49,7 +50,7 @@ const Comments = ({ postID, author, socket }) => {
   }, []);
 
   useEffect(() => {
-    socket = io(SOCKET_URL);
+    socket = io(Global.SOCKET_URL);
 
     socket.on(SocketEvent["COMMENTED_POST"], handleSocket.commentPost);
 
@@ -57,10 +58,6 @@ const Comments = ({ postID, author, socket }) => {
       socket.off(SocketEvent["COMMENTED_POST"], handleSocket.commentPost);
     };
   }, [handleSocket.commentPost]);
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
 
   const handleComment = {
     commentPost: () => {
@@ -79,7 +76,7 @@ const Comments = ({ postID, author, socket }) => {
               _id: postID,
             };
 
-            socket = io(SOCKET_URL);
+            socket = io(Global.SOCKET_URL);
 
             await socket.emit(SocketEvent["UPDATE_POST"], updatePost);
             await socket.emit(SocketEvent["COMMENT_POST"], {

@@ -6,9 +6,10 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 
 import "../styles/messageRight.css";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { Avatar } from "../../../components";
+import {useCurrentUser} from "../../../shared/hooks";
 
 const MessageRight = () => {
   const [currentConversation, setCurrentConversation] = useState(null);
@@ -18,13 +19,10 @@ const MessageRight = () => {
     profilePicture: "",
   });
   const dispatch = useDispatch();
+  const currentUser = useCurrentUser();
 
   const currentRoom = useSelector((state) => {
     return state.room.room?.currentRoom;
-  });
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
   });
 
   useEffect(() => {
@@ -60,7 +58,7 @@ const MessageRight = () => {
     return (
       <div className="d-flex flex-column align-items-center mb-4">
         <div
-          className="right-container-header rounded rounded-circle overflow-hidden d-flex justify-content-center align-items-center fs-3 fw-bold text-white"
+          className="right-container-header rounded rounded-circle overflow-hidden d-flex justify-content-center align-items-center"
           style={{
             background: "var(--color-primary)",
           }}
@@ -72,7 +70,7 @@ const MessageRight = () => {
     );
   };
 
-  const renderActionUser = () => {
+  const renderVisitProfile = () => {
     return (
       <div
         className="right-container-body fs-5 ms-3"
@@ -104,7 +102,7 @@ const MessageRight = () => {
       <div className="right-msg-page p-4">
         <div className="right-container d-flex flex-column align-items-center">
           {renderAvatarUser()}
-          {renderActionUser()}
+          {renderVisitProfile()}
         </div>
       </div>
     )

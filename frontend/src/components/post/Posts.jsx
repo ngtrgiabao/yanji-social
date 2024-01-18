@@ -1,5 +1,5 @@
 import React, { lazy, useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -8,6 +8,9 @@ import "./style/post.css";
 
 import SocketEvent from "../../constants/socket-event";
 import { getPostByID } from "../../redux/request/postRequest";
+import Global from "../../constants/global";
+import {useCurrentUser} from "../../shared/hooks";
+
 const Post = lazy(() => import("./Post"));
 
 const Posts = ({ socket, handleDeletePopup = () => {} }) => {
@@ -16,12 +19,7 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
   const loadingRef = useRef(null);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
+  const currentUser = useCurrentUser()
 
   const handleSocket = {
     updatePost: useCallback(
@@ -54,7 +52,7 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
   };
 
   useEffect(() => {
-    socket = io(SOCKET_URL);
+    socket = io(Global.SOCKET_URL);
 
     socket.on(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
     socket.on(SocketEvent["UPLOADED_POST"], handleSocket.uploadPost);
@@ -74,7 +72,7 @@ const Posts = ({ socket, handleDeletePopup = () => {} }) => {
 
   const fetchPosts = async () => {
     const res = await axios.get(
-      process.env.REACT_APP_SOCKET_URL +
+      Global.SOCKET_URL +
         `/api/v1/post/all-posts?limit=5&skip=${page * 5}`,
     );
     const { posts } = res.data;

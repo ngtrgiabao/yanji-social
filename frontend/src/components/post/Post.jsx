@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { UilEllipsisH, UilTrash } from "@iconscout/react-unicons";
 import {
@@ -28,7 +28,7 @@ import {
   sharePost,
 } from "../../redux/request/postRequest";
 import { getUserByID, updateUser } from "../../redux/request/userRequest";
-import { useTimeAgo, useCopyUrl } from "../../shared/hooks";
+import {useTimeAgo, useCopyUrl, useCurrentUser} from "../../shared/hooks";
 import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "../paragraph/ParagraphWithLink";
 import EditPopup from "../popup/EditPopup";
@@ -41,7 +41,7 @@ import Avatar from "../avatar/Avatar";
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 // TODO FIX POPUP WHEN DELETE POST NOT WORK CORRECTLY
 
-const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+import Global from "../../constants/global";
 
 const Post = ({
   image,
@@ -70,10 +70,7 @@ const Post = ({
   const dispatch = useDispatch();
   const [active, setActive] = useState("");
   const formatTime = useTimeAgo;
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
+  const currentUser = useCurrentUser();
 
   useEffect(() => {
     const handleClickOutside = () => {
@@ -169,7 +166,7 @@ const Post = ({
   const handleLikePost = () => {
     likePost(post, dispatch)
       .then(async (data) => {
-        socket = io(SOCKET_URL);
+        socket = io(Global.SOCKET_URL);
 
         await socket.emit("update-post", data.data);
 
@@ -199,7 +196,7 @@ const Post = ({
   const handleSharePost = () => {
     sharePost(post, dispatch)
       .then(async (data) => {
-        socket = io(SOCKET_URL);
+        socket = io(Global.SOCKET_URL);
         await socket.emit("update-post", data.data);
 
         const { isShared } = data;
@@ -243,7 +240,7 @@ const Post = ({
   const handleDeletePost = (postID) => {
     deletePost(postID, dispatch)
       .then(async (data) => {
-        socket = io(SOCKET_URL);
+        socket = io(Global.SOCKET_URL);
         await socket.emit("delete-post", data?.data);
       })
       .catch((error) => {

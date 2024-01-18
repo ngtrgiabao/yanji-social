@@ -10,6 +10,7 @@ import { io } from "socket.io-client";
 import PreviewImage from "../preview/PreviewImage";
 import { updatePost } from "../../redux/request/postRequest";
 import { useUploadImage } from "../../shared/hooks";
+import Global from "../../constants/global";
 
 const EditPopup = ({
   onPopup,
@@ -36,8 +37,7 @@ const EditPopup = ({
   const dispatch = useDispatch();
 
   const cloudStorage = useUploadImage;
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-  socket = io(SOCKET_URL);
+  socket = io(Global.SOCKET_URL);
 
   const handleSendEmoji = (e) => {
     const sym = e.unified.split("_");

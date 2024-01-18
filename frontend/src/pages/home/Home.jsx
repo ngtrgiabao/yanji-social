@@ -4,21 +4,20 @@ import "./styles/home.css";
 
 import { HomeLeft, HomeMiddle } from "./components";
 import { io } from "socket.io-client";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
 import { getAllNotificationsByUser } from "../../redux/request/notificationRequest";
 import SocketEvent from "../../constants/socket-event";
+import {useCurrentUser} from "../../shared/hooks";
 
 const Navigation = lazy(
   () => import("../../shared/layout/navigation/Navigation"),
 );
 
-const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+import Global from "../../constants/global";
 
 const Home = ({ socket }) => {
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
-
+  const currentUser = useCurrentUser();
   const [isReadNotification, setIsReadNotification] = useState(false);
   const dispatch = useDispatch();
 
@@ -56,7 +55,7 @@ const Home = ({ socket }) => {
   }, [currentUser, dispatch]);
 
   useEffect(() => {
-    socket = io(SOCKET_URL);
+    socket = io(Global.SOCKET_URL);
 
     socket.on(SocketEvent["PUSHED_NOTIFICATION"], handleSocket.notification);
 

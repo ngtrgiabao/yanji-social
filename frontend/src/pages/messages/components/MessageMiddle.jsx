@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState, useCallback } from "react";
+import {useEffect, useRef, useState, useCallback, lazy} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   faVideo,
@@ -21,7 +21,6 @@ import {
   markMessageSeen,
 } from "../../../redux/request/messageRequest";
 
-import { Avatar, EmojiPicker, Message } from "../../../components";
 import { useUploadImage, useDownloadImage } from "../../../shared/hooks";
 import { ConfirmDialog, PreviewImage } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
@@ -29,8 +28,18 @@ import { NEW_MSG } from "../../../business/noti.type";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import MessageFooter from "./MessageFooter";
 import SocketEvent from "../../../constants/socket-event";
+import Global from "../../../constants/global";
+
+const Avatar = lazy(() => import("../../../components/avatar/Avatar"));
+const Message = lazy(() => import("../../../components/message/Message"));
+
+const friendDefaultValues = {
+  name: "", avatar: ""
+}
 
 const MessageMiddle = ({ socket }) => {
+
+
   const [edit, setEdit] = useState(false);
   const [message, setMessage] = useState("");
   const [active, setActive] = useState("");
@@ -41,7 +50,7 @@ const MessageMiddle = ({ socket }) => {
   const [imageSelected, setImageSelected] = useState("");
   const [imgSrc, setImgSrc] = useState("");
   const [friendID, setFriendID] = useState("");
-  const [friend, setFriend] = useState({ name: "", avatar: "" });
+  const [friend, setFriend] = useState(friendDefaultValues);
   const [base64Image, setBase64Image] = useState(""); // Base64 string representing the image
   const [isLoading, setIsLoading] = useState(false);
   const uploadImgRef = useRef(null);
@@ -52,7 +61,6 @@ const MessageMiddle = ({ socket }) => {
 
   const socketRef = useRef(null);
   const scrollRef = useRef();
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
   const now = new Date();
   const time = `${now.getHours()}:${now.getMinutes()}`;
@@ -99,7 +107,7 @@ const MessageMiddle = ({ socket }) => {
   };
 
   useEffect(() => {
-    socketRef.current = io(SOCKET_URL);
+    socketRef.current = io(Global.SOCKET_URL);
     const socket = socketRef.current;
 
     socket.emit("client", {
@@ -120,7 +128,7 @@ const MessageMiddle = ({ socket }) => {
       socket.off(SocketEvent["DISCONNECT"], handleSocket.disconnect);
     };
   }, [
-    SOCKET_URL,
+    Global.SOCKET_URL,
     handleSocket.serverResponse,
     handleSocket.receivedMessage,
     handleSocket.updatedMessage,
@@ -196,7 +204,7 @@ const MessageMiddle = ({ socket }) => {
             await socketRef.current.emit("send-message", data?.data);
             setMessage("");
 
-            socket = io(SOCKET_URL);
+            socket = io(Global.SOCKET_URL);
 
             const notification = {
               sender: sender._id,

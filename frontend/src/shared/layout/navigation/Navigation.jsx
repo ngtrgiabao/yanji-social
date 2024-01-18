@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UilSearch } from "@iconscout/react-unicons";
 import Form from "react-bootstrap/Form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
 import "./style/navigation.css";
@@ -12,6 +12,8 @@ import { LOGO_YANJI_SOCIAL } from "../../../assets";
 import { logout } from "../../../redux/request/authRequest";
 import { Avatar, NavBtn } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
+import Global from "../../../constants/global";
+import {useCurrentUser} from "../../hooks";
 
 const Navigation = ({ title, link, isSearch = true }) => {
   const [users, setUsers] = useState([]);
@@ -19,10 +21,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
+  const currentUser = useCurrentUser();
 
   useEffect(() => {
     if (currentUser && !user._id) {
@@ -66,7 +65,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
     const value = e.target.value;
 
     const data = await axios.get(
-      process.env.REACT_APP_SOCKET_URL +
+      Global.SOCKET_URL +
         `/api/v1/user/all-users/?username=${value.toLowerCase()}`,
     );
 

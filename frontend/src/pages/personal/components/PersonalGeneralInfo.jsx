@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { UilCamera } from "@iconscout/react-unicons";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -11,6 +11,7 @@ import "../../../styles/animations/snackbar.css";
 
 import { ChangeImagePopup, FollowerList } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
+import {useCurrentUser} from "../../../shared/hooks";
 
 const PersonalGeneralInfo = ({ userInfo, socket }) => {
   const [active, setActive] = useState("");
@@ -19,14 +20,11 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
   const [followings, setFollowings] = useState(0);
   const snackBar = useRef(null);
   const dispatch = useDispatch();
+  const currentUser =useCurrentUser();
 
   const handlePopup = () => {
     setOpenPopup((openPopup) => !openPopup);
   };
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
 
   useEffect(() => {
     userInfo._id &&

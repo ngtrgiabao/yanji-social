@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { faBookmark as bookmarked } from "@fortawesome/free-solid-svg-icons";
@@ -7,13 +7,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { LoadingPage } from "../../pages";
 import { getPostByID } from "../../redux/request/postRequest";
-import { useTimeAgo } from "../../shared/hooks";
+import {useCurrentUser, useTimeAgo} from "../../shared/hooks";
 import {
   getPostsSaved,
   getUserByID,
   updateUser,
 } from "../../redux/request/userRequest";
 import { BG_DEFAULT_WALLPAPER_USER } from "../../assets";
+import Avatar from "../avatar/Avatar";
+import Global from "../../constants/global";
 
 const Bookmark = ({
   postID,
@@ -36,21 +38,17 @@ const Bookmark = ({
   });
   const formatTime = useTimeAgo;
   const navigate = useNavigate();
+  const currentUser = useCurrentUser();
 
   const handleVisitLink = (link) => {
     navigate(link);
   };
 
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
-
   const handleUser = {
     update: (updateData) => {
       updateUser(updateData, dispatch)
         .then(() => {
-          socket = io(SOCKET_URL);
+          socket = io(Global.SOCKET_URL);
 
           socket.emit("delete-saved", { postID: postID });
         })
@@ -136,18 +134,7 @@ const Bookmark = ({
                     cursor: "pointer",
                   }}
                 >
-                  {author.avatar ? (
-                    <img
-                      loading="lazy"
-                      role="presentation"
-                      decoding="async"
-                      src={author.avatar || BG_DEFAULT_WALLPAPER_USER}
-                      alt="Avatar user"
-                      className="w-100"
-                    />
-                  ) : (
-                    author.username
-                  )}
+                  <Avatar imageSrc={author.avatar} label={author.username} />
                 </div>
                 <span className="link-underline ">{author.username}</span>
               </div>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import Global from "../constants/global";
 
 //WORK TO BACKEND
 const commonConfig = {
@@ -9,7 +10,7 @@ const commonConfig = {
 };
 
 const api = axios.create({
-  baseURL: `${process.env.REACT_APP_SOCKET_URL}/api/v1`,
+  baseURL: `${Global.SOCKET_URL}/api/v1`,
   ...commonConfig,
 });
 

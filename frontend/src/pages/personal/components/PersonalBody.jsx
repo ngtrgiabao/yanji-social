@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import "../styles/personalBody.css";
 
@@ -16,6 +16,8 @@ import {
   getUserByID,
 } from "../../../redux/request/userRequest";
 import SocketEvent from "../../../constants/socket-event";
+import Global from "../../../constants/global";
+import {useCurrentUser} from "../../../shared/hooks";
 
 //TODO FIX POST SHARED ALWAYS PIN
 
@@ -29,8 +31,7 @@ const PersonalBody = ({
   const [posts, setPosts] = useState([]);
   const dispatch = useDispatch();
   const socketRef = useRef(null);
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+  const currentUser = useCurrentUser();
 
   const handlePopup = () => {
     setPopup((popup) => !popup);
@@ -77,7 +78,7 @@ const PersonalBody = ({
   };
 
   useEffect(() => {
-    socketRef.current = io(SOCKET_URL);
+    socketRef.current = io(Global.SOCKET_URL);
     const socket = socketRef.current;
 
     socket.on(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
@@ -93,7 +94,7 @@ const PersonalBody = ({
     handleSocket.updatePost,
     handleSocket.uploadPost,
     handleSocket.deletePost,
-    SOCKET_URL,
+    Global.SOCKET_URL,
   ]);
 
   const handleUser = useMemo(
@@ -138,10 +139,6 @@ const PersonalBody = ({
       });
     }
   }, [userInfo._id, handleUser, dispatch]);
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
 
   return (
     <>

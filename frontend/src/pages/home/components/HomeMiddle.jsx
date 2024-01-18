@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { LOGO_YANJI_SOCIAL } from "../../../assets";
 
@@ -10,6 +10,7 @@ import "../../../styles/animations/snackbar.css";
 import PostPopup from "../../../components/popup/PostPopup";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { LoadingPage } from "../../../pages";
+import {useCurrentUser} from "../../../shared/hooks";
 const Posts = lazy(() => import("../../../components/post/Posts"));
 
 const HomeMiddle = ({ socket }) => {
@@ -23,14 +24,11 @@ const HomeMiddle = ({ socket }) => {
   const [user, setUser] = useState(userDefaultValues);
   const snackBar = useRef(null);
   const dispatch = useDispatch();
+  const currentUser = useCurrentUser();
 
   const handlePopup = () => {
     setPopup((popup) => !popup);
   };
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
 
   useEffect(() => {
     currentUser &&
