@@ -8,6 +8,7 @@ import "../styles/messageRight.css";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getUserByID } from "../../../redux/request/userRequest";
+import { Avatar } from "../../../components";
 
 const MessageRight = () => {
   const [currentConversation, setCurrentConversation] = useState(null);
@@ -64,21 +65,7 @@ const MessageRight = () => {
             background: "var(--color-primary)",
           }}
         >
-          {friend.profilePicture ? (
-            <img
-              loading="lazy"
-              role="presentation"
-              decoding="async"
-              src={friend.profilePicture}
-              alt="Avatar user"
-              className="w-100"
-              style={{
-                objectFit: "cover",
-              }}
-            />
-          ) : (
-            <>{friend.username}</>
-          )}
+          <Avatar imageSrc={friend.profilePicture} label={friend.username} />
         </div>
         <p className="mt-2 mb-0 fs-4 fw-bold">{friend.username}</p>
       </div>

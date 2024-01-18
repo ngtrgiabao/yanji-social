@@ -2,8 +2,6 @@ import { Suspense, lazy } from "react";
 
 import "./styles/messages.css";
 
-import { AVA_KAYO } from "../../assets";
-
 import Navigation from "../../shared/layout/navigation/Navigation";
 
 import { MessageMiddle, MessageRight } from "./components";
@@ -17,7 +15,7 @@ function Messages({ socket }) {
       <Navigation title="Login" link="/register" />
       <div className="messages">
         <Suspense fallback={<LoadingPage />}>
-          <MessagesLeft avatarUser={AVA_KAYO} socket={socket} />
+          <MessagesLeft socket={socket} />
         </Suspense>
 
         <MessageMiddle socket={socket} />

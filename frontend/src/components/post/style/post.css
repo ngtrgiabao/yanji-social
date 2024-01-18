@@ -1,4 +1,4 @@
-@import url("../../styles/constants/constant.css");
+@import url("../../../styles/constants/constant.css");
 
 /* =========================== POSTS =========================== */
 .posts .post {
@@ -108,8 +108,8 @@
 .edit-post {
   width: 25rem;
 
-  top: 120%;
-  right: -28%;
+  top: 150%;
+  right: -100%;
   position: absolute;
 
   background: var(--color-primary);
@@ -120,24 +120,6 @@
   font-size: 1rem;
 
   z-index: 1;
-}
-
-.edit-post::after {
-  content: "";
-
-  width: 1rem;
-  height: 1rem;
-
-  top: -2.2%;
-  right: 7%;
-  position: absolute;
-
-  transform: rotate(45deg);
-
-  border-top: 1px solid var(--color-primary-light);
-  border-left: 1px solid var(--color-primary-light);
-
-  background-color: var(--color-white);
 }
 
 .edit-post > ul {

@@ -6,9 +6,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import { NotificationCard } from "../../components";
-import axios from "axios";
 
 const Notification = ({ socket }) => {
   const [notiList, setNotiList] = useState([]);

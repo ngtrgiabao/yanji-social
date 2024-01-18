@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import axios from "axios";
 
-import "../style/post.css";
+import "./style/post.css";
 
 import { getPostByID } from "../../redux/request/postRequest";
 const Post = lazy(() => import("./Post"));
