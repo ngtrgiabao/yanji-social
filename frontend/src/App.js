@@ -212,7 +212,7 @@ function App() {
                 }
               />
               <Route
-                path={currentUser ? "/logout" : "/login"}
+                path={"/logout"}
                 element={
                   <Suspense fallback={<LoadingPage />}>
                     <LoginPage />
