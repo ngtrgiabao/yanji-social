@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { getUserByID } from "../../redux/request/userRequest";
+import Avatar from "../avatar/Avatar";
 
 const Conversation = ({
   conversation,
@@ -79,18 +80,7 @@ const Conversation = ({
           background: "var(--color-primary)",
         }}
       >
-        {user?.profilePicture ? (
-          <img
-            loading="lazy"
-            role="presentation"
-            decoding="async"
-            src={user.profilePicture}
-            alt="Avatar user"
-            className="rounded-circle w-100"
-          />
-        ) : (
-          <>{user?.username || "user"}</>
-        )}
+        <Avatar imageSrc={user?.profilePicture} label={user?.username} />
       </span>
     );
   };

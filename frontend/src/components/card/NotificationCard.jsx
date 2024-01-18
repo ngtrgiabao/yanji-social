@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "../style/notificationCard.css";
+import "./style/notificationCard.css";
 
 import {
   COMMENT_POST,
@@ -22,6 +22,7 @@ import { LOGO_YANJI_SOCIAL } from "../../assets";
 
 import { getUserByID } from "../../redux/request/userRequest";
 import { useTimeAgo } from "../../shared/hooks";
+import Avatar from "../avatar/Avatar";
 
 const NotificationCard = ({ sender, type, isRead, createdAt }) => {
   const [notiInfo, setNotiInfo] = useState({
@@ -115,17 +116,9 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
             })()}
             <div className="d-flex align-items-center justify-content-between w-100">
               <Link to={"/user/" + sender} className="profile-pic ms-3">
-                <img
-                  loading="lazy"
-                  role="presentation"
-                  decoding="async"
-                  src={
-                    notiInfo.profilePicture
-                      ? notiInfo.profilePicture
-                      : LOGO_YANJI_SOCIAL
-                  }
-                  alt="Avatar user"
-                  className="w-100"
+                <Avatar
+                  imageSrc={notiInfo.profilePicture}
+                  label={notiInfo.senderName}
                 />
               </Link>
               <div>{formatTime(createdAt)}</div>

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import PersonalAvatarFriends from "./PersonalAvatarFriends";
+import PersonalFollow from "./PersonalFollow";
 
 import "../styles/personalGeneralInfo.css";
 import "../../../styles/animations/snackbar.css";
@@ -128,7 +128,7 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
             </span>
 
             <div className="profile-title d-flex align-items-center">
-              <PersonalAvatarFriends userInfo={userInfo} socket={socket} />
+              <PersonalFollow userInfo={userInfo} socket={socket} />
             </div>
           </div>
         </div>

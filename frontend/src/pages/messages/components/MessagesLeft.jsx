@@ -15,7 +15,7 @@ const Conversation = lazy(
   () => import("../../../components/conversation/Conversation"),
 );
 
-const MessageLeft = ({ avatarUser, socket = {} }) => {
+const MessageLeft = ({ socket = {} }) => {
   const [rooms, setRooms] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [friendID, setFriendID] = useState(null);
@@ -119,7 +119,6 @@ const MessageLeft = ({ avatarUser, socket = {} }) => {
             onlineUsers={onlineUsers}
             conversation={r}
             currentUser={currentUser._id}
-            avatarUser={avatarUser}
             filterMessages={filterMessages}
           />
         </Suspense>

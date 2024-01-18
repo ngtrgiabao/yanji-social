@@ -15,12 +15,12 @@ import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 
 import "../styles/homeLeft.css";
 
-import { LOGO_YANJI_SOCIAL } from "../../../assets";
-
 import { getUserByID } from "../../../redux/request/userRequest";
 
+import { LOGO_YANJI_SOCIAL } from "../../../assets";
+
 // SETTINGS
-import { CustomTheme, PostPopup, Setting } from "../../../components";
+import { Avatar, CustomTheme, PostPopup, Setting } from "../../../components";
 import { Button } from "../../../components";
 
 const HomeLeft = ({ socket, isReadNotification }) => {
@@ -128,17 +128,21 @@ const HomeLeft = ({ socket, isReadNotification }) => {
           title="Truy cập trang cá nhân"
         >
           <div className="profile-pic">
-            <img
-              loading="lazy"
-              role="presentation"
-              decoding="async"
-              src={
-                currentUser
-                  ? user.profilePicture || LOGO_YANJI_SOCIAL
-                  : LOGO_YANJI_SOCIAL
-              }
-              alt="Avatar user"
-              className="w-100"
+            {/*<img*/}
+            {/*  loading="lazy"*/}
+            {/*  role="presentation"*/}
+            {/*  decoding="async"*/}
+            {/*  src={*/}
+            {/*    currentUser*/}
+            {/*      ? user.profilePicture || LOGO_YANJI_SOCIAL*/}
+            {/*      : LOGO_YANJI_SOCIAL*/}
+            {/*  }*/}
+            {/*  alt="Avatar user"*/}
+            {/*  className="w-100"*/}
+            {/*/>*/}
+            <Avatar
+              imageSrc={currentUser ? user.profilePicture : LOGO_YANJI_SOCIAL}
+              label={user.username}
             />
           </div>
 
