@@ -1,21 +1,18 @@
 import { useRef, useState } from "react";
 import { UilCamera } from "@iconscout/react-unicons";
-import { useSelector } from "react-redux";
 
 import "../styles/personalHeader.css";
 
 import { ChangeImagePopup } from "../../../components";
+import { useCurrentUser } from "../../../shared/hooks";
 
 const PersonalHeader = ({ userInfo, socket }) => {
   const [openPopup, setOpenPopup] = useState(false);
+  const currentUser = useCurrentUser();
 
   const handlePopup = () => {
     setOpenPopup((openPopup) => !openPopup);
   };
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
 
   const snackBar = useRef(null);
 

@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,19 +9,17 @@ import { NEW_FOLLOWER } from "../../../business/noti.type";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import { Setting } from "../../../components";
 import { PersonalSendMsgBtn } from "./index";
+import SocketEvent from "../../../constants/socket-event";
+import Global from "../../../constants/global";
+import { useCurrentUser } from "../../../shared/hooks";
 
 const PersonalFollow = ({ userInfo, socket }) => {
   const [active, setActive] = useState("");
   const [isFollow, setIsFollow] = useState(false);
   const [isApprover, setIsApprover] = useState(false);
   const dispatch = useDispatch();
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+  const currentUser = useCurrentUser();
   const navigate = useNavigate();
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
 
   const handleFollow = () => {
     if (currentUser) {
@@ -35,7 +33,7 @@ const PersonalFollow = ({ userInfo, socket }) => {
           if (data) {
             const { userAccept, userRequest } = data.data;
 
-            socket = io(SOCKET_URL);
+            socket = io(Global.SOCKET_URL);
 
             socket.emit("follow", {
               // add author of current account to update friendRequests list
@@ -145,14 +143,14 @@ const PersonalFollow = ({ userInfo, socket }) => {
   };
 
   useEffect(() => {
-    socket = io(SOCKET_URL);
+    socket = io(Global.SOCKET_URL);
 
-    socket.on("followed", handleSocket.follow);
+    socket.on(SocketEvent["FOLLOWED"], handleSocket.follow);
 
     return () => {
-      socket.off("followed", handleSocket.follow);
+      socket.off(SocketEvent["FOLLOWED"], handleSocket.follow);
     };
-  }, [SOCKET_URL, handleSocket.follow]);
+  }, [Global.SOCKET_URL, handleSocket.follow]);
 
   // Check user is approver ?
   useEffect(() => {

@@ -8,7 +8,7 @@ import {
   faTwitter,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 
 import "../styles/personalIntroduce.css";
@@ -16,6 +16,9 @@ import "../styles/personalIntroduce.css";
 import PersonalGallery from "./PersonalGallery";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { SocialBio } from "../../../components";
+import SocketEvent from "../../../constants/socket-event";
+import Global from "../../../constants/global";
+import { useCurrentUser } from "../../../shared/hooks";
 
 const PersonalIntroduce = ({
   onUpdateBioPopup,
@@ -34,12 +37,7 @@ const PersonalIntroduce = ({
     twitter: userInfo.twitter,
     twitch: userInfo.twitch,
   });
-
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
+  const currentUser = useCurrentUser();
 
   const handleSocket = {
     updateUser: useCallback((data) => {
@@ -51,12 +49,12 @@ const PersonalIntroduce = ({
   };
 
   useEffect(() => {
-    socket = io(SOCKET_URL);
+    socket = io(Global.SOCKET_URL);
 
-    socket.on("updated-user", handleSocket.updateUser);
+    socket.on(SocketEvent["UPDATED_USER"], handleSocket.updateUser);
 
     return () => {
-      socket.off("updated-user", handleSocket.updateUser);
+      socket.off(SocketEvent["UPDATED_USER"], handleSocket.updateUser);
     };
   }, [handleSocket.updateUser]);
 

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import "../../styles/animations/snackbar.css";
@@ -7,14 +7,14 @@ import "../../styles/animations/snackbar.css";
 import { getPostsSaved } from "../../redux/request/userRequest";
 import { Bookmark } from "../../components";
 import { io } from "socket.io-client";
+import SocketEvent from "../../constants/socket-event";
+import Global from "../../constants/global";
+import { useCurrentUser } from "../../shared/hooks";
 
 const Bookmarks = ({ socket }) => {
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
+  const currentUser = useCurrentUser();
   const [bookmarks, setBookmarks] = useState([]);
   const dispatch = useDispatch();
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
   useEffect(() => {
     getPostsSaved(currentUser._id, dispatch).then((data) => {
@@ -33,12 +33,12 @@ const Bookmarks = ({ socket }) => {
   };
 
   useEffect(() => {
-    socket = io(SOCKET_URL);
+    socket = io(Global.SOCKET_URL);
 
-    socket.on("deleted-saved", handleSocket.deleteSaved);
+    socket.on(SocketEvent["DELETED_SAVED"], handleSocket.deleteSaved);
 
     return () => {
-      socket.off("deleted-saved", handleSocket.deleteSaved);
+      socket.off(SocketEvent["DELETED_SAVED"], handleSocket.deleteSaved);
     };
   }, [handleSocket.deleteSaved]);
 

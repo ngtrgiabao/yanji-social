@@ -1,12 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getPostByID } from "../../redux/request/postRequest";
 import { useDispatch } from "react-redux";
-
-import _404 from "../_404/_404";
 import { io } from "socket.io-client";
+
+import { getPostByID } from "../../redux/request/postRequest";
+import _404 from "../_404/_404";
 import { DetailsPost, Post } from "../../components";
 import { getUserByID } from "../../redux/request/userRequest";
+import SocketEvent from "../../constants/socket-event";
+import Global from "../../constants/global";
 
 import "../../styles/animations/snackbar.css";
 
@@ -46,8 +48,6 @@ const PostPreview = ({ socket }) => {
     });
   }, [postRoutePage.userID, dispatch]);
 
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
-
   const handleSocket = {
     updatePost: useCallback(() => {
       getPostByID(postRoutePage._id, dispatch).then((data) => {
@@ -57,12 +57,12 @@ const PostPreview = ({ socket }) => {
   };
 
   useEffect(() => {
-    socket = io(SOCKET_URL);
+    socket = io(Global.SOCKET_URL);
 
-    socket.on("updated-post", handleSocket.updatePost);
+    socket.on(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
 
     return () => {
-      socket.off("updated-post", handleSocket.updatePost);
+      socket.off(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
     };
   }, [handleSocket.updatePost, socket]);
 
@@ -113,12 +113,7 @@ const PostPreview = ({ socket }) => {
           />
         </div>
 
-        <div
-          data-deleted-popup
-          id="snackbar"
-          ref={snackBar}
-          className="fw-bold"
-        >
+        <div id="snackbar" ref={snackBar} className="fw-bold">
           Deleted post :D
         </div>
       </>

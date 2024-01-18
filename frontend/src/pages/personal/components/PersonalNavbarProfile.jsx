@@ -7,17 +7,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CSVLink } from "react-csv";
-import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import "../styles/personalNavbarProfile.css";
 
 import { Setting } from "../../../components";
+import { useCurrentUser } from "../../../shared/hooks";
 
 const PersonalNavbarProfile = () => {
   const { userID: userRoute } = useParams();
   const { photos: photosRoute } = useParams();
-
+  const currentUser = useCurrentUser();
   const [checked, setChecked] = useState(false);
   const exportData = useRef(null);
   const navigate = useNavigate();
@@ -34,10 +34,6 @@ const PersonalNavbarProfile = () => {
       link: `user/${userRoute}/photos`,
     },
   ];
-
-  const currentUser = useSelector((state) => {
-    return state.auth.login.currentUser?.data;
-  });
 
   const handleExportData = () => {
     exportData.current.link.click();

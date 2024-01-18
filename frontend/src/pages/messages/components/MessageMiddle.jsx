@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, lazy } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   faVideo,
@@ -21,13 +21,26 @@ import {
   markMessageSeen,
 } from "../../../redux/request/messageRequest";
 
-import { Avatar, EmojiPicker, Message } from "../../../components";
-import { useUploadImage, useDownloadImage } from "../../../shared/hooks";
+import {
+  useUploadImage,
+  useDownloadImage,
+  useCurrentRoom,
+} from "../../../shared/hooks";
 import { ConfirmDialog, PreviewImage } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { NEW_MSG } from "../../../business/noti.type";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import MessageFooter from "./MessageFooter";
+import SocketEvent from "../../../constants/socket-event";
+import Global from "../../../constants/global";
+
+const Avatar = lazy(() => import("../../../components/avatar/Avatar"));
+const Message = lazy(() => import("../../../components/message/Message"));
+
+const friendDefaultValues = {
+  name: "",
+  avatar: "",
+};
 
 const MessageMiddle = ({ socket }) => {
   const [edit, setEdit] = useState(false);
@@ -40,18 +53,18 @@ const MessageMiddle = ({ socket }) => {
   const [imageSelected, setImageSelected] = useState("");
   const [imgSrc, setImgSrc] = useState("");
   const [friendID, setFriendID] = useState("");
-  const [friend, setFriend] = useState({ name: "", avatar: "" });
+  const [friend, setFriend] = useState(friendDefaultValues);
   const [base64Image, setBase64Image] = useState(""); // Base64 string representing the image
   const [isLoading, setIsLoading] = useState(false);
   const uploadImgRef = useRef(null);
   const downloadImage = useDownloadImage(imgSrc);
   const dispatch = useDispatch();
+  const currentRoom = useCurrentRoom();
 
   const cloudStorage = useUploadImage;
 
   const socketRef = useRef(null);
   const scrollRef = useRef();
-  const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
   const now = new Date();
   const time = `${now.getHours()}:${now.getMinutes()}`;
@@ -63,7 +76,6 @@ const MessageMiddle = ({ socket }) => {
   const handleSocket = {
     serverResponse: useCallback(() => {
       console.log("Server connected");
-      // console.clear();
     }, []),
 
     receivedMessage: useCallback(
@@ -99,38 +111,34 @@ const MessageMiddle = ({ socket }) => {
   };
 
   useEffect(() => {
-    socketRef.current = io(SOCKET_URL);
+    socketRef.current = io(Global.SOCKET_URL);
     const socket = socketRef.current;
 
     socket.emit("client", {
       msg: "Hello from client 😀",
     });
 
-    socket.on("server", handleSocket.serverResponse);
-    socket.on("receive-message", handleSocket.receivedMessage);
-    socket.on("updated-message", handleSocket.updatedMessage);
-    socket.on("deleted-message", handleSocket.deletedMesssage);
-    socket.on("disconnect", handleSocket.disconnect);
+    socket.on(SocketEvent["SERVER"], handleSocket.serverResponse);
+    socket.on(SocketEvent["RECEIVE_MESSAGE"], handleSocket.receivedMessage);
+    socket.on(SocketEvent["UPDATED_MESSAGE"], handleSocket.updatedMessage);
+    socket.on(SocketEvent["DELETED_MESSAGE"], handleSocket.deletedMesssage);
+    socket.on(SocketEvent["DISCONNECT"], handleSocket.disconnect);
 
     return () => {
-      socket.off("server", handleSocket.serverResponse);
-      socket.off("receive-message", handleSocket.receivedMessage);
-      socket.off("updated-message", handleSocket.updatedMessage);
-      socket.off("deleted-message", handleSocket.deletedMesssage);
-      socket.off("disconnect", handleSocket.disconnect);
+      socket.off(SocketEvent["SERVER"], handleSocket.serverResponse);
+      socket.off(SocketEvent["RECEIVE_MESSAGE"], handleSocket.receivedMessage);
+      socket.off(SocketEvent["UPDATED_MESSAGE"], handleSocket.updatedMessage);
+      socket.off(SocketEvent["DELETED_MESSAGE"], handleSocket.deletedMesssage);
+      socket.off(SocketEvent["DISCONNECT"], handleSocket.disconnect);
     };
   }, [
-    SOCKET_URL,
+    Global.SOCKET_URL,
     handleSocket.serverResponse,
     handleSocket.receivedMessage,
     handleSocket.updatedMessage,
     handleSocket.deletedMesssage,
     handleSocket.disconnect,
   ]);
-
-  const currentRoom = useSelector((state) => {
-    return state.room.room?.currentRoom;
-  });
 
   useEffect(() => {
     let isCancelled = false;
@@ -196,7 +204,7 @@ const MessageMiddle = ({ socket }) => {
             await socketRef.current.emit("send-message", data?.data);
             setMessage("");
 
-            socket = io(SOCKET_URL);
+            socket = io(Global.SOCKET_URL);
 
             const notification = {
               sender: sender._id,
