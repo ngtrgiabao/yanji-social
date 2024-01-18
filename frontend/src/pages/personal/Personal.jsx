@@ -13,15 +13,17 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "./style/personal.css";
+import "./styles/personal.css";
 
 import { getUserByID, updateUser } from "../../redux/request/userRequest";
 
 import Navigation from "../../shared/layout/navigation/Navigation";
-import PersonalBody from "./PersonalBody";
-import PersonalGeneralInfo from "./PersonalGeneralInfo";
-import PersonalHeader from "./PersonalHeader";
-import PersonalNavbarProfile from "./PersonalNavbarProfile";
+import {
+  PersonalBody,
+  PersonalGeneralInfo,
+  PersonalHeader,
+  PersonalNavbarProfile,
+} from "./components";
 import _404 from "../_404/_404";
 import { ConfirmDialog, SocialMediaInput, PhotosUser } from "../../components";
 

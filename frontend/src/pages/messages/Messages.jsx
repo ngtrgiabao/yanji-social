@@ -1,16 +1,15 @@
 import { Suspense, lazy } from "react";
 
-import "./style/messages.css";
+import "./styles/messages.css";
 
 import { AVA_KAYO } from "../../assets";
 
 import Navigation from "../../shared/layout/navigation/Navigation";
 
-import MessagesMiddle from "./MessagesMiddle";
-import MessagesRight from "./MessagesRight";
+import { MessageMiddle, MessageRight } from "./components";
 import LoadingPage from "../loading/LoadingPage";
 
-const MessagesLeft = lazy(() => import("./MessagesLeft"));
+const MessagesLeft = lazy(() => import("./components/MessagesLeft"));
 
 function Messages({ socket }) {
   return (
@@ -21,8 +20,8 @@ function Messages({ socket }) {
           <MessagesLeft avatarUser={AVA_KAYO} socket={socket} />
         </Suspense>
 
-        <MessagesMiddle socket={socket} />
-        <MessagesRight socket={socket} />
+        <MessageMiddle socket={socket} />
+        <MessageRight socket={socket} />
       </div>
     </>
   );

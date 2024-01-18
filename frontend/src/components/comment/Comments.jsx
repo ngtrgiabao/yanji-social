@@ -165,7 +165,7 @@ const Comments = ({ postID, author, socket }) => {
           <input
             type="text"
             className="fs-3 ms-2 p-2 px-4 w-100 border-0"
-            placeholder="Đăng bình luận của bạn"
+            placeholder="What you think this post"
             value={content}
             onChange={handleContent}
             style={{
