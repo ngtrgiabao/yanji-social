@@ -8,7 +8,7 @@ import { CSVLink } from "react-csv";
 
 import { logout } from "../../redux/request/authRequest";
 import { getUserByID, updateUser } from "../../redux/request/userRequest";
-import { useCurrentUser } from "../../shared/hooks";
+import { useCurrentUser } from "../../hooks";
 
 // TODO CHANGE BG DANGER OF POPUP WHEN UPDATE USER FAILED
 

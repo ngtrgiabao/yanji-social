@@ -11,7 +11,7 @@ import "../../../styles/animations/snackbar.css";
 
 import { ChangeImagePopup, FollowerList } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
-import { useCurrentUser } from "../../../shared/hooks";
+import { useCurrentUser } from "../../../hooks";
 
 const PersonalGeneralInfo = ({ userInfo, socket }) => {
   const [active, setActive] = useState("");

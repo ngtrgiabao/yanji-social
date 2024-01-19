@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 
 import { getAllNotificationsByUser } from "../../redux/request/notificationRequest";
 import SocketEvent from "../../constants/socket-event";
-import { useCurrentUser } from "../../shared/hooks";
+import { useCurrentUser } from "../../hooks";
 
 const Navigation = lazy(
   () => import("../../shared/layout/navigation/Navigation"),

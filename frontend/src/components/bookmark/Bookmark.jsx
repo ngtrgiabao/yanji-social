@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { LoadingPage } from "../../pages";
 import { getPostByID } from "../../redux/request/postRequest";
-import { useCurrentUser, useTimeAgo } from "../../shared/hooks";
+import { useCurrentUser, useTimeAgo } from "../../hooks";
 import {
   getPostsSaved,
   getUserByID,

@@ -1,15 +1,16 @@
 import axios from "axios";
+import Global from "../constants/global";
 
 const useUploadAudio = async (fileSeleted) => {
   try {
     const data = new FormData();
     data.append("file", fileSeleted);
-    data.append("upload_preset", process.env.REACT_APP_CLOUD_UPLOAD_PRESET);
-    data.append("cloud_name", process.env.REACT_APP_CLOUD_STORAGE_NAME);
-    data.append("folder", process.env.REACT_APP_CLOUD_AUDIO_FOLDER);
+    data.append("upload_preset", Global.CLOUD_UPLOAD_PRESET);
+    data.append("cloud_name", Global.CLOUD_STORAGE_NAME);
+    data.append("folder", Global.CLOUD_AUDIO_FOLDER);
     if (fileSeleted) {
       const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_STORAGE_NAME}/auto/upload/`,
+        `https://api.cloudinary.com/v1_1/${Global.CLOUD_STORAGE_NAME}/auto/upload/`,
         data,
       );
       return res.data;

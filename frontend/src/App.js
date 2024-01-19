@@ -5,7 +5,7 @@ import { isMobile, isTablet } from "react-device-detect";
 
 import { BG_NOT_AVAILABLE } from "./assets";
 import Global from "./constants/global";
-import { useCurrentUser } from "./shared/hooks";
+import { useCurrentUser } from "./hooks";
 
 import {
   LoadingPage,
@@ -15,6 +15,7 @@ import {
   CookiePolicy,
   PrivacyPolicy,
 } from "./pages";
+import { OTPInput } from "./components";
 
 const _404 = lazy(() => import("./pages/_404/_404"));
 const Homepage = lazy(() => import("./pages/home/Home"));
@@ -161,6 +162,14 @@ function App() {
                 element={
                   <Suspense fallback={<LoadingPage />}>
                     <PostPreview socket={socket} />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/otp"
+                element={
+                  <Suspense fallback={<LoadingPage />}>
+                    <OTPInput />
                   </Suspense>
                 }
               />

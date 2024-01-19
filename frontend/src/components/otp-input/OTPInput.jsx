@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OtpInput from "react-otp-input";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { updateUser } from "../../redux/request/userRequest";
 
-const OTPInput = ({ otp, onChangeOtp = () => {}, verifyCode, userID }) => {
+const OTPInput = ({
+  otp = "",
+  onChangeOtp = () => {},
+  verifyCode = "",
+  userID = "",
+}) => {
   const [errMsg, setErrMsg] = useState("");
   const [isErr, setIsErr] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [seconds, setSeconds] = useState(20);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,6 +35,20 @@ const OTPInput = ({ otp, onChangeOtp = () => {}, verifyCode, userID }) => {
     display: "flex",
     justifyContent: "center",
   };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setSeconds((prevSeconds) => prevSeconds - 1);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    if (seconds === 0) {
+      clearInterval(seconds);
+    }
+  }, [seconds]);
 
   const handleSubmit = () => {
     if (verifyCode === otp) {
@@ -54,39 +74,54 @@ const OTPInput = ({ otp, onChangeOtp = () => {}, verifyCode, userID }) => {
   };
 
   return (
-    <div className="d-flex flex-column align-items-center">
-      <h2 className="fs-1 fw-bold">Enter Your OTP</h2>
-      <OtpInput
-        value={otp.toUpperCase()}
-        onChange={(value) => onChangeOtp(value.toUpperCase())}
-        numInputs={4}
-        renderSeparator={<span>-</span>}
-        renderInput={(props) => <input {...props} />}
-        containerStyle={ContainerStyle}
-        inputStyle={InputStyle}
-      />
-      {isErr && <span className="text-danger">{errMsg}</span>}
-      <div
-        className="py-3 px-5 mt-2 border-0 text-white"
-        style={{
-          outline: "none",
-          backgroundColor: "var(--color-primary)",
-          opacity: `${otp.length < 4 || !otp ? "0.5" : "1"}`,
-          borderRadius: "0.5rem",
-          cursor: `${otp.length < 4 || !otp ? "not-allowed" : "pointer"}`,
-        }}
-        onClick={handleSubmit}
-        disabled={otp.length < 4 || !otp ? true : false}
-      >
-        {isLoading ? "Loading..." : "Verify"}
+    <>
+      <div className="d-flex flex-column align-items-center">
+        <h2 className="fs-1 fw-bold">Enter Your OTP</h2>
+        <div>
+          <OtpInput
+            value={otp.toUpperCase()}
+            onChange={(value) => onChangeOtp(value.toUpperCase())}
+            numInputs={4}
+            renderSeparator={<span>-</span>}
+            renderInput={(props) => <input {...props} />}
+            containerStyle={ContainerStyle}
+            inputStyle={InputStyle}
+          />
+          <div
+            className="fs-5"
+            style={{
+              marginLeft: "1rem",
+              color: "var(--color-primary)",
+              fontWeight: `${seconds > 0 ? "normal" : "bold"}`,
+              cursor: `${seconds > 0 ? "not-allowed" : "pointer"}`,
+            }}
+          >
+            Re-send OTP Code {seconds > 0 && `in ${seconds}`}{" "}
+          </div>
+        </div>
+        {isErr && <span className="text-danger">{errMsg}</span>}
+        <div
+          className="py-3 px-5 mt-2 border-0 text-white"
+          style={{
+            outline: "none",
+            backgroundColor: "var(--color-primary)",
+            opacity: `${otp.length < 4 || !otp ? "0.5" : "1"}`,
+            borderRadius: "0.5rem",
+            cursor: `${otp.length < 4 || !otp ? "not-allowed" : "pointer"}`,
+          }}
+          onClick={handleSubmit}
+          disabled={otp.length < 4 || !otp ? true : false}
+        >
+          {isLoading ? "Loading..." : "Verify"}
+        </div>
+        <span className="mt-2 fw-lighter">
+          Please check your email to get OTP code
+        </span>
+        <span className="fs-5 fw-bold mt-2 text-center">
+          Thank you for your register at Yanji Social 🥰 !
+        </span>
       </div>
-      <span className="mt-2 fw-lighter">
-        Please check your email to get OTP code
-      </span>
-      <span className="fs-5 fw-bold mt-2 text-center">
-        Thank you for your register at Yanji Social 🥰 !
-      </span>
-    </div>
+    </>
   );
 };
 

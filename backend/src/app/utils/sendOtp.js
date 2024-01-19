@@ -43,8 +43,18 @@ const withEmail = async (email) => {
   }
 };
 
+const resendOtp = async () => {
+  try {
+    const otpCode = generateOTP();
+    return { otpCode }
+  } catch (error) {
+    console.log("Failed to resend otp", error);
+  }
+}
+
 const verifyOTP = {
   withEmail: withEmail,
+  resendOtp: resendOtp
 };
 
 module.exports = verifyOTP;

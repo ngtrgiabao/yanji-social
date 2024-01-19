@@ -5,7 +5,7 @@ import { getAllImagesByUser } from "../../redux/request/imageRequest";
 import { useDispatch } from "react-redux";
 import ConfirmDialog from "../dialog/ConfirmDialog";
 import PreviewImage from "../preview/PreviewImage";
-import { useDownloadImage } from "../../shared/hooks";
+import { useDownloadImage } from "../../hooks";
 
 const PhotosUser = ({ userInfo }) => {
   const { userID: userRoute } = useParams();

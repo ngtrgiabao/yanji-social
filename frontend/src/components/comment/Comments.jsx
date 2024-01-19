@@ -12,7 +12,7 @@ import { COMMENT_POST } from "../../business/noti.type";
 import { getUserByID } from "../../redux/request/userRequest";
 import SocketEvent from "../../constants/socket-event";
 import Global from "../../constants/global";
-import { useCurrentUser } from "../../shared/hooks";
+import { useCurrentUser } from "../../hooks";
 
 const Comments = ({ postID, author, socket }) => {
   const [content, setContent] = useState("");
