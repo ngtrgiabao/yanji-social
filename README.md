@@ -122,6 +122,8 @@ CLOUD_SECRET_KEY=""
 CLOUD_FOLDER_NAME=""
 PlayFabSettingsDeveloperSecretKey=""
 PlayFabSettingsTitleId=""
+USER_GMAIL=""
+PWD_GMAIL=""
 <!-- FRONTEND_URL="deploy_link" -->
 <!-- MONGODB_URI="mongodb_local_link" -->
 ```
@@ -133,5 +135,6 @@ REACT_APP_SOCKET_URL="your_backend_url"
 REACT_APP_CLOUD_UPLOAD_PRESET=""
 REACT_APP_CLOUD_STORAGE_NAME=""
 REACT_APP_CLOUD_FOLDER=""
-<!-- REACT_APP_SOCKET_URL="link_deploy_frontend" -->
+REACT_APP_CAPTCHA_SITE_KEY=""
+REACT_APP_CAPTCHA_SECRET_KEY=""
 ```
