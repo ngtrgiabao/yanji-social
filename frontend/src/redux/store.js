@@ -21,6 +21,7 @@ import userReducer from "./userSlice";
 import postSlice from "./postSlice";
 import commentSlice from "./commentSlice";
 import notificationSlice from "./notificationSlice";
+import otpSlice from "./otpSlice";
 
 const persistConfig = {
   key: "root",
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   post: postSlice,
   comment: commentSlice,
   notification: notificationSlice,
+  otp: otpSlice
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

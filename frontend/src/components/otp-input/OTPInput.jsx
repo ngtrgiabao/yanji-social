@@ -4,20 +4,26 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { updateUser } from "../../redux/request/userRequest";
+import { resendOtp } from "../../redux/request/otpRequest";
 
 const OTPInput = ({
   otp = "",
-  onChangeOtp = () => {},
+  onChangeOtp = () => { },
   verifyCode = "",
   userID = "",
+  onSetVerifyCode
 }) => {
   const [errMsg, setErrMsg] = useState("");
   const [isErr, setIsErr] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [seconds, setSeconds] = useState(20);
+  const [seconds, setSeconds] = useState(
+    parseInt(localStorage.getItem('remainingSeconds')) || 10
+  );
+  const [newOtp, setNewOtp] = useState(null);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const currentTime = Date.now();
 
   const InputStyle = {
     width: "6rem",
@@ -36,42 +42,76 @@ const OTPInput = ({
     justifyContent: "center",
   };
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setSeconds((prevSeconds) => prevSeconds - 1);
-    }, 1000);
+  const countDown = () => {
+    setSeconds((prevSeconds) => {
+      const newSeconds = prevSeconds - 1;
+      localStorage.setItem('remainingSeconds', newSeconds.toString());
+      return newSeconds;
+    });
+  }
 
-    return () => clearInterval(intervalId);
+  useEffect(() => {
+    const interval = seconds > 0 && setInterval(() => {
+      countDown();
+    }, 1000)
+
+    return () => {
+      clearInterval(interval);
+    }
   }, []);
 
-  useEffect(() => {
-    if (seconds === 0) {
-      clearInterval(seconds);
-    }
-  }, [seconds]);
+  const handleUpdateUser = () => {
+    const updatedUser = {
+      userID,
+      isVerifyEmail: true,
+    };
+
+    updateUser(updatedUser, dispatch).then(() => {
+      setIsLoading(false);
+      alert("Success");
+      navigate("/login");
+    });
+  }
 
   const handleSubmit = () => {
-    if (verifyCode === otp) {
+    console.log(newOtp)
+    if (newOtp) {
+      if (verifyCode && verifyCode === newOtp.otpCode) {
+        setIsErr(false);
+        setIsLoading(true);
+        // handleUpdateUser()
+        console.log("hmmm")
+
+        if (newOtp.expirationTime < currentTime) {
+          setErrMsg("Invalid OTP Code");
+          setIsErr(true);
+        }
+
+        setIsLoading(false)
+      } else if (verifyCode === otp) {
+        setErrMsg("Invalid OTP Code");
+        setIsErr(true);
+      }
+    } else if (verifyCode && otp && verifyCode === otp) {
       setIsErr(false);
       setIsLoading(true);
-
-      const updatedUser = {
-        userID,
-        isVerifyEmail: true,
-      };
-
-      updateUser(updatedUser, dispatch).then(() => {
-        setIsLoading(false);
-        alert("Success");
-        navigate("/login");
-      });
-
-      setIsLoading(false);
+      // handleUpdateUser();
     } else {
-      setErrMsg("Invalid OTP Code");
-      setIsErr(true);
+      if (verifyCode !== "" && otp && verifyCode !== otp || newOtp.otpCode !== verifyCode) {
+        setErrMsg("Invalid OTP Code");
+        setIsErr(true);
+      }
     }
   };
+
+  const handleResendOtp = async () => {
+    if (seconds > 0) return;
+
+    const data = await resendOtp(dispatch);
+    setNewOtp({ ...data });
+    alert(`Your new OTP code is: ${data.otpCode}`);
+    setSeconds(10)
+  }
 
   return (
     <>
@@ -80,7 +120,7 @@ const OTPInput = ({
         <div>
           <OtpInput
             value={otp.toUpperCase()}
-            onChange={(value) => onChangeOtp(value.toUpperCase())}
+            onChange={(value) => { onChangeOtp(value.toUpperCase()); onSetVerifyCode(value.toUpperCase()) }}
             numInputs={4}
             renderSeparator={<span>-</span>}
             renderInput={(props) => <input {...props} />}
@@ -88,13 +128,15 @@ const OTPInput = ({
             inputStyle={InputStyle}
           />
           <div
-            className="fs-5"
+            className="fs-5 bg-transparent border-0"
             style={{
               marginLeft: "1rem",
               color: "var(--color-primary)",
               fontWeight: `${seconds > 0 ? "normal" : "bold"}`,
               cursor: `${seconds > 0 ? "not-allowed" : "pointer"}`,
             }}
+            onClick={handleResendOtp}
+            disabled={seconds > 0}
           >
             Re-send OTP Code {seconds > 0 && `in ${seconds}`}{" "}
           </div>

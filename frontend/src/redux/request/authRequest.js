@@ -25,7 +25,7 @@ export const loginUser = async (user, dispatch, navigate) => {
   }
 };
 
-export const registerUser = async (user, dispatch, navigate) => {
+export const registerUser = async (user, dispatch) => {
   dispatch(registerStart());
   try {
     const res = await userService.createUser(user);

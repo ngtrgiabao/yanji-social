@@ -1,4 +1,4 @@
-const { compare, genSalt, hash } = require("bcrypt");
+const { compare } = require("bcrypt");
 
 const UserModel = require("../models/user.model");
 const hashedUtil = require("../utils/hashed.util");
@@ -18,14 +18,6 @@ class UserService {
 
   checkPassword = async (user, password) => {
     return await compare(password, user.password);
-  };
-
-  findUserByUsernameAndPassword = async (username, password) => {
-    const user = await UserModel.findOne({
-      username: username,
-      password: password,
-    });
-    return user;
   };
 
   findUserByUsername = async (username) => {
