@@ -7,17 +7,17 @@ import { updateUser } from "../../redux/request/userRequest";
 import { resendOtp } from "../../redux/request/otpRequest";
 
 const OTPInput = ({
-otp = "",
-  onChangeOtp = () => { },
+  otp = "",
+  onChangeOtp = () => {},
   verifyCode = "",
   userID = "",
-  onSetVerifyCode
+  onSetVerifyCode,
 }) => {
   const [errMsg, setErrMsg] = useState("");
   const [isErr, setIsErr] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [seconds, setSeconds] = useState(
-    parseInt(localStorage.getItem('remainingSeconds')) || 10
+    parseInt(localStorage.getItem("remainingSeconds")) || 10,
   );
   const [newOtp, setNewOtp] = useState(null);
 
@@ -45,19 +45,21 @@ otp = "",
   const countDown = () => {
     setSeconds((prevSeconds) => {
       const newSeconds = prevSeconds - 1;
-      localStorage.setItem('remainingSeconds', newSeconds.toString());
+      localStorage.setItem("remainingSeconds", newSeconds.toString());
       return newSeconds;
     });
-  }
+  };
 
   useEffect(() => {
-    const interval = seconds > 0 && setInterval(() => {
-      countDown();
-    }, 1000)
+    const interval =
+      seconds > 0 &&
+      setInterval(() => {
+        countDown();
+      }, 1000);
 
     return () => {
       clearInterval(interval);
-    }
+    };
   }, [seconds]);
 
   const handleUpdateUser = () => {
@@ -71,21 +73,21 @@ otp = "",
       alert("Success");
       navigate("/login");
     });
-  }
+  };
 
   const handleSubmit = () => {
     if (newOtp) {
       if (verifyCode && verifyCode === newOtp.otpCode) {
         setIsErr(false);
         setIsLoading(true);
-        handleUpdateUser()
+        handleUpdateUser();
 
         if (newOtp.expirationTime < currentTime) {
           setErrMsg("Invalid OTP Code");
           setIsErr(true);
         }
 
-        setIsLoading(false)
+        setIsLoading(false);
       } else if (verifyCode === otp) {
         setErrMsg("Invalid OTP Code");
         setIsErr(true);
@@ -95,7 +97,10 @@ otp = "",
       setIsLoading(true);
       handleUpdateUser();
     } else {
-      if (verifyCode !== "" && otp && verifyCode !== otp || newOtp.otpCode !== verifyCode) {
+      if (
+        (verifyCode !== "" && otp && verifyCode !== otp) ||
+        newOtp.otpCode !== verifyCode
+      ) {
         setErrMsg("Invalid OTP Code");
         setIsErr(true);
       }
@@ -108,8 +113,8 @@ otp = "",
     const data = await resendOtp(dispatch);
     setNewOtp({ ...data });
     alert(`Your new OTP code is: ${data.otpCode}`);
-    setSeconds(10)
-  }
+    setSeconds(10);
+  };
 
   return (
     <>
@@ -118,7 +123,10 @@ otp = "",
         <div>
           <OtpInput
             value={otp.toUpperCase()}
-            onChange={(value) => { onChangeOtp(value.toUpperCase()); onSetVerifyCode(value.toUpperCase()) }}
+            onChange={(value) => {
+              onChangeOtp(value.toUpperCase());
+              onSetVerifyCode(value.toUpperCase());
+            }}
             numInputs={4}
             renderSeparator={<span>-</span>}
             renderInput={(props) => <input {...props} />}

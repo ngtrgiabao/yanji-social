@@ -37,7 +37,7 @@ const rootReducer = combineReducers({
   post: postSlice,
   comment: commentSlice,
   notification: notificationSlice,
-  otp: otpSlice
+  otp: otpSlice,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

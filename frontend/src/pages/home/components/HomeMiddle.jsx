@@ -11,7 +11,7 @@ import PostPopup from "../../../components/popup/PostPopup";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { LoadingPage } from "../../../pages";
 import { useCurrentUser } from "../../../hooks";
-import {Avatar} from "../../../components";
+import { Avatar } from "../../../components";
 const Posts = lazy(() => import("../../../components/post/Posts"));
 
 const HomeMiddle = ({ socket }) => {
@@ -71,14 +71,18 @@ const HomeMiddle = ({ socket }) => {
   return (
     <div className="middle animate__animated animate__fadeIn position-relative">
       {/* STATUS */}
-      <div className={`create-post align-items-center mb-4 ${currentUser === undefined ? 'd-none' : 'd-flex'}`}>
+      <div
+        className={`create-post align-items-center mb-4 ${
+          currentUser === undefined ? "d-none" : "d-flex"
+        }`}
+      >
         <div className="create-post-wrapper w-100 d-flex align-items-center">
           <Link
             to={currentUser ? `/user/${user?._id}` : "/"}
             className="profile-pic text-white"
             aria-label="Avatar user"
           >
-            <Avatar imageSrc={user?.profilePicture} label={user?.username}/>
+            <Avatar imageSrc={user?.profilePicture} label={user?.username} />
           </Link>
 
           <div
