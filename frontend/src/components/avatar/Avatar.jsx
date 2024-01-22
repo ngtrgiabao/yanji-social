@@ -1,3 +1,5 @@
+import { LOGO_YANJI_SOCIAL } from "../../assets";
+
 const Avatar = ({ imageSrc = "", label = "", customClass = "" }) => {
   return (
     <div

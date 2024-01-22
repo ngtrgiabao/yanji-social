@@ -22,7 +22,7 @@ import { LOGO_YANJI_SOCIAL } from "../../../assets";
 // SETTINGS
 import { Avatar, CustomTheme, PostPopup, Setting } from "../../../components";
 import { Button } from "../../../components";
-import { useCurrentUser } from "../../../shared/hooks";
+import { useCurrentUser } from "../../../hooks";
 
 const HomeLeft = ({ socket, isReadNotification }) => {
   const [active, setActive] = useState("HOME");
@@ -121,18 +121,6 @@ const HomeLeft = ({ socket, isReadNotification }) => {
           title="Truy cập trang cá nhân"
         >
           <div className="profile-pic">
-            {/*<img*/}
-            {/*  loading="lazy"*/}
-            {/*  role="presentation"*/}
-            {/*  decoding="async"*/}
-            {/*  src={*/}
-            {/*    currentUser*/}
-            {/*      ? user.profilePicture || LOGO_YANJI_SOCIAL*/}
-            {/*      : LOGO_YANJI_SOCIAL*/}
-            {/*  }*/}
-            {/*  alt="Avatar user"*/}
-            {/*  className="w-100"*/}
-            {/*/>*/}
             <Avatar
               imageSrc={currentUser ? user.profilePicture : LOGO_YANJI_SOCIAL}
               label={user.username}

@@ -28,7 +28,7 @@ import _404 from "../_404/_404";
 import { ConfirmDialog, SocialMediaInput, PhotosUser } from "../../components";
 
 import Global from "../../constants/global";
-import { useCurrentUser } from "../../shared/hooks";
+import { useCurrentUser } from "../../hooks";
 
 const Personal = ({ socket }) => {
   const { userID: userRoute } = useParams();

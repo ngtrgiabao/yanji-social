@@ -10,7 +10,8 @@ import "../../../styles/animations/snackbar.css";
 import PostPopup from "../../../components/popup/PostPopup";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { LoadingPage } from "../../../pages";
-import { useCurrentUser } from "../../../shared/hooks";
+import { useCurrentUser } from "../../../hooks";
+import { Avatar } from "../../../components";
 const Posts = lazy(() => import("../../../components/post/Posts"));
 
 const HomeMiddle = ({ socket }) => {
@@ -67,43 +68,21 @@ const HomeMiddle = ({ socket }) => {
     }
   };
 
-  const renderUserAvatar = () => {
-    if (user.profilePicture) {
-      return (
-        <img
-          loading="lazy"
-          className="w-100"
-          src={user.profilePicture}
-          alt="Avatar user"
-        />
-      );
-    } else {
-      return <>{user.username}</>;
-    }
-  };
-
   return (
     <div className="middle animate__animated animate__fadeIn position-relative">
       {/* STATUS */}
-      <div className="create-post d-flex align-items-center mb-4">
+      <div
+        className={`create-post align-items-center mb-4 ${
+          currentUser === undefined ? "d-none" : "d-flex"
+        }`}
+      >
         <div className="create-post-wrapper w-100 d-flex align-items-center">
           <Link
             to={currentUser ? `/user/${user?._id}` : "/"}
             className="profile-pic text-white"
             aria-label="Avatar user"
           >
-            {currentUser ? (
-              renderUserAvatar()
-            ) : (
-              <img
-                loading="lazy"
-                role="presentation"
-                decoding="async"
-                className="w-100"
-                src={LOGO_YANJI_SOCIAL}
-                alt="Avatar user"
-              />
-            )}
+            <Avatar imageSrc={user?.profilePicture} label={user?.username} />
           </Link>
 
           <div

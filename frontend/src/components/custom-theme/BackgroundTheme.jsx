@@ -1,6 +1,6 @@
 import "./style/background.css";
 
-import { useTheme } from "../../shared/hooks";
+import { useTheme } from "../../hooks";
 import { ChooseBgBtn } from "..";
 
 const BackgroundTheme = () => {
