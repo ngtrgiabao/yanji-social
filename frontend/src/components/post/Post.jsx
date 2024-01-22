@@ -288,7 +288,7 @@ const Post = ({
           <li
             onClick={(e) => {
               e.stopPropagation();
-              useCopyUrl("http://localhost:3000/post/" + postID);
+              useCopyUrl(Global.DEPLOY_URL + "post/" + postID);
             }}
             style={{
               borderRadius:
