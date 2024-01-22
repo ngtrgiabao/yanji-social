@@ -9,7 +9,7 @@ import "./style/post.css";
 import SocketEvent from "../../constants/socket-event";
 import { getPostByID } from "../../redux/request/postRequest";
 import Global from "../../constants/global";
-import { useCurrentUser } from "../../shared/hooks";
+import { useCurrentUser } from "../../hooks";
 
 const Post = lazy(() => import("./Post"));
 

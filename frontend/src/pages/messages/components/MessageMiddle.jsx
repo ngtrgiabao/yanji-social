@@ -25,7 +25,7 @@ import {
   useUploadImage,
   useDownloadImage,
   useCurrentRoom,
-} from "../../../shared/hooks";
+} from "../../../hooks";
 import { ConfirmDialog, PreviewImage } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { NEW_MSG } from "../../../business/noti.type";

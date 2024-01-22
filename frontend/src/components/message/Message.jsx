@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
-import { useCurrentUser, useTimeAgo } from "../../shared/hooks";
+import { useCurrentUser, useTimeAgo } from "../../hooks";
 
 const Message = ({
   id,

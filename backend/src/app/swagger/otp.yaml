@@ -1,0 +1,8 @@
+paths:
+  /otp/resend-otp:
+    post:
+      tags:
+        - OTP
+      responses:
+        '200':
+          description: Successfully

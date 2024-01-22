@@ -331,6 +331,7 @@ const RegisterPage = () => {
             otp={otp}
             onChangeOtp={setOtp}
             verifyCode={verifyCode}
+            onSetVerifyCode={setVerifyCode}
             userID={userID}
           />
         ) : (

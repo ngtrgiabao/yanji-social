@@ -12,7 +12,7 @@ import { getUserByID } from "../../../redux/request/userRequest";
 import { LoadingPage } from "../..";
 import SocketEvent from "../../../constants/socket-event";
 import Global from "../../../constants/global";
-import { useCurrentUser } from "../../../shared/hooks";
+import { useCurrentUser } from "../../../hooks";
 
 const Conversation = lazy(
   () => import("../../../components/conversation/Conversation"),
