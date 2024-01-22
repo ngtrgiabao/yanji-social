@@ -7,7 +7,7 @@ import { updateUser } from "../../redux/request/userRequest";
 import { resendOtp } from "../../redux/request/otpRequest";
 
 const OTPInput = ({
-  otp = "",
+otp = "",
   onChangeOtp = () => { },
   verifyCode = "",
   userID = "",
@@ -58,7 +58,7 @@ const OTPInput = ({
     return () => {
       clearInterval(interval);
     }
-  }, []);
+  }, [seconds]);
 
   const handleUpdateUser = () => {
     const updatedUser = {
@@ -74,13 +74,11 @@ const OTPInput = ({
   }
 
   const handleSubmit = () => {
-    console.log(newOtp)
     if (newOtp) {
       if (verifyCode && verifyCode === newOtp.otpCode) {
         setIsErr(false);
         setIsLoading(true);
-        // handleUpdateUser()
-        console.log("hmmm")
+        handleUpdateUser()
 
         if (newOtp.expirationTime < currentTime) {
           setErrMsg("Invalid OTP Code");
@@ -95,7 +93,7 @@ const OTPInput = ({
     } else if (verifyCode && otp && verifyCode === otp) {
       setIsErr(false);
       setIsLoading(true);
-      // handleUpdateUser();
+      handleUpdateUser();
     } else {
       if (verifyCode !== "" && otp && verifyCode !== otp || newOtp.otpCode !== verifyCode) {
         setErrMsg("Invalid OTP Code");
