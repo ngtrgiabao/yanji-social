@@ -15,7 +15,6 @@ import {
   CookiePolicy,
   PrivacyPolicy,
 } from "./pages";
-import { OTPInput } from "./components";
 
 const _404 = lazy(() => import("./pages/_404/_404"));
 const Homepage = lazy(() => import("./pages/home/Home"));
@@ -165,15 +164,6 @@ function App() {
                   </Suspense>
                 }
               />
-              <Route
-                path="/otp"
-                element={
-                  <Suspense fallback={<LoadingPage />}>
-                    <OTPInput />
-                  </Suspense>
-                }
-              />
-
               {/* term */}
               <Route
                 path="/term-and-service"
