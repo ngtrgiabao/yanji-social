@@ -4,6 +4,7 @@ const Global = {
   CLOUD_STORAGE_NAME: process.env.REACT_APP_CLOUD_STORAGE_NAME,
   CLOUD_AUDIO_FOLDER: process.env.REACT_APP_CLOUD_AUDIO_FOLDER,
   CLOUD_IMAGE_FOLDER: process.env.REACT_APP_CLOUD_IMAGE_FOLDER,
+  DEPLOY_URL: process.env.REACT_APP_DEPLOY_URL,
 };
 
 export default Global;
