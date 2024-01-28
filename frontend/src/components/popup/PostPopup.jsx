@@ -39,7 +39,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
     if (file.type === "video/mp4") {
       // For upload cloud
       setVideoUrl(file);
-      // For preview image
+      // For preview video
       setVideoSrc(imgUrl);
     } else {
       // For upload cloud
@@ -238,13 +238,16 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
         </div>
 
         {imageSrc && (
-          <div className="w-100 position-relative">
+          <div
+            className="overflow-hidden position-relative"
+            style={{
+              maxHeight: "10rem",
+              maxWidth: "10rem",
+            }}
+          >
             <PreviewImage imgSrc={imageSrc} />
             <span className="delete-image" onClick={handleDeleteImage}>
-              <FontAwesomeIcon
-                icon={faXmark}
-                className="bg-black rounded-circle text-white"
-              />
+              <FontAwesomeIcon icon={faXmark} className="text-white" />
             </span>
           </div>
         )}

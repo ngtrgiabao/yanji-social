@@ -3,14 +3,10 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { UilEllipsisH, UilTrash } from "@iconscout/react-unicons";
 import {
-  faHeart as likeDefault,
-  faComment,
   faPenToSquare,
   faBookmark as bookmarkDefault,
 } from "@fortawesome/free-regular-svg-icons";
 import {
-  faHeart as liked,
-  faRepeat,
   faBookmark as bookmarked,
   faCircleCheck,
   faLink,
@@ -42,6 +38,7 @@ import Avatar from "../avatar/Avatar";
 // TODO FIX POPUP WHEN DELETE POST NOT WORK CORRECTLY
 
 import Global from "../../constants/global";
+import ActionBtn from "./ActionBtn";
 
 const Post = ({
   image,
@@ -374,80 +371,6 @@ const Post = ({
     );
   };
 
-  const renderActionBtn = () => {
-    return (
-      <div className="action-buttons d-flex justify-content-between align-items-center fs-3 border-top pt-3">
-        <div className="interaction-buttons d-flex justify-content-between w-100 align-items-center gap-4">
-          {/* share */}
-          <span
-            className="d-flex justify-content-center align-items-center share flex-fill p-1 post-action__btn rounded-2"
-            onClick={() => handlePost["sharePost"]()}
-            title="Share"
-            data-share
-          >
-            <span>
-              {shares?.includes(currentUser?._id) ? (
-                <FontAwesomeIcon
-                  icon={faRepeat}
-                  style={{
-                    color: "var(--color-blue)",
-                  }}
-                />
-              ) : (
-                <FontAwesomeIcon icon={faRepeat} />
-              )}
-            </span>
-            <div className="ms-2">
-              <b>{shares?.length}</b>
-            </div>
-          </span>
-
-          {/* comment */}
-          <span
-            className="d-flex justify-content-center align-items-center comment flex-fill p-1 post-action__btn rounded-2"
-            onClick={(e) => {
-              e.stopPropagation();
-              !isDisableComment && handleDetailsPost(e);
-            }}
-            title="Comment"
-            data-comment
-          >
-            <span>
-              <FontAwesomeIcon icon={faComment} />
-            </span>
-            <div className="ms-2">
-              <b>{comments?.length}</b>
-            </div>
-          </span>
-
-          {/* like */}
-          <span
-            className="d-flex justify-content-center align-items-center heart flex-fill p-1 post-action__btn rounded-2 overflow-hidden"
-            onClick={() => handlePost["likePost"]()}
-            title="Like"
-            data-like
-          >
-            <span>
-              {likes?.includes(currentUser?._id) ? (
-                <FontAwesomeIcon
-                  icon={liked}
-                  style={{
-                    color: "crimson",
-                  }}
-                />
-              ) : (
-                <FontAwesomeIcon icon={likeDefault} />
-              )}
-            </span>
-            <div className="ms-2">
-              <b>{likes?.length}</b>
-            </div>
-          </span>
-        </div>
-      </div>
-    );
-  };
-
   const renderPopupConfirmDeletePost = () => {
     return (
       active === "DELETE_POST" && (
@@ -463,7 +386,7 @@ const Post = ({
 
   const renderPost = () => {
     return (
-      <div className="post mb-4 position-relative">
+      <div key={postID} className="post mb-4 position-relative">
         <div className="head">{renderTitle()}</div>
         <div
           className="caption fs-3 my-3 overflow-auto"
@@ -477,7 +400,17 @@ const Post = ({
           <Photo postID={postID} imageSrc={image} label="Media of post" />
         )}
         {video && <Photo videoSrc={video} isVideo={true} />}
-        {renderActionBtn()}
+        <ActionBtn
+          key={postID}
+          currentUser={currentUser}
+          onShare={() => handlePost["sharePost"]()}
+          onLike={() => handlePost["likePost"]()}
+          onDetailPost={(e) => handleDetailsPost(e)}
+          comments={comments}
+          likes={likes}
+          shares={shares}
+          isDisableComment={isDisableComment}
+        />
 
         {renderPopupConfirmDeletePost()}
       </div>

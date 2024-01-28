@@ -38,10 +38,10 @@ const PersonalHeader = ({ userInfo, socket }) => {
               role="presentation"
               decoding="async"
               src={userInfo.coverPicture}
-              alt="Background cover"
+              alt="background"
             />
           ) : (
-            <span className="fs-4">Empty wallpaper</span>
+            <span className="fs-4">{userInfo?.username} don't have wallpaper</span>
           )}
         </div>
 
