@@ -4,7 +4,7 @@ require("dotenv").config();
 mongoose.set("strictQuery", false);
 
 mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlparser: true,
+  useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 

@@ -25,6 +25,23 @@ class ImageController {
     }
   };
 
+  getAllImages = async (req, res, next) => {
+    try {
+      const images = await ImageModel.find();
+      return res.status(200).json({
+        msg: "Get all images successfully",
+        quantity: images.length,
+        data: images,
+      });
+    } catch(error) {
+      console.error(`Failed to get all images`, error);
+
+      return res.status(500).json({
+        msg: `Failed to get all images`,
+      });
+    }
+  }
+
   getImageByID = async (req, res, next) => {
     const imgID = req.params.imgID;
 
@@ -122,10 +139,11 @@ class ImageController {
 
   fetchUserSpecificImageQuantity = async (req, res, next) => {
     const userID = req.params.userID;
-    const limit = req.query.limit;
+    const limit = parseInt(req.query.limit);
 
     try {
       const imageQuantity = await ImageModel.find({ userID }).limit(limit);
+
       return res.status(200).json({
         msg: `Successfully get image of user ${userID}`,
         data: imageQuantity,
