@@ -16,5 +16,6 @@ router.get(
   imageController.getAllImagesByUserID,
 );
 router.get("/image/:imgID", imageController.getImageByID);
+router.get("/all-images", imageController.getAllImages)
 
 module.exports = router;

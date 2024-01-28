@@ -18,3 +18,11 @@ paths:
       responses:
         '200':
           description: Get all images of a user successfully
+  /image/all-images:
+    description: Get all images
+    get:
+      tags:
+        - Image      
+      responses:
+        '200':
+          description: Get all images successfully
