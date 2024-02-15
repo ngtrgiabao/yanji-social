@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { User } from "lucide-react"
+import { User } from "lucide-react";
 
 import "../styles/messageRight.css";
 

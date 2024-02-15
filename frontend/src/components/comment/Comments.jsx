@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
-import { Send } from "lucide-react"
+import { Send } from "lucide-react";
 
 import { commentPost } from "../../redux/request/postRequest";
 import Comment from "./Comment";

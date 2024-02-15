@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
-import { Laugh, Image, X } from 'lucide-react'
+import { Laugh, Image, X } from "lucide-react";
 
 import "./style/postPopup.css";
 

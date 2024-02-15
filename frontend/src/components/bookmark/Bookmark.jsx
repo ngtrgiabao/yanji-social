@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-import { BookmarkCheck } from "lucide-react"
+import { BookmarkCheck } from "lucide-react";
 
 import { LoadingPage } from "../../pages";
 import { getPostByID } from "../../redux/request/postRequest";
@@ -20,7 +20,7 @@ const Bookmark = ({
   postID,
   createdAt,
   socket,
-  handleDeletePopup = () => { },
+  handleDeletePopup = () => {},
 }) => {
   const dispatch = useDispatch();
   const [post, setPost] = useState({

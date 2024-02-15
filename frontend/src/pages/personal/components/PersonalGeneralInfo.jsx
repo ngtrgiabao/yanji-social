@@ -3,7 +3,7 @@ import { UilCamera } from "@iconscout/react-unicons";
 import { useDispatch } from "react-redux";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Camera } from "lucide-react"
+import { Camera } from "lucide-react";
 
 import PersonalFollow from "./PersonalFollow";
 

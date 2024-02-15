@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  faCircleCheck,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Bookmark, BookmarkCheck, MoreVertical, Trash, Pencil, ClipboardList } from "lucide-react"
+import {
+  Bookmark,
+  BookmarkCheck,
+  MoreVertical,
+  Trash,
+  Pencil,
+  ClipboardList,
+} from "lucide-react";
 import io from "socket.io-client";
 
 import { BG_DEFAULT_WALLPAPER_USER } from "../../assets";
@@ -46,7 +51,7 @@ const Post = ({
   shares,
   comments,
   socket,
-  handleDeletePopup = () => { },
+  handleDeletePopup = () => {},
   isDisableComment = false,
 }) => {
   const [popup, setPopup] = useState("");
@@ -339,22 +344,22 @@ const Post = ({
         </div>
         <div className="d-flex align-items-center">
           <span title="Save post">
-            {
-              isSaved ?
-                <BookmarkCheck
-                  size={20}
-                  cursor="pointer"
-                  className="me-3"
-                  color="#1877f2"
-                  onClick={() => handlePost["savePost"](postID)}
-                /> :
-                <Bookmark
-                  size={20}
-                  cursor="pointer"
-                  className="me-3"
-                  onClick={() => handlePost["savePost"](postID)}
-                />
-            }
+            {isSaved ? (
+              <BookmarkCheck
+                size={20}
+                cursor="pointer"
+                className="me-3"
+                color="#1877f2"
+                onClick={() => handlePost["savePost"](postID)}
+              />
+            ) : (
+              <Bookmark
+                size={20}
+                cursor="pointer"
+                className="me-3"
+                onClick={() => handlePost["savePost"](postID)}
+              />
+            )}
           </span>
           <span className="post-settings" title="Setting post">
             <MoreVertical

@@ -9,7 +9,7 @@ import {
   faCircleCheck as seenIcon,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { Info, Phone, Video } from "lucide-react"
+import { Info, Phone, Video } from "lucide-react";
 
 import "../styles/messageMiddle.css";
 

@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Camera } from "lucide-react"
+import { Camera } from "lucide-react";
 
 import "../styles/personalHeader.css";
 
@@ -41,7 +41,9 @@ const PersonalHeader = ({ userInfo, socket }) => {
               alt="background"
             />
           ) : (
-            <span className="fs-4">{userInfo?.username} don't have wallpaper</span>
+            <span className="fs-4">
+              {userInfo?.username} don't have wallpaper
+            </span>
           )}
         </div>
 

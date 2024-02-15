@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { CSVLink } from "react-csv";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { MoreHorizontal, FileDown, UserRoundCog, Bookmark } from "lucide-react"
+import { MoreHorizontal, FileDown, UserRoundCog, Bookmark } from "lucide-react";
 
 import "../styles/personalNavbarProfile.css";
 
@@ -74,40 +74,40 @@ const PersonalNavbarProfile = () => {
   };
 
   const renderSettingProfile = () => {
-    return currentUser._id === userRoute && (
-      <span
-        className="btn btn-dots text-light d-flex align-items-center py-1 px-3 me-2"
-        onClick={(e) => handleSettingPersonalPage(e)}
-      >
-        <MoreHorizontal size={20} />
-        {checked && (
-          <div className="box-setting-profile rounded-3">
-            <div className="p-3">
-              <div
-                className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3"
-              >
-                <FileDown size={20} />
-                <p className="ms-3 my-3 fs-4 fw-bold">Download your data</p>
-              </div>
-              <div
-                onClick={handleVisitSavedPost}
-                className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3"
-              >
-                <Bookmark size={20} />
-                <p className="ms-3 my-3 fs-4 fw-bold">Your bookmark</p>
-              </div>
-              <div
-                className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3"
-                onClick={() => setActive("SETTINGS")}
-              >
-                <UserRoundCog size={20} />
-                <p className="ms-3 my-3 fs-4 fw-bold">Profile Settings</p>
+    return (
+      currentUser._id === userRoute && (
+        <span
+          className="btn btn-dots text-light d-flex align-items-center py-1 px-3 me-2"
+          onClick={(e) => handleSettingPersonalPage(e)}
+        >
+          <MoreHorizontal size={20} />
+          {checked && (
+            <div className="box-setting-profile rounded-3">
+              <div className="p-3">
+                <div className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3">
+                  <FileDown size={20} />
+                  <p className="ms-3 my-3 fs-4 fw-bold">Download your data</p>
+                </div>
+                <div
+                  onClick={handleVisitSavedPost}
+                  className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3"
+                >
+                  <Bookmark size={20} />
+                  <p className="ms-3 my-3 fs-4 fw-bold">Your bookmark</p>
+                </div>
+                <div
+                  className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3"
+                  onClick={() => setActive("SETTINGS")}
+                >
+                  <UserRoundCog size={20} />
+                  <p className="ms-3 my-3 fs-4 fw-bold">Profile Settings</p>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-      </span>
-    )
+          )}
+        </span>
+      )
+    );
   };
 
   const csvData = [
@@ -124,11 +124,12 @@ const PersonalNavbarProfile = () => {
               <li key={item.id} className="nav-item">
                 <Link
                   to={"/" + item.link}
-                  className={`${(userRoute && !photosRoute && item.id === 1) ||
+                  className={`${
+                    (userRoute && !photosRoute && item.id === 1) ||
                     (userRoute && photosRoute && item.id === 2)
-                    ? "active"
-                    : ""
-                    }`}
+                      ? "active"
+                      : ""
+                  }`}
                 >
                   {item.title}
                 </Link>

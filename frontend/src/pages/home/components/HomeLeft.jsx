@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Home, Bell, MessageSquare, Bookmark, Video, Palette, Bolt, CheckCircle2 } from 'lucide-react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
+import {
+  Home,
+  Bell,
+  MessageSquare,
+  Bookmark,
+  Video,
+  Palette,
+  Bolt,
+  CheckCircle2,
+} from "lucide-react";
 
 import "../styles/homeLeft.css";
 
@@ -123,10 +130,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
             <h4 className="d-flex align-items-center">
               {currentUser ? `${user.username}` : `user`}
               {user.isVerify && (
-                <CheckCircle2
-                  size={15}
-                  className="ms-2 text-primary"
-                />
+                <CheckCircle2 size={15} className="ms-2 text-primary" />
               )}
             </h4>
             <p className="text-muted m-0">

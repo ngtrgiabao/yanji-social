@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { UilTrash } from "@iconscout/react-unicons";
 import { Link } from "react-router-dom";
 import { io } from "socket.io-client";
-import { Trash } from "lucide-react"
+import { Trash } from "lucide-react";
 
 import { getUserByID } from "../../redux/request/userRequest";
 import { deleteComment } from "../../redux/request/commentRequest";
