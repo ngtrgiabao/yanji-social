@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { faComment, faUser } from "@fortawesome/free-regular-svg-icons";
-import {
-  faHeart as liked,
-  faRepeat,
-  faEnvelope,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Heart, Mail, Repeat, MessageSquare, Users } from "lucide-react"
 
 import "./style/notificationCard.css";
 
@@ -18,7 +12,6 @@ import {
   NEW_FOLLOWER,
   NEW_MSG,
 } from "../../business/noti.type";
-import { LOGO_YANJI_SOCIAL } from "../../assets";
 
 import { getUserByID } from "../../redux/request/userRequest";
 import { useTimeAgo } from "../../hooks";
@@ -65,9 +58,8 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
 
   return (
     <div
-      className={`fs-4 animate__animated animate__fadeIn d-flex align-items-center p-3 position-relative ${
-        !isRead && "bg-dark text-white"
-      } my-2`}
+      className={`fs-4 animate__animated animate__fadeIn d-flex align-items-center p-3 position-relative ${!isRead && "bg-dark text-white"
+        } my-2`}
       style={{
         color: "var(--color-dark)",
         width: "45%",
@@ -87,29 +79,21 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
             style={{
               color: "var(--color-dark)",
             }}
-            className={`d-flex align-items-center fw-bold w-100 ${
-              !isRead && "bg-dark text-white"
-            }`}
+            className={`d-flex align-items-center fw-bold w-100 ${!isRead && "bg-dark text-white"
+              }`}
           >
             {(() => {
               switch (formatTypeNotification) {
                 case LIKE_POST:
-                  return <FontAwesomeIcon icon={liked} />;
+                  return <Heart size={20} />
                 case COMMENT_POST:
-                  return <FontAwesomeIcon icon={faComment} />;
+                  return <MessageSquare size={20} />;
                 case SHARE_POST:
-                  return (
-                    <FontAwesomeIcon
-                      style={{
-                        transform: "rotate(90deg)",
-                      }}
-                      icon={faRepeat}
-                    />
-                  );
+                  return <Repeat size={20} />;
                 case NEW_FOLLOWER:
-                  return <FontAwesomeIcon icon={faUser} />;
+                  return <Users size={20} />;
                 case NEW_MSG:
-                  return <FontAwesomeIcon icon={faEnvelope} />;
+                  return <Mail size={20} />;
                 default:
                   return "";
               }
@@ -129,9 +113,8 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
         <div data-content>
           <Link
             to={"/user/" + sender}
-            className={`fw-bold me-1 sender-notification ${
-              !isRead && "bg-dark text-white"
-            }`}
+            className={`fw-bold me-1 sender-notification ${!isRead && "bg-dark text-white"
+              }`}
           >
             {notiInfo.senderName}
           </Link>

@@ -1,9 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart as likeDefault,
-  faComment,
-} from "@fortawesome/free-regular-svg-icons";
-import { faHeart as liked, faRepeat } from "@fortawesome/free-solid-svg-icons";
+import { Repeat, MessageSquare, Heart } from "lucide-react";
 
 const ActionBtn = ({
   onShare,
@@ -27,14 +22,9 @@ const ActionBtn = ({
         >
           <span>
             {shares?.includes(currentUser?._id) ? (
-              <FontAwesomeIcon
-                icon={faRepeat}
-                style={{
-                  color: "var(--color-blue)",
-                }}
-              />
+              <Repeat size={20} color="var(--color-blue)" />
             ) : (
-              <FontAwesomeIcon icon={faRepeat} />
+              <Repeat size={20} />
             )}
           </span>
           <div className="ms-2">
@@ -53,7 +43,7 @@ const ActionBtn = ({
           data-comment
         >
           <span>
-            <FontAwesomeIcon icon={faComment} />
+            <MessageSquare size={20} />
           </span>
           <div className="ms-2">
             <b>{comments?.length}</b>
@@ -69,14 +59,9 @@ const ActionBtn = ({
         >
           <span>
             {likes?.includes(currentUser?._id) ? (
-              <FontAwesomeIcon
-                icon={liked}
-                style={{
-                  color: "crimson",
-                }}
-              />
+              <Heart size={20} color="crimson" />
             ) : (
-              <FontAwesomeIcon icon={likeDefault} />
+              <Heart size={20} />
             )}
           </span>
           <div className="ms-2">

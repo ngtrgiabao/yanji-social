@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { UilEllipsisH, UilTrash } from "@iconscout/react-unicons";
 import {
-  faPenToSquare,
-  faBookmark as bookmarkDefault,
-} from "@fortawesome/free-regular-svg-icons";
-import {
-  faBookmark as bookmarked,
   faCircleCheck,
-  faLink,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Bookmark, BookmarkCheck, MoreVertical, Trash, Pencil, ClipboardList } from "lucide-react"
 import io from "socket.io-client";
 
 import { BG_DEFAULT_WALLPAPER_USER } from "../../assets";
@@ -52,7 +46,7 @@ const Post = ({
   shares,
   comments,
   socket,
-  handleDeletePopup = () => {},
+  handleDeletePopup = () => { },
   isDisableComment = false,
 }) => {
   const [popup, setPopup] = useState("");
@@ -265,7 +259,7 @@ const Post = ({
                 onClick={() => setActive("DELETE_POST")}
               >
                 <span>
-                  <UilTrash />
+                  <Trash size={20} />
                 </span>
                 Delete this post
               </li>
@@ -275,8 +269,8 @@ const Post = ({
                   handleEditPost();
                 }}
               >
-                <span className="fs-2">
-                  <FontAwesomeIcon icon={faPenToSquare} />
+                <span>
+                  <Pencil size={20} />
                 </span>
                 Edit this post
               </li>
@@ -292,8 +286,8 @@ const Post = ({
                 currentUser?._id === userID ? "" : "var(--card-border-radius)",
             }}
           >
-            <span className="fs-2">
-              <FontAwesomeIcon icon={faLink} />
+            <span>
+              <ClipboardList size={20} />
             </span>
             Copy url
           </li>
@@ -344,22 +338,28 @@ const Post = ({
           </Link>
         </div>
         <div className="d-flex align-items-center">
-          <FontAwesomeIcon
-            icon={isSaved ? bookmarked : bookmarkDefault}
-            className="fs-4 me-3"
-            title="Save this post"
-            style={{
-              cursor: "pointer",
-            }}
-            onClick={() => handlePost["savePost"](postID)}
-          />
+          <span title="Save post">
+            {
+              isSaved ?
+                <BookmarkCheck
+                  size={20}
+                  cursor="pointer"
+                  className="me-3"
+                  color="#1877f2"
+                  onClick={() => handlePost["savePost"](postID)}
+                /> :
+                <Bookmark
+                  size={20}
+                  cursor="pointer"
+                  className="me-3"
+                  onClick={() => handlePost["savePost"](postID)}
+                />
+            }
+          </span>
           <span className="post-settings" title="Setting post">
-            <UilEllipsisH
-              role="button"
-              className="hover-bg"
-              style={{
-                transform: "rotate(90deg)",
-              }}
+            <MoreVertical
+              size={20}
+              cursor="pointer"
               onClick={(e) => {
                 handleSetting(e);
               }}

@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-import { faBookmark as bookmarked } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BookmarkCheck } from "lucide-react"
 
 import { LoadingPage } from "../../pages";
 import { getPostByID } from "../../redux/request/postRequest";
@@ -21,7 +20,7 @@ const Bookmark = ({
   postID,
   createdAt,
   socket,
-  handleDeletePopup = () => {},
+  handleDeletePopup = () => { },
 }) => {
   const dispatch = useDispatch();
   const [post, setPost] = useState({
@@ -139,13 +138,9 @@ const Bookmark = ({
                 <span className="link-underline ">{author.username}</span>
               </div>
 
-              <FontAwesomeIcon
-                icon={bookmarked}
-                className="fs-4 me-2"
-                title="Save this post"
-                style={{
-                  cursor: "pointer",
-                }}
+              <BookmarkCheck
+                size={20}
+                cursor="pointer"
                 onClick={() => handleDeletePostSaved(postID)}
               />
             </div>

@@ -1,6 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
+import { Mail } from "lucide-react"
 
 const PersonalSendMsgBtn = ({ onClick }) => {
   return (
@@ -10,7 +9,7 @@ const PersonalSendMsgBtn = ({ onClick }) => {
       title="Message"
       onClick={onClick}
     >
-      <FontAwesomeIcon icon={faEnvelope} className="fs-3" />
+      <Mail size={20} />
     </Link>
   );
 };

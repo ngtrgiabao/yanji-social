@@ -9,6 +9,7 @@ import {
   faCircleCheck as seenIcon,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { Info, Phone, Video } from "lucide-react"
 
 import "../styles/messageMiddle.css";
 
@@ -461,22 +462,22 @@ const MessageMiddle = ({ socket }) => {
             role="button"
             className="icon d-flex justify-content-center align-items-center rounded-circle"
           >
-            <FontAwesomeIcon icon={faPhone} />
+            <Phone size={20} />
           </Link>
           <Link
             to={`https://meet-with-us.netlify.app/`}
             aria-label="Gọi video"
             role="button"
-            className="icon d-flex justify-content-center align-items-center rounded-circle mx-4"
+            className="icon d-flex justify-content-center align-items-center rounded-circle mx-2"
           >
-            <FontAwesomeIcon icon={faVideo} />
+            <Video size={20} />
           </Link>
           <span
             aria-label="Xem thêm thông tin"
             role="button"
             className="icon d-flex justify-content-center align-items-center rounded-circle"
           >
-            <FontAwesomeIcon icon={faCircleInfo} />
+            <Info size={20} />
           </span>
         </div>
       </div>

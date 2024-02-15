@@ -3,6 +3,7 @@ import { UilCamera } from "@iconscout/react-unicons";
 import { useDispatch } from "react-redux";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Camera } from "lucide-react"
 
 import PersonalFollow from "./PersonalFollow";
 
@@ -81,8 +82,8 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
               />
             </div>
             {userInfo?._id === currentUser?._id && (
-              <span className="position-absolute border border-primary rounded-circle p-2 edit-avatar">
-                <UilCamera />
+              <span className="position-absolute border border-primary rounded-circle p-3 edit-avatar">
+                <Camera size={20} />
               </span>
             )}
           </div>

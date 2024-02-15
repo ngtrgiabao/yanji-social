@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { useDispatch } from "react-redux";
+import { User } from "lucide-react"
 
 import "../styles/messageRight.css";
 
-import { useDispatch } from "react-redux";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { Avatar } from "../../../components";
 import { useCurrentRoom, useCurrentUser } from "../../../hooks";
@@ -70,7 +68,7 @@ const MessageRight = () => {
   const renderVisitProfile = () => {
     return (
       <div
-        className="right-container-body fs-5 ms-3"
+        className="right-container-body fs-5"
         style={{
           width: "max-content",
         }}
@@ -81,12 +79,12 @@ const MessageRight = () => {
           data-profile
         >
           <span
-            className="p-3 text-center icon"
+            className="p-3 text-center icon d-flex align-items-center"
             style={{
               borderRadius: "0.5rem",
             }}
           >
-            <FontAwesomeIcon icon={faUser} className="me-3" />
+            <User size={20} className="me-2" />
             <span>Visit Profile</span>
           </span>
         </Link>

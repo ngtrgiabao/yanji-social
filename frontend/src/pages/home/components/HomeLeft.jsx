@@ -1,15 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  UilEstate,
-  UilBell,
-  UilChat,
-  UilBookmark,
-  UilPalette,
-  UilSetting,
-} from "@iconscout/react-unicons";
-import { faVideo } from "@fortawesome/free-solid-svg-icons";
+import { Home, Bell, MessageSquare, Bookmark, Video, Palette, Bolt, CheckCircle2 } from 'lucide-react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 
@@ -128,15 +120,12 @@ const HomeLeft = ({ socket, isReadNotification }) => {
           </div>
 
           <div className="handle">
-            <h4>
+            <h4 className="d-flex align-items-center">
               {currentUser ? `${user.username}` : `user`}
               {user.isVerify && (
-                <FontAwesomeIcon
-                  className="ms-2 bg-white rounded rounded-circle text-primary"
-                  icon={faCircleCheck}
-                  style={{
-                    fontSize: "1.3rem",
-                  }}
+                <CheckCircle2
+                  size={15}
+                  className="ms-2 text-primary"
                 />
               )}
             </h4>
@@ -151,7 +140,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
           <Button
             path="/"
             label="Home"
-            icon={<UilEstate className="sidebar-icon" />}
+            icon={<Home className="sidebar-icon" size={20} />}
             name={"HOME"}
             active={active}
             setActive={setActive}
@@ -162,7 +151,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
               <Button
                 path="/notification"
                 label="Notification"
-                icon={<UilBell className="sidebar-icon" />}
+                icon={<Bell className="sidebar-icon" size={20} />}
                 name={"NOTIFICATION"}
                 isReadNotification={isReadNotification}
                 active={active}
@@ -171,7 +160,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
               <Button
                 path="/messages"
                 label="Messages"
-                icon={<UilChat className="sidebar-icon" />}
+                icon={<MessageSquare className="sidebar-icon" size={20} />}
                 name={"MESSAGES"}
                 active={active}
                 setActive={setActive}
@@ -179,7 +168,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
               <Button
                 path="/bookmarks"
                 label="Bookmarks"
-                icon={<UilBookmark className="sidebar-icon" />}
+                icon={<Bookmark className="sidebar-icon" size={20} />}
                 name={"BOOKMARKS"}
                 active={active}
                 setActive={setActive}
@@ -189,23 +178,14 @@ const HomeLeft = ({ socket, isReadNotification }) => {
           <Button
             label="Meeting"
             path="https://meet-with-us.netlify.app/"
-            icon={
-              <FontAwesomeIcon
-                icon={faVideo}
-                style={{
-                  marginLeft: "2rem",
-                  color: "#9e98b3",
-                }}
-                className="fs-2 sidebar-icon"
-              />
-            }
+            icon={<Video className="sidebar-icon" size={20} />}
             name={"MEETING"}
             active={active}
             setActive={setActive}
           />
           <Button
             label="Theme"
-            icon={<UilPalette className="sidebar-icon" />}
+            icon={<Palette className="sidebar-icon" size={20} />}
             name={"THEME"}
             active={active}
             setActive={setActive}
@@ -213,7 +193,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
           {currentUser && (
             <Button
               label="Settings"
-              icon={<UilSetting className="sidebar-icon" />}
+              icon={<Bolt className="sidebar-icon" size={20} />}
               name={"SETTINGS"}
               active={active}
               setActive={setActive}
