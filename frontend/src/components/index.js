@@ -8,7 +8,7 @@ export { default as ContactMe } from "./contact/ContactMe";
 export { default as Conversation } from "./conversation/Conversation";
 export { default as CustomTheme } from "./theme/CustomTheme";
 export { default as DetailsPost } from "./post/DetailsPost";
-export { default as DownloadBtn } from "../utils/button/DownloadBtn";
+export { default as DownloadBtn } from "./button/DownloadBtn";
 export { default as EditPopup } from "./popup/EditPopup";
 export { default as FollowerCard } from "./card/FollowerCard";
 export { default as FollowerList } from "./follower/FollowerList";

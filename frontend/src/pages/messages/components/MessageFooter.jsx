@@ -1,9 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage, faX, faPaperclip } from "@fortawesome/free-solid-svg-icons";
-import {
-  faPaperPlane,
-  // faCircleCheck as unseenIcon,
-} from "@fortawesome/free-regular-svg-icons";
+import { Send, X, Image, Paperclip } from "lucide-react";
 
 import { EmojiPicker } from "../../../components";
 
@@ -74,7 +69,7 @@ const MessageFooter = ({
           role="button"
           style={attachFileStyle}
         >
-          <FontAwesomeIcon icon={faPaperclip} />
+          <Paperclip size={20} />
         </span>
 
         <span
@@ -87,7 +82,7 @@ const MessageFooter = ({
             onActive("UPLOAD_IMAGE");
           }}
         >
-          <FontAwesomeIcon icon={faImage} />
+          <Image size={20} />
         </span>
 
         <input
@@ -136,7 +131,7 @@ const MessageFooter = ({
           role="button"
           onClick={() => onCancelEditMsg()}
         >
-          <FontAwesomeIcon icon={faX} />
+          <X size={20} />
         </span>
       ) : (
         <span
@@ -147,7 +142,7 @@ const MessageFooter = ({
           type="submit"
           onClick={onSubmit}
         >
-          <FontAwesomeIcon icon={faPaperPlane} />
+          <Send size={20} />
         </span>
       )}
     </form>

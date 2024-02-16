@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { io } from "socket.io-client";
+import { Send } from "lucide-react";
 
 import { commentPost } from "../../redux/request/postRequest";
 import Comment from "./Comment";
@@ -162,7 +161,7 @@ const Comments = ({ postID, author, socket }) => {
         <div className="flex-fill mx-2">
           <input
             type="text"
-            className="fs-3 ms-2 p-2 px-4 w-100 border-0"
+            className="fs-4 ms-2 p-2 px-4 w-100 border-0 bg-white text-black"
             placeholder="What you think this post"
             value={content}
             onChange={handleContent}
@@ -180,7 +179,7 @@ const Comments = ({ postID, author, socket }) => {
           className="fs-3 p-2 border-0 text-white"
           type="submit"
         >
-          <FontAwesomeIcon icon={faPaperPlane} />
+          <Send size={20} />
         </button>
       </form>
 

@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { faComment, faUser } from "@fortawesome/free-regular-svg-icons";
-import {
-  faHeart as liked,
-  faRepeat,
-  faEnvelope,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Heart, Mail, Repeat, MessageSquare, Users } from "lucide-react";
 
 import "./style/notificationCard.css";
 
@@ -18,7 +12,6 @@ import {
   NEW_FOLLOWER,
   NEW_MSG,
 } from "../../business/noti.type";
-import { LOGO_YANJI_SOCIAL } from "../../assets";
 
 import { getUserByID } from "../../redux/request/userRequest";
 import { useTimeAgo } from "../../hooks";
@@ -94,22 +87,15 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
             {(() => {
               switch (formatTypeNotification) {
                 case LIKE_POST:
-                  return <FontAwesomeIcon icon={liked} />;
+                  return <Heart size={20} />;
                 case COMMENT_POST:
-                  return <FontAwesomeIcon icon={faComment} />;
+                  return <MessageSquare size={20} />;
                 case SHARE_POST:
-                  return (
-                    <FontAwesomeIcon
-                      style={{
-                        transform: "rotate(90deg)",
-                      }}
-                      icon={faRepeat}
-                    />
-                  );
+                  return <Repeat size={20} />;
                 case NEW_FOLLOWER:
-                  return <FontAwesomeIcon icon={faUser} />;
+                  return <Users size={20} />;
                 case NEW_MSG:
-                  return <FontAwesomeIcon icon={faEnvelope} />;
+                  return <Mail size={20} />;
                 default:
                   return "";
               }

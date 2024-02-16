@@ -30,7 +30,13 @@ const Photo = ({
           </video>
         </div>
       ) : (
-        <Link to={`/post/${postID}`} className="photo">
+        <Link
+          to={`/post/${postID}`}
+          className="photo"
+          style={{
+            width: "calc(100%)",
+          }}
+        >
           <img
             loading="lazy"
             role="presentation"
@@ -40,6 +46,7 @@ const Photo = ({
             className="w-100 h-100"
             style={{
               objectFit: "cover",
+              background: "black",
             }}
           />
         </Link>

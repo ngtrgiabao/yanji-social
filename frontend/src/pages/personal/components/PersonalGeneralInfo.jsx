@@ -3,13 +3,14 @@ import { UilCamera } from "@iconscout/react-unicons";
 import { useDispatch } from "react-redux";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Camera } from "lucide-react";
 
 import PersonalFollow from "./PersonalFollow";
 
 import "../styles/personalGeneralInfo.css";
 import "../../../styles/animations/snackbar.css";
 
-import { ChangeImagePopup, FollowerList } from "../../../components";
+import { Avatar, ChangeImagePopup, FollowerList } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { useCurrentUser } from "../../../hooks";
 
@@ -73,22 +74,16 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
             onClick={() => userInfo?._id === currentUser?._id && handlePopup()}
           >
             <div className="avatar d-flex justify-content-center align-items-center text-white">
-              {userInfo.profilePicture ? (
-                <img
-                  loading="lazy"
-                  role="presentation"
-                  decoding="async"
-                  src={userInfo.profilePicture}
-                  alt="Avatar user"
-                  className="w-100"
-                />
-              ) : (
-                <div className="fs-2">{userInfo.username}</div>
-              )}
+              <Avatar
+                imageSrc={userInfo?.profilePicture}
+                label={userInfo?.username}
+                fontSize={"fs-1"}
+                customClass="fw-bold"
+              />
             </div>
             {userInfo?._id === currentUser?._id && (
-              <span className="position-absolute border border-primary rounded-circle p-2 edit-avatar">
-                <UilCamera />
+              <span className="position-absolute border border-primary rounded-circle p-3 edit-avatar">
+                <Camera size={20} />
               </span>
             )}
           </div>

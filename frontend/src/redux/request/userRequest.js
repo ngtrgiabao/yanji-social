@@ -88,7 +88,6 @@ export const fetchUserSpecificImageQuantity = async (userInfo, dispatch) => {
   try {
     const res = await userService.fetchUserSpecificImageQuantity(userInfo);
     dispatch(getUserSuccess(res.data));
-    console.log(res.data)
     return res.data;
   } catch (error) {
     dispatch(getUserFailed());

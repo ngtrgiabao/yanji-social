@@ -1,9 +1,18 @@
 import { LOGO_YANJI_SOCIAL } from "../../assets";
 
-const Avatar = ({ imageSrc = "", label = "", customClass = "" }) => {
+const Avatar = ({
+  imageSrc = "",
+  label = "",
+  customClass = "",
+  customAttrs,
+  fontSize,
+}) => {
   return (
     <div
-      className={`profile-pic text-white fs-5 text-uppercase w-100 h-100 ${customClass}`}
+      className={`profile-pic text-white ${
+        fontSize ? fontSize : "fs-5"
+      } text-uppercase w-100 h-100 ${customClass}`}
+      {...customAttrs}
     >
       {imageSrc ? (
         <img
