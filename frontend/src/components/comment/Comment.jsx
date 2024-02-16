@@ -8,7 +8,7 @@ import { getUserByID } from "../../redux/request/userRequest";
 import { deleteComment } from "../../redux/request/commentRequest";
 import { useCurrentUser, useTimeAgo } from "../../hooks";
 import Global from "../../constants/global";
-import Avatar from "../avatar/Avatar"
+import Avatar from "../avatar/Avatar";
 
 const Comment = ({
   userCommented,
@@ -49,7 +49,7 @@ const Comment = ({
           });
         })
         .catch((err) => {
-          console.log("[GET_USER_WHEN_COMMENTED]",err);
+          console.log("[GET_USER_WHEN_COMMENTED]", err);
         });
   }, []);
 

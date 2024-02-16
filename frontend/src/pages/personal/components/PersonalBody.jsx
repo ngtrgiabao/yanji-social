@@ -173,7 +173,10 @@ const PersonalBody = ({
                 ) : (
                   <>{userInfo.username}</>
                 )} */}
-                <Avatar imageSrc={userInfo.profilePicture} label={userInfo.username} />
+                <Avatar
+                  imageSrc={userInfo.profilePicture}
+                  label={userInfo.username}
+                />
               </div>
               <button
                 className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted text-center"

@@ -234,10 +234,12 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
         </div>
 
         {imageSrc && (
-          <div className="position-relative mt-4"
+          <div
+            className="position-relative mt-4"
             style={{
-              maxWidth: "fit-content"
-            }}>
+              maxWidth: "fit-content",
+            }}
+          >
             <div
               className="overflow-hidden"
               style={{
@@ -247,7 +249,10 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
             >
               <PreviewImage imgSrc={imageSrc} />
             </div>
-            <span className="delete-image text-white" onClick={handleDeleteImage}>
+            <span
+              className="delete-image text-white"
+              onClick={handleDeleteImage}
+            >
               <X size={20} />
             </span>
           </div>

@@ -41,9 +41,7 @@ const PersonalHeader = ({ userInfo, socket }) => {
               alt="background"
             />
           ) : (
-            <span className="fs-4">
-              Don't have wallpaper
-            </span>
+            <span className="fs-4">Don't have wallpaper</span>
           )}
         </div>
 
