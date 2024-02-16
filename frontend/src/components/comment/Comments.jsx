@@ -12,6 +12,7 @@ import { getUserByID } from "../../redux/request/userRequest";
 import SocketEvent from "../../constants/socket-event";
 import Global from "../../constants/global";
 import { useCurrentUser } from "../../hooks";
+import Avatar from "../avatar/Avatar";
 
 const Comments = ({ postID, author, socket }) => {
   const [content, setContent] = useState("");
@@ -145,18 +146,7 @@ const Comments = ({ postID, author, socket }) => {
         }}
       >
         <div className="profile-pic">
-          {user.profilePicture ? (
-            <img
-              src={user.profilePicture}
-              alt="avatar_user"
-              style={{
-                objectFit: "cover",
-              }}
-              className="w-100"
-            />
-          ) : (
-            <>{user.username || currentUser.username}</>
-          )}
+          <Avatar imageSrc={user.profilePicture} label={user.username} />
         </div>
         <div className="flex-fill mx-2">
           <input

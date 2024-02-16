@@ -234,15 +234,20 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
         </div>
 
         {imageSrc && (
-          <div
-            className="overflow-hidden position-relative"
+          <div className="position-relative mt-4"
             style={{
-              maxHeight: "10rem",
-              maxWidth: "10rem",
-            }}
-          >
-            <PreviewImage imgSrc={imageSrc} />
-            <span className="delete-image" onClick={handleDeleteImage}>
+              maxWidth: "fit-content"
+            }}>
+            <div
+              className="overflow-hidden"
+              style={{
+                maxHeight: "10rem",
+                maxWidth: "10rem",
+              }}
+            >
+              <PreviewImage imgSrc={imageSrc} />
+            </div>
+            <span className="delete-image text-white" onClick={handleDeleteImage}>
               <X size={20} />
             </span>
           </div>
@@ -264,6 +269,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
             type="submit"
             className="w-100 py-3 border-0 rounded fs-4 fw-bold mt-4"
             value="Post"
+            disabled={!content && !imageSrc && !videoSrc}
           />
         ) : (
           <button

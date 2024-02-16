@@ -18,6 +18,7 @@ import {
 import SocketEvent from "../../../constants/socket-event";
 import Global from "../../../constants/global";
 import { useCurrentUser } from "../../../hooks";
+import { Avatar } from "../../../components";
 
 //TODO FIX POST SHARED ALWAYS PIN
 
@@ -160,7 +161,7 @@ const PersonalBody = ({
           {currentUser?._id === userInfo?._id && (
             <div className="row d-flex border-bottom pb-4 mb-4" data-uploadpost>
               <div className="profile-pic p-0 rounded-circle overflow-hidden text-white">
-                {userInfo.profilePicture ? (
+                {/* {userInfo.profilePicture ? (
                   <img
                     loading="lazy"
                     role="presentation"
@@ -171,7 +172,8 @@ const PersonalBody = ({
                   />
                 ) : (
                   <>{userInfo.username}</>
-                )}
+                )} */}
+                <Avatar imageSrc={userInfo.profilePicture} label={userInfo.username} />
               </div>
               <button
                 className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted text-center"

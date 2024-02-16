@@ -118,7 +118,7 @@ const HomeMiddle = ({ socket }) => {
       </Suspense>
 
       <div ref={snackBar} id="snackbar" className="fw-bold">
-        Deleted post :D
+        Post deleted :D
       </div>
     </div>
   );

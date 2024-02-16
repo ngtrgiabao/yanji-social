@@ -107,7 +107,7 @@ const Bookmarks = ({ socket }) => {
         }}
         className="fw-bold"
       >
-        Deleted post successfully
+        Post deleted successfully
       </div>
     </div>
   );
