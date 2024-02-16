@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { UilTrash } from "@iconscout/react-unicons";
 import { Link } from "react-router-dom";
 import { io } from "socket.io-client";
 import { Trash } from "lucide-react";
@@ -9,6 +8,7 @@ import { getUserByID } from "../../redux/request/userRequest";
 import { deleteComment } from "../../redux/request/commentRequest";
 import { useCurrentUser, useTimeAgo } from "../../hooks";
 import Global from "../../constants/global";
+import Avatar from "../avatar/Avatar"
 
 const Comment = ({
   userCommented,
@@ -77,18 +77,7 @@ const Comment = ({
           className="d-flex align-items-center"
         >
           <div className="profile-pic bg-white text-black">
-            {user.profilePicture ? (
-              <img
-                src={user.profilePicture}
-                alt="avatar_user"
-                style={{
-                  objectFit: "cover",
-                }}
-                className="w-100"
-              />
-            ) : (
-              <>{user.username || "user"}</>
-            )}
+            <Avatar imageSrc={user.profilePicture} label={user.username} />
           </div>
           <div className="d-flex align-items-center justify-content-between flex-fill">
             <div className="ms-3 d-flex align-items-center justify-content-between">
