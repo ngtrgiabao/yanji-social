@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { UilTrash } from "@iconscout/react-unicons";
 import { Link } from "react-router-dom";
 import { io } from "socket.io-client";
+import { Trash } from "lucide-react";
 
 import { getUserByID } from "../../redux/request/userRequest";
 import { deleteComment } from "../../redux/request/commentRequest";
@@ -102,19 +103,18 @@ const Comment = ({
                     `@${user.username}` || "user"
                   )}
                 </div>
-                <div>commented {formatTime(createdAt)}</div>
+                <div>{formatTime(createdAt)}</div>
               </div>
             </div>
           </div>
         </Link>
         {currentUser._id === userCommented && (
-          <UilTrash
+          <Trash
+            size={20}
+            cursor="pointer"
             onClick={() => {
               handleComment();
               deleteComments();
-            }}
-            style={{
-              cursor: "pointer",
             }}
           />
         )}

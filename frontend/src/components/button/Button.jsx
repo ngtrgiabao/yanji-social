@@ -29,7 +29,7 @@ const Button = ({
               ></small>
             )}
           </span>
-          <h3 className="ms-3">{label}</h3>
+          <h3 className="ms-3 mb-0">{label}</h3>
         </Link>
       ) : (
         <div
@@ -38,7 +38,7 @@ const Button = ({
           title={label}
         >
           <span>{icon}</span>
-          <h3 className="ms-3">{label}</h3>
+          <h3 className="ms-3 mb-0">{label}</h3>
         </div>
       )}
     </>

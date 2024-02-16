@@ -53,7 +53,7 @@ class PostController {
     await PostModel.findByIdAndDelete(postID);
 
     return res.status(200).json({
-      msg: "Deleted post successfully",
+      msg: "Post deleted successfully",
       data: result,
     });
   };

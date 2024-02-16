@@ -1,11 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
-import { faImage, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
+import { Laugh, Image, X } from "lucide-react";
 
 import "./style/postPopup.css";
 
@@ -39,7 +37,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
     if (file.type === "video/mp4") {
       // For upload cloud
       setVideoUrl(file);
-      // For preview image
+      // For preview video
       setVideoSrc(imgUrl);
     } else {
       // For upload cloud
@@ -162,8 +160,8 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
               </div>
             </div>
           </div>
-          <span className="fs-1 form__title-icon px-2" onClick={onPopup}>
-            <FontAwesomeIcon icon={faXmark} />
+          <span className="form__title-icon px-2 mb-4" onClick={onPopup}>
+            <X size={20} />
           </span>
         </div>
 
@@ -203,24 +201,22 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
             />
 
             <span>
-              <FontAwesomeIcon icon={faImage} />
+              <Image size={20} />
             </span>
           </div>
           <span
             style={{ fontSize: "1.8rem" }}
             className="ms-3 position-relative text-white"
           >
-            <FontAwesomeIcon
-              icon={faFaceSmile}
+            <Laugh
+              size={20}
+              cursor="pointer"
               onClick={() => {
                 active !== "EMOJI" ? setActive("EMOJI") : setActive("");
               }}
-              style={{
-                cursor: "pointer",
-              }}
             />
             <span
-              className="position-absolute top-50"
+              className="position-absolute top-80"
               hidden={active !== "EMOJI"}
             >
               <Picker
@@ -238,13 +234,21 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
         </div>
 
         {imageSrc && (
-          <div className="w-100 position-relative">
-            <PreviewImage imgSrc={imageSrc} />
-            <span className="delete-image" onClick={handleDeleteImage}>
-              <FontAwesomeIcon
-                icon={faXmark}
-                className="bg-black rounded-circle text-white"
-              />
+          <div className="position-relative mt-4"
+            style={{
+              maxWidth: "fit-content"
+            }}>
+            <div
+              className="overflow-hidden"
+              style={{
+                maxHeight: "10rem",
+                maxWidth: "10rem",
+              }}
+            >
+              <PreviewImage imgSrc={imageSrc} />
+            </div>
+            <span className="delete-image text-white" onClick={handleDeleteImage}>
+              <X size={20} />
             </span>
           </div>
         )}
@@ -265,6 +269,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
             type="submit"
             className="w-100 py-3 border-0 rounded fs-4 fw-bold mt-4"
             value="Post"
+            disabled={!content && !imageSrc && !videoSrc}
           />
         ) : (
           <button

@@ -67,7 +67,7 @@ io.on("connection", (socket) => {
     socket.on("delete-post", (data) => {
       const { _id } = data;
       io.emit("deleted-post", data);
-      console.log(`deleted post ${_id} successfully`);
+      console.log(`Post deleted ${_id} successfully`);
     });
 
     // HANDLE USER

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UilSearch } from "@iconscout/react-unicons";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import { Search } from "lucide-react";
 
 import "./style/navigation.css";
 
@@ -93,7 +93,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
 
           {isSearch && (
             <div className="search-bar d-flex align-items-center position-relative ">
-              <UilSearch />
+              <Search size={15} />
               <Form.Control
                 className="ms-4"
                 type="search"
