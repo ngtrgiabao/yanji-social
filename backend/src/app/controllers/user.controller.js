@@ -21,7 +21,7 @@ class UserController {
 
     PlayFabClient.RegisterPlayFabUser(registerRequest, (response, error) => {
       if (error) {
-        console.log(error);
+        console.log("[REGISTER_THE_COLORS_ACCOUNT]", error);
       } else {
         console.log("User registered successfully:", response);
       }

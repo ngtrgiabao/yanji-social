@@ -166,7 +166,7 @@ const Comments = ({ postID, author, socket }) => {
             width: "7%",
             background: "none",
           }}
-          className="fs-3 p-2 border-0 text-white"
+          className="fs-3 p-2 border-0 text-white d-flex justify-content-center align-items-center"
           type="submit"
         >
           <Send size={20} />

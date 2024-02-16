@@ -262,6 +262,7 @@ const Post = ({
               <li
                 className="delete-post"
                 onClick={() => setActive("DELETE_POST")}
+                title="Delete post"
               >
                 <span>
                   <Trash size={20} />
@@ -273,6 +274,7 @@ const Post = ({
                   e.stopPropagation();
                   handleEditPost();
                 }}
+                title="Edit post"
               >
                 <span>
                   <Pencil size={20} />
@@ -290,6 +292,7 @@ const Post = ({
               borderRadius:
                 currentUser?._id === userID ? "" : "var(--card-border-radius)",
             }}
+            title="Copy url"
           >
             <span>
               <ClipboardList size={20} />

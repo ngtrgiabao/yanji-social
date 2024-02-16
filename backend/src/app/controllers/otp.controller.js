@@ -11,7 +11,7 @@ class OtpController {
 
             return res.status(200).json({ otpCode, expirationTime });
         } catch (error) {
-            console.log("Failed to resend otp", error);
+            console.log("[RESEND_OTP]", error);
             return res.status(500).json({ error: error.message });
         }
     }

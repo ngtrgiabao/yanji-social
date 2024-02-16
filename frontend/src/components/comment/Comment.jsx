@@ -49,7 +49,7 @@ const Comment = ({
           });
         })
         .catch((err) => {
-          console.log(err);
+          console.log("[GET_USER_WHEN_COMMENTED]",err);
         });
   }, []);
 

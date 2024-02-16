@@ -5,7 +5,7 @@ const useCopyUrl = (url) => {
       setIsCopied(true);
     })
     .catch((error) => {
-      console.error("Failed to copy URL", error);
+      console.error("[COPY_POST_URL]", error);
     });
 };
 
