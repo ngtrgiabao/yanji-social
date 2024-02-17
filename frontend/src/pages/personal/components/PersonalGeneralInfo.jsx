@@ -10,7 +10,7 @@ import PersonalFollow from "./PersonalFollow";
 import "../styles/personalGeneralInfo.css";
 import "../../../styles/animations/snackbar.css";
 
-import { Avatar, ChangeImagePopup, FollowerList } from "../../../components";
+import { Avatar, FollowerList, ChangeImagePopup } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { useCurrentUser } from "../../../hooks";
 

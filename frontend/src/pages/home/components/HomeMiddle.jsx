@@ -2,17 +2,14 @@ import { Link } from "react-router-dom";
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { LOGO_YANJI_SOCIAL } from "../../../assets";
-
 import "../styles/homeMiddle.css";
 import "../../../styles/animations/snackbar.css";
 
-import PostPopup from "../../../components/popup/PostPopup";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { LoadingPage } from "../../../pages";
 import { useCurrentUser } from "../../../hooks";
-import { Avatar } from "../../../components";
-const Posts = lazy(() => import("../../../components/post/Posts"));
+import { Avatar, PostPopup } from "../../../components";
+const Posts = lazy(() => import("../../../components/ui/post/Posts"));
 
 const HomeMiddle = ({ socket }) => {
   const userDefaultValues = {
@@ -23,7 +20,6 @@ const HomeMiddle = ({ socket }) => {
 
   const [popup, setPopup] = useState(false);
   const [user, setUser] = useState(userDefaultValues);
-  const snackBar = useRef(null);
   const dispatch = useDispatch();
   const currentUser = useCurrentUser();
 
@@ -57,24 +53,12 @@ const HomeMiddle = ({ socket }) => {
     );
   };
 
-  const handleDeletePopup = () => {
-    if (snackBar.current) {
-      const sb = snackBar.current;
-      sb.className = "show";
-
-      setTimeout(() => {
-        sb.className = sb.className.replace("show", "");
-      }, 3000);
-    }
-  };
-
   return (
     <div className="middle animate__animated animate__fadeIn position-relative">
       {/* STATUS */}
       <div
-        className={`create-post align-items-center mb-4 ${
-          currentUser === undefined ? "d-none" : "d-flex"
-        }`}
+        className={`create-post align-items-center mb-4 ${currentUser === undefined ? "d-none" : "d-flex"
+          }`}
       >
         <div className="create-post-wrapper w-100 d-flex align-items-center">
           <Link
@@ -114,12 +98,8 @@ const HomeMiddle = ({ socket }) => {
       {/* END STATUS */}
 
       <Suspense fallback={<LoadingPage />}>
-        <Posts handleDeletePopup={handleDeletePopup} socket={socket} />
+        <Posts socket={socket} />
       </Suspense>
-
-      <div ref={snackBar} id="snackbar" className="fw-bold">
-        Post deleted :D
-      </div>
     </div>
   );
 };

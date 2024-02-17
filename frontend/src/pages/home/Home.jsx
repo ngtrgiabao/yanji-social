@@ -15,6 +15,7 @@ const Navigation = lazy(
 );
 
 import Global from "../../constants/global";
+import { ToastProvider } from "../../components/providers/toaster-provider";
 
 const Home = ({ socket }) => {
   const currentUser = useCurrentUser();
@@ -66,6 +67,7 @@ const Home = ({ socket }) => {
 
   return (
     <>
+      <ToastProvider />
       <Suspense fallback={null}>
         <Navigation title="Login" link="/login" />
       </Suspense>

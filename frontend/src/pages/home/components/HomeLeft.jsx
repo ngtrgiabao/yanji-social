@@ -19,8 +19,8 @@ import { getUserByID } from "../../../redux/request/userRequest";
 import { LOGO_YANJI_SOCIAL } from "../../../assets";
 
 // SETTINGS
-import { Avatar, CustomTheme, PostPopup, Setting } from "../../../components";
-import { Button } from "../../../components";
+import { Avatar, CustomTheme, Setting, PostPopup } from "../../../components";
+import { Button } from "../../../components/common";
 import { useCurrentUser } from "../../../hooks";
 
 const HomeLeft = ({ socket, isReadNotification }) => {

@@ -27,8 +27,8 @@ const NotificationPage = lazy(
 const BookmarkPage = lazy(() => import("./pages/bookmarks/Bookmarks"));
 const PostPreview = lazy(() => import("./pages/postPreview/PostPreview"));
 
-const RegisterPage = lazy(() => import("./pages/form/RegisterPage"));
-const LoginPage = lazy(() => import("./pages/form/LoginPage"));
+const RegisterPage = lazy(() => import("./pages/auth/RegisterPage"));
+const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
 
 function App() {
   const currentUser = useCurrentUser();

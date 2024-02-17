@@ -35,7 +35,7 @@ import MessageFooter from "./MessageFooter";
 import SocketEvent from "../../../constants/socket-event";
 import Global from "../../../constants/global";
 
-const Avatar = lazy(() => import("../../../components/avatar/Avatar"));
+const Avatar = lazy(() => import("../../../components"));
 const Message = lazy(() => import("../../../components/message/Message"));
 
 const friendDefaultValues = {

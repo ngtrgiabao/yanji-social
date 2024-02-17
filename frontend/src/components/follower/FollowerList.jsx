@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { getUserByID } from "../../redux/request/userRequest";
-import FollowerCard from "../card/FollowerCard";
+import { FollowerCard } from "../ui";
 
 const FollowerList = ({ close, userInfo }) => {
   const [active, setActive] = useState("FOLLOWERS");
