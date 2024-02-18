@@ -27,7 +27,7 @@ import {
 } from "./components";
 import _404 from "../_404/_404";
 import { ConfirmDialog, PhotosUser } from "../../components";
-import { SocialMediaInput } from "../../components/common"
+import { SocialMediaInput } from "../../components/common";
 
 import Global from "../../constants/global";
 import { useCurrentUser } from "../../hooks";

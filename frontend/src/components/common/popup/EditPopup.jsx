@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { io } from "socket.io-client";
-import { X, Image, Laugh } from "lucide-react"
+import { X, Image, Laugh } from "lucide-react";
 import { PreviewImage } from "../../ui";
 import { updatePost } from "../../../redux/request/postRequest";
 import { useUploadImage } from "../../../hooks";
@@ -208,9 +208,13 @@ const EditPopup = ({
             style={{ fontSize: "1.8rem" }}
             className="ms-3 position-relative"
           >
-            <Laugh size={20} onClick={() => {
-              active !== "EMOJI" ? setActive("EMOJI") : setActive("");
-            }} cursor="pointer" />
+            <Laugh
+              size={20}
+              onClick={() => {
+                active !== "EMOJI" ? setActive("EMOJI") : setActive("");
+              }}
+              cursor="pointer"
+            />
             <span
               className="position-absolute top-50"
               hidden={active !== "EMOJI"}
@@ -232,8 +236,11 @@ const EditPopup = ({
         {(oldImageSrc || newImageSrc) && (
           <div className="w-100 position-relative">
             <PreviewImage imgSrc={oldImageSrc || newImageSrc} />
-            <div className="delete-image position-absolute left-0" onClick={handleDeleteImage}>
-              <X size={20} className="bg-black"/>
+            <div
+              className="delete-image position-absolute left-0"
+              onClick={handleDeleteImage}
+            >
+              <X size={20} className="bg-black" />
             </div>
           </div>
         )}

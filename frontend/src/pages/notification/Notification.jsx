@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { MoveLeft } from "lucide-react"
+import { MoveLeft } from "lucide-react";
 
 import {
   getAllNotificationsByUser,

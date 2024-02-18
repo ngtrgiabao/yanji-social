@@ -1,4 +1,4 @@
-import { SquarePen, Trash } from "lucide-react"
+import { SquarePen, Trash } from "lucide-react";
 
 import { useCurrentUser, useTimeAgo } from "../../hooks";
 

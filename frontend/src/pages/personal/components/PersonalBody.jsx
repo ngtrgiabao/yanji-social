@@ -6,7 +6,7 @@ import "../styles/personalBody.css";
 import PersonalIntroduce from "./PersonalIntroduce";
 import PersonalSocialLinks from "./PersonalSocialLinks";
 import { Post } from "../../../components";
-import { PostPopup } from "../../../components/common"
+import { PostPopup } from "../../../components/common";
 import {
   getAllPostsByUser,
   getPostByID,

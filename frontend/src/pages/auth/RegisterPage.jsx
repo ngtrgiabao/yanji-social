@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Info } from "lucide-react"
+import { Info } from "lucide-react";
 
 import "./style/registerPage.css";
 
@@ -150,11 +150,9 @@ const RegisterPage = () => {
           />
           <p
             id="uidnote"
-            className={
-              `${userFocus && username && !validName
-                ? "instructions"
-                : "offscreen"} d-flex`
-            }
+            className={`${
+              userFocus && username && !validName ? "instructions" : "offscreen"
+            } d-flex`}
           >
             <Info size={15} className="me-2 mt-1" />
             <span>
@@ -195,14 +193,14 @@ const RegisterPage = () => {
           />
           <p
             id="emailnote"
-            className={
-              `
-              ${emailFocus && email && !validEmail
-                ? "instructions"
-                : "offscreen"} 
+            className={`
+              ${
+                emailFocus && email && !validEmail
+                  ? "instructions"
+                  : "offscreen"
+              } 
                 d-flex
-              `
-            }
+              `}
           >
             <Info size={15} className="me-2 mt-1" />
             Must be valid email
@@ -236,14 +234,10 @@ const RegisterPage = () => {
           />
           <p
             id="pwdnote"
-            className={
-              `
-                ${pwdFocus && pwd && !validPwd
-                ? "instructions"
-                : "offscreen"}
+            className={`
+                ${pwdFocus && pwd && !validPwd ? "instructions" : "offscreen"}
                 d-flex
-              `
-            }
+              `}
           >
             <Info size={15} className="me-2 mt-1" />
             <div>
@@ -253,7 +247,9 @@ const RegisterPage = () => {
               <br /> and a special character.
               <br />
               Allowed special characters:
-              <span className="ms-1" aria-label="exclamation mark">!</span>
+              <span className="ms-1" aria-label="exclamation mark">
+                !
+              </span>
               <span aria-label="at symbol">@</span>
               <span aria-label="hashtag">#</span>
               <span aria-label="dollar sign">$</span>
@@ -294,14 +290,14 @@ const RegisterPage = () => {
           />
           <p
             id="confirmnote"
-            className={
-              `
-                ${matchFocus && matchPwd && !validMatch
-                ? "instructions"
-                : "offscreen"}
+            className={`
+                ${
+                  matchFocus && matchPwd && !validMatch
+                    ? "instructions"
+                    : "offscreen"
+                }
                 d-flex
-              `
-            }
+              `}
           >
             <Info size={15} className="me-2 mt-1" />
             Must match the first password input field.

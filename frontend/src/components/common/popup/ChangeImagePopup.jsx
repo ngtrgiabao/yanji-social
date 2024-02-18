@@ -2,11 +2,11 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
-import { X } from "lucide-react"
+import { X } from "lucide-react";
 
 import "./style/changeImagePopup.css";
 
-import { PreviewImage } from "../../ui"
+import { PreviewImage } from "../../ui";
 import { updateUser } from "../../../redux/request/userRequest";
 import { useCurrentUser, useUploadImage } from "../../../hooks";
 import Global from "../../../constants/global";
@@ -78,7 +78,7 @@ const ChangeImagePopup = ({
         socket.emit("update-user", updatedUser);
 
         toast.success("Updated Success", {
-          className: "fs-3"
+          className: "fs-3",
         });
 
         setTimeout(() => {
@@ -89,8 +89,8 @@ const ChangeImagePopup = ({
       })
       .catch((err) => {
         toast.error("Something went wrong", {
-          className: "fs-3"
-        })
+          className: "fs-3",
+        });
         console.error("Internal Error", err);
       });
   };

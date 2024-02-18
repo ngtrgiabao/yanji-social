@@ -27,7 +27,7 @@ import { pushNewNotification } from "../../../redux/request/notificationRequest"
 import MessageFooter from "./MessageFooter";
 import SocketEvent from "../../../constants/socket-event";
 import Global from "../../../constants/global";
-import { Message, Avatar } from "../../../components"
+import { Message, Avatar } from "../../../components";
 
 const friendDefaultValues = {
   name: "",

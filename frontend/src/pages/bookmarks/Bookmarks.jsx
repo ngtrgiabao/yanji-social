@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { MoveLeft } from "lucide-react"
+import { MoveLeft } from "lucide-react";
 
 import "../../styles/animations/snackbar.css";
 

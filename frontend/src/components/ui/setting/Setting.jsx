@@ -3,7 +3,7 @@ import { UilSetting } from "@iconscout/react-unicons";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CSVLink } from "react-csv";
-import { X } from "lucide-react"
+import { X } from "lucide-react";
 
 import { logout } from "../../../redux/request/authRequest";
 import { getUserByID, updateUser } from "../../../redux/request/userRequest";

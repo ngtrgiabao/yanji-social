@@ -1,1 +1,1 @@
-export { default as SocialMediaInput } from "./SocialMediaInput"
+export { default as SocialMediaInput } from "./SocialMediaInput";

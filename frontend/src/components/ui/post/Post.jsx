@@ -8,9 +8,9 @@ import {
   Trash,
   Pencil,
   ClipboardList,
-  CheckCircle2
+  CheckCircle2,
 } from "lucide-react";
-import toast from "react-hot-toast"
+import toast from "react-hot-toast";
 import io from "socket.io-client";
 
 import { BG_DEFAULT_WALLPAPER_USER } from "../../../assets";
@@ -27,7 +27,7 @@ import { useTimeAgo, useCopyUrl, useCurrentUser } from "../../../hooks";
 import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "../../paragraph/ParagraphWithLink";
 import { EditPopup, ConfirmDialog } from "../../common";
-import { Photo } from "../media"
+import { Photo } from "../media";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import { LIKE_POST, SHARE_POST } from "../../../business/noti.type";
 import Avatar from "../avatar/Avatar";
@@ -236,13 +236,13 @@ const Post = ({
         socket = io(Global.SOCKET_URL);
         await socket.emit("delete-post", data?.data);
         toast.success("Post deleted", {
-          className: "fs-3"
+          className: "fs-3",
         });
       })
       .catch((error) => {
         console.error("Failed to delete post", error);
         toast.error("Something went wrong. Please try again", {
-          className: "fs-3"
+          className: "fs-3",
         });
       });
   };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { X } from "lucide-react"
+import { X } from "lucide-react";
 
 import { getUserByID } from "../../redux/request/userRequest";
 import { FollowerCard } from "../ui";
