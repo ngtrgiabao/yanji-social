@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { UilSetting } from "@iconscout/react-unicons";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CSVLink } from "react-csv";
+import { X } from "lucide-react"
 
 import { logout } from "../../../redux/request/authRequest";
 import { getUserByID, updateUser } from "../../../redux/request/userRequest";
@@ -369,7 +368,7 @@ const Setting = ({ close }) => {
               setActive("PUBLIC");
             }}
           >
-            <FontAwesomeIcon icon={faXmark} />
+            <X size={20} />
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Avatar from "../avatar/Avatar";
 
 const FollowerCard = ({ userID, username, profilePicture, close }) => {
   return (
@@ -14,18 +15,7 @@ const FollowerCard = ({ userID, username, profilePicture, close }) => {
       onClick={close}
     >
       <div className="profile-pic me-3 fs-5 text-white">
-        {profilePicture ? (
-          <img
-            src={profilePicture}
-            loading="lazy"
-            role="presentation"
-            decoding="async"
-            alt="Avatar user"
-            className="w-100"
-          />
-        ) : (
-          <>{username}</>
-        )}
+        <Avatar imageSrc={profilePicture} label={username} />
       </div>
       {username}
     </Link>

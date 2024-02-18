@@ -12,6 +12,7 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ToastProvider } from "../../components/providers/toaster-provider";
 
 import "./styles/personal.css";
 
@@ -31,30 +32,30 @@ import { SocialMediaInput } from "../../components/common"
 import Global from "../../constants/global";
 import { useCurrentUser } from "../../hooks";
 
+const userInfoDefaultValues = {
+  _id: "",
+  username: "",
+  profilePicture: "",
+  coverPicture: "",
+  followers: [],
+  followings: [],
+  bio: "",
+  insta: "",
+  linkedin: "",
+  github: "",
+  pinterest: "",
+  youtube: "",
+  twitter: "",
+  twitch: "",
+  postShared: [],
+  blackList: [],
+  postSaved: [],
+  isVerify: false,
+};
+
 const Personal = ({ socket }) => {
   const { userID: userRoute } = useParams();
   const { photos: photosRoute } = useParams();
-
-  const userInfoDefaultValues = {
-    _id: "",
-    username: "",
-    profilePicture: "",
-    coverPicture: "",
-    followers: [],
-    followings: [],
-    bio: "",
-    insta: "",
-    linkedin: "",
-    github: "",
-    pinterest: "",
-    youtube: "",
-    twitter: "",
-    twitch: "",
-    postShared: [],
-    blackList: [],
-    postSaved: [],
-    isVerify: false,
-  };
 
   const [userInfo, setUserInfo] = useState(userInfoDefaultValues);
   const [isValid, setIsValid] = useState(true);
@@ -317,6 +318,7 @@ const Personal = ({ socket }) => {
 
       {renderUpdateBioPopup()}
       {renderUpdateIntroducePopup()}
+      <ToastProvider />
     </div>
   ) : (
     <_404 />

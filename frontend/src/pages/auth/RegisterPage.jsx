@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { Info } from "lucide-react"
 
 import "./style/registerPage.css";
 
@@ -152,13 +151,13 @@ const RegisterPage = () => {
           <p
             id="uidnote"
             className={
-              userFocus && username && !validName
-                ? "instructions animate__animated animate__bounceIn"
-                : "offscreen"
+              `${userFocus && username && !validName
+                ? "instructions"
+                : "offscreen"} d-flex`
             }
           >
+            <Info size={15} className="me-2 mt-1" />
             <span>
-              <FontAwesomeIcon icon={faCircleInfo} />
               4 to 24 characters. <br />
               Must begin with a letter. <br />
               Letters, numbers, underscores, hyphens allowed.
@@ -197,12 +196,15 @@ const RegisterPage = () => {
           <p
             id="emailnote"
             className={
-              emailFocus && email && !validEmail
-                ? "instructions animate__animated animate__bounceIn"
-                : "offscreen"
+              `
+              ${emailFocus && email && !validEmail
+                ? "instructions"
+                : "offscreen"} 
+                d-flex
+              `
             }
           >
-            <FontAwesomeIcon icon={faCircleInfo} />
+            <Info size={15} className="me-2 mt-1" />
             Must be valid email
           </p>
         </div>
@@ -235,23 +237,28 @@ const RegisterPage = () => {
           <p
             id="pwdnote"
             className={
-              pwdFocus && pwd && !validPwd
-                ? "instructions animate__animated animate__bounceIn"
-                : "offscreen"
+              `
+                ${pwdFocus && pwd && !validPwd
+                ? "instructions"
+                : "offscreen"}
+                d-flex
+              `
             }
           >
-            <FontAwesomeIcon icon={faCircleInfo} />
-            8 to 24 characters.
-            <br />
-            Must include uppercase and lowercase letters, a number and a special
-            character.
-            <br />
-            Allowed special characters:
-            <span aria-label="exclamation mark">!</span>
-            <span aria-label="at symbol">@</span>
-            <span aria-label="hashtag">#</span>
-            <span aria-label="dollar sign">$</span>
-            <span aria-label="percent">%</span>
+            <Info size={15} className="me-2 mt-1" />
+            <div>
+              8 to 24 characters.
+              <br />
+              Must include uppercase and lowercase letters, a number
+              <br /> and a special character.
+              <br />
+              Allowed special characters:
+              <span className="ms-1" aria-label="exclamation mark">!</span>
+              <span aria-label="at symbol">@</span>
+              <span aria-label="hashtag">#</span>
+              <span aria-label="dollar sign">$</span>
+              <span aria-label="percent">%</span>
+            </div>
           </p>
         </div>
         <span></span>
@@ -288,12 +295,15 @@ const RegisterPage = () => {
           <p
             id="confirmnote"
             className={
-              matchFocus && matchPwd && !validMatch
+              `
+                ${matchFocus && matchPwd && !validMatch
                 ? "instructions"
-                : "offscreen"
+                : "offscreen"}
+                d-flex
+              `
             }
           >
-            <FontAwesomeIcon icon={faCircleInfo} />
+            <Info size={15} className="me-2 mt-1" />
             Must match the first password input field.
           </p>
         </div>

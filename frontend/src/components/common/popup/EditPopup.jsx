@@ -1,12 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
-import { faImage, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { io } from "socket.io-client";
-
+import { X, Image, Laugh } from "lucide-react"
 import { PreviewImage } from "../../ui";
 import { updatePost } from "../../../redux/request/postRequest";
 import { useUploadImage } from "../../../hooks";
@@ -164,8 +161,8 @@ const EditPopup = ({
               </div>
             </div>
           </div>
-          <span className="fs-1 form__title-icon px-2" onClick={onPopup}>
-            <FontAwesomeIcon icon={faXmark} />
+          <span className="form__title-icon px-2" onClick={onPopup}>
+            <X size={20} />
           </span>
         </div>
 
@@ -186,7 +183,7 @@ const EditPopup = ({
           ></textarea>
         </div>
 
-        <div className="d-flex">
+        <div className="d-flex mb-2">
           <div
             className="form__drag-image"
             style={{
@@ -204,23 +201,16 @@ const EditPopup = ({
             />
 
             <span>
-              <FontAwesomeIcon icon={faImage} />
+              <Image size={20} />
             </span>
           </div>
           <span
             style={{ fontSize: "1.8rem" }}
             className="ms-3 position-relative"
           >
-            <FontAwesomeIcon
-              icon={faFaceSmile}
-              onClick={() => {
-                active !== "EMOJI" ? setActive("EMOJI") : setActive("");
-              }}
-              style={{
-                cursor: "pointer",
-              }}
-              className="text-white"
-            />
+            <Laugh size={20} onClick={() => {
+              active !== "EMOJI" ? setActive("EMOJI") : setActive("");
+            }} cursor="pointer" />
             <span
               className="position-absolute top-50"
               hidden={active !== "EMOJI"}
@@ -242,11 +232,8 @@ const EditPopup = ({
         {(oldImageSrc || newImageSrc) && (
           <div className="w-100 position-relative">
             <PreviewImage imgSrc={oldImageSrc || newImageSrc} />
-            <div className="delete-image" onClick={handleDeleteImage}>
-              <FontAwesomeIcon
-                icon={faXmark}
-                className="bg-black p-2 px-3 fs-4 border-0 text-white"
-              />
+            <div className="delete-image position-absolute left-0" onClick={handleDeleteImage}>
+              <X size={20} className="bg-black"/>
             </div>
           </div>
         )}

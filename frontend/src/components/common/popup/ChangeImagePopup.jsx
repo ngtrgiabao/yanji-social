@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { io } from "socket.io-client";
+import toast from "react-hot-toast";
+import { X } from "lucide-react"
 
 import "./style/changeImagePopup.css";
 
@@ -20,7 +20,6 @@ const ChangeImagePopup = ({
   onClose,
   message,
   socket,
-  handleUpdatePopup,
 }) => {
   const [avatar, setAvatar] = useState("");
   const [previewImg, setPreviewImg] = useState("");
@@ -78,13 +77,22 @@ const ChangeImagePopup = ({
         socket = io(Global.SOCKET_URL);
         socket.emit("update-user", updatedUser);
 
+        toast.success("Updated Success", {
+          className: "fs-3"
+        });
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+
         setIsSuccess(true);
       })
       .catch((err) => {
-        console.error("Failed to update avatar", err);
+        toast.error("Something went wrong", {
+          className: "fs-3"
+        })
+        console.error("Internal Error", err);
       });
-
-    handleUpdatePopup();
   };
 
   return (
@@ -98,7 +106,7 @@ const ChangeImagePopup = ({
             <div className="change-img__popup-title fs-1 d-flex justify-content-between w-100">
               {title}
               <span onClick={onClose}>
-                <FontAwesomeIcon icon={faCircleXmark} />
+                <X size={20} />
               </span>
             </div>
 

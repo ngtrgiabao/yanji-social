@@ -4,10 +4,8 @@ import "./styles/messages.css";
 
 import Navigation from "../../shared/layout/navigation/Navigation";
 
-import { MessageMiddle, MessageRight } from "./components";
+import { MessageMiddle, MessageRight, MessageLeft } from "./components";
 import LoadingPage from "../loading/LoadingPage";
-
-const MessagesLeft = lazy(() => import("./components/MessagesLeft"));
 
 function Messages({ socket }) {
   return (
@@ -15,7 +13,7 @@ function Messages({ socket }) {
       <Navigation title="Login" link="/register" />
       <div className="messages">
         <Suspense fallback={<LoadingPage />}>
-          <MessagesLeft socket={socket} />
+          <MessageLeft socket={socket} />
         </Suspense>
 
         <MessageMiddle socket={socket} />

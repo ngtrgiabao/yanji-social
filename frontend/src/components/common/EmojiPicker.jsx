@@ -1,6 +1,4 @@
-import { faFaceLaughBeam } from "@fortawesome/free-solid-svg-icons";
 import Picker from "@emoji-mart/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import data from "@emoji-mart/data";
 import { Laugh } from "lucide-react";
 

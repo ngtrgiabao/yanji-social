@@ -1,7 +1,6 @@
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { X } from "lucide-react"
 
 import { getUserByID } from "../../redux/request/userRequest";
 import { FollowerCard } from "../ui";
@@ -56,7 +55,7 @@ const FollowerList = ({ close, userInfo }) => {
             setActive("FOLLOWERS");
           }}
         >
-          <FontAwesomeIcon icon={faXmark} />
+          <X size={20} />
         </div>
       </div>
 

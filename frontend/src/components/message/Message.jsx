@@ -1,10 +1,4 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleCheck as seenIcon,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { SquarePen, Trash } from "lucide-react"
 
 import { useCurrentUser, useTimeAgo } from "../../hooks";
 
@@ -42,7 +36,7 @@ const Message = ({
           }}
           aria-label="Chỉnh sửa"
         >
-          <FontAwesomeIcon icon={faPenToSquare} />
+          <SquarePen size={15} />
         </span>
         <span
           className="action-message fs-5 text-danger"
@@ -54,7 +48,7 @@ const Message = ({
           }}
           aria-label="Xóa"
         >
-          <FontAwesomeIcon icon={faTrash} />
+          <Trash size={15} />
         </span>
         <div className="middle-container-body__right-message-content ms-2">
           {media ? (

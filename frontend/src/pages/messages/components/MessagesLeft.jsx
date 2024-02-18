@@ -1,4 +1,4 @@
-import { Suspense, lazy, useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import io from "socket.io-client";
 
@@ -13,10 +13,7 @@ import { LoadingPage } from "../..";
 import SocketEvent from "../../../constants/socket-event";
 import Global from "../../../constants/global";
 import { useCurrentUser } from "../../../hooks";
-
-const Conversation = lazy(
-  () => import("../../../components/conversation/Conversation"),
-);
+import { Conversation } from "../../../components";
 
 const MessageLeft = ({ socket = {} }) => {
   const [rooms, setRooms] = useState([]);

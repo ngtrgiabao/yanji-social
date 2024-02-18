@@ -16,18 +16,6 @@ const PersonalHeader = ({ userInfo, socket }) => {
 
   const snackBar = useRef(null);
 
-  const handleUpdatePopup = () => {
-    if (snackBar.current) {
-      const sb = snackBar.current;
-      sb.className = "show";
-
-      setTimeout(() => {
-        sb.className = sb.className.replace("show", "");
-        window.location.reload();
-      }, 3000);
-    }
-  };
-
   return (
     <div className="cover position-relative">
       <span className="w-100 h-100">
@@ -64,7 +52,6 @@ const PersonalHeader = ({ userInfo, socket }) => {
             onClose={() => setOpenPopup("")}
             message="Update cover successfully"
             socket={socket}
-            handleUpdatePopup={handleUpdatePopup}
           />
         )}
       </span>

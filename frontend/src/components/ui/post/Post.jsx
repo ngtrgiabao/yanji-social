@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Bookmark,
   BookmarkCheck,
@@ -10,6 +8,7 @@ import {
   Trash,
   Pencil,
   ClipboardList,
+  CheckCircle2
 } from "lucide-react";
 import toast from "react-hot-toast"
 import io from "socket.io-client";
@@ -329,13 +328,7 @@ const Post = ({
               <div className="fw-bold d-flex align-items-center">
                 {user.username || "loading..."}
                 {user.isVerify && (
-                  <FontAwesomeIcon
-                    className="ms-2 bg-white rounded rounded-circle text-primary"
-                    icon={faCircleCheck}
-                    style={{
-                      fontSize: "1rem",
-                    }}
-                  />
+                  <CheckCircle2 size={14} className="ms-2 text-primary" />
                 )}
               </div>
               <div className="ms-2 fw-light">

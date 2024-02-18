@@ -2,7 +2,6 @@ export { default as _404 } from "./_404/_404";
 export { default as Bookmarks } from "./bookmarks/Bookmarks";
 export { default as Explore } from "./explore/Explore";
 
-// form
 export { default as LoginPage } from "./auth/LoginPage";
 export { default as RegisterPage } from "./auth/RegisterPage";
 

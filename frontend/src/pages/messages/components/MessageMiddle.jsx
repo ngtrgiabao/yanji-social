@@ -1,13 +1,6 @@
 import io from "socket.io-client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState, useCallback, lazy } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  faVideo,
-  faPhone,
-  faCircleInfo,
-  faCircleCheck as seenIcon,
-} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { Info, Phone, Video } from "lucide-react";
 
@@ -34,9 +27,7 @@ import { pushNewNotification } from "../../../redux/request/notificationRequest"
 import MessageFooter from "./MessageFooter";
 import SocketEvent from "../../../constants/socket-event";
 import Global from "../../../constants/global";
-
-const Avatar = lazy(() => import("../../../components"));
-const Message = lazy(() => import("../../../components/message/Message"));
+import { Message, Avatar } from "../../../components"
 
 const friendDefaultValues = {
   name: "",

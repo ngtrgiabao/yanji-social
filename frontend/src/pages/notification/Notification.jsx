@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { MoveLeft } from "lucide-react"
 
 import {
   getAllNotificationsByUser,
@@ -123,10 +124,10 @@ const Notification = ({ socket }) => {
       >
         <Link
           to="/"
-          className="fs-5 text-white text-decoration-underline"
+          className="fs-5 text-white text-decoration-underline d-flex align-items-center"
           onClick={() => markSeenNoti()}
         >
-          Back to home
+          <MoveLeft size={15} className="me-2" /> Back to home
         </Link>
         <span className="fw-bold">notification</span>
       </div>
