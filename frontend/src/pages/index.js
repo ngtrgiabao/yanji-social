@@ -2,9 +2,8 @@ export { default as _404 } from "./_404/_404";
 export { default as Bookmarks } from "./bookmarks/Bookmarks";
 export { default as Explore } from "./explore/Explore";
 
-// form
-export { default as LoginPage } from "./form/LoginPage";
-export { default as RegisterPage } from "./form/RegisterPage";
+export { default as LoginPage } from "./auth/LoginPage";
+export { default as RegisterPage } from "./auth/RegisterPage";
 
 export { default as LoadingPage } from "./loading/LoadingPage";
 export { default as YanjiSocialLoadingPage } from "./loading/YanjiSocialLoadingPage";

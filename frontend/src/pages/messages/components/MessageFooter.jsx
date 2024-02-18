@@ -1,6 +1,6 @@
 import { Send, X, Image, Paperclip } from "lucide-react";
 
-import { EmojiPicker } from "../../../components";
+import { EmojiPicker } from "../../../components/common";
 
 const MessageFooter = ({
   uploadImgRef,

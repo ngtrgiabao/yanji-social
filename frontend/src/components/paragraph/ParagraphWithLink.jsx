@@ -1,5 +1,5 @@
 import { URL_SPLIT_REGEX, YOUTUBE_REGEX } from "../../utils/regex";
-import YoutubeEmbed from "../embed/YoutubeEmbed";
+import YoutubeEmbed from "../common/embed/YoutubeEmbed";
 
 const ParagraphWithLink = ({ text }) => {
   const parts = text?.split("\n");

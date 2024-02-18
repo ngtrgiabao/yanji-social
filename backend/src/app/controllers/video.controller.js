@@ -52,7 +52,7 @@ class VideoController {
         console.log("Uploaded video successfully", data);
       })
       .catch((error) => {
-        console.error("Failed to upload video", error);
+        console.error("[UPLOAD_VIDEO]", error);
       });
   };
 

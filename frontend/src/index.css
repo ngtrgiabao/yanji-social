@@ -120,10 +120,8 @@ textarea:focus {
 }
 
 .delete-image {
-  font-size: 2rem;
-
-  top: -20%;
-  right: -20%;
+  top: 2%;
+  right: 1%;
   position: absolute;
 
   cursor: pointer;

@@ -39,7 +39,7 @@ const withEmail = async (email) => {
 
     return { otpCode };
   } catch (error) {
-    console.log("Failed to sent gmail", error);
+    console.log("[SEND_GMAIL]", error);
   }
 };
 
@@ -48,7 +48,7 @@ const resendOtp = async () => {
     const otpCode = generateOTP();
     return { otpCode }
   } catch (error) {
-    console.log("Failed to resend otp", error);
+    console.log("[RESEND_OTP]", error);
   }
 }
 

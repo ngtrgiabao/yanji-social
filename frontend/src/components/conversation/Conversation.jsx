@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { getUserByID } from "../../redux/request/userRequest";
-import Avatar from "../avatar/Avatar";
+import { Avatar } from "../ui";
 
 const Conversation = ({
   conversation,

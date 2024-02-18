@@ -5,7 +5,8 @@ import "../styles/personalBody.css";
 
 import PersonalIntroduce from "./PersonalIntroduce";
 import PersonalSocialLinks from "./PersonalSocialLinks";
-import { PostPopup, Post } from "../../../components";
+import { Post } from "../../../components";
+import { PostPopup } from "../../../components/common";
 import {
   getAllPostsByUser,
   getPostByID,
@@ -173,7 +174,10 @@ const PersonalBody = ({
                 ) : (
                   <>{userInfo.username}</>
                 )} */}
-                <Avatar imageSrc={userInfo.profilePicture} label={userInfo.username} />
+                <Avatar
+                  imageSrc={userInfo.profilePicture}
+                  label={userInfo.username}
+                />
               </div>
               <button
                 className="ms-3 btn btn-light col-sm d-flex align-items-center text-muted text-center"

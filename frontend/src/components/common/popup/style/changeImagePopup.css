@@ -1,0 +1,66 @@
+@import url("../../../../styles/constants/constant.css");
+
+.change-img__popup {
+  width: 100vw;
+  height: 100vh;
+
+  background: var(--light-dark);
+
+  top: 0;
+  left: 0;
+  position: fixed;
+
+  z-index: 1;
+}
+
+.change-img__popup-container {
+  width: 40%;
+
+  overflow: hidden;
+  border-radius: var(--card-border-radius);
+
+  color: var(--white);
+
+  background: var(--bg-popup);
+}
+
+.change-img__popup-container .change-img__popup-title {
+  font-weight: bold;
+}
+
+.change-img__popup-container .change-img__popup-title span:hover {
+  opacity: 0.8;
+
+  cursor: pointer;
+}
+
+.change-img__popup-container .circle {
+  width: 30em;
+  height: 30em;
+
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.change-img__popup-container .change-img__popup-content {
+  object-fit: cover;
+}
+
+.change-img__popup-container .change-img__popup-footer button {
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+
+  min-width: 4em;
+  max-width: max-content;
+
+  color: var(--white);
+}
+
+.change-img__popup-container .change-img__popup-footer button:nth-child(2) {
+  background: var(--color-primary);
+}
+
+.change-img__popup-container .change-img__popup-footer button:hover {
+  opacity: 0.8;
+}

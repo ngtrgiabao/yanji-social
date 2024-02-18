@@ -12,6 +12,7 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ToastProvider } from "../../components/providers/toaster-provider";
 
 import "./styles/personal.css";
 
@@ -25,35 +26,36 @@ import {
   PersonalNavbarProfile,
 } from "./components";
 import _404 from "../_404/_404";
-import { ConfirmDialog, SocialMediaInput, PhotosUser } from "../../components";
+import { ConfirmDialog, PhotosUser } from "../../components";
+import { SocialMediaInput } from "../../components/common";
 
 import Global from "../../constants/global";
 import { useCurrentUser } from "../../hooks";
 
+const userInfoDefaultValues = {
+  _id: "",
+  username: "",
+  profilePicture: "",
+  coverPicture: "",
+  followers: [],
+  followings: [],
+  bio: "",
+  insta: "",
+  linkedin: "",
+  github: "",
+  pinterest: "",
+  youtube: "",
+  twitter: "",
+  twitch: "",
+  postShared: [],
+  blackList: [],
+  postSaved: [],
+  isVerify: false,
+};
+
 const Personal = ({ socket }) => {
   const { userID: userRoute } = useParams();
   const { photos: photosRoute } = useParams();
-
-  const userInfoDefaultValues = {
-    _id: "",
-    username: "",
-    profilePicture: "",
-    coverPicture: "",
-    followers: [],
-    followings: [],
-    bio: "",
-    insta: "",
-    linkedin: "",
-    github: "",
-    pinterest: "",
-    youtube: "",
-    twitter: "",
-    twitch: "",
-    postShared: [],
-    blackList: [],
-    postSaved: [],
-    isVerify: false,
-  };
 
   const [userInfo, setUserInfo] = useState(userInfoDefaultValues);
   const [isValid, setIsValid] = useState(true);
@@ -316,6 +318,7 @@ const Personal = ({ socket }) => {
 
       {renderUpdateBioPopup()}
       {renderUpdateIntroducePopup()}
+      <ToastProvider />
     </div>
   ) : (
     <_404 />
