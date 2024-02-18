@@ -21,7 +21,7 @@ export const uploadPost = async (post, dispatch) => {
     dispatch(uploadPostSuccess(res.data));
     return res.data;
   } catch (error) {
-    console.log("first");
+    console.log("[UPLOAD_POST]", error);
     dispatch(uploadPostFailed());
   }
 };

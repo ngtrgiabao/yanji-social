@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { UilCamera } from "@iconscout/react-unicons";
+import { Camera } from "lucide-react";
 
 import "../styles/personalHeader.css";
 
@@ -16,18 +16,6 @@ const PersonalHeader = ({ userInfo, socket }) => {
 
   const snackBar = useRef(null);
 
-  const handleUpdatePopup = () => {
-    if (snackBar.current) {
-      const sb = snackBar.current;
-      sb.className = "show";
-
-      setTimeout(() => {
-        sb.className = sb.className.replace("show", "");
-        window.location.reload();
-      }, 3000);
-    }
-  };
-
   return (
     <div className="cover position-relative">
       <span className="w-100 h-100">
@@ -38,21 +26,19 @@ const PersonalHeader = ({ userInfo, socket }) => {
               role="presentation"
               decoding="async"
               src={userInfo.coverPicture}
-              alt="Background cover"
+              alt="background"
             />
           ) : (
-            <span className="fs-4">Empty wallpaper</span>
+            <span className="fs-4">Don't have wallpaper</span>
           )}
         </div>
 
         {userInfo?._id === currentUser?._id && (
           <div
-            className="edit-cover d-flex align-items-center"
+            className="edit-cover d-flex align-items-center justify-content-center"
             onClick={handlePopup}
           >
-            <span className="me-3">
-              <UilCamera />
-            </span>
+            <Camera size={20} className="me-2" />
             Edit cover
           </div>
         )}
@@ -66,7 +52,6 @@ const PersonalHeader = ({ userInfo, socket }) => {
             onClose={() => setOpenPopup("")}
             message="Update cover successfully"
             socket={socket}
-            handleUpdatePopup={handleUpdatePopup}
           />
         )}
       </span>

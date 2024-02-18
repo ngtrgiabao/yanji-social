@@ -1,13 +1,7 @@
 import { useEffect, useState, useRef } from "react";
-import { UitEllipsisV } from "@iconscout/react-unicons-thinline";
-import {
-  faFileArrowDown,
-  faBookmark,
-  faUserCircle,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CSVLink } from "react-csv";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { MoreHorizontal, FileDown, UserRoundCog, Bookmark } from "lucide-react";
 
 import "../styles/personalNavbarProfile.css";
 
@@ -45,25 +39,7 @@ const PersonalNavbarProfile = () => {
 
   const [active, setActive] = useState("");
 
-  const boxSettingProfileItems = [
-    {
-      icon: faFileArrowDown,
-      title: "Export Data",
-      handleClick: handleExportData,
-    },
-    {
-      icon: faBookmark,
-      title: "Saved",
-      handleClick: handleVisitSavedPost,
-    },
-    {
-      icon: faUserCircle,
-      title: "Setting profile",
-      handleClick: () => setActive("SETTINGS"),
-    },
-  ];
-
-  const handleClostPopup = () => {
+  const handleClosePopup = () => {
     setActive("");
   };
   const renderSettingPopup = () => {
@@ -73,7 +49,7 @@ const PersonalNavbarProfile = () => {
         hidden={active !== "SETTINGS"}
         onClick={() => setActive("")}
       >
-        <Setting close={handleClostPopup} />
+        <Setting close={handleClosePopup} />
       </div>
     );
   };
@@ -99,28 +75,38 @@ const PersonalNavbarProfile = () => {
 
   const renderSettingProfile = () => {
     return (
-      <span
-        className="btn btn-dots text-light d-flex align-items-center py-1 px-3 me-2"
-        onClick={(e) => handleSettingPersonalPage(e)}
-      >
-        <UitEllipsisV className="dots" />
-        {checked && (
-          <div className="box-setting-profile rounded-3">
-            <div className="p-3">
-              {boxSettingProfileItems.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3"
-                  onClick={() => item.handleClick()}
-                >
-                  <FontAwesomeIcon className="fs-3" icon={item.icon} />
-                  <p className="ms-3 my-3 fs-4 fw-bold">{item.title}</p>
+      currentUser._id === userRoute && (
+        <span
+          className="btn btn-dots text-light d-flex align-items-center py-1 px-3 me-2"
+          onClick={(e) => handleSettingPersonalPage(e)}
+        >
+          <MoreHorizontal size={20} />
+          {checked && (
+            <div className="box-setting-profile rounded-3">
+              <div className="p-3">
+                <div className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3">
+                  <FileDown size={20} />
+                  <p className="ms-3 my-3 fs-4 fw-bold">Download your data</p>
                 </div>
-              ))}
+                <div
+                  onClick={handleVisitSavedPost}
+                  className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3"
+                >
+                  <Bookmark size={20} />
+                  <p className="ms-3 my-3 fs-4 fw-bold">Your bookmark</p>
+                </div>
+                <div
+                  className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3"
+                  onClick={() => setActive("SETTINGS")}
+                >
+                  <UserRoundCog size={20} />
+                  <p className="ms-3 my-3 fs-4 fw-bold">Profile Settings</p>
+                </div>
+              </div>
             </div>
-          </div>
-        )}
-      </span>
+          )}
+        </span>
+      )
     );
   };
 

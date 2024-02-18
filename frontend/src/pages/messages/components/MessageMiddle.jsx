@@ -1,14 +1,8 @@
 import io from "socket.io-client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState, useCallback, lazy } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  faVideo,
-  faPhone,
-  faCircleInfo,
-  faCircleCheck as seenIcon,
-} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { Info, Phone, Video } from "lucide-react";
 
 import "../styles/messageMiddle.css";
 
@@ -33,9 +27,7 @@ import { pushNewNotification } from "../../../redux/request/notificationRequest"
 import MessageFooter from "./MessageFooter";
 import SocketEvent from "../../../constants/socket-event";
 import Global from "../../../constants/global";
-
-const Avatar = lazy(() => import("../../../components/avatar/Avatar"));
-const Message = lazy(() => import("../../../components/message/Message"));
+import { Message, Avatar } from "../../../components";
 
 const friendDefaultValues = {
   name: "",
@@ -461,22 +453,22 @@ const MessageMiddle = ({ socket }) => {
             role="button"
             className="icon d-flex justify-content-center align-items-center rounded-circle"
           >
-            <FontAwesomeIcon icon={faPhone} />
+            <Phone size={20} />
           </Link>
           <Link
             to={`https://meet-with-us.netlify.app/`}
             aria-label="Gọi video"
             role="button"
-            className="icon d-flex justify-content-center align-items-center rounded-circle mx-4"
+            className="icon d-flex justify-content-center align-items-center rounded-circle mx-2"
           >
-            <FontAwesomeIcon icon={faVideo} />
+            <Video size={20} />
           </Link>
           <span
             aria-label="Xem thêm thông tin"
             role="button"
             className="icon d-flex justify-content-center align-items-center rounded-circle"
           >
-            <FontAwesomeIcon icon={faCircleInfo} />
+            <Info size={20} />
           </span>
         </div>
       </div>

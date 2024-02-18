@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { MoveLeft } from "lucide-react";
 
 import "../../styles/animations/snackbar.css";
 
@@ -74,8 +75,8 @@ const Bookmarks = ({ socket }) => {
         height: "100vh",
       }}
     >
-      <Link to="/" className="fs-3 link-underline">
-        Back to home
+      <Link to="/" className="fs-3 link-underline d-flex align-items-center">
+        <MoveLeft size={15} className="me-2" /> Back to home
       </Link>
       {bookmarks.length > 0 ? (
         <div
@@ -107,7 +108,7 @@ const Bookmarks = ({ socket }) => {
         }}
         className="fw-bold"
       >
-        Deleted post successfully
+        Post deleted successfully
       </div>
     </div>
   );
