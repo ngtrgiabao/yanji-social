@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { registerAdmin } from "../../../redux/actions/authAction";
+import { useNavigate } from "react-router-dom";
+import { registerAdmin } from "../../../redux/action/authAction";
 
 const RegisterAdmin = () => {
-  const { auth, alert } = useSelector((state) => state);
+  // const { auth, alert } = useSelector((state) => state);
+  const { current, alert } = useSelector((state) => state);
+
+
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useNavigate();
 
   const initialState = {
     fullname: "",
@@ -17,14 +20,14 @@ const RegisterAdmin = () => {
     gender: "male"
   };
   const [userData, setUserData] = useState(initialState);
-  const { fullname, username, email, password, cf_password } = userData;
+  const {fullname, username, email, password, cf_password } = userData;
 
   const [typePass, setTypePass] = useState(false);
   const [typeCfPass, setTypeCfPass] = useState(false);
 
-  useEffect(() => {
-    if (auth.token) history.push("/");
-  }, [auth.token, history]);
+  // useEffect(() => {
+  //   if (auth.token) history.push("/");
+  // }, [auth.token, history]);
 
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
@@ -44,7 +47,7 @@ const RegisterAdmin = () => {
         <h3 className="text-uppercase text-center mb-4 auth-heading">
           Campus Connect
         </h3>
-        <div className="mb-3">
+         <div className="mb-3">
           <label htmlFor="fullname" className="form-label">
             Full name
           </label>
@@ -56,11 +59,11 @@ const RegisterAdmin = () => {
               onChange={handleChangeInput}
               value={fullname}
               name="fullname"
-              style={{ background: `${alert.fullname ? "#fd2d6a14" : ""} ` }}
+              style={{ background: `${currentUser.username ? "#fd2d6a14" : ""} ` }}
             />
           </div>
           <small className="form-text text-danger">
-            {alert.fullname ? alert.fullname : ""}
+            {currentUser.username ? currentUser.username : ""}
           </small>
         </div>
 
@@ -76,11 +79,11 @@ const RegisterAdmin = () => {
               onChange={handleChangeInput}
               value={username.toLowerCase().replace(/ /g, "")}
               name="username"
-              style={{ background: `${alert.username ? "#fd2d6a14" : ""} ` }}
+              style={{ background: `${currentUser.username ? "#fd2d6a14" : ""} ` }}
             />
           </div>
           <small className="form-text text-danger">
-            {alert.username ? alert.username : ""}
+            {currentUser.username ? currentUser.username : ""}
           </small>
         </div>
 
@@ -97,11 +100,11 @@ const RegisterAdmin = () => {
               onChange={handleChangeInput}
               value={email}
               name="email"
-              style={{ background: `${alert.email ? "#fd2d6a14" : ""} ` }}
+              style={{ background: `${currentUser.email ? "#fd2d6a14" : ""} ` }}
             />
           </div>
           <small className="form-text text-danger">
-            {alert.email ? alert.email : ""}
+            {currentUser.email ? currentUser.email : ""}
           </small>
         </div>
 
@@ -118,7 +121,7 @@ const RegisterAdmin = () => {
                 onChange={handleChangeInput}
                 value={password}
                 name="password"
-                style={{ background: `${alert.password ? "#fd2d6a14" : ""} ` }}
+                style={{ background: `${currentUser.password ? "#fd2d6a14" : ""} ` }}
               />
               <small onClick={() => setTypePass(!typePass)}>
                 {typePass ? "Hide" : "Show"}
@@ -126,7 +129,7 @@ const RegisterAdmin = () => {
             </div>
           </div>
           <small className="form-text text-danger">
-            {alert.password ? alert.password : ""}
+            {currentUser.password ? currentUser.password : ""}
           </small>
         </div>
 
@@ -144,7 +147,7 @@ const RegisterAdmin = () => {
                 value={cf_password}
                 name="cf_password"
                 style={{
-                  background: `${alert.cf_password ? "#fd2d6a14" : ""} `,
+                  background: `${currentUser.password ? "#fd2d6a14" : ""} `,
                 }}
               />
               <small onClick={() => setTypeCfPass(!typeCfPass)}>
@@ -153,7 +156,7 @@ const RegisterAdmin = () => {
             </div>
           </div>
           <small className="form-text text-danger">
-            {alert.cf_password ? alert.cf_password : ""}
+            {currentUser.password ? currentUser.password : ""}
           </small>
         </div>
 

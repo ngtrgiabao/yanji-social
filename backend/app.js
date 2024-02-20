@@ -37,6 +37,8 @@ const userRoute = require("./src/app/routes/user.routes");
 const imgRoute = require("./src/app/routes/image.routes");
 const audioRoute = require("./src/app/routes/audio.routes");
 
+//add
+const adminRoute = require("./src/app/routes/admin.routes");
 const corsOptions = {
   origin: process.env.FRONTEND_URL,
   credentials: true,

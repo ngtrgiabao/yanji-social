@@ -25,6 +25,7 @@ const NotificationPage = lazy(
 );
 const BookmarkPage = lazy(() => import("./pages/bookmarks/Bookmarks"));
 const PostPreview = lazy(() => import("./pages/postPreview/PostPreview"));
+const Admin = lazy(() => import("./components/admin/adminManagement/AdminManagement"));
 
 const RegisterPage = lazy(() => import("./pages/form/RegisterPage"));
 const LoginPage = lazy(() => import("./pages/form/LoginPage"));
@@ -96,6 +97,14 @@ function App() {
                 element={
                   <Suspense fallback={<LoadingPage />}>
                     <_404 />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/admin"
+                element={
+                  <Suspense fallback={<LoadingPage />}>
+                    <Admin/>
                   </Suspense>
                 }
               />

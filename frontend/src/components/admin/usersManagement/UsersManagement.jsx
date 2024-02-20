@@ -1,9 +1,11 @@
 import React from "react";
-import "../main/Main.css";
+import "../main/main.css";
 import { useSelector } from "react-redux";
 
 const UsersManagement = () => {
-  const { auth } = useSelector((state) => state);
+  const currentUser = useSelector((state) => {
+    return state.auth.login.currentUser?.data;
+  });
   return (
     <div className="main_admin">
       <div className="main__container">

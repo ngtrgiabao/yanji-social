@@ -1,6 +1,5 @@
-import React from 'react'
-//import Avatar from '../Avatar';
-import { deleteSpamPost } from '../../redux/actions/adminAction'
+import React from 'react';
+import { deleteSpamPost } from '../../redux/action/adminAction';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -48,4 +47,4 @@ const ContentList = ({ content }) => {
   );
 }
 
-export default ContentList
+export default ContentList;

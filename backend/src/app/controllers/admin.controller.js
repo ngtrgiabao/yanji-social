@@ -1,30 +1,29 @@
 const Posts = require("../models/post.model");
 const Users = require("../models/user.model");
-const { post } = require("../routes/adminRoutes");
 
-
-const adminCtrl = {
-  //Xem danh sách người dùng
-  getUsersList: async (req, res) => {
+class AdminController {
+  // View user list
+  static async getUsersList(req, res) {
     try {
       const users = await Users.find();
       res.json({ users });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
-  }, 
+  }
 
-  //Xem danh sách bài viết
-  getPostsList: async (req, res) => {
+  // See article list
+  static async getPostsList(req, res) {
     try {
       const posts = await Posts.find();
       res.json({ posts });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
-  },
-  //Tính tổng người dùng
-  getTotalUsers: async (req, res) => {
+  }
+
+  // Calculate the total number of users
+  static async getTotalUsers(req, res) {
     try {
       const users = await Users.find();
       const total_users = users.length;
@@ -32,9 +31,10 @@ const adminCtrl = {
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
-  },
-  //Tính tổng bài viết
-  getTotalPosts: async (req, res) => {
+  }
+
+  // Calculate total number of posts
+  static async getTotalPosts(req, res) {
     try {
       const posts = await Posts.find();
       const total_posts = posts.length;
@@ -42,43 +42,45 @@ const adminCtrl = {
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
-  },
-  //Xóa người dùng
-  deleteUser: async (req, res) => {
+  }
+
+  // Delete users
+  static async deleteUser(req, res) {
     try {
       const userId = req.params.userId;
-      // Kiểm tra người dùng có tồn tại không
+      // Check if the user exists
       const user = await Users.findById(userId);
       if (!user) {
-        return res.status(404).json({ msg: 'Người dùng không tồn tại' });
+        return res.status(404).json({ msg: 'User does not exist' });
       }
 
-      // Xóa người dùng
+      // Delete user
       await Users.findByIdAndDelete(userId);
 
-      res.json({ msg: 'Người dùng đã được xóa thành công' });
+      res.json({ msg: 'The user has been successfully deleted' });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
-    },
+  }
 
-  //Xóa bài viết
-  deletePost: async (req, res) => {
+  // Delete posts
+  static async deletePost(req, res) {
     try {
       const postId = req.params.postId;
-      // Kiểm tra bài viết có tồn tại không
+      // Check if the post exists
       const post = await Posts.findById(postId);
       if (!post) {
-        return res.status(404).json({ msg: 'Bài viết không tồn tại' });
+        return res.status(404).json({ msg: 'The article does not exist' });
       }
 
-      // Xóa bài viết
+      // Delete post
       await Posts.findByIdAndDelete(postId);
 
-      res.json({ msg: 'Bài viết đã được xóa thành công' });
+      res.json({ msg: 'The post has been successfully deleted' });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
-      }
-    },
-};
-module.exports = adminCtrl;
+    }
+  }
+}
+
+module.exports = AdminController;

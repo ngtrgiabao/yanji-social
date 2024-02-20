@@ -1,0 +1,67 @@
+/* Main.css */
+
+.main_admin {
+  padding: 20px;
+}
+
+.main__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main__title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.main__title h1 {
+  font-size: 2em;
+  color: #333;
+}
+
+.main__title p {
+  font-size: 1.2em;
+  color: #666;
+}
+
+.main__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card_admin {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.card_admin:hover {
+  transform: scale(1.05);
+}
+
+.card_admin i {
+  font-size: 2em;
+  color: #3498db;
+  margin-bottom: 15px;
+}
+
+.card_inner_admin {
+  text-align: center;
+}
+
+.text-primary-p {
+  font-size: 1.2em;
+  color: #888;
+}
+
+.text-title {
+  font-size: 1.5em;
+  color: #333;
+  margin-top: 5px;
+}
+
+/* Add more styles as needed */

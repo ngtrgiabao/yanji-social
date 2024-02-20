@@ -586,15 +586,6 @@ const MessageMiddle = ({ socket }) => {
         {renderConversation()}
         {renderPopupConfirmUploadImg()}
         {renderPreviewPopupImage()}
-        {/* <MagicBell
-                apiKey="84b8e554127e05465dcec54678d0f49859b4a548"
-                userEmail="mary@example.com"
-            >
-                {(props) => (
-                    <FloatingNotificationInbox height={500} {...props} />
-                )}
-            </MagicBell> 
-        */}
       </div>
     </>
   );

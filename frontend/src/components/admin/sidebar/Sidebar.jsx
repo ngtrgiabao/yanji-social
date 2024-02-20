@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useDispatch } from "react-redux";
-import { logout } from "../../../redux/actions/authAction";
+import { logout } from "../../../redux/action/authAction";
 import "./Sidebar.css";
 import React, { useState } from "react";
 import Main from "../main/Main";
 import AdminManagement from "../adminManagement/AdminManagement";
-import Spam from "../spamManagement/Spam";
 import UsersManagement from "../usersManagement/UsersManagement";
 
 
@@ -18,8 +17,7 @@ const Sidebar = () => {
     <>
       {adminMenu === 1 && <Main />}
       {adminMenu === 2 && <AdminManagement />}
-      {adminMenu === 3 && <Spam />}
-      {adminMenu === 4 && <UsersManagement />}
+      {adminMenu === 3 && <UsersManagement />}
 
       <div className="sidebar_responsive" id="sidebar">
         <div className="sidebar__title">
