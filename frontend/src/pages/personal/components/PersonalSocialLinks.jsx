@@ -27,10 +27,10 @@ const PersonalSocialLinks = () => {
   const renderSocialLinks = () =>
     socialLinks.map((item, index) => (
       <SocialLink
-        key={item.id}
-        id={item.id}
-        title={item.title}
-        link={item.link}
+        key={item?.id}
+        id={item?.id}
+        title={item?.title}
+        link={item?.link}
         isLast={index === socialLinks.length - 1}
       />
     ));

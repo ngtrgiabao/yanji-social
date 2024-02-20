@@ -9,7 +9,7 @@ const commonConfig = {
 };
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_SOCKET_URL,
+  baseURL: `${process.env.REACT_APP_SOCKET_URL}/api/v1`,
   ...commonConfig,
 });
 
