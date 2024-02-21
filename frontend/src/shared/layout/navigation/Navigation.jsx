@@ -12,7 +12,7 @@ import { LOGO_YANJI_SOCIAL } from "../../../assets";
 import { logout } from "../../../redux/request/authRequest";
 import { Avatar, NavBtn } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
-import Global from "../../../constants/global";
+import Global from "../../../helpers/constants/global";
 import { useCurrentUser } from "../../../hooks";
 
 const Navigation = ({ title, link, isSearch = true }) => {

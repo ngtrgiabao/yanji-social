@@ -10,8 +10,8 @@ import {
   markSeenNotification,
 } from "../../redux/request/notificationRequest";
 import { NotificationCard } from "../../components";
-import SocketEvent from "../../constants/socket-event";
-import Global from "../../constants/global";
+import SocketEvent from "../../helpers/constants/socket-event";
+import Global from "../../helpers/constants/global";
 import { useCurrentUser } from "../../hooks";
 
 const Notification = ({ socket }) => {
@@ -63,9 +63,8 @@ const Notification = ({ socket }) => {
       if (data.data.length > 0) {
         const res = await axios.get(
           Global.SOCKET_URL +
-            `/api/v1/notification/all/user/${currentUser._id}/?limit=5&skip=${
-              page * 5
-            }`,
+          `/api/v1/notification/all/user/${currentUser._id}/?limit=5&skip=${page * 5
+          }`,
         );
 
         const { data } = res.data;

@@ -8,8 +8,8 @@ import "../../styles/animations/snackbar.css";
 import { getPostsSaved } from "../../redux/request/userRequest";
 import { Bookmark } from "../../components";
 import { io } from "socket.io-client";
-import SocketEvent from "../../constants/socket-event";
-import Global from "../../constants/global";
+import SocketEvent from "../../helpers/constants/socket-event";
+import Global from "../../helpers/constants/global";
 import { useCurrentUser } from "../../hooks";
 
 const Bookmarks = ({ socket }) => {

@@ -7,14 +7,14 @@ import { io } from "socket.io-client";
 import { useDispatch } from "react-redux";
 
 import { getAllNotificationsByUser } from "../../redux/request/notificationRequest";
-import SocketEvent from "../../constants/socket-event";
+import SocketEvent from "../../helpers/constants/socket-event";
 import { useCurrentUser } from "../../hooks";
 
 const Navigation = lazy(
   () => import("../../shared/layout/navigation/Navigation"),
 );
 
-import Global from "../../constants/global";
+import Global from "../../helpers/constants/global";
 import { ToastProvider } from "../../components/providers/toaster-provider";
 
 const Home = ({ socket }) => {

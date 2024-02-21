@@ -92,28 +92,38 @@ class UserController {
   getAllUsersByUsername = async (req, res, next) => {
     try {
       const { username } = req.query;
-      // Split the username into an array of words
-      const words = username.split(/\s+/).filter((word) => word.trim() !== "");
+      
+      if(username) {
+        // Split the username into an array of words
+        const words = username.split(/\s+/).filter((word) => word.trim() !== "");
 
-      // Create an array of regular expressions to match each word
-      const regexQueries = words.map((word) => new RegExp(word, "i"));
+        // Create an array of regular expressions to match each word
+        const regexQueries = words.map((word) => new RegExp(word, "i"));
 
-      // Use the $or operator to match any of the regular expressions
-      const users = await UserModel.find({
-        $or: [
-          { username: { $in: words } }, // Match exact words
-          { username: { $in: regexQueries } }, // Match partial words using regular expressions
-        ],
-      });
+        // Use the $or operator to match any of the regular expressions
+        const users = await UserModel.find({
+          $or: [
+            { username: { $in: words } }, // Match exact words
+            { username: { $in: regexQueries } }, // Match partial words using regular expressions
+          ],
+        });
 
+        return res.status(200).json({
+          msg: "Get all users successfully",
+          users,
+        });
+      }
+
+      const users = await UserModel.find({});
       return res.status(200).json({
         msg: "Get all users successfully",
         users,
       });
     } catch (error) {
-      console.error("Failed to get all users");
+      console.error("[GET_ALL_USERS_BY_USERNAME]", error);
       return res.status(500).json({
-        msg: "Failed to get all users",
+        msg: "[GET_ALL_USERS_BY_USERNAME]",
+        error,
       });
     }
   };

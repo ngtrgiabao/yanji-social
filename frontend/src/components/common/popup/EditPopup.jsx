@@ -7,7 +7,7 @@ import { X, Image, Laugh } from "lucide-react";
 import { PreviewImage } from "../../ui";
 import { updatePost } from "../../../redux/request/postRequest";
 import { useUploadImage } from "../../../hooks";
-import Global from "../../../constants/global";
+import Global from "../../../helpers/constants/global";
 
 const EditPopup = ({
   onPopup,

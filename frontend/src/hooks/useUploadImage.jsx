@@ -1,5 +1,5 @@
 import axios from "axios";
-import Global from "../constants/global";
+import Global from "../helpers/constants/global";
 
 const useUploadImage = async (fileSeleted, isVideo = false) => {
   try {
@@ -11,8 +11,7 @@ const useUploadImage = async (fileSeleted, isVideo = false) => {
 
     if (fileSeleted) {
       const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/${Global.CLOUD_STORAGE_NAME}/${
-          isVideo ? "video" : "image"
+        `https://api.cloudinary.com/v1_1/${Global.CLOUD_STORAGE_NAME}/${isVideo ? "video" : "image"
         }/upload/`,
         data,
       );

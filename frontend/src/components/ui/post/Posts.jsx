@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 
 import "./style/post.css";
 
-import SocketEvent from "../../../constants/socket-event";
+import SocketEvent from "../../../helpers/constants/socket-event";
 import { getPostByID } from "../../../redux/request/postRequest";
-import Global from "../../../constants/global";
+import Global from "../../../helpers/constants/global";
 import { useCurrentUser } from "../../../hooks";
 
 const Post = lazy(() => import("./Post"));
@@ -147,21 +147,21 @@ const Posts = ({ socket }) => {
     <div className="posts">
       {currentUser
         ? posts.map((post) => (
-            <Post
-              key={post._id}
-              postID={post._id}
-              image={post.img}
-              video={post.video}
-              userID={post.userID}
-              desc={post.desc}
-              likes={post.likes}
-              shares={post.shares}
-              comments={post.comments}
-              socket={socket}
-              createdAt={post.createdAt}
-              updatedAt={post.updatedAt}
-            />
-          ))
+          <Post
+            key={post._id}
+            postID={post._id}
+            image={post.img}
+            video={post.video}
+            userID={post.userID}
+            desc={post.desc}
+            likes={post.likes}
+            shares={post.shares}
+            comments={post.comments}
+            socket={socket}
+            createdAt={post.createdAt}
+            updatedAt={post.updatedAt}
+          />
+        ))
         : requiredBanner}
 
       {currentUser && hasMore && (

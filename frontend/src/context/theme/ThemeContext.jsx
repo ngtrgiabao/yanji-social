@@ -1,10 +1,10 @@
 import { createContext, useEffect, useMemo, useState } from "react";
-import { TextColorMap, ThemeMap, FontSizeMap } from "../../constants/theme";
+import { TextColorMap, ThemeMap, FontSizeMap } from "../../helpers/constants/theme";
 
 const ThemeContext = createContext({
-  setBgColors: () => {},
-  setTextColors: () => {},
-  setFontSizes: () => {},
+  setBgColors: () => { },
+  setTextColors: () => { },
+  setFontSizes: () => { },
 });
 
 const ThemeProvider = ({ children }) => {

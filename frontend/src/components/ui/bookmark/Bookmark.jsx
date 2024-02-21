@@ -14,7 +14,7 @@ import {
 } from "../../../redux/request/userRequest";
 import { BG_DEFAULT_WALLPAPER_USER } from "../../../assets";
 import Avatar from "../avatar/Avatar";
-import Global from "../../../constants/global";
+import Global from "../../../helpers/constants/global";
 
 const Bookmark = ({
   postID,

@@ -10,11 +10,13 @@ import {
   Palette,
   Bolt,
   CheckCircle2,
+  LayoutDashboard
 } from "lucide-react";
 
 import "../styles/homeLeft.css";
 
 import { getUserByID } from "../../../redux/request/userRequest";
+import Global from "../../../helpers/constants/global";
 
 import { LOGO_YANJI_SOCIAL } from "../../../assets";
 
@@ -203,6 +205,18 @@ const HomeLeft = ({ socket, isReadNotification }) => {
               setActive={setActive}
             />
           )}
+          {
+            currentUser._id === Global.ADMIN_ID && (
+              <Button
+                path="/admin"
+                label="Admin Dashboard"
+                icon={<LayoutDashboard className="sidebar-icon" size={20} />}
+                name={"ADMIN"}
+                active={active}
+                setActive={setActive}
+              />
+            )
+          }
         </div>
         {/* END OF SIDEBAR */}
 

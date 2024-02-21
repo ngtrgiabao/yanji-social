@@ -10,8 +10,8 @@ import {
 } from "../../../redux/request/roomRequest";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { LoadingPage } from "../..";
-import SocketEvent from "../../../constants/socket-event";
-import Global from "../../../constants/global";
+import SocketEvent from "../../../helpers/constants/socket-event";
+import Global from "../../../helpers/constants/global";
 import { useCurrentUser } from "../../../hooks";
 import { Conversation } from "../../../components";
 
