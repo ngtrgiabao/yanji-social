@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
+import { Container, Row } from "react-bootstrap";
 
 import Global from '../../helpers/constants/global';
 import { useCurrentUser } from '../../hooks';

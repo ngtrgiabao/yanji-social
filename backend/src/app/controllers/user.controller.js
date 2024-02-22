@@ -91,9 +91,24 @@ class UserController {
 
   getAllUsersByUsername = async (req, res, next) => {
     try {
-      const { username } = req.query;
-      
-      if(username) {
+      const { username, limit, skip } = req.query;
+
+      if (limit || skip) {
+        const users =
+          limit || skip
+            ? await UserModel.find({})
+              .sort({ createdAt: -1 })
+              .limit(limit)
+              .skip(skip)
+            : await UserModel.find({}).sort({ createdAt: -1 });
+
+        return res.status(200).json({
+          msg: "Get all users successfully",
+          users,
+        });
+      }
+
+      if (username) {
         // Split the username into an array of words
         const words = username.split(/\s+/).filter((word) => word.trim() !== "");
 

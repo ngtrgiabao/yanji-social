@@ -51,16 +51,6 @@ const UpsertModal = ({ onHide, show, className, userId }) => {
           />
         </Form.Group>
         <Form.Group className="mb-3 fs-4" controlId="exampleForm.ControlInput1">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            className='fs-4'
-            type="text"
-            placeholder="e.g johndoe"
-            autoFocus
-            value={user.password}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3 fs-4" controlId="exampleForm.ControlInput1">
           <Form.Label>Verify status</Form.Label>
           <Select
             value={user.isVerify}
