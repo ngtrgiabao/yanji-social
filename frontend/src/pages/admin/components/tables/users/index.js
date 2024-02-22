@@ -18,19 +18,18 @@ import {
   StepForward,
   StepBack,
 } from "lucide-react"
+import { useDispatch } from "react-redux"
+import toast from "react-hot-toast"
 
 import Global from '../../../../../helpers/constants/global';
 import { formatTime } from '../../../../../helpers/common';
 import UpsertModal from './upsert';
 import LoadingPage from '../../../../loading/LoadingPage';
-
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
+import { updateUser } from '../../../../../redux/request/userRequest';
+import { ToastProvider } from '../../../../../components/providers/toaster-provider';
 
 const UsersTable = () => {
+  const dispatch = useDispatch();
   const [users, setUsers] = useState([])
   const [userId, setUserId] = useState("")
   const [open, setOpen] = useState(false);
@@ -58,8 +57,15 @@ const UsersTable = () => {
   function onUpsert(userId) {
     setOpen(true)
     setUserId(userId)
+  }
 
-    // console.log(user)
+  function onUpsertSubmit(data) {
+    updateUser(data, dispatch).then((res) => {
+      toast.success("Updated successfully");
+    }).catch((error) => {
+      toast.error("Something went wrong");
+      console.error("Internal Error", error);
+    })
   }
 
   useEffect(() => {
@@ -176,6 +182,7 @@ const UsersTable = () => {
                   <UpsertModal
                     show={open}
                     userId={userId}
+                    onUpsertSubmit={onUpsertSubmit}
                     onHide={() => setOpen(false)}
                     className="text-black"
                   />
@@ -187,6 +194,8 @@ const UsersTable = () => {
           isEmpty ? <div>No users found</div> : <LoadingPage />
         )
       }
+
+      <ToastProvider />
     </>
   )
 }

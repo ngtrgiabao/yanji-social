@@ -207,8 +207,8 @@ class UserController {
       user.coverPicture = coverPicture || user.coverPicture;
       user.firstName = firstName || user.firstName;
       user.lastName = lastName || user.lastName;
-      user.isVerify = isVerify || user.isVerify;
-      user.isVerifyEmail = isVerifyEmail || user.isVerifyEmail;
+      user.isVerify = isVerify || false;
+      user.isVerifyEmail = isVerifyEmail || false;
 
       if (
         insta ||

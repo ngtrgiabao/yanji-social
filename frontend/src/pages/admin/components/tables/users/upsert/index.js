@@ -12,9 +12,11 @@ const options = [
   { value: false, label: 'No' },
 ];
 
-const UpsertModal = ({ onHide, show, className, userId }) => {
+const UpsertModal = ({ onHide, show, className, userId, onUpsertSubmit }) => {
   const dispatch = useDispatch();
   const [user, setUser] = useState({});
+  const [selectedIsVerify, setSelectedIsVerify] = useState({})
+  const [selectedIsVerifyEmail, setSelectedIsVerifyEmail] = useState({})
 
   function fetchUser() {
     getUserByID(userId, dispatch).then((data) => {
@@ -22,9 +24,27 @@ const UpsertModal = ({ onHide, show, className, userId }) => {
     });
   }
 
+  function handleSelectedIsVerify(selectedIsVerify) {
+    setSelectedIsVerify({ value: selectedIsVerify.value, label: selectedIsVerify.label });
+  }
+
+  function handleSelectedIsVerifyEmail(selectedIsVerifyEmail) {
+    setSelectedIsVerifyEmail({ value: selectedIsVerifyEmail.value, label: selectedIsVerifyEmail.label });
+  }
+
+  function handleSubmit() {
+    onUpsertSubmit({ userID: userId, isVerify: selectedIsVerify.value, isVerifyEmail: selectedIsVerifyEmail.value, username: user.username });
+    onHide();
+  }
+
   useEffect(() => {
     fetchUser()
   }, [userId])
+
+  useEffect(() => {
+    setSelectedIsVerify({ value: user.isVerify, label: user.isVerify ? 'Yes' : 'No' });
+    setSelectedIsVerifyEmail({ value: user.isVerifyEmail, label: user.isVerifyEmail ? 'Yes' : 'No' });
+  }, [user]);
 
   return (
     <Modal
@@ -48,27 +68,29 @@ const UpsertModal = ({ onHide, show, className, userId }) => {
             placeholder="e.g johndoe"
             autoFocus
             value={user.username}
+            required
+            onChange={e => setUser({ ...user, username: e.target.value })}
           />
         </Form.Group>
         <Form.Group className="mb-3 fs-4" controlId="exampleForm.ControlInput1">
           <Form.Label>Verify status</Form.Label>
           <Select
-            value={user.isVerify}
-            // onChange={this.handleChange}
+            value={selectedIsVerify}
+            onChange={handleSelectedIsVerify}
             options={options}
           />
         </Form.Group>
         <Form.Group className="mb-3 fs-4" controlId="exampleForm.ControlInput1">
           <Form.Label>Verify email status</Form.Label>
           <Select
-            value={user.isVerify}
-            // onChange={this.handleChange}
+            value={selectedIsVerifyEmail}
+            onChange={handleSelectedIsVerifyEmail}
             options={options}
           />
         </Form.Group>
       </Modal.Body>
       <Modal.Footer>
-        <Button className='fs-5 rounded rounded-2' onClick={onHide}>Save</Button>
+        <Button className='fs-5 rounded rounded-2' onClick={handleSubmit}>Save</Button>
         <Button className='fs-5 rounded rounded-2' onClick={onHide} variant='outline'>Close</Button>
       </Modal.Footer>
     </Modal>
