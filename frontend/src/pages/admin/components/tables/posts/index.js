@@ -3,7 +3,6 @@ import axios from "axios";
 import {
   Table,
   Button,
-  Badge,
   Pagination,
   Fade,
   Container,
@@ -17,57 +16,64 @@ import {
   Trash,
   StepForward,
   StepBack,
+  ExternalLink,
+  CircleSlash2
 } from "lucide-react"
+import { useDispatch } from "react-redux"
+import toast from "react-hot-toast"
 
 import Global from '../../../../../helpers/constants/global';
 import { formatTime } from '../../../../../helpers/common';
 import UpsertModal from './upsert';
 import LoadingPage from '../../../../loading/LoadingPage';
-
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
+import { updateUser } from '../../../../../redux/request/userRequest';
+import { ToastProvider } from '../../../../../components/providers/toaster-provider';
 
 const PostsTable = () => {
-  const [users, setUsers] = useState([])
-  const [userId, setUserId] = useState("")
+  const dispatch = useDispatch();
+  const [posts, setPosts] = useState([])
+  const [postId, setPostId] = useState("")
   const [open, setOpen] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
   const [page, setPage] = useState(0);
   const [filter, setFilter] = useState("");
 
-  async function fetchUsers(filter) {
-    const url = filter
-      ? `${Global.SOCKET_URL}/api/v1/user/all-users/?username=${filter.toLowerCase()}`
-      : `${Global.SOCKET_URL}/api/v1/user/all-users?limit=14&skip=${page * 14}`;
+  async function fetchPosts(filter) {
+    const url = `${Global.SOCKET_URL}/api/v1/post/all-posts?limit=14&skip=${page * 14}`;
 
-    const data = await axios.get(url);
-    const userList = data.data?.users;
+    const res = await axios.get(url);
+    const postsList = res?.data.posts;
 
-    if (userList.length > 0) {
-      setUsers(userList);
+    if (postsList.length > 0) {
+      setPosts(postsList);
       setIsEmpty(false);
     } else {
-      setUsers([]);
+      setPosts([]);
       setIsEmpty(true);
     }
   }
 
-  function onUpsert(userId) {
+  function onUpsert(postId) {
     setOpen(true)
-    setUserId(userId)
+    setPostId(postId)
+  }
 
-    // console.log(user)
+  function onUpsertSubmit(data) {
+    updateUser(data, dispatch).then((res) => {
+      toast.success("Updated successfully");
+      fetchPosts(filter);
+    }).catch((error) => {
+      toast.error("Something went wrong");
+      console.error("Internal Error", error);
+    })
   }
 
   useEffect(() => {
-    fetchUsers(filter)
+    fetchPosts(filter)
   }, [page, filter])
 
   return (
-    <>
+    <div className='px-3'>
       <Container className="mt-4 mb-3">
         <Row>
           <Col>
@@ -85,7 +91,7 @@ const PostsTable = () => {
       </Container>
 
       {
-        users.length > 0 ? (
+        posts.length > 0 ? (
           <>
             <Table
               bordered
@@ -97,12 +103,13 @@ const PostsTable = () => {
               <thead>
                 <tr className='fs-4'>
                   <th>ID</th>
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>Followers</th>
-                  <th>Followings</th>
-                  <th>Verify</th>
-                  <th>Verify Email</th>
+                  <th>Author</th>
+                  <th>Content</th>
+                  <th>Image URL</th>
+                  <th>Video URL</th>
+                  <th>Likes</th>
+                  <th>Comments</th>
+                  <th>Shares</th>
                   <th>Created At</th>
                   <th>Updated At</th>
                   <th></th>
@@ -110,43 +117,65 @@ const PostsTable = () => {
               </thead>
               <tbody>
                 {
-                  users.map((user, idx) => (
-                    <tr key={user._id} className='fs-5'>
-                      <td>{user._id}</td>
-                      <td>
-                        <Link to={`/user/${user._id}`} className='text-primary'>
-                          {user.username}
+                  posts.map((post, idx) => (
+                    <tr key={post._id} className='fs-5' style={{
+                      background: `${idx % 2 === 0 ? "" : "var(--color-bg-hover)"}`
+                    }}>
+                      <td className='text-truncate' style={{ maxWidth: 150 }}>
+                        <Link to={`/post/${post._id}`} className='text-primary d-flex align-items-center'>
+                          View post <ExternalLink size={10} className='ms-2' />
                         </Link>
                       </td>
-                      <td>{user.email}</td>
-                      <td>{user.followers.length}</td>
-                      <td>{user.followings.length}</td>
-                      <td>
-                        {user.isVerify ?
-                          <Badge pill bg="success">
-                            verified
-                          </Badge>
-                          :
-                          <Badge pill bg="danger">
-                            Not verified
-                          </Badge>
+                      <td className='text-truncate' style={{ maxWidth: 150 }}>
+                        <Link to={`/user/${post.userID}`} className='text-primary d-flex align-items-center'>
+                          View author <ExternalLink size={10} className='ms-2' />
+                        </Link>
+                      </td>
+                      <td className={`text-truncate ${!post.desc && "text-muted"}`} style={{ maxWidth: 150, cursor: `${!post.desc && "not-allowed"}` }}>
+                        {post.desc ||
+                          <span className='text-muted d-flex align-items-center' style={{ cursor: "not-allowed" }}>
+                            <CircleSlash2 size={10} className='me-2' /> No content
+                          </span>
                         }
                       </td>
-                      <td>{user.isVerifyEmail ?
-                        <Badge pill bg="success">
-                          verified
-                        </Badge>
-                        :
-                        <Badge pill bg="danger">
-                          Not verified
-                        </Badge>
-                      }</td>
-                      <td>{formatTime(user.createdAt)}</td>
-                      <td>{formatTime(user.updatedAt)}</td>
+                      <td className='text-truncate' style={{ maxWidth: 150 }}>
+                        {
+                          post.img ? (
+                            <a href={`${post.img}`} className='text-primary d-flex align-items-center'>
+                              View image <ExternalLink size={10} className='ms-2' />
+                            </a>
+                          ) : (
+                            <span className='text-muted d-flex align-items-center' style={{ cursor: "not-allowed" }}>
+                              <CircleSlash2 size={10} className='me-2' /> No image
+                            </span>
+                          )
+                        }
+                      </td>
+                      <td className='text-truncate' style={{ maxWidth: 150 }}>
+                        {
+                          post.video ? (
+                            <a href={`${post.video}`} className='text-primary d-flex align-items-center'>
+                              View video <ExternalLink size={10} className='ms-2' />
+                            </a>
+                          ) : (
+                            <span className='text-muted d-flex align-items-center' style={{ cursor: "not-allowed" }}>
+                              <CircleSlash2 size={10} className='me-2' /> No video
+                            </span>
+                          )
+                        }
+                      </td>
+                      <td>{post.likes.length}</td>
+                      <td>{post.comments.length}</td>
+                      <td>{post.shares.length}</td>
+                      <td className='text-truncate' style={{ maxWidth: 150 }}>
+                        {formatTime(post.createdAt)}</td>
+                      <td className='text-truncate' style={{ maxWidth: 150 }}>
+                        {formatTime(post.updatedAt)}
+                      </td>
                       <td className='d-flex justify-content-center align-items-center'>
                         <Button
                           variant="outline-primary"
-                          onClick={() => onUpsert(user._id)}
+                          onClick={() => onUpsert(post._id)}
                           className='rounded rounded-2 me-3 d-flex align-items-center'
                         >
                           <PenLine size={16} className='me-2' />
@@ -164,30 +193,33 @@ const PostsTable = () => {
                   <Pagination.Item onClick={() => setPage((prevPage) => prevPage - 1)} disabled={page === 0}>
                     <StepBack size={15} />
                   </Pagination.Item>
-                  <Pagination.Item onClick={() => setPage((prevPage) => prevPage + 1)} disabled={isEmpty || users.length < 14}>
+                  <Pagination.Item onClick={() => setPage((prevPage) => prevPage + 1)} disabled={isEmpty || posts.length < 14}>
                     <StepForward size={15} />
                   </Pagination.Item>
                 </Pagination>
               </tbody>
 
-              {
-                userId &&
+              {/* {
+                postId &&
                 <Fade in={open}>
                   <UpsertModal
                     show={open}
-                    userId={userId}
+                    postId={postId}
+                    onUpsertSubmit={onUpsertSubmit}
                     onHide={() => setOpen(false)}
                     className="text-black"
                   />
                 </Fade>
-              }
+              } */}
             </Table >
           </>
         ) : (
-          isEmpty ? <div>No users found</div> : <LoadingPage />
+          isEmpty ? <div>No posts found</div> : <LoadingPage />
         )
       }
-    </>
+
+      <ToastProvider />
+    </div>
   )
 }
 

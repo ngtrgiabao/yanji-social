@@ -62,6 +62,7 @@ const UsersTable = () => {
   function onUpsertSubmit(data) {
     updateUser(data, dispatch).then((res) => {
       toast.success("Updated successfully");
+      fetchUsers(filter);
     }).catch((error) => {
       toast.error("Something went wrong");
       console.error("Internal Error", error);
@@ -73,7 +74,7 @@ const UsersTable = () => {
   }, [page, filter])
 
   return (
-    <>
+    <div className='px-3'>
       <Container className="mt-4 mb-3">
         <Row>
           <Col>
@@ -117,7 +118,9 @@ const UsersTable = () => {
               <tbody>
                 {
                   users.map((user, idx) => (
-                    <tr key={user._id} className='fs-5'>
+                    <tr key={user._id} className='fs-5' style={{
+                      background: `${idx % 2 === 0 ? "" : "var(--color-bg-hover)"}`
+                    }}>
                       <td>{user._id}</td>
                       <td>
                         <Link to={`/user/${user._id}`} className='text-primary'>
@@ -196,7 +199,7 @@ const UsersTable = () => {
       }
 
       <ToastProvider />
-    </>
+    </div>
   )
 }
 
