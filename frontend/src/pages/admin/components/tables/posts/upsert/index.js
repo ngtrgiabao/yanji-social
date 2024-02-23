@@ -1,59 +1,70 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import Select from 'react-select';
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import Select from "react-select";
 
 import { getUserByID } from "../../../../../../redux/request/userRequest";
 
 const options = [
-  { value: true, label: 'Yes' },
-  { value: false, label: 'No' },
+  { value: true, label: "Yes" },
+  { value: false, label: "No" },
 ];
 
 const UpsertModal = ({ onHide, show, className, userId, onUpsertSubmit }) => {
   const dispatch = useDispatch();
   const [user, setUser] = useState({});
-  const [selectedIsVerify, setSelectedIsVerify] = useState({})
-  const [selectedIsVerifyEmail, setSelectedIsVerifyEmail] = useState({})
+  const [selectedIsVerify, setSelectedIsVerify] = useState({});
+  const [selectedIsVerifyEmail, setSelectedIsVerifyEmail] = useState({});
 
   function fetchUser() {
     getUserByID(userId, dispatch).then((data) => {
-      setUser(data.user)
+      setUser(data.user);
     });
   }
 
   function handleSelectedIsVerify(selectedIsVerify) {
-    setSelectedIsVerify({ value: selectedIsVerify.value, label: selectedIsVerify.label });
+    setSelectedIsVerify({
+      value: selectedIsVerify.value,
+      label: selectedIsVerify.label,
+    });
   }
 
   function handleSelectedIsVerifyEmail(selectedIsVerifyEmail) {
-    setSelectedIsVerifyEmail({ value: selectedIsVerifyEmail.value, label: selectedIsVerifyEmail.label });
+    setSelectedIsVerifyEmail({
+      value: selectedIsVerifyEmail.value,
+      label: selectedIsVerifyEmail.label,
+    });
   }
 
   function handleSubmit() {
-    onUpsertSubmit({ userID: userId, isVerify: selectedIsVerify.value, isVerifyEmail: selectedIsVerifyEmail.value, username: user.username });
+    onUpsertSubmit({
+      userID: userId,
+      isVerify: selectedIsVerify.value,
+      isVerifyEmail: selectedIsVerifyEmail.value,
+      username: user.username,
+    });
     onHide();
   }
 
   useEffect(() => {
-    fetchUser()
-  }, [userId])
+    fetchUser();
+  }, [userId]);
 
   useEffect(() => {
-    setSelectedIsVerify({ value: user.isVerify, label: user.isVerify ? 'Yes' : 'No' });
-    setSelectedIsVerifyEmail({ value: user.isVerifyEmail, label: user.isVerifyEmail ? 'Yes' : 'No' });
+    setSelectedIsVerify({
+      value: user.isVerify,
+      label: user.isVerify ? "Yes" : "No",
+    });
+    setSelectedIsVerifyEmail({
+      value: user.isVerifyEmail,
+      label: user.isVerifyEmail ? "Yes" : "No",
+    });
   }, [user]);
 
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      size="md"
-      centered
-      className={className}
-    >
+    <Modal show={show} onHide={onHide} size="md" centered className={className}>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter" className="fs-2">
           Update user
@@ -63,13 +74,13 @@ const UpsertModal = ({ onHide, show, className, userId, onUpsertSubmit }) => {
         <Form.Group className="mb-3 fs-4" controlId="exampleForm.ControlInput1">
           <Form.Label>Username</Form.Label>
           <Form.Control
-            className='fs-4'
+            className="fs-4"
             type="text"
             placeholder="e.g johndoe"
             autoFocus
             value={user.username}
             required
-            onChange={e => setUser({ ...user, username: e.target.value })}
+            onChange={(e) => setUser({ ...user, username: e.target.value })}
           />
         </Form.Group>
         <Form.Group className="mb-3 fs-4" controlId="exampleForm.ControlInput1">
@@ -90,11 +101,19 @@ const UpsertModal = ({ onHide, show, className, userId, onUpsertSubmit }) => {
         </Form.Group>
       </Modal.Body>
       <Modal.Footer>
-        <Button className='fs-5 rounded rounded-2' onClick={handleSubmit}>Save</Button>
-        <Button className='fs-5 rounded rounded-2' onClick={onHide} variant='outline'>Close</Button>
+        <Button className="fs-5 rounded rounded-2" onClick={handleSubmit}>
+          Save
+        </Button>
+        <Button
+          className="fs-5 rounded rounded-2"
+          onClick={onHide}
+          variant="outline"
+        >
+          Close
+        </Button>
       </Modal.Footer>
     </Modal>
   );
-}
+};
 
-export default UpsertModal
+export default UpsertModal;

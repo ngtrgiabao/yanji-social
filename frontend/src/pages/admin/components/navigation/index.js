@@ -1,28 +1,31 @@
-import { useState } from 'react';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
+import { useState } from "react";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import ToggleButton from "react-bootstrap/ToggleButton";
 
-import { LOGO_YANJI_SOCIAL } from '../../../../assets';
+import { LOGO_YANJI_SOCIAL } from "../../../../assets";
 
 const Navigation = ({ onQuery }) => {
-  const [radioValue, setRadioValue] = useState('users');
+  const [radioValue, setRadioValue] = useState("users");
 
   const radios = [
-    { name: 'Users', value: 'users' },
-    { name: 'Posts', value: 'posts' },
+    { name: "Users", value: "users" },
+    { name: "Posts", value: "posts" },
   ];
 
   return (
-    <Navbar variant='dark' className='header-navbar'>
+    <Navbar variant="dark" className="header-navbar">
       <Container>
-        <Row className='w-100 d-flex align-items-center'>
+        <Row className="w-100 d-flex align-items-center">
           <Col>
-            <Navbar.Brand href="/" className="logo mb-0 d-flex align-items-center w-100 fs-2">
+            <Navbar.Brand
+              href="/"
+              className="logo mb-0 d-flex align-items-center w-100 fs-2"
+            >
               <img
                 src={LOGO_YANJI_SOCIAL}
                 alt=""
@@ -32,21 +35,25 @@ const Navigation = ({ onQuery }) => {
             </Navbar.Brand>
           </Col>
           <Col>
-            <Nav className='d-flex justify-content-end text-uppercase'>
+            <Nav className="d-flex justify-content-end text-uppercase">
               <ButtonGroup>
                 {radios.map((radio, idx) => (
                   <ToggleButton
                     key={idx}
                     id={`radio-${idx}`}
                     type="radio"
-                    variant={radioValue === radio.value ? 'outline-primary border border-white' : ''}
+                    variant={
+                      radioValue === radio.value
+                        ? "outline-primary border border-white"
+                        : ""
+                    }
                     name="radio"
                     value={radio.value}
                     checked={radioValue === radio.value}
-                    className='text-white rounded rounded-2 fs-5'
+                    className="text-white rounded rounded-2 fs-5"
                     onChange={(e) => {
-                      onQuery(e.currentTarget.value)
-                      setRadioValue(e.currentTarget.value)
+                      onQuery(e.currentTarget.value);
+                      setRadioValue(e.currentTarget.value);
                     }}
                   >
                     {radio.name}
@@ -58,7 +65,7 @@ const Navigation = ({ onQuery }) => {
         </Row>
       </Container>
     </Navbar>
-  )
-}
+  );
+};
 
-export default Navigation
+export default Navigation;

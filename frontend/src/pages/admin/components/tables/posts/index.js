@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Table,
@@ -8,38 +8,40 @@ import {
   Container,
   Row,
   Col,
-  Form
-} from "react-bootstrap"
-import { Link } from "react-router-dom"
+  Form,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import {
   PenLine,
   Trash,
   StepForward,
   StepBack,
   ExternalLink,
-  CircleSlash2
-} from "lucide-react"
-import { useDispatch } from "react-redux"
-import toast from "react-hot-toast"
+  CircleSlash2,
+} from "lucide-react";
+import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
-import Global from '../../../../../helpers/constants/global';
-import { formatTime } from '../../../../../helpers/common';
-import UpsertModal from './upsert';
-import LoadingPage from '../../../../loading/LoadingPage';
-import { updateUser } from '../../../../../redux/request/userRequest';
-import { ToastProvider } from '../../../../../components/providers/toaster-provider';
+import Global from "../../../../../helpers/constants/global";
+import { formatTime } from "../../../../../helpers/common";
+import UpsertModal from "./upsert";
+import LoadingPage from "../../../../loading/LoadingPage";
+import { updateUser } from "../../../../../redux/request/userRequest";
+import { ToastProvider } from "../../../../../components/providers/toaster-provider";
 
 const PostsTable = () => {
   const dispatch = useDispatch();
-  const [posts, setPosts] = useState([])
-  const [postId, setPostId] = useState("")
+  const [posts, setPosts] = useState([]);
+  const [postId, setPostId] = useState("");
   const [open, setOpen] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
   const [page, setPage] = useState(0);
   const [filter, setFilter] = useState("");
 
   async function fetchPosts(filter) {
-    const url = `${Global.SOCKET_URL}/api/v1/post/all-posts?limit=14&skip=${page * 14}`;
+    const url = `${Global.SOCKET_URL}/api/v1/post/all-posts?limit=14&skip=${
+      page * 14
+    }`;
 
     const res = await axios.get(url);
     const postsList = res?.data.posts;
@@ -54,26 +56,28 @@ const PostsTable = () => {
   }
 
   function onUpsert(postId) {
-    setOpen(true)
-    setPostId(postId)
+    setOpen(true);
+    setPostId(postId);
   }
 
   function onUpsertSubmit(data) {
-    updateUser(data, dispatch).then((res) => {
-      toast.success("Updated successfully");
-      fetchPosts(filter);
-    }).catch((error) => {
-      toast.error("Something went wrong");
-      console.error("Internal Error", error);
-    })
+    updateUser(data, dispatch)
+      .then((res) => {
+        toast.success("Updated successfully");
+        fetchPosts(filter);
+      })
+      .catch((error) => {
+        toast.error("Something went wrong");
+        console.error("Internal Error", error);
+      });
   }
 
   useEffect(() => {
-    fetchPosts(filter)
-  }, [page, filter])
+    fetchPosts(filter);
+  }, [page, filter]);
 
   return (
-    <div className='px-3'>
+    <div className="px-3">
       <Container className="mt-4 mb-3">
         <Row>
           <Col>
@@ -83,123 +87,159 @@ const PostsTable = () => {
                 placeholder="Search"
                 className="me-2 fs-4"
                 aria-label="Search"
-                onChange={e => setFilter(e.target.value)}
+                onChange={(e) => setFilter(e.target.value)}
               />
             </Form>
           </Col>
         </Row>
       </Container>
 
-      {
-        posts.length > 0 ? (
-          <>
-            <Table
-              bordered
-              size='md'
-              style={{
-                color: "var(--text-color)",
-              }}
-            >
-              <thead>
-                <tr className='fs-4'>
-                  <th>ID</th>
-                  <th>Author</th>
-                  <th>Content</th>
-                  <th>Image URL</th>
-                  <th>Video URL</th>
-                  <th>Likes</th>
-                  <th>Comments</th>
-                  <th>Shares</th>
-                  <th>Created At</th>
-                  <th>Updated At</th>
-                  <th></th>
+      {posts.length > 0 ? (
+        <>
+          <Table
+            bordered
+            size="md"
+            style={{
+              color: "var(--text-color)",
+            }}
+          >
+            <thead>
+              <tr className="fs-4">
+                <th>ID</th>
+                <th>Author</th>
+                <th>Content</th>
+                <th>Image URL</th>
+                <th>Video URL</th>
+                <th>Likes</th>
+                <th>Comments</th>
+                <th>Shares</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {posts.map((post, idx) => (
+                <tr
+                  key={post._id}
+                  className="fs-5"
+                  style={{
+                    background: `${
+                      idx % 2 === 0 ? "" : "var(--color-bg-hover)"
+                    }`,
+                  }}
+                >
+                  <td className="text-truncate" style={{ maxWidth: 150 }}>
+                    <Link
+                      to={`/post/${post._id}`}
+                      className="text-primary d-flex align-items-center"
+                    >
+                      View post <ExternalLink size={10} className="ms-2" />
+                    </Link>
+                  </td>
+                  <td className="text-truncate" style={{ maxWidth: 150 }}>
+                    <Link
+                      to={`/user/${post.userID}`}
+                      className="text-primary d-flex align-items-center"
+                    >
+                      View author <ExternalLink size={10} className="ms-2" />
+                    </Link>
+                  </td>
+                  <td
+                    className={`text-truncate ${!post.desc && "text-muted"}`}
+                    style={{
+                      maxWidth: 150,
+                      cursor: `${!post.desc && "not-allowed"}`,
+                    }}
+                  >
+                    {post.desc || (
+                      <span
+                        className="text-muted d-flex align-items-center"
+                        style={{ cursor: "not-allowed" }}
+                      >
+                        <CircleSlash2 size={10} className="me-2" /> No content
+                      </span>
+                    )}
+                  </td>
+                  <td className="text-truncate" style={{ maxWidth: 150 }}>
+                    {post.img ? (
+                      <a
+                        href={`${post.img}`}
+                        className="text-primary d-flex align-items-center"
+                      >
+                        View image <ExternalLink size={10} className="ms-2" />
+                      </a>
+                    ) : (
+                      <span
+                        className="text-muted d-flex align-items-center"
+                        style={{ cursor: "not-allowed" }}
+                      >
+                        <CircleSlash2 size={10} className="me-2" /> No image
+                      </span>
+                    )}
+                  </td>
+                  <td className="text-truncate" style={{ maxWidth: 150 }}>
+                    {post.video ? (
+                      <a
+                        href={`${post.video}`}
+                        className="text-primary d-flex align-items-center"
+                      >
+                        View video <ExternalLink size={10} className="ms-2" />
+                      </a>
+                    ) : (
+                      <span
+                        className="text-muted d-flex align-items-center"
+                        style={{ cursor: "not-allowed" }}
+                      >
+                        <CircleSlash2 size={10} className="me-2" /> No video
+                      </span>
+                    )}
+                  </td>
+                  <td>{post.likes.length}</td>
+                  <td>{post.comments.length}</td>
+                  <td>{post.shares.length}</td>
+                  <td className="text-truncate" style={{ maxWidth: 150 }}>
+                    {formatTime(post.createdAt)}
+                  </td>
+                  <td className="text-truncate" style={{ maxWidth: 150 }}>
+                    {formatTime(post.updatedAt)}
+                  </td>
+                  <td className="d-flex justify-content-center align-items-center">
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => onUpsert(post._id)}
+                      className="rounded rounded-2 me-3 d-flex align-items-center"
+                    >
+                      <PenLine size={16} className="me-2" />
+                      Edit
+                    </Button>
+                    <Button
+                      className="rounded rounded-2"
+                      variant="outline-danger"
+                    >
+                      <Trash size={16} />
+                    </Button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {
-                  posts.map((post, idx) => (
-                    <tr key={post._id} className='fs-5' style={{
-                      background: `${idx % 2 === 0 ? "" : "var(--color-bg-hover)"}`
-                    }}>
-                      <td className='text-truncate' style={{ maxWidth: 150 }}>
-                        <Link to={`/post/${post._id}`} className='text-primary d-flex align-items-center'>
-                          View post <ExternalLink size={10} className='ms-2' />
-                        </Link>
-                      </td>
-                      <td className='text-truncate' style={{ maxWidth: 150 }}>
-                        <Link to={`/user/${post.userID}`} className='text-primary d-flex align-items-center'>
-                          View author <ExternalLink size={10} className='ms-2' />
-                        </Link>
-                      </td>
-                      <td className={`text-truncate ${!post.desc && "text-muted"}`} style={{ maxWidth: 150, cursor: `${!post.desc && "not-allowed"}` }}>
-                        {post.desc ||
-                          <span className='text-muted d-flex align-items-center' style={{ cursor: "not-allowed" }}>
-                            <CircleSlash2 size={10} className='me-2' /> No content
-                          </span>
-                        }
-                      </td>
-                      <td className='text-truncate' style={{ maxWidth: 150 }}>
-                        {
-                          post.img ? (
-                            <a href={`${post.img}`} className='text-primary d-flex align-items-center'>
-                              View image <ExternalLink size={10} className='ms-2' />
-                            </a>
-                          ) : (
-                            <span className='text-muted d-flex align-items-center' style={{ cursor: "not-allowed" }}>
-                              <CircleSlash2 size={10} className='me-2' /> No image
-                            </span>
-                          )
-                        }
-                      </td>
-                      <td className='text-truncate' style={{ maxWidth: 150 }}>
-                        {
-                          post.video ? (
-                            <a href={`${post.video}`} className='text-primary d-flex align-items-center'>
-                              View video <ExternalLink size={10} className='ms-2' />
-                            </a>
-                          ) : (
-                            <span className='text-muted d-flex align-items-center' style={{ cursor: "not-allowed" }}>
-                              <CircleSlash2 size={10} className='me-2' /> No video
-                            </span>
-                          )
-                        }
-                      </td>
-                      <td>{post.likes.length}</td>
-                      <td>{post.comments.length}</td>
-                      <td>{post.shares.length}</td>
-                      <td className='text-truncate' style={{ maxWidth: 150 }}>
-                        {formatTime(post.createdAt)}</td>
-                      <td className='text-truncate' style={{ maxWidth: 150 }}>
-                        {formatTime(post.updatedAt)}
-                      </td>
-                      <td className='d-flex justify-content-center align-items-center'>
-                        <Button
-                          variant="outline-primary"
-                          onClick={() => onUpsert(post._id)}
-                          className='rounded rounded-2 me-3 d-flex align-items-center'
-                        >
-                          <PenLine size={16} className='me-2' />
-                          Edit
-                        </Button>
-                        <Button className='rounded rounded-2' variant="outline-danger">
-                          <Trash size={16} />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))
-                }
+              ))}
 
-                <Pagination size="lg" className='mt-3'>
-                  <Pagination.Item onClick={() => setPage((prevPage) => prevPage - 1)} disabled={page === 0}>
-                    <StepBack size={15} />
-                  </Pagination.Item>
-                  <Pagination.Item onClick={() => setPage((prevPage) => prevPage + 1)} disabled={isEmpty || posts.length < 14}>
-                    <StepForward size={15} />
-                  </Pagination.Item>
-                </Pagination>
-              </tbody>
+              <Pagination size="lg" className="mt-3">
+                <Pagination.Item
+                  onClick={() => setPage((prevPage) => prevPage - 1)}
+                  disabled={page === 0}
+                >
+                  <StepBack size={15} />
+                </Pagination.Item>
+                <Pagination.Item
+                  onClick={() => setPage((prevPage) => prevPage + 1)}
+                  disabled={isEmpty || posts.length < 14}
+                >
+                  <StepForward size={15} />
+                </Pagination.Item>
+              </Pagination>
+            </tbody>
 
-              {/* {
+            {/* {
                 postId &&
                 <Fade in={open}>
                   <UpsertModal
@@ -211,16 +251,17 @@ const PostsTable = () => {
                   />
                 </Fade>
               } */}
-            </Table >
-          </>
-        ) : (
-          isEmpty ? <div>No posts found</div> : <LoadingPage />
-        )
-      }
+          </Table>
+        </>
+      ) : isEmpty ? (
+        <div>No posts found</div>
+      ) : (
+        <LoadingPage />
+      )}
 
       <ToastProvider />
     </div>
-  )
-}
+  );
+};
 
-export default PostsTable
+export default PostsTable;

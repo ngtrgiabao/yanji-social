@@ -10,7 +10,7 @@ import {
   Palette,
   Bolt,
   CheckCircle2,
-  LayoutDashboard
+  LayoutDashboard,
 } from "lucide-react";
 
 import "../styles/homeLeft.css";
@@ -205,18 +205,16 @@ const HomeLeft = ({ socket, isReadNotification }) => {
               setActive={setActive}
             />
           )}
-          {
-            currentUser._id === Global.ADMIN_ID && (
-              <Button
-                path="/admin"
-                label="Admin Dashboard"
-                icon={<LayoutDashboard className="sidebar-icon" size={20} />}
-                name={"ADMIN"}
-                active={active}
-                setActive={setActive}
-              />
-            )
-          }
+          {currentUser._id === Global.ADMIN_ID && (
+            <Button
+              path="/admin"
+              label="Admin Dashboard"
+              icon={<LayoutDashboard className="sidebar-icon" size={20} />}
+              name={"ADMIN"}
+              active={active}
+              setActive={setActive}
+            />
+          )}
         </div>
         {/* END OF SIDEBAR */}
 

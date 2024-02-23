@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
 
-import Global from '../../helpers/constants/global';
-import { useCurrentUser } from '../../hooks';
-import Navigation from './components/navigation';
-import UsersTable from './components/tables/users';
-import PostsTable from './components/tables/posts';
+import Global from "../../helpers/constants/global";
+import { useCurrentUser } from "../../hooks";
+import Navigation from "./components/navigation";
+import UsersTable from "./components/tables/users";
+import PostsTable from "./components/tables/posts";
 
 const Admin = () => {
   const currentUser = useCurrentUser();
@@ -15,9 +15,9 @@ const Admin = () => {
 
   useEffect(() => {
     if (currentUser._id !== Global.ADMIN_ID) {
-      return navigate("/")
+      return navigate("/");
     }
-  }, [currentUser])
+  }, [currentUser]);
 
   function onQuery(e) {
     setQuery(e);
@@ -27,15 +27,13 @@ const Admin = () => {
     <div>
       <Navigation onQuery={onQuery} />
 
-      <Container className='h-100' fluid>
+      <Container className="h-100" fluid>
         <Row className="fs-4">
-          {
-            query === "users" ? <UsersTable /> : <PostsTable />
-          }
+          {query === "users" ? <UsersTable /> : <PostsTable />}
         </Row>
       </Container>
     </div>
-  )
-}
+  );
+};
 
-export default Admin
+export default Admin;
