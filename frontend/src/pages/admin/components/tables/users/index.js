@@ -22,21 +22,22 @@ import UpsertModal from "./upsert";
 import LoadingPage from "../../../../loading/LoadingPage";
 import { updateUser } from "../../../../../redux/request/userRequest";
 import { ToastProvider } from "../../../../../components/providers/toaster-provider";
+import DeleteModal from "./delete";
 
 const UsersTable = () => {
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
   const [userId, setUserId] = useState("");
-  const [open, setOpen] = useState(false);
+  const [openUpsert, setOpenUpsert] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
   const [page, setPage] = useState(0);
   const [filter, setFilter] = useState("");
 
   async function fetchUsers(filter) {
     const url = filter
-      ? `${
-          Global.SOCKET_URL
-        }/api/v1/user/all-users/?username=${filter.toLowerCase()}`
+      ? `${Global.SOCKET_URL
+      }/api/v1/user/all-users/?username=${filter.toLowerCase()}`
       : `${Global.SOCKET_URL}/api/v1/user/all-users?limit=14&skip=${page * 14}`;
 
     const data = await axios.get(url);
@@ -52,7 +53,12 @@ const UsersTable = () => {
   }
 
   function onUpsert(userId) {
-    setOpen(true);
+    setOpenUpsert(true);
+    setUserId(userId);
+  }
+
+  function onDelete(userId) {
+    setOpenDelete(true);
     setUserId(userId);
   }
 
@@ -66,6 +72,10 @@ const UsersTable = () => {
         toast.error("Something went wrong");
         console.error("Internal Error", error);
       });
+  }
+
+  function onDeleteSubmit() {
+    fetchUsers();
   }
 
   useEffect(() => {
@@ -119,9 +129,8 @@ const UsersTable = () => {
                   key={user._id}
                   className="fs-5"
                   style={{
-                    background: `${
-                      idx % 2 === 0 ? "" : "var(--color-bg-hover)"
-                    }`,
+                    background: `${idx % 2 === 0 ? "" : "var(--color-bg-hover)"
+                      }`,
                   }}
                 >
                   <td>{user._id}</td>
@@ -169,6 +178,7 @@ const UsersTable = () => {
                     <Button
                       className="rounded rounded-2"
                       variant="outline-danger"
+                      onClick={() => onDelete(user._id)}
                     >
                       <Trash size={16} />
                     </Button>
@@ -193,16 +203,28 @@ const UsersTable = () => {
             </tbody>
 
             {userId && (
-              <Fade in={open}>
+              <Fade in={openUpsert}>
                 <UpsertModal
-                  show={open}
+                  show={openUpsert}
                   userId={userId}
                   onUpsertSubmit={onUpsertSubmit}
-                  onHide={() => setOpen(false)}
+                  onHide={() => setOpenUpsert(false)}
                   className="text-black"
                 />
               </Fade>
             )}
+            {
+              userId &&
+              <Fade in={openDelete}>
+                <DeleteModal
+                  show={openDelete}
+                  userId={userId}
+                  onDeleteSubmit={onDeleteSubmit}
+                  onHide={() => setOpenDelete(false)}
+                  className="text-black"
+                />
+              </Fade>
+            }
           </Table>
         </>
       ) : isEmpty ? (

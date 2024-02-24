@@ -454,6 +454,7 @@ class UserController {
         msg: `Deleted user ${userID} successfully`,
       });
     } catch (error) {
+      console.log("[DELETE_USER]", error)
       return res.status(500).json({
         msg: `Failed to delete user ${userID}`,
       });
