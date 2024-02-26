@@ -177,10 +177,10 @@ const UsersTable = () => {
                     </Button>
                     <Button
                       className="rounded rounded-2"
-                      variant="outline-danger"
+                      variant="danger"
                       onClick={() => onDelete(user._id)}
                     >
-                      <Trash size={16} />
+                      Delete
                     </Button>
                   </td>
                 </tr>

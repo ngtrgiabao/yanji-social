@@ -10,10 +10,8 @@ import {
   Col,
   Form,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
-  PenLine,
-  Trash,
   StepForward,
   StepBack,
   ExternalLink,
@@ -24,10 +22,12 @@ import toast from "react-hot-toast";
 
 import Global from "../../../../../helpers/constants/global";
 import { formatTime } from "../../../../../helpers/common";
-import UpsertModal from "./upsert";
+import DeleteModal from "./delete";
 import LoadingPage from "../../../../loading/LoadingPage";
-import { updateUser } from "../../../../../redux/request/userRequest";
+import { deletePost } from "../../../../../redux/request/postRequest";
 import { ToastProvider } from "../../../../../components/providers/toaster-provider";
+
+import "../../../../../components/ui/post/style/post.css";
 
 const PostsTable = () => {
   const dispatch = useDispatch();
@@ -38,10 +38,11 @@ const PostsTable = () => {
   const [page, setPage] = useState(0);
   const [filter, setFilter] = useState("");
 
+  const navigate = useNavigate();
+
   async function fetchPosts(filter) {
-    const url = `${Global.SOCKET_URL}/api/v1/post/all-posts?limit=14&skip=${
-      page * 14
-    }`;
+    const url = `${Global.SOCKET_URL}/api/v1/post/all-posts?limit=14&skip=${page * 14
+      }`;
 
     const res = await axios.get(url);
     const postsList = res?.data.posts;
@@ -55,21 +56,20 @@ const PostsTable = () => {
     }
   }
 
-  function onUpsert(postId) {
+  function onDelete(postId) {
     setOpen(true);
     setPostId(postId);
   }
 
-  function onUpsertSubmit(data) {
-    updateUser(data, dispatch)
-      .then((res) => {
-        toast.success("Updated successfully");
-        fetchPosts(filter);
-      })
-      .catch((error) => {
-        toast.error("Something went wrong");
-        console.error("Internal Error", error);
-      });
+  function onDeleteSubmit(postId) {
+    deletePost(postId, dispatch).then((res) => {
+      toast.success("Deleted successfully")
+      fetchPosts();
+      setOpen(false);
+    }).catch((error) => {
+      toast.error("Something went wrong")
+      console.log("Internal Error", error)
+    })
   }
 
   useEffect(() => {
@@ -105,11 +105,10 @@ const PostsTable = () => {
           >
             <thead>
               <tr className="fs-4">
-                <th>ID</th>
                 <th>Author</th>
                 <th>Content</th>
-                <th>Image URL</th>
-                <th>Video URL</th>
+                <th>Image</th>
+                <th>Video</th>
                 <th>Likes</th>
                 <th>Comments</th>
                 <th>Shares</th>
@@ -124,19 +123,10 @@ const PostsTable = () => {
                   key={post._id}
                   className="fs-5"
                   style={{
-                    background: `${
-                      idx % 2 === 0 ? "" : "var(--color-bg-hover)"
-                    }`,
+                    background: `${idx % 2 === 0 ? "" : "var(--color-bg-hover)"
+                      }`,
                   }}
                 >
-                  <td className="text-truncate" style={{ maxWidth: 150 }}>
-                    <Link
-                      to={`/post/${post._id}`}
-                      className="text-primary d-flex align-items-center"
-                    >
-                      View post <ExternalLink size={10} className="ms-2" />
-                    </Link>
-                  </td>
                   <td className="text-truncate" style={{ maxWidth: 150 }}>
                     <Link
                       to={`/user/${post.userID}`}
@@ -207,17 +197,19 @@ const PostsTable = () => {
                   <td className="d-flex justify-content-center align-items-center">
                     <Button
                       variant="outline-primary"
-                      onClick={() => onUpsert(post._id)}
+                      onClick={() => {
+                        navigate(`/post/${post._id}`);
+                      }}
                       className="rounded rounded-2 me-3 d-flex align-items-center"
                     >
-                      <PenLine size={16} className="me-2" />
-                      Edit
+                      Details
                     </Button>
                     <Button
                       className="rounded rounded-2"
-                      variant="outline-danger"
+                      variant="danger"
+                      onClick={() => onDelete(post._id)}
                     >
-                      <Trash size={16} />
+                      Delete
                     </Button>
                   </td>
                 </tr>
@@ -239,18 +231,18 @@ const PostsTable = () => {
               </Pagination>
             </tbody>
 
-            {/* {
-                postId &&
-                <Fade in={open}>
-                  <UpsertModal
-                    show={open}
-                    postId={postId}
-                    onUpsertSubmit={onUpsertSubmit}
-                    onHide={() => setOpen(false)}
-                    className="text-black"
-                  />
-                </Fade>
-              } */}
+            {
+              postId &&
+              <Fade in={open}>
+                <DeleteModal
+                  show={open}
+                  onHide={() => setOpen(false)}
+                  postId={postId}
+                  onDeleteSubmit={onDeleteSubmit}
+                  className="text-black"
+                />
+              </Fade>
+            }
           </Table>
         </>
       ) : isEmpty ? (
