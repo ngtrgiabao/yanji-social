@@ -1,5 +1,5 @@
 import axios from "axios";
-import Global from "../constants/global";
+import Global from "../helpers/constants/global";
 
 const useUploadImage = async (fileSeleted, isVideo = false) => {
   try {

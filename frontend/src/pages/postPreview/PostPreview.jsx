@@ -7,8 +7,8 @@ import { getPostByID } from "../../redux/request/postRequest";
 import _404 from "../_404/_404";
 import { DetailsPost, Post } from "../../components";
 import { getUserByID } from "../../redux/request/userRequest";
-import SocketEvent from "../../constants/socket-event";
-import Global from "../../constants/global";
+import SocketEvent from "../../helpers/constants/socket-event";
+import Global from "../../helpers/constants/global";
 
 import "../../styles/animations/snackbar.css";
 

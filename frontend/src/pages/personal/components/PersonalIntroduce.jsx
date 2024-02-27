@@ -16,8 +16,8 @@ import "../styles/personalIntroduce.css";
 import PersonalGallery from "./PersonalGallery";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { SocialBio } from "../../../components";
-import SocketEvent from "../../../constants/socket-event";
-import Global from "../../../constants/global";
+import SocketEvent from "../../../helpers/constants/socket-event";
+import Global from "../../../helpers/constants/global";
 import { useCurrentUser } from "../../../hooks";
 
 const PersonalIntroduce = ({

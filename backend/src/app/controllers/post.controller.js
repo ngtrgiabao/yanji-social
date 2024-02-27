@@ -93,7 +93,6 @@ class PostController {
           : await PostModel.find({}).sort({ createdAt: -1 });
 
       const countPosts = await PostModel.countDocuments();
-
       return res.status(200).json({
         msg: "Get all posts successfully",
         length: countPosts,

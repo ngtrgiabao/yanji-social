@@ -25,8 +25,8 @@ import { getUserByID } from "../../../redux/request/userRequest";
 import { NEW_MSG } from "../../../business/noti.type";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import MessageFooter from "./MessageFooter";
-import SocketEvent from "../../../constants/socket-event";
-import Global from "../../../constants/global";
+import SocketEvent from "../../../helpers/constants/socket-event";
+import Global from "../../../helpers/constants/global";
 import { Message, Avatar } from "../../../components";
 
 const friendDefaultValues = {

@@ -13,7 +13,7 @@ import { uploadPost } from "../../../redux/request/postRequest";
 import { useCurrentUser, useUploadImage } from "../../../hooks";
 import { PreviewImage } from "../../ui";
 import { getUserByID } from "../../../redux/request/userRequest";
-import Global from "../../../constants/global";
+import Global from "../../../helpers/constants/global";
 
 const PostPopup = ({ onPopup, extendClass, socket }) => {
   const [imageUrl, setImageUrl] = useState(null);
