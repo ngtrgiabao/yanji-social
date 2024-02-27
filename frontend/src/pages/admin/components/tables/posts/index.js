@@ -85,7 +85,7 @@ const PostsTable = () => {
               <Form.Control
                 type="search"
                 placeholder="Search"
-                className="me-2 fs-4"
+                className="fs-4"
                 aria-label="Search"
                 onChange={(e) => setFilter(e.target.value)}
               />

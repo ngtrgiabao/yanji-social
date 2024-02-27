@@ -86,12 +86,12 @@ const UsersTable = () => {
     <div className="px-3">
       <Container className="mt-4 mb-3">
         <Row>
-          <Col>
+          <Col className="m-0">
             <Form className="d-flex">
               <Form.Control
                 type="search"
                 placeholder="Search"
-                className="me-2 fs-4"
+                className="fs-4"
                 aria-label="Search"
                 onChange={(e) => setFilter(e.target.value)}
               />
