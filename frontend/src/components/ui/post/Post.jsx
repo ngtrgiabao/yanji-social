@@ -31,7 +31,7 @@ import { Photo } from "../media";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import { LIKE_POST, SHARE_POST } from "../../../business/noti.type";
 import Avatar from "../avatar/Avatar";
-import Global from "../../../constants/global";
+import Global from "../../../helpers/constants/global";
 import ActionBtn from "./ActionBtn";
 
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT

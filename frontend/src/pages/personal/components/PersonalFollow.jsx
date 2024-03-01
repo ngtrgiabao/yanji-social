@@ -9,8 +9,8 @@ import { NEW_FOLLOWER } from "../../../business/noti.type";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import { Setting } from "../../../components";
 import { PersonalSendMsgBtn } from "./index";
-import SocketEvent from "../../../constants/socket-event";
-import Global from "../../../constants/global";
+import SocketEvent from "../../../helpers/constants/socket-event";
+import Global from "../../../helpers/constants/global";
 import { useCurrentUser } from "../../../hooks";
 
 const PersonalFollow = ({ userInfo, socket }) => {

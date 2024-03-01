@@ -7,7 +7,7 @@ import { Trash } from "lucide-react";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { deleteComment } from "../../../redux/request/commentRequest";
 import { useCurrentUser, useTimeAgo } from "../../../hooks";
-import Global from "../../../constants/global";
+import Global from "../../../helpers/constants/global";
 import Avatar from "../avatar/Avatar";
 
 const Comment = ({

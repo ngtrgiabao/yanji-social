@@ -10,8 +10,8 @@ import {
   markSeenNotification,
 } from "../../redux/request/notificationRequest";
 import { NotificationCard } from "../../components";
-import SocketEvent from "../../constants/socket-event";
-import Global from "../../constants/global";
+import SocketEvent from "../../helpers/constants/socket-event";
+import Global from "../../helpers/constants/global";
 import { useCurrentUser } from "../../hooks";
 
 const Notification = ({ socket }) => {

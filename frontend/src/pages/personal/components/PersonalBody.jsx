@@ -16,8 +16,8 @@ import {
   getPostsShared,
   getUserByID,
 } from "../../../redux/request/userRequest";
-import SocketEvent from "../../../constants/socket-event";
-import Global from "../../../constants/global";
+import SocketEvent from "../../../helpers/constants/socket-event";
+import Global from "../../../helpers/constants/global";
 import { useCurrentUser } from "../../../hooks";
 import { Avatar } from "../../../components";
 

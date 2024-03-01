@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 import { isMobile, isTablet } from "react-device-detect";
 
 import { BG_NOT_AVAILABLE } from "./assets";
-import Global from "./constants/global";
+import Global from "./helpers/constants/global";
 import { useCurrentUser } from "./hooks";
 
 import {
@@ -26,6 +26,7 @@ const NotificationPage = lazy(
 );
 const BookmarkPage = lazy(() => import("./pages/bookmarks/Bookmarks"));
 const PostPreview = lazy(() => import("./pages/postPreview/PostPreview"));
+const AdminPage = lazy(() => import("./pages/admin/Admin"));
 
 const RegisterPage = lazy(() => import("./pages/auth/RegisterPage"));
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
@@ -121,6 +122,14 @@ function App() {
                 element={
                   <Suspense fallback={<LoadingPage />}>
                     <ExplorePage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path={currentUser ? "/admin" : "*"}
+                element={
+                  <Suspense fallback={<LoadingPage />}>
+                    <AdminPage />
                   </Suspense>
                 }
               />
