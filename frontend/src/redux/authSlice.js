@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Global from "../helpers/constants/global";
 
 const authSlice = createSlice({
   name: "auth",
@@ -22,10 +23,11 @@ const authSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.login.isFetching = false;
-      if (action.payload.data.isVerifyEmail) {
+      state.register.success = true;
+      state.login.error = false;
+      if (action.payload.data.isVerifyEmail || action.payload.data._id === Global.ADMIN_ID) {
         state.login.currentUser = action.payload;
       }
-      state.login.error = false;
     },
     loginFailed: (state) => {
       state.login.isFetching = false;

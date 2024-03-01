@@ -1,3 +1,4 @@
+import Global from "../../helpers/constants/global";
 import userService from "../../services/user.service";
 import {
   loginStart,
@@ -16,7 +17,7 @@ export const loginUser = async (user, dispatch, navigate) => {
   try {
     const res = await userService.loginUser(user);
     dispatch(loginSuccess(res.data));
-    if (res.data?.data.isVerifyEmail) {
+    if (res.data?.data.isVerifyEmail || res.data?.data._id === Global.ADMIN_ID) {
       navigate("/");
     }
     return res.data;

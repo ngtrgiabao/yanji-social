@@ -205,7 +205,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
               setActive={setActive}
             />
           )}
-          {currentUser._id === Global.ADMIN_ID && (
+          {currentUser?._id === Global.ADMIN_ID && (
             <Button
               path="/admin"
               label="Admin Dashboard"
