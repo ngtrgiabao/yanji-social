@@ -31,41 +31,102 @@ The frontend structure is organized into various components and pages, promoting
 │   ├───background
 │   ├───icons
 │   ├───logo
+│   ├───screenshots
 │   ├───stories-images
 │   └───video
 ├───business
 ├───components
-│   └───style
+│   ├───audio
+│   ├───common
+│   │   ├───button
+│   │   ├───dialog
+│   │   ├───embed
+│   │   ├───input
+│   │   ├───otp-input
+│   │   └───popup
+│   │       └───style
+│   ├───conversation
+│   ├───follower
+│   ├───message
+│   ├───paragraph
+│   ├───providers
+│   └───ui
+│       ├───3d-card
+│       ├───avatar
+│       ├───bookmark
+│       ├───card
+│       │   └───style
+│       ├───comment
+│       ├───contact
+│       ├───custom-theme
+│       │   └───style
+│       ├───media
+│       ├───post
+│       │   └───style
+│       ├───preview
+│       ├───setting
+│       ├───social-bio
+│       └───theme
 ├───context
 │   └───theme
+├───helpers
+│   └───constants
 ├───hooks
-├───layout
-│   └───navigation
-│       └───style
 ├───pages
+│   ├───admin
+│   │   ├───components
+│   │   │   ├───navigation
+│   │   │   └───tables
+│   │   │       ├───posts
+│   │   │       │   └───delete
+│   │   │       └───users
+│   │   │           ├───delete
+│   │   │           └───upsert
+│   │   └───styles
+│   ├───auth
+│   │   ├───components
+│   │   └───style
 │   ├───bookmarks
+│   │   ├───components
+│   │   └───styles
 │   ├───explore
-│   ├───form
-│   │   └───style
+│   │   ├───components
+│   │   └───styles
 │   ├───home
-│   │   ├───customTheme
-│   │   │   └───style
-│   │   └───style
+│   │   ├───components
+│   │   └───styles
+│   ├───info-card
 │   ├───loading
+│   │   ├───components
 │   │   └───style
 │   ├───messages
-│   │   └───style
+│   │   ├───components
+│   │   └───styles
 │   ├───networkError
+│   │   ├───components
+│   │   └───styles
 │   ├───notification
+│   │   ├───components
+│   │   └───styles
 │   ├───personal
-│   │   └───style
+│   │   ├───components
+│   │   └───styles
 │   ├───postPreview
+│   │   ├───components
+│   │   └───styles
+│   ├───term
+│   │   ├───components
+│   │   └───styles
 │   └───_404
 │       └───style
 ├───redux
 │   └───request
 ├───services
-├───style
+├───shared
+│   └───layout
+│       └───navigation
+│           └───style
+├───styles
 │   ├───animations
 │   ├───constants
 │   └───responsive
