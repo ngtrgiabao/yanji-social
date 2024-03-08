@@ -3,6 +3,7 @@
 <img src="https://img.shields.io/github/stars/ngtrgiabao/yanji-social"/> <img src="https://img.shields.io/github/issues/ngtrgiabao/yanji-social"/> ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ngtrgiabao/yanji-social) <img src="https://img.shields.io/github/license/ngtrgiabao/yanji-social"/>
 
 ## Many thanks to our contributors
+
 <p>
 <a href="https://github.com/ngtrgiabao/yanji-social/graphs/contributors"><img src="https://contrib.rocks/image?repo=ngtrgiabao/yanji-social" width="50px" height="50px" alt="contributors"/></a>
 </p>
@@ -184,7 +185,7 @@ CLOUD_FOLDER_NAME=""
 PlayFabSettingsDeveloperSecretKey=""
 PlayFabSettingsTitleId=""
 USER_GMAIL=""
-PWD_GMAIL=""
+PWD_GMAIL=""************
 <!-- FRONTEND_URL="deploy_link" -->
 <!-- MONGODB_URI="mongodb_local_link" -->
 ```
