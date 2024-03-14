@@ -188,6 +188,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
             name={"MEETING"}
             active={active}
             setActive={setActive}
+            newtab={true}
           />
           <Button
             label="Theme"
