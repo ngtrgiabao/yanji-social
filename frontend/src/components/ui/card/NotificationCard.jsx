@@ -41,12 +41,11 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
     let isCancelled = false;
 
     getUserByID(sender, dispatch).then((data) => {
-      if (!isCancelled) {
-        const { username, profilePicture } = data.user;
-
+      if (data && !isCancelled) {
+        const { username, profilePicture } = data?.user;
         setNotiInfo({
           senderName: username,
-          profilePicture: profilePicture,
+          profilePicture: profilePicture
         });
       }
     });
@@ -58,9 +57,8 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
 
   return (
     <div
-      className={`fs-4 animate__animated animate__fadeIn d-flex align-items-center p-3 position-relative ${
-        !isRead && "bg-dark text-white"
-      } my-2`}
+      className={`fs-4 animate__animated animate__fadeIn d-flex align-items-center p-3 position-relative ${!isRead && "bg-dark text-white"
+        } my-2`}
       style={{
         color: "var(--color-dark)",
         width: "45%",
@@ -80,9 +78,8 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
             style={{
               color: "var(--color-dark)",
             }}
-            className={`d-flex align-items-center fw-bold w-100 ${
-              !isRead && "bg-dark text-white"
-            }`}
+            className={`d-flex align-items-center fw-bold w-100 ${!isRead && "bg-dark text-white"
+              }`}
           >
             {(() => {
               switch (formatTypeNotification) {
@@ -101,7 +98,7 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
               }
             })()}
             <div className="d-flex align-items-center justify-content-between w-100">
-              <Link to={"/user/" + sender} className="profile-pic ms-3">
+              <Link to={`/user/${notiInfo.senderName ? sender : "404"}`} className="profile-pic ms-3">
                 <Avatar
                   imageSrc={notiInfo.profilePicture}
                   label={notiInfo.senderName}
@@ -114,12 +111,11 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
 
         <div data-content>
           <Link
-            to={"/user/" + sender}
-            className={`fw-bold me-1 sender-notification ${
-              !isRead && "bg-dark text-white"
-            }`}
+            to={`/user/${notiInfo.senderName ? sender : "404"}`}
+            className={`fw-bold me-1 sender-notification ${!isRead && "bg-dark text-white"
+              } ${!notiInfo.senderName && "text-danger"}`}
           >
-            {notiInfo.senderName}
+            {notiInfo.senderName || "This user not exist"}
           </Link>
           {(() => {
             switch (formatTypeNotification) {

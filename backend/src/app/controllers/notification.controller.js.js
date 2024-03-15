@@ -31,12 +31,12 @@ class NotificationController {
       const notiList =
         limit || skip
           ? await NotificationModel.find({ receiver: userID })
-              .sort({ createdAt: -1 })
-              .limit(limit)
-              .skip(skip)
+            .sort({ createdAt: -1 })
+            .limit(limit)
+            .skip(skip)
           : await NotificationModel.find({ receiver: userID }).sort({
-              createdAt: -1,
-            });
+            createdAt: -1,
+          });
 
       return res.status(200).json({
         msg: `Get all notis of user ${userID} successfully`,
