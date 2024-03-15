@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const compression = require('compression')
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 require("dotenv").config();
@@ -14,6 +15,7 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 
+app.use(compression())
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
