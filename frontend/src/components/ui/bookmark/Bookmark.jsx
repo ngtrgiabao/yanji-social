@@ -20,7 +20,7 @@ const Bookmark = ({
   postID,
   createdAt,
   socket,
-  handleDeletePopup = () => {},
+  handleDeletePopup = () => { },
 }) => {
   const dispatch = useDispatch();
   const [post, setPost] = useState({
@@ -133,7 +133,7 @@ const Bookmark = ({
                     cursor: "pointer",
                   }}
                 >
-                  <Avatar imageSrc={author.avatar} label={author.username} />
+                  <Avatar imageSrc={author.avatar} label={author.username} userId={author.authorID} />
                 </div>
                 <span className="link-underline ">{author.username}</span>
               </div>

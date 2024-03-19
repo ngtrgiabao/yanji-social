@@ -58,7 +58,7 @@ const MessageRight = () => {
             background: "var(--color-primary)",
           }}
         >
-          <Avatar imageSrc={friend.profilePicture} label={friend.username} />
+          <Avatar imageSrc={friend.profilePicture} label={friend.username} userId={friend.id} />
         </div>
         <p className="mt-2 mb-0 fs-4 fw-bold">{friend.username}</p>
       </div>

@@ -146,7 +146,7 @@ const Comments = ({ postID, author, socket }) => {
         }}
       >
         <div className="profile-pic">
-          <Avatar imageSrc={user.profilePicture} label={user.username} />
+          <Avatar imageSrc={user.profilePicture} label={user.username} userId={author._id} />
         </div>
         <div className="flex-fill mx-2">
           <input

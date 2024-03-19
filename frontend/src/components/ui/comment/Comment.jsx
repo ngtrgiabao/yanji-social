@@ -77,7 +77,7 @@ const Comment = ({
           className="d-flex align-items-center"
         >
           <div className="profile-pic bg-white text-black">
-            <Avatar imageSrc={user.profilePicture} label={user.username} />
+            <Avatar imageSrc={user.profilePicture} label={user.username} userId={user._id} />
           </div>
           <div className="d-flex align-items-center justify-content-between flex-fill">
             <div className="ms-3 d-flex align-items-center justify-content-between">

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { UilCamera } from "@iconscout/react-unicons";
 import { useDispatch } from "react-redux";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +12,7 @@ import "../../../styles/animations/snackbar.css";
 import { Avatar, FollowerList, ChangeImagePopup } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { useCurrentUser } from "../../../hooks";
+import Global from "../../../helpers/constants/global";
 
 const PersonalGeneralInfo = ({ userInfo, socket }) => {
   const [active, setActive] = useState("");
@@ -73,10 +73,11 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
             className="position-relative"
             onClick={() => userInfo?._id === currentUser?._id && handlePopup()}
           >
-            <div className="avatar d-flex justify-content-center align-items-center text-white">
+            <div className={`avatar d-flex justify-content-center align-items-center text-white ${userInfo?._id === Global.ADMIN_ID ? "" : "border border-3 border-dark"}`}>
               <Avatar
                 imageSrc={userInfo?.profilePicture}
                 label={userInfo?.username}
+                userId={userInfo?._id}
                 fontSize={"fs-1"}
                 customClass="fw-bold"
               />
