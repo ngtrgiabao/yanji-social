@@ -20,7 +20,7 @@ const useUploadImage = async (fileSeleted, isVideo = false) => {
       return res.data;
     }
   } catch (error) {
-    console.error("Error uploading image:", error);
+    console.error("[UPLOAD_IMAGE]", error);
     throw error;
   }
 };

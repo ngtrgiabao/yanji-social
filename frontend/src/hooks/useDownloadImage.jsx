@@ -12,7 +12,7 @@ const useDownloadImage = (imgSrc) => {
       anchor.click();
       document.body.removeChild(anchor);
     } catch (error) {
-      console.error("Error downloading image:", error);
+      console.error("[DOWNLOAD_IMAGE]", error);
     }
   };
 

@@ -146,7 +146,7 @@ const EditPopup = ({
                   role="presentation"
                   decoding="async"
                   src={currentUser.profilePicture || defaultAvatar}
-                  alt="Avatar user"
+                  alt={currentUser.username}
                 />
               ) : (
                 currentUser.username
@@ -161,7 +161,7 @@ const EditPopup = ({
               </div>
             </div>
           </div>
-          <span className="form__title-icon px-2" onClick={onPopup}>
+          <span className="form__title-icon px-2 mb-4" onClick={onPopup}>
             <X size={20} />
           </span>
         </div>

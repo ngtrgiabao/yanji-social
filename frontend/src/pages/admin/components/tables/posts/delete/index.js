@@ -10,12 +10,14 @@ const DeleteModal = ({ onHide, show, className, postId, onDeleteSubmit }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <span className="fs-4">
-          Are you sure you want to delete this post?
-        </span>
+        <span className="fs-4">Are you sure you want to delete this post?</span>
       </Modal.Body>
       <Modal.Footer className="border-0">
-        <Button variant="danger" className="fs-5 rounded rounded-2" onClick={() => onDeleteSubmit(postId)}>
+        <Button
+          variant="danger"
+          className="fs-5 rounded rounded-2"
+          onClick={() => onDeleteSubmit(postId)}
+        >
           Delete
         </Button>
         <Button
