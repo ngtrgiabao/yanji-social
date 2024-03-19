@@ -16,7 +16,7 @@ const useUploadAudio = async (fileSeleted) => {
       return res.data;
     }
   } catch (error) {
-    console.error("Error uploading image:", error);
+    console.error("[UPLOAD_AUDIO]", error);
     throw error;
   }
 };

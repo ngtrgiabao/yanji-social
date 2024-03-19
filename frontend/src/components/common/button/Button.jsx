@@ -8,7 +8,7 @@ const Button = ({
   setActive,
   active = "",
   isReadNotification = false,
-  newtab = false
+  newtab = false,
 }) => {
   return (
     <>
