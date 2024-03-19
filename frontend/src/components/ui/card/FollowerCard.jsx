@@ -15,7 +15,7 @@ const FollowerCard = ({ userID, username, profilePicture, close }) => {
       onClick={close}
     >
       <div className="profile-pic me-3 fs-5 text-white">
-        <Avatar imageSrc={profilePicture} label={username} />
+        <Avatar imageSrc={profilePicture} label={username} userId={userID} />
       </div>
       {username}
     </Link>

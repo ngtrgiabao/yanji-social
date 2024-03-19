@@ -66,7 +66,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
 
     const data = await axios.get(
       Global.SOCKET_URL +
-        `/api/v1/user/all-users/?username=${value.toLowerCase()}`,
+      `/api/v1/user/all-users/?username=${value.toLowerCase()}`,
     );
 
     const userList = data.data?.users;
@@ -137,17 +137,18 @@ const Navigation = ({ title, link, isSearch = true }) => {
               <Link
                 aria-label="Avatar user"
                 to={currentUser ? `/user/${user?._id}` : "/"}
-                className="profile-pic ms-4 border border-2 border-white text-white"
+                className={`profile-pic ms-4 ${Global.ADMIN_ID === currentUser?._id ? "" : "border border-2 border-white"} text-white`}
               >
                 <Avatar
                   imageSrc={user?.profilePicture}
                   label={user?.username}
+                  userId={currentUser?._id}
                 />
               </Link>
             )}
           </div>
         </div>
-      </nav>
+      </nav >
     </>
   );
 };
