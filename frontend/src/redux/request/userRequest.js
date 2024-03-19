@@ -9,7 +9,7 @@ import {
   updateUserFailed,
   deleteUserStart,
   deleteUserSuccess,
-  deleteUserFailed
+  deleteUserFailed,
 } from "../userSlice";
 
 export const getUserByID = async (userID, dispatch) => {
@@ -98,7 +98,7 @@ export const fetchUserSpecificImageQuantity = async (userInfo, dispatch) => {
 };
 
 export const deleteUser = async (userID, dispatch) => {
-  dispatch(deleteUserStart())
+  dispatch(deleteUserStart());
 
   try {
     const res = await userService.deleteUserById(userID);
@@ -107,4 +107,4 @@ export const deleteUser = async (userID, dispatch) => {
   } catch (error) {
     dispatch(deleteUserFailed());
   }
-}
+};

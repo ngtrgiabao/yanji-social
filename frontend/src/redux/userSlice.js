@@ -63,7 +63,7 @@ export const {
   updateUserFailed,
   deleteUserStart,
   deleteUserSuccess,
-  deleteUserFailed
+  deleteUserFailed,
 } = userSlice.actions;
 
 export default userSlice.reducer;

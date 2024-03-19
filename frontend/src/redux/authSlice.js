@@ -25,7 +25,10 @@ const authSlice = createSlice({
       state.login.isFetching = false;
       state.register.success = true;
       state.login.error = false;
-      if (action.payload.data.isVerifyEmail || action.payload.data._id === Global.ADMIN_ID) {
+      if (
+        action.payload.data.isVerifyEmail ||
+        action.payload.data._id === Global.ADMIN_ID
+      ) {
         state.login.currentUser = action.payload;
       }
     },

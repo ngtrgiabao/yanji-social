@@ -84,7 +84,7 @@ const PersonalNavbarProfile = () => {
           {checked && (
             <div className="box-setting-profile rounded-3">
               <div className="p-3">
-                <div className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3">
+                <div className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3" onClick={handleExportData}>
                   <FileDown size={20} />
                   <p className="ms-3 my-3 fs-4 fw-bold">Download your data</p>
                 </div>
@@ -124,12 +124,11 @@ const PersonalNavbarProfile = () => {
               <li key={item.id} className="nav-item">
                 <Link
                   to={"/" + item.link}
-                  className={`${
-                    (userRoute && !photosRoute && item.id === 1) ||
+                  className={`${(userRoute && !photosRoute && item.id === 1) ||
                     (userRoute && photosRoute && item.id === 2)
-                      ? "active"
-                      : ""
-                  }`}
+                    ? "active"
+                    : ""
+                    }`}
                 >
                   {item.title}
                 </Link>
