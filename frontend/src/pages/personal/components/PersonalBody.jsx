@@ -162,21 +162,10 @@ const PersonalBody = ({
           {currentUser?._id === userInfo?._id && (
             <div className="row d-flex border-bottom pb-4 mb-4" data-uploadpost>
               <div className="profile-pic p-0 rounded-circle overflow-hidden text-white">
-                {/* {userInfo.profilePicture ? (
-                  <img
-                    loading="lazy"
-                    role="presentation"
-                    decoding="async"
-                    src={userInfo.profilePicture}
-                    alt="Avatar user"
-                    className="w-100"
-                  />
-                ) : (
-                  <>{userInfo.username}</>
-                )} */}
                 <Avatar
                   imageSrc={userInfo.profilePicture}
                   label={userInfo.username}
+                  userId={userInfo._id}
                 />
               </div>
               <button

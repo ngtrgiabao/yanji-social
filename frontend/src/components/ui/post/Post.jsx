@@ -321,7 +321,7 @@ const Post = ({
             className="profile-pic bg-black text-white fs-5"
             aria-label="Avatar user"
           >
-            <Avatar imageSrc={user.profilePicture} label={user.username} />
+            <Avatar imageSrc={user.profilePicture} label={user.username} userId={user?._id} />
           </Link>
           <Link to={`/user/${user?._id}`} className="info">
             <div className="d-flex align-items-center fs-5">
