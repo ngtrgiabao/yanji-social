@@ -76,7 +76,9 @@ const Home = ({ socket }) => {
         <div className="container">
           <HomeLeft socket={socket} isReadNotification={isReadNotification} />
           <HomeMiddle socket={socket} />
-          <HomeRight />
+          {
+            currentUser && <HomeRight />
+          }
         </div>
       </main>
     </>
