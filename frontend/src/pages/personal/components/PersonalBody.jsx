@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import "../styles/personalBody.css";
 
 import PersonalIntroduce from "./PersonalIntroduce";
-import PersonalSocialLinks from "./PersonalSocialLinks";
+import { TermLinks } from "../../../components";
 import { Post } from "../../../components";
 import { PostPopup } from "../../../components/common";
 import {
@@ -155,7 +155,7 @@ const PersonalBody = ({
             />
           </div>
           <div className="row">
-            <PersonalSocialLinks />
+            <TermLinks />
           </div>
         </div>
         <div className="col-7" data-posts>

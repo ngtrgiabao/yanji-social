@@ -74,7 +74,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
       <div
         className="customize-theme"
         hidden={active !== "THEME"}
-        onClick={() => setActive("")}
+        onClick={() => setActive("HOME")}
       >
         <CustomTheme />
       </div>
@@ -89,7 +89,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
       <div
         className="customize-theme"
         hidden={active !== "SETTINGS"}
-        onClick={() => setActive("")}
+        onClick={() => setActive("HOME")}
       >
         <Setting close={handleClosePopup} />
       </div>
