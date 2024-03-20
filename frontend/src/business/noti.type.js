@@ -1,25 +1,15 @@
-const ADS = 0;
-const COMMENT_POST = 1;
-const LIKE_POST = 2;
-const MENTION = 3;
-const NEW_FOLLOWER = 4;
-const NEW_MSG = 5;
-const NEW_POST = 6;
-const REPORT = 7;
-const SAVE_POST = 8;
-const SHARE_POST = 9;
-const WARNING = 10;
-
-export {
-  ADS,
-  COMMENT_POST,
-  LIKE_POST,
-  MENTION,
-  NEW_FOLLOWER,
-  NEW_MSG,
-  NEW_POST,
-  REPORT,
-  SAVE_POST,
-  SHARE_POST,
-  WARNING,
+const NotiType = {
+  ADS: 0,
+  COMMENT_POST: 1,
+  LIKE_POST: 2,
+  MENTION: 3,
+  NEW_FOLLOWER: 4,
+  NEW_MSG: 5,
+  NEW_POST: 6,
+  REPORT: 7,
+  SAVE_POST: 8,
+  SHARE_POST: 9,
+  WARNING: 10,
 };
+
+export { NotiType };

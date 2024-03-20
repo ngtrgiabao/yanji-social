@@ -5,17 +5,52 @@ import { Heart, Mail, Repeat, MessageSquare, Users } from "lucide-react";
 
 import "./style/notificationCard.css";
 
-import {
-  COMMENT_POST,
-  LIKE_POST,
-  SHARE_POST,
-  NEW_FOLLOWER,
-  NEW_MSG,
-} from "../../../business/noti.type";
-
+import { NotiType } from "../../../business/noti.type";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { useTimeAgo } from "../../../hooks";
 import Avatar from "../avatar/Avatar";
+
+const handleTypeNotification = (formatTypeNotification) => {
+  switch (formatTypeNotification) {
+    case NotiType.LIKE_POST:
+      return <Heart size={20} />;
+    case NotiType.COMMENT_POST:
+      return <MessageSquare size={20} />;
+    case NotiType.SHARE_POST:
+      return <Repeat size={20} />;
+    case NotiType.NEW_FOLLOWER:
+      return <Users size={20} />;
+    case NotiType.NEW_MSG:
+      return <Mail size={20} />;
+    default:
+      return "";
+  }
+};
+
+const handleMessageNotification = (formatTypeNotification) => {
+  switch (formatTypeNotification) {
+    case NotiType.LIKE_POST:
+      return "liked your post";
+    case NotiType.COMMENT_POST:
+      return "commented on your post";
+    case NotiType.SHARE_POST:
+      return "shared your post";
+    case NotiType.NEW_FOLLOWER:
+      return "started following you";
+    case NotiType.NEW_MSG:
+      return "sent you a message";
+    default:
+      return "";
+  }
+};
+
+const notificationCardStyle = {
+  color: "var(--color-dark)",
+  width: "45%",
+  minHeight: "5.5rem",
+  border: "1px solid",
+  borderRadius: "0.5rem",
+};
 
 const NotificationCard = ({ sender, type, isRead, createdAt }) => {
   const [notiInfo, setNotiInfo] = useState({
@@ -32,7 +67,7 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
   };
 
   const handleNotificationClick = () => {
-    if (!isRead && formatTypeNotification === NEW_MSG) {
+    if (!isRead && formatTypeNotification === NotiType.NEW_MSG) {
       handleDirectlyLink("/messages");
     }
   };
@@ -57,16 +92,11 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
 
   return (
     <div
-      className={`fs-4 animate__animated animate__fadeIn d-flex align-items-center p-3 position-relative ${!isRead && "bg-dark text-white"
-        } my-2`}
-      style={{
-        color: "var(--color-dark)",
-        width: "45%",
-        minHeight: "5.5rem",
-        border: "1px solid",
-        borderRadius: "0.5rem",
-      }}
-      onClick={() => handleNotificationClick()}
+      className={`fs-4 animate__animated animate__fadeIn d-flex align-items-center p-3 position-relative ${
+        !isRead && "bg-dark text-white"
+      } my-2`}
+      style={notificationCardStyle}
+      onClick={handleNotificationClick}
       data-card
     >
       <div className="w-100" data-content>
@@ -78,25 +108,11 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
             style={{
               color: "var(--color-dark)",
             }}
-            className={`d-flex align-items-center fw-bold w-100 ${!isRead && "bg-dark text-white"
-              }`}
+            className={`d-flex align-items-center fw-bold w-100 ${
+              !isRead && "bg-dark text-white"
+            }`}
           >
-            {(() => {
-              switch (formatTypeNotification) {
-                case LIKE_POST:
-                  return <Heart size={20} />;
-                case COMMENT_POST:
-                  return <MessageSquare size={20} />;
-                case SHARE_POST:
-                  return <Repeat size={20} />;
-                case NEW_FOLLOWER:
-                  return <Users size={20} />;
-                case NEW_MSG:
-                  return <Mail size={20} />;
-                default:
-                  return "";
-              }
-            })()}
+            {handleTypeNotification(formatTypeNotification)}
             <div className="d-flex align-items-center justify-content-between w-100">
               <Link
                 to={`/user/${notiInfo.senderName ? sender : "404"}`}
@@ -116,27 +132,13 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
         <div data-content>
           <Link
             to={`/user/${notiInfo.senderName ? sender : "404"}`}
-            className={`fw-bold me-1 sender-notification ${!isRead && "bg-dark text-white"
-              } ${!notiInfo.senderName && "text-danger"}`}
+            className={`fw-bold me-1 sender-notification ${
+              !isRead && "bg-dark text-white"
+            } ${!notiInfo.senderName && "text-danger"}`}
           >
             {notiInfo.senderName || "This user not exist"}
           </Link>
-          {(() => {
-            switch (formatTypeNotification) {
-              case LIKE_POST:
-                return "liked your post";
-              case COMMENT_POST:
-                return "commented on your post";
-              case SHARE_POST:
-                return "shared your post";
-              case NEW_FOLLOWER:
-                return "followed you";
-              case NEW_MSG:
-                return "sent you a message";
-              default:
-                return "";
-            }
-          })()}
+          {handleMessageNotification(formatTypeNotification)}
         </div>
       </div>
     </div>

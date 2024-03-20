@@ -22,7 +22,7 @@ import {
 } from "../../../hooks";
 import { ConfirmDialog, PreviewImage } from "../../../components";
 import { getUserByID } from "../../../redux/request/userRequest";
-import { NEW_MSG } from "../../../business/noti.type";
+import { NotiType } from "../../../business/noti.type";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import MessageFooter from "./MessageFooter";
 import SocketEvent from "../../../helpers/constants/socket-event";
@@ -201,7 +201,7 @@ const MessageMiddle = ({ socket }) => {
             const notification = {
               sender: sender._id,
               receiver: friendID,
-              type: NEW_MSG,
+              type: NotiType.NEW_MSG,
             };
 
             pushNewNotification(notification, dispatch)
@@ -442,7 +442,11 @@ const MessageMiddle = ({ socket }) => {
               height: "4rem",
             }}
           >
-            <Avatar imageSrc={friend.avatar} label={friend.name} userId={friendID} />
+            <Avatar
+              imageSrc={friend.avatar}
+              label={friend.name}
+              userId={friendID}
+            />
           </span>
           <span className="ms-2 fs-4 fw-bold">{friend.name}</span>
         </Link>

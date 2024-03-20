@@ -73,7 +73,13 @@ const PersonalGeneralInfo = ({ userInfo, socket }) => {
             className="position-relative"
             onClick={() => userInfo?._id === currentUser?._id && handlePopup()}
           >
-            <div className={`avatar d-flex justify-content-center align-items-center text-white ${userInfo?._id === Global.ADMIN_ID ? "" : "border border-3 border-dark"}`}>
+            <div
+              className={`avatar d-flex justify-content-center align-items-center text-white ${
+                userInfo?._id === Global.ADMIN_ID
+                  ? ""
+                  : "border border-3 border-dark"
+              }`}
+            >
               <Avatar
                 imageSrc={userInfo?.profilePicture}
                 label={userInfo?.username}
