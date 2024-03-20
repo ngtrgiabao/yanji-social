@@ -29,7 +29,7 @@ import ParagraphWithLink from "../../paragraph/ParagraphWithLink";
 import { EditPopup, ConfirmDialog } from "../../common";
 import { Photo } from "../media";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
-import { LIKE_POST, SHARE_POST } from "../../../business/noti.type";
+import { NotiType } from "../../../business/noti.type";
 import Avatar from "../avatar/Avatar";
 import Global from "../../../helpers/constants/global";
 import ActionBtn from "./ActionBtn";
@@ -169,7 +169,7 @@ const Post = ({
           const notification = {
             sender: currentUser?._id,
             receiver: user?._id,
-            type: LIKE_POST,
+            type: NotiType.LIKE_POST,
           };
 
           pushNewNotification(notification, dispatch)
@@ -198,7 +198,7 @@ const Post = ({
           const notification = {
             sender: currentUser?._id,
             receiver: user?._id,
-            type: SHARE_POST,
+            type: NotiType.SHARE_POST,
           };
 
           pushNewNotification(notification, dispatch)

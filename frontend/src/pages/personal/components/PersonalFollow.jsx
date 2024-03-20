@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { followUser, getUserByID } from "../../../redux/request/userRequest";
 import { createRoom } from "../../../redux/request/roomRequest";
-import { NEW_FOLLOWER } from "../../../business/noti.type";
+import { NotiType } from "../../../business/noti.type";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import { Setting } from "../../../components";
 import { PersonalSendMsgBtn } from "./index";
@@ -97,7 +97,7 @@ const PersonalFollow = ({ userInfo, socket }) => {
         const notification = {
           sender: sender,
           receiver: userRoute,
-          type: NEW_FOLLOWER,
+          type: NotiType.NEW_FOLLOWER,
         };
 
         pushNewNotification(notification, dispatch)

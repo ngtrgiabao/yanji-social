@@ -7,7 +7,7 @@ import { commentPost } from "../../../redux/request/postRequest";
 import { getAllCommentsByPostID } from "../../../redux/request/commentRequest";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import { getUserByID } from "../../../redux/request/userRequest";
-import { COMMENT_POST } from "../../../business/noti.type";
+import { NotiType } from "../../../business/noti.type";
 import SocketEvent from "../../../helpers/constants/socket-event";
 import Global from "../../../helpers/constants/global";
 import { useCurrentUser } from "../../../hooks";
@@ -88,7 +88,7 @@ const Comments = ({ postID, author, socket }) => {
               const notification = {
                 sender: currentUser._id,
                 receiver: author._id,
-                type: COMMENT_POST,
+                type: NotiType.COMMENT_POST,
               };
 
               pushNewNotification(notification, dispatch)
