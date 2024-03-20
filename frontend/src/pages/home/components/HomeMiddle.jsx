@@ -57,8 +57,9 @@ const HomeMiddle = ({ socket }) => {
     <div className="middle animate__animated animate__fadeIn position-relative">
       {/* STATUS */}
       <div
-        className={`create-post align-items-center mb-4 ${currentUser === undefined ? "d-none" : "d-flex"
-          }`}
+        className={`create-post align-items-center mb-4 ${
+          currentUser === undefined ? "d-none" : "d-flex"
+        }`}
       >
         <div className="create-post-wrapper w-100 d-flex align-items-center">
           <Link
@@ -66,7 +67,11 @@ const HomeMiddle = ({ socket }) => {
             className="profile-pic text-white"
             aria-label="Avatar user"
           >
-            <Avatar imageSrc={user?.profilePicture} label={user?.username} userId={user?._id} />
+            <Avatar
+              imageSrc={user?.profilePicture}
+              label={user?.username}
+              userId={user?._id}
+            />
           </Link>
 
           <div

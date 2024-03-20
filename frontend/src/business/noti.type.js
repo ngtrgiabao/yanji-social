@@ -10,8 +10,6 @@ const NotiType = {
   SAVE_POST: 8,
   SHARE_POST: 9,
   WARNING: 10,
-}
-
-export {
-  NotiType
 };
+
+export { NotiType };

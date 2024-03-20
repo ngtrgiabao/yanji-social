@@ -442,7 +442,11 @@ const MessageMiddle = ({ socket }) => {
               height: "4rem",
             }}
           >
-            <Avatar imageSrc={friend.avatar} label={friend.name} userId={friendID} />
+            <Avatar
+              imageSrc={friend.avatar}
+              label={friend.name}
+              userId={friendID}
+            />
           </span>
           <span className="ms-2 fs-4 fw-bold">{friend.name}</span>
         </Link>

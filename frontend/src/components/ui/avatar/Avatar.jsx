@@ -7,12 +7,15 @@ const Avatar = ({
   customClass = "",
   customAttrs,
   fontSize,
-  userId = ""
+  userId = "",
 }) => {
   return (
     <div
-      className={`profile-pic text-white ${userId === Global.ADMIN_ID ? "border border-3 border-danger" : ""} ${fontSize ? fontSize : "fs-5"
-        } text-uppercase w-100 h-100 ${customClass}`}
+      className={`profile-pic text-white ${
+        userId === Global.ADMIN_ID ? "border border-3 border-danger" : ""
+      } ${
+        fontSize ? fontSize : "fs-5"
+      } text-uppercase w-100 h-100 ${customClass}`}
       {...customAttrs}
     >
       {imageSrc ? (
