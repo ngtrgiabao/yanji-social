@@ -80,7 +80,11 @@ const Conversation = ({
           background: "var(--color-primary)",
         }}
       >
-        <Avatar imageSrc={user?.profilePicture} label={user?.username} userId={user?._id} />
+        <Avatar
+          imageSrc={user?.profilePicture}
+          label={user?.username}
+          userId={user?._id}
+        />
       </span>
     );
   };

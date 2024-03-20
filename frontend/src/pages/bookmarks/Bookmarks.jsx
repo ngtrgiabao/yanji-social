@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { MoveLeft } from "lucide-react";
+import { io } from "socket.io-client";
 
 import "../../styles/animations/snackbar.css";
 
 import { getPostsSaved } from "../../redux/request/userRequest";
 import { Bookmark } from "../../components";
-import { io } from "socket.io-client";
 import SocketEvent from "../../helpers/constants/socket-event";
 import Global from "../../helpers/constants/global";
 import { useCurrentUser } from "../../hooks";
