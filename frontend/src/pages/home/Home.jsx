@@ -2,7 +2,7 @@ import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 
 import "./styles/home.css";
 
-import { HomeLeft, HomeMiddle } from "./components";
+import { HomeLeft, HomeMiddle, HomeRight } from "./components";
 import { io } from "socket.io-client";
 import { useDispatch } from "react-redux";
 
@@ -76,6 +76,7 @@ const Home = ({ socket }) => {
         <div className="container">
           <HomeLeft socket={socket} isReadNotification={isReadNotification} />
           <HomeMiddle socket={socket} />
+          <HomeRight />
         </div>
       </main>
     </>
