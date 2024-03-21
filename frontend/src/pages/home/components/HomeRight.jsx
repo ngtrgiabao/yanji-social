@@ -9,7 +9,7 @@ const HomeRight = () => {
   const [user, setUser] = useState([]);
   const currentUser = useCurrentUser();
   const dispatch = useDispatch()
-  const { fetchFollowingList } = useFollowingsList({ currentUserID: currentUser._id, dispatch, setUser });
+  const { fetchFollowingList } = useFollowingsList({ currentUserID: currentUser._id, dispatch, setFollowings: setUser });
 
   useEffect(() => {
     fetchFollowingList();

@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { getUserByID } from "../redux/request/userRequest";
 
-const useFollowersList = ({ currentUserID, dispatch, setUser }) => {
+const useFollowersList = ({ currentUserID, dispatch, setFollowers }) => {
   const addUserIfNotExists = (user) => {
-    setUser((prevUser) => {
+    setFollowers((prevUser) => {
       const userExists = prevUser.some((prevUser) => prevUser._id === user._id);
       if (!userExists) {
         return [...prevUser, user];

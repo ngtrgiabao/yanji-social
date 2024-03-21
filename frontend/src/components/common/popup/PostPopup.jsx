@@ -10,10 +10,12 @@ import "./style/postPopup.css";
 import { BG_DEFAULT_WALLPAPER_USER } from "../../../assets";
 
 import { uploadPost } from "../../../redux/request/postRequest";
-import { useCurrentUser, useUploadImage } from "../../../hooks";
+import { useCurrentUser, useFollowersList, useUploadImage } from "../../../hooks";
 import { PreviewImage } from "../../ui";
 import { getUserByID } from "../../../redux/request/userRequest";
 import Global from "../../../helpers/constants/global";
+import { NotiType } from "../../../business/noti.type";
+import { pushNewNotification } from "../../../redux/request/notificationRequest";
 
 const PostPopup = ({ onPopup, extendClass, socket }) => {
   const [imageUrl, setImageUrl] = useState(null);
@@ -29,6 +31,13 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
   });
   const uploadImg = useRef(null);
   const dispatch = useDispatch();
+  const [followers, setFollowers] = useState([]);
+  const currentUser = useCurrentUser();
+  const { fetchFollowerList } = useFollowersList({
+    setFollowers,
+    currentUserID: currentUser._id,
+    dispatch,
+  })
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -50,8 +59,6 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
   const handleUploadImgFile = () => {
     uploadImg.current.click();
   };
-
-  const currentUser = useCurrentUser();
 
   useEffect(() => {
     currentUser &&
@@ -83,35 +90,21 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
 
   const cloudStorage = useUploadImage;
 
-  // const handleLikePost = () => {
-  //   likePost(post, dispatch)
-  //     .then(async (data) => {
-  //       socket = io(Global.SOCKET_URL);
+  const notifyFollower = (user) => {
+    const notification = {
+      sender: currentUser?._id,
+      receiver: user?._id,
+      type: NotiType.NEW_POST,
+    };
 
-  //       await socket.emit("update-post", data.data);
-
-  //       const { isLiked } = data;
-
-  //       if (isLiked && user?._id !== currentUser?._id) {
-  //         const notification = {
-  //           sender: currentUser?._id,
-  //           receiver: user?._id,
-  //           type: NotiType.LIKE_POST,
-  //         };
-
-  //         pushNewNotification(notification, dispatch)
-  //           .then((data) => {
-  //             socket.emit("push-notification", data.data);
-  //           })
-  //           .catch((err) => {
-  //             console.error("Failed to create new notification", err);
-  //           });
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Failed to like post", error);
-  //     });
-  // };
+    pushNewNotification(notification, dispatch)
+      .then((data) => {
+        socket.emit("push-notification", data.data);
+      })
+      .catch((err) => {
+        console.error("[NOTIFY_FOLLOWER_POST_POPUP]", err);
+      });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -138,6 +131,8 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
         socket = io(Global.SOCKET_URL);
 
         await socket.emit("upload-post", data?.data);
+
+        followers.forEach((user) => notifyFollower(user));
       })
       .catch((err) => console.error("Failed to upload post", err));
 
@@ -149,6 +144,10 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
     setImageSrc("");
     uploadImg.current.value = null;
   };
+
+  useEffect(() => {
+    fetchFollowerList()
+  }, [fetchFollowerList])
 
   return (
     <div

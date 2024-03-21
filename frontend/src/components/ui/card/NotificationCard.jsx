@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, Mail, Repeat, MessageSquare, Users } from "lucide-react";
+import { Heart, Mail, Repeat, MessageSquare, Users, Megaphone } from "lucide-react";
 
 import "./style/notificationCard.css";
 
@@ -22,6 +22,8 @@ const handleTypeNotification = (formatTypeNotification) => {
       return <Users size={20} />;
     case NotiType.NEW_MSG:
       return <Mail size={20} />;
+    case NotiType.NEW_POST:
+      return <Megaphone size={20} />;
     default:
       return "";
   }
@@ -39,6 +41,8 @@ const handleMessageNotification = (formatTypeNotification) => {
       return "started following you";
     case NotiType.NEW_MSG:
       return "sent you a message";
+    case NotiType.NEW_POST:
+      return "create new post !";
     default:
       return "";
   }
