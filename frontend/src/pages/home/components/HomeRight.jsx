@@ -1,62 +1,19 @@
-import { useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
-import { Avatar, TermLinks } from "../../../components";
-import { getUserByID } from '../../../redux/request/userRequest';
-import { useCurrentUser } from '../../../hooks';
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { Avatar, TermLinks } from "../../../components";
+import { useCurrentUser, useFollowingsList } from '../../../hooks';
 
 const HomeRight = () => {
   const [user, setUser] = useState([]);
   const currentUser = useCurrentUser();
   const dispatch = useDispatch()
-
-  const fetchFollowingList = useCallback(() => {
-    getUserByID(currentUser._id, dispatch)
-      .then((data) => {
-        fetchFollowingUsers(data?.user?.followings);
-      })
-      .catch((err) => {
-        console.error("Failed to get following list", err);
-      });
-  }, [currentUser._id, dispatch]);
-
-  const fetchFollowingUsers = (followingList) => {
-    let index = 0;
-    const fetchNextUserData = () => {
-      if (index >= followingList.length) return;
-
-      const userID = followingList[index];
-
-      getUserByID(userID, dispatch)
-        .then((data) => {
-          addUserIfNotExists(data.user);
-          index++;
-          fetchNextUserData();
-        })
-        .catch((err) => {
-          console.error("[GET_USER_INFO_HOME_RIGHT]", err);
-          index++;
-          fetchNextUserData();
-        });
-    };
-
-    fetchNextUserData();
-  };
-
-  const addUserIfNotExists = (user) => {
-    setUser((prevUser) => {
-      const userExists = prevUser.some((u) => u._id === user._id);
-      if (!userExists) {
-        return [...prevUser, user];
-      }
-      return prevUser;
-    });
-  };
+  const { fetchFollowingList } = useFollowingsList({ currentUserID: currentUser._id, dispatch, setFollowings: setUser });
 
   useEffect(() => {
     fetchFollowingList();
   }, [fetchFollowingList]);
-
 
   return (
     <div className='row'>

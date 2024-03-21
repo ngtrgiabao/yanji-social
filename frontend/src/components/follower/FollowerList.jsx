@@ -12,25 +12,30 @@ const FollowerList = ({ close, userInfo }) => {
 
   const dispatch = useDispatch();
 
+  const fetchFollowers = async (followers) => {
+    const followersPromises = followers.map((userID) =>
+      getUserByID(userID, dispatch).then((data) => data?.user),
+    );
+    const fetchedFollowers = await Promise.all(followersPromises);
+    setFollower(fetchedFollowers);
+  };
+
+  const fetchFollowings = async (followings) => {
+    const followingsPromises = followings.map((userID) =>
+      getUserByID(userID, dispatch).then((data) => data?.user),
+    );
+    const fetchedFollowings = await Promise.all(followingsPromises);
+    setFollowings(fetchedFollowings);
+  };
+
   useEffect(() => {
     if (userInfo._id) {
       const fetchData = async () => {
         const userData = await getUserByID(userInfo._id, dispatch);
         const { followers, followings } = userData.user;
 
-        const followersPromises = followers.map((userID) =>
-          getUserByID(userID, dispatch).then((data) => data?.user),
-        );
-
-        const followingsPromises = followings.map((userID) =>
-          getUserByID(userID, dispatch).then((data) => data?.user),
-        );
-
-        const fetchedFollowers = await Promise.all(followersPromises);
-        const fetchedFollowings = await Promise.all(followingsPromises);
-
-        setFollower(fetchedFollowers);
-        setFollowings(fetchedFollowings);
+        fetchFollowers(followers);
+        fetchFollowings(followings)
       };
 
       fetchData();
