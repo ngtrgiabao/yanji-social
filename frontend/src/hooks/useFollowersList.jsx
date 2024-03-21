@@ -26,7 +26,7 @@ const useFollowersList = ({ currentUserID, dispatch, setFollowers }) => {
           fetchNextUserData();
         })
         .catch((err) => {
-          console.error("[USE_FOLLOWING_LIST]", err);
+          console.error("[USE_FOLLOWER_LIST]", err);
           index++;
           fetchNextUserData();
         });
@@ -41,7 +41,7 @@ const useFollowersList = ({ currentUserID, dispatch, setFollowers }) => {
         fetchFollowerUsers(data?.user?.followers);
       })
       .catch((err) => {
-        console.error("[USE_FOLLOWING_LIST]", err);
+        console.error("[USE_FOLLOWER_LIST]", err);
       });
   }, [currentUserID, dispatch]);
 
