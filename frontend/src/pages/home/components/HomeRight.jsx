@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { Avatar, TermLinks } from "../../../components";
-import { useCurrentUser } from '../../../hooks';
-import { useFollowingsList } from '../../../hooks';
+import { useCurrentUser, useFollowingsList } from '../../../hooks';
 
 const HomeRight = () => {
   const [user, setUser] = useState([]);
