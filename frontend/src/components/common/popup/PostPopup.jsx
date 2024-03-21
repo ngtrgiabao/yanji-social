@@ -83,6 +83,36 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
 
   const cloudStorage = useUploadImage;
 
+  // const handleLikePost = () => {
+  //   likePost(post, dispatch)
+  //     .then(async (data) => {
+  //       socket = io(Global.SOCKET_URL);
+
+  //       await socket.emit("update-post", data.data);
+
+  //       const { isLiked } = data;
+
+  //       if (isLiked && user?._id !== currentUser?._id) {
+  //         const notification = {
+  //           sender: currentUser?._id,
+  //           receiver: user?._id,
+  //           type: NotiType.LIKE_POST,
+  //         };
+
+  //         pushNewNotification(notification, dispatch)
+  //           .then((data) => {
+  //             socket.emit("push-notification", data.data);
+  //           })
+  //           .catch((err) => {
+  //             console.error("Failed to create new notification", err);
+  //           });
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Failed to like post", error);
+  //     });
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
