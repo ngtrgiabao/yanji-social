@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
@@ -143,8 +143,8 @@ const Navigation = ({ title, link, isSearch = true }) => {
                 aria-label="Avatar user"
                 to={currentUser ? `/user/${user?._id}` : "/"}
                 className={`profile-pic ms-4 ${Global.ADMIN_ID === currentUser?._id
-                    ? ""
-                    : "border border-2 border-white"
+                  ? ""
+                  : "border border-2 border-white"
                   } text-white`}
               >
                 <Avatar
@@ -161,4 +161,4 @@ const Navigation = ({ title, link, isSearch = true }) => {
   );
 };
 
-export default Navigation;
+export default memo(Navigation);

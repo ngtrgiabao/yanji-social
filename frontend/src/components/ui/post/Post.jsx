@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -24,7 +24,6 @@ import {
 } from "../../../redux/request/postRequest";
 import { getUserByID, updateUser } from "../../../redux/request/userRequest";
 import { useTimeAgo, useCopyUrl, useCurrentUser } from "../../../hooks";
-import DetailsPost from "./DetailsPost";
 import ParagraphWithLink from "../../paragraph/ParagraphWithLink";
 import { EditPopup, ConfirmDialog } from "../../common";
 import { Photo } from "../media";
@@ -33,6 +32,7 @@ import { NotiType } from "../../../business/noti.type";
 import Avatar from "../avatar/Avatar";
 import Global from "../../../helpers/constants/global";
 import ActionBtn from "./ActionBtn";
+const DetailsPost = lazy(() => import("./DetailsPost"));
 
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
 // TODO FIX POPUP WHEN DELETE POST NOT WORK CORRECTLY
