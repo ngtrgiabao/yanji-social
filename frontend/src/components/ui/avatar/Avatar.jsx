@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { LOGO_YANJI_SOCIAL } from "../../../assets";
 import Global from "../../../helpers/constants/global";
 
@@ -11,11 +12,9 @@ const Avatar = ({
 }) => {
   return (
     <div
-      className={`profile-pic text-white ${
-        userId === Global.ADMIN_ID ? "border border-3 border-danger" : ""
-      } ${
-        fontSize ? fontSize : "fs-5"
-      } text-uppercase w-100 h-100 ${customClass}`}
+      className={`profile-pic text-white ${userId === Global.ADMIN_ID ? "border border-3 border-danger" : ""
+        } ${fontSize ? fontSize : "fs-5"
+        } text-uppercase w-100 h-100 ${customClass}`}
       {...customAttrs}
     >
       {imageSrc ? (
@@ -34,4 +33,4 @@ const Avatar = ({
   );
 };
 
-export default Avatar;
+export default memo(Avatar);
