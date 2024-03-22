@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { useDispatch } from "react-redux";
 import {
   Home,
@@ -236,4 +236,4 @@ const HomeLeft = ({ socket, isReadNotification }) => {
   );
 };
 
-export default HomeLeft;
+export default memo(HomeLeft);
