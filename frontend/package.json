@@ -78,6 +78,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@webpack-cli/generators": "^3.0.4",
     "prettier": "^3.1.1",
     "webpack-cli": "^5.1.1"

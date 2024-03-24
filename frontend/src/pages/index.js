@@ -14,6 +14,8 @@ export { default as NetworkError } from "./networkError/NetworkError";
 export { default as Notification } from "./notification/Notification";
 export { default as Personal } from "./personal/Personal";
 export { default as PostPreview } from "./postPreview/PostPreview";
+export { default as Admin } from "./admin/Admin"
+export { default as BookmarksPage } from "./bookmarks/Bookmarks"
 
 // term
 export { default as TermAndService } from "./term/TermAndService";

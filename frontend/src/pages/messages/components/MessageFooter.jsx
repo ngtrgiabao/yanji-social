@@ -2,6 +2,36 @@ import { Send, X, Image, Paperclip } from "lucide-react";
 
 import { EmojiPicker } from "../../../components/common";
 
+const labelEditStyle = {
+  left: 10,
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "max-content",
+  fontWeight: "bolder",
+};
+
+const attachFileStyle = {
+  width: "2em",
+  height: "2em",
+  borderRadius: "0.5rem",
+  padding: "0.8rem",
+};
+
+const cancelEditMsgStyle = {
+  width: "2em",
+  height: "2em",
+  borderRadius: "0.5rem",
+  padding: "0.8rem",
+};
+
+const sendMsgStyle = {
+  width: "2em",
+  height: "2em",
+  borderRadius: "0.5rem",
+  padding: "0.8rem",
+};
+
 const MessageFooter = ({
   uploadImgRef,
   activeState,
@@ -16,35 +46,6 @@ const MessageFooter = ({
   onUploadImage,
   onActive,
 }) => {
-  const labelEditStyle = {
-    left: 10,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "max-content",
-    fontWeight: "bolder",
-  };
-
-  const attachFileStyle = {
-    width: "2em",
-    height: "2em",
-    borderRadius: "0.5rem",
-    padding: "0.8rem",
-  };
-
-  const cancelEditMsgStyle = {
-    width: "2em",
-    height: "2em",
-    borderRadius: "0.5rem",
-    padding: "0.8rem",
-  };
-
-  const sendMsgStyle = {
-    width: "2em",
-    height: "2em",
-    borderRadius: "0.5rem",
-    padding: "0.8rem",
-  };
 
   const renderLabelEditMessage = () => {
     return (

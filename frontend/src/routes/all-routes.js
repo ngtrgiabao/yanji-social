@@ -1,31 +1,71 @@
-import { lazy } from "react";
+import {lazy} from "react";
+import {CookiePolicy, PrivacyPolicy, TermAndService} from "../pages";
 
-import { TermAndService, CookiePolicy, PrivacyPolicy } from "../pages";
+const Homepage = lazy(() => import("../pages/home/Home"));
+const MessagesPage = lazy(() => import("../pages/messages/Messages"));
+const PersonalPage = lazy(() => import("../pages/personal/Personal"));
+const NotificationPage = lazy(
+    () => import("../pages/notification/Notification"),
+);
+const BookmarkPage = lazy(() => import("../pages/bookmarks/Bookmarks"));
+const PostPreview = lazy(() => import("../pages/postPreview/PostPreview"));
+const AdminPage = lazy(() => import("../pages/admin/Admin"));
 
 const RegisterPage = lazy(() => import("../pages/auth/RegisterPage"));
 const LoginPage = lazy(() => import("../pages/auth/LoginPage"));
-const _404 = lazy(() => import("../pages/_404/_404"));
+const ExplorePage = lazy(() => import("../pages/explore/Explore"));
 
-// const routes = [
-// { path: "/", element: <Suspense fallback={<YanjiSocialLoadingPage />} ><Homepage socket={socket} /></Suspense> },
-// { path: currentUser ? "/messages" : "*", element: <Suspense fallback={<LoadingPage />} >{currentUser ? <MessagesPage socket={socket} /> : <RegisterPage />}</Suspense> },
-// { path: currentUser ? "/explore" : "*", element: <Suspense fallback={<LoadingPage />} ><ExplorePage /></Suspense> },
-// { path: currentUser ? "/admin" : "*", element: <Suspense fallback={<LoadingPage />} ><AdminPage /></Suspense> },
-// { path: "/user/:userID", element: <Suspense fallback={<LoadingPage />} ><PersonalPage socket={socket} /></Suspense> },
-// { path: "/user/:userID/:photos", element: <Suspense fallback={<LoadingPage />} ><PersonalPage socket={socket} /></Suspense> },
-// { path: currentUser ? "/notification" : "*", element: <Suspense fallback={<LoadingPage />} ><NotificationPage socket={socket} /></Suspense> },
-// { path: currentUser ? "/bookmarks" : "*", element: <Suspense fallback={<LoadingPage />} ><BookmarkPage socket={socket} /></Suspense> },
-// { path: "/post/:postID", element: <Suspense fallback={<LoadingPage />} ><PostPreview socket={socket} /></Suspense> },
-// ];
+const authProtectedRoutes = [
+    {
+        path: "/",
+        component: Homepage,
+        isSocket: true,
+    },
+    {
+        path: "/messages",
+        component: MessagesPage,
+        isSocket: true,
+    },
+    {
+        path: "/admin",
+        component: AdminPage,
+        isSocket: false,
+    },
+    {
+        path: "/user/:userID",
+        component: PersonalPage,
+        isSocket: true,
+    },
+    {
+        path: "/user/:userID/:photos",
+        component: PersonalPage,
+        isSocket: true,
+    },
+    {
+        path: "/notification",
+        component: NotificationPage,
+        isSocket: true,
+    },
+    {
+        path: "/bookmarks",
+        component: BookmarkPage,
+        isSocket: true,
+    },
+    {
+        path: "/post/:postID",
+        component: PostPreview,
+        isSocket: true,
+    },
+]
 
 const publicRoutes = [
-  { path: "/login", component: <LoginPage /> },
-  { path: "/register", component: <RegisterPage /> },
-  { path: "/logout", component: <LoginPage /> },
-  { path: "/term-and-service", component: <TermAndService /> },
-  { path: "/cookie-policy", component: <CookiePolicy /> },
-  { path: "/privacy-policy", component: <PrivacyPolicy /> },
-  { path: "*", component: <_404 /> },
+    {path: "/login", component: LoginPage},
+    {path: "/register", component: RegisterPage},
+    {path: "/logout", component: LoginPage},
+    {path: "/term-and-service", component: TermAndService},
+    {path: "/cookie-policy", component: CookiePolicy},
+    {path: "/privacy-policy", component: PrivacyPolicy},
+    {path: "/explore", component: ExplorePage},
 ];
 
-export { publicRoutes }
+export {publicRoutes, authProtectedRoutes}
