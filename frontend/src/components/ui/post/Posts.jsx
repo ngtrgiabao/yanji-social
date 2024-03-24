@@ -1,4 +1,11 @@
-import React, { lazy, memo, useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  lazy,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import axios from "axios";
@@ -147,21 +154,21 @@ const Posts = ({ socket }) => {
     <div className="posts">
       {currentUser
         ? posts.map((post) => (
-          <Post
-            key={post._id}
-            postID={post._id}
-            image={post.img}
-            video={post.video}
-            userID={post.userID}
-            desc={post.desc}
-            likes={post.likes}
-            shares={post.shares}
-            comments={post.comments}
-            socket={socket}
-            createdAt={post.createdAt}
-            updatedAt={post.updatedAt}
-          />
-        ))
+            <Post
+              key={post._id}
+              postID={post._id}
+              image={post.img}
+              video={post.video}
+              userID={post.userID}
+              desc={post.desc}
+              likes={post.likes}
+              shares={post.shares}
+              comments={post.comments}
+              socket={socket}
+              createdAt={post.createdAt}
+              updatedAt={post.updatedAt}
+            />
+          ))
         : requiredBanner}
 
       {currentUser && hasMore && (

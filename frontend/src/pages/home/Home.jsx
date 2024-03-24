@@ -29,9 +29,9 @@ const Home = ({ socket }) => {
 
         if (receiver !== sender && receiver === currentUser?._id && type) {
           getAllNotificationsByUser(currentUser?._id, dispatch).then((data) => {
-            const notiList = data.data;
-            const isGotNotification = Object.values(notiList).some(
-              (noti) => noti.isRead === false,
+            const notificationList = data.data;
+            const isGotNotification = Object.values(notificationList).some(
+              (notification) => notification.isRead === false,
             );
 
             setIsReadNotification(isGotNotification);
@@ -47,7 +47,7 @@ const Home = ({ socket }) => {
       getAllNotificationsByUser(currentUser?._id, dispatch).then((data) => {
         if (data) {
           const isGotNotification = Object.values(data.data).some(
-            (noti) => !noti.isRead,
+            (notification) => !notification.isRead,
           );
 
           setIsReadNotification(isGotNotification);
@@ -76,9 +76,7 @@ const Home = ({ socket }) => {
         <div className="container">
           <HomeLeft socket={socket} isReadNotification={isReadNotification} />
           <HomeMiddle socket={socket} />
-          {
-            currentUser && <HomeRight />
-          }
+          <HomeRight />
         </div>
       </main>
     </>

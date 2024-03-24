@@ -35,7 +35,7 @@ const FollowerList = ({ close, userInfo }) => {
         const { followers, followings } = userData.user;
 
         fetchFollowers(followers);
-        fetchFollowings(followings)
+        fetchFollowings(followings);
       };
 
       fetchData();

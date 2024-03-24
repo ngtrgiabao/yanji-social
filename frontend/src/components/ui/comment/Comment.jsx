@@ -80,14 +80,14 @@ const Comment = ({
             <Avatar
               imageSrc={user.profilePicture}
               label={user.username}
-              userId={user._id}
+              userId={user?._id}
             />
           </div>
           <div className="d-flex align-items-center justify-content-between flex-fill">
             <div className="ms-3 d-flex align-items-center justify-content-between">
               <div className="d-flex text-white fs-4 flex-column">
                 <div className="fw-bold">
-                  {user._id === authorPost ? (
+                  {user?._id === authorPost ? (
                     <>
                       <span className="author me-2">Author</span>@
                       {user.username}

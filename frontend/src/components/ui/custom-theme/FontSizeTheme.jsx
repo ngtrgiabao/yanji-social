@@ -1,3 +1,4 @@
+import { memo } from "react";
 import "./style/fontSize.css";
 
 import { useTheme } from "../../../hooks";
@@ -56,4 +57,4 @@ const FontSizeTheme = () => {
   );
 };
 
-export default FontSizeTheme;
+export default memo(FontSizeTheme);
