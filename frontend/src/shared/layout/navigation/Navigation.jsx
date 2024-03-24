@@ -24,7 +24,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
   const currentUser = useCurrentUser();
 
   useEffect(() => {
-    if (currentUser && !user._id) {
+    if (currentUser && !user?._id) {
       getUserByID(currentUser._id, dispatch)
         .then((data) => {
           setUser({
@@ -35,7 +35,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
           console.error("Failed to fetch user:", error);
         });
     }
-  }, [currentUser, user._id, dispatch]);
+  }, [currentUser, user?._id, dispatch]);
 
   const handleLogout = () => {
     logout(dispatch, navigate);

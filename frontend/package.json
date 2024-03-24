@@ -36,6 +36,7 @@
     "react-google-recaptcha": "^3.1.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.4.0",
+    "react-lazy-load-image-component": "^1.6.0",
     "react-otp-input": "^3.1.1",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.3.0",
@@ -47,16 +48,19 @@
     "timeago.js": "^4.0.0-beta.3",
     "uid": "^2.0.0",
     "wavesurfer.js": "^7.1.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack-bundle-analyzer": "^4.10.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "add-dev": "yarn add --dev --production=false",
+    "analyze": "webpack-bundle-analyzer build/bundle-stats.json",
+    "build": "react-scripts build --stats",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,tsx,ts,json,md,html,css,less,scss}\"",
     "lint": "eslint --fix --ext .js,.jsx .",
-    "add-dev": "yarn add --dev --production=false"
+    "report": "npm run build --withReport true",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": []

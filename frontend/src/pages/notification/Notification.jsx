@@ -63,9 +63,8 @@ const Notification = ({ socket }) => {
       if (data.data.length > 0) {
         const res = await axios.get(
           Global.SOCKET_URL +
-            `/api/v1/notification/all/user/${currentUser._id}/?limit=5&skip=${
-              page * 5
-            }`,
+          `/api/v1/notification/all/user/${currentUser._id}/?limit=5&skip=${page * 5
+          }`,
         );
 
         const { data } = res.data;
@@ -150,25 +149,24 @@ const Notification = ({ socket }) => {
             }}
             data-notifications
           >
-            <>
-              {notiList.map((noti) => (
-                <NotificationCard
-                  key={noti._id}
-                  sender={noti.sender}
-                  isRead={noti.isRead}
-                  type={noti.type}
-                  createdAt={noti.createdAt}
-                />
-              ))}
-              {currentUser && hasMore && (
-                <div
-                  className="d-flex justify-content-center fs-3 fw-bold my-3"
-                  ref={loadingRef}
-                >
-                  Loading...
-                </div>
-              )}
-            </>
+            {notiList.map((noti) => (
+              <NotificationCard
+                key={noti._id}
+                sender={noti.sender}
+                isRead={noti.isRead}
+                type={noti.type}
+                createdAt={noti.createdAt}
+              />
+            ))}
+
+            {currentUser && hasMore && (
+              <div
+                className="d-flex justify-content-center fs-3 fw-bold my-3"
+                ref={loadingRef}
+              >
+                Loading...
+              </div>
+            )}
           </div>
         )}
       </div>

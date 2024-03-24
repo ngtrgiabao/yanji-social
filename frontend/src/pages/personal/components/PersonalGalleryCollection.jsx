@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 
 import "../styles/personalGalleryCollection.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const PersonalGalleryCollection = ({ photos }) => {
   const { userID: userRoute } = useParams();
@@ -19,13 +20,10 @@ const PersonalGalleryCollection = ({ photos }) => {
           }}
         >
           {photo?.imageUrl ? (
-            <img
-              loading="lazy"
-              role="presentation"
-              decoding="async"
-              src={photo.imageUrl}
-              alt="avatar_user"
-            />
+              <LazyLoadImage
+                  alt="avatar_user"
+                  src={photo.imageUrl}
+              />
           ) : null}
         </Link>
       );

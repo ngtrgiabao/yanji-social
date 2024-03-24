@@ -1,6 +1,8 @@
 import { memo } from "react";
+
 import { LOGO_YANJI_SOCIAL } from "../../../assets";
 import Global from "../../../helpers/constants/global";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const Avatar = ({
   imageSrc = "",
@@ -18,14 +20,16 @@ const Avatar = ({
       {...customAttrs}
     >
       {imageSrc ? (
-        <img
-          loading="lazy"
-          role="presentation"
-          decoding="async"
-          src={imageSrc || LOGO_YANJI_SOCIAL}
-          alt={label}
-          className="w-100"
-        />
+          <LazyLoadImage
+              effect="blur"
+              alt={label}
+              src={imageSrc ? imageSrc : LOGO_YANJI_SOCIAL}
+              className="w-100 h-100"
+              height={"100%"}
+              style={{
+                objectFit: "cover"
+              }}
+          />
       ) : (
         <>{label.split("")[0]}</>
       )}

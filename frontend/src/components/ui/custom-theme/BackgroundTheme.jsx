@@ -1,3 +1,4 @@
+import { memo } from "react"
 import "./style/background.css";
 
 import { useTheme } from "../../../hooks";
@@ -47,4 +48,4 @@ const BackgroundTheme = () => {
   );
 };
 
-export default BackgroundTheme;
+export default memo(BackgroundTheme);

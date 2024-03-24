@@ -1,3 +1,4 @@
+import { memo } from "react"
 import "./style/color.css";
 
 import { useTheme } from "../../../hooks";
@@ -52,4 +53,4 @@ const ColorTheme = () => {
   );
 };
 
-export default ColorTheme;
+export default memo(ColorTheme);

@@ -127,7 +127,7 @@ const UsersTable = () => {
             <tbody>
               {users.map((user, idx) => (
                 <tr
-                  key={user._id}
+                  key={user?._id}
                   className="fs-5"
                   style={{
                     background: `${
@@ -135,17 +135,17 @@ const UsersTable = () => {
                     }`,
                   }}
                 >
-                  <td>{user._id}</td>
+                  <td>{user?._id}</td>
                   <td>
-                    <Link to={`/user/${user._id}`} className="text-primary">
-                      {user.username}
+                    <Link to={`/user/${user?._id}`} className="text-primary">
+                      {user?.username}
                     </Link>
                   </td>
-                  <td>{user.email}</td>
-                  <td>{user.followers.length}</td>
-                  <td>{user.followings.length}</td>
+                  <td>{user?.email}</td>
+                  <td>{user?.followers.length}</td>
+                  <td>{user?.followings.length}</td>
                   <td>
-                    {user.isVerify ? (
+                    {user?.isVerify ? (
                       <Badge pill bg="success">
                         verified
                       </Badge>
@@ -171,7 +171,7 @@ const UsersTable = () => {
                   <td className="d-flex justify-content-center align-items-center">
                     <Button
                       variant="outline-primary"
-                      onClick={() => onUpsert(user._id)}
+                      onClick={() => onUpsert(user?._id)}
                       className="rounded rounded-2 me-3 d-flex align-items-center"
                     >
                       <PenLine size={16} className="me-2" />
@@ -180,7 +180,7 @@ const UsersTable = () => {
                     <Button
                       className="rounded rounded-2"
                       variant="danger"
-                      onClick={() => onDelete(user._id)}
+                      onClick={() => onDelete(user?._id)}
                     >
                       Delete
                     </Button>

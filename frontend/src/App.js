@@ -3,20 +3,18 @@ import { Routes, Route } from "react-router-dom";
 import { io } from "socket.io-client";
 import { isMobile, isTablet } from "react-device-detect";
 
-import { BG_NOT_AVAILABLE } from "./assets";
 import Global from "./helpers/constants/global";
 import { useCurrentUser } from "./hooks";
+import 'animate.css';
 
 import {
   LoadingPage,
   YanjiSocialLoadingPage,
   NetworkError,
-  TermAndService,
-  CookiePolicy,
-  PrivacyPolicy,
 } from "./pages";
+import { publicRoutes } from "./routes/all-routes";
 
-const _404 = lazy(() => import("./pages/_404/_404"));
+const InvalidScreen = lazy(() => import("./components/ui/invalid-screen/InvalidScreen"));
 const Homepage = lazy(() => import("./pages/home/Home"));
 const MessagesPage = lazy(() => import("./pages/messages/Messages"));
 const ExplorePage = lazy(() => import("./pages/explore/Explore"));
@@ -29,18 +27,16 @@ const PostPreview = lazy(() => import("./pages/postPreview/PostPreview"));
 const AdminPage = lazy(() => import("./pages/admin/Admin"));
 
 const RegisterPage = lazy(() => import("./pages/auth/RegisterPage"));
-const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
 
 function App() {
   const currentUser = useCurrentUser();
   const socketRef = useRef(null);
   const socket = socketRef.current;
+  const [isNetworkWorking, setIsNetworkWorking] = useState(navigator.onLine);
 
   useEffect(() => {
     socketRef.current = io(Global.SOCKET_URL);
   }, [Global.SOCKET_URL]);
-
-  const [isNetworkWorking, setIsNetworkWorking] = useState(navigator.onLine);
 
   useEffect(() => {
     const handleOnline = () => {
@@ -63,40 +59,11 @@ function App() {
   return (
     <>
       {isMobile || isTablet ? (
-        <div
-          className="text-white bg-center bg-cover d-flex justify-content-center align-items-center text-center"
-          style={{
-            background: `url(${BG_NOT_AVAILABLE}) no-repeat center`,
-            height: "100vh",
-            scale: "1.2",
-          }}
-        >
-          <div
-            className="bg-black w-fit p-5 fs-6"
-            style={{
-              borderRadius: "1rem",
-            }}
-          >
-            <p className="fw-bold">
-              Yanji Social is not available on mobile or tablet now 🫠
-            </p>
-            <p className="mt-2 font-thin">
-              We will update in another version soon
-            </p>
-          </div>
-        </div>
+        <InvalidScreen />
       ) : (
         <div className="App">
           {isNetworkWorking ? (
             <Routes>
-              <Route
-                path="*"
-                element={
-                  <Suspense fallback={<LoadingPage />}>
-                    <_404 />
-                  </Suspense>
-                }
-              />
               <Route
                 path="/"
                 element={
@@ -173,57 +140,20 @@ function App() {
                   </Suspense>
                 }
               />
-              {/* term */}
-              <Route
-                path="/term-and-service"
-                element={
-                  <Suspense fallback={<LoadingPage />}>
-                    <TermAndService />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/cookie-policy"
-                element={
-                  <Suspense fallback={<LoadingPage />}>
-                    <CookiePolicy />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/privacy-policy"
-                element={
-                  <Suspense fallback={<LoadingPage />}>
-                    <PrivacyPolicy />
-                  </Suspense>
-                }
-              />
 
-              {/* Form */}
-              <Route
-                path="/register"
-                element={
-                  <Suspense fallback={<LoadingPage />}>
-                    <RegisterPage />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/login"
-                element={
-                  <Suspense fallback={<LoadingPage />}>
-                    <LoginPage />
-                  </Suspense>
-                }
-              />
-              <Route
-                path={"/logout"}
-                element={
-                  <Suspense fallback={<LoadingPage />}>
-                    <LoginPage />
-                  </Suspense>
-                }
-              />
+              {
+                publicRoutes.map((route, idx) => (
+                  <Route
+                    key={idx}
+                    path={route.path}
+                    element={
+                      <Suspense fallback={<LoadingPage />}>
+                        {route.component}
+                      </Suspense>
+                    }
+                  />
+                ))
+              }
             </Routes>
           ) : (
             <NetworkError />
