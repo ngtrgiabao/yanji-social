@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
+import { useRef, useState, memo } from "react";
 import { Camera } from "lucide-react";
 
 import "../styles/personalHeader.css";
 
 import { ChangeImagePopup } from "../../../components";
 import { useCurrentUser } from "../../../hooks";
+import PersonalBanner from "./PersonalBanner";
 
 const PersonalHeader = ({ userInfo, socket }) => {
   const [openPopup, setOpenPopup] = useState(false);
@@ -20,17 +21,7 @@ const PersonalHeader = ({ userInfo, socket }) => {
     <div className="cover position-relative">
       <span className="w-100 h-100">
         <div className="cover-picture bg-black text-white d-flex justify-content-center align-items-center">
-          {userInfo.coverPicture ? (
-            <img
-              loading="lazy"
-              role="presentation"
-              decoding="async"
-              src={userInfo.coverPicture}
-              alt="background"
-            />
-          ) : (
-            <span className="fs-4">Don't have wallpaper</span>
-          )}
+          <PersonalBanner bannerUrl={userInfo?.coverPicture} />
         </div>
 
         {userInfo?._id === currentUser?._id && (

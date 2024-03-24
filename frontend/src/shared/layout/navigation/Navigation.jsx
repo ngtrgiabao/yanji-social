@@ -24,7 +24,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
   const currentUser = useCurrentUser();
 
   useEffect(() => {
-    if (currentUser && !user._id) {
+    if (currentUser && !user?._id) {
       getUserByID(currentUser._id, dispatch)
         .then((data) => {
           setUser({
@@ -35,7 +35,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
           console.error("Failed to fetch user:", error);
         });
     }
-  }, [currentUser, user._id, dispatch]);
+  }, [currentUser, user?._id, dispatch]);
 
   const handleLogout = () => {
     logout(dispatch, navigate);
@@ -71,7 +71,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
 
     const data = await axios.get(
       Global.SOCKET_URL +
-      `/api/v1/user/all-users/?username=${value.toLowerCase()}`,
+        `/api/v1/user/all-users/?username=${value.toLowerCase()}`,
     );
 
     const userList = data.data?.users;
@@ -142,10 +142,11 @@ const Navigation = ({ title, link, isSearch = true }) => {
               <Link
                 aria-label="Avatar user"
                 to={currentUser ? `/user/${user?._id}` : "/"}
-                className={`profile-pic ms-4 ${Global.ADMIN_ID === currentUser?._id
-                  ? ""
-                  : "border border-2 border-white"
-                  } text-white`}
+                className={`profile-pic ms-4 ${
+                  Global.ADMIN_ID === currentUser?._id
+                    ? ""
+                    : "border border-2 border-white"
+                } text-white`}
               >
                 <Avatar
                   imageSrc={user?.profilePicture}

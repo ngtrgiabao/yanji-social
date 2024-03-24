@@ -10,7 +10,11 @@ import "./style/postPopup.css";
 import { BG_DEFAULT_WALLPAPER_USER } from "../../../assets";
 
 import { uploadPost } from "../../../redux/request/postRequest";
-import { useCurrentUser, useFollowersList, useUploadImage } from "../../../hooks";
+import {
+  useCurrentUser,
+  useFollowersList,
+  useUploadImage,
+} from "../../../hooks";
 import { PreviewImage } from "../../ui";
 import { getUserByID } from "../../../redux/request/userRequest";
 import Global from "../../../helpers/constants/global";
@@ -37,7 +41,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
     setFollowers,
     currentUserID: currentUser._id,
     dispatch,
-  })
+  });
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -146,8 +150,8 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
   };
 
   useEffect(() => {
-    fetchFollowerList()
-  }, [fetchFollowerList])
+    fetchFollowerList();
+  }, [fetchFollowerList]);
 
   return (
     <div
