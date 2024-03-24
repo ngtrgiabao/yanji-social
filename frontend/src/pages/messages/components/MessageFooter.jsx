@@ -46,7 +46,6 @@ const MessageFooter = ({
   onUploadImage,
   onActive,
 }) => {
-
   const renderLabelEditMessage = () => {
     return (
       <span

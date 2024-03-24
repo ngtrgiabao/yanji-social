@@ -1,4 +1,4 @@
-import { memo } from "react"
+import { memo } from "react";
 import { FontSizeTheme, ColorTheme, BackgroundTheme } from "../..";
 
 const CustomTheme = () => {

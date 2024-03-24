@@ -20,10 +20,7 @@ const PersonalGalleryCollection = ({ photos }) => {
           }}
         >
           {photo?.imageUrl ? (
-              <LazyLoadImage
-                  alt="avatar_user"
-                  src={photo.imageUrl}
-              />
+            <LazyLoadImage alt="avatar_user" src={photo.imageUrl} />
           ) : null}
         </Link>
       );

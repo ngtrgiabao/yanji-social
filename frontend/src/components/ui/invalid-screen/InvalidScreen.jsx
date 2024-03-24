@@ -1,4 +1,4 @@
-import { BG_NOT_AVAILABLE } from '../../../assets'
+import { BG_NOT_AVAILABLE } from "../../../assets";
 
 const InvalidScreen = () => {
   return (
@@ -19,12 +19,10 @@ const InvalidScreen = () => {
         <p className="fw-bold">
           Yanji Social is not available on mobile or tablet now 🫠
         </p>
-        <p className="mt-2 font-thin">
-          We will update in another version soon
-        </p>
+        <p className="mt-2 font-thin">We will update in another version soon</p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default InvalidScreen
+export default InvalidScreen;

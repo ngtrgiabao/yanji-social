@@ -4,7 +4,9 @@ import { getUserByID } from "../redux/request/userRequest";
 const useFollowersList = ({ currentUserID, dispatch, setFollowers }) => {
   const addUserIfNotExists = (user) => {
     setFollowers((prevUser) => {
-      const userExists = prevUser.some((prevUser) => prevUser._id === user?._id);
+      const userExists = prevUser.some(
+        (prevUser) => prevUser._id === user?._id,
+      );
       if (!userExists) {
         return [...prevUser, user];
       }

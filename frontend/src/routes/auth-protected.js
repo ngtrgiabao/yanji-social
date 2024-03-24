@@ -1,14 +1,14 @@
-import {Navigate, Outlet} from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useCurrentUser } from "../hooks";
 
 const AuthProtected = () => {
-    const currentUser = useCurrentUser();
+  const currentUser = useCurrentUser();
 
-    if (!currentUser || !currentUser._id) {
-        return <Navigate to="/login" replace />;
-    }
+  if (!currentUser || !currentUser._id) {
+    return <Navigate to="/login" replace />;
+  }
 
-    return <Outlet />;
+  return <Outlet />;
 };
 
-export { AuthProtected  };
+export { AuthProtected };

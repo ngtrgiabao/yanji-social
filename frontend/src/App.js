@@ -1,14 +1,14 @@
-import {lazy, useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { isMobile, isTablet } from "react-device-detect";
 
-import 'animate.css';
+import "animate.css";
 
-import {
-  NetworkError,
-} from "./pages";
+import { NetworkError } from "./pages";
 import { publicRoutes } from "./routes/all-routes";
 import Route from "./routes";
-const InvalidScreen = lazy(() => import("./components/ui/invalid-screen/InvalidScreen"));
+const InvalidScreen = lazy(
+  () => import("./components/ui/invalid-screen/InvalidScreen"),
+);
 
 function App() {
   const [isNetworkWorking, setIsNetworkWorking] = useState(navigator.onLine);
@@ -37,11 +37,7 @@ function App() {
         <InvalidScreen />
       ) : (
         <div className="App">
-          {isNetworkWorking ? (
-              <Route />
-          ) : (
-            <NetworkError />
-          )}
+          {isNetworkWorking ? <Route /> : <NetworkError />}
         </div>
       )}
     </>
