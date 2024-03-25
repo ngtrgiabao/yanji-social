@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { Avatar, TermLinks } from "../../../components";
 import { getUserByID } from '../../../redux/request/userRequest';
@@ -7,8 +7,11 @@ import { Link } from 'react-router-dom';
 
 const HomeRight = () => {
   const [user, setUser] = useState([]);
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(10); 
   const currentUser = useCurrentUser();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const containerRef = useRef(null);
 
   const fetchFollowingList = useCallback(() => {
     getUserByID(currentUser._id, dispatch)
@@ -57,16 +60,24 @@ const HomeRight = () => {
     fetchFollowingList();
   }, [fetchFollowingList]);
 
+  const displayedUsers = user.slice(startIndex, endIndex);
+
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+    if (scrollTop + clientHeight >= scrollHeight) {
+      setEndIndex((prevEndIndex) => prevEndIndex + 10);
+    }
+  };
 
   return (
     <div className='row'>
       <div className='col'>
-        <div>
+        <div ref={containerRef} style={{ overflowY: 'auto', maxHeight: '600px' }} onScroll={handleScroll}>
           <h4>Following</h4>
           <hr className='m-0 my-4' />
           <ul className='p-3 row'>
             {
-              user.map((user) => (
+              displayedUsers.map((user) => (
                 <li key={user._id} className='hover-bg'>
                   <Link
                     to={`/user/${user?._id}`}
@@ -95,4 +106,4 @@ const HomeRight = () => {
   )
 }
 
-export default HomeRight
+export default HomeRight;
