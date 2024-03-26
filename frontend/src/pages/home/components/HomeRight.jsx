@@ -87,8 +87,7 @@ const HomeRight = () => {
                     <div className="profile-pic d-flex justify-content-center align-items-center me-3">
                       <Avatar imageSrc={user?.profilePicture} label={user?.username} />
                     </div>
-                    <span style={{
-                      color: 'var(--color-primary)'
+                    <span style={{color: 'var(--color-primary)'
                     }}>
                       {user?.username}
                     </span>

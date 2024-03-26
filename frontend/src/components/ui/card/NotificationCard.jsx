@@ -1,7 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, Mail, Repeat, MessageSquare, Users, Megaphone } from "lucide-react";
+import {
+  Heart,
+  Mail,
+  Repeat,
+  MessageSquare,
+  Users,
+  Megaphone,
+} from "lucide-react";
 
 import "./style/notificationCard.css";
 
@@ -149,4 +156,4 @@ const NotificationCard = ({ sender, type, isRead, createdAt }) => {
   );
 };
 
-export default NotificationCard;
+export default memo(NotificationCard);

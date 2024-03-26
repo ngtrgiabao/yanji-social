@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Repeat, MessageSquare, Heart } from "lucide-react";
 
 const ActionBtn = ({
@@ -73,4 +74,4 @@ const ActionBtn = ({
   );
 };
 
-export default ActionBtn;
+export default memo(ActionBtn);

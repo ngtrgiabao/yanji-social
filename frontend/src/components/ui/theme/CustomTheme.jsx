@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { FontSizeTheme, ColorTheme, BackgroundTheme } from "../..";
 
 const CustomTheme = () => {
@@ -24,4 +25,4 @@ const CustomTheme = () => {
   );
 };
 
-export default CustomTheme;
+export default memo(CustomTheme);

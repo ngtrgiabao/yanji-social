@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { useDispatch } from "react-redux";
 import {
   Home,
@@ -117,7 +117,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
     <>
       <div className="left animate__animated animate__bounceInLeft">
         <Link
-          to={currentUser ? `/user/${user._id}` : "/"}
+          to={currentUser ? `/user/${user?._id}` : "/"}
           className="profile d-flex align-items-center"
           title="Truy cập trang cá nhân"
         >
@@ -125,7 +125,7 @@ const HomeLeft = ({ socket, isReadNotification }) => {
             <Avatar
               imageSrc={currentUser ? user.profilePicture : LOGO_YANJI_SOCIAL}
               label={user.username}
-              userId={user._id}
+              userId={user?._id}
             />
           </div>
 
@@ -236,4 +236,4 @@ const HomeLeft = ({ socket, isReadNotification }) => {
   );
 };
 
-export default HomeLeft;
+export default memo(HomeLeft);

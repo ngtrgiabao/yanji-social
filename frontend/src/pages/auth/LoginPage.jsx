@@ -9,7 +9,7 @@ import { CAPTCHA_SITE_KEY } from "../../business/key";
 
 import "./style/registerPage.css";
 
-function LoginPage() {
+const LoginPage = () => {
   const pwd = useRef(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -151,6 +151,6 @@ function LoginPage() {
       </div>
     </>
   );
-}
+};
 
 export default LoginPage;
