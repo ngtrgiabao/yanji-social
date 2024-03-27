@@ -26,31 +26,33 @@ const HomeRight = () => {
           <div>
             <h4>Following</h4>
             <hr className="m-0 my-4" />
-            <ul className="p-3 row">
-              {user.map((user) => (
-                <li key={user?._id} className="hover-bg">
-                  <Link
-                    to={`/user/${user?._id}`}
-                    className="d-flex align-items-center fs-5 text-white my-2 w-full p-2 px-3 rounded-3 border border-1"
-                    key={user?._id}
-                  >
-                    <div className="profile-pic d-flex justify-content-center align-items-center me-3">
-                      <Avatar
-                        imageSrc={user?.profilePicture}
-                        label={user?.username}
-                      />
-                    </div>
-                    <span
-                      style={{
-                        color: "var(--color-primary)",
-                      }}
+            <div className="following-list" style={{ maxHeight: '500px', overflowY: 'auto', overflowX: 'hidden' }}>
+              <ul className="p-3 row">
+                {user.map((user) => (
+                  <li key={user?._id} className="hover-bg">
+                    <Link
+                      to={`/user/${user?._id}`}
+                      className="d-flex align-items-center fs-5 text-white my-2 w-full p-2 px-3 rounded-3 border border-1"
+                      key={user?._id}
                     >
-                      {user?.username}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+                      <div className="profile-pic d-flex justify-content-center align-items-center me-3">
+                        <Avatar
+                          imageSrc={user?.profilePicture}
+                          label={user?.username}
+                        />
+                      </div>
+                      <span
+                        style={{
+                          color: "var(--color-primary)",
+                        }}
+                      >
+                        {user?.username}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         )}
         <div className="row">
@@ -61,4 +63,4 @@ const HomeRight = () => {
   );
 };
 
-export default memo(HomeRight);
+export default HomeRight;
