@@ -11,7 +11,7 @@ const linkData = {
   },
 };
 
-const socialLinks = [
+const termLinks = [
   { id: 1, ...linkData.privacy },
   { id: 2, ...linkData.terms },
   { id: 3, ...linkData.ads },
@@ -21,4 +21,4 @@ const socialLinks = [
   { id: 7, ...linkData.copyright },
 ];
 
-export { linkData, socialLinks };
+export { linkData, termLinks };

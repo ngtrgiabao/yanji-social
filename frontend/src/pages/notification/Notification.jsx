@@ -150,25 +150,24 @@ const Notification = ({ socket }) => {
             }}
             data-notifications
           >
-            <>
-              {notiList.map((noti) => (
-                <NotificationCard
-                  key={noti._id}
-                  sender={noti.sender}
-                  isRead={noti.isRead}
-                  type={noti.type}
-                  createdAt={noti.createdAt}
-                />
-              ))}
-              {currentUser && hasMore && (
-                <div
-                  className="d-flex justify-content-center fs-3 fw-bold my-3"
-                  ref={loadingRef}
-                >
-                  Loading...
-                </div>
-              )}
-            </>
+            {notiList.map((noti) => (
+              <NotificationCard
+                key={noti._id}
+                sender={noti.sender}
+                isRead={noti.isRead}
+                type={noti.type}
+                createdAt={noti.createdAt}
+              />
+            ))}
+
+            {currentUser && hasMore && (
+              <div
+                className="d-flex justify-content-center fs-3 fw-bold my-3"
+                ref={loadingRef}
+              >
+                Loading...
+              </div>
+            )}
           </div>
         )}
       </div>

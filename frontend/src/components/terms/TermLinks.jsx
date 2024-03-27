@@ -1,15 +1,16 @@
+import { memo } from "react";
 import { SocialLink } from "..";
-import { socialLinks } from "../common/terms";
+import { termLinks } from "../common/terms";
 
 const TermLinks = () => {
   const renderSocialLinks = () =>
-    socialLinks.map((item, index) => (
+    termLinks.map((item, index) => (
       <SocialLink
         key={item?.id}
         id={item?.id}
         title={item?.title}
         link={item?.link}
-        isLast={index === socialLinks.length - 1}
+        isLast={index === termLinks.length - 1}
       />
     ));
 
@@ -20,4 +21,4 @@ const TermLinks = () => {
   );
 };
 
-export default TermLinks;
+export default memo(TermLinks);

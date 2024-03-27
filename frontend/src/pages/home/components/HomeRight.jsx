@@ -63,4 +63,4 @@ const HomeRight = () => {
   );
 };
 
-export default memo(HomeRight);
+export default HomeRight;

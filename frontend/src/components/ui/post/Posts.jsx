@@ -1,4 +1,11 @@
-import React, { lazy, useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  lazy,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import axios from "axios";
@@ -176,4 +183,4 @@ const Posts = ({ socket }) => {
   );
 };
 
-export default Posts;
+export default memo(Posts);
