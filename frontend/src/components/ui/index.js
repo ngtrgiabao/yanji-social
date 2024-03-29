@@ -13,4 +13,3 @@ export { default as CustomBorderAvatarSetting } from "./setting/setting-avatar/C
 export { default as SocialBio } from "./social-bio/SocialBio";
 export { default as CustomTheme } from "./theme/CustomTheme";
 export { default as InvalidScreen } from "./invalid-screen/InvalidScreen";
-

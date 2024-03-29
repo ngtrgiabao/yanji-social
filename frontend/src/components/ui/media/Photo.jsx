@@ -6,13 +6,13 @@ import {
 
 const photoStyles = {
   width: "calc(100%)",
-}
+};
 
 const videoStyles = {
   height: "30rem",
   width: "100%",
   aspectRatio: "16/9",
-}
+};
 
 const videoProps = {
   preload: "metadata",
@@ -21,7 +21,7 @@ const videoProps = {
   muted: true,
   autoPlay: true,
   loop: true,
-}
+};
 
 const lazyLoadImageProps = (label, imageSrc) => {
   return {
@@ -29,9 +29,9 @@ const lazyLoadImageProps = (label, imageSrc) => {
     src: imageSrc,
     effect: "blur",
     className: "w-100 h-100",
-    height: "100%"
-  }
-}
+    height: "100%",
+  };
+};
 
 const Photo = ({
   imageSrc = "",
@@ -43,28 +43,17 @@ const Photo = ({
   return (
     <>
       {isVideo ? (
-        <div
-          className="photo"
-          style={videoStyles}
-        >
+        <div className="photo" style={videoStyles}>
           <LazyLoadComponent>
-            <video
-              {...videoProps}
-            >
+            <video {...videoProps}>
               <source src={videoSrc} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </LazyLoadComponent>
         </div>
       ) : (
-        <Link
-          to={`/post/${postID}`}
-          className="photo"
-          style={photoStyles}
-        >
-          <LazyLoadImage
-            {...lazyLoadImageProps(label, imageSrc)}
-          />
+        <Link to={`/post/${postID}`} className="photo" style={photoStyles}>
+          <LazyLoadImage {...lazyLoadImageProps(label, imageSrc)} />
         </Link>
       )}
     </>

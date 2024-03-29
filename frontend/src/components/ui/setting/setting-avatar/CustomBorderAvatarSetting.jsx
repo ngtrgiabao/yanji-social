@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import '../setting-avatar/style/style.css';
+import { useState } from "react";
+import "../setting-avatar/style/style.css";
 const CustomBorderAvatarSetting = ({ close }) => {
-  const [borderColor, setBorderColor] = useState('#000000');
+  const [borderColor, setBorderColor] = useState("#000000");
 
   const handleColorChange = (color) => {
     setBorderColor(color);
@@ -24,29 +24,33 @@ const CustomBorderAvatarSetting = ({ close }) => {
           <div className="color-buttons">
             <button
               className="color-button black"
-              onClick={() => handleColorChange('#000000')}
+              onClick={() => handleColorChange("#000000")}
             ></button>
             <button
               className="color-button red"
-              onClick={() => handleColorChange('#FF0000')}
+              onClick={() => handleColorChange("#FF0000")}
             ></button>
             <button
               className="color-button green"
-              onClick={() => handleColorChange('#00FF00')}
+              onClick={() => handleColorChange("#00FF00")}
             ></button>
             <button
               className="color-button blue"
-              onClick={() => handleColorChange('#0000FF')}
+              onClick={() => handleColorChange("#0000FF")}
             ></button>
             <button
               className="color-button yellow"
-              onClick={() => handleColorChange('#FFFF00')}
+              onClick={() => handleColorChange("#FFFF00")}
             ></button>
           </div>
         </div>
         <div className="button-group">
-          <button className="save-button" onClick={handleSave}>Save</button>
-          <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+          <button className="save-button" onClick={handleSave}>
+            Save
+          </button>
+          <button className="cancel-button" onClick={handleCancel}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>
