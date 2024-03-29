@@ -12,7 +12,7 @@ import { BG_DEFAULT_WALLPAPER_USER } from "../../../assets";
 import { uploadPost } from "../../../redux/request/postRequest";
 import {
   useCurrentUser,
-  useFollowersList,
+  useFollowerList,
   useUploadImage,
 } from "../../../hooks";
 import { PreviewImage } from "../../ui";
@@ -37,7 +37,7 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
   const dispatch = useDispatch();
   const [followers, setFollowers] = useState([]);
   const currentUser = useCurrentUser();
-  const { fetchFollowerList } = useFollowersList({
+  const { fetchFollowerList } = useFollowerList({
     setFollowers,
     currentUserID: currentUser._id,
     dispatch,

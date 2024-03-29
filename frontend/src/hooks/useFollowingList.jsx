@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { getUserByID } from "../redux/request/userRequest";
 
-const useFollowersList = ({ currentUserID, dispatch, setFollowers }) => {
+const useFollowingList = ({ currentUserID, dispatch, setFollowings }) => {
   const addUserIfNotExists = (user) => {
-    setFollowers((prevUser) => {
+    setFollowings((prevUser) => {
       const userExists = prevUser.some(
         (prevUser) => prevUser._id === user?._id,
       );
@@ -14,12 +14,12 @@ const useFollowersList = ({ currentUserID, dispatch, setFollowers }) => {
     });
   };
 
-  const fetchFollowerUsers = (followerList) => {
+  const fetchFollowingUsers = (followingList) => {
     let index = 0;
     const fetchNextUserData = () => {
-      if (index >= followerList.length) return;
+      if (index >= followingList?.length) return;
 
-      const userID = followerList[index];
+      const userID = followingList[index];
 
       getUserByID(userID, dispatch)
         .then((data) => {
@@ -28,7 +28,7 @@ const useFollowersList = ({ currentUserID, dispatch, setFollowers }) => {
           fetchNextUserData();
         })
         .catch((err) => {
-          console.error("[USE_FOLLOWER_LIST]", err);
+          console.error("[USE_FOLLOWING_LIST]", err);
           index++;
           fetchNextUserData();
         });
@@ -37,17 +37,17 @@ const useFollowersList = ({ currentUserID, dispatch, setFollowers }) => {
     fetchNextUserData();
   };
 
-  const fetchFollowerList = useCallback(() => {
+  const fetchFollowingList = useCallback(() => {
     getUserByID(currentUserID, dispatch)
       .then((data) => {
-        fetchFollowerUsers(data?.user?.followers);
+        fetchFollowingUsers(data?.user?.followings);
       })
       .catch((err) => {
-        console.error("[USE_FOLLOWER_LIST]", err);
+        console.error("[USE_FOLLOWING_LIST]", err);
       });
   }, [currentUserID, dispatch]);
 
-  return { fetchFollowerList };
+  return { fetchFollowingList };
 };
 
-export default useFollowersList;
+export default useFollowingList;

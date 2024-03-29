@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { getUserByID } from "../redux/request/userRequest";
 
-const useFollowingsList = ({ currentUserID, dispatch, setFollowings }) => {
+const useFollowerList = ({ currentUserID, dispatch, setFollowers }) => {
   const addUserIfNotExists = (user) => {
-    setFollowings((prevUser) => {
+    setFollowers((prevUser) => {
       const userExists = prevUser.some(
         (prevUser) => prevUser._id === user?._id,
       );
@@ -14,12 +14,12 @@ const useFollowingsList = ({ currentUserID, dispatch, setFollowings }) => {
     });
   };
 
-  const fetchFollowingUsers = (followingList) => {
+  const fetchFollowerUsers = (followerList) => {
     let index = 0;
     const fetchNextUserData = () => {
-      if (index >= followingList?.length) return;
+      if (index >= followerList.length) return;
 
-      const userID = followingList[index];
+      const userID = followerList[index];
 
       getUserByID(userID, dispatch)
         .then((data) => {
@@ -28,7 +28,7 @@ const useFollowingsList = ({ currentUserID, dispatch, setFollowings }) => {
           fetchNextUserData();
         })
         .catch((err) => {
-          console.error("[USE_FOLLOWING_LIST]", err);
+          console.error("[USE_FOLLOWER_LIST]", err);
           index++;
           fetchNextUserData();
         });
@@ -37,17 +37,17 @@ const useFollowingsList = ({ currentUserID, dispatch, setFollowings }) => {
     fetchNextUserData();
   };
 
-  const fetchFollowingList = useCallback(() => {
+  const fetchFollowerList = useCallback(() => {
     getUserByID(currentUserID, dispatch)
       .then((data) => {
-        fetchFollowingUsers(data?.user?.followings);
+        fetchFollowerUsers(data?.user?.followers);
       })
       .catch((err) => {
-        console.error("[USE_FOLLOWING_LIST]", err);
+        console.error("[USE_FOLLOWER_LIST]", err);
       });
   }, [currentUserID, dispatch]);
 
-  return { fetchFollowingList };
+  return { fetchFollowerList };
 };
 
-export default useFollowingsList;
+export default useFollowerList;

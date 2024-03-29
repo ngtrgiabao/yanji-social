@@ -4,6 +4,35 @@ import {
   LazyLoadComponent,
 } from "react-lazy-load-image-component";
 
+const photoStyles = {
+  width: "calc(100%)",
+}
+
+const videoStyles = {
+  height: "30rem",
+  width: "100%",
+  aspectRatio: "16/9",
+}
+
+const videoProps = {
+  preload: "metadata",
+  controls: true,
+  draggable: false,
+  muted: true,
+  autoPlay: true,
+  loop: true,
+}
+
+const lazyLoadImageProps = (label, imageSrc) => {
+  return {
+    alt: label,
+    src: imageSrc,
+    effect: "blur",
+    className: "w-100 h-100",
+    height: "100%"
+  }
+}
+
 const Photo = ({
   imageSrc = "",
   label = "",
@@ -16,19 +45,11 @@ const Photo = ({
       {isVideo ? (
         <div
           className="photo"
-          style={{
-            height: "30rem",
-          }}
+          style={videoStyles}
         >
           <LazyLoadComponent>
             <video
-              preload="metadata"
-              className="w-100"
-              controls
-              draggable="false"
-              muted
-              autoPlay
-              loop
+              {...videoProps}
             >
               <source src={videoSrc} type="video/mp4" />
               Your browser does not support the video tag.
@@ -39,16 +60,10 @@ const Photo = ({
         <Link
           to={`/post/${postID}`}
           className="photo"
-          style={{
-            width: "calc(100%)",
-          }}
+          style={photoStyles}
         >
           <LazyLoadImage
-            alt={label}
-            src={imageSrc}
-            effect="blur"
-            className="w-100 h-100"
-            height={"100%"}
+            {...lazyLoadImageProps(label, imageSrc)}
           />
         </Link>
       )}
