@@ -57,7 +57,9 @@ const HomeRight = () => {
           className="sidebar p-3 overflowXHidden mb-3"
           style={followingListStyle}
         >
-          <ul className="p-2 mb-0 gap-3 d-flex flex-column">{renderFollowingList(user)}</ul>
+          <ul className="p-2 mb-0 gap-3 d-flex flex-column">
+            {renderFollowingList(user)}
+          </ul>
         </div>
       )}
 
