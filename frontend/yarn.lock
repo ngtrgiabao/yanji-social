@@ -6207,6 +6207,11 @@ get-symbol-description@^1.0.0:
     call-bind "^1.0.2"
     get-intrinsic "^1.1.1"
 
+get-youtube-id@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/get-youtube-id/-/get-youtube-id-1.0.1.tgz#adb6f475e292d98f98ed5bfb530887656193e157"
+  integrity sha512-5yidLzoLXbtw82a/Wb7LrajkGn29BM6JuLWeHyNfzOGp1weGyW4+7eMz6cP23+etqj27VlOFtq8fFFDMLq/FXQ==
+
 github-username@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/github-username/-/github-username-6.0.0.tgz#d543eced7295102996cd8e4e19050ebdcbe60658"
@@ -10187,6 +10192,11 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-lite-youtube-embed@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-lite-youtube-embed/-/react-lite-youtube-embed-2.4.0.tgz#1f56a12be1061d50431444d52d836bd09a1283a2"
+  integrity sha512-Xo6cM1zPlROvvM97JkqQIoXstlQDaC4+DawmM7BB7Hh1cXrkBHEGq1iJlQxBTUWAUklmpcC7ph7qg7CztXtABQ==
 
 react-otp-input@^3.1.1:
   version "3.1.1"

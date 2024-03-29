@@ -1,11 +1,17 @@
 import { useEffect, useState, useRef } from "react";
 import { CSVLink } from "react-csv";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { MoreHorizontal, FileDown, UserRoundCog, Bookmark } from "lucide-react";
+import {
+  MoreHorizontal,
+  FileDown,
+  UserRoundCog,
+  Bookmark,
+  Palette,
+} from "lucide-react";
 
 import "../styles/personalNavbarProfile.css";
-
 import { Setting } from "../../../components";
+import { CustomBorderAvatarSetting } from "../../../components";
 import { useCurrentUser } from "../../../hooks";
 
 const PersonalNavbarProfile = () => {
@@ -38,10 +44,15 @@ const PersonalNavbarProfile = () => {
   };
 
   const [active, setActive] = useState("");
+  const [active1, setActive1] = useState("");
 
   const handleClosePopup = () => {
     setActive("");
   };
+  const handleClosePopup1 = () => {
+    setActive1("");
+  };
+
   const renderSettingPopup = () => {
     return (
       <div
@@ -50,6 +61,18 @@ const PersonalNavbarProfile = () => {
         onClick={() => setActive("")}
       >
         <Setting close={handleClosePopup} />
+      </div>
+    );
+  };
+
+  const renderSettingAvatar = () => {
+    return (
+      <div
+        className="customize-theme"
+        hidden={active1 !== "CustomBorderAvatarSetting"}
+        onClick={() => setActive1("")}
+      >
+        <CustomBorderAvatarSetting close={handleClosePopup1} />
       </div>
     );
   };
@@ -105,6 +128,13 @@ const PersonalNavbarProfile = () => {
                   <UserRoundCog size={20} />
                   <p className="ms-3 my-3 fs-4 fw-bold">Profile Settings</p>
                 </div>
+                <div
+                  className="box-setting-profile-item d-flex align-items-center rounded-3 p-2 px-3"
+                  onClick={() => setActive1("CustomBorderAvatarSetting")}
+                >
+                  <Palette size={20} />
+                  <p className="ms-3 my-3 fs-4 fw-bold">Custom Border Avatar</p>
+                </div>
               </div>
             </div>
           )}
@@ -152,6 +182,7 @@ const PersonalNavbarProfile = () => {
       </nav>
       {renderSettingProfile()}
       {renderSettingPopup()}
+      {renderSettingAvatar()}
     </div>
   );
 };
