@@ -4,7 +4,6 @@ import { isMobile, isTablet } from "react-device-detect";
 import "animate.css";
 
 import { NetworkError } from "./pages";
-import { publicRoutes } from "./routes/all-routes";
 import Route from "./routes";
 const InvalidScreen = lazy(
   () => import("./components/ui/invalid-screen/InvalidScreen"),

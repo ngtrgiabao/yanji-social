@@ -1,7 +1,7 @@
 import Comments from "../comment/Comments";
 
 const DetailsPost = ({
-  onPopup = () => {},
+  onPopup = () => { },
   extendClass,
   children,
   author,

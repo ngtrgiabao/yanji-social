@@ -21,7 +21,7 @@ main .container .left .profile {
   color: unset;
 }
 
-.left .sidebar {
+.left .sidebar, .right .sidebar, .sidebar {
   background-color: var(--color-white);
 
   border-radius: var(--card-border-radius);
