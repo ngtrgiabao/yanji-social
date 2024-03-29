@@ -22,6 +22,7 @@
     "axios": "^1.2.1",
     "bootstrap": "^5.2.3",
     "cloudinary-react": "^1.8.1",
+    "css-loader": "^6.10.0",
     "dotenv": "^16.0.3",
     "dotenv-safe": "^8.2.0",
     "emoji-mart": "^5.5.2",
@@ -47,21 +48,23 @@
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
     "socket.io-client": "^4.6.1",
+    "style-loader": "^3.3.4",
     "timeago.js": "^4.0.0-beta.3",
     "uid": "^2.0.0",
     "wavesurfer.js": "^7.1.1",
     "web-vitals": "^2.1.4",
+    "webpack": "^5.91.0",
     "webpack-bundle-analyzer": "^4.10.1"
   },
   "scripts": {
     "add-dev": "yarn add --dev --production=false",
     "analyze": "webpack-bundle-analyzer build/bundle-stats.json",
-    "build": "react-scripts build --stats",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,tsx,ts,json,md,html,css,less,scss}\"",
     "lint": "eslint --fix --ext .js,.jsx .",
     "report": "npm run build --withReport true",
-    "start": "react-scripts start",
+    "start": "webpack-dev-server --mode development --open --hot",
+    "build": "webpack --mode production",
     "test": "react-scripts test"
   },
   "eslintConfig": {
@@ -80,9 +83,16 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.24.3",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/preset-env": "^7.24.3",
+    "@babel/preset-react": "^7.24.1",
     "@webpack-cli/generators": "^3.0.4",
+    "babel-loader": "^9.1.3",
+    "dotenv-webpack": "^8.1.0",
+    "html-webpack-plugin": "^5.6.0",
     "prettier": "^3.1.1",
-    "webpack-cli": "^5.1.1"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
   }
 }

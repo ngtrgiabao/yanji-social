@@ -16,7 +16,7 @@ const renderFollowingList = (user) => {
     <li key={user?._id} className="hover-bg">
       <Link
         to={`/user/${user?._id}`}
-        className="d-flex align-items-center fs-5 text-white my-2 w-full p-2 px-3 rounded-3 border border-1"
+        className="d-flex align-items-center fs-5 text-white w-full p-2 px-3 rounded-3 border border-1"
         key={user?._id}
       >
         <div className="profile-pic d-flex justify-content-center align-items-center me-3">
@@ -49,22 +49,21 @@ const HomeRight = () => {
   }, [fetchFollowingList]);
 
   return (
-    <div className="row right">
-      <div className="col">
-        {currentUser && (
-          <>
-            <h4>Following</h4>
-            <hr className="m-0 my-4" />
-            <div
-              className="following-list overflowXHidden"
-              style={followingListStyle}
-            >
-              <ul className="p-3 row">{renderFollowingList(user)}</ul>
-            </div>
-          </>
-        )}
-        <TermLinks />
-      </div>
+    <div>
+      <h4 className="border-bottom pb-3 mb-3 px-0">Following</h4>
+
+      {currentUser && (
+        <div
+          className="sidebar p-3 overflowXHidden mb-3"
+          style={followingListStyle}
+        >
+          <ul className="p-2 mb-0 gap-3 d-flex flex-column">
+            {renderFollowingList(user)}
+          </ul>
+        </div>
+      )}
+
+      <TermLinks />
     </div>
   );
 };
