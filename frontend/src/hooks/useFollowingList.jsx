@@ -1,10 +1,12 @@
 import { useCallback } from "react";
 import { getUserByID } from "../redux/request/userRequest";
 
-const useFollowingsList = ({ currentUserID, dispatch, setFollowings }) => {
+const useFollowingList = ({ currentUserID, dispatch, setFollowings }) => {
   const addUserIfNotExists = (user) => {
     setFollowings((prevUser) => {
-      const userExists = prevUser.some((prevUser) => prevUser._id === user._id);
+      const userExists = prevUser.some(
+        (prevUser) => prevUser._id === user?._id,
+      );
       if (!userExists) {
         return [...prevUser, user];
       }
@@ -15,7 +17,7 @@ const useFollowingsList = ({ currentUserID, dispatch, setFollowings }) => {
   const fetchFollowingUsers = (followingList) => {
     let index = 0;
     const fetchNextUserData = () => {
-      if (index >= followingList.length) return;
+      if (index >= followingList?.length) return;
 
       const userID = followingList[index];
 
@@ -48,4 +50,4 @@ const useFollowingsList = ({ currentUserID, dispatch, setFollowings }) => {
   return { fetchFollowingList };
 };
 
-export default useFollowingsList;
+export default useFollowingList;

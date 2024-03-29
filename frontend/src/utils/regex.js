@@ -5,7 +5,7 @@ const PSW_STRENGTH_REGEX =
 const EMAIL_REGEX =
   /^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$/;
 const EMAIL_ADDRESS_REGEX = /^[\w\.-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
-const PHONENUMBER_REGEX =
+const PHONE_NUMBER_REGEX =
   /^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$/;
 
 // Extract hashtags from a text or post
@@ -52,7 +52,7 @@ const INSTAGRAM_REGEX =
 const LINKDIN_REGEX =
   /^(https?:\/\/)?([a-zA-Z0-9-]+\.)?linkedin\.com(\/[^\s]*)?$/i;
 const YOUTUBE_REGEX =
-  /\b(?:https?:\/\/)?(?:www\.)?youtu(?:be\.com\/(?:watch\?.*v=|embed\/|v\/|u\/\w\/|embed\/|v\/|u\/\w\/)|\.be\/)([\w\-]{10,})\b/;
+  /^http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/i;
 const PINTEREST_REGEX =
   /^(https?:\/\/)?([a-zA-Z0-9-]+\.)?pinterest\.com(\/[^\s]*)?$/i;
 const SNAPCHAT_REGEX =
@@ -67,7 +67,7 @@ export {
   PSW_STRENGTH_REGEX,
   EMAIL_REGEX,
   EMAIL_ADDRESS_REGEX,
-  PHONENUMBER_REGEX,
+  PHONE_NUMBER_REGEX,
   HASHTAG_REGEX,
   MENTION_REGEX,
   DATE_FORMAT_REGEX,
