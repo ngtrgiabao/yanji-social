@@ -20,10 +20,7 @@ const renderFollowingList = (user) => {
         key={user?._id}
       >
         <div className="profile-pic d-flex justify-content-center align-items-center me-3">
-          <Avatar
-            imageSrc={user?.profilePicture}
-            label={user?.username}
-          />
+          <Avatar imageSrc={user?.profilePicture} label={user?.username} />
         </div>
         <span
           style={{
@@ -34,8 +31,8 @@ const renderFollowingList = (user) => {
         </span>
       </Link>
     </li>
-  ))
-}
+  ));
+};
 
 const HomeRight = () => {
   const [user, setUser] = useState([]);
@@ -58,10 +55,11 @@ const HomeRight = () => {
           <>
             <h4>Following</h4>
             <hr className="m-0 my-4" />
-            <div className="following-list overflowXHidden" style={followingListStyle}>
-              <ul className="p-3 row">
-                {renderFollowingList(user)}
-              </ul>
+            <div
+              className="following-list overflowXHidden"
+              style={followingListStyle}
+            >
+              <ul className="p-3 row">{renderFollowingList(user)}</ul>
             </div>
           </>
         )}

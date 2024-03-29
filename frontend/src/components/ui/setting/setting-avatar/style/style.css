@@ -30,7 +30,9 @@
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .color-button.black {
@@ -73,7 +75,7 @@
 }
 
 .save-button {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: #fff;
 }
 

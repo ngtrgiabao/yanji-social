@@ -1,7 +1,7 @@
 import React from "react";
-import getYouTubeID from "get-youtube-id"
-import LiteYouTubeEmbed from 'react-lite-youtube-embed';
-import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
+import getYouTubeID from "get-youtube-id";
+import LiteYouTubeEmbed from "react-lite-youtube-embed";
+import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 
 const liteYoutubeEmbedProps = (youtubeId) => {
   return {
@@ -9,16 +9,15 @@ const liteYoutubeEmbedProps = (youtubeId) => {
     noCookie: true,
     thumbnail: `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`,
     poster: `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`,
-  }
-}
+  };
+};
 
 const YoutubeEmbed = ({ embedURL }) => {
   const youtubeId = getYouTubeID(embedURL);
 
-  return <LiteYouTubeEmbed
-    id={youtubeId}
-    {...liteYoutubeEmbedProps(youtubeId)}
-  />;
+  return (
+    <LiteYouTubeEmbed id={youtubeId} {...liteYoutubeEmbedProps(youtubeId)} />
+  );
 };
 
 export default YoutubeEmbed;

@@ -15,7 +15,10 @@ const renderSocialLinks = () =>
 
 const TermLinks = () => {
   return (
-    <ul className="p-3 m-0 d-flex align-items-center flex-wrap rounded-3" style={{ backgroundColor: "var(--color-white)" }}>
+    <ul
+      className="p-3 m-0 d-flex align-items-center flex-wrap rounded-3"
+      style={{ backgroundColor: "var(--color-white)" }}
+    >
       {renderSocialLinks()}
     </ul>
   );
