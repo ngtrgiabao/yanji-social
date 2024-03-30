@@ -9,7 +9,7 @@ const million = require("million/compiler");
 module.exports = {
   entry: "./src/index.js",
   output: {
-    path: path.join(__dirname, "/build"),
+    path: path.resolve(__dirname, "build"),
     filename: "bundle.js", // name of file after built
   },
   resolve: {
@@ -36,14 +36,14 @@ module.exports = {
     new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
-      filename: "./index.html",
+      filename: "index.html", // Updated filename for consistency
       manifest: "./public/manifest.json",
     }),
     new webpack.ProvidePlugin({
       process: "process/browser",
     }),
     new Dotenv({
-      path: path.join(__dirname, ".env"),
+      path: path.resolve(__dirname, ".env"),
       systemvars: true, //Set to true if you would rather load all system variables as well (useful for CI purposes)
     }),
     million.webpack(),
@@ -52,5 +52,8 @@ module.exports = {
     port: 3000, // Specify the port here
     open: true, // Automatically open the browser
     historyApiFallback: true, // Enable history API fallback so React Router works
+  },
+  performance: {
+    hints: false, // Disabled performance hints for larger projects
   },
 };
