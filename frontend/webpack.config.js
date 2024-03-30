@@ -5,8 +5,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const Dotenv = require("dotenv-webpack");
 const million = require("million/compiler");
+const TerserPlugin = require('terser-webpack-plugin');
+const { SplitChunksPlugin } = require('webpack').optimize;
 
 module.exports = {
+  mode: 'production', // Change to 'development' for development builds, Change to 'production' for deploy
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "build"),
@@ -20,7 +23,12 @@ module.exports = {
       {
         test: /\.(js|jsx)$/, // use babel for all file .js
         exclude: /node_modules/, // not compile node_modules
-        use: ["babel-loader"],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true, // Enable caching for babel-loader
+          },
+        },
       },
       {
         test: /\.css$/, // use style-loader, css-loader for file .css
@@ -34,6 +42,8 @@ module.exports = {
   },
   plugins: [
     new BundleAnalyzerPlugin(),
+    new TerserPlugin(),
+    new SplitChunksPlugin(),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
       filename: "index.html", // Updated filename for consistency
@@ -55,5 +65,8 @@ module.exports = {
   },
   performance: {
     hints: false, // Disabled performance hints for larger projects
+  },
+  optimization: {
+    minimize: true, // Enable minimization for production builds
   },
 };
