@@ -64,8 +64,10 @@
     "format": "prettier --write \"**/*.{js,jsx,tsx,ts,json,md,html,css,less,scss}\"",
     "lint": "eslint --fix --ext .js,.jsx .",
     "report": "npm run build --withReport true",
-    "start": "webpack-dev-server --mode development --open --hot",
-    "build": "webpack --mode production",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "start:dev": "webpack-dev-server --mode development --open --hot",
+    "build:dev": "webpack --mode production",
     "test": "react-scripts test"
   },
   "eslintConfig": {
