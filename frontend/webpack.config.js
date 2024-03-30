@@ -4,12 +4,13 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const Dotenv = require("dotenv-webpack");
+const million = require("million/compiler");
 
 module.exports = {
-  entry: "./src/index.js", // Dẫn tới file index.js ta đã tạo
+  entry: "./src/index.js",
   output: {
-    path: path.join(__dirname, "/build"), // Thư mục chứa file được build ra
-    filename: "bundle.js", // Tên file được build ra
+    path: path.resolve(__dirname, "build"),
+    filename: "bundle.js", // name of file after built
   },
   resolve: {
     extensions: [".js", ".jsx"],
@@ -17,12 +18,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/, // Sẽ sử dụng babel-loader cho những file .js
-        exclude: /node_modules/, // Loại trừ thư mục node_modules
+        test: /\.(js|jsx)$/, // use babel for all file .js
+        exclude: /node_modules/, // not compile node_modules
         use: ["babel-loader"],
       },
       {
-        test: /\.css$/, // Sử dụng style-loader, css-loader cho file .css
+        test: /\.css$/, // use style-loader, css-loader for file .css
         use: ["style-loader", "css-loader"],
       },
       {
@@ -35,20 +36,24 @@ module.exports = {
     new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
-      filename: "./index.html",
+      filename: "index.html", // Updated filename for consistency
       manifest: "./public/manifest.json",
     }),
     new webpack.ProvidePlugin({
       process: "process/browser",
     }),
     new Dotenv({
-      path: path.join(__dirname, ".env"),
+      path: path.resolve(__dirname, ".env"),
       systemvars: true, //Set to true if you would rather load all system variables as well (useful for CI purposes)
     }),
+    million.webpack(),
   ],
   devServer: {
     port: 3000, // Specify the port here
     open: true, // Automatically open the browser
     historyApiFallback: true, // Enable history API fallback so React Router works
+  },
+  performance: {
+    hints: false, // Disabled performance hints for larger projects
   },
 };
