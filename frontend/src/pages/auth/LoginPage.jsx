@@ -105,13 +105,14 @@ const LoginPage = () => {
 
   const renderCaptcha = () => {
     return (
-      <ReCAPTCHA
-        sitekey={CAPTCHA_SITE_KEY}
-        onClick={() => setIsVerifyCaptcha(true)}
-        style={{
-          width: "100%",
-        }}
-      />
+      // <ReCAPTCHA
+      //   sitekey={CAPTCHA_SITE_KEY}
+      //   onClick={() => setIsVerifyCaptcha(true)}
+      //   style={{
+      //     width: "100%",
+      //   }}
+      // />
+      <></>
     );
   };
 
