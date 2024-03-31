@@ -1,5 +1,51 @@
 import { useState } from "react";
 import "../setting-avatar/style/style.css";
+
+const colorButton = {
+  red: {
+    width: "5rem",
+    height: "5rem",
+    backgroundColor: "var(--color-danger)",
+    color: "white",
+  },
+  purple: {
+    width: "5rem",
+    height: "5rem",
+    backgroundColor: "var(--color-primary)",
+    color: "white",
+  },
+  green: {
+    width: "5rem",
+    height: "5rem",
+    backgroundColor: "var(--color-success)",
+    color: "white",
+  },
+  blue: {
+    width: "5rem",
+    height: "5rem",
+    backgroundColor: "var(--color-blue)",
+    color: "white",
+  },
+  yellow: {
+    width: "5rem",
+    height: "5rem",
+    backgroundColor: "var(--color-warn)",
+    color: "white",
+  }
+}
+
+const saveBtnStye = {
+  cursor: "pointer",
+  background: "var(--color-primary)",
+}
+
+const primaryButtonStyle = (color) => {
+  console.log(color)
+  return {
+    backgroundColor: `${color === "primary" ? "var(--color-primary)" : `${color}`}`
+  }
+}
+
 const CustomBorderAvatarSetting = ({ close }) => {
   const [borderColor, setBorderColor] = useState("#000000");
 
@@ -16,41 +62,48 @@ const CustomBorderAvatarSetting = ({ close }) => {
   };
 
   return (
-    <div className="custom-border-avatar-setting-container">
-      <div className="custom-border-avatar-form">
-        <h2>Customize Border Avatar</h2>
+    <div
+      className="card animate__animated animate__fadeIn"
+      style={{
+        width: "max-content",
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}>
+      <div className="custom-border-avatar-form d-flex flex-column align-items-center">
         <div className="color-picker-container">
-          <label htmlFor="border-color-picker">Choose Border Color:</label>
-          <div className="color-buttons">
-            <button
-              className="color-button black"
-              onClick={() => handleColorChange("#000000")}
-            ></button>
-            <button
-              className="color-button red"
-              onClick={() => handleColorChange("#FF0000")}
-            ></button>
-            <button
-              className="color-button green"
-              onClick={() => handleColorChange("#00FF00")}
-            ></button>
-            <button
-              className="color-button blue"
-              onClick={() => handleColorChange("#0000FF")}
-            ></button>
-            <button
-              className="color-button yellow"
-              onClick={() => handleColorChange("#FFFF00")}
-            ></button>
+          <div className="fs-2">Choose the color you like:</div>
+          <div className="d-grid my-5">
+            <div className="d-flex gap-3">
+              {
+                Object.keys(colorButton).map((color) => (
+                  <div
+                    type="button"
+                    title={color}
+                    key={color}
+                    className={`d-flex justify-content-center align-items-center color-button rounded-circle`}
+                    style={colorButton[color]}
+                    onClick={() => handleColorChange(color)}
+                  >
+                    :D
+                  </div>
+                ))
+              }
+            </div>
           </div>
         </div>
-        <div className="button-group">
-          <button className="save-button" onClick={handleSave}>
+        <div className="d-flex justify-content-end gap-3 w-100">
+          <span className="py-1 px-4 rounded-3" style={{
+            cursor: "pointer",
+          }}>
+            Close
+          </span>
+          <span
+            className="py-1 px-4 rounded-3"
+            style={saveBtnStye}
+          >
             Save
-          </button>
-          <button className="cancel-button" onClick={handleCancel}>
-            Cancel
-          </button>
+          </span>
         </div>
       </div>
     </div>
