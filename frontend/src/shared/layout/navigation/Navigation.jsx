@@ -143,9 +143,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
                 aria-label="Avatar user"
                 to={currentUser ? `/user/${user?._id}` : "/"}
                 className={`profile-pic ms-4 ${
-                  Global.ADMIN_ID === currentUser?._id
-                    ? ""
-                    : "border border-2 border-white"
+                  Global.ADMIN_ID === currentUser?._id ? "" : "bg-light"
                 } text-white`}
               >
                 <Avatar

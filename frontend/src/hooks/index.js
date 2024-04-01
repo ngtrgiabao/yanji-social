@@ -8,3 +8,4 @@ export { default as useCurrentUser } from "./useCurrentUser";
 export { default as useCurrentRoom } from "./useCurrentRoom";
 export { default as useFollowingList } from "./useFollowingList";
 export { default as useFollowerList } from "./useFollowerList";
+export { getValueColorVariable, getColorCode } from "./useValueColorVariable";

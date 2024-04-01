@@ -126,6 +126,10 @@ const User = new Schema(
       type: String,
       default: "",
     },
+    borderAvatar: {
+      type: String,
+      default: "",
+    },
     postShared: [postShared],
     blackList: [blackList],
     postSaved: [postSaved],
