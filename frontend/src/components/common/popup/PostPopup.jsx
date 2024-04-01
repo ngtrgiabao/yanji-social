@@ -15,7 +15,7 @@ import {
   useFollowerList,
   useUploadImage,
 } from "../../../hooks";
-import { PreviewImage } from "../../ui";
+import { Avatar, PreviewImage } from "../../ui";
 import { getUserByID } from "../../../redux/request/userRequest";
 import Global from "../../../helpers/constants/global";
 import { NotiType } from "../../../business/noti.type";
@@ -171,18 +171,12 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
         {/* NAME */}
         <div className="form__name d-flex justify-content-between">
           <div className="d-flex">
-            <span className="avatar d-flex justify-content-center align-items-center border border-2 border-white text-white">
-              {user.profilePicture ? (
-                <img
-                  loading="lazy"
-                  role="presentation"
-                  decoding="async"
-                  src={user.profilePicture || BG_DEFAULT_WALLPAPER_USER}
-                  alt="Avatar user"
-                />
-              ) : (
-                user.username || currentUser.username
-              )}
+            <span className="avatar d-flex justify-content-center align-items-center text-white">
+              <Avatar
+                imageSrc={user?.profilePicture}
+                label={user?.username}
+                userId={currentUser?._id}
+              />
             </span>
             <div className="ms-3">
               <span className="text-white text-bold fs-4">
