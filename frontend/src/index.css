@@ -95,7 +95,7 @@ textarea:focus {
   justify-content: center;
   align-items: center;
 
-  background: var(--color-primary);
+  background: black;
 
   border-radius: 50%;
 

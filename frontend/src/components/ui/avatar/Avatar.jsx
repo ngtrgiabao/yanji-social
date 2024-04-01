@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import { LOGO_YANJI_SOCIAL } from "../../../assets";
 import Global from "../../../helpers/constants/global";
+import { getUserByID } from "../../../redux/request/userRequest";
+import { useDispatch } from "react-redux";
 
 const Avatar = ({
   imageSrc = "",
@@ -9,13 +12,24 @@ const Avatar = ({
   fontSize,
   userId = "",
 }) => {
+  const dispatch = useDispatch();
+  const [styleAvatar, setStyleAvatar] = useState("");
+
+  if (userId !== Global.ADMIN_ID) {
+    getUserByID(userId, dispatch).then((res) => {
+      res?.user.borderAvatar && setStyleAvatar(res.user.borderAvatar);
+    });
+  }
+
   return (
     <div
-      className={`profile-pic text-white ${
-        userId === Global.ADMIN_ID ? "border border-3 border-danger" : ""
-      } ${
-        fontSize ? fontSize : "fs-5"
-      } text-uppercase w-100 h-100 ${customClass}`}
+      className={`
+        profile-pic text-white 
+        ${userId === Global.ADMIN_ID && "border border-3 border-danger"} 
+        ${fontSize || "fs-5"} text-uppercase w-100 h-100 ${customClass}`}
+      style={{
+        border: `2px solid ${styleAvatar ? `${styleAvatar}` : "white"}`,
+      }}
       {...customAttrs}
     >
       {imageSrc ? (

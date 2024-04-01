@@ -188,6 +188,7 @@ class UserController {
         postSaved,
         isVerify,
         isVerifyEmail,
+        borderAvatar,
         // Social links
         insta,
         linkedin,
@@ -209,6 +210,7 @@ class UserController {
       user.lastName = lastName || user.lastName;
       user.isVerify = isVerify || false;
       user.isVerifyEmail = isVerifyEmail || false;
+      user.borderAvatar = borderAvatar || user.borderAvatar;
 
       if (
         insta ||
