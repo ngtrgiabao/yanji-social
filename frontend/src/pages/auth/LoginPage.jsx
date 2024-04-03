@@ -1,11 +1,9 @@
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import ReCAPTCHA from "react-google-recaptcha";
 import { Link, useNavigate } from "react-router-dom";
 
 import Navigation from "../../shared/layout/navigation/Navigation";
 import { loginUser } from "../../redux/request/authRequest";
-import { CAPTCHA_SITE_KEY } from "../../business/key";
 
 import "./style/registerPage.css";
 
@@ -14,7 +12,6 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [isVerifyCaptcha, setIsVerifyCaptcha] = useState(false);
   const [isError, setIsError] = useState(false);
   const [msgError, setMsgError] = useState("");
 
@@ -32,9 +29,6 @@ const LoginPage = () => {
       if (!data) {
         setIsError(true);
         setMsgError("Invalid username or password. Please check again");
-      } else if (data && data?.data.isVerifyEmail === false) {
-        setIsError(true);
-        setMsgError("Please verify your email to login");
       }
     });
   };
@@ -103,19 +97,6 @@ const LoginPage = () => {
     );
   };
 
-  const renderCaptcha = () => {
-    return (
-      // <ReCAPTCHA
-      //   sitekey={CAPTCHA_SITE_KEY}
-      //   onClick={() => setIsVerifyCaptcha(true)}
-      //   style={{
-      //     width: "100%",
-      //   }}
-      // />
-      <></>
-    );
-  };
-
   const renderSubmitBtn = () => {
     return (
       <button type="submit" disabled={!username || !password}>
@@ -135,7 +116,6 @@ const LoginPage = () => {
             <div className="login-form__container-body">
               {renderUsernameInput()}
               {renderPwdInput()}
-              {renderCaptcha()}
               {renderSubmitBtn()}
               <div className="register-form__footer d-flex flex-column align-items-start">
                 <Link to="/">Forgot your password?</Link>

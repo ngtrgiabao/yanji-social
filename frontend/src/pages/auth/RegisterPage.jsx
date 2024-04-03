@@ -283,7 +283,7 @@ const RegisterPage = () => {
             placeholder="password"
             onChange={(e) => setMatchPwd(e.target.value)}
             aria-label={validMatch ? "false" : "true"}
-            aria-describedby="confirmnote"
+            aria-describedby="confirm-note"
             onFocus={() => setMatchFocus(true)}
             onBlur={() => setMatchFocus(false)}
             className="border border-dark"
