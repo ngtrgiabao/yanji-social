@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { PlayFab, PlayFabClient } = require("playfab-sdk");
 require("dotenv").config();
 
 const UserModel = require("../models/user.model");
@@ -8,29 +7,8 @@ const { userService } = require("../services/user.service");
 const hashedUtil = require("../utils/hashed.util");
 
 class UserController {
-  registerTheColorsAccount = (username, email, pw) => {
-    PlayFab.settings.developerSecretKey =
-      process.env.PlayFabSettingsDeveloperSecretKey;
-    PlayFab.settings.titleId = process.env.PlayFabSettingsTitleId;
-
-    const registerRequest = {
-      Email: email,
-      Password: pw,
-      Username: username,
-    };
-
-    PlayFabClient.RegisterPlayFabUser(registerRequest, (response, error) => {
-      if (error) {
-        console.log("[REGISTER_THE_COLORS_ACCOUNT]", error);
-      } else {
-        console.log("User registered successfully:", response);
-      }
-    });
-  };
-
   register = async (req, res, next) => {
     const { username, password, email } = req.body;
-    // registerTheColorsAccount(username, email, password);
 
     verifyOTP.withEmail(email).then(async (code) => {
       const data = await userService.createUser(
@@ -209,7 +187,7 @@ class UserController {
       user.firstName = firstName || user.firstName;
       user.lastName = lastName || user.lastName;
       user.isVerify = isVerify || false;
-      user.isVerifyEmail = isVerifyEmail || false;
+      user.isVerifyEmail = isVerifyEmail;
       user.borderAvatar = borderAvatar || user.borderAvatar;
 
       if (
