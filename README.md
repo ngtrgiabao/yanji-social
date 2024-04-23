@@ -8,6 +8,8 @@
 <a href="https://github.com/ngtrgiabao/yanji-social/graphs/contributors"><img src="https://contrib.rocks/image?repo=ngtrgiabao/yanji-social" width="50px" height="50px" alt="contributors"/></a>
 </p>
 
+[Get Postman API file here](https://ngtrgiabao251002.gumroad.com/l/yanji-social-postmant-api)
+
 ### 🍍 Logo
 <img src="https://github.com/ngtrgiabao/yanji-social/assets/95952006/6c1efcec-17cd-469f-aa45-495d0bb70a90" width="50px" height="50px" alt="logo"/>
 
