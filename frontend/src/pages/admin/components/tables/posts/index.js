@@ -5,10 +5,6 @@ import {
   Button,
   Pagination,
   Fade,
-  Container,
-  Row,
-  Col,
-  Form,
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -36,14 +32,12 @@ const PostsTable = () => {
   const [open, setOpen] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
   const [page, setPage] = useState(0);
-  const [filter, setFilter] = useState("");
 
   const navigate = useNavigate();
 
-  async function fetchPosts(filter) {
-    const url = `${Global.SOCKET_URL}/api/v1/post/all-posts?limit=14&skip=${
-      page * 14
-    }`;
+  async function fetchPosts() {
+    const url = `${Global.SOCKET_URL}/api/v1/post/all-posts?limit=14&skip=${page * 14
+      }`;
 
     const res = await axios.get(url);
     const postsList = res?.data.posts;
@@ -76,27 +70,11 @@ const PostsTable = () => {
   }
 
   useEffect(() => {
-    fetchPosts(filter);
-  }, [page, filter]);
+    fetchPosts();
+  }, [page]);
 
   return (
-    <div className="px-3">
-      <Container className="mt-4 mb-3">
-        <Row>
-          <Col>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="fs-4"
-                aria-label="Search"
-                onChange={(e) => setFilter(e.target.value)}
-              />
-            </Form>
-          </Col>
-        </Row>
-      </Container>
-
+    <div className="px-3 mt-5">
       {posts.length > 0 ? (
         <>
           <Table
@@ -126,9 +104,8 @@ const PostsTable = () => {
                   key={post._id}
                   className="fs-5"
                   style={{
-                    background: `${
-                      idx % 2 === 0 ? "" : "var(--color-bg-hover)"
-                    }`,
+                    background: `${idx % 2 === 0 ? "" : "var(--color-bg-hover)"
+                      }`,
                   }}
                 >
                   <td className="text-truncate" style={{ maxWidth: 150 }}>
