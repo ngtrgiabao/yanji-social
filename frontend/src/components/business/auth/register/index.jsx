@@ -152,8 +152,9 @@ const Register = () => {
           />
           <p
             id="uidnote"
-            className={`${userFocus && username && !validName ? "instructions" : "offscreen"
-              } d-flex`}
+            className={`${
+              userFocus && username && !validName ? "instructions" : "offscreen"
+            } d-flex`}
           >
             <Info size={15} className="me-2 mt-1" />
             <span>
@@ -195,9 +196,10 @@ const Register = () => {
           <p
             id="emailnote"
             className={`
-              ${emailFocus && email && !validEmail
-                ? "instructions"
-                : "offscreen"
+              ${
+                emailFocus && email && !validEmail
+                  ? "instructions"
+                  : "offscreen"
               } 
                 d-flex
               `}
@@ -291,10 +293,11 @@ const Register = () => {
           <p
             id="confirmnote"
             className={`
-                ${matchFocus && matchPwd && !validMatch
-                ? "instructions"
-                : "offscreen"
-              }
+                ${
+                  matchFocus && matchPwd && !validMatch
+                    ? "instructions"
+                    : "offscreen"
+                }
                 d-flex
               `}
           >

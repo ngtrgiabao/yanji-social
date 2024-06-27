@@ -9,7 +9,7 @@ import { RouteNames } from "../../../constant/routes";
 
 const OTPInput = ({
   otp = "",
-  onChangeOtp = () => { },
+  onChangeOtp = () => {},
   verifyCode = "",
   userID = "",
   onSetVerifyCode,

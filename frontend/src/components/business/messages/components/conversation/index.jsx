@@ -74,8 +74,9 @@ const Conversation = ({
   const renderAvatarUser = () => {
     return (
       <span
-        className={`avatar-user d-flex justify-content-center align-items-center text-white ${isOnline && user ? "online-status" : ""
-          }`}
+        className={`avatar-user d-flex justify-content-center align-items-center text-white ${
+          isOnline && user ? "online-status" : ""
+        }`}
         style={{
           background: "var(--color-primary)",
         }}
@@ -118,8 +119,9 @@ const Conversation = ({
 
     return (
       <div
-        className={`message-item py-3 px-2 ${showItem ? "d-flex flex-column" : "d-none"
-          } mb-2`}
+        className={`message-item py-3 px-2 ${
+          showItem ? "d-flex flex-column" : "d-none"
+        } mb-2`}
         style={{
           borderRadius: "1rem",
         }}

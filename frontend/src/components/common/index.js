@@ -7,4 +7,4 @@ export { default as EmojiPicker } from "./EmojiPicker";
 export { default as ConfirmDialog } from "./dialog/ConfirmDialog";
 export { default as YoutubeEmbed } from "./embed/YoutubeEmbed";
 export { default as OTPInput } from "./otp-input/OTPInput";
-export { default as PostPopup } from "./popup/PostPopup"
+export { default as PostPopup } from "./popup/PostPopup";

@@ -14,7 +14,7 @@ import Global from "../../../constant/global";
 import { RouteNames } from "../../../constant/routes";
 import { ToastProvider } from "../../../context/toast";
 
-import "./home.css"
+import "./home.css";
 
 function Home({ socket }) {
   const currentUser = useCurrentUser();
@@ -64,7 +64,6 @@ function Home({ socket }) {
     };
   }, [handleSocket.notification]);
 
-
   return (
     <>
       <ToastProvider />
@@ -78,7 +77,7 @@ function Home({ socket }) {
         </div>
       </main>
     </>
-  )
+  );
 }
 
 export default memo(Home, isEqual);

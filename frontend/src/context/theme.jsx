@@ -1,9 +1,5 @@
 import { createContext, useEffect, useMemo, useState } from "react";
-import {
-  TextColorMap,
-  ThemeMap,
-  FontSizeMap,
-} from "../constant/theme";
+import { TextColorMap, ThemeMap, FontSizeMap } from "../constant/theme";
 
 const ThemeContext = createContext({
   setBgColors: () => {},

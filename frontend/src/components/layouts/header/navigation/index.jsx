@@ -73,7 +73,7 @@ const Navigation = ({ title, link, isSearch = true }) => {
 
     const data = await axios.get(
       Global.SOCKET_URL +
-      `/api/v1/user/all-users/?username=${value.toLowerCase()}`,
+        `/api/v1/user/all-users/?username=${value.toLowerCase()}`,
     );
 
     const userList = data.data?.users;
@@ -89,7 +89,10 @@ const Navigation = ({ title, link, isSearch = true }) => {
     <>
       <nav className="py-3 header-navbar">
         <div className="container d-flex align-items-center h-100">
-          <Link to={RouteNames.HOME} className="logo mb-0 d-flex align-items-center">
+          <Link
+            to={RouteNames.HOME}
+            className="logo mb-0 d-flex align-items-center"
+          >
             <img
               src={LOGO_YANJI_SOCIAL}
               alt=""
@@ -144,8 +147,9 @@ const Navigation = ({ title, link, isSearch = true }) => {
               <Link
                 aria-label="Avatar user"
                 to={currentUser ? `/user/${user?._id}` : RouteNames.HOME}
-                className={`profile-pic ms-4 ${Global.ADMIN_ID === currentUser?._id ? "" : "bg-light"
-                  } text-white`}
+                className={`profile-pic ms-4 ${
+                  Global.ADMIN_ID === currentUser?._id ? "" : "bg-light"
+                } text-white`}
               >
                 <Avatar
                   imageSrc={user?.profilePicture}

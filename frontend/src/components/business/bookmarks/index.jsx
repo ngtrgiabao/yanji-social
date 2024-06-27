@@ -78,7 +78,10 @@ const BookmarkList = ({ socket }) => {
         height: "100vh",
       }}
     >
-      <Link to={RouteNames.HOME} className="fs-3 link-underline d-flex align-items-center">
+      <Link
+        to={RouteNames.HOME}
+        className="fs-3 link-underline d-flex align-items-center"
+      >
         <MoveLeft size={15} className="me-2" /> Back to home
       </Link>
       {bookmarks.length > 0 ? (

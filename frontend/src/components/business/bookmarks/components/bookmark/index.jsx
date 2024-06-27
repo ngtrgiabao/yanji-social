@@ -21,7 +21,7 @@ const Bookmark = ({
   postID,
   createdAt,
   socket,
-  handleDeletePopup = () => { },
+  handleDeletePopup = () => {},
 }) => {
   const dispatch = useDispatch();
   const [post, setPost] = useState({
