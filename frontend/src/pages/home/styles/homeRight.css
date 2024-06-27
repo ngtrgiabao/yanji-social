@@ -1,6 +1,0 @@
-main .container .right {
-  height: max-content;
-
-  top: var(--sticky-top-right);
-  position: sticky;
-}

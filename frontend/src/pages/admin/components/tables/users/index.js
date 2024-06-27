@@ -16,13 +16,13 @@ import { PenLine, Trash, StepForward, StepBack } from "lucide-react";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 
-import Global from "../../../../../helpers/constants/global";
-import { formatTime } from "../../../../../helpers/common";
+import Global from "../../../../../constant/global";
 import UpsertModal from "./upsert";
-import LoadingPage from "../../../../loading/LoadingPage";
+import LoadingPage from "../../../../../components/common/loading/loading-page";
 import { updateUser } from "../../../../../redux/request/userRequest";
-import { ToastProvider } from "../../../../../components/providers/toaster-provider";
+import { ToastProvider } from "../../../../../context/toast";
 import DeleteModal from "./delete";
+import { useTimeAgo } from "../../../../../hooks";
 
 const UsersTable = () => {
   const dispatch = useDispatch();
@@ -33,12 +33,12 @@ const UsersTable = () => {
   const [isEmpty, setIsEmpty] = useState(false);
   const [page, setPage] = useState(0);
   const [filter, setFilter] = useState("");
+  const formatTime = useTimeAgo;
 
   async function fetchUsers(filter) {
     const url = filter
-      ? `${
-          Global.SOCKET_URL
-        }/api/v1/user/all-users/?username=${filter.toLowerCase()}`
+      ? `${Global.SOCKET_URL
+      }/api/v1/user/all-users/?username=${filter.toLowerCase()}`
       : `${Global.SOCKET_URL}/api/v1/user/all-users?limit=14&skip=${page * 14}`;
 
     const data = await axios.get(url);
@@ -130,9 +130,8 @@ const UsersTable = () => {
                   key={user?._id}
                   className="fs-5"
                   style={{
-                    background: `${
-                      idx % 2 === 0 ? "" : "var(--color-bg-hover)"
-                    }`,
+                    background: `${idx % 2 === 0 ? "" : "var(--color-bg-hover)"
+                      }`,
                   }}
                 >
                   <td>{user?._id}</td>

@@ -1,0 +1,13 @@
+#not-found {
+  width: 100vw;
+  height: 100vh;
+}
+
+#not-found img {
+  object-fit: cover;
+}
+
+#not-found .bg_404 {
+  width: 80em;
+  height: 50em;
+}

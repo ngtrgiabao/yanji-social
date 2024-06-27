@@ -1,10 +1,12 @@
+import { RouteNames } from "../../../constant/routes";
+
 const linkData = {
-  privacy: { title: "Quyền riêng tư", link: "/privacy-policy" },
-  terms: { title: "Điều khoản", link: "/term-and-service" },
-  ads: { title: "Quảng cáo", link: "/" },
-  adChoices: { title: "Lựa chọn quảng cáo", link: "/" },
-  cookies: { title: "Cookies", link: "/cookie-policy" },
-  more: { title: "Xem thêm", link: "/" },
+  privacy: { title: "Quyền riêng tư", link: RouteNames.PRIVACY_POLICY },
+  terms: { title: "Điều khoản", link: RouteNames.TERM_AND_SERVICE },
+  ads: { title: "Quảng cáo", link: RouteNames.HOME },
+  adChoices: { title: "Lựa chọn quảng cáo", link: RouteNames.HOME },
+  cookies: { title: "Cookies", link: RouteNames.COOKIE_POLICY },
+  more: { title: "Xem thêm", link: RouteNames.HOME },
   copyright: {
     title: "Yanji © 2023",
     link: "https://yanji-porfolio.vercel.app/",

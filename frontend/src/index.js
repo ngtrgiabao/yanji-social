@@ -12,7 +12,7 @@ import { Provider } from "react-redux";
 
 import "./index.css";
 import App from "./App";
-import { ThemeProvider } from "./context/theme/ThemeContext";
+import { ThemeProvider } from "./context/theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

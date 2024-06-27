@@ -1,0 +1,36 @@
+@import "../../../../styles/constants/constant.css";
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(10rem, 1fr));
+  grid-template-rows: repeat(3, minmax(10rem, 1fr));
+  gap: 1rem;
+  place-items: center;
+
+  margin-top: 1rem;
+}
+
+.gallery-grid .gallery-image {
+  background: var(--color-primary);
+  border-radius: var(--card-border-radius);
+
+  width: 14rem;
+  height: 14rem;
+
+  overflow: hidden;
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: 100%;
+
+  transition: all 1s ease;
+
+  object-fit: cover;
+}
+
+.gallery-grid .gallery-image img:hover {
+  cursor: pointer;
+
+  scale: 1.1;
+}

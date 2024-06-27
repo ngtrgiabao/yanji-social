@@ -16,14 +16,14 @@ import {
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 
-import Global from "../../../../../helpers/constants/global";
-import { formatTime } from "../../../../../helpers/common";
+import Global from "../../../../../constant/global";
 import DeleteModal from "./delete";
-import LoadingPage from "../../../../loading/LoadingPage";
+import LoadingPage from "../../../../../components/common/loading/loading-page";
 import { deletePost } from "../../../../../redux/request/postRequest";
-import { ToastProvider } from "../../../../../components/providers/toaster-provider";
+import { ToastProvider } from "../../../../../context/toast";
 
 import "../../../../../components/ui/post/style/post.css";
+import { useTimeAgo } from "../../../../../hooks";
 
 const PostsTable = () => {
   const dispatch = useDispatch();
@@ -32,6 +32,7 @@ const PostsTable = () => {
   const [open, setOpen] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
   const [page, setPage] = useState(0);
+  const formatTime = useTimeAgo;
 
   const navigate = useNavigate();
 

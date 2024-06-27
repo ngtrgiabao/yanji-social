@@ -1,0 +1,100 @@
+@import "../../../../styles/constants/constant.css";
+@import "../../../../styles/animations/snackbar.css";
+
+/* TITLE PROFILE */
+
+.header-title {
+  height: 18em;
+
+  margin-top: -4rem;
+}
+
+.header-title .header-title-container .avatar {
+  width: 18em;
+  height: 18em;
+
+  border-radius: 50%;
+  overflow: hidden;
+
+  background: var(--color-primary);
+}
+
+.header-title .header-title-container .avatar img {
+  border-radius: 50%;
+
+  object-fit: cover;
+}
+
+.header-title .header-title-container .edit-avatar {
+  bottom: 2%;
+  right: 10%;
+  color: #fff;
+
+  background: rgb(36, 37, 38);
+}
+
+.header-title .header-title-container .avatar:hover img,
+.header-title .header-title-container .edit-avatar:hover {
+  cursor: pointer;
+}
+
+.header-title .header-title-container .name {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.header-title .header-title-container .friends {
+  font-size: 1.5rem;
+}
+
+.header-title-container .avatar-friends {
+  width: 4em;
+  height: 4em;
+
+  overflow: hidden;
+
+  background-color: #fff;
+}
+
+.header-title-container .avatar-friends:hover img {
+  opacity: 0.9;
+
+  border: 2px solid var(--color-primary);
+
+  cursor: pointer;
+}
+
+.header-title-container .avatar-friends:not(:first-child) {
+  margin-left: -1em;
+}
+
+.header-title-container .add-stories {
+  font-weight: bold;
+  font-size: 1.2em;
+
+  border-radius: var(--card-border-radius-l);
+  background: var(--color-primary);
+
+  width: 10em;
+  height: 3em;
+
+  cursor: pointer;
+}
+
+.header-title-container .add-stories:hover {
+  opacity: 0.8;
+}
+
+.header-title-container .msg-btn {
+  width: 3.8em;
+  height: 3.8em;
+
+  border: 1.8px solid var(--color-dark);
+
+  cursor: pointer;
+}
+
+.header-title-container .msg-btn:hover {
+  background: var(--black);
+  color: var(--white);
+}

@@ -1,0 +1,306 @@
+@import "../../../../styles/constants/constant.css";
+
+.middle-msg-page {
+  border: 0.5px solid var(--color-border);
+
+  grid-column: 2 / 4;
+  height: 100%;
+}
+
+/* HEADER */
+.middle-msg-page .middle-container .middle-container-header {
+  border-left: 0;
+  border-right: 0;
+  border: 0.5px solid rgba(204, 204, 204, 0.337);
+}
+
+.middle-msg-page .middle-container .middle-container-header .icon {
+  position: relative;
+}
+
+.middle-msg-page
+  .middle-container
+  .middle-container-header
+  .icon:hover::before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: max-content;
+
+  position: absolute;
+  top: 110%;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  color: var(--white);
+  background: var(--black);
+
+  padding: 0.5rem;
+
+  border-radius: 0.5rem;
+}
+
+.middle-container .middle-container-header .icon {
+  width: 2.5em;
+  height: 2.5em;
+}
+
+.middle-msg-page .middle-container .icon:hover {
+  cursor: pointer;
+
+  background: var(--color-bg-hover);
+}
+
+/* BODY */
+.middle-msg-page .middle-container .middle-container-body {
+  height: 74vh;
+
+  overflow: hidden auto;
+}
+
+.middle-container
+  .middle-container-body
+  .middle-container-body__right-text
+  .middle-container-body__right-message-content,
+.middle-container
+  .middle-container-body
+  .middle-container-body__left-text
+  .middle-container-body__left-message-content {
+  /* width: max-content; */
+  max-width: 50%;
+  overflow: hidden;
+  border-radius: var(--card-border-radius);
+}
+
+.middle-container
+  .middle-container-body
+  .middle-container-body__right-text
+  .middle-container-body__right-message-content
+  .middle-container-body__right-message-content-text,
+.middle-container
+  .middle-container-body
+  .middle-container-body__left-text
+  .middle-container-body__left-message-content
+  .middle-container-body__left-message-content-text {
+  width: 100%;
+
+  font-weight: 600;
+
+  padding: 0.75em;
+  word-break: break-word;
+}
+
+.middle-container
+  .middle-container-body
+  .middle-container-body__right-text
+  .middle-container-body__right-message-content
+  img,
+.middle-container
+  .middle-container-body
+  .middle-container-body__left-text
+  .middle-container-body__left-message-content
+  img {
+  cursor: pointer;
+}
+
+.middle-container
+  .middle-container-body
+  .middle-container-body__left-text
+  .middle-container-body__left-message-content {
+  background: var(--white);
+  color: var(--black);
+
+  border: 1px solid var(--border-color);
+}
+
+.middle-container
+  .middle-container-body
+  .middle-container-body__right-text
+  .middle-container-body__right-message-content {
+  border: 1px solid var(--border-color);
+}
+
+.middle-container
+  .middle-container-body
+  .middle-container-body__right-text
+  .middle-container-body__right-message-content
+  .middle-container-body__right-message-content-text {
+  color: var(--white);
+  background: var(--color-primary);
+}
+
+.middle-container
+  .middle-container-body
+  .middle-container-body__right-text
+  .middle-container-body__right-time,
+.middle-container
+  .middle-container-body
+  .middle-container-body__left-text
+  .middle-container-body__left-time {
+  font-size: 0.8em;
+  font-weight: lighter;
+}
+
+.middle-container .middle-container-body__right-text:hover .action-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.middle-container .middle-container-body__right-text .action-message {
+  display: none;
+
+  position: relative;
+}
+
+.middle-container .middle-container-body__right-text .action-message::before {
+  content: attr(aria-label);
+
+  display: none;
+}
+
+.middle-container
+  .middle-container-body__right-text
+  .action-message:hover::before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: max-content;
+
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  color: var(--white);
+  background: var(--black);
+
+  padding: 0.5rem;
+
+  border-radius: 0.5rem;
+}
+
+/* FOOTER */
+.middle-msg-page .middle-container .middle-container-footer {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(10rem, 1fr));
+}
+
+.middle-msg-page .middle-container .middle-container-footer .icon {
+  width: 3rem;
+  height: 3rem;
+
+  background: var(--color-primary);
+  color: var(--white);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 0.5rem;
+
+  position: relative;
+}
+
+.middle-msg-page .middle-container .icon::before {
+  content: attr(aria-label);
+
+  font-size: 0.8em;
+
+  z-index: 1;
+
+  display: none;
+}
+
+.middle-msg-page
+  .middle-container
+  .middle-container-footer
+  .icon:hover::before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: max-content;
+
+  left: 50%;
+  bottom: 110%;
+  position: absolute;
+
+  transform: translateX(-50%);
+
+  color: var(--white);
+  background: var(--black);
+
+  padding: 0.5rem;
+
+  border-radius: 0.5rem;
+}
+
+.middle-msg-page .middle-container .middle-container-footer .icon:hover {
+  background: var(--color-primary-light);
+}
+
+.middle-msg-page .middle-container .middle-container-footer .user-input-chat {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.middle-msg-page
+  .middle-container
+  .middle-container-footer
+  .user-input-chat
+  input {
+  width: 100%;
+}
+
+.middle-msg-page
+  .middle-container
+  .middle-container-footer
+  .user-input-chat
+  input:focus {
+  outline: 2px solid var(--color-primary);
+}
+
+#confirm {
+  width: max-content;
+
+  border-radius: var(--card-border-radius);
+
+  background: var(--bg-popup);
+  border: 1px solid var(--color-primary);
+}
+
+#confirm .confirm-container__dialog-review-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  max-width: 45rem;
+  min-height: max-content;
+  max-height: 50rem;
+}
+
+#confirm .confirm-container__dialog-review-image img {
+  aspect-ratio: 16/9;
+  object-fit: contain;
+}
+
+#confirm .confirm-container__dialog-close,
+#confirm .confirm-container__dialog-confirm {
+  font-weight: bold;
+  color: var(--color-secondary);
+
+  cursor: pointer;
+
+  padding: 0.5em;
+}
+
+#confirm .confirm-container__dialog-close:hover,
+#confirm .confirm-container__dialog-confirm:hover {
+  background: var(--color-bg-hover);
+}

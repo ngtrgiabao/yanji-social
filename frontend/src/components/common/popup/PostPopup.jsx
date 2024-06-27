@@ -7,8 +7,6 @@ import { Laugh, Image, X } from "lucide-react";
 
 import "./style/postPopup.css";
 
-import { BG_DEFAULT_WALLPAPER_USER } from "../../../assets";
-
 import { uploadPost } from "../../../redux/request/postRequest";
 import {
   useCurrentUser,
@@ -17,8 +15,8 @@ import {
 } from "../../../hooks";
 import { Avatar, PreviewImage } from "../../ui";
 import { getUserByID } from "../../../redux/request/userRequest";
-import Global from "../../../helpers/constants/global";
-import { NotiType } from "../../../business/noti.type";
+import Global from "../../../constant/global";
+import { NotiType } from "../../../constant/notification";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 
 const PostPopup = ({ onPopup, extendClass, socket }) => {

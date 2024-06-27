@@ -1,0 +1,72 @@
+@import "../../../../styles/constants/constant.css";
+
+.right-msg-page {
+  border: 0.5px solid rgba(204, 204, 204, 0.337);
+  border-left: 0;
+}
+
+.right-msg-page .right-container {
+  overflow-y: auto;
+  height: 85vh;
+}
+
+/* HEADER */
+.right-container .right-container-header {
+  width: 8rem;
+  height: 8rem;
+}
+
+/* BODY */
+.right-container .right-container-body {
+  width: 70%;
+}
+
+.right-container .right-container-body .icon {
+  color: white;
+
+  background: var(--color-primary);
+
+  cursor: pointer;
+}
+
+.right-container .right-container-body .icon:hover {
+  opacity: 0.85;
+}
+
+/* FOOTER */
+.right-container .right-container-footer {
+  width: 100%;
+}
+
+.right-container .right-container-footer .drop-menu-item,
+.right-container .right-container-footer .drop-menu {
+  cursor: pointer;
+
+  border-radius: 0.5rem;
+}
+
+.right-container .right-container-footer .drop-menu-item:hover,
+.right-container .right-container-footer .drop-menu:hover {
+  cursor: pointer;
+
+  margin-bottom: 0;
+
+  background: var(--color-bg-hover);
+}
+
+.right-container .right-container-footer .drop-menu-item div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  margin-left: -1.5rem;
+}
+
+.right-container .right-container-footer .drop-menu-item .icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 4rem;
+  height: 3rem;
+}

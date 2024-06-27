@@ -1,4 +1,4 @@
-import Global from "../../helpers/constants/global";
+import Global from "../../constant/global";
 import userService from "../../services/user.service";
 import {
   loginStart,
