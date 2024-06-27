@@ -1,5 +1,5 @@
 import axios from "axios";
-import Global from "../helpers/constants/global";
+import Global from "../constant/global";
 
 //WORK TO BACKEND
 const commonConfig = {

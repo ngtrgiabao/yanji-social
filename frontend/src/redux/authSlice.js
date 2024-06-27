@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Global from "../helpers/constants/global";
+import Global from "../constant/global";
 
 const authSlice = createSlice({
   name: "auth",

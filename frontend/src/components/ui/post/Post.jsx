@@ -24,13 +24,13 @@ import {
 } from "../../../redux/request/postRequest";
 import { getUserByID, updateUser } from "../../../redux/request/userRequest";
 import { useTimeAgo, useCopyUrl, useCurrentUser } from "../../../hooks";
-import ParagraphWithLink from "../../paragraph/ParagraphWithLink";
+import ParagraphWithLink from "../../features/paragraph-with-link";
 import { EditPopup, ConfirmDialog } from "../../common";
 import { Photo } from "../media";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
-import { NotiType } from "../../../business/noti.type";
+import { NotiType } from "../../../constant/notification";
 import Avatar from "../avatar/Avatar";
-import Global from "../../../helpers/constants/global";
+import Global from "../../../constant/global";
 import ActionBtn from "./ActionBtn";
 const DetailsPost = lazy(() => import("./DetailsPost"));
 

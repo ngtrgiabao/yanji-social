@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
 
-import Global from "../../helpers/constants/global";
+import Global from "../../constant/global";
 import { useCurrentUser } from "../../hooks";
 import Navigation from "./components/navigation";
 import UsersTable from "./components/tables/users";
 import PostsTable from "./components/tables/posts";
+import { RouteNames } from "../../constant/routes";
 
 const Admin = () => {
   const currentUser = useCurrentUser();
@@ -15,7 +16,7 @@ const Admin = () => {
 
   useEffect(() => {
     if (currentUser._id !== Global.ADMIN_ID) {
-      return navigate("/");
+      return navigate(RouteNames.HOME);
     }
   }, [currentUser]);
 

@@ -1,3 +1,5 @@
+// This api just for testing db if you don't have your own api
+
 // Docs: https://pokeapi.co/docs/v2
 const POKEMON_URL = "https://pokeapi.co/api/v2/pokemon?limit=10&offset=0";
 // Docs: https://randomuser.me/documentation

@@ -8,6 +8,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ToggleButton from "react-bootstrap/ToggleButton";
 
 import { LOGO_YANJI_SOCIAL } from "../../../../assets";
+import { RouteNames } from "../../../../constant/routes";
 
 const Navigation = ({ onQuery }) => {
   const [radioValue, setRadioValue] = useState("users");
@@ -23,7 +24,7 @@ const Navigation = ({ onQuery }) => {
         <Row className="w-100 d-flex align-items-center">
           <Col>
             <Navbar.Brand
-              href="/"
+              href={RouteNames.HOME}
               className="logo mb-0 d-flex align-items-center w-100 fs-2"
             >
               <img

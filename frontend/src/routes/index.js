@@ -3,10 +3,12 @@ import { io } from "socket.io-client";
 
 import { authProtectedRoutes, publicRoutes } from "./all-routes";
 import { AuthProtected } from "./auth-protected";
-import Global from "../helpers/constants/global";
-import { LoadingPage, YanjiSocialLoadingPage } from "../pages";
-const _404 = lazy(() => import("../pages/_404/_404"));
+import Global from "../constant/global";
+import LoadingPage from "../components/common/loading/loading-page";
+import LoadingBrand from "../components/common/loading/loading=brand";
+const _404Page = lazy(() => import("../pages/_404"));
 import { Route, Routes } from "react-router-dom";
+import { RouteNames } from "../constant/routes";
 
 const Index = () => {
   const socketRef = useRef(null);
@@ -21,8 +23,8 @@ const Index = () => {
     <Routes>
       <Route element={<AuthProtected />}>
         {authProtectedRoutes.map((route, idx) => {
-          const fallbackComponent = ["/", "/messages"].includes(route.path) ? (
-            <YanjiSocialLoadingPage />
+          const fallbackComponent = [RouteNames.HOME, RouteNames.MESSAGE_PAGE].includes(route.path) ? (
+            <LoadingBrand />
           ) : (
             <LoadingPage />
           );
@@ -57,7 +59,7 @@ const Index = () => {
         path="*"
         element={
           <Suspense fallback={<LoadingPage />}>
-            <_404 />
+            <_404Page />
           </Suspense>
         }
       />

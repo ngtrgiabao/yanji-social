@@ -9,7 +9,7 @@ import "./style/changeImagePopup.css";
 import { PreviewImage } from "../../ui";
 import { updateUser } from "../../../redux/request/userRequest";
 import { useCurrentUser, useUploadImage } from "../../../hooks";
-import Global from "../../../helpers/constants/global";
+import Global from "../../../constant/global";
 
 const ChangeImagePopup = ({
   title = "Title",

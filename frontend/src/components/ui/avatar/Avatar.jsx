@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LOGO_YANJI_SOCIAL } from "../../../assets";
-import Global from "../../../helpers/constants/global";
+import Global from "../../../constant/global";
 import { getUserByID } from "../../../redux/request/userRequest";
 import { useDispatch } from "react-redux";
 

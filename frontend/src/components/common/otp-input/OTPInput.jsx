@@ -5,10 +5,11 @@ import { useDispatch } from "react-redux";
 
 import { updateUser } from "../../../redux/request/userRequest";
 import { resendOtp } from "../../../redux/request/otpRequest";
+import { RouteNames } from "../../../constant/routes";
 
 const OTPInput = ({
   otp = "",
-  onChangeOtp = () => {},
+  onChangeOtp = () => { },
   verifyCode = "",
   userID = "",
   onSetVerifyCode,
@@ -71,7 +72,7 @@ const OTPInput = ({
     updateUser(updatedUser, dispatch).then(() => {
       setIsLoading(false);
       alert("Success");
-      navigate("/login");
+      navigate(RouteNames.LOGIN);
     });
   };
 

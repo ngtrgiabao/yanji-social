@@ -1,0 +1,57 @@
+@import "../../../../styles/constants/constant.css";
+
+.left-msg-page {
+  width: 100%;
+  height: 100%;
+
+  border: 0.5px solid rgba(204, 204, 204, 0.337);
+  border-right: 0;
+
+  padding: 1rem;
+}
+
+.left-msg-page .left-container-main {
+  width: 100%;
+  height: 80vh;
+
+  padding: 1rem;
+}
+
+.left-msg-page .left-container-main input {
+  width: 100%;
+
+  padding: 0.5rem;
+}
+
+.left-msg-page .messages-wrapper {
+  border-top: 1px solid;
+
+  height: 84%;
+
+  overflow-y: auto;
+}
+
+.left-msg-page .message-item {
+  display: flex;
+  align-items: center;
+  background: var(--extra-light-dark);
+
+  border-radius: 1rem;
+}
+
+.left-msg-page .message-item:hover {
+  background: var(--color-white);
+
+  cursor: pointer;
+}
+
+.message-item .avatar-user {
+  width: 4em;
+  height: 4em;
+
+  border-radius: 50%;
+}
+
+.message-item .avatar-user img {
+  object-fit: cover;
+}

@@ -1,71 +1,72 @@
 import { lazy } from "react";
-import { CookiePolicy, PrivacyPolicy, TermAndService } from "../pages";
+import { CookiePolicyPage, PrivacyPolicyPage, TermAndServicePage } from "../pages";
+import { RouteNames } from "../constant/routes";
 
-const Homepage = lazy(() => import("../pages/home/Home"));
-const MessagesPage = lazy(() => import("../pages/messages/Messages"));
-const PersonalPage = lazy(() => import("../pages/personal/Personal"));
+const Homepage = lazy(() => import("../pages/home"));
+const MessagesPage = lazy(() => import("../pages/messages"));
+const PersonalPage = lazy(() => import("../pages/personal"));
 const NotificationPage = lazy(
-  () => import("../pages/notification/Notification"),
+  () => import("../pages/notification"),
 );
-const BookmarkPage = lazy(() => import("../pages/bookmarks/Bookmarks"));
-const PostPreview = lazy(() => import("../pages/postPreview/PostPreview"));
+const BookmarkPage = lazy(() => import("../pages/bookmarks"));
+const PostPreview = lazy(() => import("../pages/post-preview"));
 const AdminPage = lazy(() => import("../pages/admin/Admin"));
 
 const RegisterPage = lazy(() => import("../pages/auth/RegisterPage"));
 const LoginPage = lazy(() => import("../pages/auth/LoginPage"));
-const ExplorePage = lazy(() => import("../pages/explore/Explore"));
+const ExplorePage = lazy(() => import("../pages/explore"));
 
 const authProtectedRoutes = [
   {
-    path: "/",
+    path: RouteNames.HOME,
     component: Homepage,
     isSocket: true,
   },
   {
-    path: "/messages",
+    path: RouteNames.MESSAGE_PAGE,
     component: MessagesPage,
     isSocket: true,
   },
   {
-    path: "/admin",
+    path: RouteNames.ADMIN,
     component: AdminPage,
     isSocket: false,
   },
   {
-    path: "/user/:userID",
+    path: RouteNames.PERSONAL_PAGE,
     component: PersonalPage,
     isSocket: true,
   },
   {
-    path: "/user/:userID/:photos",
+    path: RouteNames.PERSONAL_PHOTOS,
     component: PersonalPage,
     isSocket: true,
   },
   {
-    path: "/notification",
+    path: RouteNames.NOTIFICATION,
     component: NotificationPage,
     isSocket: true,
   },
   {
-    path: "/bookmarks",
+    path: RouteNames.BOOKMARKS,
     component: BookmarkPage,
     isSocket: true,
   },
   {
-    path: "/post/:postID",
+    path: RouteNames.POST_PREVIEW,
     component: PostPreview,
     isSocket: true,
   },
 ];
 
 const publicRoutes = [
-  { path: "/login", component: LoginPage },
-  { path: "/register", component: RegisterPage },
-  { path: "/logout", component: LoginPage },
-  { path: "/term-and-service", component: TermAndService },
-  { path: "/cookie-policy", component: CookiePolicy },
-  { path: "/privacy-policy", component: PrivacyPolicy },
-  { path: "/explore", component: ExplorePage },
+  { path: RouteNames.LOGIN, component: LoginPage },
+  { path: RouteNames.REGISTER, component: RegisterPage },
+  { path: RouteNames.LOGOUT, component: LoginPage },
+  { path: RouteNames.TERM_AND_SERVICE, component: TermAndServicePage },
+  { path: RouteNames.COOKIE_POLICY, component: CookiePolicyPage },
+  { path: RouteNames.PRIVACY_POLICY, component: PrivacyPolicyPage },
+  { path: RouteNames.EXPLORE, component: ExplorePage },
 ];
 
 export { publicRoutes, authProtectedRoutes };
