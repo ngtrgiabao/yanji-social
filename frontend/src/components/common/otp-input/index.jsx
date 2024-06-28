@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import OtpInput from "react-otp-input";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import isEqual from "react-fast-compare";
 
 import { updateUser } from "../../../redux/request/userRequest";
 import { resendOtp } from "../../../redux/request/otpRequest";
 import { RouteNames } from "../../../constant/routes";
+import { LocalStorageKeys } from "../../../constant/local-storage-key";
 
 const OTPInput = ({
   otp = "",
-  onChangeOtp = () => { },
+  onChangeOtp = () => {},
   verifyCode = "",
   userID = "",
   onSetVerifyCode,
@@ -18,7 +20,7 @@ const OTPInput = ({
   const [isErr, setIsErr] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [seconds, setSeconds] = useState(
-    parseInt(localStorage.getItem("remainingSeconds")) || 10,
+    parseInt(localStorage.getItem(LocalStorageKeys.REMAINING_SECONDS)) || 10,
   );
   const [newOtp, setNewOtp] = useState(null);
 
@@ -46,7 +48,10 @@ const OTPInput = ({
   const countDown = () => {
     setSeconds((prevSeconds) => {
       const newSeconds = prevSeconds - 1;
-      localStorage.setItem("remainingSeconds", newSeconds.toString());
+      localStorage.setItem(
+        LocalStorageKeys.REMAINING_SECONDS,
+        newSeconds.toString(),
+      );
       return newSeconds;
     });
   };
@@ -174,4 +179,4 @@ const OTPInput = ({
   );
 };
 
-export default OTPInput;
+export default memo(OTPInput, isEqual);

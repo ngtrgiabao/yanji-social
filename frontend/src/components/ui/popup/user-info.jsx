@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import isEqual from "react-fast-compare";
 
 import { getUserByID } from "../../../redux/request/userRequest";
 
@@ -31,4 +32,4 @@ const UserInfoPopup = ({ userID }) => {
   );
 };
 
-export default UserInfoPopup;
+export default memo(UserInfoPopup, isEqual);

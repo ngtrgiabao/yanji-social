@@ -1,4 +1,4 @@
-import { RouteNames } from "../../../constant/routes";
+import { RouteNames } from "../../../../constant/routes";
 
 const linkData = {
   privacy: { title: "Quyền riêng tư", link: RouteNames.PRIVACY_POLICY },

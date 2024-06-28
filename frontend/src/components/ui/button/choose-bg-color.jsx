@@ -1,3 +1,6 @@
+import { memo } from "react";
+import isEqual from "react-fast-compare";
+
 const ChooseBgBtn = ({ bgName, bgTheme, content, onBackgroundChange }) => {
   return (
     <div
@@ -11,4 +14,4 @@ const ChooseBgBtn = ({ bgName, bgTheme, content, onBackgroundChange }) => {
   );
 };
 
-export default ChooseBgBtn;
+export default memo(ChooseBgBtn, isEqual);

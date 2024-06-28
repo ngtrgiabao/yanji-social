@@ -2,14 +2,15 @@ import { memo } from "react";
 import "./style/color.css";
 
 import { useTheme } from "../../../hooks";
-import { ChooseColorBtn } from "../../common";
+import ChooseColorBtn from "../../ui/button/choose-color";
+import { LocalStorageKeys } from "../../../constant/local-storage-key";
 
 const ColorTheme = () => {
   const { setTextColors } = useTheme();
-  const textColorTheme = localStorage.getItem("text_color");
+  const textColorTheme = localStorage.getItem(LocalStorageKeys.TEXT_COLOR);
 
   const handleTextColorChange = (color) => {
-    localStorage.setItem("text_color", color);
+    localStorage.setItem(LocalStorageKeys.TEXT_COLOR, color);
     setTextColors(color);
   };
 

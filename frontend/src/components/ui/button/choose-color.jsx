@@ -1,3 +1,6 @@
+import { memo } from "react";
+import isEqual from "react-fast-compare";
+
 const ChooseColorBtn = ({ colorName, textColorTheme, onTextColorChange }) => {
   return (
     <span
@@ -8,4 +11,4 @@ const ChooseColorBtn = ({ colorName, textColorTheme, onTextColorChange }) => {
   );
 };
 
-export default ChooseColorBtn;
+export default memo(ChooseColorBtn, isEqual);

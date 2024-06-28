@@ -1,7 +1,8 @@
-import React from "react";
+import React, { memo } from "react";
 import getYouTubeID from "get-youtube-id";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
+import isEqual from "react-fast-compare";
 
 const liteYoutubeEmbedProps = (youtubeId) => {
   return {
@@ -20,4 +21,4 @@ const YoutubeEmbed = ({ embedURL }) => {
   );
 };
 
-export default YoutubeEmbed;
+export default memo(YoutubeEmbed, isEqual);

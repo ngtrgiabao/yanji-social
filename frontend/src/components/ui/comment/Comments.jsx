@@ -41,7 +41,7 @@ const Comments = ({ postID, author, socket }) => {
     fetchComments();
     socket = io(Global.SOCKET_URL);
 
-    socket.on(SocketEvent["UPDATED_POST"], (data) => {
+    socket.on(SocketEvent.UPDATED_POST, (data) => {
       const { _id } = data;
       if (_id === postID) {
         fetchComments();
@@ -52,10 +52,10 @@ const Comments = ({ postID, author, socket }) => {
   useEffect(() => {
     socket = io(Global.SOCKET_URL);
 
-    socket.on(SocketEvent["COMMENTED_POST"], handleSocket.commentPost);
+    socket.on(SocketEvent.COMMENTED_POST, handleSocket.commentPost);
 
     return () => {
-      socket.off(SocketEvent["COMMENTED_POST"], handleSocket.commentPost);
+      socket.off(SocketEvent.COMMENTED_POST, handleSocket.commentPost);
     };
   }, [handleSocket.commentPost]);
 
@@ -78,8 +78,8 @@ const Comments = ({ postID, author, socket }) => {
 
             socket = io(Global.SOCKET_URL);
 
-            await socket.emit(SocketEvent["UPDATE_POST"], updatePost);
-            await socket.emit(SocketEvent["COMMENT_POST"], {
+            await socket.emit(SocketEvent.UPDATE_POST, updatePost);
+            await socket.emit(SocketEvent.COMMENT_POST, {
               comments: comments,
               postID: postID,
             });
@@ -93,7 +93,7 @@ const Comments = ({ postID, author, socket }) => {
 
               pushNewNotification(notification, dispatch)
                 .then((data) => {
-                  socket.emit(SocketEvent["PUSH_NOTIFICATION"], data.data);
+                  socket.emit(SocketEvent.PUSH_NOTIFICATION, data.data);
                 })
                 .catch((err) => {
                   console.error("Failed to create new notification", err);

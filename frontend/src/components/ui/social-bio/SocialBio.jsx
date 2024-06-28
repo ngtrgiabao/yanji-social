@@ -1,5 +1,6 @@
+import { memo } from "react";
+import isEqual from "react-fast-compare";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect } from "react";
 
 const SocialBio = ({ icon, link, username }) => {
   return (
@@ -21,4 +22,4 @@ const SocialBio = ({ icon, link, username }) => {
   );
 };
 
-export default SocialBio;
+export default memo(SocialBio, isEqual);

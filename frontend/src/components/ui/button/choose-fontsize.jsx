@@ -1,3 +1,6 @@
+import { memo } from "react";
+import isEqual from "react-fast-compare";
+
 const ChooseFontSizeBtn = ({ fontSizeName, fontSize, onFontSizeChange }) => {
   return (
     <span
@@ -8,4 +11,4 @@ const ChooseFontSizeBtn = ({ fontSizeName, fontSize, onFontSizeChange }) => {
   );
 };
 
-export default ChooseFontSizeBtn;
+export default memo(ChooseFontSizeBtn, isEqual);

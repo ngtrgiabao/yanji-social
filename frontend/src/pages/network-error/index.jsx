@@ -1,9 +1,7 @@
 import NetworkError from "../../components/business/network-error";
 
 const NetworkErrorPage = () => {
-  return (
-    <NetworkError />
-  );
+  return <NetworkError />;
 };
 
 export default NetworkErrorPage;

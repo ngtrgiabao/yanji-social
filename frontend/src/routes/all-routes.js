@@ -1,13 +1,15 @@
 import { lazy } from "react";
-import { CookiePolicyPage, PrivacyPolicyPage, TermAndServicePage } from "../pages";
+import {
+  CookiePolicyPage,
+  PrivacyPolicyPage,
+  TermAndServicePage,
+} from "../pages";
 import { RouteNames } from "../constant/routes";
 
 const Homepage = lazy(() => import("../pages/home"));
 const MessagesPage = lazy(() => import("../pages/messages"));
 const PersonalPage = lazy(() => import("../pages/personal"));
-const NotificationPage = lazy(
-  () => import("../pages/notification"),
-);
+const NotificationPage = lazy(() => import("../pages/notification"));
 const BookmarkPage = lazy(() => import("../pages/bookmarks"));
 const PostPreview = lazy(() => import("../pages/post-preview"));
 const AdminPage = lazy(() => import("../pages/admin/Admin"));

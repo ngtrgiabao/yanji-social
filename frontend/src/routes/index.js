@@ -23,7 +23,10 @@ const Index = () => {
     <Routes>
       <Route element={<AuthProtected />}>
         {authProtectedRoutes.map((route, idx) => {
-          const fallbackComponent = [RouteNames.HOME, RouteNames.MESSAGE_PAGE].includes(route.path) ? (
+          const fallbackComponent = [
+            RouteNames.HOME,
+            RouteNames.MESSAGE_PAGE,
+          ].includes(route.path) ? (
             <LoadingBrand />
           ) : (
             <LoadingPage />

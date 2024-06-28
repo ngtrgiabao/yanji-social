@@ -1,3 +1,6 @@
+import { memo } from "react";
+import isEqual from "react-fast-compare";
+
 import { BG_NOT_AVAILABLE } from "../../../assets";
 
 const invalidScreenStyle = {
@@ -27,4 +30,4 @@ const InvalidScreen = () => {
   );
 };
 
-export default InvalidScreen;
+export default memo(InvalidScreen, isEqual);

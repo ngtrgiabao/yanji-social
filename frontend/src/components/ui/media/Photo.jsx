@@ -3,6 +3,8 @@ import {
   LazyLoadImage,
   LazyLoadComponent,
 } from "react-lazy-load-image-component";
+import { memo } from "react";
+import isEqual from "react-fast-compare";
 
 const photoStyles = {
   width: "calc(100%)",
@@ -60,4 +62,4 @@ const Photo = ({
   );
 };
 
-export default Photo;
+export default memo(Photo, isEqual);

@@ -6,7 +6,7 @@ import "animate.css";
 import { NetworkError } from "./pages";
 import Route from "./routes";
 const InvalidScreen = lazy(
-  () => import("./components/ui/invalid-screen/InvalidScreen"),
+  () => import("./components/business/invalid-screen"),
 );
 
 function App() {

@@ -158,11 +158,12 @@ const PersonalNavbarProfile = () => {
               <li key={item.id} className="nav-item">
                 <Link
                   to={RouteNames.HOME + item.link}
-                  className={`${(userRoute && !photosRoute && item.id === 1) ||
+                  className={`${
+                    (userRoute && !photosRoute && item.id === 1) ||
                     (userRoute && photosRoute && item.id === 2)
-                    ? "active"
-                    : ""
-                    }`}
+                      ? "active"
+                      : ""
+                  }`}
                 >
                   {item.title}
                 </Link>

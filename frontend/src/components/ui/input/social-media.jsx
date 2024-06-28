@@ -1,4 +1,5 @@
-import React from "react";
+import React, { memo } from "react";
+import isEqual from "react-fast-compare";
 
 const SocialMediaInput = ({ icon, label, value, onChange }) => {
   return (
@@ -32,4 +33,4 @@ const SocialMediaInput = ({ icon, label, value, onChange }) => {
   );
 };
 
-export default SocialMediaInput;
+export default memo(SocialMediaInput, isEqual);

@@ -6,7 +6,8 @@ import isEqual from "react-fast-compare";
 import { getUserByID } from "../../../../../redux/request/userRequest";
 
 import { useCurrentUser } from "../../../../../hooks";
-import { Avatar, PostPopup } from "../../../../../components";
+import { Avatar } from "../../../../../components";
+import PostPopup from "../../../../ui/popup/post";
 import { RouteNames } from "../../../../../constant/routes";
 import LoadingPage from "../../../../common/loading/loading-page";
 const Posts = lazy(() => import("../../../../../components/ui/post/Posts"));
@@ -57,8 +58,9 @@ const HomeMiddle = ({ socket }) => {
     <div className="middle animate__animated animate__fadeIn position-relative">
       {/* STATUS */}
       <div
-        className={`create-post align-items-center mb-4 ${currentUser === undefined ? "d-none" : "d-flex"
-          }`}
+        className={`create-post align-items-center mb-4 ${
+          currentUser === undefined ? "d-none" : "d-flex"
+        }`}
       >
         <div className="create-post-wrapper w-100 d-flex align-items-center">
           <Link

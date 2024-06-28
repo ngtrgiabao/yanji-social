@@ -1,3 +1,6 @@
+import { memo } from "react";
+import isEqual from "react-fast-compare";
+
 import "../../../components/business/messages/styles/messageMiddle.css";
 import "../../business/home/home.css";
 
@@ -52,4 +55,4 @@ const ConfirmDialog = ({
   );
 };
 
-export default ConfirmDialog;
+export default memo(ConfirmDialog, isEqual);

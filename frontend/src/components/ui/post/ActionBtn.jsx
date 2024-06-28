@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { Repeat, MessageSquare, Heart } from "lucide-react";
+import isEqual from "react-fast-compare";
 
 const ActionBtn = ({
   onShare,
@@ -74,4 +75,4 @@ const ActionBtn = ({
   );
 };
 
-export default memo(ActionBtn);
+export default memo(ActionBtn, isEqual);

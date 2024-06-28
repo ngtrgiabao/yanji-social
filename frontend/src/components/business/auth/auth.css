@@ -30,8 +30,8 @@
   padding: 1.4em;
 }
 
-#register-form>section,
-#login-form>section {
+#register-form > section,
+#login-form > section {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,8 +79,8 @@
   margin-bottom: 1em;
 }
 
-#register-form .register-form__input>div,
-#login-form .login-form__input>div {
+#register-form .register-form__input > div,
+#login-form .login-form__input > div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -88,8 +88,8 @@
   width: 100%;
 }
 
-#register-form .register-form__input>div>p,
-#login-form .login-form__input>div>p {
+#register-form .register-form__input > div > p,
+#login-form .login-form__input > div > p {
   width: 100%;
 
   margin-top: 1rem;
@@ -100,8 +100,8 @@
   border-radius: 0.5rem;
 }
 
-.register-form__input>div>p>.fa-circle-info,
-.login-form__input>div>p>.fa-circle-info {
+.register-form__input > div > p > .fa-circle-info,
+.login-form__input > div > p > .fa-circle-info {
   margin-right: 1rem;
 }
 
@@ -212,7 +212,7 @@
   position: relative;
 }
 
-.instructions>svg {
+.instructions > svg {
   margin-right: 0.25rem;
 }
 

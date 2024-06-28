@@ -2,14 +2,15 @@ import { memo } from "react";
 import "./style/fontSize.css";
 
 import { useTheme } from "../../../hooks";
-import { ChooseFontSizeBtn } from "../../common";
+import ChooseFontSizeBtn from "../../ui/button/choose-fontsize";
+import { LocalStorageKeys } from "../../../constant/local-storage-key";
 
 const FontSizeTheme = () => {
   const { setFontSizes } = useTheme();
-  const fontSize = localStorage.getItem("font_size");
+  const fontSize = localStorage.getItem(LocalStorageKeys.FONTSIZE);
 
   const handleFontSizeChange = (fontSize) => {
-    localStorage.setItem("font_size", fontSize);
+    localStorage.setItem(LocalStorageKeys.FONTSIZE, fontSize);
     setFontSizes(fontSize);
   };
 

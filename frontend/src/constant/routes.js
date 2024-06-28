@@ -13,7 +13,7 @@ const RouteNames = {
   TERM_AND_SERVICE: "/term-and-service",
   COOKIE_POLICY: "/cookie-policy",
   PRIVACY_POLICY: "/privacy-policy",
-  EXPLORE: "/explore"
-}
+  EXPLORE: "/explore",
+};
 
-export { RouteNames }
+export { RouteNames };

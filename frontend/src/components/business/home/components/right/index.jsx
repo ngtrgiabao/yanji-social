@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import isEqual from "react-fast-compare";
 
-import TermLinks from "../../../../features/term-link"
+import TermLinks from "../../../../features/term-link";
 import { Avatar } from "../../../../../components";
 import { useCurrentUser, useFollowingList } from "../../../../../hooks";
 

@@ -31,14 +31,11 @@ const Notification = ({ socket }) => {
   useEffect(() => {
     socket = io(Global.SOCKET_URL);
 
-    socket.on(
-      SocketEvent["PUSHED_NOTIFICATION"],
-      handleSocket.getNewNotification,
-    );
+    socket.on(SocketEvent.PUSHED_NOTIFICATION, handleSocket.getNewNotification);
 
     return () => {
       socket.off(
-        SocketEvent["PUSHED_NOTIFICATION"],
+        SocketEvent.PUSHED_NOTIFICATION,
         handleSocket.getNewNotification,
       );
     };
@@ -65,8 +62,9 @@ const Notification = ({ socket }) => {
       if (data.data.length > 0) {
         const res = await axios.get(
           Global.SOCKET_URL +
-          `/api/v1/notification/all/user/${currentUser._id}/?limit=5&skip=${page * 5
-          }`,
+            `/api/v1/notification/all/user/${currentUser._id}/?limit=5&skip=${
+              page * 5
+            }`,
         );
 
         const { data } = res.data;

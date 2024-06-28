@@ -1,5 +1,8 @@
+import { memo } from "react";
+import isEqual from "react-fast-compare";
+
 import { URL_SPLIT_REGEX, YOUTUBE_REGEX } from "../../../utils/regex";
-import YoutubeEmbed from "../../common/embed/YoutubeEmbed";
+import YoutubeEmbed from "../../common/embed/youtube-embed";
 
 const ParagraphWithLink = ({ text }) => {
   const parts = text?.split("\n");
@@ -62,4 +65,4 @@ const ParagraphWithLink = ({ text }) => {
   });
 };
 
-export default ParagraphWithLink;
+export default memo(ParagraphWithLink, isEqual);

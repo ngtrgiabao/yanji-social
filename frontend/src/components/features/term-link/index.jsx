@@ -1,7 +1,7 @@
 import { memo } from "react";
 import isEqual from "react-fast-compare";
-import { SocialLink } from "../../common";
-import { termLinks } from "../../common/terms";
+import SocialLink from "../../ui/social-link";
+import { termLinks } from "./data";
 
 const renderSocialLinks = () =>
   termLinks.map((item, index) => (

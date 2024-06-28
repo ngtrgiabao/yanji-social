@@ -1,4 +1,6 @@
+import { memo } from "react";
 import { LOGO_YANJI_SOCIAL } from "../../../assets";
+import isEqual from "react-fast-compare";
 
 const PreviewImage = ({ imgSrc, width, heigth }) => {
   return imgSrc ? (
@@ -32,4 +34,4 @@ const PreviewImage = ({ imgSrc, width, heigth }) => {
   );
 };
 
-export default PreviewImage;
+export default memo(PreviewImage, isEqual);

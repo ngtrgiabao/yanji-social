@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  Table,
-  Button,
-  Pagination,
-  Fade,
-} from "react-bootstrap";
+import { Table, Button, Pagination, Fade } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import {
   StepForward,
@@ -37,8 +32,9 @@ const PostsTable = () => {
   const navigate = useNavigate();
 
   async function fetchPosts() {
-    const url = `${Global.SOCKET_URL}/api/v1/post/all-posts?limit=14&skip=${page * 14
-      }`;
+    const url = `${Global.SOCKET_URL}/api/v1/post/all-posts?limit=14&skip=${
+      page * 14
+    }`;
 
     const res = await axios.get(url);
     const postsList = res?.data.posts;
@@ -105,8 +101,9 @@ const PostsTable = () => {
                   key={post._id}
                   className="fs-5"
                   style={{
-                    background: `${idx % 2 === 0 ? "" : "var(--color-bg-hover)"
-                      }`,
+                    background: `${
+                      idx % 2 === 0 ? "" : "var(--color-bg-hover)"
+                    }`,
                   }}
                 >
                   <td className="text-truncate" style={{ maxWidth: 150 }}>

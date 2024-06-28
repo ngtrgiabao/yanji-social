@@ -1,3 +1,5 @@
+import { memo } from "react";
+import isEqual from "react-fast-compare";
 import { Link } from "react-router-dom";
 
 const Button = ({
@@ -47,4 +49,4 @@ const Button = ({
   );
 };
 
-export default Button;
+export default memo(Button, isEqual);
