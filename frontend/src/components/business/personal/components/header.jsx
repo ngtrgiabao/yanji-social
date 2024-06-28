@@ -4,7 +4,7 @@ import isEqual from "react-fast-compare";
 
 import "../styles/personalHeader.css";
 
-import { ChangeImagePopup } from "../../../../components";
+import ChangeImagePopup from "../../../../components/ui/popup/change-image";
 import { useCurrentUser } from "../../../../hooks";
 import Banner from "./banner";
 

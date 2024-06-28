@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
@@ -12,6 +12,8 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import isEqual from "react-fast-compare";
+
 import { ToastProvider } from "../../../context/toast";
 
 import "./styles/personal.css";
@@ -25,13 +27,14 @@ import {
   PersonalNavbarProfile,
 } from "./components";
 import _404Page from "../_404";
-import { ConfirmDialog, PhotosUser } from "../../../components";
-import { SocialMediaInput } from "../../../components/common";
+import { PhotosUser } from "../../../components";
+import SocialMediaInput from "../../../components/ui/input/social-media";
 
 import Global from "../../../constant/global";
 import { useCurrentUser } from "../../../hooks";
 import { RouteNames } from "../../../constant/routes";
 import Header from "../../../components/layouts/header";
+import ConfirmDialog from "../../ui/dialog/confirm-dialog";
 
 const userInfoDefaultValues = {
   _id: "",
@@ -326,4 +329,4 @@ const Personal = ({ socket }) => {
   );
 };
 
-export default Personal;
+export default memo(Personal, isEqual);

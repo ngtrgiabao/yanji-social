@@ -60,10 +60,10 @@ const PostPreview = ({ socket }) => {
   useEffect(() => {
     socket = io(Global.SOCKET_URL);
 
-    socket.on(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
+    socket.on(SocketEvent.UPDATED_POST, handleSocket.updatePost);
 
     return () => {
-      socket.off(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
+      socket.off(SocketEvent.UPDATED_POST, handleSocket.updatePost);
     };
   }, [handleSocket.updatePost, socket]);
 

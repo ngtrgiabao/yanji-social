@@ -86,14 +86,14 @@ const MessageLeft = ({ socket = {} }) => {
   useEffect(() => {
     socket = io(Global.SOCKET_URL);
 
-    socket.emit(SocketEvent["ADD_USER"], {
+    socket.emit(SocketEvent.ADD_USER, {
       user: currentUser._id,
     });
 
-    socket.on(SocketEvent["GET_USERS"], handleSocket.getUsersOnline);
+    socket.on(SocketEvent.GET_USERS, handleSocket.getUsersOnline);
 
     return () => {
-      socket.off(SocketEvent["GET_USERS"], handleSocket.getUsersOnline);
+      socket.off(SocketEvent.GET_USERS, handleSocket.getUsersOnline);
     };
   }, [handleSocket.getUsersOnline, currentUser._id]);
 

@@ -7,7 +7,7 @@ import "../styles/personalBody.css";
 
 import { PersonalIntroduce } from "../components";
 import { Post } from "../../../../components";
-import { PostPopup } from "../../../../components/common";
+import PostPopup from "../../../ui/popup/post";
 import {
   getAllPostsByUser,
   getPostByID,
@@ -84,14 +84,14 @@ const PersonalBody = ({
     socketRef.current = io(Global.SOCKET_URL);
     const socket = socketRef.current;
 
-    socket.on(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
-    socket.on(SocketEvent["UPLOADED_POST"], handleSocket.uploadPost);
-    socket.on(SocketEvent["DELETED_POST"], handleSocket.deletePost);
+    socket.on(SocketEvent.UPDATED_POST, handleSocket.updatePost);
+    socket.on(SocketEvent.UPLOADED_POST, handleSocket.uploadPost);
+    socket.on(SocketEvent.DELETED_POST, handleSocket.deletePost);
 
     return () => {
-      socket.off(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
-      socket.off(SocketEvent["UPLOADED_POST"], handleSocket.uploadPost);
-      socket.off(SocketEvent["DELETED_POST"], handleSocket.deletePost);
+      socket.off(SocketEvent.UPDATED_POST, handleSocket.updatePost);
+      socket.off(SocketEvent.UPLOADED_POST, handleSocket.uploadPost);
+      socket.off(SocketEvent.DELETED_POST, handleSocket.deletePost);
     };
   }, [
     handleSocket.updatePost,

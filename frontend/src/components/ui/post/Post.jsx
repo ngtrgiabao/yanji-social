@@ -1,4 +1,4 @@
-import { lazy, useEffect, useState } from "react";
+import { lazy, memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import io from "socket.io-client";
+import isEqual from "react-fast-compare";
 
 import { BG_DEFAULT_WALLPAPER_USER } from "../../../assets";
 
@@ -25,13 +26,14 @@ import {
 import { getUserByID, updateUser } from "../../../redux/request/userRequest";
 import { useTimeAgo, useCopyUrl, useCurrentUser } from "../../../hooks";
 import ParagraphWithLink from "../../features/paragraph-with-link";
-import { EditPopup, ConfirmDialog } from "../../common";
+import EditPopup from "../../ui/popup/edit";
 import { Photo } from "../media";
 import { pushNewNotification } from "../../../redux/request/notificationRequest";
 import { NotiType } from "../../../constant/notification";
 import Avatar from "../avatar/Avatar";
 import Global from "../../../constant/global";
 import ActionBtn from "./ActionBtn";
+import ConfirmDialog from "../dialog/confirm-dialog";
 const DetailsPost = lazy(() => import("./DetailsPost"));
 
 // TODO CHECK SPAM IN LIKE, SHARE, COMMENT
@@ -466,4 +468,4 @@ const Post = ({
   );
 };
 
-export default Post;
+export default memo(Post, isEqual);

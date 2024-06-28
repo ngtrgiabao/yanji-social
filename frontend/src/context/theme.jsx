@@ -1,9 +1,6 @@
 import { createContext, useEffect, useMemo, useState } from "react";
-import {
-  TextColorMap,
-  ThemeMap,
-  FontSizeMap,
-} from "../constant/theme";
+import { TextColorMap, ThemeMap, FontSizeMap } from "../constant/theme";
+import { LocalStorageKeys } from "../constant/local-storage-key";
 
 const ThemeContext = createContext({
   setBgColors: () => {},
@@ -20,9 +17,11 @@ const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     // Retrieve the saved theme from local storage
-    const savedBgTheme = localStorage.getItem("background_theme");
-    const saveTextColor = localStorage.getItem("text_color");
-    const saveFontSize = localStorage.getItem("font_size");
+    const savedBgTheme = localStorage.getItem(
+      LocalStorageKeys.BACKGROUND_THEME,
+    );
+    const saveTextColor = localStorage.getItem(LocalStorageKeys.TEXT_COLOR);
+    const saveFontSize = localStorage.getItem(LocalStorageKeys.FONTSIZE);
 
     if (savedBgTheme) {
       setBg(savedBgTheme);
@@ -45,7 +44,7 @@ const ThemeProvider = ({ children }) => {
       root.style.setProperty(property, value);
     });
 
-    localStorage.setItem("background_theme", bg);
+    localStorage.setItem(LocalStorageKeys.BACKGROUND_THEME, bg);
   }, [bg]);
 
   // Set Text color
@@ -56,7 +55,7 @@ const ThemeProvider = ({ children }) => {
       root.style.setProperty(property, value);
     });
 
-    localStorage.setItem("text_color", textColor);
+    localStorage.setItem(LocalStorageKeys.TEXT_COLOR, textColor);
   }, [textColor]);
 
   //TODO optimize fontsize
@@ -100,7 +99,7 @@ const ThemeProvider = ({ children }) => {
     }
 
     // Save the current theme to local storage
-    localStorage.setItem("font_size", fontSize);
+    localStorage.setItem(LocalStorageKeys.FONTSIZE, fontSize);
   }, [fontSize]);
 
   const setBgColors = (newBg) => {

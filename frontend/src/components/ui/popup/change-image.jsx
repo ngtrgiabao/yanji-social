@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
@@ -6,10 +6,11 @@ import { X } from "lucide-react";
 
 import "./style/changeImagePopup.css";
 
-import { PreviewImage } from "../../ui";
+import { PreviewImage } from "..";
 import { updateUser } from "../../../redux/request/userRequest";
 import { useCurrentUser, useUploadImage } from "../../../hooks";
 import Global from "../../../constant/global";
+import isEqual from "react-fast-compare";
 
 const ChangeImagePopup = ({
   title = "Title",
@@ -154,4 +155,4 @@ const ChangeImagePopup = ({
   );
 };
 
-export default ChangeImagePopup;
+export default memo(ChangeImagePopup, isEqual);

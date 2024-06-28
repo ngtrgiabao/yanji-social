@@ -1,5 +1,6 @@
 import { memo } from "react";
-import { FontSizeTheme, ColorTheme, BackgroundTheme } from "../..";
+import isEqual from "react-fast-compare";
+import { FontSizeTheme, ColorTheme, BackgroundTheme } from "../custom-theme";
 
 const CustomTheme = () => {
   return (
@@ -25,4 +26,4 @@ const CustomTheme = () => {
   );
 };
 
-export default memo(CustomTheme);
+export default memo(CustomTheme, isEqual);

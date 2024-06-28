@@ -1,3 +1,6 @@
+import { memo } from "react";
+import isEqual from "react-fast-compare";
+
 const DownloadBtn = ({ label, filename }) => {
   const handleDownload = () => {
     const a = document.createElement("a");
@@ -21,4 +24,4 @@ const DownloadBtn = ({ label, filename }) => {
   );
 };
 
-export default DownloadBtn;
+export default memo(DownloadBtn, isEqual);

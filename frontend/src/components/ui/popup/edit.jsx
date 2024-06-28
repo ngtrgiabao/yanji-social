@@ -1,13 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { memo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { io } from "socket.io-client";
 import { X, Image, Laugh } from "lucide-react";
-import { PreviewImage } from "../../ui";
+import { PreviewImage } from "..";
 import { updatePost } from "../../../redux/request/postRequest";
 import { useUploadImage } from "../../../hooks";
 import Global from "../../../constant/global";
+import isEqual from "react-fast-compare";
 
 const EditPopup = ({
   onPopup,
@@ -271,4 +272,4 @@ const EditPopup = ({
   );
 };
 
-export default EditPopup;
+export default memo(EditPopup, isEqual);

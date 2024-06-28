@@ -1,9 +1,10 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, memo } from "react";
 import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { Laugh, Image, X } from "lucide-react";
+import isEqual from "react-fast-compare";
 
 import "./style/postPopup.css";
 
@@ -13,7 +14,7 @@ import {
   useFollowerList,
   useUploadImage,
 } from "../../../hooks";
-import { Avatar, PreviewImage } from "../../ui";
+import { Avatar, PreviewImage } from "..";
 import { getUserByID } from "../../../redux/request/userRequest";
 import Global from "../../../constant/global";
 import { NotiType } from "../../../constant/notification";
@@ -317,4 +318,4 @@ const PostPopup = ({ onPopup, extendClass, socket }) => {
   );
 };
 
-export default PostPopup;
+export default memo(PostPopup, isEqual);

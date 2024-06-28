@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import isEqual from "react-fast-compare";
+import { useDispatch } from "react-redux";
 
 import { getAllImagesByUser } from "../../../redux/request/imageRequest";
-import { useDispatch } from "react-redux";
-import ConfirmDialog from "../../common/dialog/ConfirmDialog";
+import ConfirmDialog from "../../ui/dialog/confirm-dialog";
 import PreviewImage from "../preview/PreviewImage";
 import { useDownloadImage } from "../../../hooks";
 
@@ -101,4 +102,4 @@ const PhotosUser = ({ userInfo }) => {
   );
 };
 
-export default PhotosUser;
+export default memo(PhotosUser, isEqual);

@@ -147,10 +147,10 @@ const PersonalFollow = ({ userInfo, socket }) => {
   useEffect(() => {
     socket = io(Global.SOCKET_URL);
 
-    socket.on(SocketEvent["FOLLOWED"], handleSocket.follow);
+    socket.on(SocketEvent.FOLLOWED, handleSocket.follow);
 
     return () => {
-      socket.off(SocketEvent["FOLLOWED"], handleSocket.follow);
+      socket.off(SocketEvent.FOLLOWED, handleSocket.follow);
     };
   }, [Global.SOCKET_URL, handleSocket.follow]);
 

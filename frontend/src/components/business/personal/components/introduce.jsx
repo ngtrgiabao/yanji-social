@@ -52,10 +52,10 @@ const PersonalIntroduce = ({
   useEffect(() => {
     socket = io(Global.SOCKET_URL);
 
-    socket.on(SocketEvent["UPDATED_USER"], handleSocket.updateUser);
+    socket.on(SocketEvent.UPDATED_USER, handleSocket.updateUser);
 
     return () => {
-      socket.off(SocketEvent["UPDATED_USER"], handleSocket.updateUser);
+      socket.off(SocketEvent.UPDATED_USER, handleSocket.updateUser);
     };
   }, [handleSocket.updateUser]);
 

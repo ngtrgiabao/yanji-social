@@ -14,7 +14,7 @@ import Global from "../../../constant/global";
 import { RouteNames } from "../../../constant/routes";
 import { ToastProvider } from "../../../context/toast";
 
-import "./home.css"
+import "./home.css";
 
 function Home({ socket }) {
   const currentUser = useCurrentUser();
@@ -57,13 +57,12 @@ function Home({ socket }) {
   useEffect(() => {
     socket = io(Global.SOCKET_URL);
 
-    socket.on(SocketEvent["PUSHED_NOTIFICATION"], handleSocket.notification);
+    socket.on(SocketEvent.PUSHED_NOTIFICATION, handleSocket.notification);
 
     return () => {
-      socket.off(SocketEvent["PUSHED_NOTIFICATION"], handleSocket.notification);
+      socket.off(SocketEvent.PUSHED_NOTIFICATION, handleSocket.notification);
     };
   }, [handleSocket.notification]);
-
 
   return (
     <>
@@ -78,7 +77,7 @@ function Home({ socket }) {
         </div>
       </main>
     </>
-  )
+  );
 }
 
 export default memo(Home, isEqual);

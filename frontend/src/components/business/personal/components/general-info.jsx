@@ -9,11 +9,12 @@ import PersonalFollow from "./follow";
 
 import "../styles/personalGeneralInfo.css";
 
-import { Avatar, ChangeImagePopup } from "../../../../components";
+import { Avatar } from "../../../../components";
+import ChangeImagePopup from "../../../ui/popup/change-image";
 import { getUserByID } from "../../../../redux/request/userRequest";
 import { useCurrentUser } from "../../../../hooks";
 import Global from "../../../../constant/global";
-import FollowerList from "../../../common/follower-list";
+import FollowerList from "../../../ui/follower-list";
 
 const PersonalGeneralInfo = ({ userInfo, socket }) => {
   const [active, setActive] = useState("");

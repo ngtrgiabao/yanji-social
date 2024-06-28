@@ -1,3 +1,5 @@
+import { memo } from "react";
+import isEqual from "react-fast-compare";
 import { SquarePen, Trash } from "lucide-react";
 
 import { useCurrentUser, useTimeAgo } from "../../../../../hooks";
@@ -90,4 +92,4 @@ const Message = ({
   );
 };
 
-export default Message;
+export default memo(Message, isEqual);

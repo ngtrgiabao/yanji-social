@@ -21,9 +21,11 @@ import { LOGO_YANJI_SOCIAL } from "../../../../../assets";
 
 // SETTINGS
 import { Avatar, CustomTheme, Setting } from "../../../../ui";
-import { Button, PostPopup } from "../../../../common";
+import PostPopup from "../../../../ui/popup/post";
+import Button from "../../../../ui/button/button";
 import { useCurrentUser } from "../../../../../hooks";
 import { RouteNames } from "../../../../../constant/routes";
+import { LocalStorageKeys } from "../../../../../constant/local-storage-key";
 
 const HomeLeft = ({ socket, isReadNotification }) => {
   const [active, setActive] = useState("HOME");
@@ -47,19 +49,19 @@ const HomeLeft = ({ socket, isReadNotification }) => {
 
   // SAVE IMG TO LOCAL
   useEffect(() => {
-    avatar && window.localStorage.setItem("avatar", avatar);
+    avatar && window.localStorage.setItem(LocalStorageKeys.AVATAR, avatar);
   }, [avatar]);
 
   // GET IMG FROM LOCAL
   useEffect(() => {
-    const data = window.localStorage.getItem("avatar");
+    const data = window.localStorage.getItem(LocalStorageKeys.AVATAR);
     setAvatar(data);
   }, [avatar]);
 
   useEffect(() => {
     currentUser &&
       getUserByID(currentUser._id, dispatch).then((data) => {
-        const { _id, profilePicture, username, isVerify } = data.user;
+        const { _id, profilePicture, username, isVerify } = data?.user;
         setUser({
           _id: _id,
           profilePicture: profilePicture,

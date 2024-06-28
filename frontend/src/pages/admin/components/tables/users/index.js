@@ -37,8 +37,9 @@ const UsersTable = () => {
 
   async function fetchUsers(filter) {
     const url = filter
-      ? `${Global.SOCKET_URL
-      }/api/v1/user/all-users/?username=${filter.toLowerCase()}`
+      ? `${
+          Global.SOCKET_URL
+        }/api/v1/user/all-users/?username=${filter.toLowerCase()}`
       : `${Global.SOCKET_URL}/api/v1/user/all-users?limit=14&skip=${page * 14}`;
 
     const data = await axios.get(url);
@@ -130,8 +131,9 @@ const UsersTable = () => {
                   key={user?._id}
                   className="fs-5"
                   style={{
-                    background: `${idx % 2 === 0 ? "" : "var(--color-bg-hover)"
-                      }`,
+                    background: `${
+                      idx % 2 === 0 ? "" : "var(--color-bg-hover)"
+                    }`,
                   }}
                 >
                   <td>{user?._id}</td>

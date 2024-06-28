@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import isEqual from "react-fast-compare";
 
 import "./style/post.css";
 
@@ -62,14 +63,14 @@ const Posts = ({ socket }) => {
   useEffect(() => {
     socket = io(Global.SOCKET_URL);
 
-    socket.on(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
-    socket.on(SocketEvent["UPLOADED_POST"], handleSocket.uploadPost);
-    socket.on(SocketEvent["DELETED_POST"], handleSocket.deletePost);
+    socket.on(SocketEvent.UPDATED_POST, handleSocket.updatePost);
+    socket.on(SocketEvent.UPLOADED_POST, handleSocket.uploadPost);
+    socket.on(SocketEvent.DELETED_POST, handleSocket.deletePost);
 
     return () => {
-      socket.off(SocketEvent["UPDATED_POST"], handleSocket.updatePost);
-      socket.off(SocketEvent["UPLOADED_POST"], handleSocket.uploadPost);
-      socket.off(SocketEvent["DELETED_POST"], handleSocket.deletePost);
+      socket.off(SocketEvent.UPDATED_POST, handleSocket.updatePost);
+      socket.off(SocketEvent.UPLOADED_POST, handleSocket.uploadPost);
+      socket.off(SocketEvent.DELETED_POST, handleSocket.deletePost);
     };
   }, [
     handleSocket.updatePost,
@@ -155,21 +156,21 @@ const Posts = ({ socket }) => {
     <div className="posts">
       {currentUser
         ? posts.map((post) => (
-          <Post
-            key={post._id}
-            postID={post._id}
-            image={post.img}
-            video={post.video}
-            userID={post.userID}
-            desc={post.desc}
-            likes={post.likes}
-            shares={post.shares}
-            comments={post.comments}
-            socket={socket}
-            createdAt={post.createdAt}
-            updatedAt={post.updatedAt}
-          />
-        ))
+            <Post
+              key={post._id}
+              postID={post._id}
+              image={post.img}
+              video={post.video}
+              userID={post.userID}
+              desc={post.desc}
+              likes={post.likes}
+              shares={post.shares}
+              comments={post.comments}
+              socket={socket}
+              createdAt={post.createdAt}
+              updatedAt={post.updatedAt}
+            />
+          ))
         : requiredBanner}
 
       {currentUser && hasMore && (
@@ -184,4 +185,4 @@ const Posts = ({ socket }) => {
   );
 };
 
-export default memo(Posts);
+export default memo(Posts, isEqual);

@@ -2,7 +2,7 @@ import { memo } from "react";
 import { Send, X, Image, Paperclip } from "lucide-react";
 import isEqual from "react-fast-compare";
 
-import { EmojiPicker } from "../../../../common";
+import EmojiPicker from "../../../../features/emoji-picker";
 
 const labelEditStyle = {
   left: 10,

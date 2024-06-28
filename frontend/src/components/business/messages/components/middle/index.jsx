@@ -21,7 +21,7 @@ import {
   useDownloadImage,
   useCurrentRoom,
 } from "../../../../../hooks";
-import { ConfirmDialog, PreviewImage } from "../../../../../components";
+import { PreviewImage } from "../../../../../components";
 import { getUserByID } from "../../../../../redux/request/userRequest";
 import { NotiType } from "../../../../../constant/notification";
 import { pushNewNotification } from "../../../../../redux/request/notificationRequest";
@@ -30,6 +30,7 @@ import Global from "../../../../../constant/global";
 import Footer from "../footer";
 import { Avatar } from "../../../../../components";
 import Message from "../message";
+import ConfirmDialog from "../../../../ui/dialog/confirm-dialog";
 
 const friendDefaultValues = {
   name: "",
@@ -112,18 +113,18 @@ const MessageMiddle = ({ socket }) => {
       msg: "Hello from client 😀",
     });
 
-    socket.on(SocketEvent["SERVER"], handleSocket.serverResponse);
-    socket.on(SocketEvent["RECEIVE_MESSAGE"], handleSocket.receivedMessage);
-    socket.on(SocketEvent["UPDATED_MESSAGE"], handleSocket.updatedMessage);
-    socket.on(SocketEvent["DELETED_MESSAGE"], handleSocket.deletedMesssage);
-    socket.on(SocketEvent["DISCONNECT"], handleSocket.disconnect);
+    socket.on(SocketEvent.SERVER, handleSocket.serverResponse);
+    socket.on(SocketEvent.RECEIVE_MESSAGE, handleSocket.receivedMessage);
+    socket.on(SocketEvent.UPDATED_MESSAGE, handleSocket.updatedMessage);
+    socket.on(SocketEvent.DELETED_MESSAGE, handleSocket.deletedMesssage);
+    socket.on(SocketEvent.DISCONNECT, handleSocket.disconnect);
 
     return () => {
-      socket.off(SocketEvent["SERVER"], handleSocket.serverResponse);
-      socket.off(SocketEvent["RECEIVE_MESSAGE"], handleSocket.receivedMessage);
-      socket.off(SocketEvent["UPDATED_MESSAGE"], handleSocket.updatedMessage);
-      socket.off(SocketEvent["DELETED_MESSAGE"], handleSocket.deletedMesssage);
-      socket.off(SocketEvent["DISCONNECT"], handleSocket.disconnect);
+      socket.off(SocketEvent.SERVER, handleSocket.serverResponse);
+      socket.off(SocketEvent.RECEIVE_MESSAGE, handleSocket.receivedMessage);
+      socket.off(SocketEvent.UPDATED_MESSAGE, handleSocket.updatedMessage);
+      socket.off(SocketEvent.DELETED_MESSAGE, handleSocket.deletedMesssage);
+      socket.off(SocketEvent.DISCONNECT, handleSocket.disconnect);
     };
   }, [
     Global.SOCKET_URL,

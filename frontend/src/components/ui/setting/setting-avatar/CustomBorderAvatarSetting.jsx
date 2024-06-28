@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
+import isEqual from "react-fast-compare";
 
 import "../setting-avatar/style/style.css";
 import { getUserByID, updateUser } from "../../../../redux/request/userRequest";
@@ -112,4 +113,4 @@ const CustomBorderAvatarSetting = ({ close }) => {
   );
 };
 
-export default CustomBorderAvatarSetting;
+export default memo(CustomBorderAvatarSetting, isEqual);

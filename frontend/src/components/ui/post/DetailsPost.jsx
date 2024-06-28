@@ -1,4 +1,6 @@
+import { memo } from "react";
 import Comments from "../comment/Comments";
+import isEqual from "react-fast-compare";
 
 const DetailsPost = ({
   onPopup = () => {},
@@ -44,4 +46,4 @@ const DetailsPost = ({
   );
 };
 
-export default DetailsPost;
+export default memo(DetailsPost, isEqual);

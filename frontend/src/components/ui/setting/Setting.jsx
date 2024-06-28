@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { UilSetting } from "@iconscout/react-unicons";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CSVLink } from "react-csv";
 import { X } from "lucide-react";
+import isEqual from "react-fast-compare";
 
 import { logout } from "../../../redux/request/authRequest";
 import { getUserByID, updateUser } from "../../../redux/request/userRequest";
@@ -500,4 +501,4 @@ const Setting = ({ close }) => {
   );
 };
 
-export default Setting;
+export default memo(Setting, isEqual);

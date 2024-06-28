@@ -1,6 +1,8 @@
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { Laugh } from "lucide-react";
+import { memo } from "react";
+import isEqual from "react-fast-compare";
 
 const EmojiPicker = ({ active, textEmoji, label, onSendEmoji, onActive }) => {
   const buttonStyle = {
@@ -45,4 +47,4 @@ const EmojiPicker = ({ active, textEmoji, label, onSendEmoji, onActive }) => {
   );
 };
 
-export default EmojiPicker;
+export default memo(EmojiPicker, isEqual);

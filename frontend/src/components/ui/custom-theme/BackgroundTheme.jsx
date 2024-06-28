@@ -1,15 +1,18 @@
 import { memo } from "react";
-import "./style/background.css";
+import isEqual from "react-fast-compare";
 
 import { useTheme } from "../../../hooks";
-import { ChooseBgBtn } from "../../common";
+import ChooseBgBtn from "../../ui/button/choose-bg-color";
+import { LocalStorageKeys } from "../../../constant/local-storage-key";
+
+import "./style/background.css";
 
 const BackgroundTheme = () => {
   const { setBgColors } = useTheme();
-  const bgTheme = localStorage.getItem("background_theme");
+  const bgTheme = localStorage.getItem(LocalStorageKeys.BACKGROUND_THEME);
 
   const handleBackgroundChange = (bg) => {
-    localStorage.setItem("background_theme", bg);
+    localStorage.setItem(LocalStorageKeys.BACKGROUND_THEME, bg);
     setBgColors(bg);
   };
 
@@ -48,4 +51,4 @@ const BackgroundTheme = () => {
   );
 };
 
-export default memo(BackgroundTheme);
+export default memo(BackgroundTheme, isEqual);

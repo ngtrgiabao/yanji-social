@@ -9,7 +9,7 @@ import "../auth.css";
 import { registerUser } from "../../../../redux/request/authRequest";
 import { checkIsUserExists } from "../../../../redux/request/userRequest";
 import { USER_REGEX, PSW_REGEX, EMAIL_REGEX } from "../../../../utils/regex";
-import { OTPInput } from "../../../../components";
+import OTPInput from "../../../../components/common/otp-input";
 import { RouteNames } from "../../../../constant/routes";
 import Header from "../../../../components/layouts/header";
 
@@ -152,8 +152,9 @@ const Register = () => {
           />
           <p
             id="uidnote"
-            className={`${userFocus && username && !validName ? "instructions" : "offscreen"
-              } d-flex`}
+            className={`${
+              userFocus && username && !validName ? "instructions" : "offscreen"
+            } d-flex`}
           >
             <Info size={15} className="me-2 mt-1" />
             <span>
@@ -195,9 +196,10 @@ const Register = () => {
           <p
             id="emailnote"
             className={`
-              ${emailFocus && email && !validEmail
-                ? "instructions"
-                : "offscreen"
+              ${
+                emailFocus && email && !validEmail
+                  ? "instructions"
+                  : "offscreen"
               } 
                 d-flex
               `}
@@ -291,10 +293,11 @@ const Register = () => {
           <p
             id="confirmnote"
             className={`
-                ${matchFocus && matchPwd && !validMatch
-                ? "instructions"
-                : "offscreen"
-              }
+                ${
+                  matchFocus && matchPwd && !validMatch
+                    ? "instructions"
+                    : "offscreen"
+                }
                 d-flex
               `}
           >
